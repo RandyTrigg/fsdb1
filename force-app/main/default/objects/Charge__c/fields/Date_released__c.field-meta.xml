@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_released__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which Finance released this charge against the funds in its fund</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which Finance released this charge against the funds in its fund</inlineHelpText>
+    <label>Date released</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

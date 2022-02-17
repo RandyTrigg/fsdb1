@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RFC_Tasks_TESTING</fullName>
+    <availability>online</availability>
+    <description>This version of the RFC interface has more flexible control over task creation.</description>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>RFC/Tasks TESTING</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <url>/c/OpptyRFCTasksApp.app?oppId={!Opportunity.Id}</url>
+</WebLink>

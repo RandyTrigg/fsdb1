@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_awarded_after_date_awarded</fullName>
+    <active>true</active>
+    <description>Amount awarded may not be modified if date awarded has been set.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Date_awarded__c)),
+ ISCHANGED(Amount_awarded__c),
+ NOT(ISNEW())
+)</errorConditionFormula>
+    <errorDisplayField>Amount_awarded__c</errorDisplayField>
+    <errorMessage>Amount awarded may not be modified if date awarded has been set.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AmountFundedLessThanAmountReleased</fullName>
+    <active>true</active>
+    <description>The amount funded may not be less than the total of released charges.</description>
+    <errorConditionFormula>Amount_funded__c &lt; Total_released__c</errorConditionFormula>
+    <errorMessage>The amount funded may not be less than the total of released charges.</errorMessage>
+</ValidationRule>

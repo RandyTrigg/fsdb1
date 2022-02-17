@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PaymentMilestonePlannedAmountBlank</fullName>
+    <active>true</active>
+    <description>Payment milestones must have non-blank Planned Amount.</description>
+    <errorConditionFormula>AND(
+ TEXT(Type__c) = &quot;Payment&quot;,
+ ISBLANK(Planned_amount__c)
+)</errorConditionFormula>
+    <errorDisplayField>Planned_amount__c</errorDisplayField>
+    <errorMessage>Payment milestones must have non-blank Planned Amount.</errorMessage>
+</ValidationRule>

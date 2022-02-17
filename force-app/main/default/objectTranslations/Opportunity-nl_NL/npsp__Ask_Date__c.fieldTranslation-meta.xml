@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>De datum waarop de donateur specifiek is gevraagd naar de donatie, in tegenstelling tot de Opportunity sluitingsdatum die de organisatie instelt wanneer de Opportunity voor het eerst gemaakt is, of wanneer de Opportunity is gewonnen.</help>
+    <label></label>
+    <name>npsp__Ask_Date__c</name>
+</CustomFieldTranslation>

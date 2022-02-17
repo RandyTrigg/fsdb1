@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_grants__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The planned number of grants to be awarded under this allocation</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The planned number of grants to be awarded under this allocation</inlineHelpText>
+    <label>Num grants</label>
+    <precision>10</precision>
+    <required>true</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

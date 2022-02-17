@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PostalCode__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The postal code for the address. Free text of up to 20 characters.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Postal Codes of up to 40 characters can be entered.</inlineHelpText>
+    <label>Postal Code</label>
+    <length>20</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

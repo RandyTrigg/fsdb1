@@ -1,0 +1,92 @@
+<aura:component controller="ProfileController" extends="c:GMDataEditSuper"
+    implements="flexipage:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="profileId" type="String" required="true" description="Id of the profile to be edited" />
+    <aura:attribute name="profileInfo" type="ProfileController.ProfileInfo" />
+    <aura:attribute name="profile" type="Profile__c" />
+    <aura:attribute name="populationsInfo" type="ProfileController.ClassificationInfo" />
+    <aura:attribute name="issuesInfo" type="ProfileController.ClassificationInfo" />
+    <aura:attribute name="strategiesInfo" type="ProfileController.ClassificationInfo" />
+    <aura:attribute name="overrideRequiredFields" type="String[]"
+        description="If these fields are all non-blank, then allow submit." default="['Decline_reason__c']" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!-- Tried to move these handler tags up to super component, but it breaks. -->
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}" />
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}" />
+
+    <div class="slds" aura:id="TopLevelEdit" style="margin:40px;">
+        <div class="slds-col--padded">
+            <h3 class="slds-text-heading--medium slds-m-bottom--x-small">
+                Profile #: <a href="{!'/' + v.profileId}">{!v.profile.Name}</a><br />
+                Account{!v.profile.Account__r.Account_black_listed__c ? ' (BLACK-LISTED)' : ''}:
+                <a href="{!'/' + v.profile.Account__c}">{!v.profile.Account_name__c}</a><br />
+            </h3>
+            <h3 class="slds-text-heading--small slds-m-bottom--x-small">
+                <span>**Link to Profile review guide**</span>
+            </h3>
+        </div>
+        <!-- Display a lightning card with (read-only) details about the milestone -->
+        <div class="slds-m-vertical_small ">
+            <div class="Record Details">
+                <lightning:card>
+                    <div class="slds-p-horizontal--small">
+                        <h3 class="slds-text-heading--x-small slds-m-bottom--x-small">
+                            <ol>
+                                <li>Org founded: {!v.profile.Date_org_founded__c}</li>
+                                <li>Last grant: {!v.profile.Date_of_last_grant__c}</li>
+                                <li>{!v.profile.Date_submitted__c ?
+                                    'Submitted: ' + v.profile.Date_submitted__c :
+                                    '**NOT YET SUBMITTED**'}
+                                </li>
+                                <li>Declined: {!v.profile.Date_declined__c}</li>
+                                <li>Review completed: {!v.profile.Date_review_completed__c}</li>
+                            </ol>
+                        </h3>
+                    </div>
+                </lightning:card>
+            </div>
+        </div>
+        <h3 class="slds-text-heading--x-small slds-m-bottom--x-small">
+            Status: {!v.profile.Status__c}<br />
+            Status external: {!v.profile.Status_external__c}
+        </h3>
+
+        <!-- Spinner is shown when waiting for server response -->
+        <center>
+            <ui:spinner aura:id="spinner" />
+        </center>
+
+        <div class="{!v.profile.Date_submitted__c ? '' : 'hidden'}">
+            <!-- Hide edit interface if profile not received. -->
+
+            <!-- Top save button - disable when starting up or saving -->
+            <lightning:button class="slds-m-top--small" variant="brand" onclick="{!c.save}" label="Save"
+                title="Save changes and check for errors" disabled="{!(v.starting || v.saving || v.fetching)}" />
+            <!-- Submit button - enabled if no errors and blank date review completed -->
+            <lightning:button class="slds-m-top--small" variant="brand" onclick="{!c.submitReview}" label="Submit"
+                title="Submit changes and set the date review submitted if currently blank"
+                disabled="{!(v.numErrors == -1 || v.numErrors > 0) ? 'true' : 'false'}" />
+            <h3 class="slds-text-heading--x-small slds-m-bottom--x-small">
+                <span aura:id="saveForErrorCountSpan" class="slds-form-element__help">Click Save to validate and
+                    compute number of errors.</span>
+                <span aura:id="numErrorsSpan" class="slds-form-element__help slds-hide">Number of errors:
+                    {!v.numErrors}</span>
+                <span aura:id="pageErrorsSpan" class="slds-form-element__help slds-hide">Errors from server:
+                    {!v.pageErrors}</span>
+            </h3>
+            <!-- Form of editable profile fields. -->
+            <form role="form" class="slds-form--stacked">
+
+                <!-- Display review components here. -->
+                {!v.reviewComponents}
+
+            </form>
+            <!-- Bottom save button - disable when saving -->
+            <lightning:button class="slds-m-top--small" variant="brand" onclick="{!c.save}" label="Save"
+                title="Save changes and check for errors" disabled="{!(v.starting || v.saving || v.fetching)}" />
+        </div>
+    </div>
+
+</aura:component>

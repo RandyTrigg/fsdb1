@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npe01__Payments_Made__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The total value of Payments marked as paid for this Opportunity.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total value of Payments marked as paid for this Opportunity.</inlineHelpText>
+    <label>Payment Amount Received</label>
+    <summarizedField>npe01__OppPayment__c.npe01__Payment_Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>npe01__OppPayment__c.npe01__Paid__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>npe01__OppPayment__c.npe01__Opportunity__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

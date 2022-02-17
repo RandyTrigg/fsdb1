@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GM_Data__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Link to the GM Data record holding information for this proposal/grant</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Link to the GM Data record holding information for this proposal/grant</inlineHelpText>
+    <label>GM Data</label>
+    <referenceTo>GM_Data__c</referenceTo>
+    <relationshipLabel>Proposals</relationshipLabel>
+    <relationshipName>Proposals</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

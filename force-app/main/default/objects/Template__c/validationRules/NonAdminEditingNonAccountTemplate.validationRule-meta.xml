@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NonAdminEditingNonAccountTemplate</fullName>
+    <active>false</active>
+    <description>Only admin users are permitted to edit/create/delete a template, unless it belongs to the Account object.</description>
+    <errorConditionFormula>AND(
+ TEXT(Type__c) = &quot;Grantmaking&quot;,
+ TEXT(Source_object__c) != &quot;Account&quot;,
+ !CONTAINS(LOWER($Profile.Name), &quot;admin&quot;)
+)</errorConditionFormula>
+    <errorMessage>Only admin users are permitted to edit/create/delete a template, unless it belongs to the Account object.</errorMessage>
+</ValidationRule>

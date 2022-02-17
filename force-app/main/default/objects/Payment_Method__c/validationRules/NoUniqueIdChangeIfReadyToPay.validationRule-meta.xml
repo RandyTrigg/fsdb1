@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NoUniqueIdChangeIfReadyToPay</fullName>
+    <active>true</active>
+    <description>The Unique Id may not be changed if the payment method is not ready to be paid.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Date_ready_for_payment__c)),
+ ISCHANGED( Unique_id__c )
+)</errorConditionFormula>
+    <errorMessage>The Unique Id may not be changed if the payment method is not ready to be paid.</errorMessage>
+</ValidationRule>

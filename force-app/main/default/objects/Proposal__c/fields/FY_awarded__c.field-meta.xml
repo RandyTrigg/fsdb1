@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FY_awarded__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Fiscal year of the date awarded</description>
+    <externalId>false</externalId>
+    <formula>IF (NOT(ISBLANK( Date_awarded__c )), TEXT(YEAR( Date_awarded__c )), &quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Fiscal year of the date awarded</inlineHelpText>
+    <label>FY awarded</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

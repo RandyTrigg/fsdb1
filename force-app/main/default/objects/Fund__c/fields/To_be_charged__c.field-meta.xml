@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>To_be_charged__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The amount remaining to be charged (amount funded minus total charged)</description>
+    <externalId>false</externalId>
+    <formula>IF( RecordType.DeveloperName = &quot;Standard&quot;, Amount_funded__c - Total_charged__c, 0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The amount remaining to be charged (amount funded minus total charged)</inlineHelpText>
+    <label>To be charged</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

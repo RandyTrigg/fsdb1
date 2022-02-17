@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Templates_menu_single_record__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Warning that correspondence templates menu only includes templates that apply to the selected record</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Warning that correspondence templates menu only includes templates that apply to the selected record</inlineHelpText>
+    <label>Templates menu single record</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

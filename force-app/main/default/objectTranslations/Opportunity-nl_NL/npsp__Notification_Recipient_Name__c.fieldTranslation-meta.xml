@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>De naam (verschaft door de donateur) van de persoon die moet gewaarschuwd worden voor deze gift. Als dit veld leeg is, en de Notificatie Ontvanger Contact veld bevat een waarde, zal Salesforce dit veld automatisch vullen met deze waarde.</help>
+    <label></label>
+    <name>npsp__Notification_Recipient_Name__c</name>
+</CustomFieldTranslation>

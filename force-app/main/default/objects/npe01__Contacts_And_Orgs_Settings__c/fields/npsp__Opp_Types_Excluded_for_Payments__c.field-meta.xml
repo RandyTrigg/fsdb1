@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npsp__Opp_Types_Excluded_for_Payments__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Salesforce won&apos;t automatically create Payments for Opportunities that have this value in the Type picklist.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Values for the Opportunity Type field to exclude from creating Payments.</inlineHelpText>
+    <label>Excluded Opp Types</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

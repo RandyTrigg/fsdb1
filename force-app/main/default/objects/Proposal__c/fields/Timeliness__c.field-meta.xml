@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Timeliness__c</fullName>
+    <deprecated>false</deprecated>
+    <description>(2) Request linked to clear window of opportunity within current context
+(1) Support remains critical to the ongoing functioning of programs of the organization
+(0) No urgent or critical need for funding identified</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Why is our support critical at this time?</inlineHelpText>
+    <label>Timeliness</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Clear window of opportunity (2)</fullName>
+                <default>false</default>
+                <label>Clear window of opportunity (2)</label>
+            </value>
+            <value>
+                <fullName>For organizational function (1)</fullName>
+                <default>false</default>
+                <label>For organizational function (1)</label>
+            </value>
+            <value>
+                <fullName>None (0)</fullName>
+                <default>false</default>
+                <label>None (0)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

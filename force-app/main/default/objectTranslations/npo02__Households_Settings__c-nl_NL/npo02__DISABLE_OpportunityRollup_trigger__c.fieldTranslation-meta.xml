@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>AFGEKEURD. Trigger gedrag wordt nu bepaald op de Trigger Configuratiepagina van de NPSP instellingen.</help>
+    <label></label>
+    <name>npo02__DISABLE_OpportunityRollup_trigger__c</name>
+</CustomFieldTranslation>

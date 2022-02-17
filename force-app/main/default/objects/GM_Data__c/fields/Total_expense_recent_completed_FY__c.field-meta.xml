@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_expense_recent_completed_FY__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Total actual expenditure for the organization in their most recent financial year</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Total actual expenditure for the organization in their most recent financial year</inlineHelpText>
+    <label>Total expense, recent completed FY</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

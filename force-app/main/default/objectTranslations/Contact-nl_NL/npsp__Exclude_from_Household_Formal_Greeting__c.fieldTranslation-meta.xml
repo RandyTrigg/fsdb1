@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indien aangevinkt wordt de Contactpersoon uitgesloten van de Formele Begroeting.</help>
+    <label></label>
+    <name>npsp__Exclude_from_Household_Formal_Greeting__c</name>
+</CustomFieldTranslation>

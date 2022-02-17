@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_withdrawn_reason_other__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reason for request withdrawn prior to migration to SalesForce Summer 2015</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Reason for request withdrawn prior to migration to SalesForce Summer 2015</inlineHelpText>
+    <label>Request withdrawn reason other</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

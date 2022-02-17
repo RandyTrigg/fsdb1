@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npsp__AllAccounts</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ACCOUNT.ADDRESS1_STATE</columns>
+    <columns>ACCOUNT.PHONE1</columns>
+    <columns>npo02__TotalOppAmount__c</columns>
+    <columns>npo02__OppAmountLastNDays__c</columns>
+    <columns>npo02__AverageAmount__c</columns>
+    <columns>ACCOUNT.TYPE</columns>
+    <columns>ACCOUNT.RECORDTYPE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Accounts</label>
+</ListView>

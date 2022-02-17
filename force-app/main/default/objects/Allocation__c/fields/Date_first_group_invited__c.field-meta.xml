@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_first_group_invited__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which the first group was invited to apply with full proposal under this allocation</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which the first group was invited to apply with full proposal under this allocation</inlineHelpText>
+    <label>Date first group invited</label>
+    <summarizedField>Invite__c.Date_invited__c</summarizedField>
+    <summaryForeignKey>Invite__c.Allocation__c</summaryForeignKey>
+    <summaryOperation>min</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

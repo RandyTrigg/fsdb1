@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GM_Email__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Primary email address for this account (for grantmaking-related correspondence)</description>
+    <externalId>true</externalId>
+    <inlineHelpText>Primary email address for this account (for grantmaking-related correspondence)</inlineHelpText>
+    <label>GM Email</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Email</type>
+    <unique>false</unique>
+</CustomField>

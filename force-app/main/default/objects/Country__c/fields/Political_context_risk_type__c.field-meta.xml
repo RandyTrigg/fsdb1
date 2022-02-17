@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Political_context_risk_type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Primary type of risk in this country</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Primary type of risk in this country</inlineHelpText>
+    <label>Political context risk type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Political unrest</fullName>
+                <default>false</default>
+                <label>Political unrest</label>
+            </value>
+            <value>
+                <fullName>Post conflict</fullName>
+                <default>false</default>
+                <label>Post conflict</label>
+            </value>
+            <value>
+                <fullName>Govt restrictions on CSOs</fullName>
+                <default>false</default>
+                <label>Govt restrictions on CSOs</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

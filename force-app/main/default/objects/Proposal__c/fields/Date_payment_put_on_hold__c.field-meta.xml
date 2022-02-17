@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_payment_put_on_hold__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date that grant payments have been put on hold, either because the grantee asked us or due to internal concerns</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date that grant payments have been put on hold, either because the grantee asked us or due to internal concerns</inlineHelpText>
+    <label>Date payment put on hold</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

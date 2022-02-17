@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Restricted_Classification__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The restricted classification assigned by this &quot;join&quot; record</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The restricted classification assigned by this &quot;join&quot; record</inlineHelpText>
+    <label>Restricted Classification</label>
+    <referenceTo>Restricted_Classification__c</referenceTo>
+    <relationshipLabel>Portfolios</relationshipLabel>
+    <relationshipName>Restricted_Classifications_Portfolios</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

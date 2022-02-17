@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Formule: In volgorde van voorkeur, het SYSTEEM_AccountType veld, het Account Type veld, en &quot;Organisatie&quot;.</help>
+    <label></label>
+    <name>npe01__Organization_Type__c</name>
+</CustomFieldTranslation>

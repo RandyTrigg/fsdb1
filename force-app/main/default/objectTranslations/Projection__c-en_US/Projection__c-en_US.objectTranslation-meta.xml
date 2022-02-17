@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Projection</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Projections</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>AmountLessThanAmountReleased</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>FYClashWithFund</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>GMAndNonGMAmountsBlankOrNonBlank</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>PartiallyReleasedNoRelinking</name>
+    </validationRules>
+</CustomObjectTranslation>

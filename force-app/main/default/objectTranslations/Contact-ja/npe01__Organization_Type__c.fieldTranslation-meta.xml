@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>数式: 設定の順序、[SYSTEM_AccountType] 項目、[団体種別] 項目、および「団体」。</help>
+    <label></label>
+    <name>npe01__Organization_Type__c</name>
+</CustomFieldTranslation>

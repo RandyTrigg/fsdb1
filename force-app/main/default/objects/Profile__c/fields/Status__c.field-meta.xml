@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Status of this profile</description>
+    <externalId>false</externalId>
+    <formula>IF ( NOT(ISBLANK(Date_declined__c)), &quot;0 Profile declined&quot;,
+IF ( NOT(ISBLANK( Decline_reason__c )), &quot;2.9 Profile to decline&quot;,
+IF ( AND(
+      NOT(ISBLANK(Proposal_recent__c)), 
+      NOT(ISBLANK(Date_review_completed__c))
+   ), &quot;5 Proposal linked, Profile reviewed&quot;,
+IF ( NOT(ISBLANK(Proposal_recent__c)), &quot;4.5 Proposal linked, Profile not reviewed&quot;,
+IF ( AND(
+      NOT(ISBLANK(Date_holdover_sent__c)), 
+      NOT(ISBLANK(Date_review_completed__c))
+   ), &quot;3.1 Holdover sent, Profile reviewed&quot;,
+IF ( NOT(ISBLANK(Date_review_completed__c)), &quot;3 Profile reviewed&quot;,
+IF ( AND(
+      NOT(ISBLANK(Date_submitted__c)),
+      NOT(ISBLANK(Date_holdover_sent__c))
+   ), &quot;1.6 Holdover sent, Profile not reviewed&quot;,
+IF ( NOT(ISBLANK(Date_submitted__c)), &quot;1.5 Profile submitted&quot;,
+&quot;1 Profile pending&quot;
+))))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Status of this profile</inlineHelpText>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

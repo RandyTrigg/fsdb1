@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Org_age_at_award_years__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of years between the date the org was founded and date awarded of this grant</description>
+    <externalId>false</externalId>
+    <formula>IF(
+ AND(
+  NOT(ISBLANK( Account__r.Date_org_founded__c )),
+  NOT(ISBLANK( Date_awarded__c ))
+ ),
+ (Date_awarded__c - Account__r.Date_org_founded__c) / 365,
+ null
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The number of years between the date the org was founded and date awarded of this grant</inlineHelpText>
+    <label>Org age at award (years)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Staff_responsible__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The staff member who is responsible for this account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The staff member who is responsible for this account</inlineHelpText>
+    <label>Staff responsible</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Accounts3</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

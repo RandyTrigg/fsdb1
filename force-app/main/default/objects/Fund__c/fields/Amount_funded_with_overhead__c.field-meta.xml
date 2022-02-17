@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_funded_with_overhead__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Amount in dollars of fund including appropriate overhead</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Amount in dollars of fund including appropriate overhead</inlineHelpText>
+    <label>Amount funded with overhead</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

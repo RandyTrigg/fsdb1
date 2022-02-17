@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GFW_Gift_ID__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>Id of Gift record in GFW db.</description>
+    <externalId>true</externalId>
+    <inlineHelpText>Id of Gift record in GFW db.</inlineHelpText>
+    <label>GFW Gift ID</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

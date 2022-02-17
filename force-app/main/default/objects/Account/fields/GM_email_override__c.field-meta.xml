@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GM_email_override__c</fullName>
+    <deprecated>false</deprecated>
+    <description>If non-blank, then override the recipients of GM emails with this email address (or comma-separated list of email addresses).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If non-blank, then override the recipients of GM emails with this email address (or comma-separated list of email addresses).</inlineHelpText>
+    <label>GM email override</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>TextArea</type>
+</CustomField>

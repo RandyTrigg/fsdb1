@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indien geselecteerd, impliceert dat de schenking een vernieuwing is van een vorige schenking.</help>
+    <label></label>
+    <name>npsp__Is_Grant_Renewal__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Address_w_confidential__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Combined address except that Street is hidden for confidential accounts</description>
+    <externalId>false</externalId>
+    <formula>IF( Account__r.Keep_confidential__c &amp;&amp; NOT(ISBLANK(Street__c)), &quot;[Street address CONFIDENTIAL]&quot;, Street__c) &amp;
+        IF(NOT(ISBLANK(Street__c)), &apos;, &apos;, &apos;&apos;) &amp; 
+        Street__c &amp;
+        IF(NOT(ISBLANK(City__c)), &apos;, &apos;, &apos;&apos;) &amp; 
+        City__c &amp;
+        IF(NOT(ISBLANK(Province__c)), &apos;, &apos;, &apos;&apos;) &amp; 
+        Province__c &amp;
+        &apos; &apos; &amp; PostalCode__c &amp; &apos; &apos; &amp; Country__c</formula>
+    <inlineHelpText>Combined address except that Street is hidden for confidential accounts</inlineHelpText>
+    <label>Address (w/ confidential)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

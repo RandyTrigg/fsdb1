@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Political_context_risk_type</fullName>
+    <active>true</active>
+    <description>A value for risk type is required when risk level is high or medium.</description>
+    <errorConditionFormula>AND(
+ ISBLANK( TEXT(Political_context_risk_type__c) ),
+ OR (
+  CONTAINS ( TEXT(Political_context_risk_level__c), &quot;High&quot;),
+  CONTAINS ( TEXT(Political_context_risk_level__c), &quot;Medium&quot;)
+ )
+)</errorConditionFormula>
+    <errorDisplayField>Political_context_risk_type__c</errorDisplayField>
+    <errorMessage>A value for risk type is required when risk level is high or medium.</errorMessage>
+</ValidationRule>

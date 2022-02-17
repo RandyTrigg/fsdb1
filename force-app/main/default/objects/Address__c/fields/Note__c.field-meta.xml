@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Note__c</fullName>
+    <deprecated>false</deprecated>
+    <description>May be used to describe special characteristics of, or information about this address. For example, special directions may be needed to locate the location for a personal visit.  It might also describe funds on the use of this address.  Up to 255 characters.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>May be used to describe special characteristics of, or information about this address. For example, special directions may be needed to locate the location for a personal visit.  It might also describe funds on the use of this address.</inlineHelpText>
+    <label>Note</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

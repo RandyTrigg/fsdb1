@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_black_listed__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if this account has been marked with the Red flag &quot;Black list&quot; indicator</description>
+    <externalId>false</externalId>
+    <formula>Red_flag_Black_list__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if this account has been marked with the Red flag &quot;Black list&quot; indicator</inlineHelpText>
+    <label>Account black-listed</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

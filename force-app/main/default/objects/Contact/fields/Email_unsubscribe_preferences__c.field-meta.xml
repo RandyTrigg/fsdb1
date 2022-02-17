@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_unsubscribe_preferences__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Email lists from which this contact has unsubscribed in the unsubscribe management page.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Email lists from which this contact has unsubscribed in the unsubscribe management page.</inlineHelpText>
+    <label>Email unsubscribe preferences</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Action Alerts (Occasional)</fullName>
+                <default>false</default>
+                <label>Action Alerts (Occasional)</label>
+            </value>
+            <value>
+                <fullName>Events (Occasional)</fullName>
+                <default>false</default>
+                <label>Events (Occasional)</label>
+            </value>
+            <value>
+                <fullName>Fundraising Appeals (Occasional)</fullName>
+                <default>false</default>
+                <label>Fundraising Appeals (Occasional)</label>
+            </value>
+            <value>
+                <fullName>Newsletter (Once a month)</fullName>
+                <default>false</default>
+                <label>Newsletter (Once a month)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

@@ -1,0 +1,13 @@
+<aura:component abstract="true" extensible="true" extends="c:InputSuper" access="global">
+    
+	<aura:handler name="change" value="{!v.errorMessage}" action="{!c.errorMessageChange}"/>
+    
+    <div class="slds-form-element"
+         aura:id="formElement">
+        <div class="{!v.required ? 'slds-form-element' : ''}">
+            {!v.body}
+        </div>
+        <span aura:id="errorSpan" class="slds-form-element__help slds-hide">{!v.errorMessage}</span>
+    </div>
+    
+</aura:component>

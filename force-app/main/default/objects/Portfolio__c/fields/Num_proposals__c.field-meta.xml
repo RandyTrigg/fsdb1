@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_proposals__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of proposals linked to this portfolio</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of proposals linked to this portfolio</inlineHelpText>
+    <label>Num proposals</label>
+    <summaryForeignKey>Portfolio_Assignment__c.Portfolio__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

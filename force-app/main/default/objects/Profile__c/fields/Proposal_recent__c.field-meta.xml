@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposal_recent__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The most recently created proposal linked to this profile (if any)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The most recently created proposal linked to this profile (if any)</inlineHelpText>
+    <label>Proposal recent</label>
+    <referenceTo>Proposal__c</referenceTo>
+    <relationshipLabel>Profiles</relationshipLabel>
+    <relationshipName>Profiles</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

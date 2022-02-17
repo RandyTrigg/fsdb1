@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decline_reason__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Reason that this profile is ineligible (restricted to one of the type 1 declines)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Reason that this profile is ineligible (restricted to one of the type 1 declines)</inlineHelpText>
+    <label>Not-eligible reason</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>May only select active decline reasons that are appropriate for profile declines.</errorMessage>
+        <filterItems>
+            <field>Decline_reason__c.Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>Decline_reason__c.For_profile__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <infoMessage>May only select active decline reasons that are appropriate for profile declines.</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Decline_reason__c</referenceTo>
+    <relationshipLabel>Profiles</relationshipLabel>
+    <relationshipName>Profiles</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

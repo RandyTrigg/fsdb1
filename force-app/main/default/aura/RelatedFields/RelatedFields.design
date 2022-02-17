@@ -1,0 +1,14 @@
+<design:component label="Related Fields">
+    <design:attribute name="targetObjectName" label="Target object"
+        description="API name of target object, for example, Contact, Opportunity, Proposal__c" />
+    <design:attribute name="lookupFieldName" label="Lookup field"
+        description="Name of lookup field pointing at target object, for example, AccountId (from Contact) or Account__c (from a custom object).  If the target object is two or more steps away, then string together the lookup fields in each related object, for example, Proposal__c.Account__c" />
+    <design:attribute name="title" label="Title" />
+    <design:attribute name="icon" label="Icon name"
+        description="Name of icon from www.lightningdesignsystem.com/icons/; the default is action:record" />
+    <design:attribute name="numColumns" label="Number of columns" />
+    <design:attribute name="mode" label="Mode" dataSource="readonly, view, edit"
+        description="Note that the 'View' option allows the fields to be edited." />
+    <design:attribute name="fieldNames" label="Fields"
+        description="Comma separated list of field names in target object" />
+</design:component>

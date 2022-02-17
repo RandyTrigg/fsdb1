@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProjectionDistributionNotInFund</fullName>
+    <active>true</active>
+    <description>The linked projection or distribution must belong to the same fund as the charge.</description>
+    <errorConditionFormula>OR(
+ AND(
+  NOT(ISBLANK(Projection__c)),
+  Projection__r.Fund__c &lt;&gt; Fund__c
+ ), 
+ AND(
+  NOT(ISBLANK(Distribution__c)),
+  Distribution__r.Target_fund__c &lt;&gt; Fund__c
+ )
+)</errorConditionFormula>
+    <errorMessage>The linked projection or distribution must belong to the same fund as the charge.</errorMessage>
+</ValidationRule>

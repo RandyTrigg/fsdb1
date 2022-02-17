@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Non_zero_amount_for_date_approved</fullName>
+    <active>true</active>
+    <description>The amount must be non-zero before the invite can be approved.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK( Date_approved__c )),
+ ISCHANGED( Date_approved__c ),
+ OR(
+  ISBLANK( Amount__c ),
+  Amount__c &lt;= 0
+ )
+)</errorConditionFormula>
+    <errorMessage>The amount must be non-zero before the invite can be approved.</errorMessage>
+</ValidationRule>

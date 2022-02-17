@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Red_flag_Black_list__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>The organization is black-listed - see the red flag explanation field for an explanation. (Results in &quot;Account black-listed&quot;.)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The organization is black-listed - see the red flag explanation field for an explanation. (Results in &quot;Account black-listed&quot;.)</inlineHelpText>
+    <label>Red flag: Black-list</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

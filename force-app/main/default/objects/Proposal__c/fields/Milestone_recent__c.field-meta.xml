@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Milestone_recent__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The most recently completed linked milestone</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The most recently completed linked milestone</inlineHelpText>
+    <label>Milestone recent</label>
+    <referenceTo>Milestone__c</referenceTo>
+    <relationshipLabel>Proposals (Milestone recent)</relationshipLabel>
+    <relationshipName>Proposals1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

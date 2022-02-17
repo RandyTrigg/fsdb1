@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProposalToCloneAccountClash</fullName>
+    <active>true</active>
+    <description>The proposal to clone must belong to the same account as the invite.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Proposal_to_clone__c)),
+ Proposal_to_clone__r.Account__c &lt;&gt; Account__c
+)</errorConditionFormula>
+    <errorDisplayField>Proposal_to_clone__c</errorDisplayField>
+    <errorMessage>The proposal to clone must belong to the same account as the invite.</errorMessage>
+</ValidationRule>

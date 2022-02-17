@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_held__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which this proposal was held, that is, a letter was sent/posted to the group informing them that processing of the proposal has been put on hold</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which this proposal was held, that is, a letter was sent/posted to the group informing them that processing of the proposal has been put on hold</inlineHelpText>
+    <label>Date held</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

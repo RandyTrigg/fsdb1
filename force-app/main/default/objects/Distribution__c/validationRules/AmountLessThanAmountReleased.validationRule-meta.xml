@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AmountLessThanAmountReleased</fullName>
+    <active>true</active>
+    <description>The amount of the distribution may not be less than the amount already released.</description>
+    <errorConditionFormula>Amount__c &lt; Amount_released__c</errorConditionFormula>
+    <errorMessage>The amount of the distribution may not be less than the amount already released.</errorMessage>
+</ValidationRule>

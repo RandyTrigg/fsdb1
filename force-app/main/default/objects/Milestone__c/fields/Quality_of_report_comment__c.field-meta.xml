@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Quality_of_report_comment__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Statement included for rationale in quality of report ranking. If you do not think the report is a good reflection of the group&apos;s work because of other knowledge, please include comment</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Statement included for rationale in quality of report ranking. If you do not think the report is a good reflection of the group&apos;s work because of other knowledge, please include comment</inlineHelpText>
+    <label>Quality of report comment</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

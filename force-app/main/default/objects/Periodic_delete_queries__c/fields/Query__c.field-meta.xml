@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Query__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The query used to find records to delete</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The query used to find records to delete</inlineHelpText>
+    <label>Query</label>
+    <length>255</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

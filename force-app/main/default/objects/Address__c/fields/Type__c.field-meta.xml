@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <inlineHelpText>The Type describes the nature of this address, e.g. Home, Business, Vacation, Other, etc.</inlineHelpText>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Business</fullName>
+                <default>false</default>
+                <label>Business</label>
+            </value>
+            <value>
+                <fullName>Foundation/Fund</fullName>
+                <default>false</default>
+                <label>Foundation/Fund</label>
+            </value>
+            <value>
+                <fullName>Home</fullName>
+                <default>false</default>
+                <label>Home</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Vacation</fullName>
+                <default>false</default>
+                <label>Vacation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alignment__c</fullName>
+    <deprecated>false</deprecated>
+    <description>(2) Yes, alignment with Theory of Change and a clear commitment to women’s rights. 
+(1) Not aligned but potential relevance
+(0) No relevance</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Does their application align with our priorities and theory of change?</inlineHelpText>
+    <label>Alignment</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes (2)</fullName>
+                <default>false</default>
+                <label>Yes (2)</label>
+            </value>
+            <value>
+                <fullName>Potential relevance (1)</fullName>
+                <default>false</default>
+                <label>Potential relevance (1)</label>
+            </value>
+            <value>
+                <fullName>No relevance (0)</fullName>
+                <default>false</default>
+                <label>No relevance (0)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

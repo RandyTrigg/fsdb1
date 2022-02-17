@@ -1,0 +1,168 @@
+<aura:component controller="FundController" implements="flexipage:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="fundId" type="String" />
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="simpleRecord" type="Object" />
+    <aura:attribute name="recordError" type="String" />
+
+    <aura:attribute name="permissionSetName" type="String" default="Releasing" />
+    <aura:attribute name="hasPermission" type="Boolean"
+        description="True if current user is assigned appropriate permission set" />
+    <aura:attribute name="chargesData" type="Object" />
+    <aura:attribute name="chargesColumns" type="List" />
+    <aura:attribute name="projectionsData" type="Object" />
+    <aura:attribute name="projectionsColumns" type="List" />
+    <aura:attribute name="distributionsData" type="Object" />
+    <aura:attribute name="distributionsColumns" type="List" />
+    <aura:attribute name="chargesSortedBy" type="String" />
+    <aura:attribute name="chargesSortedDirection" type="String" />
+    <aura:attribute name="projectionsSortedBy" type="String" />
+    <aura:attribute name="projectionsSortedDirection" type="String" />
+    <aura:attribute name="distributionsSortedBy" type="String" />
+    <aura:attribute name="distributionsSortedDirection" type="String" />
+
+    <aura:attribute name="releaseDate" type="Date" />
+    <aura:attribute name="selProjection" type="Object" />
+    <aura:attribute name="selDistribution" type="Object" />
+    <aura:attribute name="selectedRows" type="List" />
+    <aura:attribute name="selRowsCount" type="Integer" default="0" />
+    <aura:attribute name="selChargesTotal" type="Decimal" default="0" />
+    <aura:attribute name="selRelRowsCount" type="Integer" default="0" />
+    <aura:attribute name="selRelChargesTotal" type="Decimal" default="0" />
+    <aura:attribute name="unreleaseDesc" type="String" />
+    <aura:attribute name="projReleaseDesc" type="String" />
+    <aura:attribute name="distReleaseDesc" type="String" />
+    <aura:attribute name="chargesTableDesc" type="String" />
+    <aura:attribute name="unreleaseDisabled" type="Boolean" />
+    <aura:attribute name="projReleaseDisabled" type="Boolean" />
+    <aura:attribute name="distReleaseDisabled" type="Boolean" />
+
+    <aura:attribute name="waiting" type="Boolean" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!-- Change from v.fundId to v.recordId when we move to Lightning experience. -->
+    <force:recordData aura:id="recordData" recordId="{!v.fundId}" layoutType="FULL" targetRecord="{!v.record}"
+        targetFields="{!v.simpleRecord}" targetError="{!v.recordError}" mode="EDIT"
+        recordUpdated="{!c.recordUpdated}" />
+
+    <div class="c-container slds-m-horizontal_xx-large slds-m-vertical_small">
+        <div class="slds-page-header">
+            <!-- Put up a warning if user isn't in the appropriate permission set. -->
+            <aura:if isTrue="{!!v.hasPermission}">
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
+                    <span class="slds-assistive-text">warning</span>
+                    <h2>
+                        Note that this interface is read-only. Only users assigned the "Releasing" permission set
+                        may release and unrelease charges.
+                    </h2>
+                </div>
+            </aura:if>
+            <h1 class="slds-page-header__title slds-truncate slds-align-middle slds-p-vertical_small"
+                title="Releasing a fund's charges">Releasing a fund's charges</h1>
+            <p class="slds-text-heading_small slds-line-height_reset">
+                Use this interface to "release" a fund's charges against its
+                incoming projections and distributions. Releasing a charge means assigning a Date Released
+                and linking it to a projection or distribution.<br></br><br></br>
+                In the case when a projection/distribution doesn't have enough funding left for the entire charge,
+                the charge can be cloned and the amounts adjusted, so that separate projections/distributions can be
+                assigned.
+            </p>
+        </div>
+        <!-- Display a lightning card with (read-only) details about the fund -->
+        <div class="slds-m-vertical_small ">
+            <div class="Record Details">
+                <lightning:card iconName="standard:Fund__c">
+                    <aura:set attribute="title">
+                        <a href="{!'/' + v.fundId}">{!v.simpleRecord.Name}</a>
+                    </aura:set>
+                    <div class="slds-p-horizontal--small">
+                        <h3 class="slds-text-heading--small slds-m-bottom--x-small">
+                            <lightning:recordEditForm aura:id="recordViewForm" recordId="{!v.fundId}"
+                                objectApiName="Fund__c">
+                                <lightning:messages />
+                                <lightning:layout>
+                                    <lightning:layoutItem flexibility="auto" padding="horizontal-large">
+                                        <lightning:outputField fieldName="ChartofAccounts__c" />
+                                        <lightning:outputField fieldName="Amount_funded__c" />
+                                        <lightning:outputField fieldName="Narrative__c" />
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem flexibility="auto" padding="horizontal-large">
+                                        <!-- Allow user to edit the fund's Active checkbox. -->
+                                        <lightning:inputField fieldName="Active__c" disabled="{!!v.hasPermission}"
+                                            onchange="{!c.activeCheckboxChanged}" />
+                                        <!--<lightning:button aura:id="submit" type="submit" name="update" label="Update"/>-->
+                                        <lightning:button label="Update" onclick="{!c.handleSave}" />
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem flexibility="auto" padding="horizontal-large">
+                                        <lightning:outputField fieldName="Total_charged__c" />
+                                        <lightning:outputField fieldName="To_be_charged__c" />
+                                        <lightning:outputField fieldName="Total_released__c" />
+                                        <lightning:outputField fieldName="To_be_released__c" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:recordEditForm>
+                        </h3>
+                    </div>
+                </lightning:card>
+            </div>
+        </div>
+
+        <!-- Display Lightning Data Service errors, if any -->
+        <aura:if isTrue="{!not(empty(v.recordError))}">
+            <div class="recordError">
+                <ui:message title="Error" severity="error" closable="true">
+                    {!v.recordError}
+                </ui:message>
+            </div>
+        </aura:if>
+
+        <lightning:spinner class="{!v.waiting ? '' : 'slds-hide'}" alternativeText="Updating/loading related records" />
+
+        <c:HeadingMedium label="Releasing Controls" />
+        <!-- 7/24/18: lightning:input with type="date" screws up timezone so using ui:inputDate instead. -->
+        <ui:inputDate label="Release date" value="{!v.releaseDate}" displayDatePicker="true" format="MM/dd/yyyy"
+            required="true" change="{!c.changedReleaseDate}" disabled="{!!v.hasPermission}" />
+        <lightning:layout class="slds-p-top_medium">
+            <lightning:layoutItem padding="horizontal-small">
+                <lightning:button disabled="{!v.projReleaseDisabled}" label="Release against projection"
+                    onclick="{! c.releaseAgainstProjection }" title="{!v.projReleaseDesc}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="horizontal-small">
+                <lightning:button disabled="{!v.distReleaseDisabled}" label="Release against distribution"
+                    onclick="{! c.releaseAgainstDistribution }" title="{!v.distReleaseDesc}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="horizontal-small">
+                <lightning:button disabled="{!v.unreleaseDisabled}" label="Unrelease" onclick="{! c.unrelease }"
+                    title="{!v.unreleaseDesc}" />
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <c:HeadingMedium label="Charges" />
+        <div style="height: 300px" class="slds-p-bottom_small">
+            <h1>{!v.chargesTableDesc}</h1>
+            <lightning:datatable aura:id="chargesTable" columns="{! v.chargesColumns }" data="{! v.chargesData }"
+                keyField="Id" selectedRows="{!v.selectedRows}" onrowselection="{! c.chargesSelected }"
+                onrowaction="{! c.handleRowAction }" sortedBy="{!v.chargesSortedBy}"
+                sortedDirection='{!v.chargesSortedDirection}' onsort="{! c.updateColumnSorting }" />
+        </div>
+
+        <c:HeadingMedium label="Projections" />
+        <div style="height: 300px">
+            <lightning:datatable aura:id="projectionsTable" columns="{! v.projectionsColumns }"
+                data="{! v.projectionsData }" keyField="Id" maxRowSelection="1"
+                onrowselection="{! c.projectionSelected }" sortedBy="{!v.projectionsSortedBy}"
+                sortedDirection='{!v.projectionsSortedDirection}' onsort="{! c.updateColumnSorting }" />
+        </div>
+
+        <c:HeadingMedium label="Distributions" />
+        <div style="height: 300px">
+            <lightning:datatable aura:id="distributionsTable" columns="{! v.distributionsColumns }"
+                data="{! v.distributionsData }" keyField="Id" maxRowSelection="1"
+                onrowselection="{! c.distributionSelected }" sortedBy="{!v.distributionsSortedBy}"
+                sortedDirection='{!v.distributionsSortedDirection}' onsort="{! c.updateColumnSorting }" />
+        </div>
+
+    </div>
+
+</aura:component>

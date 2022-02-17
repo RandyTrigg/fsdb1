@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Target_plus__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The &quot;target plus&quot; or &quot;best case&quot; amount for grantmaking for the fiscal year of this fund.  It should be greater or equal to the target grantmaking amount.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The &quot;target plus&quot; or &quot;best case&quot; amount for grantmaking for the fiscal year of this fund.  It should be greater or equal to the target grantmaking amount.</inlineHelpText>
+    <label>Target plus</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

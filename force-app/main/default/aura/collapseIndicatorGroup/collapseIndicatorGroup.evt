@@ -1,0 +1,1 @@
+<aura:event type="APPLICATION" description="Hide components in an indicator group" />

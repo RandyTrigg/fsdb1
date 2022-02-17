@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_account</fullName>
+    <active>false</active>
+    <description>The contact must have a parent account</description>
+    <errorConditionFormula>AND(
+ ISBLANK(AccountId),
+ ISNEW()
+)</errorConditionFormula>
+    <errorDisplayField>AccountId</errorDisplayField>
+    <errorMessage>The contact must have a parent account</errorMessage>
+</ValidationRule>

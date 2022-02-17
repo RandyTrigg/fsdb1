@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>数式: [連絡先] 項目を使用して、[住所(郵送先)] または [住所(その他)] から自宅住所を決定します。</help>
+    <label></label>
+    <name>npe01__Home_Address__c</name>
+</CustomFieldTranslation>

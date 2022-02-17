@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GM_Data__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The GM Data record to which this &quot;join&quot; record assigns a restricted classification</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The GM Data record to which this &quot;join&quot; record assigns a restricted classification</inlineHelpText>
+    <label>GM Data</label>
+    <referenceTo>GM_Data__c</referenceTo>
+    <relationshipLabel>Restricted Classifications</relationshipLabel>
+    <relationshipName>Restricted_Classifications_GM_Data</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

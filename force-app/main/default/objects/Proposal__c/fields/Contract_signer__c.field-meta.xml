@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contract_signer__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The contact linked to this proposal&apos;s account who is the designated contract signer</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The contact linked to this proposal&apos;s account who is the designated contract signer</inlineHelpText>
+    <label>Contract signer</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>The contract signer&apos;s account must be the same as this proposal&apos;s account</errorMessage>
+        <filterItems>
+            <field>Contact.AccountId</field>
+            <operation>equals</operation>
+            <valueField>$Source.Account__c</valueField>
+        </filterItems>
+        <infoMessage>The contract signer&apos;s account must be the same as this proposal&apos;s account</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Proposals (Contract signer 1)</relationshipLabel>
+    <relationshipName>Proposals</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

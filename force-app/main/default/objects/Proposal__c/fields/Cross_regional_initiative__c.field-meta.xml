@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cross_regional_initiative__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Checked if this proposal/grant is considered to be a cross-regional initiative (formerly called &apos;Movement Building&apos;)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if this proposal/grant is considered to be a cross-regional initiative (formerly called &apos;Movement Building&apos;)</inlineHelpText>
+    <label>Cross regional initiative</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

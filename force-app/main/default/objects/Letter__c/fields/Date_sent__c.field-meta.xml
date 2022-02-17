@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_sent__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The earliest non-blank date among Date Emailed, Date Printed, and Date Posted.  Note that for grantmaking letters, we ignore Date Printed.</description>
+    <externalId>false</externalId>
+    <formula>/* Take MIN of Date_emailed__c, Date_printed__c and Date_posted__c for Dev.  For grantmaking, ignore date printed. */
+
+IF( TEXT(Template__r.Type__c) == &quot;Development&quot;,
+ /* Development */
+ IF(
+  AND(
+   ISNULL(Date_emailed__c),
+   ISNULL(Date_printed__c),
+   ISNULL(Date_posted__c)
+  ), null,
+
+ TODAY()- 
+  MAX(
+   IF(ISNULL(Date_emailed__c), -100000, TODAY()- Date_emailed__c),
+   IF(ISNULL(Date_printed__c), -100000, TODAY()- Date_printed__c),
+   IF(ISNULL(Date_posted__c), -100000, TODAY()- Date_posted__c)
+  )
+ ),
+
+ /* Grantmaking */
+ IF(
+  AND(
+   ISNULL(Date_emailed__c),
+   ISNULL(Date_posted__c)
+  ), null,
+
+ TODAY()- 
+  MAX(
+   IF(ISNULL(Date_emailed__c), -100000, TODAY()- Date_emailed__c),
+   IF(ISNULL(Date_posted__c), -100000, TODAY()- Date_posted__c)
+  )
+ )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The earliest non-blank date among Date Emailed, Date Printed, and Date Posted.  Note that for grantmaking letters, we ignore Date Printed.</inlineHelpText>
+    <label>Date sent</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

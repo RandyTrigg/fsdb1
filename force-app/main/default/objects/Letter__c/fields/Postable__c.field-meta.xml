@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Postable__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if this letter&apos;s template is postable, that is, its letters may be posted to the online apps web site</description>
+    <externalId>false</externalId>
+    <formula>Template__r.Postable__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if this letter&apos;s template is postable, that is, its letters may be posted to the online apps web site</inlineHelpText>
+    <label>Postable</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,11 @@
+<aura:component implements="force:lightningQuickAction" access="global" >
+
+    <!-- Very simple addition -->
+
+    <lightning:input type="number" name="myNumber" aura:id="num1" label="Number 1"/> +
+    <lightning:input type="number" name="myNumber" aura:id="num2" label="Number 2"/>
+
+    <br/>
+    <lightning:button label="Add" onclick="{!c.clickAdd}"/>
+
+</aura:component>

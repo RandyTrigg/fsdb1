@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FS_contact__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if this contact belongs to a fiscal sponsor account</description>
+    <externalId>false</externalId>
+    <formula>Account.RecordType.DeveloperName == &quot;Organization_GM_FS&quot;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if this contact belongs to a fiscal sponsor account</inlineHelpText>
+    <label>FS contact</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

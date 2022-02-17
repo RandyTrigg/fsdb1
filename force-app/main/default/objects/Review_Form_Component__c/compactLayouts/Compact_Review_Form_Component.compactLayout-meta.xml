@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compact_Review_Form_Component</fullName>
+    <fields>Name</fields>
+    <fields>Review_Form__c</fields>
+    <fields>Sort_number__c</fields>
+    <fields>Object_name__c</fields>
+    <fields>Required__c</fields>
+    <fields>Lightning_component_name__c</fields>
+    <fields>LastModifiedById</fields>
+    <label>Compact Review Form Component</label>
+</CompactLayout>

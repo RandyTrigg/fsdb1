@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resource_mobilization__c</fullName>
+    <deprecated>false</deprecated>
+    <description>This field tracks if as a result of their grant from Global Fund for Women they received additional funding. (3) Yes, secured funding = the group clearly articulated that as a result of their GFW grant they were able to leverage it to secure additional funding from a donor; (2) Somewhat = they responded positively that the grant was helpful in this area but it was either unclear if they secured funding; (1) No mention = the group either stated &quot;no&quot; or there was no mention in the report or GFW feedback of leveraging the grant to secure additional funding</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This field tracks if as a result of their grant from Global Fund for Women they received additional funding. (3) Yes, secured additional funding by leveraging their GFW grant; (2) Somewhat - grant was helpful; (3) No mention of leveraging the grant</inlineHelpText>
+    <label>Resource mobilization</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes, secured funding (3)</fullName>
+                <default>false</default>
+                <label>Yes, secured funding (3)</label>
+            </value>
+            <value>
+                <fullName>Somewhat (2)</fullName>
+                <default>false</default>
+                <label>Somewhat (2)</label>
+            </value>
+            <value>
+                <fullName>No mention (1)</fullName>
+                <default>false</default>
+                <label>No mention (1)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

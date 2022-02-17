@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Strategies</fullName>
+    <columns>NAME</columns>
+    <columns>Type__c</columns>
+    <columns>Classification_Category__c</columns>
+    <columns>Definition__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>Strategy</value>
+    </filters>
+    <label>Strategies</label>
+</ListView>

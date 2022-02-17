@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_contact__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <inlineHelpText>The primary Contact for this Account.</inlineHelpText>
+    <label>Primary Contact</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>The Primary Contact must be related to this Account.</errorMessage>
+        <filterItems>
+            <field>$Source.Id</field>
+            <operation>equals</operation>
+            <valueField>Contact.AccountId</valueField>
+        </filterItems>
+        <infoMessage>Select a Contact related to the Account to be the Primary Contact for the Account.</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Accounts (Primary Contact)</relationshipLabel>
+    <relationshipName>Accounts2</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

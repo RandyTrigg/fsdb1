@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Award_notification_deadline__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Date by which we promise to notify the group whether they have been awarded or not (Used to autopopulate Proposal record upon application/proposal creation)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date by which we promise to notify the group whether they have been awarded or not (Used to autopopulate Proposal record upon application/proposal creation)</inlineHelpText>
+    <label>Award notification deadline</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

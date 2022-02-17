@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>De status die gebruikt moet worden bij het maken van een campagnelid voor deze opportunity&apos;s primaire contact en primaire campagne bron. Laat standaard leeg met een reactiestatus voor gesloten/gewonnen opp, en een non-responded status voor andere opp.</help>
+    <label></label>
+    <name>npsp__Primary_Contact_Campaign_Member_Status__c</name>
+</CustomFieldTranslation>

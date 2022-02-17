@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposal_review_form__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The review form to be used for proposals linked to this Custom Reqs</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The review form to be used for proposals linked to this Custom Reqs</inlineHelpText>
+    <label>Proposal review form</label>
+    <referenceTo>Review_Form__c</referenceTo>
+    <relationshipLabel>Custom Reqs</relationshipLabel>
+    <relationshipName>Custom_Reqs</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

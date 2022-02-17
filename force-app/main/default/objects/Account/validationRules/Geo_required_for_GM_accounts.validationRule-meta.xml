@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Geo_required_for_GM_accounts</fullName>
+    <active>false</active>
+    <description>At least one of the country/region lookup fields must be filled in for org GM accounts</description>
+    <errorConditionFormula>AND(
+ RecordType.DeveloperName = &quot;Organization_GM&quot; ,
+ ISBLANK( GM_region__c ),
+ ISBLANK( GM_country__c )
+)</errorConditionFormula>
+    <errorDisplayField>GM_region__c</errorDisplayField>
+    <errorMessage>At least one of the country/region lookup fields must be filled in for org GM accounts</errorMessage>
+</ValidationRule>

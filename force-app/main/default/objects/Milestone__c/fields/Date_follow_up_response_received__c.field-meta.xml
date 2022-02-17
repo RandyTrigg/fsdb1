@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_follow_up_response_received__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which we received a follow-up response</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which we received a follow-up response</inlineHelpText>
+    <label>Date follow up response received</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

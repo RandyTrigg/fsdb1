@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_released__c</fullName>
+    <defaultValue>0</defaultValue>
+    <deprecated>false</deprecated>
+    <description>The amount of this distribution that has so far been released, that is, the sum of linked charges</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The amount of this distribution that has so far been released, that is, the sum of linked charges</inlineHelpText>
+    <label>Amount released</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reporting_complete__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Checked if the final report submit task for this opportunity has been completed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if the final report submit task for this opportunity has been completed</inlineHelpText>
+    <label>Reporting complete</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

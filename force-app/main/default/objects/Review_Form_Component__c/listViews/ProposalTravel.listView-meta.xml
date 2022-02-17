@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProposalTravel</fullName>
+    <columns>NAME</columns>
+    <columns>Active__c</columns>
+    <columns>Review_Form__c</columns>
+    <columns>Sort_number__c</columns>
+    <columns>Lightning_component_name__c</columns>
+    <columns>Label__c</columns>
+    <columns>Object_name__c</columns>
+    <columns>Field_name__c</columns>
+    <columns>Required__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Review_Form__c</field>
+        <operation>equals</operation>
+        <value>ProposalTravel</value>
+    </filters>
+    <label>ProposalTravel</label>
+</ListView>

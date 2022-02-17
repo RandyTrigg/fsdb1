@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Valid_proposal</fullName>
+    <active>true</active>
+    <description>Proposal must be linked to this invite&apos;s account</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK( Proposal__c )),
+ Proposal__r.Account__c !=  Account__c 
+)</errorConditionFormula>
+    <errorDisplayField>Proposal__c</errorDisplayField>
+    <errorMessage>Proposal is not linked to this invite&apos;s account</errorMessage>
+</ValidationRule>

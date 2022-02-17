@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GMAndNonGMAmountsBlankOrNonBlank</fullName>
+    <active>true</active>
+    <description>The fields Grantmaking amount and Non-grantmaking amount, must both be blank or both be non-blank.</description>
+    <errorConditionFormula>OR(
+ AND(
+  ISBLANK( Grantmaking_amount__c ),
+  NOT(ISBLANK( Non_grantmaking_amount__c ))
+ ),
+ AND(
+  NOT(ISBLANK( Grantmaking_amount__c )),
+  ISBLANK( Non_grantmaking_amount__c )
+ )
+)</errorConditionFormula>
+    <errorDisplayField>Grantmaking_amount__c</errorDisplayField>
+    <errorMessage>The fields Grantmaking amount and Non-grantmaking amount, must both be blank or both be non-blank.</errorMessage>
+</ValidationRule>

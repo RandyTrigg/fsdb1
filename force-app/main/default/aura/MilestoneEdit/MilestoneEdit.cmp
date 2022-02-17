@@ -1,0 +1,83 @@
+<aura:component controller="MilestoneController" extends="c:GMDataEditSuper"
+    implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="milestoneId" type="String" required="true" description="Id of the milestone to be edited" />
+    <aura:attribute name="milestoneInfo" type="MilestoneController.MilestoneInfo" />
+    <aura:attribute name="milestone" type="Milestone__c" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}" />
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}" />
+
+    <div class="slds" aura:id="TopLevelEdit" style="margin:40px;">
+        <div class="slds-col--padded">
+            <h3 class="slds-text-heading--medium slds-m-bottom--x-small">
+                Milestone #: <a href="{!'/' + v.milestone.Id}">{!v.milestone.Name}</a><br />
+                Proposal #: <a href="{!'/' + v.milestone.Proposal__c}">{!v.milestone.Prop_num_with_renewal__c}</a><br />
+                Account{!v.milestone.Account_black_listed__c ? ' (BLACK-LISTED)' : ''}:
+                <a href="{!'/' + v.milestone.Proposal__r.Account__c}">{!v.milestone.Account_name__c}</a><br />
+            </h3>
+            <h3 class="slds-text-heading--small slds-m-bottom--x-small">
+                <span>**Link to Milestone review guide**</span>
+            </h3>
+        </div>
+        <!-- Display a lightning card with (read-only) details about the milestone -->
+        <div class="slds-m-vertical_small ">
+            <div class="Record Details">
+                <lightning:card>
+                    <div class="slds-p-horizontal--small">
+                        <h3 class="slds-text-heading--x-small slds-m-bottom--x-small">
+                            <ol>
+                                <li>{!v.milestone.Date_submitted__c ?
+                                    'Submitted: ' + v.milestone.Date_submitted__c :
+                                    '**NOT YET SUBMITTED**'}
+                                </li>
+                                <li>Review completed: {!v.milestone.Date_reviewed__c}</li>
+                            </ol>
+                        </h3>
+                    </div>
+                </lightning:card>
+            </div>
+        </div>
+        <h3 class="slds-text-heading--x-small slds-m-bottom--x-small">
+            Proposal status: {!v.milestone.Prop_status__c}
+        </h3>
+
+        <!-- Spinner is shown when waiting for server response -->
+        <center>
+            <ui:spinner aura:id="spinner" />
+        </center>
+
+        <div class="{!v.milestone.Date_submitted__c ? '' : 'hidden'}">
+            <!-- Hide edit interface if milestone not received. -->
+
+            <!-- Top save button - disable when starting up or saving -->
+            <lightning:button class="slds-m-top--small" variant="brand" onclick="{!c.save}" label="Save"
+                title="Save changes and check for errors" disabled="{!(v.starting || v.saving || v.fetching)}" />
+            <!-- Submit button - enabled if no errors and blank date review completed -->
+            <lightning:button class="slds-m-top--small" variant="brand" onclick="{!c.submitReview}" label="Submit"
+                title="Submit changes and set the date review submitted"
+                disabled="{!(v.milestone.Date_reviewed__c || v.numErrors == -1 || v.numErrors > 0) ? 'true' : 'false'}" />
+            <h3 class="slds-text-heading--x-small slds-m-bottom--x-small">
+                <span aura:id="saveForErrorCountSpan" class="slds-form-element__help">Click Save to validate and compute
+                    number of errors.</span>
+                <span aura:id="numErrorsSpan" class="slds-form-element__help slds-hide">Number of errors:
+                    {!v.numErrors}</span>
+                <span aura:id="pageErrorsSpan" class="slds-form-element__help slds-hide">Errors from server:
+                    {!v.pageErrors}</span>
+            </h3>
+            <!-- Form of editable milestone and GM data fields -->
+            <form role="form" class="slds-form--stacked">
+
+                <!-- Display review components here. -->
+                {!v.reviewComponents}
+
+            </form>
+
+
+            <!-- Bottom save button - disable when saving -->
+            <lightning:button class="slds-m-top--small" variant="brand" onclick="{!c.save}" label="Save"
+                title="Save changes and check for errors" disabled="{!(v.starting || v.saving || v.fetching)}" />
+        </div>
+    </div>
+
+</aura:component>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pending_milestone_descriptions__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Descriptions of milestones linked to this proposal that haven&apos;t yet been completed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Descriptions of milestones linked to this proposal that haven&apos;t yet been completed</inlineHelpText>
+    <label>Pending milestone descriptions</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

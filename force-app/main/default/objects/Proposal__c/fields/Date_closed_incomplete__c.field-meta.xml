@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_closed_incomplete__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Date on which grant was closed although one or more milestones weren&apos;t completed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date on which grant was closed although one or more milestones weren&apos;t completed</inlineHelpText>
+    <label>Date closed incomplete</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

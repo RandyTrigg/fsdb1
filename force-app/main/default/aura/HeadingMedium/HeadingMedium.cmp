@@ -1,0 +1,14 @@
+<aura:component access="global" >
+    <aura:attribute name="label" type="String" />
+    <aura:attribute name="helpText" type="String"/>
+    <aura:attribute name="type" type="String" default="heading"/>
+    <aura:attribute name="readonly" type="Boolean" default="true"/>
+    
+    <div class="slds-m-top--medium slds-m-bottom--medium slds-text-heading--medium">
+        <aura:if isTrue="{!v.helpText != null}">
+            <c:InfoButton helpText="{!v.helpText}"/>
+        </aura:if> 
+        <aura:unescapedHtml value="{!v.label}"/>
+    </div>
+    
+</aura:component>

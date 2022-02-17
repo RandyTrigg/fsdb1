@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_grantmaking__c</fullName>
+    <deprecated>false</deprecated>
+    <description>If this is a gatherer projection then the grantmaking amount is the total gathered times the grantmaking fraction.  If not a gatherer, then the Amount field times the grantmaking fraction.  If no Amount, then just grantmaking amount.</description>
+    <externalId>false</externalId>
+    <formula>IF(Total_received_pooled__c &gt; 0 &amp;&amp; ISBLANK(Carryover__c) &amp;&amp; ISBLANK(Grantmaking_amount__c) &amp;&amp; ISBLANK(Amount__c),
+ IF(NOT(ISBLANK( Grantmaking_fraction__c )), ROUND(Total_received_pooled__c * Grantmaking_fraction__c, 0), null),
+
+ IF(Amount__c &gt; 0,
+  IF(NOT(ISBLANK( Grantmaking_fraction__c )), Amount__c * Grantmaking_fraction__c, null),
+  Grantmaking_amount__c
+))</formula>
+    <inlineHelpText>If this is a gatherer projection then the grantmaking amount is the total gathered times the grantmaking fraction.  If not a gatherer, then the Amount field times the grantmaking fraction.  If no Amount, then just grantmaking amount.</inlineHelpText>
+    <label>Total grantmaking</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Referral__c</fullName>
+    <deprecated>false</deprecated>
+    <description>How did this group learn about us?</description>
+    <externalId>false</externalId>
+    <inlineHelpText>How did this group learn about us?</inlineHelpText>
+    <label>Referral</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Internet</fullName>
+                <default>false</default>
+                <label>Internet</label>
+            </value>
+            <value>
+                <fullName>Grantee</fullName>
+                <default>false</default>
+                <label>Grantee</label>
+            </value>
+            <value>
+                <fullName>Intl. Org.</fullName>
+                <default>false</default>
+                <label>Intl. Org.</label>
+            </value>
+            <value>
+                <fullName>Outreach</fullName>
+                <default>false</default>
+                <label>Outreach</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

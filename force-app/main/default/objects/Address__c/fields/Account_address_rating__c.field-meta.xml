@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_address_rating__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Ranking of address for export to SF/AQ based on account groupings.</description>
+    <externalId>false</externalId>
+    <label>Account address rating</label>
+    <precision>7</precision>
+    <required>false</required>
+    <scale>5</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

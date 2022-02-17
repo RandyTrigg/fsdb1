@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Name_with_salutation__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>TEXT(Salutation) + IF(TEXT(Salutation) &lt;&gt; null, &quot; &quot;,null) +  FirstName + &quot; &quot; + LastName + IF (TEXT(Suffix__c) &lt;&gt; null, &quot;, &quot; + TEXT( Suffix__c ), null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

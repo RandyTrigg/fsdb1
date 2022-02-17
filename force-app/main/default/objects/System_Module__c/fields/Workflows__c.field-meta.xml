@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Workflows__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The workflows that contribute to the behavior of this module</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The workflows that contribute to the behavior of this module</inlineHelpText>
+    <label>Workflows</label>
+    <length>31000</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

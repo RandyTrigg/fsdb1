@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Active__c</columns>
+    <columns>Description__c</columns>
+    <columns>Type__c</columns>
+    <columns>Outcome_type__c</columns>
+    <columns>GM_Data_field_name__c</columns>
+    <columns>Code__c</columns>
+    <columns>Requires_number__c</columns>
+    <columns>Requires_comment__c</columns>
+    <columns>Notes__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

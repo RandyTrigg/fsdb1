@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Full_name__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>LastName &amp; IF(ISBLANK(FirstName), &quot;&quot;, &quot;, &quot; &amp;  FirstName)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Full Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

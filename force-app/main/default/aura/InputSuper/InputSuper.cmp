@@ -1,0 +1,18 @@
+<aura:component abstract="true" extensible="true" access="global">
+    <aura:attribute name="id" type="String"/>
+    <aura:attribute name="label" type="String"/>
+    <aura:attribute name="fieldName" type="String"/>
+    <aura:attribute name="objName" type="String"/>
+    <aura:attribute name="helpText" type="String"/>
+    <aura:attribute name="value" type="String"/>
+    <aura:attribute name="type" type="String" />
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="required" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="recordIndex" type="Integer" description="The index of the record in which this field is to be saved."/>
+    <aura:attribute name="readonly" type="Boolean" default="false"/>
+    <aura:attribute name="disabled" type="Boolean" default="false"/>
+    
+    <!-- Extensions of this abstract component need elements w/ "formElement" and "errorSpan" aura:id's. -->
+    {!v.body}
+    
+</aura:component>

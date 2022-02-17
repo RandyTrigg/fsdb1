@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Releasing</fullName>
+    <availability>online</availability>
+    <description>Pull up the releasing interface for this fund</description>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>Releasing</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <url>/c/FundReleasingApp.app?fundId={!Fund__c.Id}</url>
+</WebLink>

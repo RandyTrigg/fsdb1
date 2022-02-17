@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_number__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Auto-generated number for account records</description>
+    <displayFormat>A{0000000}</displayFormat>
+    <externalId>true</externalId>
+    <inlineHelpText>Auto-generated number for account records</inlineHelpText>
+    <label>Account number</label>
+    <trackHistory>false</trackHistory>
+    <type>AutoNumber</type>
+</CustomField>

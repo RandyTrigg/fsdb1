@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compact_Referral_Org</fullName>
+    <fields>Name</fields>
+    <fields>Short_name__c</fields>
+    <fields>No_unsolicited_proposals__c</fields>
+    <fields>LastModifiedById</fields>
+    <fields>CreatedById</fields>
+    <label>Compact Referral Org</label>
+</CompactLayout>

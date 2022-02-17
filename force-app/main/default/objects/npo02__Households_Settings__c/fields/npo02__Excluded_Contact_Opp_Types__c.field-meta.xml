@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npo02__Excluded_Contact_Opp_Types__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Opportunities that have this value in the Type picklist won&apos;t be included in rollups to the Contact.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Values for the Opportunity Type field to exclude from statistics when rolling up Contact Opportunities.</inlineHelpText>
+    <label>Opp Types Excluded for Contact Rollup</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

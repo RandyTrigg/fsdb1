@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Instellingen voor het acoount model. Zouden moeten zijn &quot;Huishouden&quot; ,&quot;een-op-een&quot; of &quot;Individueel&quot;. Vervangt het aangepaste veld Contact.SystemAccountProcessor__c  Huishouden is het aanbevolen model.</help>
+    <label></label>
+    <name>npe01__Account_Processor__c</name>
+</CustomFieldTranslation>

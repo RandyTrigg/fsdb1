@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Language__c</fullName>
+    <defaultValue>&quot;English&quot;</defaultValue>
+    <deprecated>false</deprecated>
+    <description>The language of this template piece</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The language of this template piece</inlineHelpText>
+    <label>Language</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Language</valueSetName>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Organizational_capacity__c</fullName>
+    <deprecated>false</deprecated>
+    <description>(3) Significant organizational growth and capacity building during the grant period with clearly articulated evidence of change (2) Some strengthening, unclear of the effect of the organization or the evidence of change (1) No evidence or change in organizational capacity articulated</description>
+    <externalId>false</externalId>
+    <inlineHelpText>(3) Significant org growth and capacity building during the grant period with clearly articulated evidence of change (2) Some strengthening, unclear of the effect of the org or the evidence of change (1) No evidence or change in org capacity articulated</inlineHelpText>
+    <label>Organizational capacity</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Significant strengthening, evidence (3)</fullName>
+                <default>false</default>
+                <label>Significant strengthening, evidence (3)</label>
+            </value>
+            <value>
+                <fullName>Some capacity strengthening (2)</fullName>
+                <default>false</default>
+                <label>Some capacity strengthening (2)</label>
+            </value>
+            <value>
+                <fullName>No evidence or change (1)</fullName>
+                <default>false</default>
+                <label>No evidence or change (1)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

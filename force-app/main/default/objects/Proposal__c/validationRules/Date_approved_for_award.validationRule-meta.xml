@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_approved_for_award</fullName>
+    <active>true</active>
+    <description>The Date ready for award approval field must be non-blank before date approved for award can be entered.</description>
+    <errorConditionFormula>AND(
+ ISBLANK( Date_ready_for_award_approval__c ),
+ NOT(ISBLANK( Date_approved_for_award__c )),
+ ISCHANGED( Date_approved_for_award__c )
+)</errorConditionFormula>
+    <errorMessage>The Date ready for award approval field must be non-blank before date approved for award can be entered.</errorMessage>
+</ValidationRule>

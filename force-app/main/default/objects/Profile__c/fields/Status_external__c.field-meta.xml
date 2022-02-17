@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_external__c</fullName>
+    <deprecated>false</deprecated>
+    <description>External status of this profile (the version that is viewed by applicant)</description>
+    <externalId>false</externalId>
+    <formula>IF ( CONTAINS( LOWER(Status__c) , &quot;declined&quot; ), &quot;Declined&quot;,
+IF ( NOT (ISBLANK ( Date_submitted__c )), &quot;Submitted&quot;,
+&quot;Pending&quot;
+))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>External status of this profile (the version that is viewed by applicant)</inlineHelpText>
+    <label>Status external</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

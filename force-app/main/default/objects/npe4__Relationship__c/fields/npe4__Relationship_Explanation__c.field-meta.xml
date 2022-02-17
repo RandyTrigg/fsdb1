@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npe4__Relationship_Explanation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Text formula that constructs a sentence explaining the relationship between the two Contacts</description>
+    <externalId>false</externalId>
+    <formula>TEXT(npe4__RelatedContact__r.Salutation) + &quot; &quot; + npe4__RelatedContact__r.FirstName + &quot; &quot; + npe4__RelatedContact__r.LastName
++ &quot;  &quot;  +  $Label.npe4__Relationship_Explanation_Connector + &quot; &quot; + 
+TEXT(npe4__Contact__r.Salutation) + &quot; &quot; + npe4__Contact__r.FirstName + &quot; &quot; + npe4__Contact__r.LastName + &quot;&apos;s &quot; + TEXT(npe4__Type__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Text formula that constructs a sentence explaining the relationship between the two Contacts</inlineHelpText>
+    <label>Relationship Explanation</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

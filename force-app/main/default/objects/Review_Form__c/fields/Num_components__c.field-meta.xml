@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_components__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of active review form components belonging to this review form</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of active review form components belonging to this review form</inlineHelpText>
+    <label>Num components</label>
+    <summaryFilterItems>
+        <field>Review_Form_Component__c.Active__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Review_Form_Component__c.Review_Form__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

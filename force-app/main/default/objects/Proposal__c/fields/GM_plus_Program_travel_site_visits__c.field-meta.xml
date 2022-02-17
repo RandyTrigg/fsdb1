@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GM_plus_Program_travel_site_visits__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Additional support or activities requested or recommended: Program travel / site visits</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Additional support or activities requested or recommended: Program travel / site visits</inlineHelpText>
+    <label>GM plus: Program travel / site visits</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

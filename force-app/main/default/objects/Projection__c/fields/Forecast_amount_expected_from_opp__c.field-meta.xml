@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Forecast_amount_expected_from_opp__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The expected amount per year (adjusted by the opportunity&apos;s probability field) from the linked opportunity record if this projection hasn&apos;t yet been assigned an amount</description>
+    <externalId>false</externalId>
+    <formula>IF(
+ AND(
+  NOT(ISBLANK( Opportunity__c )),
+  TEXT(Opportunity__r.StageName) != &quot;Closed Lost&quot;,
+  NOT( Total_amount__c &gt; 0 )
+ ),
+ Opportunity__r.Expected_revenue_per_year__c , null
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The expected amount per year (adjusted by the opportunity&apos;s probability field) from the linked opportunity record if this projection hasn&apos;t yet been assigned an amount</inlineHelpText>
+    <label>Forecast amount expected (from opp)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

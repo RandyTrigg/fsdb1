@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage_closed_won_or_verbal_comm__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The stage of this opportunity is either Closed Won or Verbal Commitment</description>
+    <externalId>false</externalId>
+    <formula>OR(
+ TEXT(StageName) = &quot;Closed Won&quot;,
+ TEXT(StageName) = &quot;Verbal Commitment&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The stage of this opportunity is either Closed Won or Verbal Commitment</inlineHelpText>
+    <label>Stage: closed won or verbal comm.</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

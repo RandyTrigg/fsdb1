@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Als dit een vernieuwing is, een nieuw lidmaatschap, of een lidmaatschap met iemand die weg was gegaan maar is terug gekomen.</help>
+    <label></label>
+    <name>npe01__Membership_Origin__c</name>
+    <picklistValues>
+        <masterLabel>New</masterLabel>
+        <translation>Nieuw</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reacquire</masterLabel>
+        <translation>Terugkerend</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Renewal</masterLabel>
+        <translation>Vernieuwend</translation>
+    </picklistValues>
+</CustomFieldTranslation>

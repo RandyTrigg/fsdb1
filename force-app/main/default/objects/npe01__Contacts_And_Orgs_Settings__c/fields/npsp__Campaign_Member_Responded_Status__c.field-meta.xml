@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npsp__Campaign_Member_Responded_Status__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The automatic Status of the Campaign Member for Closed/Won opportunities that have a Primary Contact and a Primary Campaign Source associated with them. If left blank, Salesforce uses the first Responded status.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The automatic Status of the Campaign Member for Closed/Won opportunities that have a Primary Contact and a Primary Campaign Source associated with them. If left blank, Salesforce uses the first Responded status.</inlineHelpText>
+    <label>Campaign Member Responded Status</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

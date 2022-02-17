@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Do_not_call__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Checked if the account/contacts under it do not wish to receive phone calls (including Year-end or thank you calls).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if the account/contacts under it do not wish to receive phone calls (including Year-end or thank you calls).</inlineHelpText>
+    <label>Do not call</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

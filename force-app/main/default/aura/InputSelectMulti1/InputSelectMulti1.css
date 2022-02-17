@@ -1,0 +1,22 @@
+.THIS .disabled {
+    pointer-events:none;
+    color:#AAA;
+    background:rgb(233, 234, 236);
+}
+
+.THIS .oSelect {
+    height: 15rem;
+	width: 100%;
+    overflow-y: auto;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+
+.THIS .buttons-col li {
+    padding-top: 0.5rem;    
+}
+
+.THIS .buttons-col .my-button {
+    width: 100%;
+    padding: 0;
+}

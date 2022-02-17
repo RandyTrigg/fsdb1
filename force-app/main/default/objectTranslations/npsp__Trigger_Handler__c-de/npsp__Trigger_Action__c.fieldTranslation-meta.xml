@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Auslöseraktion, in der dieses Modul aktiv werden sollte</help>
+    <label></label>
+    <name>npsp__Trigger_Action__c</name>
+    <picklistValues>
+        <masterLabel>AfterDelete</masterLabel>
+        <translation>NachherLöschen</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AfterInsert</masterLabel>
+        <translation>NachherEinfügen</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AfterUndelete</masterLabel>
+        <translation>NachherLöschen_rückgängig_machen</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AfterUpdate</masterLabel>
+        <translation>NachherAktualisieren</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>BeforeDelete</masterLabel>
+        <translation>VorherLöschen</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>BeforeInsert</masterLabel>
+        <translation>VorherEinfügen</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>BeforeUpdate</masterLabel>
+        <translation>VorherAktualisieren</translation>
+    </picklistValues>
+</CustomFieldTranslation>

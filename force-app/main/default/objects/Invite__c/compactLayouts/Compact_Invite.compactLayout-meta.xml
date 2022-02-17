@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compact_Invite</fullName>
+    <fields>Name</fields>
+    <fields>Allocation__c</fields>
+    <fields>Allocation_description__c</fields>
+    <fields>Status__c</fields>
+    <fields>Account__c</fields>
+    <fields>LastModifiedById</fields>
+    <label>Compact Invite</label>
+</CompactLayout>

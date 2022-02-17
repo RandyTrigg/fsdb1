@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The type of this task spec group</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The type of this task spec group</inlineHelpText>
+    <label>Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Object_name__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Restricted Fund Checklist - option</fullName>
+                <default>false</default>
+                <label>Restricted Fund Checklist - option</label>
+            </value>
+            <value>
+                <fullName>Restricted Fund Checklist - required</fullName>
+                <default>false</default>
+                <label>Restricted Fund Checklist - required</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Opportunity</controllingFieldValue>
+            <valueName>Restricted Fund Checklist - option</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Opportunity</controllingFieldValue>
+            <valueName>Restricted Fund Checklist - required</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GM_Organizations</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Org_name_GM__c</columns>
+    <columns>GM_country__c</columns>
+    <columns>GM_region__c</columns>
+    <columns>Num_proposals__c</columns>
+    <columns>Num_grants__c</columns>
+    <columns>Num_open_grants__c</columns>
+    <columns>Date_org_founded__c</columns>
+    <columns>Correspondence_language__c</columns>
+    <columns>Preferred_language__c</columns>
+    <columns>Problematic__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ACCOUNT.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Account.Organization_GM</value>
+    </filters>
+    <label>Grantmaking Organizations</label>
+</ListView>

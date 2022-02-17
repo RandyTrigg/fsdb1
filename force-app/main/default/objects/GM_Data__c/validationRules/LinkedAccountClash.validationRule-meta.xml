@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LinkedAccountClash</fullName>
+    <active>true</active>
+    <description>The account on this GM data record differs from the one on the linked proposal.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK( Proposal__c )),
+ Proposal__r.Account__c != Account__c
+)</errorConditionFormula>
+    <errorMessage>The account on this GM data record differs from the one on the linked proposal.</errorMessage>
+</ValidationRule>

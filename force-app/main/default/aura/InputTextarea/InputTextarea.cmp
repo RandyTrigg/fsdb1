@@ -1,0 +1,23 @@
+<aura:component extends="c:InputFieldLabeledSuper">
+    <aura:attribute name="placeholder" type="String"/>
+    <aura:attribute name="type" type="String" default="textarea"/>
+    <aura:attribute name="rows" type="Integer" default="3"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!--
+    <textarea aura:id="inputTag" 
+              class="slds-textarea" 
+              placeholder="{!v.placeholder}"
+              rows="4"/>
+	-->
+    <ui:inputTextArea aura:id="inputTag"
+                      class="slds-textarea" 
+                      value="{!v.value}" 
+                      placeholder="{!v.placeholder}" 
+                      rows="{!v.rows}"
+                      change="{!c.saveChange}"
+                      disabled="{!v.disabled}"
+                      />
+    
+</aura:component>

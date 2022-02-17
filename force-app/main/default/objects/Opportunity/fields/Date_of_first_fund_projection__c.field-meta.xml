@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_of_first_fund_projection__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The first date on which a projection under this opportunity was linked to a fund</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The first date on which a projection under this opportunity was linked to a fund</inlineHelpText>
+    <label>Date of first fund projection</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>[その他のメール] は、個人メール、メール連絡先、勤務先メールに続く 4 番目の任意のメールです。</help>
+    <label></label>
+    <name>npe01__AlternateEmail__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tier__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Priority for donor cultivation (one of Tier 1, Tier 2, Tier 3, Tier 4)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Priority for donor cultivation (one of Tier 1, Tier 2, Tier 3, Tier 4)</inlineHelpText>
+    <label>Tier</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Tier 1</fullName>
+                <default>false</default>
+                <label>Tier 1</label>
+            </value>
+            <value>
+                <fullName>Tier 2</fullName>
+                <default>false</default>
+                <label>Tier 2</label>
+            </value>
+            <value>
+                <fullName>Tier 3</fullName>
+                <default>false</default>
+                <label>Tier 3</label>
+            </value>
+            <value>
+                <fullName>Tier 4</fullName>
+                <default>false</default>
+                <label>Tier 4</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

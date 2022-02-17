@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OnlyOneOfProjectionAndDistribution</fullName>
+    <active>true</active>
+    <description>At most one of the Projection and Distribution lookup fields may be entered.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Projection__c)),
+ NOT(ISBLANK(Distribution__c))
+)</errorConditionFormula>
+    <errorMessage>At most one of the Projection and Distribution lookup fields may be entered.</errorMessage>
+</ValidationRule>

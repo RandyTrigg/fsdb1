@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Custom_Proposal_Needed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Designates if a custom proposal will be needed by the writing team.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Check here if you will need the writing team to write a custom proposal for this solicitation</inlineHelpText>
+    <label>Custom Proposal Needed?</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

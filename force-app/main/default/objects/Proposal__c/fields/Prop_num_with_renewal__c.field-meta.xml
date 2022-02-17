@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prop_num_with_renewal__c</fullName>
+    <deprecated>false</deprecated>
+    <description>This is the proposal code used to identify the proposal/grant</description>
+    <externalId>false</externalId>
+    <formula>/* 
+Format is last two digits of date received/created along with ID and &quot;R&quot; if a renewal,
+for example, 15-12345R
+*/
+
+RIGHT(
+ TEXT(
+  YEAR(
+   IF(NOT(ISBLANK ( Date_received__c )), Date_received__c,
+     DATEVALUE(CreatedDate)
+    )
+  )
+ ), 2
+) &amp;
+&quot;-&quot; &amp;
+Name &amp;
+IF(Is_renewal__c, &quot;R&quot;, &quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This is the proposal code used to identify the proposal/grant</inlineHelpText>
+    <label>Prop num with renewal</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

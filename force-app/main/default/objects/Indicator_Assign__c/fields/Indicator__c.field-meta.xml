@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Indicator__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The indicator to which this indicator assign record is linked</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The indicator to which this indicator assign record is linked</inlineHelpText>
+    <label>Indicator</label>
+    <referenceTo>Indicator__c</referenceTo>
+    <relationshipLabel>Indicator Assigns</relationshipLabel>
+    <relationshipName>Indicator_Assigns</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hard_Reporting_Deadlines__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Are the Deadlines hard deadlines set by the donor? if Yes, please check. If they are Internal deadlines, leave unchecked</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Are the Deadlines hard deadlines set by the donor? if Yes, please check. If they are Internal deadlines, leave unchecked</inlineHelpText>
+    <label>Hard Donor Reporting Deadlines?</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

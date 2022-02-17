@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Objects_secondary__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The objects that are secondary to the architecture and behavior of this module</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The objects that are secondary to the architecture and behavior of this module</inlineHelpText>
+    <label>Objects: secondary</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

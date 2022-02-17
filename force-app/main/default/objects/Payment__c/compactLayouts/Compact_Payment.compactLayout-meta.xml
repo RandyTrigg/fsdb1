@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compact_Payment</fullName>
+    <fields>Name</fields>
+    <fields>Account_name__c</fields>
+    <fields>Proposal__c</fields>
+    <fields>Payment_Method__c</fields>
+    <fields>Prop_status__c</fields>
+    <fields>Date_paid__c</fields>
+    <fields>Amount_paid__c</fields>
+    <label>Compact Payment</label>
+</CompactLayout>

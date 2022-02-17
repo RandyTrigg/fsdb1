@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StandardFundsOnly</fullName>
+    <active>true</active>
+    <description>Allocations may only be created on standard funds</description>
+    <errorConditionFormula>Fund__r.RecordType.DeveloperName != &quot;Standard&quot;</errorConditionFormula>
+    <errorDisplayField>Fund__c</errorDisplayField>
+    <errorMessage>Allocations may only be created on standard funds</errorMessage>
+</ValidationRule>

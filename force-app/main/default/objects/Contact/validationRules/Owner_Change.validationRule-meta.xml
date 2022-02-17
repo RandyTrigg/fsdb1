@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Owner_Change</fullName>
+    <active>true</active>
+    <description>Only &quot;System Admin&quot; profiles are allowed to change the owner of a contact.</description>
+    <errorConditionFormula>AND(
+ ISCHANGED( OwnerId ) ,
+ NOT (CONTAINS($Profile.Name, &quot;System Admin&quot;))
+)</errorConditionFormula>
+    <errorMessage>Only the SysAdmin profile has permission to change the owner of a contact.</errorMessage>
+</ValidationRule>

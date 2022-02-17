@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decline_reason_Other__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Old reason for decline (imported from FileMaker)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Old reason for decline (imported from FileMaker)</inlineHelpText>
+    <label>Decline reason Other</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

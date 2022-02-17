@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_milestone_invalidated__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which this milestone was considered invalid, that is, no longer appropriate for use in grantmaking analyses</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which this milestone was considered invalid, that is, no longer appropriate for use in grantmaking analyses</inlineHelpText>
+    <label>Date milestone invalidated</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

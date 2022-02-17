@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bounce_date__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which a message sent to this contact from marketing cloud bounced</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which a message sent to this contact from marketing cloud bounced</inlineHelpText>
+    <label>Bounce date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

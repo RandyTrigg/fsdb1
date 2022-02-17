@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Auto_assign_invites__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>If checked, then online apps (code managing the grants community) can auto-assign new invites to this allocation.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If checked, then online apps (code managing the grants community) can auto-assign new invites to this allocation.</inlineHelpText>
+    <label>Auto-assign invites</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

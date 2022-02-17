@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OFAC_check</fullName>
+    <availability>online</availability>
+    <description>Perform an OFAC check on the account/contact names associated with the selected proposals.</description>
+    <displayType>massActionButton</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>OFAC check</masterLabel>
+    <openType>noSidebar</openType>
+    <page>ProposalsOFACLookup</page>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+</WebLink>

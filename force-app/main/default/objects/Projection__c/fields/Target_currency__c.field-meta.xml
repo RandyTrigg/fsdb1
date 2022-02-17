@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Target_currency__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The outgoing currency, matching the currency of the linked fund</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The outgoing currency, matching the currency of the linked fund</inlineHelpText>
+    <label>Target currency</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Currency</valueSetName>
+    </valueSet>
+</CustomField>

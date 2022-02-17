@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_General_support__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The portion of the opportunity/gift that is allocated for General support for the given fiscal year</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The portion of the opportunity/gift that is allocated for General support for the given fiscal year</inlineHelpText>
+    <label>Amount: General support</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

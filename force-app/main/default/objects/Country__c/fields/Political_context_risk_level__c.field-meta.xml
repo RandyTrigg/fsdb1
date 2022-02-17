@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Political_context_risk_level__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Regional teams assign the type and risk level at the country level, ratings are reviewed periodically. If medium or high, type required.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Regional teams assign the type and risk level at the country level, ratings are reviewed periodically. If medium or high, type required.</inlineHelpText>
+    <label>Political context risk level</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>High (2)</fullName>
+                <default>false</default>
+                <label>High (2)</label>
+            </value>
+            <value>
+                <fullName>Medium (1)</fullName>
+                <default>false</default>
+                <label>Medium (1)</label>
+            </value>
+            <value>
+                <fullName>Low (0)</fullName>
+                <default>false</default>
+                <label>Low (0)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

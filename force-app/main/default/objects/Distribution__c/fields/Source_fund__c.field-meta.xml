@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_fund__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The pending fund that is the source of this distribution of funds</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The pending fund that is the source of this distribution of funds</inlineHelpText>
+    <label>Source fund</label>
+    <referenceTo>Fund__c</referenceTo>
+    <relationshipLabel>Distributions</relationshipLabel>
+    <relationshipName>Distributions</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

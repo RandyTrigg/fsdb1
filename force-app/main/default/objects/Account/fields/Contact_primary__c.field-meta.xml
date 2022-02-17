@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_primary__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The primary contact for this account - addressed in pre-contract, contract, and payment letters</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The primary contact for this account - addressed in pre-contract, contract, and payment letters</inlineHelpText>
+    <label>Contact primary</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Primary contact must be one of the contacts linked to this account.</errorMessage>
+        <filterItems>
+            <field>Contact.AccountId</field>
+            <operation>equals</operation>
+            <valueField>$Source.Id</valueField>
+        </filterItems>
+        <infoMessage>Primary contact must be one of the contacts linked to this account.</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Accounts (Contact primary)</relationshipLabel>
+    <relationshipName>Accounts</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

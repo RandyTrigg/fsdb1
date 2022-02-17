@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Totaal hoeveelheid soft credits voor het leven van deze Contactpersoon. Gedefinieerd in de Huishouden Instellingen tab.</help>
+    <label></label>
+    <name>npo02__Soft_Credit_Total__c</name>
+</CustomFieldTranslation>

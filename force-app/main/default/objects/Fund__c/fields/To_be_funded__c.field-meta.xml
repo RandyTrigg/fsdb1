@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>To_be_funded__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The amount projected for GM minus the amount funded</description>
+    <externalId>false</externalId>
+    <formula>Total_available__c -  Amount_funded__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The amount projected for GM minus the amount funded</inlineHelpText>
+    <label>To be funded</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The account linked from this join record</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The account linked from this join record</inlineHelpText>
+    <label>Account</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Portfolio Account Assigns</relationshipLabel>
+    <relationshipName>Portfolio_Account_Assigns</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

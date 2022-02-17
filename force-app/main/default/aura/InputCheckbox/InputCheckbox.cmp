@@ -1,0 +1,27 @@
+<aura:component extends="c:InputFieldSuper">
+    <aura:attribute name="type" type="String" default="checkbox"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- Can't use ui:inputCheckbox or lightning:input tags because the help icon needs to be between checkbox and label. -->
+    <div class="slds-form-element">
+        <div class="slds-form-element__control">
+            <span class="{!'slds-checkbox' + (v.disabled ? ' disabled' : '')}">
+                <input type="checkbox" 
+                       aura:id="inputTag" 
+                       id="{!v.id}"
+                       value="{!v.value}"
+                       onclick="{!c.saveChange}"
+                       />
+                <label class="slds-checkbox__label" for="{!v.id}">
+                    <span class="slds-checkbox_faux"></span>
+                    <aura:if isTrue="{!v.helpText != null}">
+                        <c:InfoButton helpText="{!v.helpText}" />
+                    </aura:if>
+                    <span class="slds-form-element__label">{!v.label}</span>
+                </label>
+            </span>
+        </div>
+    </div>
+
+</aura:component>

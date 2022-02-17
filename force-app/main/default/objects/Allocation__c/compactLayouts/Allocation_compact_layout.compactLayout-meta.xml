@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Allocation_compact_layout</fullName>
+    <fields>Fund__c</fields>
+    <fields>Thematic_priority__c</fields>
+    <fields>Num_to_invite__c</fields>
+    <fields>Num_invites__c</fields>
+    <fields>Num_invited__c</fields>
+    <fields>Num_grants_awarded__c</fields>
+    <label>Allocation compact layout</label>
+</CompactLayout>

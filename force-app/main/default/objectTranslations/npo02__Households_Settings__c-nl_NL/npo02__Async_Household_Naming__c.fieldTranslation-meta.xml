@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Dit is een onbelichte instelling om Huishoud benoemen code te schakelen om een asynchrone versie te gebruiken in plaats van een standaard versie.</help>
+    <label></label>
+    <name>npo02__Async_Household_Naming__c</name>
+</CustomFieldTranslation>

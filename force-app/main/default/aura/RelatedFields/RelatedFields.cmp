@@ -1,0 +1,29 @@
+<aura:component controller="Utilities" 
+                implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" 
+                access="global" >
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="error" type="String"/>
+    <aura:attribute name="targetObjectName" type="String"/>
+    <aura:attribute name="icon" type="String" default="action:record"/>
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="lookupFieldName" type="String"/>
+    <aura:attribute name="lookupFieldValue" type="Id"/>
+    <aura:attribute name="mode" type="String"/>
+    <aura:attribute name="fieldNames" type="String" default="Name"/>
+    <aura:attribute name="fieldsArray" type="String[]"/>
+    <aura:attribute name="numColumns" type="Integer" default="1"/>
+    <aura:attribute name="targetRecordId" type="Id"/>
+        
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <!-- Display the desired target record, reaching through the lookup field. -->
+    <lightning:card iconName = "{!v.icon}" title = "{!v.title}">
+        <div class="slds-p-left_medium slds-p-right_medium">
+            <lightning:recordForm recordId="{! v.targetRecordId}" 
+                                  objectApiName="{!v.targetObjectName}" 
+                                  fields="{!v.fieldsArray}"
+                                  columns="{!v.numColumns}"
+                                  mode="{!v.mode}" />
+        </div>
+    </lightning:card>
+</aura:component>

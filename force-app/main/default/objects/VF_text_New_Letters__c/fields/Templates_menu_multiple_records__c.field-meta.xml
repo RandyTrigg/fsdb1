@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Templates_menu_multiple_records__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Warning that correspondence templates menu only includes templates that apply to all selected records</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Warning that correspondence templates menu only includes templates that apply to all selected records</inlineHelpText>
+    <label>Templates menu multiple records</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

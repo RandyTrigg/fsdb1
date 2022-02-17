@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indien aangevinkt, dan overschrijft het huidige adres opzoekrelatie van de contactpersoon het adres van het Huishouden of het seizoensgebonden adres.</help>
+    <label></label>
+    <name>npsp__is_Address_Override__c</name>
+</CustomFieldTranslation>

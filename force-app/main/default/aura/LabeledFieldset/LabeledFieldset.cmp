@@ -1,0 +1,16 @@
+<aura:component >
+    <aura:attribute name="label" type="String"/>
+    <aura:attribute name="helpText" type="String"/>
+    
+    <fieldset class="slds-form--compound">
+        <!-- According to SLDS documentation, should use a legend tag rather than label, but that causes a weird indentation. -->
+        <legend class="slds-form-element__label slds-m-top--small">
+            <c:InfoButton helpText="{!v.helpText}"/>
+            {!v.label}
+        </legend>
+        <div class="form-element__group">
+            {!v.body}
+        </div>
+    </fieldset>
+    
+</aura:component>

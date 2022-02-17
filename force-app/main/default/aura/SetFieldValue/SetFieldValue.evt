@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION" description="Set the value of a field in an SF object." >
+    <aura:attribute name="objName" type="String"/>
+    <aura:attribute name="fieldName" type="String"/>
+    <aura:attribute name="fieldValue" type="String"/>
+    <aura:attribute name="fieldType" type="String"/>
+</aura:event>

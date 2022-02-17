@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_pre_contract_docs_recd__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which we received the group&apos;s response to our pre-contract mailing</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which we received the group&apos;s pre-contract documents</inlineHelpText>
+    <label>Date pre contract docs recd</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

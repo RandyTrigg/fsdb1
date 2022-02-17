@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rank_SRHR__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Non-editable field that replicates the form data component SRHRRank, the rank (between 1 and 3) that the applicant assigned to the SRHR impact area</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Non-editable field that replicates the form data component SRHRRank, the rank (between 1 and 3) that the applicant assigned to the SRHR impact area</inlineHelpText>
+    <label>Rank SRHR</label>
+    <precision>1</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

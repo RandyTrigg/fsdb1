@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Budget_assess__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Note that any issues with financial management should be included in the financial section of the risk assessment. Here, the focus is on the request budget. 
+Yes (2): Proposed budget matches planned effort and resources needed to implement the proposed work and achieve desired impact 
+Somewhat (1): Most elements of proposed work necessary to achieve desired impact is present in the budget
+Not reasonable (0): Unclear how budget connects to planned activities</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Is the budget linked to the proposed request and costs realistic and reasonable?</inlineHelpText>
+    <label>Budget assess</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes (2)</fullName>
+                <default>false</default>
+                <label>Yes (2)</label>
+            </value>
+            <value>
+                <fullName>Somewhat (1)</fullName>
+                <default>false</default>
+                <label>Somewhat (1)</label>
+            </value>
+            <value>
+                <fullName>Not reasonable (0)</fullName>
+                <default>false</default>
+                <label>Not reasonable (0)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

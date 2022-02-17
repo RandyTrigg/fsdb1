@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_awarded__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Total of awarded grants under this allocation</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Total of awarded grants under this allocation</inlineHelpText>
+    <label>Total awarded</label>
+    <summarizedField>Invite__c.Amount_awarded__c</summarizedField>
+    <summaryFilterItems>
+        <field>Invite__c.Grant__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Invite__c.Date_eliminated__c</field>
+        <operation>equals</operation>
+        <value></value>
+    </summaryFilterItems>
+    <summaryForeignKey>Invite__c.Allocation__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

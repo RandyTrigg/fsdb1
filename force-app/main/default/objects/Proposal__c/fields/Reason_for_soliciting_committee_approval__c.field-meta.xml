@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_soliciting_committee_approval__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Reason for soliciting committee approval for this proposal</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Reason for soliciting committee approval for this proposal</inlineHelpText>
+    <label>Reason for soliciting committee approval</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Board_EC_approval_reasons</valueSetName>
+    </valueSet>
+</CustomField>

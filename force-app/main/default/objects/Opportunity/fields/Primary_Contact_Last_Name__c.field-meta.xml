@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Contact_Last_Name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Last name of contact that we are cultivating to solicit gift.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Last name of contact that we are cultivating to solicit gift.</inlineHelpText>
+    <label>Primary Contact: Last Name</label>
+    <length>40</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

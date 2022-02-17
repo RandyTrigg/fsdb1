@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ClashingDateAwardWithdrawn</fullName>
+    <active>true</active>
+    <description>Date award withdrawn may only be set if Date awarded is also set.</description>
+    <errorConditionFormula>AND(
+ OR(
+  ISCHANGED(Date_award_withdrawn__c),
+  ISCHANGED(Date_awarded__c)
+ ),
+ ISBLANK(Date_awarded__c),
+ NOT(ISBLANK(Date_award_withdrawn__c))
+)</errorConditionFormula>
+    <errorDisplayField>Date_award_withdrawn__c</errorDisplayField>
+    <errorMessage>Date award withdrawn may only be set if Date awarded is also set.</errorMessage>
+</ValidationRule>

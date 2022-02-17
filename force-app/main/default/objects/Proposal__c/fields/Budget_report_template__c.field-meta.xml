@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Budget_report_template__c</fullName>
+    <deprecated>false</deprecated>
+    <description>URL for a file representing the budget report template for this grant</description>
+    <externalId>false</externalId>
+    <inlineHelpText>URL for a file representing the budget report template for this grant</inlineHelpText>
+    <label>Budget report template</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

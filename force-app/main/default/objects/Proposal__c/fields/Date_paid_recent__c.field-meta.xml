@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_paid_recent__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The latest date paid for this proposal</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The latest date paid for this proposal</inlineHelpText>
+    <label>Date paid recent</label>
+    <summarizedField>Payment__c.Date_paid__c</summarizedField>
+    <summaryForeignKey>Payment__c.Proposal__c</summaryForeignKey>
+    <summaryOperation>max</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

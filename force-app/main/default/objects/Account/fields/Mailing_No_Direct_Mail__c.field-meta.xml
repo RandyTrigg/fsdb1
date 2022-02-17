@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mailing_No_Direct_Mail__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Don&apos;t send direct mail solicitations or direct mail cultivations</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Don&apos;t send direct mail solicitations or direct mail cultivations</inlineHelpText>
+    <label>Mailing: No Direct Mail</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

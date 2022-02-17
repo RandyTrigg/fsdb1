@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposal_submit_deadline__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Date by which the group must submit their application (ONLINE only)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date by which the group must submit their application (ONLINE only)</inlineHelpText>
+    <label>Proposal submit deadline</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

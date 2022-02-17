@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_grants__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of grants linked to this account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of grants linked to this account</inlineHelpText>
+    <label>Num grants</label>
+    <summaryFilterItems>
+        <field>Proposal__c.Grant__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Proposal__c.Account__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_status__c</fullName>
+    <deprecated>false</deprecated>
+    <description>An INACTIVE account should not generally be used for mailings, campaigns, or solicitations.  An account is automatically marked INACTIVE if all associated Contacts are deceased.  Gifts cannot be posted to an INACTIVE account.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>An INACTIVE account should not generally be used for mailings, campaigns, or solicitations.  An account is automatically marked INACTIVE if all associated Contacts are deceased.  Gifts cannot be posted to an INACTIVE account.</inlineHelpText>
+    <label>Account status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Active</fullName>
+                <default>true</default>
+                <label>Active</label>
+            </value>
+            <value>
+                <fullName>INACTIVE</fullName>
+                <default>false</default>
+                <label>INACTIVE</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

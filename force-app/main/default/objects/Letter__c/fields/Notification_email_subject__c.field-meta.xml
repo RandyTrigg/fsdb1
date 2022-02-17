@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notification_email_subject__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Subject of notification email message sent to the group when &quot;posting&quot; a letter to the applicant&apos;s homepage on our online site.  NOTE: only applicable/sent for correspondence posted online</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Subject of notification email message sent to the group when &quot;posting&quot; a letter to the applicant&apos;s homepage on our online site.  NOTE: only applicable/sent for correspondence posted online</inlineHelpText>
+    <label>Notification email subject</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PartiallyReleasedNoRelinking</fullName>
+    <active>true</active>
+    <description>This distribution is partially released and may not be relinked.</description>
+    <errorConditionFormula>AND(
+ Amount_released__c &gt; 0,
+ OR(
+  ISCHANGED(Source_fund__c),
+  ISCHANGED(Target_fund__c)
+ )
+)</errorConditionFormula>
+    <errorMessage>This distribution is partially released and may not be relinked.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Generic</fullName>
+    <columns>NAME</columns>
+    <columns>Active__c</columns>
+    <columns>Macro_text__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Template__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>Generic</label>
+</ListView>

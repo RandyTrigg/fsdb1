@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Houdt het ID voor de standaard Algemene Accounting Unit voor het creëren van standaard allocaties of voor de allocatie van niet-toegewezen hoeveelheden.</help>
+    <label></label>
+    <name>npsp__Default__c</name>
+</CustomFieldTranslation>

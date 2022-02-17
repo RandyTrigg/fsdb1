@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_released__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The total charges under this fund that have been released</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total charges under this fund that have been released</inlineHelpText>
+    <label>Total released</label>
+    <summarizedField>Charge__c.Amount_charged__c</summarizedField>
+    <summaryFilterItems>
+        <field>Charge__c.Date_released__c</field>
+        <operation>notEqual</operation>
+        <value></value>
+    </summaryFilterItems>
+    <summaryForeignKey>Charge__c.Fund__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

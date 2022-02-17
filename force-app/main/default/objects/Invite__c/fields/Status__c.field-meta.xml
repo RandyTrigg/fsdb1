@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The status of this invite</description>
+    <externalId>false</externalId>
+    <formula>IF(NOT(ISBLANK(Date_eliminated__c)), &quot;0 - Eliminated from consideration&quot;,
+IF(NOT(ISBLANK(Proposal__c)), &quot;5 - Has proposal&quot;,
+IF(
+ AND(
+  NOT(ISBLANK(Profile__c)),
+  NOT(ISBLANK(Date_approved__c)),
+  NOT(ISBLANK(Allocation__r.Date_invite_specs_completed__c))
+ ), &quot;4 - Ready to invite&quot;,
+IF(
+ AND(
+  NOT(ISBLANK(Profile__c)),
+  NOT(ISBLANK(Date_approved__c)),
+  ISBLANK(Allocation__r.Date_invite_specs_completed__c)
+ ), &quot;3.6 - Approved; allocation awaiting invite specs completion&quot;,
+IF(
+ AND(
+  NOT(ISBLANK(Profile__c)),
+  NOT(ISBLANK(Date_recommended__c)),
+  NOT(ISBLANK(Allocation__r.Date_invite_specs_completed__c))
+ ), &quot;3.5 - Ready to approve&quot;,
+IF(
+ AND(
+  NOT(ISBLANK(Profile__c)),
+  NOT(ISBLANK(Date_recommended__c)),
+  ISBLANK(Allocation__r.Date_invite_specs_completed__c)
+ ), &quot;3.1 - Recommended; allocation awaiting invite specs completion&quot;,
+IF(
+ AND(
+  NOT(ISBLANK(Profile__c)),
+  ISBLANK(Date_recommended__c),
+  NOT(ISBLANK(Allocation__r.Date_invite_specs_completed__c))
+ ), &quot;3 - Allocation invite specs completed&quot;,
+IF(
+ AND(
+  NOT(ISBLANK(Profile__c)),
+  NOT(ISBLANK(Profile__r.Date_submitted__c)),
+  ISBLANK( Profile__r.Next_profile__c ) /* Means that profile is not out of date. */
+ ), &quot;2 - Has valid profile&quot;,
+IF(
+ AND(
+  NOT(ISBLANK(Profile__c)),
+  OR(
+   ISBLANK(Profile__r.Date_submitted__c),
+   NOT(ISBLANK( Profile__r.Next_profile__c ))
+  )
+ ), &quot;1.5 - Profile pending or expired&quot;,
+&quot;1 - Profile missing&quot;
+)))))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The status of this invite</inlineHelpText>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

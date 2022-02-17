@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LinkedProjectionNotFunded</fullName>
+    <active>true</active>
+    <description>Date invite specs completed may not be set until the linked projection record is funded, that is, linked to a fund.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK( Date_invite_specs_completed__c )),
+ OR(
+  ISCHANGED( Date_invite_specs_completed__c ), 
+  ISNEW()
+ ),
+ NOT(ISBLANK( Projection__c )),
+ NOT(Projection_funded__c)
+)</errorConditionFormula>
+    <errorMessage>Date invite specs completed may not be set until the linked projection record is funded, that is, linked to a fund.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GM_to_revise</fullName>
+    <columns>NAME</columns>
+    <columns>Template__c</columns>
+    <columns>Revise__c</columns>
+    <columns>Active__c</columns>
+    <columns>Language__c</columns>
+    <columns>Custom_Reqs__c</columns>
+    <columns>Piece_text__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Revise__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>To revise</label>
+</ListView>

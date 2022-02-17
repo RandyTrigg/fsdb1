@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SourceAndTargetRecordTypes</fullName>
+    <active>false</active>
+    <description>The source fund of a distribution must have the &quot;Pending&quot; record type, while its target must have the &quot;Standard&quot; record type.</description>
+    <errorConditionFormula>OR(
+  Source_fund__r.RecordType.DeveloperName != &quot;Pending&quot;,
+  Target_fund__r.RecordType.DeveloperName != &quot;Standard&quot;
+)</errorConditionFormula>
+    <errorMessage>The source fund of a distribution must have the &quot;Pending&quot; record type, while its target must have the &quot;Standard&quot; record type.</errorMessage>
+</ValidationRule>

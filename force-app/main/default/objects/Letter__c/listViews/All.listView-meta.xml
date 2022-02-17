@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Date_emailed__c</columns>
+    <columns>Date_sent__c</columns>
+    <columns>Template__c</columns>
+    <columns>Template_name__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Template__c</field>
+        <operation>contains</operation>
+        <value>closing</value>
+    </filters>
+    <label>All</label>
+</ListView>

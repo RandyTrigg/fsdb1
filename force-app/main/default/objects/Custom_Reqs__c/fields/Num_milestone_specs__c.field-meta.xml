@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_milestone_specs__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of milestone specs for this custom reqs</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of milestone specs for this custom reqs</inlineHelpText>
+    <label>Num milestone specs</label>
+    <summaryForeignKey>Milestone_Spec__c.Custom_Reqs__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

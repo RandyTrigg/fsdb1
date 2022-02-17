@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ChartofAccounts__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Used to broadly categorize the donor’s intended use of their gift.  The list is organized in the follow manner:
+#Unrestricted: Gifts for general support.
+CF = Crisis Funds:  Gifts restricted for established crisis funding.  Followed by the location/description of the crisis.
+FS = Fiscal Sponsorship:  Gifts for our fiscal sponsored grantee partners.  Followed by the acronym of the group.
+GM = Grantmaking:  Gifts restricted for activities that include grantmaking.  Followed by the region/issue as applicable.  Gifts that are restricted to more than one region should use CR (Cross Regional.)
+PF = Pooled Fund:  Gifts from multiple donors for a specific initiative.  Followed by the description of the initiative.
+Prog = Program:  Gifts restricted for activities that do not include any grantmaking.  Followed by a description of the department/activity.
+Temp-Time =  Time-restricted general support donations.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The chart of accounts are used to broadly categorize the donor’s intent.  Please note:
+
+#Unrestricted: General Support
+CF: Crisis Funds
+FS: Fiscal Sponsorship
+GM: Grantmaking
+PF: Pooled Fund
+Prog: Program
+Temp-Time: Time-restricted General Support</inlineHelpText>
+    <label>Chart of Accounts</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>The linked chart of accounts record must be marked Active.</errorMessage>
+        <filterItems>
+            <field>ChartofAccounts__c.Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <infoMessage>The linked chart of accounts record must be marked Active.</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>ChartofAccounts__c</referenceTo>
+    <relationshipLabel>Opportunities</relationshipLabel>
+    <relationshipName>Opportunities</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>true</trackTrending>
+    <type>Lookup</type>
+</CustomField>

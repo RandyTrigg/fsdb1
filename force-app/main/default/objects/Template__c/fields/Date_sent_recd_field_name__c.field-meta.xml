@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_sent_recd_field_name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>If a date field in another record should be set when this letter is sent or received, then enter the field name here (for example, Date_declined__c or Date_closed__c).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If a date field in another record should be set when this letter is sent or received, then enter the field name here (for example, Date_declined__c or Date_closed__c).</inlineHelpText>
+    <label>Date sent/recd field name</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

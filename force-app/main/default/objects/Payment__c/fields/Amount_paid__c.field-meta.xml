@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_paid__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Amount of this payment</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Amount of this payment</inlineHelpText>
+    <label>Amount paid</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

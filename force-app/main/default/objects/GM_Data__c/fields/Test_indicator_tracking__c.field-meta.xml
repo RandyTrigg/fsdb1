@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Test_indicator_tracking__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>This test field is checked if there are linked indicator assigns for the indicator &quot;Test indicator&quot;.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This test field is checked if there are linked indicator assigns for the indicator &quot;Test indicator&quot;.</inlineHelpText>
+    <label>Test indicator tracking</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

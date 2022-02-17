@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Most_recent__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if this payment method is its proposal&apos;s most recent</description>
+    <externalId>false</externalId>
+    <formula>IF(NOT(ISBLANK(Proposal__c)), Proposal__r.Current_payment_method__c = Id,
+false)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if this payment method is its proposal&apos;s most recent</inlineHelpText>
+    <label>Most recent</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

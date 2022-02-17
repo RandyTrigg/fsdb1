@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Joint_account_owner_1__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The first contact linked to this payment method&apos;s account to whom the joint bank account belongs</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The first contact linked to this payment method&apos;s account to whom the joint bank account belongs</inlineHelpText>
+    <label>Joint account owner 1</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Payment Methods (Joint account owner 1)</relationshipLabel>
+    <relationshipName>Payment_Methods2</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

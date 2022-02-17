@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>A picklist of the highest level categorization of this Account. The category can be further described in the Secondary Type field.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>A picklist of the highest level categorization of this Account. The category can be further described in the Secondary Type field.</inlineHelpText>
+    <label>Account type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Account_type</valueSetName>
+    </valueSet>
+</CustomField>

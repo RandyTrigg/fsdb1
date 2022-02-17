@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contextual_analysis__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Examples of strategic include nimbleness, resourceful, resilient, adaptive, innovative 
+(2) Clear understanding of issues and/or problems as situated in historical and socio-economic setting and demonstrated responsiveness to this reality
+(1) Mention impact of historical and socio economic factors on how they plan to conduct their work
+(0) No mention or explanation given on how the group develops its strategy or implements its programs</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Is the group strategic in terms of their work within the local context?</inlineHelpText>
+    <label>Contextual analysis</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes (2)</fullName>
+                <default>false</default>
+                <label>Yes (2)</label>
+            </value>
+            <value>
+                <fullName>Somewhat (1)</fullName>
+                <default>false</default>
+                <label>Somewhat (1)</label>
+            </value>
+            <value>
+                <fullName>None (0)</fullName>
+                <default>false</default>
+                <label>None (0)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

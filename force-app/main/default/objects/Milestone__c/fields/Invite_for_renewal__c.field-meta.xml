@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Invite_for_renewal__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Checked if we should invite group to renew and include renewal questions (in closing letter and FR acknowledgment letter)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if we should invite group to renew and include renewal questions (in closing letter and FR acknowledgment letter)</inlineHelpText>
+    <label>Invite for renewal</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

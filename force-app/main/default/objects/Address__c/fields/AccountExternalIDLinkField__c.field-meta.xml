@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AccountExternalIDLinkField__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Use this field during a conversion by inserting the Account External ID value from the Account in order to link this address to that Account.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Use this field during a conversion by inserting the Account External ID value from the Account in order to link this address to that Account.</inlineHelpText>
+    <label>Account ExternalID Link Field</label>
+    <length>20</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

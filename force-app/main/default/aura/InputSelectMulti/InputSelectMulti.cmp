@@ -1,0 +1,68 @@
+<aura:component extends="c:InputSuper" access="global">
+    <aura:attribute name="idNameMap" type="Map"/>
+    <!-- v.selecteds are the selected option names. -->
+    <aura:attribute name="selecteds" type="String[]" default="[]"/>
+    <aura:attribute name="unselecteds" type="String[]" default="[]"/>
+    <aura:attribute name="selectedsChosen" type="String"/>
+    <aura:attribute name="unselectedsChosen" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+	<aura:handler name="errMessChangeInputSelectMulti" value="{!v.errorMessage}" action="{!c.errorMessageChange}"/>
+    
+    <div class="slds-picklist--draggable slds-grid">
+        <div class="slds-form-element">
+            <span class="slds-form-element__label" aria-label="select-1">{!v.label}</span>
+            <div class="slds-picklist slds-picklist--multi slds-text-body--small">
+                <ul class="slds-picklist__options slds-picklist__options--multi shown">
+                    <aura:iteration items="{!v.unselecteds}" var="optionName" indexVar="optionNum">
+                        <li draggable="true" 
+                            id="{!v.id + '-sel-' + optionNum}" 
+                            class="{!'slds-picklist__item' + (optionName == v.unselectedsChosen ? ' slds-is-selected' : '')}" 
+                            aria-selected="{!(optionName == v.unselectedsChosen) ? 'true' : 'false'}" 
+                            tabindex="{!(optionNum == 0) ? '0' : '-1'}" 
+                            role="option">
+                            <span onclick="{!c.setUnselectedsChosen}">
+                                <span>{!optionName}</span>
+                            </span>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </div>
+        </div>
+        <div class="slds-grid slds-grid--vertical">
+            <button class="slds-button slds-button--neutral" 
+                    onclick="{!c.selectChosen}"
+                    disabled="{!v.unselecteds.length==0 || v.unselectedsChosen==null}">
+                Add
+            </button>
+            <button class="slds-button slds-button--neutral" 
+                    onclick="{!c.unselectChosen}"
+                    disabled="{!v.selecteds.length==0 || v.selectedsChosen==null}">
+                Remove
+            </button>
+        </div>
+        <div class="{!'slds-form-element' + (v.required ? ' slds-is-required' : '')}" 
+             aura:id="formElement">
+            <span class="slds-form-element__label" aria-label="select-2">{!v.label + ' selected'}</span>
+            <div class="slds-picklist slds-picklist--multi slds-text-body--small">
+                <ul class="slds-picklist__options slds-picklist__options--multi shown">
+                    <aura:iteration items="{!v.selecteds}" var="optionName" indexVar="optionNum">
+                        <li draggable="true" 
+                            id="{!v.id + '-unsel-' + optionNum}" 
+                            class="{!'slds-picklist__item' + (optionName == v.selectedsChosen ? ' slds-is-selected' : '')}" 
+                            aria-selected="{!(optionName == v.selectedsChosen) ? 'true' : 'false'}" 
+                            tabindex="{!(optionNum == 0) ? '0' : '-1'}" 
+                            role="option">
+                            <span onclick="{!c.setSelectedsChosen}">
+                                <span>{!optionName}</span>
+                            </span>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </div>
+            <span aura:id="errorSpan" class="slds-form-element__help slds-hide">{!v.errorMessage}</span>
+        </div>
+    </div>
+
+</aura:component>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Task_spec_group__c</fullName>
+    <deprecated>false</deprecated>
+    <description>This parent task spec group of this task spec</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This parent task spec group of this task spec</inlineHelpText>
+    <label>Task spec group</label>
+    <referenceTo>Task_spec_group__c</referenceTo>
+    <relationshipLabel>Task specs</relationshipLabel>
+    <relationshipName>Task_specs</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

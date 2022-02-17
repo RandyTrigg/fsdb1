@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="Use to sum errors found in child components" >
+    <aura:attribute name="numErrors" type="Integer"/>
+</aura:event>

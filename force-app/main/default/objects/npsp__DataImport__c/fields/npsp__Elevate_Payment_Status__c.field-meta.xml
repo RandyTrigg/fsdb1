@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npsp__Elevate_Payment_Status__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The transaction status shown in Elevate.</description>
+    <externalId>false</externalId>
+    <formula>CASE(npsp__Payment_Status__c,
+                &apos;PENDING&apos;,
+                &apos;Pending&apos;,
+
+                &apos;CAPTURED&apos;,
+                &apos;Succeeded&apos;,
+
+                &apos;NONRETRYABLEERROR&apos;,
+                &apos;Failed&apos;,
+
+                &apos;RETRYABLEERROR&apos;,
+                &apos;Failed&apos;,
+
+                &apos;DECLINED&apos;,
+                &apos;Declined&apos;,
+
+                &apos;REFUNDISSUED&apos;,
+                &apos;Succeeded&apos;,
+
+                &apos;SUBMITTED&apos;,
+                &apos;Submitted&apos;,
+
+                &apos;SETTLED&apos;,
+                &apos;Succeeded&apos;,
+
+                &apos;AUTHORIZED&apos;,
+                &apos;Authorized&apos;,
+
+                &apos;EXPIRED&apos;,
+                &apos;Expired Authorization&apos;,
+
+                &apos;PAYMENTPROCESSING&apos;,
+                &apos;Pending&apos;,
+
+            &apos;&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The transaction status shown in Elevate.</inlineHelpText>
+    <label>Elevate Payment Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

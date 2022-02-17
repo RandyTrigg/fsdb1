@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Areas_Donors_Could_Fund__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Not necessarily pre-defined funding areas</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Not necessarily pre-defined funding areas</inlineHelpText>
+    <label>Areas Donors Could Fund</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>TextArea</type>
+</CustomField>

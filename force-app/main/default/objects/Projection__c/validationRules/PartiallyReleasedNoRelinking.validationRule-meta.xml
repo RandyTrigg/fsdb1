@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PartiallyReleasedNoRelinking</fullName>
+    <active>true</active>
+    <description>This projection is partially released and may not be relinked.</description>
+    <errorConditionFormula>AND(
+ Amount_released__c &gt; 0,
+ OR(
+  ISCHANGED(Opportunity__c),
+  ISCHANGED(Fund__c)
+ )
+)</errorConditionFormula>
+    <errorMessage>This projection is partially released and may not be relinked.</errorMessage>
+</ValidationRule>

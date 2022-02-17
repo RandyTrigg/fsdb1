@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Greeting</fullName>
+    <active>false</active>
+    <description>Limits the length of this field to 50 characters.</description>
+    <errorConditionFormula>IF( LEN(  Greeting__c  ) &gt; 50, true, false)</errorConditionFormula>
+    <errorDisplayField>Greeting__c</errorDisplayField>
+    <errorMessage>The data for the Greeting is longer than the maximum allowed length of 50 characters.</errorMessage>
+</ValidationRule>

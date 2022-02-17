@@ -1,0 +1,139 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId">
+    <ltng:require styles="{!$Resource.popupCSS}" />
+
+    <aura:attribute name="propRecord" type="Proposal__c" />
+    <aura:attribute name="propRecordError" type="String" />
+    <aura:attribute name="propLoaded" type="Boolean" />
+    <aura:attribute name="accRecord" type="Account" />
+    <aura:attribute name="accRecordError" type="String" />
+    <aura:attribute name="accLoaded" type="Boolean" />
+
+    <aura:attribute name="saveNeeded" type="Boolean" default="false" />
+    <aura:attribute name="fieldNamesEditable" type="String[]"
+        default="['propRecord.Reason_for_soliciting_committee_approval__c', 'propRecord.Rationale_for_committee_approval__c']" />
+    <aura:attribute name="dirtyFlags" type="Map" />
+    <aura:attribute name="waiting" type="Boolean" default="false" />
+    <aura:attribute name="requiredFieldsBlank" type="Boolean" default="false" />
+
+    <!-- Fetch proposal and account records. -->
+    <force:recordData aura:id="propData" recordId="{!v.recordId}" layoutType="FULL" targetFields="{!v.propRecord}"
+        targetError="{!v.propRecordError}" mode="VIEW" recordUpdated="{!c.propRecordUpdated}" />
+    <force:recordData aura:id="accData" recordId="{!v.propRecord.Account__c}" layoutType="FULL"
+        targetFields="{!v.accRecord}" targetError="{!v.accRecordError}" mode="VIEW"
+        recordUpdated="{!c.accRecordUpdated}" />
+
+    <div class="c-container slds-m-horizontal_x-large slds-m-vertical_small">
+        <div class="slds-page-header">
+            <h1 class="slds-page-header__title slds-truncate slds-align-middle slds-p-vertical_small"
+                title="Submit to Board">Request Board approval</h1>
+            <aura:if isTrue="{!empty(v.propRecord.Date_requested_Board_EC_approval__c)}">
+                <p class="slds-text-heading_small slds-line-height_reset">
+                    The interface below contains the content to be put forward for Board approval.
+                    Please review the information that has been populated directly from the account and proposal,
+                    then complete the additional fields at the bottom.<br /><br />
+                    Use the “Save changes” button to preserve your changes and click “Submit request”
+                    when you are ready to submit your request.<br />
+                    Note: “Submit request” will not be active if any of the required fields
+                    from the account or proposal record are blank.
+                    (Either amount awarded OR amount recommended should be non-blank.)
+                    If needed, please return to those
+                    particular records and complete the necessary fields
+                    (either in the record itself or in the review interface).<br /><br />
+                    Once submitted, the fields in this interface are no longer editable.
+
+                </p>
+                <aura:set attribute="else">
+                    <p class="slds-text-heading_small slds-line-height_reset">
+                        A request that this proposal be submitted to the Board/EC for approval was made on
+                        {!v.propRecord.Date_requested_Board_EC_approval__c}. Once submitted, this interface
+                        is no longer editable. Should you need to update/edit your request and resubmit,
+                        please contact the Grantmaking systems administrator.
+                    </p>
+                </aura:set>
+            </aura:if>
+        </div>
+        <!-- Hide entire interface if request has already been submitted. -->
+        <div class="{!v.propRecord.Date_requested_Board_EC_approval__c ? 'slds-hide' : ''}">
+            <!-- Display lightning cards with account and proposal information -->
+            <div class="slds-m-vertical_small">
+                <div class="Account Details">
+                    <!-- Display Lightning Data Service errors, if any -->
+                    <aura:if isTrue="{!not(empty(v.accRecordError))}">
+                        <div class="accRecordError">
+                            <ui:message title="Error" severity="error" closable="true">
+                                {!v.accRecordError}
+                            </ui:message>
+                        </div>
+                    </aura:if>
+                    <lightning:card iconName="standard:account">
+                        <aura:set attribute="title">
+                            Account: <a href="{!'/' + v.accRecord.Id}">{!v.accRecord.Name}</a>
+                        </aura:set>
+                        <div class="slds-p-horizontal--small">
+                            <h3 class="slds-text-heading--small slds-m-bottom--x-small">
+                                <p><b>Country</b>: {!v.accRecord.GM_country__c ? v.accRecord.GM_country__r.Name : 'N/A'}
+                                    ({!v.accRecord.GM_region__r.Name})</p>
+                                <p><b>Website</b>: {!v.accRecord.Website}</p>
+                                <p><b>Social media</b>: {!v.accRecord.Social_media__c}</p>
+                                <p><b>Highlights</b>: {!v.accRecord.Highlights__c}</p>
+                            </h3>
+                        </div>
+                    </lightning:card>
+                </div>
+                <div class="Proposal Details">
+                    <!-- Display Lightning Data Service errors, if any -->
+                    <aura:if isTrue="{!not(empty(v.propRecordError))}">
+                        <div class="propRecordError">
+                            <ui:message title="Error" severity="error" closable="true">
+                                {!v.propRecordError}
+                            </ui:message>
+                        </div>
+                    </aura:if>
+                    <lightning:card iconName="custom:custom11">
+                        <aura:set attribute="title">
+                            Proposal: <a href="{!'/' + v.propRecord.Id}">{!v.propRecord.Name}</a>
+                        </aura:set>
+                        <div class="slds-p-horizontal--small">
+                            <h3 class="slds-text-heading--small slds-m-bottom--x-small">
+                                <p><b>Description</b>: {!v.propRecord.Description__c}</p>
+                                <p><b>Amount awarded</b>:
+                                    <lightning:formattedNumber value="{!v.propRecord.Amount_awarded__c}"
+                                        style="currency" currencyCode="USD" />
+                                </p>
+                                <p><b>Amount recommended</b>:
+                                    <lightning:formattedNumber value="{!v.propRecord.Amount_recommended__c}"
+                                        style="currency" currencyCode="USD" />
+                                </p>
+                                <p><b>Thematic priority</b>: {!v.propRecord.Thematic_priority__c}</p>
+                                <p><b>Staff analysis</b>: {!v.propRecord.Staff_analysis__c}</p>
+                            </h3>
+                        </div>
+                    </lightning:card>
+                </div>
+            </div>
+            <!-- Fields and button in form are disabled if request has already been made -->
+            <lightning:recordEditForm aura:id="submitRequestForm" recordId="{!v.recordId}" objectApiName="Proposal__c"
+                onsuccess="{!c.handleSuccess}">
+                <lightning:messages />
+                <lightning:inputField aura:id="propRecord.Reason_for_soliciting_committee_approval__c"
+                    fieldName="Reason_for_soliciting_committee_approval__c"
+                    disabled="{!v.propRecord.Date_requested_Board_EC_approval__c}" onchange="{!c.fieldEdited}" />
+                <lightning:inputField aura:id="propRecord.Rationale_for_committee_approval__c"
+                    fieldName="Rationale_for_committee_approval__c"
+                    disabled="{!v.propRecord.Date_requested_Board_EC_approval__c}" onchange="{!c.fieldEdited}" />
+                <lightning:inputField fieldName="Date_requested_Board_EC_approval__c" class="slds-hide" />
+                <lightning:button class="slds-m-top_small" variant="brand" type="submit" name="update"
+                    label="Save changes" disabled="{!v.propRecord.Date_requested_Board_EC_approval__c || !v.saveNeeded}"
+                    onclick="{!c.handleSaveChanges}" />
+                <lightning:button class="slds-m-top_small" variant="brand" type="submitRequest" name="submitRequest"
+                    label="Submit request"
+                    disabled="{!v.propRecord.Date_requested_Board_EC_approval__c || v.saveNeeded || v.requiredFieldsBlank}"
+                    onclick="{!c.handleSubmitRequest}" />
+            </lightning:recordEditForm>
+        </div>
+
+        <lightning:spinner class="{!v.waiting ? '' : 'slds-hide'}" alternativeText="Saving/submitting" />
+    </div>
+
+
+</aura:component>

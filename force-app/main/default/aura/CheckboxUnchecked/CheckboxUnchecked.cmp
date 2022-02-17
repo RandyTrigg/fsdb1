@@ -1,0 +1,10 @@
+<aura:component >
+    <aura:attribute name="id" type="String" required="true"/>
+    
+    <input name="checkbox" 
+           type="checkbox" 
+           id="{!v.id}" 
+           aura:id="inputTag" 
+           onchange="{!c.saveChange}"/>
+    
+</aura:component>

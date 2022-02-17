@@ -1,0 +1,11 @@
+<aura:component abstract="true" extensible="true" extends="c:InputFieldSuper" access="global">
+    
+    <div class="slds-form-element__row">
+        <label class="slds-form-element__control slds-size--1-of-2" for="{!v.id}">
+            <c:InfoButton helpText="{!v.helpText}" />
+            <span class="slds-form-element__helper">{!(v.required ? '* ' : '') + v.label}</span>
+            {!v.body}
+        </label>
+    </div>
+    
+</aura:component>

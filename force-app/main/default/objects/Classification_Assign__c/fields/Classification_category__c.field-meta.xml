@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Classification_category__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The category of the linked classification</description>
+    <externalId>false</externalId>
+    <formula>Classification__r.Classification_Category__r.Name</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The category of the linked classification</inlineHelpText>
+    <label>Classification category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

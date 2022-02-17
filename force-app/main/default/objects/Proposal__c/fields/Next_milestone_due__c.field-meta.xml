@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Next_milestone_due__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The milestone with the earliest date due that hasn&apos;t yet been completed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The milestone with the earliest date due that hasn&apos;t yet been completed</inlineHelpText>
+    <label>Next milestone due</label>
+    <referenceTo>Milestone__c</referenceTo>
+    <relationshipLabel>Proposal for which milestone is next due</relationshipLabel>
+    <relationshipName>Proposals</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

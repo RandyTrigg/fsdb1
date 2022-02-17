@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ReasonMilestoneInvalidated</fullName>
+    <active>true</active>
+    <description>Reason Milestone Invalidated must be entered if Date Milestone Invalidated is non-blank.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Date_milestone_invalidated__c)),
+ ISBLANK(Reason_milestone_invalidated__c)
+)</errorConditionFormula>
+    <errorMessage>Reason Milestone Invalidated must be entered if Date Milestone Invalidated is non-blank.</errorMessage>
+</ValidationRule>

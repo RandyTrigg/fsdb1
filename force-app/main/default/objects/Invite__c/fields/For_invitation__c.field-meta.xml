@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>For_invitation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The For Invitation override if any, else the value of For Invitation from the linked allocation</description>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(TEXT(For_invitation_override__c)), For_invitation_from_allocation__c, TEXT(For_invitation_override__c))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The For Invitation override if any, else the value of For Invitation from the linked allocation</inlineHelpText>
+    <label>For invitation</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

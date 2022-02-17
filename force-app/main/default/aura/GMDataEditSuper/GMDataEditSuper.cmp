@@ -1,0 +1,42 @@
+<aura:component controller="GMDataController" abstract="true" extensible="true" access="global">
+
+    <aura:attribute name="objectMap" type="Map" default="{ 
+                                                         Profile__c: 'profile', 
+                                                         Proposal__c: 'proposal', 
+                                                         GM_Data__c: 'gmDataInfo',
+                                                         Milestone__c: 'milestone'
+                                                         }" />
+    <aura:attribute name="gmDataId" type="String" />
+    <aura:attribute name="gmDataInfo" type="GMDataController.GMDataInfo" />
+    <aura:attribute name="gmData" type="GM_Data__c" description="The gmData record" />
+    <aura:attribute name="errResponseCore" type="String" description="Errors returned from db when saving core data" />
+    <aura:attribute name="errResponseGMData" type="String"
+        description="Errors returned from db when saving GMData records" />
+    <aura:attribute name="reviewComponents" type="Aura.Component[]" />
+    <aura:attribute name="indicatorGroupMap" type="Map" />
+    <aura:attribute name="numErrors" type="Integer" default="-1" />
+    <aura:attribute name="pageErrors" type="String" description="Errors belonging to the review interface as a whole" />
+    <aura:attribute name="saving" type="Boolean" default="false" />
+    <aura:attribute name="fetching" type="Boolean" default="false" />
+    <aura:attribute name="submitting" type="Boolean" default="false" />
+    <aura:attribute name="starting" type="Boolean" default="false" />
+    <aura:attribute name="notReceived" type="Boolean" default="false"
+        description="The key form for this interface hasn't been received, so disable most, but not all, of the interface components." />
+
+    <!-- Declare dependencies, that is, components generated dynamically by this component. -->
+    <aura:dependency resource="markup://c:IndicatorGroup" />
+    <aura:dependency resource="markup://c:InputCheckbox" />
+    <aura:dependency resource="markup://c:InputNumber" />
+    <aura:dependency resource="markup://c:InputSelect" />
+    <aura:dependency resource="markup://c:InputSelectLookup" />
+    <aura:dependency resource="markup://c:InputSelectMulti" />
+    <aura:dependency resource="markup://c:InputSelectMulti1" />
+    <aura:dependency resource="markup://c:InputText" />
+    <aura:dependency resource="markup://c:InputTextarea" />
+    <aura:dependency resource="markup://c:HeadingMedium" />
+    <aura:dependency resource="markup://c:HeadingSmall" />
+    <aura:dependency resource="markup://c:Label" />
+
+    {!v.body}
+
+</aura:component>

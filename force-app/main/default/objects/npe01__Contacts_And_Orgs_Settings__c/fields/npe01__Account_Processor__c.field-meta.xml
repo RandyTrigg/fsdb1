@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npe01__Account_Processor__c</fullName>
+    <defaultValue>&quot;Household Account&quot;</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Setting for the Account model. Should be &quot;Household Account&quot;, &quot;One-to-One&quot;, or &quot;Individual&quot;. Replaces the custom field Contact.SystemAccountProcessor__c.  &quot;Household Account&quot; is the recommended model.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Setting for the Account model. Should be &quot;Household Account&quot;, &quot;One-to-One&quot;, or &quot;Individual&quot;. Replaces the custom field Contact.SystemAccountProcessor__c.  &quot;Household Account&quot; is the recommended model.</inlineHelpText>
+    <label>Account Model</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

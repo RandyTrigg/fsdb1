@@ -1,0 +1,21 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="indicatorType" type="String" />
+    <aura:attribute name="label" type="String" />
+    <aura:attribute name="helpText" type="String" />
+    <aura:attribute name="type" type="String" default="indicatorGroup" />
+    <aura:attribute name="readonly" type="Boolean" default="true" />
+    <aura:attribute name="rawComponents" type="Map[]" />
+    <aura:attribute name="indicatorComponents" type="Aura.Component[]" />
+    <aura:attribute name="expanded" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <c:Collapsible label="{!v.label}" expanded="{!v.expanded}" helpTextExpand="Expand group"
+        helpTextCollapse="Collapse group">
+
+        <!-- Display indicator components here. -->
+        {!v.indicatorComponents}
+
+    </c:Collapsible>
+
+</aura:component>

@@ -1,0 +1,58 @@
+<aura:component extends="c:InputFieldSuper" access="global">
+    <aura:attribute name="type" type="String" default="indicator" />
+    <aura:attribute name="indicatorType" type="String" />
+    <aura:attribute name="requiresQuantity" type="Boolean" />
+    <aura:attribute name="requiresComment" type="Boolean" />
+    <aura:attribute name="valueChecked" type="Boolean" />
+    <aura:attribute name="valueQuantity" type="String" />
+    <aura:attribute name="valueComment" type="String" />
+    <aura:attribute name="hide" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+
+    <div aura:id="indicatorContent" class="{!'c-container' + v.hide ? '' : ' hidden'}">
+        <lightning:layout horizontalAlign="space" multipleRows="true">
+
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="12">
+                <span class="slds-form-element__helper">{!v.label}</span>
+                <!-- <ui:outputText value="{!v.label}" /> -->
+            </lightning:layoutItem>
+
+            <lightning:layoutItem padding="horizontal-small" size="1">
+                <div>
+                    <ui:inputCheckbox aura:id="Selected" class="my-checkbox slds-float_right" change="{!c.saveChange}"
+                        value="{!v.valueChecked}" disabled="{!v.disabled}" />
+                    <!-- <lightning:input type="checkbox" aura:id="Selected" name="Selected" checked="{!v.valueChecked}"
+                        label="Check if selected" onchange="{!c.saveChange}" variant="label-hidden"
+                        disabled="{!v.disabled}" /> -->
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem padding="horizontal-small" size="1">
+                <div class="{!v.requiresQuantity ? '' : 'hidden'}">
+                    <ui:inputNumber aura:id="Quantity" class="slds-input" value="{!v.valueQuantity}"
+                        change="{!c.saveChange}" disabled="{!v.disabled}" />
+                    <!-- <lightning:input type="number"
+                                     aura:id="Quantity"
+                                     name="Quantity"
+                                     label="Enter a number"
+                                     value="{!v.valueQuantity}"
+                                     onchange="{!c.saveChange}"
+                                     variant="label-hidden"
+                                     /> -->
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem flexibility="auto" padding="horizontal-small" size="10">
+                <div class="{!v.requiresComment ? '' : 'hidden'}">
+                    <lightning:input type="text" aura:id="Comment" name="Comment" label="Enter a text comment"
+                        value="{!v.valueComment}" onchange="{!c.saveChange}" pattern=".{0,255}"
+                        messageWhenPatternMismatch="{!'Your entry is too long: ' +v.valueComment.length+ ' characters (max 255).'}"
+                        variant="label-hidden" disabled="{!v.disabled}" />
+                </div>
+            </lightning:layoutItem>
+
+        </lightning:layout>
+    </div>
+</aura:component>

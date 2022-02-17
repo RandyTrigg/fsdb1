@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fund_compact_layout_Standard</fullName>
+    <fields>Name</fields>
+    <fields>RecordTypeId</fields>
+    <fields>Fiscal_year__c</fields>
+    <fields>Active__c</fields>
+    <fields>ChartofAccounts__c</fields>
+    <fields>Amount_funded__c</fields>
+    <fields>LastModifiedById</fields>
+    <label>Fund compact layout Standard</label>
+</CompactLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Email addresses used as From/Sender in emails sent out of Salesforce.  Each should appear in Organization-Wide Addresses (accessible from Setup) as an authenticated email address belonging to the org.</description>
+    <label>Sender email address</label>
+    <pluralLabel>Sender email addresses</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

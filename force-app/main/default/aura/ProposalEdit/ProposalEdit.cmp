@@ -1,0 +1,85 @@
+<aura:component controller="ProposalController" extends="c:GMDataEditSuper"
+    implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="proposalId" type="String" required="true" description="Id of the proposal to be edited" />
+    <aura:attribute name="proposalInfo" type="ProposalController.ProposalInfo" />
+    <aura:attribute name="populationsInfo" type="ProposalController.ClassificationInfo" />
+    <aura:attribute name="issuesInfo" type="ProposalController.ClassificationInfo" />
+    <aura:attribute name="strategiesInfo" type="ProposalController.ClassificationInfo" />
+    <aura:attribute name="proposal" type="Proposal__c" />
+    <aura:attribute name="overrideRequiredFields" type="String[]"
+        description="If these fields are all non-blank, then allow submit."
+        default="['Decline_reason__c', 'Staff_analysis__c', 'Description__c']" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}" />
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}" />
+
+    <div class="slds" aura:id="TopLevelEdit" style="margin:40px;">
+        <div class="slds-col--padded">
+            <h3 class="slds-text-heading--medium slds-m-bottom--x-small">
+                Proposal #: <a href="{!'/' + v.proposalId}">{!v.proposal.Prop_num_with_renewal__c}</a><br />
+                Account{!v.proposal.Account_black_listed__c ? ' (BLACK-LISTED)' : ''}:
+                <a href="{!'/' + v.proposal.Account__c}">{!v.proposal.Account__r.Name}</a><br />
+            </h3>
+            <h3 class="slds-text-heading--small slds-m-bottom--x-small">
+                <span>**Link to Proposal review guide**</span>
+            </h3>
+        </div>
+        <!-- Display a lightning card with (read-only) details about the proposal -->
+        <div class="slds-m-vertical_small ">
+            <div class="Record Details">
+                <lightning:card>
+                    <div class="slds-p-horizontal--small">
+                        <h3 class="slds-text-heading--x-small slds-m-bottom--x-small">
+                            <ol>
+                                <li>{!v.proposal.Date_received__c ?
+                                    'Received: ' + v.proposal.Date_received__c :
+                                    '**NOT YET RECEIVED**'}
+                                </li>
+                                <li>Declined: {!v.proposal.Date_declined__c}</li>
+                                <li>Review completed: {!v.proposal.Date_review_completed__c}</li>
+                                <li>Status: {!v.proposal.Status__c}</li>
+                            </ol>
+                        </h3>
+                    </div>
+                </lightning:card>
+            </div>
+        </div>
+
+        <!-- 5/30/19: No longer hiding edit interface if prop not received. Instead, we enable/disable individual components. -->
+
+        <!-- Spinner is shown when waiting for server response -->
+        <center>
+            <ui:spinner aura:id="spinner" />
+        </center>
+
+        <!-- Top save button - disable when starting up or saving -->
+        <lightning:button class="slds-m-top--small" variant="brand" onclick="{!c.save}" label="Save"
+            title="Save changes and check for errors" disabled="{!(v.starting || v.saving || v.fetching)}" />
+        <!-- Submit button - enabled if no errors and blank date review completed -->
+        <lightning:button class="slds-m-top--small" variant="brand" onclick="{!c.submitReview}" label="Submit"
+            title="Submit changes and set the date review submitted"
+            disabled="{!(v.proposal.Date_review_completed__c || v.numErrors == -1 || v.numErrors > 0) ? 'true' : 'false'}" />
+        <h3 class="slds-text-heading--x-small slds-m-bottom--x-small">
+            <span aura:id="saveForErrorCountSpan" class="slds-form-element__help">Click Save to validate and compute
+                number of errors.</span>
+            <span aura:id="numErrorsSpan" class="slds-form-element__help slds-hide">Number of errors:
+                {!v.numErrors}</span>
+            <span aura:id="pageErrorsSpan" class="slds-form-element__help slds-hide">Errors from server:
+                {!v.pageErrors}</span>
+        </h3>
+        <!-- Form of editable proposal and GM data fields -->
+        <form role="form" class="slds-form--stacked">
+
+            <!-- Display review components here. -->
+            {!v.reviewComponents}
+
+        </form>
+
+
+        <!-- Bottom save button - disable when saving -->
+        <lightning:button class="slds-m-top--small" variant="brand" onclick="{!c.save}" label="Save"
+            title="Save changes and check for errors" disabled="{!(v.starting || v.saving || v.fetching)}" />
+    </div>
+
+</aura:component>

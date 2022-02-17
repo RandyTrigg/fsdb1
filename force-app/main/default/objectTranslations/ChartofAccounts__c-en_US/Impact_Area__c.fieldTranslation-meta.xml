@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help></help>
+    <label></label>
+    <name>Impact_Area__c</name>
+    <picklistValues>
+        <masterLabel>Economic &amp; Political Empowerment</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sexual &amp; Reproductive Health &amp; Rights</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Zero Violence</masterLabel>
+        <translation></translation>
+    </picklistValues>
+</CustomFieldTranslation>

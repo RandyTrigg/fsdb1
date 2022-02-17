@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grant_formula__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if linked proposal is a grant (formula version)</description>
+    <externalId>false</externalId>
+    <formula>Proposal__r.Grant__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if linked proposal is a grant (formula version)</inlineHelpText>
+    <label>Grant [formula]</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

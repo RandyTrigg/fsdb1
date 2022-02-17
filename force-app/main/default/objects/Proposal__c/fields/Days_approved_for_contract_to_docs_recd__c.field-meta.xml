@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_approved_for_contract_to_docs_recd__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of days from Date approved for contract to the date contract-related docs were received from the grantee or to today if the docs haven&apos;t yet been received (or to date award withdrawn), blank if date approved for contract is blank</description>
+    <externalId>false</externalId>
+    <formula>IF(
+ NOT(ISBLANK( Date_approved_for_contract__c )),
+ IF(
+  NOT(ISBLANK( Date_contract_docs_recd__c )),
+  Date_contract_docs_recd__c - Date_approved_for_contract__c,
+  IF(
+   NOT(ISBLANK( Date_award_withdrawn__c )),
+   Date_award_withdrawn__c - Date_approved_for_contract__c,
+   TODAY() - Date_approved_for_contract__c
+  )
+ ),
+ null
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The number of days from Date approved for contract to the date contract-related docs were received from the grantee or to today if the docs haven&apos;t yet been received (or to date award withdrawn), blank if date approved for contract is blank</inlineHelpText>
+    <label>Days approved for contract to docs recd</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

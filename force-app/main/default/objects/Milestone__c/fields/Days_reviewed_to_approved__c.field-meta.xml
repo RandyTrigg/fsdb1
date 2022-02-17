@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_reviewed_to_approved__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of days from date reviewed to date approved (or to date proposal closed) or to today if date reviewed is in the past and the milestone hasn&apos;t been approved, blank if date reviewed is blank</description>
+    <externalId>false</externalId>
+    <formula>IF(
+ NOT(ISBLANK( Date_reviewed__c )),
+ IF(
+  NOT(ISBLANK( Date_milestone_approved__c )),
+  Date_milestone_approved__c - Date_reviewed__c,
+  IF(
+   Proposal__r.Status_numeric__c &gt;= 10,
+   BLANKVALUE(
+    Proposal__r.Date_closed_incomplete__c,
+    BLANKVALUE(Proposal__r.Date_completed__c, Proposal__r.Date_award_withdrawn__c)
+   ) - Date_reviewed__c,
+   IF(
+    Date_reviewed__c &lt;= TODAY(),
+    TODAY() - Date_reviewed__c,
+    null
+   )
+  )
+ ),
+ null
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The number of days from date reviewed to date approved (or to date proposal closed) or to today if date reviewed is in the past and the milestone hasn&apos;t been approved, blank if date reviewed is blank</inlineHelpText>
+    <label>Days reviewed to approved</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

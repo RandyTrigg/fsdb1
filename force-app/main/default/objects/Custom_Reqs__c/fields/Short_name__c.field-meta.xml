@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Short_name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Shorthand version of reporting req&apos;s name</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Shorthand version of reporting req&apos;s name</inlineHelpText>
+    <label>Short name</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

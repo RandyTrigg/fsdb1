@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Verborgen veld voor het aannemen van een contact Id voor Contact Rol creatie.</help>
+    <label></label>
+    <name>npe01__Contact_Id_for_Role__c</name>
+</CustomFieldTranslation>

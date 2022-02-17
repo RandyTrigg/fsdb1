@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Red_flag_Non_black_list__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if this proposal&apos;s account has been marked with the &quot;Non black-list&quot; red flag</description>
+    <externalId>false</externalId>
+    <formula>Account__r.Red_flag_Non_black_list__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if this proposal&apos;s account has been marked with the &quot;Non black-list&quot; red flag</inlineHelpText>
+    <label>Red flag: Non black-list</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

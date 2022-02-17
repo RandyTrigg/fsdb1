@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Secondary_External_Contact_Manager__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Name of non-staff person who is helping to secure, cultivate, solicit gift under direction of Account Owner</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Name of non-staff person who is helping to secure, cultivate, solicit gift under direction of Account Owner</inlineHelpText>
+    <label>Secondary External Contact Manager</label>
+    <length>50</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

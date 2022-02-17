@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Emailed_to__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The email address(es) to which this letter was sent the last time it was emailed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The email address(es) to which this letter was sent the last time it was emailed</inlineHelpText>
+    <label>Emailed to</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

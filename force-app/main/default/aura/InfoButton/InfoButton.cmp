@@ -1,0 +1,7 @@
+<aura:component>
+    <aura:attribute name="helpText" type="String" />
+    <!-- Disabled for now, until we can figure out how to make help/hover text work.
+    <lightning:button title="{!v.helpText}" name="Help" disabled="disabled" iconName="utility:sprite">
+    </lightning:button>
+-->
+</aura:component>

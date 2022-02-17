@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Priority__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Priority of Accounts - formerly &quot;Cluster Head&quot;</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Priority of Accounts - formerly &quot;Cluster Head&quot;. In a &quot;Cluster,&quot; select a Primary and Secondary account.</inlineHelpText>
+    <label>Account Priority</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Primary Account</fullName>
+                <default>false</default>
+                <label>Primary Account</label>
+            </value>
+            <value>
+                <fullName>Secondary Account</fullName>
+                <default>false</default>
+                <label>Secondary Account</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

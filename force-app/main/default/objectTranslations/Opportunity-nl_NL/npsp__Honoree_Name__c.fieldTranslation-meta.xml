@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>De geëerde persoon zijn naam verschaft door de donateur. Indien dit veld leeg is, en de Eerbetoon contact veld bevat een waarde, zal Salesforce automatisch deze waarde invullen.</help>
+    <label></label>
+    <name>npsp__Honoree_Name__c</name>
+</CustomFieldTranslation>

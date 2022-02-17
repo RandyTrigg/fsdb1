@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remaining_to_charge__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The amount of the Total Grantmaking amount left to charge</description>
+    <externalId>false</externalId>
+    <formula>Total_grantmaking__c - Total_charged__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The amount of the Total Grantmaking amount left to charge</inlineHelpText>
+    <label>Remaining to charge</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

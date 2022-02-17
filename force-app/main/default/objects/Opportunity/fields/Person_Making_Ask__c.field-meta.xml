@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Person_Making_Ask__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The person who knows this prospect the BEST and likely the person who will make the solicitation ask</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The person who knows this prospect the BEST and likely the person who will make the solicitation &quot;ask&quot;</inlineHelpText>
+    <label>Person Making Ask</label>
+    <length>100</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

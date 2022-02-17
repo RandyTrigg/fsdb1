@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_distributions__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of distributions made from this fund</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of distributions made from this fund</inlineHelpText>
+    <label>Num distributions</label>
+    <summaryForeignKey>Distribution__c.Source_fund__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

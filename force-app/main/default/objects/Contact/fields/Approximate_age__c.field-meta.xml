@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approximate_age__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Approximate age of contact</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Approximate age of contact</inlineHelpText>
+    <label>Approximate age</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>35 or younger</fullName>
+                <default>false</default>
+                <label>35 or younger</label>
+            </value>
+            <value>
+                <fullName>Over 35</fullName>
+                <default>false</default>
+                <label>Over 35</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

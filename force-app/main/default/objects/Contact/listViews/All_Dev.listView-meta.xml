@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Dev</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>CONTACT.EMAIL</columns>
+    <columns>Email2__c</columns>
+    <columns>CONTACT.PHONE1</columns>
+    <columns>CONTACT.LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CONTACT.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Contact.Contact_Dev</value>
+    </filters>
+    <label>All Dev</label>
+</ListView>

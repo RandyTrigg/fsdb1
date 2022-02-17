@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Der Höchstbetrag, unter dem der Wert liegen muss, um dieser Ebene zugewiesen zu werden.  Wenn das Feld leer gelassen wird, wird diese Ebene bei einem beliebigen Betrag zugewiesen, der größer oder gleich dem Mindestbetrag dieser Ebene ist.</help>
+    <label></label>
+    <name>npsp__Maximum_Amount__c</name>
+</CustomFieldTranslation>

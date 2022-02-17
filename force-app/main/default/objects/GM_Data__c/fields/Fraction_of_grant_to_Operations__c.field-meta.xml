@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fraction_of_grant_to_Operations__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Fraction of Global Fund for Women grant that was allocated toward operations</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Fraction of Global Fund for Women grant that was allocated toward operations</inlineHelpText>
+    <label>Fraction of grant to Operations</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

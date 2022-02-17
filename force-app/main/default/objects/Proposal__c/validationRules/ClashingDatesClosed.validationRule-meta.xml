@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ClashingDatesClosed</fullName>
+    <active>true</active>
+    <description>&quot;Date completed&quot; and &quot;Date closed incomplete&quot; can&apos;t both have values</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Date_completed__c)),
+ NOT(ISBLANK(Date_closed_incomplete__c))
+)</errorConditionFormula>
+    <errorDisplayField>Date_closed_incomplete__c</errorDisplayField>
+    <errorMessage>&quot;Date completed&quot; and &quot;Date closed incomplete&quot; can&apos;t both have values</errorMessage>
+</ValidationRule>

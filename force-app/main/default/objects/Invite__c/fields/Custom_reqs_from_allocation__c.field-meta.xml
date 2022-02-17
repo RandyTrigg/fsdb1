@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Custom_reqs_from_allocation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The name of the Custom Reqs, if any, that appears in this invite&apos;s allocation record</description>
+    <externalId>false</externalId>
+    <formula>Allocation__r.Custom_Reqs__r.Name</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The name of the Custom Reqs, if any, that appears in this invite&apos;s allocation record</inlineHelpText>
+    <label>Custom reqs from allocation</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

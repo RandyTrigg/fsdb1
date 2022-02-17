@@ -1,0 +1,14 @@
+<aura:component >
+    <aura:attribute name="id" type="String"/>
+    <aura:attribute name="helpText" type="String"/>
+    
+    <div id="{!v.id + '_help'}" class="slds-hide">
+        <div class="slds-popover slds-popover--tooltip slds-nubbin--bottom" role="tooltip">
+            <div class="slds-popover__body slds-nubbin--bottom">
+                <div>
+                    <p>{!v.helpText}</p>
+                </div>
+            </div>
+        </div>
+    </div>	
+</aura:component>

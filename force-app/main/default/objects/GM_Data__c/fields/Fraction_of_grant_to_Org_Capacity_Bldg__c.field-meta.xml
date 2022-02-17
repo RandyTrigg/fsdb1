@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fraction_of_grant_to_Org_Capacity_Bldg__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Fraction of grant to Organizational Capacity Building</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Fraction of grant to Organizational Capacity Building</inlineHelpText>
+    <label>Fraction of grant to Org Capacity Bldg</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

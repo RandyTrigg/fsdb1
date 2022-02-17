@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npo02__Household_Contact_Roles_On__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Automatically creates Contact Roles for Household members of the Opportunity&apos;s Primary Contact.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Check this field to create automatic Contact Roles for Household members of the Primary Contact</inlineHelpText>
+    <label>Household Contact Roles On</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

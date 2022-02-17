@@ -1,0 +1,6 @@
+<aura:component extensible="true" abstract="true" access="global">
+    <aura:attribute name="numErrors" type="Integer"/>
+    
+    {!v.body}
+    
+</aura:component>

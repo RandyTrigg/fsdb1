@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>ユーザがユーザの団体の主個人である場合にオンにします。[団体] で [主個人] を編集できます。</help>
+    <label></label>
+    <name>npsp__Primary_Contact__c</name>
+</CustomFieldTranslation>

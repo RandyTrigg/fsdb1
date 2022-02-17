@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npe01__Update_Check_Interval__c</fullName>
+    <defaultValue>90</defaultValue>
+    <deprecated>false</deprecated>
+    <description>DEPRECATED.  New versions of the Nonprofit Success Pack will be automatically installed.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>DEPRECATED.  New versions of the Nonprofit Starter Pack will be automatically installed.</inlineHelpText>
+    <label>DEPRECATED-Update Check Interval</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

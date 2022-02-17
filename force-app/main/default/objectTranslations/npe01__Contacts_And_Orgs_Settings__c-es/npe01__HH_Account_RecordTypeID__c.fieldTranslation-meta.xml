@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El ID del tipo de registro de cuenta que se usa para Cuentas Familias. Si no se selecciona uno, se utilizará el tipo de registro por defecto en el usuario.</help>
+    <label></label>
+    <name>npe01__HH_Account_RecordTypeID__c</name>
+</CustomFieldTranslation>

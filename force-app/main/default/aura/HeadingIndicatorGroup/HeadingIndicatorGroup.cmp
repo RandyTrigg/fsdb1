@@ -1,0 +1,30 @@
+<aura:component access="global">
+    <aura:attribute name="indicatorType" type="String" />
+    <aura:attribute name="label" type="String" />
+    <aura:attribute name="helpText" type="String" />
+    <aura:attribute name="type" type="String" default="indicatorGroup" />
+    <aura:attribute name="readonly" type="Boolean" default="true" />
+    <aura:attribute name="reviewComponents" type="Aura.Component[]" />
+
+    <aura:registerEvent name="collapseIndicatorGroup" type="c:collapseIndicatorGroup" />
+    <aura:registerEvent name="expandIndicatorGroup" type="c:expandIndicatorGroup" />
+
+    <div class="slds">
+        <!-- Buttons that expand/collapse the contents of the indicator group. -->
+        <c:button aura:id="expand-group" class="slds-button slds-button--medium slds-hide" label="{!v.label}"
+            svgXlinkHref="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#chevronright"
+            svgClass="slds-button__icon slds-button__icon--left" onclick="{!c.expandIndicatorGroup}" />
+        <c:button aura:id="collapse-group" class="slds-button slds-button--medium" label="{!v.label}"
+            svgXlinkHref="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"
+            svgClass="slds-button__icon slds-button__icon--left" onclick="{!c.collapseIndicatorGroup}" />
+
+        <!-- Form of editable milestone and GM data fields -->
+        <form role="form" class="slds-form--stacked">
+
+            <!-- Display review components here. -->
+            {!v.reviewComponents}
+
+        </form>
+    </div>
+
+</aura:component>

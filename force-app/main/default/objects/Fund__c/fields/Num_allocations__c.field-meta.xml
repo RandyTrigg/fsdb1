@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_allocations__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of allocations under this fund</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of allocations under this fund</inlineHelpText>
+    <label>Num allocations</label>
+    <summaryForeignKey>Allocation__c.Fund__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

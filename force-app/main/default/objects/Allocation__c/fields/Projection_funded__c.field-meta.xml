@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Projection_funded__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if there is a linked projection, which has been linked to a fund</description>
+    <externalId>false</externalId>
+    <formula>AND(
+ NOT(ISBLANK(Projection__c )),
+ NOT(ISBLANK( Projection__r.Fund__c ))
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if there is a linked projection, which has been linked to a fund</inlineHelpText>
+    <label>Projection funded</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

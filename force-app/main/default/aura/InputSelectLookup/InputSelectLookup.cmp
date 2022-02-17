@@ -1,0 +1,22 @@
+<aura:component extends="c:InputFieldLabeledSuper" access="global">
+    <aura:attribute name="picklist" type="String[]"/>
+    <aura:attribute name="idNameMap" type="Map"/>
+    <aura:attribute name="selected" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <select id="{!v.id}" 
+            class="{!'slds-select' + (v.disabled ? ' disabled' : '')}" 
+            onchange="{!c.saveChange}"
+            >
+        <aura:iteration items="{!v.picklist}" var="selOption">
+            <aura:if isTrue="{!selOption == v.selected}">
+                <option value="{!selOption}" selected="true">{!selOption}</option>
+                <aura:set attribute="else">
+                    <option value="{!selOption}">{!selOption}</option>
+                </aura:set>
+            </aura:if>
+        </aura:iteration>
+    </select>
+    
+</aura:component>

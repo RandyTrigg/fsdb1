@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Build_submission</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>Build submission</masterLabel>
+    <openType>noSidebar</openType>
+    <page>ProposalSubmissionButton</page>
+    <protected>false</protected>
+</WebLink>

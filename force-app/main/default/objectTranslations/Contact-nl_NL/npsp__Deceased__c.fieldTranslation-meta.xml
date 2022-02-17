@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indien aangevinkt, deze optie markeert het contact als overleden, en sluit deze persoon uit van huishoud benaming, e-mails, en telefoongesprekken</help>
+    <label></label>
+    <name>npsp__Deceased__c</name>
+</CustomFieldTranslation>

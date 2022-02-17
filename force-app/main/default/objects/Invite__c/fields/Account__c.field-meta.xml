@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The account of the group (potentially) being invited to proposal</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The account of the group (potentially) being invited to proposal</inlineHelpText>
+    <label>Account</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Invites</relationshipLabel>
+    <relationshipName>Invites</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

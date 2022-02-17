@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Portfolio__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The Portfolio to which this indicator assign record is linked</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Portfolio to which this indicator assign record is linked</inlineHelpText>
+    <label>Portfolio</label>
+    <referenceTo>Portfolio__c</referenceTo>
+    <relationshipLabel>Indicator-Portfolio Assigns</relationshipLabel>
+    <relationshipName>Indicator_Portfolio_Assigns</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

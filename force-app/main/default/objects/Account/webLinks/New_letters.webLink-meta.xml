@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_letters</fullName>
+    <availability>online</availability>
+    <description>Build new letters for the selected accounts.</description>
+    <displayType>massActionButton</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>New letters</masterLabel>
+    <openType>noSidebar</openType>
+    <page>AccountNewLettersButton</page>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+</WebLink>

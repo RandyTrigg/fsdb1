@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunity_stage__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The current stage of this projection&apos;s linked opportunity</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Opportunity__r.StageName)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The current stage of this projection&apos;s linked opportunity</inlineHelpText>
+    <label>Opportunity stage</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

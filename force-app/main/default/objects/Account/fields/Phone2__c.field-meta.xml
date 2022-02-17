@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Phone2__c</fullName>
+    <deprecated>false</deprecated>
+    <description>An optional second phone number for this account</description>
+    <externalId>false</externalId>
+    <inlineHelpText>An optional second phone number for this account</inlineHelpText>
+    <label>Phone2</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Phone</type>
+</CustomField>

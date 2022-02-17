@@ -1,0 +1,5 @@
+.THIS .disabled {
+    pointer-events:none;
+    color:#AAA;
+    background:rgb(233, 234, 236);
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bio_Summary__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Bio notes on the contact, maintained by Donor Services</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Bio notes on the contact, maintained by Donor Services</inlineHelpText>
+    <label>Bio/Summary</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

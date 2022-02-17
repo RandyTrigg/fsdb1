@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposal__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The proposal resulting from this invite</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The proposal resulting from this invite</inlineHelpText>
+    <label>Proposal</label>
+    <referenceTo>Proposal__c</referenceTo>
+    <relationshipLabel>Invites</relationshipLabel>
+    <relationshipName>Invites</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

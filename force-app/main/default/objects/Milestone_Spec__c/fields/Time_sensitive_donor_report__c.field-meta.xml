@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Time_sensitive_donor_report__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Checked if there is a time sensitive donor report that depends on this milestone</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if there is a time sensitive donor report that depends on this milestone</inlineHelpText>
+    <label>Time sensitive donor report</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,60 @@
+<aura:component extends="c:InputSuper" access="global">
+    <aura:attribute name="idNameMap" type="Map"/>
+    <!-- v.selecteds are the selected option names. -->
+    <aura:attribute name="selecteds" type="String[]" default="[]"/>
+    <aura:attribute name="unselecteds" type="String[]" default="[]"/>
+    <aura:attribute name="selectedsChosen" type="String"/>
+    <aura:attribute name="unselectedsChosen" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler name="errMessChangeInputSelectMulti" value="{!v.errorMessage}" action="{!c.errorMessageChange}"/>
+    
+    <div class="slds-grid">
+        <div class="slds-form-element slds-size--6-of-12 slds-grid--vertical">
+            <span class="slds-form-element__label" aria-label="select-1">{!v.label}</span>
+            <div class="">
+                <ui:inputSelect multiple="true"
+                                aura:id="mUnselecteds" 
+                                class="{!'dynamic oSelect slds-text-body--small' + (v.disabled ? ' disabled' : '')}"
+                                change="{!c.setUnselectedsChosen}"
+                                disabled="{!v.disabled}" />
+            </div>
+            <div class="slds-text-body--small">{!v.unselectedsChosen}</div>
+        </div>
+        <div class="slds-p-around--x-small slds-size--1-of-12">
+            <div class="slds-grid slds-grid--vertical buttons-col">
+                <ul>
+                    <li>
+                        <lightning:button disabled="{!v.disabled || v.unselecteds.length == 0 || v.unselectedsChosen == null || v.unselectedsChosen.length == 0}"
+                                          onclick="{!c.selectChosen}"
+                                          class="slds-text-align--center slds-text-body--medium my-button"
+                                          label="&gt;&gt;"
+                                          title="Add highlighted (selected) items on the left to the list of chosen items on the right. Use control-click to select multiple items."
+                                          />
+                    </li>
+                    <li>
+                        <lightning:button disabled="{!v.disabled || v.selecteds.length == 0 || v.selectedsChosen == null || v.selectedsChosen.length == 0}"
+                                          onclick="{!c.unselectChosen}"
+                                          class="slds-text-align--center slds-text-body--medium my-button"
+                                          label="&lt;&lt;"
+                                          title="Remove highlighted (selected) items from the list of chosen items on the right. Use control-click to select multiple items."
+                                          />
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="slds-form-element slds-size--5-of-12 slds-grid--vertical">
+            <span class="slds-form-element__label" aria-label="select-1">{!v.label + ' selected'}</span>
+            <div class="">
+                <ui:inputSelect multiple="true"
+                                aura:id="mSelecteds"
+                                class="{!'dynamic oSelect slds-text-body--small' + (v.disabled ? ' disabled' : '')}"
+                                change="{!c.setSelectedsChosen}"
+                                disabled="{!v.disabled}" />
+            </div>
+            <div class="slds-text-body--small">{!v.selectedsChosen}</div>
+        </div>
+    </div>
+    
+</aura:component>

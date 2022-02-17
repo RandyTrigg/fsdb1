@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_pay_info_verify_correct_needed__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which we requested that the group fill out a payment info verify/correct form</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which we requested that the group fill out a payment info verify/correct form</inlineHelpText>
+    <label>Date payment info verify/correct needed</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

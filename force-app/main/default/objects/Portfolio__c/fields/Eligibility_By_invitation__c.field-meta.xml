@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Eligibility_By_invitation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>If checked and the eligibility deadline hasn&apos;t passed, then this portfolio&apos;s eligibility forms are only accessible to accounts linked to the portfolio.  If unchecked (and deadline hasn&apos;t passed), then the eligibility forms are open to all.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If checked and the eligibility deadline hasn&apos;t passed, then this portfolio&apos;s eligibility forms are only accessible to accounts linked to the portfolio.  If unchecked (and deadline hasn&apos;t passed), then the eligibility forms are open to all.</inlineHelpText>
+    <label>Eligibility: By invitation</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

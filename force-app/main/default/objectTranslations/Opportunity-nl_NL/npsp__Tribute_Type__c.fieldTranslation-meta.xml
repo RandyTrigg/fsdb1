@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Geeft aan of de gift een eerbetoon is aan een individu.</help>
+    <label></label>
+    <name>npsp__Tribute_Type__c</name>
+    <picklistValues>
+        <masterLabel>Honor</masterLabel>
+        <translation>Eerbetoon</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Memorial</masterLabel>
+        <translation>Gedachtenis</translation>
+    </picklistValues>
+</CustomFieldTranslation>

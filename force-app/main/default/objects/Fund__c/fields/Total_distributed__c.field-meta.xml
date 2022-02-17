@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_distributed__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The total amount in distributions made from this fund</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total amount in distributions made from this fund</inlineHelpText>
+    <label>Total distributed</label>
+    <summarizedField>Distribution__c.Amount__c</summarizedField>
+    <summaryForeignKey>Distribution__c.Source_fund__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

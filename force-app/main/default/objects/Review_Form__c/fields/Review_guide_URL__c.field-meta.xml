@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Review_guide_URL__c</fullName>
+    <deprecated>false</deprecated>
+    <description>URL for the documentation appropriate for this review form</description>
+    <externalId>false</externalId>
+    <inlineHelpText>URL for the documentation appropriate for this review form</inlineHelpText>
+    <label>Review guide URL</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

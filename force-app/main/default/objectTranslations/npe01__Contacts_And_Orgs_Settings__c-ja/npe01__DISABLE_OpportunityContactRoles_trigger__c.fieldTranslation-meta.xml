@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>廃止。トリガの動作が [NPSP 設定] の [トリガ設定] ページで制御されるようになりました。</help>
+    <label></label>
+    <name>npe01__DISABLE_OpportunityContactRoles_trigger__c</name>
+</CustomFieldTranslation>

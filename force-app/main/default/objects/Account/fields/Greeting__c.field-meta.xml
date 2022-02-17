@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Greeting__c</fullName>
+    <deprecated>false</deprecated>
+    <description>This is the greeting salutation as it might be used in a letter or email such as &quot;Mr. Smith&quot;, &quot;Dr. and Mr. Brown&quot; or &quot;Jack and Jill&quot;.  This field can contain 40 characters.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the greeting salutation as it might be used in a letter or email such as &quot;Mr. Smith&quot;, &quot;Dr. and Mr. Brown&quot; or &quot;Jack and Jill&quot;.  This field can contain 40 characters.</inlineHelpText>
+    <label>Account Greeting</label>
+    <length>200</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rationale_for_committee_approval__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The rationale offered to the committee for approval of this proposal/grant based on the Reason for soliciting approval</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The rationale offered to the committee for approval of this proposal/grant based on the Reason for soliciting approval</inlineHelpText>
+    <label>Rationale for committee approval</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

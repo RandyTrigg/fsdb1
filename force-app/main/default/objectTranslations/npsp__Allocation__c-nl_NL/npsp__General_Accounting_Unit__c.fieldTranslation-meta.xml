@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>De standaard accounting unit voor deze allocatie. Alleen standaard accounting units die gemarkeerd zijn als actief zijn beschikbaar voor nieuwe allocaties.</help>
+    <label></label>
+    <lookupFilter>
+        <errorMessage></errorMessage>
+        <informationalMessage></informationalMessage>
+    </lookupFilter>
+    <name>npsp__General_Accounting_Unit__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

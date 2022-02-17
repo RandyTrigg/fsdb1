@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_milestones__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of linked milestones</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of linked milestones</inlineHelpText>
+    <label>Num milestones</label>
+    <summaryForeignKey>Milestone__c.Proposal__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

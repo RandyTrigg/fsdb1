@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Custom_Reqs__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The custom reqs for this proposal (if any)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The custom reqs for this proposal (if any)</inlineHelpText>
+    <label>Custom Reqs</label>
+    <referenceTo>Custom_Reqs__c</referenceTo>
+    <relationshipLabel>Proposals</relationshipLabel>
+    <relationshipName>Proposals</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_ready_for_payment__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which the payment method is ready to be paid</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which the payment method is ready to be paid</inlineHelpText>
+    <label>Date ready for payment</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

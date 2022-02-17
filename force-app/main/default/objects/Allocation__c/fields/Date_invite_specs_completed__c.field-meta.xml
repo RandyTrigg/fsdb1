@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_invite_specs_completed__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which the invite specs for this allocation were completed.  Invite specs can include date fields, custom reqs, and the responsible GO staff member.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which the invite specs for this allocation were completed.  Invite specs can include date fields, custom reqs, and the responsible GO staff member.</inlineHelpText>
+    <label>Date invite specs completed</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

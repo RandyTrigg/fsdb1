@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npsp__Total_Engagement_Plans__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <label>Total Engagement Plans</label>
+    <summaryForeignKey>npsp__Engagement_Plan__c.npsp__Engagement_Plan_Template__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

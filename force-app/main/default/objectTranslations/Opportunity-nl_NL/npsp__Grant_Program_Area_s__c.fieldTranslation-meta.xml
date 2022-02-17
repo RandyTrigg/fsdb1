@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Beschrijf de financiering gebieden voor de schenking. Je kan alles invullen wat je wilt. Bijvoorbeeld, je kunt de naam van het programma waar de schenking bij hoort invullen.</help>
+    <label></label>
+    <name>npsp__Grant_Program_Area_s__c</name>
+</CustomFieldTranslation>

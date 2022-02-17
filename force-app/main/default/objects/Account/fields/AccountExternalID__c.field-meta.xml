@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AccountExternalID__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <deprecated>false</deprecated>
+    <description>A unique Account identifier, used during the process of converting data into Affinaquest.</description>
+    <externalId>true</externalId>
+    <inlineHelpText>A unique Account identifier, used during the process of converting data into Affinaquest.</inlineHelpText>
+    <label>Account External ID</label>
+    <length>20</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The type of this template (for example, Development, Grantmaking, etc.)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The type of this template (for example, Development, Grantmaking, etc.)</inlineHelpText>
+    <label>Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Development</fullName>
+                <default>false</default>
+                <label>Development</label>
+            </value>
+            <value>
+                <fullName>Grantmaking</fullName>
+                <default>false</default>
+                <label>Grantmaking</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

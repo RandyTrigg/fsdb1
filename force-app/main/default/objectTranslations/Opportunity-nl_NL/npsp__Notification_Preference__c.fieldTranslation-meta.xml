@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Hoe de notificatie ontvanger zou moeten worden genotificeerd.</help>
+    <label></label>
+    <name>npsp__Notification_Preference__c</name>
+    <picklistValues>
+        <masterLabel>Do Not Notify</masterLabel>
+        <translation>Houdt niet op de hoogte</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Email</masterLabel>
+        <translation>E-mail</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Phone</masterLabel>
+        <translation>Telefoon</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Postal Mail</masterLabel>
+        <translation>Post</translation>
+    </picklistValues>
+</CustomFieldTranslation>

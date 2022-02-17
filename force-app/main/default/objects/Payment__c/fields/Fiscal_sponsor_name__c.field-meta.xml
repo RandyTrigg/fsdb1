@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fiscal_sponsor_name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The name of the fiscal sponsor for this grant, if any</description>
+    <externalId>false</externalId>
+    <formula>IF(AND(
+ NOT(ISBLANK( Payment_Method__c )),
+ NOT(ISBLANK(Payment_Method__r.Fiscal_sponsor__c)),
+ NOT(ISBLANK(Payment_Method__r.Fiscal_sponsor__r.Name)),
+ TEXT(Payment_Method__r.Type__c) = &apos;Fiscal sponsor&apos;
+ ), Payment_Method__r.Fiscal_sponsor__r.Name, &quot;&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The name of the fiscal sponsor for this grant, if any</inlineHelpText>
+    <label>Fiscal sponsor name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

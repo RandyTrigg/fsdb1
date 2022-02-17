@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_due_to_submitted__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of days from date due to date submitted (or to proposal date closed w/o report) or to today if date due is in the past and the milestone hasn&apos;t yet been submitted, blank if date due is blank</description>
+    <externalId>false</externalId>
+    <formula>IF(
+ NOT(ISBLANK( Date_due__c )),
+ IF(
+  NOT(ISBLANK( Date_submitted__c )),
+  Date_submitted__c - Date_due__c,
+  IF(
+   NOT(ISBLANK( Proposal__r.Date_closed_incomplete__c )),
+   Proposal__r.Date_closed_incomplete__c - Date_due__c,
+   IF(
+    Date_due__c &lt;= TODAY(),
+    TODAY() - Date_due__c,
+    null
+   )
+  )
+ ),
+ null
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The number of days from date due to date submitted (or to proposal date closed w/o report) or to today if date due is in the past and the milestone hasn&apos;t yet been submitted, blank if date due is blank</inlineHelpText>
+    <label>Days due to submitted</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

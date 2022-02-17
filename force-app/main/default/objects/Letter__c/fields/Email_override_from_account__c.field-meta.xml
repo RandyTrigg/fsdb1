@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_override_from_account__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The GM Email Override field from the linked account.  If non-blank, then the letter will be sent to that address(es) when emailed rather to than those in the Emails field.</description>
+    <externalId>false</externalId>
+    <formula>IF(NOT(ISBLANK( Account__c)), Account__r.GM_email_override__c , null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The GM Email Override field from the linked account.  If non-blank, then the letter will be sent to that address(es) when emailed rather to than those in the Emails field.</inlineHelpText>
+    <label>Email override from account</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

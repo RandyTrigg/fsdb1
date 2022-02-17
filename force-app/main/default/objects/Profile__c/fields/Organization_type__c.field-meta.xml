@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Organization_type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The organization type as selected by the applicant in the profile form</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The organization type as selected by the applicant in the profile form</inlineHelpText>
+    <label>Organization type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>IntlNetwork</fullName>
+                <default>false</default>
+                <label>IntlNetwork</label>
+            </value>
+            <value>
+                <fullName>RegNetwork</fullName>
+                <default>false</default>
+                <label>RegNetwork</label>
+            </value>
+            <value>
+                <fullName>NatNetwork</fullName>
+                <default>false</default>
+                <label>NatNetwork</label>
+            </value>
+            <value>
+                <fullName>RegDomesticNetwork</fullName>
+                <default>false</default>
+                <label>RegDomesticNetwork</label>
+            </value>
+            <value>
+                <fullName>LocalNetwork</fullName>
+                <default>false</default>
+                <label>LocalNetwork</label>
+            </value>
+            <value>
+                <fullName>IntlNonProfit</fullName>
+                <default>false</default>
+                <label>IntlNonProfit</label>
+            </value>
+            <value>
+                <fullName>NatNonProfit</fullName>
+                <default>false</default>
+                <label>NatNonProfit</label>
+            </value>
+            <value>
+                <fullName>Grassroots</fullName>
+                <default>false</default>
+                <label>Grassroots</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npe01__Amount_Written_Off__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Total value of the Payments marked as written-off or noncollectable for this Opportunity.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Total value of the Payments marked as written-off or noncollectable for this Opportunity.</inlineHelpText>
+    <label>Payment Writeoff Amount</label>
+    <summarizedField>npe01__OppPayment__c.npe01__Payment_Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>npe01__OppPayment__c.npe01__Written_Off__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>npe01__OppPayment__c.npe01__Opportunity__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

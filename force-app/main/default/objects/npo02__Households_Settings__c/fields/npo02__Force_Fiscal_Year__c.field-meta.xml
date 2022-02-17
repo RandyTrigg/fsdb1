@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npo02__Force_Fiscal_Year__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>The NPSP automatically checks for the presence of custom fiscal years, and disabled FY settings if they&apos;re found to avoid errors.  This setting overrides that safety-check for users who have accidentally enabled custom fiscal years.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The NPSP automatically checks for the presence of custom fiscal years, and disabled FY settings if they&apos;re found to avoid errors.  This setting overrides that safety-check for users who have accidentally enabled custom fiscal years.</inlineHelpText>
+    <label>Force Fiscal Year</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

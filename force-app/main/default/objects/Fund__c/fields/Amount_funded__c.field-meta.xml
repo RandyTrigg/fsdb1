@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_funded__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Amount in dollars of fund not including overhead</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Amount in dollars of fund not including overhead</inlineHelpText>
+    <label>Amount funded</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

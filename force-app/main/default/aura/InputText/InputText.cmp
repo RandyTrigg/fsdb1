@@ -1,0 +1,14 @@
+<aura:component extends="c:InputFieldLabeledSuper">
+    <aura:attribute name="placeholder" type="String"/>
+    <aura:attribute name="type" type="String" default="text"/>
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <ui:inputText aura:id="inputTag"
+                  class="slds-input"
+                  value="{!v.value}" 
+                  placeholder="{!v.placeholder}" 
+                  change="{!c.saveChange}"
+                  disabled="{!v.disabled}"
+                  />
+    
+</aura:component>

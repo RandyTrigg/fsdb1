@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Future_funding_recommendation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Would you recommend funding to this grantee again? To be completed by MT responsible during accountability verification</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Would you recommend funding to this grantee again? To be completed by MT responsible during accountability verification</inlineHelpText>
+    <label>Future funding recommendation</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes, recommend</fullName>
+                <default>false</default>
+                <label>Yes, recommend</label>
+            </value>
+            <value>
+                <fullName>Recommend with reservations</fullName>
+                <default>false</default>
+                <label>Recommend with reservations</label>
+            </value>
+            <value>
+                <fullName>Not recommended</fullName>
+                <default>false</default>
+                <label>Not recommended</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

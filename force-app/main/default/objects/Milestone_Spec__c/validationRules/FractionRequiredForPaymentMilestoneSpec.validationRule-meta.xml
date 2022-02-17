@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FractionRequiredForPaymentMilestoneSpec</fullName>
+    <active>true</active>
+    <description>Payment milestone specs must have non-blank Fraction of Amount Awarded</description>
+    <errorConditionFormula>AND(
+ TEXT(Type__c) = &quot;Payment&quot;,
+ ISBLANK(Fraction_of_amount_awarded__c)
+)</errorConditionFormula>
+    <errorDisplayField>Fraction_of_amount_awarded__c</errorDisplayField>
+    <errorMessage>Payment milestone specs must have non-blank Fraction of Amount Awarded</errorMessage>
+</ValidationRule>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Quality_of_report_ranking__c</fullName>
+    <deprecated>false</deprecated>
+    <description>(1) Poor Quality: It is difficult to understand any outcomes or results from the report; (2) Some outcomes but unclear: Report shares outcomes or results but reader is left with questions or lack of clarity in some aspects; (3) Clear and strong: Report shares clear outcomes and results linked to program activities and movement building efforts</description>
+    <externalId>false</externalId>
+    <inlineHelpText>(1) Poor Quality: difficult to understand any outcomes or results from the report; (2) Some outcomes but unclear, lack of clarity; (3) Clear and strong: Report shares clear outcomes and results linked to program activities and movement building efforts</inlineHelpText>
+    <label>Quality of report ranking</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Poor quality (1)</fullName>
+                <default>false</default>
+                <label>Poor quality (1)</label>
+            </value>
+            <value>
+                <fullName>Some outcomes but unclear (2)</fullName>
+                <default>false</default>
+                <label>Some outcomes but unclear (2)</label>
+            </value>
+            <value>
+                <fullName>Clear and strong (3)</fullName>
+                <default>false</default>
+                <label>Clear and strong (3)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

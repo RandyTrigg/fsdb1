@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fiscal_Sponsorship__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Fiscal sponsorship program through which funding is channeled to partner women&apos;s funds.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Fiscal sponsorship program through which funding is channeled to partner women&apos;s funds.</inlineHelpText>
+    <label>Fiscal Sponsorship</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Tewa</fullName>
+                <default>false</default>
+                <label>Tewa</label>
+            </value>
+            <value>
+                <fullName>Semillas</fullName>
+                <default>false</default>
+                <label>Semillas</label>
+            </value>
+            <value>
+                <fullName>WHEAT Trust</fullName>
+                <default>false</default>
+                <label>WHEAT Trust</label>
+            </value>
+            <value>
+                <fullName>Cent. Amer. Women&apos;s Fund</fullName>
+                <default>false</default>
+                <label>Cent. Amer. Women&apos;s Fund</label>
+            </value>
+            <value>
+                <fullName>Mongolian Women&apos;s Fund</fullName>
+                <default>false</default>
+                <label>Mongolian Women&apos;s Fund</label>
+            </value>
+            <value>
+                <fullName>Reconstruction Women&apos;s Fund</fullName>
+                <default>false</default>
+                <label>Reconstruction Women&apos;s Fund</label>
+            </value>
+            <value>
+                <fullName>Slovak-Czech Women&apos;s Fund</fullName>
+                <default>false</default>
+                <label>Slovak-Czech Women&apos;s Fund</label>
+            </value>
+            <value>
+                <fullName>Ukrainian Women&apos;s Fund</fullName>
+                <default>false</default>
+                <label>Ukrainian Women&apos;s Fund</label>
+            </value>
+            <value>
+                <fullName>Muslim Women WFIMW</fullName>
+                <default>false</default>
+                <label>Muslim Women WFIMW</label>
+            </value>
+            <value>
+                <fullName>INWF Dues</fullName>
+                <default>false</default>
+                <label>INWF Dues</label>
+            </value>
+            <value>
+                <fullName>INWF Donations</fullName>
+                <default>false</default>
+                <label>INWF Donations</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

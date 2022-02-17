@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Deze is aangevinkt wanneer de gebruiker de primaire contact is op zijn Account. De primaire contactpersoon kan gewijzigd worden op de account.</help>
+    <label></label>
+    <name>npsp__Primary_Contact__c</name>
+</CustomFieldTranslation>

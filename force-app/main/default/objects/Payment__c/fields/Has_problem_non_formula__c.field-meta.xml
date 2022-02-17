@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Has_problem_non_formula__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>This version of the Has Problem field is updated automatically by a workflow that copies the value from the formula version of the same field.  That lets it be accessed from a rollup summary in Proposal.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This version of the Has Problem field is updated automatically by a workflow that copies the value from the formula version of the same field.  That lets it be accessed from a rollup summary in Proposal.</inlineHelpText>
+    <label>Has problem (non-formula)</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

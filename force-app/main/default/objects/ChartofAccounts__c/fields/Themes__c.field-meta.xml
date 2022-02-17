@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Themes__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Thematic areas in which grantmaking is classified: Building Peace and Ending Gender-Based Violence (GBV); Increasing Access to Education (IAE); Ensuring Economic and Environmental Justice (EEJ); Expanding Civic and Political Participation (CPP); Advancing Health and Sexual &amp; Reproductive Rights (SRR); Fostering Social Change Philanthropy (SCP)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Ending Gender-Based Violence (GBV); Access to Education (IAE); Economic &amp; Environmental Justice (EEJ); Civic &amp; Political Participation (CPP); Health &amp; Sexual &amp; Reproductive Rights (SRR); Social Change Philanthropy (SCP)</inlineHelpText>
+    <label>Themes</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>GBV</fullName>
+                <default>false</default>
+                <label>GBV</label>
+            </value>
+            <value>
+                <fullName>EEJ</fullName>
+                <default>false</default>
+                <label>EEJ</label>
+            </value>
+            <value>
+                <fullName>SRR</fullName>
+                <default>false</default>
+                <label>SRR</label>
+            </value>
+            <value>
+                <fullName>CPP</fullName>
+                <default>false</default>
+                <label>CPP</label>
+            </value>
+            <value>
+                <fullName>IAE</fullName>
+                <default>false</default>
+                <label>IAE</label>
+            </value>
+            <value>
+                <fullName>SCP</fullName>
+                <default>false</default>
+                <label>SCP</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>7</visibleLines>
+</CustomField>

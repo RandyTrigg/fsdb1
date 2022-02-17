@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ActiveFundOnlyOnCreate</fullName>
+    <active>true</active>
+    <description>Allocations may only be created on active funds</description>
+    <errorConditionFormula>AND(
+ ISNEW(),
+ NOT(Fund__r.Active__c)
+)</errorConditionFormula>
+    <errorDisplayField>Fund__c</errorDisplayField>
+    <errorMessage>Allocations may only be created on active funds</errorMessage>
+</ValidationRule>

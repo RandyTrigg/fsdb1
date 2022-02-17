@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>[メール連絡先] 項目を参照してください。</help>
+    <label></label>
+    <name>npe01__WorkEmail__c</name>
+</CustomFieldTranslation>

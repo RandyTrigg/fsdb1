@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuraDefinitionBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>35.0</apiVersion>
+    <description>&quot;Bridge&quot; app connecting VF to the aura component bundle.</description>
+</AuraDefinitionBundle>

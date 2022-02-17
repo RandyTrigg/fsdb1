@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Custom_Reqs__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The Custom Reqs that apply to an invited proposal.  If blank, then the custom reqs on this invite&apos;s allocation (if any) are used.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Custom Reqs that apply to an invited proposal.  If blank, then the custom reqs on this invite&apos;s allocation (if any) are used.</inlineHelpText>
+    <label>Custom Reqs</label>
+    <referenceTo>Custom_Reqs__c</referenceTo>
+    <relationshipLabel>Invites</relationshipLabel>
+    <relationshipName>Invites</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

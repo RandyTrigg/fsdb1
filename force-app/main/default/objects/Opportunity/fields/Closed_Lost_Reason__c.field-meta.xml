@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_Lost_Reason__c</fullName>
+    <deprecated>false</deprecated>
+    <description>No Response: PCM contacted potential donor, but PCM did not hear back from the contact. 
+Decline: PCM was in communication with potential donor, but we did not receive a gift. 
+Unknown: The Opportunity owner no longer works here, or the opportunity was not closed before this FY and no further information is known, or the opportunity does not contain am ask amount.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Decline: PCM was in communication with contact, but no received gift
+No Response: PCM contacted potential donor, but PCM did not hear back. 
+Unknown: The Opp. owner no longer works here, or the Opp. was not closed before this FY with no further info</inlineHelpText>
+    <label>Closed Lost Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>StageName</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Decline</fullName>
+                <default>false</default>
+                <label>Decline</label>
+            </value>
+            <value>
+                <fullName>No Response</fullName>
+                <default>false</default>
+                <label>No Response</label>
+            </value>
+            <value>
+                <fullName>Unknown</fullName>
+                <default>false</default>
+                <label>Unknown</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Decline</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>No Response</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Closed Lost</controllingFieldValue>
+            <valueName>Unknown</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

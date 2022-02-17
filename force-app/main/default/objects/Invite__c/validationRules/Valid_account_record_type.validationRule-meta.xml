@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Valid_account_record_type</fullName>
+    <active>true</active>
+    <description>The account associated with an invite must have record type Organization GM</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Account__c)),
+ Account__r.RecordType.DeveloperName != &quot;Organization_GM&quot;
+)</errorConditionFormula>
+    <errorDisplayField>Account__c</errorDisplayField>
+    <errorMessage>The account associated with an invite must have record type Organization GM</errorMessage>
+</ValidationRule>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Board_EC_approval_details__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The amount and duration approved by the Board/EC</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The amount and duration approved by the Board/EC</inlineHelpText>
+    <label>Board approval details</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

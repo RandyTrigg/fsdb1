@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Has_prior_profile__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if the profile linked to this invite has a prior profile</description>
+    <externalId>false</externalId>
+    <formula>AND(
+ NOT(ISBLANK(Profile__c)),
+ NOT(ISBLANK(Profile__r.Prior_profile__c))
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if the profile linked to this invite has a prior profile</inlineHelpText>
+    <label>Has prior profile</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

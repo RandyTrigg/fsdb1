@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GM_country__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The country where this organization does its work (not necessarily its mailing country)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The country where this organization does its work (not necessarily its mailing country)</inlineHelpText>
+    <label>GM country</label>
+    <referenceTo>Country__c</referenceTo>
+    <relationshipLabel>Accounts</relationshipLabel>
+    <relationshipName>Accounts</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

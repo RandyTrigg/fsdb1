@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_charges__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The number of charges currently linked to this fund</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The number of charges currently linked to this fund</inlineHelpText>
+    <label>Num charges</label>
+    <summaryForeignKey>Charge__c.Fund__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

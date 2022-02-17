@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DateDueOrNumMonthsDue</fullName>
+    <active>true</active>
+    <description>One of Date Due or Num Months Due must be non-blank.</description>
+    <errorConditionFormula>AND(
+ ISBLANK( Date_due__c ),
+ ISBLANK( Num_months_due__c )
+)</errorConditionFormula>
+    <errorMessage>One of Date Due or Num Months Due must be non-blank.</errorMessage>
+</ValidationRule>

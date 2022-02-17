@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Seeded_by_GFW__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>GFW was first formal funder to group (2016-2017 survey results still pending)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>GFW was first formal funder to group (2016-2017 survey results still pending)</inlineHelpText>
+    <label>Seeded by GFW</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

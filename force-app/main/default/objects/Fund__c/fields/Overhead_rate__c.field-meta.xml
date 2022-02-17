@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Overhead_rate__c</fullName>
+    <defaultValue>0.2</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Fraction of the gift amount to be reserved for overhead (defaults to .2)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Fraction of the gift amount to be reserved for overhead (defaults to .2)</inlineHelpText>
+    <label>Overhead rate</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>4</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

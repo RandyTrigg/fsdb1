@@ -1,0 +1,126 @@
+<aura:component controller="InviteController" implements="force:lightningQuickAction,force:hasRecordId">
+    <ltng:require styles="{!$Resource.popupCSS}" />
+
+    <aura:attribute name="inviteRecord" type="Invite__c" />
+    <aura:attribute name="inviteRecordError" type="String" />
+    <aura:attribute name="inviteLoaded" type="Boolean" />
+    <aura:attribute name="invite" type="Invite__c" />
+    <aura:attribute name="alloc" type="Allocation__c" />
+    <aura:attribute name="profile" type="Profile__c" />
+    <aura:attribute name="customReqs" type="Custom_Reqs__c" />
+    <aura:attribute name="proposal" type="Proposal__c" />
+    <aura:attribute name="errMessage" type="String" />
+    <aura:attribute name="profileWarning" type="String" />
+    <aura:attribute name="profileWarningContinued" type="Boolean" default="false" />
+    <aura:attribute name="readyToBuildProposal" type="Boolean" default="false" />
+    <aura:attribute name="buildProposalTitle" type="String" />
+    <aura:attribute name="buildProposalText" type="String" />
+    <aura:attribute name="invitationDeadline" type="Date" />
+    <aura:attribute name="awardNotificationDeadline" type="Date" />
+
+    <aura:attribute name="waiting" type="Boolean" default="true" />
+
+    <!-- Fetch invite record. -->
+    <force:recordData aura:id="inviteData" recordId="{!v.recordId}" layoutType="FULL" targetFields="{!v.inviteRecord}"
+        fields="Account__r.Name" targetError="{!v.inviteRecordError}" mode="VIEW"
+        recordUpdated="{!c.inviteRecordUpdated}" />
+
+    <div class="c-container slds-m-horizontal_x-large slds-m-vertical_small">
+        <div class="slds-page-header">
+            <h1 class="slds-page-header__title slds-truncate slds-align-middle slds-p-vertical_small"
+                title="Invite: New Proposal">New Proposal from Invite</h1>
+            <aura:if isTrue="{!v.errMessage &amp;&amp; v.inviteLoaded}">
+                <p class="slds-text-heading_small slds-line-height_reset">
+                    {!v.errMessage}
+                </p>
+                <aura:set attribute="else">
+                    <p class="slds-text-heading_small slds-line-height_reset">
+                        Use the interface below to build a new proposal for this invite.
+                    </p>
+                </aura:set>
+            </aura:if>
+            <!-- Hide invite info if it hasn't been loaded or is invalid. -->
+            <div class="{!(v.errMessage || !v.inviteLoaded) ? 'slds-hide' : ''}">
+                <!-- Display lightning card with invite information -->
+                <div class="slds-m-vertical_small">
+                    <!-- Display Lightning Data Service errors, if any -->
+                    <aura:if isTrue="{!not(empty(v.inviteRecordError))}">
+                        <div class="inviteRecordError">
+                            <ui:message title="Error" severity="error" closable="true">
+                                {!v.inviteRecordError}
+                            </ui:message>
+                        </div>
+                    </aura:if>
+                    <lightning:card iconName="custom:custom11">
+                        <aura:set attribute="title">
+                            Invite: <a href="{!'/' + v.recordId}">{!v.inviteRecord.Name}</a>
+                        </aura:set>
+                        <div class="slds-p-horizontal--small">
+                            <h3 class="slds-text-heading--small slds-m-bottom--x-small">
+                                <p><b>Fund</b>: <a href="{!'/' + v.alloc.Fund__c}">{!v.alloc.Fund__r.Name}</a>
+                                </p>
+                                <p><b>Allocation</b>: <a
+                                        href="{!'/' + v.inviteRecord.Allocation__c}">{!v.inviteRecord.Allocation__r.Name}</a>
+                                </p>
+                                <p><b>Account</b>: <a
+                                        href="{!'/' + v.invite.Account__c}">{!v.invite.Account__r.Name}</a>
+                                </p>
+                                <p><b>Profile</b>: <a
+                                        href="{!'/' + v.invite.Profile__c}">{!v.invite.Profile__r.Name}</a></p>
+                                <p><b>Proposal to clone</b>: <a
+                                        href="{!'/' + v.invite.Proposal_to_clone__c}">{!v.invite.Proposal_to_clone__r.Name}</a>
+                                </p>
+                            </h3>
+                        </div>
+                    </lightning:card>
+                </div>
+            </div>
+            <!-- Show profile alert interface if there is a warning message related to the profile. -->
+            <div class="{!v.profileWarning &amp;&amp; !v.errMessage &amp;&amp; !v.proposal ? '' : 'slds-hide'}">
+                <div class="slds-m-vertical_small">
+                    <lightning:card iconName="utility:warning">
+                        <aura:set attribute="title">
+                            Profile Alert
+                        </aura:set>
+                        <p class="slds-text-heading_small slds-line-height_reset">
+                            {!v.profileWarning}
+                        </p>
+                        <aura:set attribute="footer">
+                            <lightning:button class="slds-m-top_small" variant="brand" name="profileWarningContinue"
+                                label="Continue" disabled="{!v.profileWarningContinued}"
+                                onclick="{!c.handleProfileWarningContinue}" />
+                            <lightning:button class="slds-m-top_small" variant="Neutral" name="profileWarningCancel"
+                                label="Cancel" disabled="{!v.profileWarningContinued}" onclick="{!c.handleCancel}" />
+                        </aura:set>
+                    </lightning:card>
+                </div>
+            </div>
+            <!-- Unhide the buildProposal interface when we're ready to go, and hide again when it's done. -->
+            <div class="{!v.readyToBuildProposal &amp;&amp; !v.proposal ? '' : 'slds-hide'}">
+                <lightning:card iconName="utility:new">
+                    <aura:set attribute="title">
+                        {!v.buildProposalTitle}
+                    </aura:set>
+                    <p class="slds-text-heading_small slds-line-height_reset">
+                        {!v.buildProposalText}
+                    </p>
+                    <aura:set attribute="footer">
+                        <lightning:button class="slds-m-top_small" variant="brand" name="buildProposalGo"
+                            label="Build proposal" onclick="{!c.handleBuildProposalGo}"
+                            disabled="{!v.proposal || !v.invitationDeadline || !v.awardNotificationDeadline}" />
+                        <lightning:button class="slds-m-top_small" variant="Neutral" name="buildProposalCancel"
+                            label="Cancel" onclick="{!c.handleCancel}" disabled="{!v.proposal}" />
+                    </aura:set>
+                </lightning:card>
+            </div>
+            <aura:if isTrue="{!v.proposal}">
+                <h3 class="slds-text-heading_large slds-m-top_small">
+                    Jump to new proposal: <a href="{!'/' + v.proposal.Id}">{!v.proposal.Name}</a>
+                </h3>
+            </aura:if>
+        </div>
+    </div>
+
+    <lightning:spinner class="{!v.waiting ? '' : 'slds-hide'}" alternativeText="Submitting" />
+
+</aura:component>

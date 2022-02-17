@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recent_grantee__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if this is a grantee whose latest grant was within the last five full fiscal years</description>
+    <externalId>false</externalId>
+    <formula>AND(
+ Grantee__c,
+ IF(MONTH(TODAY()) &gt; 6,
+  Date_of_last_grant__c &gt;= DATE(YEAR(TODAY())-5, 7, 1),
+  Date_of_last_grant__c &gt;= DATE(YEAR(TODAY())-6, 7, 1)
+ )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if this is a grantee whose latest grant was within the last five full fiscal years</inlineHelpText>
+    <label>Recent grantee</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,10 @@
+.THIS .my-checkbox {
+    height: 1rem;
+	width: 1rem;
+}
+.THIS div.hidden {
+    display: none;
+}
+.THIS div.slds-grow {
+    width: 99%;
+}

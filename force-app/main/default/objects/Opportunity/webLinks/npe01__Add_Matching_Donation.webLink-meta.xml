@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npe01__Add_Matching_Donation</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <linkType>sControl</linkType>
+    <masterLabel>Add Matching Donation_DEPRECATED</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <scontrol>npe01__OpportunityCreateMatching</scontrol>
+</WebLink>

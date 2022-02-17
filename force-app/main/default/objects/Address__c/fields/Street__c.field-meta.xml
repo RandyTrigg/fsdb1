@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Street__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Multiple street lines can be entered by simply hitting enter after each line.  A total of 255 characters can be entered.  This field, along with the Locality field, is for use in mail merges.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Multiple street lines can be entered by simply hitting enter after each line.  A total of 255 characters can be entered.  This field, along with the Locality field, is for use in mail merges.</inlineHelpText>
+    <label>Street</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compact_Opportunity</fullName>
+    <fields>Name</fields>
+    <fields>AccountId</fields>
+    <fields>ChartofAccounts__c</fields>
+    <fields>Amount</fields>
+    <fields>Documents_link__c</fields>
+    <fields>LastModifiedById</fields>
+    <fields>Reporting_complete__c</fields>
+    <fields>Probability</fields>
+    <fields>Number_of_years__c</fields>
+    <label>Compact Opportunity</label>
+</CompactLayout>

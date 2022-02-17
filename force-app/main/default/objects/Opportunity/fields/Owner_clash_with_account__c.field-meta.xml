@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Owner_clash_with_account__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if this opportunity&apos;s owner differs from that of its account</description>
+    <externalId>false</externalId>
+    <formula>OwnerId &lt;&gt; Account.OwnerId</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if this opportunity&apos;s owner differs from that of its account</inlineHelpText>
+    <label>Owner clash with account</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_dependent_on_prior_grant__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>This proposal/grant can&apos;t be paid until the given prior grant has its milestone completed and approved.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This proposal/grant can&apos;t be paid until the given prior grant has its milestone completed and approved.</inlineHelpText>
+    <label>Payment dependent on prior grant</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Proposal__c.Account__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Account__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Proposal__c.Id</field>
+            <operation>notEqual</operation>
+            <valueField>$Source.Id</valueField>
+        </filterItems>
+        <infoMessage>Select a prior grant from the same account as this grant.</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Proposal__c</referenceTo>
+    <relationshipLabel>Proposals (dependency)</relationshipLabel>
+    <relationshipName>Proposals</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

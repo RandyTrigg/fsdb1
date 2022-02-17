@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Social_media__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Social media pages belonging to this group, for example, twitter and facebook</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Social media pages belonging to this group, for example, twitter and facebook</inlineHelpText>
+    <label>Social media</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>TextArea</type>
+</CustomField>

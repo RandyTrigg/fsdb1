@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposal__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The proposal to which the classification is assigned</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The proposal to which the classification is assigned</inlineHelpText>
+    <label>Proposal</label>
+    <referenceTo>Proposal__c</referenceTo>
+    <relationshipLabel>Classification Assigns</relationshipLabel>
+    <relationshipName>Classification_Assigns</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

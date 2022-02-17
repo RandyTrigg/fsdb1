@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsCurrentActiveAddress__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>IF( ISBLANK(Contact__c), IF( Account__r.LinkedAddress__c =  Id , &quot;YES&quot;, &quot;No&quot;), IF ( Contact__r.LinkedAddress__c = Id , &quot;YES&quot;, &quot;No&quot;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Indicates that this address is currently the Active Address.</inlineHelpText>
+    <label>Is Current Active Address:</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

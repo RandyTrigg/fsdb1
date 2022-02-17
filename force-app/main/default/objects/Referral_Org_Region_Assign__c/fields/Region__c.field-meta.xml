@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Region__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The region to which this join record is linked</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The region to which this join record is linked</inlineHelpText>
+    <label>Region</label>
+    <referenceTo>Region__c</referenceTo>
+    <relationshipLabel>Referral Org Region Assigns</relationshipLabel>
+    <relationshipName>Referral_Org_Region_Assigns</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

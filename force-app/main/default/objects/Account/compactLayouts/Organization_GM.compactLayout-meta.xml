@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Organization_GM</fullName>
+    <fields>Name</fields>
+    <fields>RecordTypeId</fields>
+    <fields>GM_country__c</fields>
+    <fields>GM_region__c</fields>
+    <fields>Grantee__c</fields>
+    <fields>Date_org_founded__c</fields>
+    <label>Organization GM</label>
+</CompactLayout>

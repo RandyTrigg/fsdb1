@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Foyer</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Foyers</value>
+    </caseValues>
+    <fieldSets>
+        <label></label>
+        <name>npo02__Manage_Household_Custom</name>
+    </fieldSets>
+    <gender>Masculine</gender>
+    <nameFieldLabel>Nom du foyer</nameFieldLabel>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label></label>
+        <name>npo02__Copy_Household_Address_to_Contacts</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npo02__New_Household_Member</name>
+    </webLinks>
+</CustomObjectTranslation>

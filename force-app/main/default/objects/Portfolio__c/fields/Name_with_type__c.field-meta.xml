@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Name_with_type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Portfolio type followed by name</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Type__c) &amp; &quot;: &quot; &amp;  Name</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Portfolio type followed by name</inlineHelpText>
+    <label>Name with type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

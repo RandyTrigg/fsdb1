@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_emails_GM__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The email addresses to be used when contacting this group</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The email addresses to be used when contacting this group</inlineHelpText>
+    <label>Contact emails GM</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>TextArea</type>
+</CustomField>

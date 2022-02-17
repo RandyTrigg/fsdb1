@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Emails__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Comma-separated email addresses for this letter, usually the emails of the account&apos;s contact records</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Comma-separated email addresses for this letter, usually the emails of the account&apos;s contact records</inlineHelpText>
+    <label>Emails</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

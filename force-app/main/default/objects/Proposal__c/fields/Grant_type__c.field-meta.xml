@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grant_type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The type of this grant</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The type of this grant</inlineHelpText>
+    <label>Grant type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Grant_type</valueSetName>
+    </valueSet>
+</CustomField>

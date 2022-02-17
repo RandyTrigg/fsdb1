@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Suffix__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <inlineHelpText>A picklist for name suffix.</inlineHelpText>
+    <label>Suffix Picklist</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Jr.</fullName>
+                <default>false</default>
+                <label>Jr.</label>
+            </value>
+            <value>
+                <fullName>Sr.</fullName>
+                <default>false</default>
+                <label>Sr.</label>
+            </value>
+            <value>
+                <fullName>MD</fullName>
+                <default>false</default>
+                <label>MD</label>
+            </value>
+            <value>
+                <fullName>PhD</fullName>
+                <default>false</default>
+                <label>PhD</label>
+            </value>
+            <value>
+                <fullName>JD</fullName>
+                <default>false</default>
+                <label>JD</label>
+            </value>
+            <value>
+                <fullName>III</fullName>
+                <default>false</default>
+                <label>III</label>
+            </value>
+            <value>
+                <fullName>II</fullName>
+                <default>false</default>
+                <label>II</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

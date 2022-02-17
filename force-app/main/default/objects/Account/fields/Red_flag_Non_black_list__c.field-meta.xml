@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Red_flag_Non_black_list__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>The organization is &quot;under observation&quot; but not black-listed - see the red flag explanation field for an explanation.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The organization is &quot;under observation&quot; but not black-listed - see the red flag explanation field for an explanation.</inlineHelpText>
+    <label>Red flag: Non black-list</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

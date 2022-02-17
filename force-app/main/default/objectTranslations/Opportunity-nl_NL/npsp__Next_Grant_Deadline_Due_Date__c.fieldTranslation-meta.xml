@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>De NPSP werkt dit veld automatisch bij op basis van de volgende Grote Deadline record.</help>
+    <label></label>
+    <name>npsp__Next_Grant_Deadline_Due_Date__c</name>
+</CustomFieldTranslation>

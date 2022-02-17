@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Extra_instructions__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Further instructions related to payment method</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Further instructions related to payment method</inlineHelpText>
+    <label>Extra instructions</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

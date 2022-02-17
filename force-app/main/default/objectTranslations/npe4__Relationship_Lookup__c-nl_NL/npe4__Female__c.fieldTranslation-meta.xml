@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>De gebruikte waarde als het Contactpersoon’s geslacht veld gelijk is aan de Vrouw Aangepast Label of het geslacht blijkt uit de Contactpersoon’s salutatie.</help>
+    <label></label>
+    <name>npe4__Female__c</name>
+</CustomFieldTranslation>

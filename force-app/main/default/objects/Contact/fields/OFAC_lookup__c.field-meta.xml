@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OFAC_lookup__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Click to display the results of searching for this contact&apos;s name on the Treasury Department&apos;s OFAC/SDN list.</description>
+    <externalId>false</externalId>
+    <formula>/* Archived: No longer using this api to do lookups. */
+/*
+HYPERLINK(
+ &quot;https://api.trade.gov/consolidated_screening_list/search&quot; &amp;
+ &quot;?api_key=GELjC4NVAuE9OJQd_Q-yJEXM&quot; &amp;
+ &quot;&amp;sources=SDN&quot; &amp;
+ &quot;&amp;name=&quot; &amp;  FirstName &amp; &quot;%20&quot; &amp; LastName
+ ,
+ &quot;Search OFAC for &apos;&quot; &amp; FirstName &amp; &quot; &quot; &amp; LastName &amp; &quot;&apos;&quot;
+)
+*/
+
+HYPERLINK(
+ &quot;http://search.ofac-api.com/api/v1&quot; &amp;
+ &quot;?apiKey=2f74fbc7-78c3-4ccd-8b1f-34b3ced7cc84&quot; &amp;
+ &quot;&amp;minScore=100&quot; &amp;
+ &quot;&amp;name=&quot; &amp;  
+  SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(
+  SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(
+  SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(
+  SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(
+   LOWER(FirstName &amp; &quot;+&quot; &amp; LastName),
+   &quot;ã&quot;, &quot;a&quot;),
+   &quot;á&quot;, &quot;a&quot;),
+   &quot;à&quot;, &quot;a&quot;),
+   &quot;â&quot;, &quot;a&quot;),
+   &quot;ä&quot;, &quot;a&quot;),
+   &quot;ç&quot;, &quot;c&quot;),
+   &quot;č&quot;, &quot;c&quot;),
+   &quot;ć&quot;, &quot;c&quot;),
+   &quot;é&quot;, &quot;e&quot;),
+   &quot;è&quot;, &quot;e&quot;),
+   &quot;ê&quot;, &quot;e&quot;),
+   &quot;ë&quot;, &quot;e&quot;),
+   &quot;î&quot;, &quot;i&quot;),
+   &quot;ï&quot;, &quot;i&quot;),
+   &quot;ì&quot;, &quot;i&quot;),
+   &quot;í&quot;, &quot;i&quot;),
+   &quot;ú&quot;, &quot;u&quot;),
+   &quot;û&quot;, &quot;u&quot;),
+   &quot;ü&quot;, &quot;u&quot;),
+   &quot;ù&quot;, &quot;u&quot;),
+   &quot;ó&quot;, &quot;o&quot;),
+   &quot;ô&quot;, &quot;o&quot;),
+   &quot;õ&quot;, &quot;o&quot;),
+   &quot;ö&quot;, &quot;o&quot;),
+   &quot;ò&quot;, &quot;o&quot;),
+   &quot;ñ&quot;, &quot;n&quot;),
+   &quot;ś&quot;, &quot;s&quot;),
+   &quot;ŝ&quot;, &quot;s&quot;),
+   &quot;ş&quot;, &quot;s&quot;),
+   &quot;š&quot;, &quot;s&quot;),
+   &quot;ý&quot;, &quot;y&quot;),
+   &quot;ź&quot;, &quot;z&quot;),
+   &quot;ż&quot;, &quot;z&quot;),
+   &quot;ž&quot;, &quot;z&quot;)
+ ,
+ &quot;Search OFAC SDN list for &apos;&quot; &amp; FirstName &amp; &quot; &quot; &amp; LastName &amp; &quot;&apos;&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Click to display the results of searching for this contact&apos;s name on the Treasury Department&apos;s OFAC/SDN list.</inlineHelpText>
+    <label>OFAC lookup</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

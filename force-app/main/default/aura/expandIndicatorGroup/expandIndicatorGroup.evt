@@ -1,0 +1,1 @@
+<aura:event type="APPLICATION" description="Unhide the components in an indicator group" />

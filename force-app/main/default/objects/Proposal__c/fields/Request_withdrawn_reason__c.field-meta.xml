@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_withdrawn_reason__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Why was the request withdrawn</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Why was the request withdrawn</inlineHelpText>
+    <label>Request withdrawn reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Duplicate request</fullName>
+                <default>false</default>
+                <label>Duplicate request</label>
+            </value>
+            <value>
+                <fullName>Our delay</fullName>
+                <default>false</default>
+                <label>Our delay</label>
+            </value>
+            <value>
+                <fullName>No endorsement</fullName>
+                <default>false</default>
+                <label>No endorsement</label>
+            </value>
+            <value>
+                <fullName>Missed proposal submit deadline</fullName>
+                <default>false</default>
+                <label>Missed proposal submit deadline</label>
+            </value>
+            <value>
+                <fullName>Open grant</fullName>
+                <default>false</default>
+                <label>Open grant</label>
+            </value>
+            <value>
+                <fullName>Per group&apos;s request</fullName>
+                <default>false</default>
+                <label>Per group&apos;s request</label>
+            </value>
+            <value>
+                <fullName>Unable to award - conditional docket</fullName>
+                <default>false</default>
+                <label>Unable to award - conditional docket</label>
+            </value>
+            <value>
+                <fullName>AUTOMATED: Lack of online form activity</fullName>
+                <default>false</default>
+                <label>AUTOMATED: Lack of online form activity</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

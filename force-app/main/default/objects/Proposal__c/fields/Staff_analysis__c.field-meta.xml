@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Staff_analysis__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Overall comments: Is this group strategic in terms of our own internal strategy for movement building? Why is a grant timely and/or important to the movement at this time? If this is a new group, provide rationale behind the decision to fund it now. If group is a renewal, include how the group has evolved over time and describe how or why not. Also include rationale for grant size. (Rationale for support)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Overall comments: Is group strategic for movement building? Is grant timely/important? If new, rationale to fund now. If renewal, how group has evolved or why not. Also rationale for grant size.</inlineHelpText>
+    <label>Staff analysis</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

@@ -1,0 +1,12 @@
+<aura:component >
+    <ltng:require styles="/resource/SLDS0102/assets/styles/salesforce-lightning-design-system-ltng.css" />
+    <aura:attribute name="label" type="String"/>
+	
+    <fieldset class="slds-form--compound">
+		<legend class="slds-form-element__label">{v.label}</legend>
+		<div class="form-element__group">
+            {v.body}
+		</div>
+	</fieldset>
+    
+</aura:component>

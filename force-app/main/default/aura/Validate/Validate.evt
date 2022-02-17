@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="Each component receiving this should display errors including missing field value if 'required'" >
+    <aura:attribute name="saveResponse" type="String"/>
+</aura:event>

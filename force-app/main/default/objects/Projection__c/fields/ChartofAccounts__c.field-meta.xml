@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ChartofAccounts__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>This projection&apos;s chart of accounts record</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This projection&apos;s chart of accounts record</inlineHelpText>
+    <label>Chart of Accounts</label>
+    <referenceTo>ChartofAccounts__c</referenceTo>
+    <relationshipLabel>Projections</relationshipLabel>
+    <relationshipName>Projections</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

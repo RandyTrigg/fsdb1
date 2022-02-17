@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>For_invitation_from_allocation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Value of the &quot;For invitation&quot; field inherited from the linked allocation</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Allocation__r.For_invitation__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Value of the &quot;For invitation&quot; field inherited from the linked allocation</inlineHelpText>
+    <label>For invitation (from allocation)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

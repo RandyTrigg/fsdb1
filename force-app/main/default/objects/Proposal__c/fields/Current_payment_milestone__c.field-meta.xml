@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_payment_milestone__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Current payment milestone assigned to this proposal</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Current payment milestone assigned to this proposal</inlineHelpText>
+    <label>Current payment milestone</label>
+    <referenceTo>Milestone__c</referenceTo>
+    <relationshipLabel>Proposals (Current payment milestone)</relationshipLabel>
+    <relationshipName>Proposals2</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

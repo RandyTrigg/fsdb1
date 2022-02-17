@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Projection__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Linked projection indicates that funding for this allocation depends on funding for the linked projection.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Linked projection indicates that funding for this allocation depends on funding for the linked projection.</inlineHelpText>
+    <label>Projection</label>
+    <referenceTo>Projection__c</referenceTo>
+    <relationshipLabel>Allocations</relationshipLabel>
+    <relationshipName>Allocations</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

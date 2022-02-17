@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>La plantilla para esta tarea del plan de acción.</help>
+    <label></label>
+    <name>npsp__Engagement_Plan_Template__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

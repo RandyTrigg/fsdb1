@@ -1,0 +1,15 @@
+<aura:component extends="c:InputFieldLabeledSuper">
+    <aura:attribute name="placeholder" type="String"/>
+    <aura:attribute name="type" type="String" default="number"/>
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- Force type of input tag to be 'text' even for number fields to avoid the increment/decrement knobs. -->
+    <ui:inputText aura:id="inputTag"
+                  class="slds-input"
+                  value="{!v.value}" 
+                  placeholder="{!v.placeholder}" 
+                  change="{!c.saveChange}"
+                  disabled="{!v.disabled}"
+                  />
+    
+</aura:component>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fund__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The fund that specifies and tracks how the grantmaking part of this projection is spent</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The fund that specifies and tracks how the grantmaking part of this projection is spent</inlineHelpText>
+    <label>Fund</label>
+    <referenceTo>Fund__c</referenceTo>
+    <relationshipLabel>Projections</relationshipLabel>
+    <relationshipName>Projections</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

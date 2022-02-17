@@ -1,0 +1,30 @@
+<aura:component access="global">
+    <aura:attribute name="indicatorType" type="String" />
+    <aura:attribute name="label" type="String" />
+    <aura:attribute name="helpText" type="String" />
+    <aura:attribute name="type" type="String" default="indicatorGroup" />
+    <aura:attribute name="readonly" type="Boolean" default="true" />
+    <aura:attribute name="rawComponents" type="Map[]" />
+    <aura:attribute name="indicatorComponents" type="Aura.Component[]" />
+    <aura:attribute name="expanded" type="Boolean" default="true" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="slds">
+        <!-- Buttons that expand/collapse the contents of the indicator group. -->
+        <lightning:button iconName="utility:chevronright" class="{!v.expanded ? ' slds-hide' : ''}" title="Expand group"
+            variant="base" label="{!v.label}" onclick="{!c.expandIndicatorGroup}" />
+        <lightning:button iconName="utility:chevrondown" class="{!v.expanded ? '' : ' slds-hide'}"
+            title="Collapse group" variant="base" label="{!v.label}" onclick="{!c.collapseIndicatorGroup}" />
+
+        <!-- Editable indictors for this group -->
+        <div aura:id="content" class="{!v.expanded ? '' : 'slds-hide'}">
+
+            <!-- Display indicator components here. -->
+            <!-- {!v.indicatorComponents} -->
+            <span>abcdefg</span>
+
+        </div>
+    </div>
+
+</aura:component>

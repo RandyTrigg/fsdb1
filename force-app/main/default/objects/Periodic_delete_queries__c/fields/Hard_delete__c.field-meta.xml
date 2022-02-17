@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hard_delete__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>If checked, then do a hard delete - that is, remove from the recycle bin immediately after deleting.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If checked, then do a hard delete - that is, remove from the recycle bin immediately after deleting.</inlineHelpText>
+    <label>Hard delete</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

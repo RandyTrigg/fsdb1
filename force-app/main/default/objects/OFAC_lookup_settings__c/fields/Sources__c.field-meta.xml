@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sources__c</fullName>
+    <defaultValue>&quot;SDN&quot;</defaultValue>
+    <deprecated>false</deprecated>
+    <description>The names of source lists for OFAC search to access</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The names of source lists for OFAC search to access</inlineHelpText>
+    <label>Sources</label>
+    <length>255</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

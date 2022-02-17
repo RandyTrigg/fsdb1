@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_of_first_invite__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The date on which the first invite under this allocation was created</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which the first invite under this allocation was created</inlineHelpText>
+    <label>Date of first invite</label>
+    <summarizedField>Invite__c.CreatedDate</summarizedField>
+    <summaryForeignKey>Invite__c.Allocation__c</summaryForeignKey>
+    <summaryOperation>min</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

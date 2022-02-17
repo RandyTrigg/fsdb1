@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Latest_date_awarded__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The most recent date awarded of all grants awarded to this account (includes &quot;award withdrawn&quot; grants)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The most recent date awarded of all grants awarded to this account (includes &quot;award withdrawn&quot; grants)</inlineHelpText>
+    <label>Latest date awarded</label>
+    <summarizedField>Proposal__c.Date_awarded__c</summarizedField>
+    <summaryFilterItems>
+        <field>Proposal__c.Date_awarded__c</field>
+        <operation>notEqual</operation>
+        <value></value>
+    </summaryFilterItems>
+    <summaryForeignKey>Proposal__c.Account__c</summaryForeignKey>
+    <summaryOperation>max</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

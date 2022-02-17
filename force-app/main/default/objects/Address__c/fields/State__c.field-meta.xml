@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>State__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The State for the address. Free text of up to 80 characters.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The State for this address information.</inlineHelpText>
+    <label>State/Province</label>
+    <length>80</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

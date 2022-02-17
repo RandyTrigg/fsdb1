@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_overdue__c</fullName>
+    <deprecated>false</deprecated>
+    <description>This milestone is overdue - it has not been completed and we&apos;re past the date due.</description>
+    <externalId>false</externalId>
+    <formula>AND(ISBLANK( Date_completed__c ), NOT(ISBLANK( Date_due__c )),  TODAY() &gt; Date_due__c )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This milestone is overdue - it has not been completed and we&apos;re past the date due.</inlineHelpText>
+    <label>Is overdue</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reporting_complete__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Checked if the linked opportunity&apos;s Reporting Complete checkbox is checked</description>
+    <externalId>false</externalId>
+    <formula>Opportunity__r.Reporting_complete__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if the linked opportunity&apos;s Reporting Complete checkbox is checked</inlineHelpText>
+    <label>Reporting complete</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

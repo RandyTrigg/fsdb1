@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Field_name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The name of the field to which this component applies (should be the field&apos;s &quot;API name&quot;)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The name of the field to which this component applies (should be the field&apos;s &quot;API name&quot;)</inlineHelpText>
+    <label>Field name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

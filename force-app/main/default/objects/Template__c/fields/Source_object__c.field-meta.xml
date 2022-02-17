@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_object__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The name of the SalesForce object for this correspondence template.  Letters based on this template should be linked to records of this object. For example, the Final Report Reminder letter template should have Milestone__c as Source Object.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The name of the SalesForce object for this correspondence template.  Letters based on this template should be linked to records of this object. For example, the Final Report Reminder letter template should have Milestone__c as Source Object.</inlineHelpText>
+    <label>Source object</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Account</fullName>
+                <default>false</default>
+                <label>Account</label>
+            </value>
+            <value>
+                <fullName>GM_Data__c</fullName>
+                <default>false</default>
+                <label>GM_Data__c</label>
+            </value>
+            <value>
+                <fullName>Milestone__c</fullName>
+                <default>false</default>
+                <label>Milestone__c</label>
+            </value>
+            <value>
+                <fullName>Invite__c</fullName>
+                <default>false</default>
+                <label>Invite__c</label>
+            </value>
+            <value>
+                <fullName>Payment__c</fullName>
+                <default>false</default>
+                <label>Payment__c</label>
+            </value>
+            <value>
+                <fullName>Payment_Method__c</fullName>
+                <default>false</default>
+                <label>Payment_Method__c</label>
+            </value>
+            <value>
+                <fullName>Profile__c</fullName>
+                <default>false</default>
+                <label>Profile__c</label>
+            </value>
+            <value>
+                <fullName>Proposal__c</fullName>
+                <default>false</default>
+                <label>Proposal__c</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

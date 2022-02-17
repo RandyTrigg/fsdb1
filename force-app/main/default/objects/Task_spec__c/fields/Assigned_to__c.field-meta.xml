@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assigned_to__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>The user to whom tasks based on this task spec should be assigned</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The user to whom tasks based on this task spec should be assigned</inlineHelpText>
+    <label>Assigned to</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Task_specs</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

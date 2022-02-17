@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_women_s_fund__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Checked if this profile is for a group that is a women&apos;s fund.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if this profile is for a group that is a women&apos;s fund.</inlineHelpText>
+    <label>Is women&apos;s fund</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

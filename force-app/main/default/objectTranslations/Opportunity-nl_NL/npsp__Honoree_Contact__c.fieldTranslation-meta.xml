@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Het bestaande contact record van de geëerde persoon voor deze donatie.</help>
+    <label></label>
+    <name>npsp__Honoree_Contact__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

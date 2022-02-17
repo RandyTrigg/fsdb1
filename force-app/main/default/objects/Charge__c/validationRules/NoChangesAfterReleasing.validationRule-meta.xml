@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NoChangesAfterReleasing</fullName>
+    <active>true</active>
+    <description>This charge has been released and may not be modified.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Date_released__c)),
+ NOT(ISCHANGED(Date_released__c)),
+ NOT(ISNEW()),
+ OR(
+  ISCHANGED(Distribution__c),
+  ISCHANGED(Projection__c),
+  ISCHANGED(Amount_charged__c),
+  ISCHANGED(Proposal__c),
+  ISCHANGED(Fund__c)
+ )
+)</errorConditionFormula>
+    <errorMessage>This charge has been released and may not be modified.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Object_name__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The name of the Salesforce object to which this task spec group applies</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The name of the Salesforce object to which this task spec group applies</inlineHelpText>
+    <label>Object name</label>
+    <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Opportunity</fullName>
+                <default>false</default>
+                <label>Opportunity</label>
+            </value>
+            <value>
+                <fullName>Fund__c</fullName>
+                <default>false</default>
+                <label>Fund__c</label>
+            </value>
+            <value>
+                <fullName>Allocation__c</fullName>
+                <default>false</default>
+                <label>Allocation__c</label>
+            </value>
+            <value>
+                <fullName>Invite__c</fullName>
+                <default>false</default>
+                <label>Invite__c</label>
+            </value>
+            <value>
+                <fullName>Proposal__c</fullName>
+                <default>false</default>
+                <label>Proposal__c</label>
+            </value>
+            <value>
+                <fullName>Account</fullName>
+                <default>false</default>
+                <label>Account</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

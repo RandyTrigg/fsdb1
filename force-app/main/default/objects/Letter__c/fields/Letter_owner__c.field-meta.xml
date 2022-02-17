@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Letter_owner__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Cached lookup relationship to the letter owner. Necessary because can&apos;t reach through the polymorphic Letter.Owner link.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Cached lookup relationship to the letter owner. Necessary because can&apos;t reach through the polymorphic Letter.Owner link.</inlineHelpText>
+    <label>Letter owner</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Letters1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

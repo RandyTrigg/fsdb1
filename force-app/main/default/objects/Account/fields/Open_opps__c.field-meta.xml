@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_opps__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The total count of all opportunities which are not yet closed.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total count of all opportunities which are not yet closed.</inlineHelpText>
+    <label>Total open opportunities</label>
+    <summarizedField>Opportunity.Amount</summarizedField>
+    <summaryFilterItems>
+        <field>Opportunity.IsClosed</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Opportunity.AccountId</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

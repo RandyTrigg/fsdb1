@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VP_approved_pre_award__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Set to indicate that the VP of Programs has approved the grant prior to being awarded</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Set to indicate that the VP of Programs has approved the grant prior to being awarded</inlineHelpText>
+    <label>VP approved pre award</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

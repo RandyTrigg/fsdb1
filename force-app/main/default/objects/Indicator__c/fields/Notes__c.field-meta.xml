@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notes__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Notes related to this indicator</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Notes related to this indicator</inlineHelpText>
+    <label>Notes</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

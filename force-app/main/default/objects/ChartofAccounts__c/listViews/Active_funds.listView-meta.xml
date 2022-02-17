@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_funds</fullName>
+    <columns>NAME</columns>
+    <columns>Category__c</columns>
+    <columns>Themes__c</columns>
+    <columns>Country_text__c</columns>
+    <columns>Impact_Area__c</columns>
+    <columns>Narrative__c</columns>
+    <columns>Restricted__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Active__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Active funds</label>
+</ListView>

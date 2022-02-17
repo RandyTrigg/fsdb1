@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_Direct_Mail__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Do not send direct mail solicitations or direct mail cultivations.  (Previously &apos;No RMT mailings,&apos; aka &apos;No direct mail&apos; in Filemaker.)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Do not send direct mail solicitations or direct mail cultivations.  (Previously &apos;No RMT mailings,&apos; aka &apos;No direct mail&apos; in Filemaker.)</inlineHelpText>
+    <label>No Direct Mail</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

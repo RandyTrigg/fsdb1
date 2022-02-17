@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Red_flag_Explanation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>An explanation of the red flag assignment for this group</description>
+    <externalId>false</externalId>
+    <inlineHelpText>An explanation of the red flag assignment for this group</inlineHelpText>
+    <label>Red flag: Explanation</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

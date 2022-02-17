@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Referral_Org__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The referral org linked to this join record</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The referral org linked to this join record</inlineHelpText>
+    <label>Referral Org</label>
+    <referenceTo>Referral_Org__c</referenceTo>
+    <relationshipLabel>Referral Org Region Assigns</relationshipLabel>
+    <relationshipName>Referral_Org_Region_Assigns</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>
