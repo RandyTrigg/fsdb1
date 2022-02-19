@@ -1,13 +1,6 @@
-HTTPCalloutService service = new HTTPCalloutService('GFWQuery');
-System.debug(service.getRequest());
-String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'FS-BFF\' and AQB__Posted__c=TRUE and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
-String encodeQ = EncodingUtil.urlEncode(query, 'UTF-8');
-Service.setURLParameter('q', encodeQ);
-System.debug(service.getRequest());
-HTTPResponse response = service.sendRequest();
-System.debug(response.getStatusCode());
-System.debug(response.getBody());
-
+String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'FS-BFF\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
+String jsonResults = SyncController.doQueryCallout(query);
+system.debug(jsonResults);
 
 
 
