@@ -1,6 +1,6 @@
 String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'FS-BFF\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
 String jsonResults = SyncController.doQueryCallout(query);
-system.debug(jsonResults);
+system.debug('Final results: ' + jsonResults);
 
 
 

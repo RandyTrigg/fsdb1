@@ -8,6 +8,7 @@
 *    1. Rahul Malhotra
 */
 public class HTTPCalloutService {
+    // NOTE: Success Status Code added; not part of original code reference above.
 
     HTTPCalloutConfiguration__mdt calloutMetadata;
     String endpointURL, requestMethod, requestBody, requestCertificate;
@@ -15,6 +16,7 @@ public class HTTPCalloutService {
     Dom.Document requestBodyAsDocument;
     Integer requestTimeout;
     Boolean isCompressedRequest;
+    Integer successStatusCode;
     Map<String, String> urlParametersMap;
     Map<String, String> headerParametersMap;
     static final String TYPE_URL_PARAMETERS = 'URL_PARAMETERS';
@@ -125,6 +127,11 @@ public class HTTPCalloutService {
     public void removeURLParameter(String key) {
         urlParametersMap.remove(key);
     }
+
+    public Integer getSuccessStatusCode() {
+		return successStatusCode;
+	}
+
     /*
     * Getters and Setters - End
     */
@@ -143,7 +150,7 @@ public class HTTPCalloutService {
         try {
             calloutMetadata = [
                 SELECT Method__c, URLParameters__c, HeaderParameters__c, Endpoint__c,
-                Body__c, Timeout__c, CertificateName__c, IsCompressed__c
+                Body__c, Timeout__c, CertificateName__c, IsCompressed__c, Success_Status_Code__c
                 FROM HTTPCalloutConfiguration__mdt
                 WHERE DeveloperName =:customMetadataName
             ];
@@ -167,6 +174,7 @@ public class HTTPCalloutService {
             requestTimeout = Integer.valueOf(calloutMetadata.Timeout__c);
             isCompressedRequest = calloutMetadata.IsCompressed__c;
             requestCertificate = calloutMetadata.CertificateName__c;
+            successStatusCode = Integer.valueOf(calloutMetadata.Success_Status_Code__c);
             setUrlOrHeaderParameters(TYPE_URL_PARAMETERS, calloutMetadata.URLParameters__c);
             setUrlOrHeaderParameters(TYPE_HEADER_PARAMETERS, calloutMetadata.HeaderParameters__c);
         }
