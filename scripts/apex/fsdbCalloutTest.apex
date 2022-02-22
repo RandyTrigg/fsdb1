@@ -1,7 +1,25 @@
+SyncController.packageRelatedIds();
+
+// String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__Method__c = \'Check\' and AQB__Type__c != \'Soft Credit\' and AQB__Posted__c = true LIMIT 100000';
+// String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'FS-BFF\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
+
+// List<Object> recs = SyncController.fetchRecords(query);
+
+// To do: test that batch retrieval really works.
+// Stick fieldnames in custom metadata and loop thru. 
+// Figure out custom metadata type
+    /* for (Object rec : recs) {
+        Map<String, Object> t = (Map<String, Object>) rec;
+        System.debug('>>> ' + t);
+        String giftId = (String) t.get('AQB__Gift__c');
+        System.debug('GIFT ID: ' + giftId);
+    } */
+
+/*
 String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'FS-BFF\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
 String jsonResults = SyncController.doQueryCallout(query);
 system.debug('Final results: ' + jsonResults);
-
+*/
 
 
 

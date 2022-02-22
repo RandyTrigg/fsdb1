@@ -155,7 +155,7 @@ public class HTTPCalloutService {
                 WHERE DeveloperName =:customMetadataName
             ];
         } catch (Exception e) {
-            System.debug('Unable to query custom metadata. Make sure you\'ve passed the correct developer name.');
+            System.debug('Unable to query custom metadata for HTTP callout. Make sure you\'ve passed the correct developer name.');
             // throw new HTTPCalloutFrameworkException(HTTPCalloutFrameworkException.CUSTOM_METADATA_NOT_FOUND);
         }
         initialize();

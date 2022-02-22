@@ -13,16 +13,17 @@ public with sharing class SyncController {
         attributesWrapper attributes;
         String Name;
         String Id;
-        String AQB__Account__c;
-        String AQB__Gift__c;
+        // String AQB__Account__c;
+        // String AQB__Gift__c;
         public recordWrapper (){
             attributes = new attributesWrapper();
         }
     }
         
     public class queryReturnResponseWrapper{
-        String done;
+        Boolean done;
         String totalSize;
+        String nextRecordsURL;
         list<recordWrapper> records;
     }
         
@@ -46,47 +47,134 @@ public with sharing class SyncController {
         @TestVisible Id Id;
     }
 
-
-    public static String doQueryCallout(String queryStr) {
-        // NOTE: Need to add in batch processing:
-        // https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_query.htm
-        
-        // Performs GET request using SOQL query parameter
-        // Returns JSON result or error starting with response status code
-        
-        // Instantiate callout service for named credential GFWQuery
-        HTTPCalloutService service = new HTTPCalloutService('GFWQuery');
-        System.debug(service.getRequest());
-        
-        // Set query parameter in URL and sends request
-        // Sample queryStr: 'select Name from AQB__Transaction__c Where...'
-        String encodeQ = EncodingUtil.urlEncode(queryStr, 'UTF-8');
-        Service.setURLParameter('q', encodeQ);
-        // System.debug(service.getRequest());
+    public static String sendHTTPRequest (HTTPCalloutService service) {
+        System.debug('HTTPRequest request: ' + service.getRequest());
         HTTPResponse response = service.sendRequest();
         // System.debug(response.getStatusCode());
         // System.debug(response.getBody());
         if (response.getStatusCode() == service.getSuccessStatusCode()) {
             return response.getBody();
-        } else
-        {
+        } else {
             return 'Error: ' + string.valueof(response.getStatusCode() + '; Callout = ' + service.getRequest());
         }
     }
 
-    public static void packageRelatedIds() {
-        String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'FS-BFF\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
-        String jsonResults = doQueryCallout(query);
+    public static String doQueryCallout(String queryStr) {        
+        // Instantiates callout service for named credential GFWQuery with method set to GET
+        // Returns JSON result or error starting with response status code
+        HTTPCalloutService service = new HTTPCalloutService('GFWQuery');
+        // System.debug(service.getRequest());
+        // Encode SOQL queryStr for URL (handles special characters: quotes, spaces, etc.)
+        String encodeQ = EncodingUtil.urlEncode(queryStr, 'UTF-8');
+        service.setURLParameter('q', encodeQ);
+        String results = sendHTTPRequest(service);
+        return results;
+    }
+
+    public static String doQueryNextBatchCallout(String nextRecordsURL) {
+        // If there are batches, 'done' should be false;
+        // 'nextRecordsUrl' like "/services/data/v54.0/query/01gD0000002HU6KIAW-2000"
+        // https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_query.htm
+        HTTPCalloutService service = new HTTPCalloutService('GFWQueryNextBatch');
+        String nextRecsEndpoint = service.getEndpointURL() + nextRecordsURL;
+        service.setEndpointURL(nextRecsEndpoint);
+        String results = sendHTTPRequest(service);
+        return results;
+    }
+
+    public static List<Object> fetchRecords(String queryStr) {
+        // Perform query callout and return records
+        String jsonResults = doQueryCallout(queryStr);
         system.debug('Final results: ' + jsonResults);
-        queryReturnResponseWrapper qryResponse  = (queryReturnResponseWrapper)JSON.deserialize(jsonResults, queryReturnResponseWrapper.class);
-        system.debug('Done response: ' + qryResponse.done);
-        List<recordWrapper> relRecords = qryResponse.records;
-        for (recordWrapper rcd : relRecords) {
-            System.debug('rcd gift Id: ' + rcd.AQB__Gift__c);
-            // NOTE: Have to figure out how to deal with the double underscores??!
+        List<Object> records;
+        if (!jsonResults.startsWith('Error:')) {
+            queryReturnResponseWrapper qryResponse  = (queryReturnResponseWrapper)JSON.deserialize(jsonResults, queryReturnResponseWrapper.class);
+            system.debug('Done response: ' + qryResponse.done);
+            Boolean done = qryResponse.done;
+            Map<String, Object> m = (Map<String, Object>) JSON.deserializeUntyped(jsonResults);
+            records = (List<Object>) m.get('records');
+            String nextResults;
+            if (!done) {
+                // Retrieve remaining records in batches
+                do {
+                    String nextRecordsURL = qryResponse.nextRecordsURL;
+                    // String nextRecordsURL = (String) m.get('nextRecordsUrl');
+                    System.debug('nextRecordsURL: ' + nextRecordsURL);
+                    nextResults = doQueryNextBatchCallout(nextRecordsURL);
+                    System.debug('nextResults: ' + nextResults);
+                    qryResponse  = (queryReturnResponseWrapper)JSON.deserialize(nextResults, queryReturnResponseWrapper.class);
+                    system.debug('Done response: ' + qryResponse.done);
+                    done = qryResponse.done;
+                    m = (Map<String, Object>) JSON.deserializeUntyped(nextResults);
+                    records.add((List<Object>)m.get('records'));
+                } while (!done && !nextResults.startsWith('Error:'));
+            }
+        }
+        return records;
+    }
+
+    public static List<Object> queryGFWObjectForRecords(String objName) {
+        GFW_Sync_Query__mdt queryMDT;
+        List<Object> records;
+        try {
+            queryMDT = [
+                SELECT MasterLabel, Field_List__c, Where_Clause__c
+                FROM GFW_Sync_Query__mdt
+                WHERE DeveloperName =:objName
+            ];
+            String whereClause = !String.isBlank(queryMDT.Where_Clause__c) ? ' ' + queryMDT.Where_Clause__c : '';
+            String query='SELECT ' + queryMDT.Field_List__c + ' FROM ' + queryMDT.MasterLabel + whereClause;
+            records = fetchRecords(query);
+        } catch (Exception e) {
+            System.debug('Unable to retrieve GFW Sync Query custom metadata. Make sure you\'ve passed the correct developer name.');
+            // throw new HTTPCalloutFrameworkException(HTTPCalloutFrameworkException.CUSTOM_METADATA_NOT_FOUND);
+        }
+        return records;
+    }
+
+    public static void packageRelatedIds() {
+        String objName = 'AQB_Transaction_c';
+        List<Object> records = queryGFWObjectForRecords(objName);
+        if (records.size()>0) {
+            for (Object rec : records) {
+                Map<String, Object> t = (Map<String, Object>) rec;
+                System.debug('>>> ' + t);
+                String giftId = (String) t.get('AQB__Gift__c');
+                System.debug('GIFT ID: ' + giftId);
+            }
         }
 
 
+        
+        
+        // jsonResults: {"totalSize":136,"done":true,"records":[{"attributes":{"type":"AQB__Transaction__c","url":"/services/data/v48.0/sobjects/AQB__Transaction__c/a0c1Y00000doofpQAA"},"Name":"000378053","Id":"a0c1Y00000doofpQAA","AQB__Account__c":"0011Y00003HzTDoQAN","AQB__Gift__c":"a0D1Y000017aM9WUAU"}
+        
+        // Map<String, Object> m = (Map<String, Object>) JSON.deserializeUntyped(jsonResults);
+        // Boolean done = (Boolean) m.get('done');
+
+        /* 
+        Map<String, Object> m = (Map<String, Object>) JSON.deserializeUntyped(jsonResults);
+
+        List<Object> records = (List<Object>) m.get('records');
+        for (Object rec : records) {
+            Map<String, Object> t = (Map<String, Object>) rec;
+            System.debug('>>> ' + t);
+            String giftId = (String) t.get('AQB__Gift__c');
+            System.debug('GIFT ID: ' + giftId);
+        }
+        */
+
+        
+        
+        
+        /* queryReturnResponseWrapper qryResponse  = (queryReturnResponseWrapper)JSON.deserialize(jsonResults, queryReturnResponseWrapper.class);
+        system.debug('Done response: ' + qryResponse.done);
+        List<recordWrapper> relRecords = qryResponse.records;
+        for (recordWrapper rcd : relRecords) {
+            // System.debug('rcd gift Id: ' + rcd.AQB__Gift__c);
+            // NOTE: Have to figure out how to deal with the double underscores??!
+        } */
+    
     }
 
 
