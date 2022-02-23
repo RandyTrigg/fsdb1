@@ -159,10 +159,10 @@ public without sharing class SyncController {
             }
         }
         System.debug('recDonIds: '+recDonIds);
+        getGiftCredits();
         // Retrieve gift credits for all the gifts
         // Create Recurring Donations
     }
-    
 
     public getGiftCredits() {
         // Donor Account is the link - Credited Account is often blank or same as Donor Account.
