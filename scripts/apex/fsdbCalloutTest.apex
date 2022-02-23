@@ -1,4 +1,25 @@
-SyncController.packageRelatedIds();
+// For each COA retrieved...
+
+        String fsRole;
+        List<FS_Group_Settings__mdt> fsGroups;
+        try {
+            fsGroups = [
+                SELECT GFW_COA_Name__c, Designated_Role_for_Ownership__c
+                FROM FS_Group_Settings__mdt
+            ];
+        } catch (Exception e) {
+            System.debug('Unable to retrieve FS Group Settings custom metadata.');
+            // throw new HTTPCalloutFrameworkException(HTTPCalloutFrameworkException.CUSTOM_METADATA_NOT_FOUND);
+        }
+        for (FS_Group_Settings__mdt fs : fsGroups) {
+            // For each FS, grab COA and role to assign record ownership
+            SyncController scThisFS = new SyncController();
+            scThisFS.fsCOA = fs.GFW_COA_Name__c;
+            scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
+            scThisFS.LaunchSync();
+        }
+
+
 
 // String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__Method__c = \'Check\' and AQB__Type__c != \'Soft Credit\' and AQB__Posted__c = true LIMIT 100000';
 // String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'FS-BFF\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
@@ -50,3 +71,33 @@ System.debug('QRRW.records[0].Name -> ' +QRRW.records[0].Name);
 System.debug('QRRW.totalSize -> '+QRRW.totalSize);
 System.debug('QRRW.records[0].attributes.url -> ' +QRRW.records[0].attributes.url);
 */
+
+        // List<Map<String,Object>> recList = (List<Map<String,Object>>)records;
+
+        // recMap = (Map<String, Object>) JSON.deserializeUntyped(nextResults);
+        // records.add((List<Object>)m.get('records'));
+        
+        // jsonResults: {"totalSize":136,"done":true,"records":[{"attributes":{"type":"AQB__Transaction__c","url":"/services/data/v48.0/sobjects/AQB__Transaction__c/a0c1Y00000doofpQAA"},"Name":"000378053","Id":"a0c1Y00000doofpQAA","AQB__Account__c":"0011Y00003HzTDoQAN","AQB__Gift__c":"a0D1Y000017aM9WUAU"}
+        
+        // Map<String, Object> m = (Map<String, Object>) JSON.deserializeUntyped(jsonResults);
+        // Boolean done = (Boolean) m.get('done');
+
+        /* 
+        Map<String, Object> m = (Map<String, Object>) JSON.deserializeUntyped(jsonResults);
+
+        List<Object> records = (List<Object>) m.get('records');
+        for (Object rec : records) {
+            Map<String, Object> t = (Map<String, Object>) rec;
+            System.debug('>>> ' + t);
+            String giftId = (String) t.get('AQB__Gift__c');
+            System.debug('GIFT ID: ' + giftId);
+        }
+        */   
+        
+        /* queryReturnResponseWrapper qryResponse  = (queryReturnResponseWrapper)JSON.deserialize(jsonResults, queryReturnResponseWrapper.class);
+        system.debug('Done response: ' + qryResponse.done);
+        List<recordWrapper> relRecords = qryResponse.records;
+        for (recordWrapper rcd : relRecords) {
+            // System.debug('rcd gift Id: ' + rcd.AQB__Gift__c);
+            // NOTE: Have to figure out how to deal with the double underscores??!
+        } */
