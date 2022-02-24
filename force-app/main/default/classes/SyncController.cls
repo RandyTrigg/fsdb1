@@ -7,10 +7,9 @@ public without sharing class SyncController {
     public Set<Id> giftIds = new Set<Id>();
     public Set<Id> oppIds = new Set<Id>();
     public Set<Id> recDonIds = new Set<Id>();
-    public Set<Id> giftCreditIds = new Set<Id>();
     public List<Account> upsAcctList = new List<Account>();
     public List<Contact> upsCtList = new List<Contact>();
-    public List<AQB__GiftCredit__c> upsGCList = new List<AQB__GiftCredit__c>();
+    public List<Object> upsGCList = new List<Object>();
     public String fsCOA;
     public String fsRole;
 
@@ -99,10 +98,13 @@ public without sharing class SyncController {
                     records.add((List<Object>)m.get('records'));
                 } while (!done && !nextResults.startsWith('Error:'));
             }
+        } else {
+            System.debug('error results: ' + jsonResults);
         }
         return records;
     }
 
+    // MAY DITCH
     public List<Object> queryGFWObjectForRecords(String objName) {
         GFW_Sync_Query__mdt queryMDT;
         List<Object> records;
@@ -122,6 +124,7 @@ public without sharing class SyncController {
         return records;
     }
 
+    // MAY DITCH
     public List<String> getFieldNamesForGFWObject(String mdtObjName) {
         List<String> fldNames;
         GFW_Sync_Query__mdt queryMDT;
@@ -159,26 +162,33 @@ public without sharing class SyncController {
             }
         }
         System.debug('recDonIds: '+recDonIds);
-        getGiftCredits();
+        gatherGiftCredits();
+        
         // Retrieve gift credits for all the gifts
         // Create Recurring Donations
     }
 
-    public getGiftCredits() {
+    public void gatherGiftCredits() {
         // Donor Account is the link - Credited Account is often blank or same as Donor Account.
         // Partial credit?
         // Grab all the fields that we need in one go.
-        String query='select Id,AQB__DonorAccount__c,AQB__ContactId__c,AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c FROM AQB__GiftCredit__c WHERE AQB__GiftId__c IN:' + giftIds + ')';
+        String query='select Id,AQB__DonorAccount__c,AQB__ContactId__c,AQB__ContactId__r.AccountId,AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c FROM AQB__GiftCredit__c WHERE AQB__GiftId__c IN:' + giftIds + ')';
+        // PROBLEM: Query returns error 400 based on WHERE Id IN:. Doesn't look like a character encoding issue.
+        // Can't use Id set in URL-based query??
         List<Object> records = fetchRecords(query);
-        if (records.size()>0) {
+        if (records != null && records.size()>0) {
+            upsGCList.add(records);
             for (Object rec : records) {
                 Map<String, Object> gc = (Map<String, Object>) rec;
                 System.debug('>>> ' + gc);
-                giftCreditIds.add((Id)gc.get('Id')); // Instead of grabbing Ids, we need public List<AQB__GiftCredit__c>
                 if (gc.get('AQB__DonorAccount__c') != null) { acctIds.add((Id)gc.get('AQB__DonorAccount__c')); }
                 if (gc.get('AQB__ContactId__c') != null) { ctIds.add((Id)gc.get('AQB__ContactId__c')); }
+                // Retrieve contact's parent account.
+                if (gc.get('AQB__ContactId__r.AccountId') != null) { acctIds.add((Id)gc.get('AQB__ContactId__r.AccountId')); }
+                System.debug('GC Contact Parent AccountId: ' + (Id)gc.get('AQB__ContactId__r.AccountId'));
             }
         }
+        System.debug('giftcredits: ' + upsGCList);
 
         
     }
