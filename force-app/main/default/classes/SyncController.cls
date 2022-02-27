@@ -124,22 +124,47 @@ public without sharing class SyncController {
         return records;
     }
 
-    // MAY DITCH
-    public List<String> getFieldNamesForGFWObject(String mdtObjName) {
-        List<String> fldNames;
-        GFW_Sync_Query__mdt queryMDT;
+    public Map<String,String> getObjectMappings(String mdtObjName) {
+        Map<String,String> objMap = new Map<String,String>();
+        GFW_Sync_Object_Mapping__mdt objectMDT;
         try {
-            queryMDT = [
-                SELECT MasterLabel, Field_List__c, Where_Clause__c
-                FROM GFW_Sync_Query__mdt
+            objectMDT = [
+                SELECT GFW_Object_Name__c, FSDB_Object_Name__c
+                FROM GFW_Sync_Object_Mapping__mdt
                 WHERE DeveloperName =:mdtObjName
             ];
-            fldNames = queryMDT.Field_List__c.split(',');
+            objMap.put(objectMDT.GFW_Object_Name__c, objectMDT.FSDB_Object_Name__c);
+            // fldNames = queryMDT.Field_List__c.split(',');
         } catch (Exception e) {
             System.debug('Unable to retrieve GFW Sync Query custom metadata. Make sure you\'ve passed the correct developer name.');
             // throw new HTTPCalloutFrameworkException(HTTPCalloutFrameworkException.CUSTOM_METADATA_NOT_FOUND);
         }
-        return fldNames;
+        return objMap;
+    }
+
+    public Map<String,String> getFieldMappings(String mdtObjName) {
+        // Retrieve field mappings for querying GFW
+        List<GFW_Sync_Field_Mapping__mdt> fieldsMDTs;
+        Map<String,String> fieldMap = new Map<String,String>();
+        List<String> fldNames;
+        try {
+            fieldsMDTs = [
+                SELECT Id, GFW_Field_API_Name__c, FSDB_Field_API_Name__c
+                FROM GFW_Sync_Field_Mapping__mdt
+                WHERE GFW_Sync_Object_Mapping__r.DeveloperName =:mdtObjName
+            ];
+            for (GFW_Sync_Field_Mapping__mdt fmMDT : fieldsMDTs ) {
+                fieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT.FSDB_Field_API_Name__c);
+                System.debug('GFW Field Name: ' + fmMDT.GFW_Field_API_Name__c + '; FSDB Field Name: ' + fmMDT.FSDB_Field_API_Name__c);
+            }
+            // fldNames = fieldMap.keyset();
+            // queryMDT.Field_List__c.split(',');
+        } catch (Exception e) {
+            System.debug('Unable to retrieve GFW Sync Field Mapping custom metadata. Make sure you\'ve passed the correct developer name.');
+            // throw new HTTPCalloutFrameworkException(HTTPCalloutFrameworkException.CUSTOM_METADATA_NOT_FOUND);
+        }
+        // return fldNames;
+        return fieldMap;
     }
 
 
@@ -150,7 +175,7 @@ public without sharing class SyncController {
         String query='select Name,Id,AQB__Account__c,AQB__Gift__c,AQB__CreditedOpportunity__c,Recurring_Donations__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'' + fsCOA + '\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
         // List<Object> records = queryGFWObjectForRecords(mdtObjName);
         List<Object> records = fetchRecords(query);
-        if (records.size()>0) {
+        if (records != null && records.size()>0) {
             for (Object rec : records) {
                 Map<String, Object> t = (Map<String, Object>) rec;
                 System.debug('>>> ' + t);
@@ -162,26 +187,27 @@ public without sharing class SyncController {
             }
         }
         System.debug('recDonIds: '+recDonIds);
-        // Retrieve gift credits and gather related accounts and contacts
+        // Retrieve gift credits and related account and contact Ids
         gatherGiftCredits();
+        upsertRecurringDonations();
         // Upsert Recurring Donations
+    }
+
+    public String packageIdsForQuery(Set<Id> Ids) {
+        // Package Ids for WHERE IN query clause.
+        // Ids in quotes, separated by commas, and encased as a whole in parentheses: '(\'a0D1Y000017aM9WUAU\',\'a0D1Y000017aMAYUA2\')'
+        String inIDsStr = '(';
+        for (Id thisId : Ids) {
+            inIDsStr = inIDsStr + '\'' + thisId + '\',';
+        }
+        inIDsStr = inIDsStr.removeEnd(',') + ')';
+        return inIDsStr;
     }
 
     public void gatherGiftCredits() {
         // Retrieve gift credits and their linked accounts/contacts from giftIds. Partial credit?
-        
-        // Package list of giftIds for WHERE IN clause:
-        // Ids in quotes, separated by commas, and encased as a whole in parentheses: '(\'a0D1Y000017aM9WUAU\',\'a0D1Y000017aMAYUA2\')'
-        String inIDsStr = '(';
-        List<Id> giftIdsList = new List<Id>(giftIds);
-        // Integer i = 0;
-        for (Id giftId : giftIdsList) {
-            inIDsStr = inIDsStr + '\'' + giftId + '\',';
-            // System.debug(i+1);
-            // i++;
-        }
-        inIDsStr = inIDsStr.removeEnd(',') + ')';
-
+        // Convert giftIds to string for WHERE IN clause.
+        String inIDsStr = packageIdsForQuery(giftIds);
         String query='select Id,AQB__DonorAccount__c,AQB__ContactId__c,AQB__ContactId__r.AccountId,AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c FROM AQB__GiftCredit__c WHERE AQB__GiftId__c IN ' + inIDsStr;
         // Retrieve AQB_DonorAccount__c, not Credited Account. And AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         List<Object> records = fetchRecords(query);
@@ -203,5 +229,33 @@ public without sharing class SyncController {
         }
         System.debug('giftcredits: ' + upsGCList);
         System.debug('acctIds: ' + acctIds);
+    }
+
+    public void upsertRecurringDonations() {
+        String inIDsStr = packageIdsForQuery(recDonIds);
+        String objName = 'Recurring_Donations'; // Custom mdt name
+        Map<String,String> objMap = getObjectMappings(objName);
+        Map<String,String> fieldMap = getFieldMappings(objName);
+        String gfwObj = new List<String>(objMap.keySet())[0];
+        String gfwFields = String.join(new List<String>(fieldMap.keySet()), ',');
+        System.debug('RD objname: ' + gfwObj + '; RD fields: ' + gfwFields);
+        if ( !String.isBlank(gfwObj) && !String.isBlank(gfwFields) ) {
+            String query='select ' + gfwFields + ' FROM ' + gfwObj + ' WHERE Id IN ' + inIDsStr;
+            List<Object> records = fetchRecords(query);
+            for (Object rec : records) {
+                Map<String, Object> rd = (Map<String, Object>) rec;
+                System.debug('>>> ' + rd);
+                /* if (gc.get('AQB__DonorAccount__c') != null) { acctIds.add((Id)gc.get('AQB__DonorAccount__c')); }
+                if (gc.get('AQB__ContactId__c') != null) { ctIds.add((Id)gc.get('AQB__ContactId__c')); }
+                // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
+                pAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
+                if (pAcct != null) { acctIds.add((Id)pAcct.get('AccountId')); }
+                System.debug('AccountId: ' + (Id)gc.get('AQB__DonorAccount__c'));
+                System.debug('ContactId: ' + (Id)gc.get('AQB__ContactId__c'));
+                System.debug('GC Contact Parent AccountId: ' + (Id)pAcct.get('AccountId'));*/
+            }
+        }
+
+
     }
 }
