@@ -162,20 +162,30 @@ public without sharing class SyncController {
             }
         }
         System.debug('recDonIds: '+recDonIds);
+        // Retrieve gift credits and gather related accounts and contacts
         gatherGiftCredits();
-        
-        // Retrieve gift credits for all the gifts
-        // Create Recurring Donations
+        // Upsert Recurring Donations
     }
 
     public void gatherGiftCredits() {
-        // Donor Account is the link - Credited Account is often blank or same as Donor Account.
-        // Partial credit?
-        // Grab all the fields that we need in one go.
-        String query='select Id,AQB__DonorAccount__c,AQB__ContactId__c,AQB__ContactId__r.AccountId,AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c FROM AQB__GiftCredit__c WHERE AQB__GiftId__c IN:' + giftIds + ')';
-        // PROBLEM: Query returns error 400 based on WHERE Id IN:. Doesn't look like a character encoding issue.
-        // Can't use Id set in URL-based query??
+        // Retrieve gift credits and their linked accounts/contacts from giftIds. Partial credit?
+        
+        // Package list of giftIds for WHERE IN clause:
+        // Ids in quotes, separated by commas, and encased as a whole in parentheses: '(\'a0D1Y000017aM9WUAU\',\'a0D1Y000017aMAYUA2\')'
+        String inIDsStr = '(';
+        List<Id> giftIdsList = new List<Id>(giftIds);
+        // Integer i = 0;
+        for (Id giftId : giftIdsList) {
+            inIDsStr = inIDsStr + '\'' + giftId + '\',';
+            // System.debug(i+1);
+            // i++;
+        }
+        inIDsStr = inIDsStr.removeEnd(',') + ')';
+
+        String query='select Id,AQB__DonorAccount__c,AQB__ContactId__c,AQB__ContactId__r.AccountId,AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c FROM AQB__GiftCredit__c WHERE AQB__GiftId__c IN ' + inIDsStr;
+        // Retrieve AQB_DonorAccount__c, not Credited Account. And AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         List<Object> records = fetchRecords(query);
+        Map<String, Object> pAcct;
         if (records != null && records.size()>0) {
             upsGCList.add(records);
             for (Object rec : records) {
@@ -183,15 +193,15 @@ public without sharing class SyncController {
                 System.debug('>>> ' + gc);
                 if (gc.get('AQB__DonorAccount__c') != null) { acctIds.add((Id)gc.get('AQB__DonorAccount__c')); }
                 if (gc.get('AQB__ContactId__c') != null) { ctIds.add((Id)gc.get('AQB__ContactId__c')); }
-                // Retrieve contact's parent account.
-                if (gc.get('AQB__ContactId__r.AccountId') != null) { acctIds.add((Id)gc.get('AQB__ContactId__r.AccountId')); }
-                System.debug('GC Contact Parent AccountId: ' + (Id)gc.get('AQB__ContactId__r.AccountId'));
+                // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
+                pAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
+                if (pAcct != null) { acctIds.add((Id)pAcct.get('AccountId')); }
+                System.debug('AccountId: ' + (Id)gc.get('AQB__DonorAccount__c'));
+                System.debug('ContactId: ' + (Id)gc.get('AQB__ContactId__c'));
+                System.debug('GC Contact Parent AccountId: ' + (Id)pAcct.get('AccountId'));
             }
         }
         System.debug('giftcredits: ' + upsGCList);
-
-        
+        System.debug('acctIds: ' + acctIds);
     }
-
-
 }
