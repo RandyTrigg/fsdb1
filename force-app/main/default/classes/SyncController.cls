@@ -142,28 +142,25 @@ public without sharing class SyncController {
         return objMap;
     }
 
-    public Map<String,String> getFieldMappings(String mdtObjName) {
+    public Map<String,GFW_Sync_Field_Mapping__mdt> getFieldMappings(String mdtObjName) {
         // Retrieve field mappings for querying GFW
         List<GFW_Sync_Field_Mapping__mdt> fieldsMDTs;
-        Map<String,String> fieldMap = new Map<String,String>();
+        Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         List<String> fldNames;
         try {
             fieldsMDTs = [
                 SELECT Id, GFW_Field_API_Name__c, FSDB_Field_API_Name__c
                 FROM GFW_Sync_Field_Mapping__mdt
                 WHERE GFW_Sync_Object_Mapping__r.DeveloperName =:mdtObjName
-            ];
+            ]; // Add other fields - Required?
             for (GFW_Sync_Field_Mapping__mdt fmMDT : fieldsMDTs ) {
-                fieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT.FSDB_Field_API_Name__c);
+                fieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT);
                 System.debug('GFW Field Name: ' + fmMDT.GFW_Field_API_Name__c + '; FSDB Field Name: ' + fmMDT.FSDB_Field_API_Name__c);
             }
-            // fldNames = fieldMap.keyset();
-            // queryMDT.Field_List__c.split(',');
         } catch (Exception e) {
             System.debug('Unable to retrieve GFW Sync Field Mapping custom metadata. Make sure you\'ve passed the correct developer name.');
             // throw new HTTPCalloutFrameworkException(HTTPCalloutFrameworkException.CUSTOM_METADATA_NOT_FOUND);
         }
-        // return fldNames;
         return fieldMap;
     }
 
@@ -232,27 +229,44 @@ public without sharing class SyncController {
     }
 
     public void upsertRecurringDonations() {
+        // Query related Recurring Donations and relevant field mappings
+        // Is there a way to genericize this if we can declaratively set fields?
         String inIDsStr = packageIdsForQuery(recDonIds);
         String objName = 'Recurring_Donations'; // Custom mdt name
         Map<String,String> objMap = getObjectMappings(objName);
-        Map<String,String> fieldMap = getFieldMappings(objName);
-        String gfwObj = new List<String>(objMap.keySet())[0];
-        String gfwFields = String.join(new List<String>(fieldMap.keySet()), ',');
-        System.debug('RD objname: ' + gfwObj + '; RD fields: ' + gfwFields);
-        if ( !String.isBlank(gfwObj) && !String.isBlank(gfwFields) ) {
+        Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappings(objName);
+        if ( !objMap.isEmpty() && !fieldMap.isEmpty() ) {
+            String gfwObj = new List<String>(objMap.keySet())[0];
+            List<String> gfwfieldList = new List<String>(fieldMap.keySet());
+            String gfwFields = String.join(gfwfieldList, ',');
+            System.debug('RD objname: ' + gfwObj + '; RD fields: ' + gfwFields);
             String query='select ' + gfwFields + ' FROM ' + gfwObj + ' WHERE Id IN ' + inIDsStr;
             List<Object> records = fetchRecords(query);
-            for (Object rec : records) {
-                Map<String, Object> rd = (Map<String, Object>) rec;
-                System.debug('>>> ' + rd);
-                /* if (gc.get('AQB__DonorAccount__c') != null) { acctIds.add((Id)gc.get('AQB__DonorAccount__c')); }
-                if (gc.get('AQB__ContactId__c') != null) { ctIds.add((Id)gc.get('AQB__ContactId__c')); }
-                // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
-                pAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
-                if (pAcct != null) { acctIds.add((Id)pAcct.get('AccountId')); }
-                System.debug('AccountId: ' + (Id)gc.get('AQB__DonorAccount__c'));
-                System.debug('ContactId: ' + (Id)gc.get('AQB__ContactId__c'));
-                System.debug('GC Contact Parent AccountId: ' + (Id)pAcct.get('AccountId'));*/
+            String fsdbObj = objMap.get(gfwObj);
+            System.debug('fsdb obj name: ' + fsdbObj);
+            if (!records.isEmpty()) {
+                sObject sObj = Schema.getGlobalDescribe().get(fsdbObj).newSObject();
+                for (Object rec : records) {
+                    Map<String, Object> rd = (Map<String, Object>) rec;
+                    System.debug('>>> ' + rd);
+                    for (String gfwFieldName : gfwfieldList) {
+                        GFW_Sync_Field_Mapping__mdt fieldmapMDT = fieldMap.get(gfwFieldName);
+                        // Set actual FSDB field with value from json
+                        // fieldmapMDT.FSDB_Field_API_Name__c = rd.get(gfwFieldName);
+                        // Figure out how to compose this declaratively.
+                        // Schema.DisplayType fielddataType = fieldMap.get(fieldmapMDT.FSDB_Field_API_Name__c).getDescribe().getType();
+                        // String fieldType;
+                        /*if (fielddataType == Schema.DisplayType.Integer) {
+                            // How to cast data correctly?
+                            // fieldType = 'Integer';
+                            System.debug('field type: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' is integer.');
+                        } else {
+                            System.debug('field type: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' is not an integer.');
+                        } */
+                        System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + rd.get(gfwFieldName));
+                    }
+                }
+
             }
         }
 
