@@ -426,6 +426,21 @@ global class Utilities {
      * METADATA-BASED METHODS
      *******************/
 
+    // Build a new record with the type passed in as an argument at run time.
+    public static sObject newRecord(String typeName) {
+        Schema.SObjectType targetType = Schema.getGlobalDescribe().get(typeName);
+        return targetType != null ? targetType.newSObject() : null; 
+    }
+
+    public static String fieldTypeOfField(String objName, String fieldName) {
+        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+        Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
+            .getDescribe()
+            .fields.getMap();
+        Schema.DisplayType fielddataType = fieldMap.get(fieldName).getDescribe().getType();
+        return String.valueof(fielddataType);
+    }
+
     // Return record for given object with given id.  Fetch all local fields plus any given related ones.
     public static sObject fetchRecord(
         String objName,
@@ -479,6 +494,25 @@ global class Utilities {
             objName +
             ' ' +
             whereClause;
+        system.debug('fetchRecords: q = ' + q);
+        return Database.query(q);
+    }
+
+    // Return ALL records for given object.  Fetch all local fields plus any given related ones.
+    public static sObject[] fetchAllRecords(
+        String objName,
+        String[] relatedFieldNames
+    ) {
+        if (objName == null)
+            return null;
+        String[] fieldNames = fieldNamesForObject(objName);
+        if (relatedFieldNames != null)
+            fieldNames.addAll(relatedFieldNames);
+        String q =
+            'SELECT ' +
+            String.join(fieldNames, ', ') +
+            ' FROM ' +
+            objName;
         system.debug('fetchRecords: q = ' + q);
         return Database.query(q);
     }

@@ -141,6 +141,7 @@ public class UtilitiesTest {
         Utilities.pageReferenceForRecord(acct);
         Utilities.defaultLanguage();
 
+        Account acc = (Account)Utilities.newRecord('Account');
         Utilities.fetchRecord(
             'Proposal__c',
             prop.Id,
@@ -156,6 +157,10 @@ public class UtilitiesTest {
                     'ORDER BY CreatedDate'
                 )
             }
+        );
+        Utilities.fetchAllRecords(
+            'Proposal__c',
+            new List<String>{ 'Account__r.Name' }
         );
         Utilities.fetchRecords(
             'Proposal__c',

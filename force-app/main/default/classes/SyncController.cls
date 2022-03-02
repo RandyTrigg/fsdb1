@@ -3,10 +3,10 @@ public without sharing class SyncController {
     // Public variables for this FS SyncController instance.
     public Set<Id> acctIds = new Set<Id>();
     public Set<Id> ctIds = new Set<Id>();
-    public Set<Id> transIds = new Set<Id>();
     public Set<Id> giftIds = new Set<Id>();
     public Set<Id> oppIds = new Set<Id>();
     public Set<Id> recDonIds = new Set<Id>();
+    public List<Object> transactionsJSON = new List<Object>();
     public List<Account> upsAcctList = new List<Account>();
     public List<Contact> upsCtList = new List<Contact>();
     public List<Object> upsGCList = new List<Object>();
@@ -124,18 +124,40 @@ public without sharing class SyncController {
         return records;
     }
 
-    // Retrieve object mapping for querying GFW
-    public Map<String,String> getObjectMappings(String mdtObjName) {
-        Map<String,String> objMap = new Map<String,String>();
+    // Retrieve all object mappings
+    public List<GFW_Sync_Object_Mapping__mdt> getObjectMappingsList() {
         String objName = 'GFW_Sync_Object_Mapping__mdt';
-        String whereClause = 'WHERE DeveloperName = \'' + mdtObjName + '\'';
-        GFW_Sync_Object_Mapping__mdt objectMDT = (GFW_Sync_Object_Mapping__mdt)Utilities.fetchRecords(
+        GFW_Sync_Object_Mapping__mdt[] mdts = Utilities.fetchAllRecords(
             objName,
-            whereClause,
-            null)[0];
-        objMap.put(objectMDT.GFW_Object_Name__c, objectMDT.FSDB_Object_Name__c);
-        System.debug('objMap: '+ objMap);
+            null);
+        return mdts;
+    }
+
+    // Retrieve object mapping by mdt name
+    public Map<String,GFW_Sync_Object_Mapping__mdt> getObjectMapping(String mdtObjName) {
+        List<GFW_Sync_Object_Mapping__mdt> objMDTs = new List<GFW_Sync_Object_Mapping__mdt>(getObjectMappingsList());
+        Map<String,GFW_Sync_Object_Mapping__mdt> objMap = new Map<String,GFW_Sync_Object_Mapping__mdt>();
+        for (GFW_Sync_Object_Mapping__mdt objMDT : objMDTs) {
+            if (objMDT.DeveloperName == mdtObjName) {
+                objMap.put(objMDT.GFW_Object_Name__c, objMDT);
+            }
+        }
         return objMap;
+    }
+
+    // Retrieve map of FSDB External Id field name to ObjectMapping mdt Name
+    public Map<String,String> getExternalIdFieldNames() {
+        List<GFW_Sync_Object_Mapping__mdt> objMDTs = new List<GFW_Sync_Object_Mapping__mdt>(getObjectMappingsList());
+        Map<String,String> extIdFieldNamesMap = new Map<String,String>();
+        for (GFW_Sync_Object_Mapping__mdt objMDT : objMDTs) {
+            extIdFieldNamesMap.put(objMDT.DeveloperName, objMDT.FSDB_External_Id_Field_API_Name__c);
+        }
+        return extIdFieldNamesMap;
+    }
+
+    // Retrieve External Id field name from ObjectMapping mdt Name
+    public String externalIdFieldName(String mdtObjName) {
+        return (String)getExternalIdFieldNames().get(mdtObjName);
     }
 
     // Retrieve field mappings for querying GFW
@@ -149,7 +171,7 @@ public without sharing class SyncController {
             null);
         for (GFW_Sync_Field_Mapping__mdt fmMDT : fieldsMDTs ) {
             fieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT);
-            System.debug('GFW Field Name: ' + fmMDT.GFW_Field_API_Name__c + '; FSDB Field Name: ' + fmMDT.FSDB_Field_API_Name__c);
+            // System.debug('GFW Field Name: ' + fmMDT.GFW_Field_API_Name__c + '; FSDB Field Name: ' + fmMDT.FSDB_Field_API_Name__c);
         }
         return fieldMap;
     }
@@ -165,47 +187,57 @@ public without sharing class SyncController {
         return inIDsStr;
     }
 
+    /****** MAIN METHOD ******/
     public void LaunchSync() {
+        // Retrieve children records and parent Ids
+        gatherTransactions();
+        gatherGiftCredits();
+        gatherOpportunities(); 
+        // Upsert (?)/ Add parent accounts/contacts not already in system (soql query where external id in list)
+        upsertAcctsAndContacts();
+
+        // Upsert all children records
+        System.debug('recDonIds: '+recDonIds);
+        upsertRecurringDonations();
+        // upsert gift/opps, then transactions
+        // upsert gift/oppcredits
+    }
+
+    public void gatherTransactions() {
         System.debug('fsCOA: ' + fsCOA);
         String mdtObjName = 'AQB_Transaction_c';
-        // Soft credits: Included in query but don't create transaction records for them. Assume we have everything linked.
+        // Query of transactions includes soft credit types (don't upsert as Payment records). Assume we have everything linked.
+        // To do: Create Transactions mdt field mappings and gather string of query fields from there.
+        // Retrieve field and object names from mdt
         String query='select Name,Id,AQB__Account__c,AQB__Gift__c,AQB__CreditedOpportunity__c,Recurring_Donations__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'' + fsCOA + '\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
-        // List<Object> records = queryGFWObjectForRecords(mdtObjName);
-        List<Object> records = queryRecords(query);
-        if (records != null && records.size()>0) {
-            for (Object rec : records) {
+        transactionsJSON = queryRecords(query);
+        if (transactionsJSON != null && transactionsJSON.size()>0) {
+            for (Object rec : transactionsJSON) {
                 Map<String, Object> t = (Map<String, Object>) rec;
-                System.debug('>>> ' + t);
-                transIds.add((Id)t.get('Id'));
+                System.debug('>>> Transactions: ' + t);
                 giftIds.add((Id)t.get('AQB__Gift__c'));
                 acctIds.add((Id)t.get('AQB__Account__c'));
                 if (t.get('AQB__CreditedOpportunity__c') != null) { oppIds.add((Id)t.get('AQB__CreditedOpportunity__c')); }
                 if (t.get('Recurring_Donations__c') != null) { recDonIds.add((Id)t.get('Recurring_Donations__c')); }
             }
         }
-        System.debug('recDonIds: '+recDonIds);
-        // Retrieve gift credits and related account and contact Ids
-        gatherGiftCredits();
-        // gather Opportunities linked to COA (and not to Transactions?)
-        upsertAcctsAndContacts();
-        upsertRecurringDonations();
-        // upsert gift/opps and then transactions
-        // upsert gift credits
     }
-
+    
+    // Retrieve gift credits and their linked accounts/contacts from giftIds.
     public void gatherGiftCredits() {
-        // Retrieve gift credits and their linked accounts/contacts from giftIds. Partial credit?
-        // Convert giftIds to string for WHERE IN clause.
+        // Partial credit?
         String inIDsStr = packageIdsForQuery(giftIds);
         String query='select Id,AQB__DonorAccount__c,AQB__ContactId__c,AQB__ContactId__r.AccountId,AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c FROM AQB__GiftCredit__c WHERE AQB__GiftId__c IN ' + inIDsStr;
-        // Retrieve AQB_DonorAccount__c, not Credited Account. And AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
+        // Retrieve AQB_DonorAccount__c, not Credited Account. Retrieve AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
+        // Add this to mdts
         List<Object> records = queryRecords(query);
         Map<String, Object> pAcct;
         if (records != null && records.size()>0) {
             upsGCList.add(records);
+            // Build Map<Id, AQB__GiftCredit__c(json)> for building OppCredits? External Id for OppCredits?
             for (Object rec : records) {
                 Map<String, Object> gc = (Map<String, Object>)rec;
-                System.debug('>>> ' + gc);
+                System.debug('>>> Gift Credits: ' + gc);
                 if (gc.get('AQB__DonorAccount__c') != null) { acctIds.add((Id)gc.get('AQB__DonorAccount__c')); }
                 if (gc.get('AQB__ContactId__c') != null) { ctIds.add((Id)gc.get('AQB__ContactId__c')); }
                 // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
@@ -220,48 +252,82 @@ public without sharing class SyncController {
         // System.debug('acctIds: ' + acctIds);
     }
 
-    public void upsertAcctsAndContacts() {
+    // Retrieve all Opportunities linked to COA; add to OppId set and parent Accounts to acctId set
+    public void gatherOpportunities() {
 
     }
 
+    public void upsertAcctsAndContacts() {
+        System.debug('inside upsert accounts and contacts');
+    }
+
+    // Add/update FSDB recurring donations
     public void upsertRecurringDonations() {
         // Query related Recurring Donations and relevant field mappings
-        // Is there a way to genericize this if we can declaratively set fields?
-        String inIDsStr = packageIdsForQuery(recDonIds);
-        String objName = 'Recurring_Donations'; // Custom mdt name
-        Map<String,String> objMap = getObjectMappings(objName);
-        Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappings(objName);
+        // Genericize if we can dynamically set fields (parameters: mdtObjName and IdsList)
+        // Assumes subset of fields for all those objects would be controlled exclusively by sync and GFW as source
+        String mdtObjName = 'Recurring_Donations'; // Custom mdt name
+        // Retrieve mappings: which GFW object corresponds to which FSDB object; GFW fields that correspond to FSDB fields
+        Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
+        System.debug('objMap: ' + objMap);
+        Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappings(mdtObjName);
         if ( !objMap.isEmpty() && !fieldMap.isEmpty() ) {
-            String gfwObj = new List<String>(objMap.keySet())[0];
+            // Query GFW for Recurring Donations in Ids list
+            String gfwObjName = new List<String>(objMap.keySet())[0];
             List<String> gfwfieldList = new List<String>(fieldMap.keySet());
             String gfwFields = String.join(gfwfieldList, ',');
-            System.debug('RD objname: ' + gfwObj + '; RD fields: ' + gfwFields);
-            String query='select ' + gfwFields + ' FROM ' + gfwObj + ' WHERE Id IN ' + inIDsStr;
+            String inIDsStr = packageIdsForQuery(recDonIds);
+            String query='select ' + gfwFields + ' FROM ' + gfwObjName + ' WHERE Id IN ' + inIDsStr;
             List<Object> records = queryRecords(query);
-            String fsdbObj = objMap.get(gfwObj);
-            System.debug('fsdb obj name: ' + fsdbObj);
+            String fsdbObjName = objMap.get(gfwObjName).FSDB_Object_Name__c;
+            String fieldType, fsdbFieldName;
+            List<sObject> objs = new List<sObject>();
             if (!records.isEmpty()) {
-                sObject sObj = Schema.getGlobalDescribe().get(fsdbObj).newSObject();
+                // Loop through Recurring Donation JSON records
                 for (Object rec : records) {
-                    Map<String, Object> rd = (Map<String, Object>) rec;
-                    System.debug('>>> ' + rd);
+                    sObject sObj = Utilities.newRecord(fsdbObjName);
+                    Map<String, Object> gfwInfo = (Map<String, Object>) rec;
+                    System.debug('>>> Recurring Donations' + gfwInfo);
                     for (String gfwFieldName : gfwfieldList) {
                         GFW_Sync_Field_Mapping__mdt fieldmapMDT = fieldMap.get(gfwFieldName);
-                        // Set actual FSDB field with value from json
-                        // fieldmapMDT.FSDB_Field_API_Name__c = rd.get(gfwFieldName);
-                        // Figure out how to compose this declaratively.
-                        // Schema.DisplayType fielddataType = fieldMap.get(fieldmapMDT.FSDB_Field_API_Name__c).getDescribe().getType();
-                        // String fieldType;
-                        /*if (fielddataType == Schema.DisplayType.Integer) {
-                            // How to cast data correctly?
-                            // fieldType = 'Integer';
-                            System.debug('field type: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' is integer.');
-                        } else {
-                            System.debug('field type: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' is not an integer.');
-                        } */
-                        System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + rd.get(gfwFieldName));
+                        // Retrieve field type
+                        fsdbFieldName = fieldmapMDT.FSDB_Field_API_Name__c;
+                        fieldType = Utilities.fieldTypeOfField(fsdbObjName, fsdbFieldName);
+                        System.debug('fieldtype: ' + fieldType);
+                        if (gfwInfo.get(gfwFieldName)!= null) {
+                            if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
+                                sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (String)gfwInfo.get(gfwFieldName));
+                            } else if ( fieldType == 'CURRENCY' ) {
+                                sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Decimal)gfwInfo.get(gfwFieldName));
+                            } else if (fieldType == 'INTEGER') {
+                                sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Integer)gfwInfo.get(gfwFieldName));
+                            } else if (fieldType == 'DATE') {
+                                Date dt = date.valueOf((String)gfwInfo.get(gfwFieldName));
+                                sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, dt); 
+                            } else if (fieldType == 'REFERENCE') {
+                                if (fieldmapMDT.MasterLabel.contains('Account')) {
+                                    Account accountReference = new Account();
+                                    System.debug('external id field name: ' + externalIdFieldName('Account') + 'value: ' + (Id)gfwInfo.get(gfwFieldName));
+                                    accountReference.put(externalIdFieldName('Account'), (Id)gfwInfo.get(gfwFieldName));
+                                    // GFW_Account_ID__c=(Id)gfwInfo.get(gfwFieldName));
+                                    sObj.putSObject(fieldmapMDT.FSDB_Field_API_Name__c.replace('__c', '__r'), accountReference);
+                                    // npe03__Recurring_Donation__c rdon = (npe03__Recurring_Donation__c)sObj;
+                                    // rdon.npe03__Organization__r = accountReference;
+                                    // sObj = (sObject)rdon;
+                                }
+
+                            }
+                        }
+                        System.debug('FSDB Field Type for ' + fsdbFieldName + ': ' + fieldType);
+                        System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + gfwInfo.get(gfwFieldName));
                     }
+                    System.debug('sObj to add: ' + sObj);
+                    objs.add(sObj);
                 }
+
+                System.debug('Recurring donations to upsert: ' + objs);
+                // upsert objs;
+                // Database.UpsertResult[] resultsRC = Database.upsert( objs, Unit_of_Service__c.Fields.KLAS_MatRequestLineObj__c, false);
 
             }
         }

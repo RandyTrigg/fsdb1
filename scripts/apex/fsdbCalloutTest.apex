@@ -20,6 +20,12 @@
         }
 
 
+        /*
+        SyncController scThisFS = new SyncController();
+        List<GFW_Sync_Object_Mapping__mdt> newList = new List<GFW_Sync_Object_Mapping__mdt>(SyncController.getObjectMappingsList());
+        System.debug('list: ' + newList);
+        */
+
 
 // String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__Method__c = \'Check\' and AQB__Type__c != \'Soft Credit\' and AQB__Posted__c = true LIMIT 100000';
 // String query='select Name,Id,AQB__Account__c,AQB__Gift__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'FS-BFF\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
