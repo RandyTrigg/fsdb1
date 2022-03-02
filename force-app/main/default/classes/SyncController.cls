@@ -7,9 +7,10 @@ public without sharing class SyncController {
     public Set<Id> oppIds = new Set<Id>();
     public Set<Id> recDonIds = new Set<Id>();
     public List<Object> transactionsJSON = new List<Object>();
+    public List<Object> gcsJSON = new List<Object>();
     public List<Account> upsAcctList = new List<Account>();
     public List<Contact> upsCtList = new List<Contact>();
-    public List<Object> upsGCList = new List<Object>();
+
     public String fsCOA;
     public String fsRole;
 
@@ -84,7 +85,7 @@ public without sharing class SyncController {
             records = (List<Object>) m.get('records');
             String nextResults;
             if (!done) {
-                // Retrieve remaining records in batches
+                // Remaining records must be retrieved in batches
                 do {
                     String nextRecordsURL = qryResponse.nextRecordsURL;
                     // String nextRecordsURL = (String) m.get('nextRecordsUrl');
@@ -210,9 +211,10 @@ public without sharing class SyncController {
         // To do: Create Transactions mdt field mappings and gather string of query fields from there.
         // Retrieve field and object names from mdt
         String query='select Name,Id,AQB__Account__c,AQB__Gift__c,AQB__CreditedOpportunity__c,Recurring_Donations__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'' + fsCOA + '\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
-        transactionsJSON = queryRecords(query);
-        if (transactionsJSON != null && transactionsJSON.size()>0) {
-            for (Object rec : transactionsJSON) {
+        List<Object> records = queryRecords(query);
+        if (records != null && records.size()>0) {
+            transactionsJSON.add(records);
+            for (Object rec : records) {
                 Map<String, Object> t = (Map<String, Object>) rec;
                 System.debug('>>> Transactions: ' + t);
                 giftIds.add((Id)t.get('AQB__Gift__c'));
@@ -233,7 +235,7 @@ public without sharing class SyncController {
         List<Object> records = queryRecords(query);
         Map<String, Object> pAcct;
         if (records != null && records.size()>0) {
-            upsGCList.add(records);
+            gcsJSON.add(records);
             // Build Map<Id, AQB__GiftCredit__c(json)> for building OppCredits? External Id for OppCredits?
             for (Object rec : records) {
                 Map<String, Object> gc = (Map<String, Object>)rec;
@@ -248,7 +250,7 @@ public without sharing class SyncController {
                 // System.debug('GC Contact Parent AccountId: ' + (Id)pAcct.get('AccountId'));
             }
         }
-        // System.debug('giftcredits: ' + upsGCList);
+        // System.debug('giftcredits: ' + gcsJSON);
         // System.debug('acctIds: ' + acctIds);
     }
 
