@@ -37,6 +37,9 @@ public without sharing class SyncController {
         list<recordWrapper> records;
     }
 
+    /*******************
+     * CALLOUTS TO GFW
+     *******************/
     public String sendHTTPRequest (HTTPCalloutService service) {
         System.debug('HTTPRequest request: ' + service.getRequest());
         HTTPResponse response = service.sendRequest();
@@ -75,7 +78,7 @@ public without sharing class SyncController {
     public List<Object> queryRecords(String queryStr) {
         // Perform query callout and return records
         String jsonResults = doQueryCallout(queryStr);
-        // system.debug('Final results: ' + jsonResults);
+        system.debug('Final results: ' + jsonResults);
         List<Object> records;
         if (!jsonResults.startsWith('Error:')) {
             queryReturnResponseWrapper qryResponse  = (queryReturnResponseWrapper)JSON.deserialize(jsonResults, queryReturnResponseWrapper.class);
@@ -125,6 +128,9 @@ public without sharing class SyncController {
         return records;
     }
 
+    /*******************
+     * CUSTOM METADATA OBJECT/FIELD MAPPINGS
+     *******************/
     // Retrieve all object mappings
     public List<GFW_Sync_Object_Mapping__mdt> getObjectMappingsList() {
         String objName = 'GFW_Sync_Object_Mapping__mdt';
@@ -188,7 +194,35 @@ public without sharing class SyncController {
         return inIDsStr;
     }
 
-    /****** MAIN METHOD ******/
+    // Generate and run query based on mdt record
+    public List<Object> queryForRecords(String mdtObjName, Set<Id> idsForQuery, String whereClauseCustom) {
+        // Retrieve mappings: which GFW object corresponds to which FSDB object; GFW fields that correspond to FSDB fields
+        Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
+        System.debug('objMap: ' + objMap);
+        Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappings(mdtObjName);
+        List<Object> records;
+        if ( !objMap.isEmpty() && !fieldMap.isEmpty() ) {
+            // Query GFW for records in Ids list
+            String gfwObjName = new List<String>(objMap.keySet())[0];
+            List<String> gfwfieldList = new List<String>(fieldMap.keySet());
+            String gfwFields = String.join(gfwfieldList, ',');
+            String whereClause = '';
+            if (idsForQuery != null && !idsForQuery.isEmpty()) {
+                String inIDsStr = packageIdsForQuery(idsForQuery);
+                whereClause = ' WHERE Id IN ' + inIDsStr;
+            } else if (whereClauseCustom != null && whereClauseCustom != '') {
+                whereClause = whereClauseCustom;
+            }
+            String query='select ' + gfwFields + ' FROM ' + gfwObjName + whereClause;
+            records = queryRecords(query);
+        }
+        return records;
+    }
+ 
+
+    /*******************
+     * MAIN METHOD
+     *******************/
     public void LaunchSync() {
         // Retrieve children records and parent Ids
         gatherTransactions();
@@ -200,21 +234,20 @@ public without sharing class SyncController {
         // Upsert all children records
         System.debug('recDonIds: '+recDonIds);
         upsertRecurringDonations();
-        // upsert gift/opps, then transactions
-        // upsert gift/oppcredits
+        // upsert gift/opps and opps, then transactions
+        // upsert oppcredits
     }
 
     public void gatherTransactions() {
+        // Retrieve transactions incl soft credit types (don't upsert as Payment records). Assume we have everything linked.
         System.debug('fsCOA: ' + fsCOA);
-        String mdtObjName = 'AQB_Transaction_c';
-        // Query of transactions includes soft credit types (don't upsert as Payment records). Assume we have everything linked.
-        // To do: Create Transactions mdt field mappings and gather string of query fields from there.
-        // Retrieve field and object names from mdt
-        String query='select Name,Id,AQB__Account__c,AQB__Gift__c,AQB__CreditedOpportunity__c,Recurring_Donations__c from AQB__Transaction__c Where AQB__ChartofAccounts__r.Name=\'' + fsCOA + '\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
-        List<Object> records = queryRecords(query);
+        String mdtObjName = 'Transaction_to_Payment';
+        String whereClause = ' WHERE AQB__ChartofAccounts__r.Name=\'' + fsCOA + '\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
+        List<Object> records = queryForRecords(mdtObjName, null, whereClause);
         if (records != null && records.size()>0) {
             transactionsJSON.add(records);
             for (Object rec : records) {
+                // Grab all parent/related Ids
                 Map<String, Object> t = (Map<String, Object>) rec;
                 System.debug('>>> Transactions: ' + t);
                 giftIds.add((Id)t.get('AQB__Gift__c'));
@@ -228,11 +261,13 @@ public without sharing class SyncController {
     // Retrieve gift credits and their linked accounts/contacts from giftIds.
     public void gatherGiftCredits() {
         // Partial credit?
+        String mdtObjName = 'GiftCredit_to_OppContactRole';
         String inIDsStr = packageIdsForQuery(giftIds);
-        String query='select Id,AQB__DonorAccount__c,AQB__ContactId__c,AQB__ContactId__r.AccountId,AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c FROM AQB__GiftCredit__c WHERE AQB__GiftId__c IN ' + inIDsStr;
+        String whereClause = ' WHERE AQB__GiftId__c IN ' + inIDsStr;
+        List<Object> records = queryForRecords(mdtObjName, null, whereClause);
+        // String query='select Id,AQB__DonorAccount__c,AQB__ContactId__c,AQB__ContactId__r.AccountId,AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c FROM AQB__GiftCredit__c WHERE AQB__GiftId__c IN ' + inIDsStr;
         // Retrieve AQB_DonorAccount__c, not Credited Account. Retrieve AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
-        // Add this to mdts
-        List<Object> records = queryRecords(query);
+        // List<Object> records = queryRecords(query);
         Map<String, Object> pAcct;
         if (records != null && records.size()>0) {
             gcsJSON.add(records);
