@@ -8,6 +8,7 @@ public without sharing class SyncController {
     public Set<Id> recDonIds = new Set<Id>();
     public List<Object> transactionsJSON = new List<Object>();
     public List<Object> gcsJSON = new List<Object>();
+    public List<Object> oppsJSON = new List<Object>();
     public List<Account> upsAcctList = new List<Account>();
     public List<Contact> upsCtList = new List<Contact>();
 
@@ -177,7 +178,7 @@ public without sharing class SyncController {
             whereClause,
             null);
         for (GFW_Sync_Field_Mapping__mdt fmMDT : fieldsMDTs ) {
-            fieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT);
+            if (fmMDT.GFW_Field_API_Name__c != null && fmMDT.GFW_Field_API_Name__c != '') fieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT);
             // System.debug('GFW Field Name: ' + fmMDT.GFW_Field_API_Name__c + '; FSDB Field Name: ' + fmMDT.FSDB_Field_API_Name__c);
         }
         return fieldMap;
@@ -218,6 +219,30 @@ public without sharing class SyncController {
         }
         return records;
     }
+
+    public Set<Id> recIdsToInsert(String mdtObjName, Set<Id> idsGathered) {
+        String gfwObjName = new List<String>(getObjectMapping(mdtObjName).keySet())[0];
+        String inIDsStr = packageIdsForQuery(idsGathered);
+        String extIdFieldName = externalIdFieldName(mdtObjName);
+        String whereClause = 'WHERE ' + externalIdFieldName(mdtObjName) + ' + IN ' + inIDsStr; 
+        Set<Id> exstIds = new Set<Id>();
+        Set<Id> idsToQuery = new Set<Id>();
+        List<sObject> exstRecs = Utilities.fetchRecords(
+            gfwObjName, whereClause, null);
+        System.debug('Existing recs: ' + exstRecs);
+        if (exstRecs!=null && !exstRecs.isEmpty()) {
+            for (sObject extRec : exstRecs) {
+                ///////BOOOKMARK!!!!!!
+                // exstIds.add(extRec.GFW_Account_ID__c); /// FIX!!!
+            }
+            // Remove existing Acct Ids
+            // idsToQuery.add(idsGathered.remove(exstIds));
+        } else {
+            // No accounts exist with matching external ids - add all
+            // idsToQuery.add(idsGathered); -- incorrect signature void add
+        }
+        return idsToQuery;
+    }
  
 
     /*******************
@@ -229,7 +254,7 @@ public without sharing class SyncController {
         gatherGiftCredits();
         gatherOpportunities(); 
         // Upsert (?)/ Add parent accounts/contacts not already in system (soql query where external id in list)
-        upsertAcctsAndContacts();
+        addNewAcctsAndContacts();
 
         // Upsert all children records
         System.debug('recDonIds: '+recDonIds);
@@ -240,6 +265,7 @@ public without sharing class SyncController {
 
     public void gatherTransactions() {
         // Retrieve transactions incl soft credit types (don't upsert as Payment records). Assume we have everything linked.
+        // Assumes account and opportunity lookups on the Transaction can be relied upon exclusively for gift's account/opportunity.
         System.debug('fsCOA: ' + fsCOA);
         String mdtObjName = 'Transaction_to_Payment';
         String whereClause = ' WHERE AQB__ChartofAccounts__r.Name=\'' + fsCOA + '\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
@@ -260,42 +286,86 @@ public without sharing class SyncController {
     
     // Retrieve gift credits and their linked accounts/contacts from giftIds.
     public void gatherGiftCredits() {
-        // Partial credit?
+        // Figure out: Account credits, partial credit (amt/percentage)
+        // AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c
+        // Retrieve AQB_DonorAccount__c, not Credited Account. Retrieve AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         String mdtObjName = 'GiftCredit_to_OppContactRole';
         String inIDsStr = packageIdsForQuery(giftIds);
         String whereClause = ' WHERE AQB__GiftId__c IN ' + inIDsStr;
         List<Object> records = queryForRecords(mdtObjName, null, whereClause);
-        // String query='select Id,AQB__DonorAccount__c,AQB__ContactId__c,AQB__ContactId__r.AccountId,AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c FROM AQB__GiftCredit__c WHERE AQB__GiftId__c IN ' + inIDsStr;
-        // Retrieve AQB_DonorAccount__c, not Credited Account. Retrieve AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
-        // List<Object> records = queryRecords(query);
         Map<String, Object> pAcct;
+        Map<Id, Id> extGiftContactIdMap = new Map<Id, Id>();
         if (records != null && records.size()>0) {
+            // Stash gc record json and gather parent/related Ids
             gcsJSON.add(records);
-            // Build Map<Id, AQB__GiftCredit__c(json)> for building OppCredits? External Id for OppCredits?
             for (Object rec : records) {
                 Map<String, Object> gc = (Map<String, Object>)rec;
                 System.debug('>>> Gift Credits: ' + gc);
                 if (gc.get('AQB__DonorAccount__c') != null) { acctIds.add((Id)gc.get('AQB__DonorAccount__c')); }
-                if (gc.get('AQB__ContactId__c') != null) { ctIds.add((Id)gc.get('AQB__ContactId__c')); }
-                // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
-                pAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
-                if (pAcct != null) { acctIds.add((Id)pAcct.get('AccountId')); }
+                if (gc.get('AQB__ContactId__c') != null) { 
+                    // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
+                    ctIds.add((Id)gc.get('AQB_ContactId__c')); 
+                    pAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
+                    if (pAcct != null) acctIds.add((Id)pAcct.get('AccountId'));
+                    // Package GCs for OppContactRoles - GFWGiftExternalId on Opp and GFWContactExternalId.
+                    // System.debug('giftid: ' + (Id)gc.get('AQB__GiftId__c') + '; contactId: ' + (Id)gc.get('AQB__ContactId__c'));
+                    extGiftContactIdMap.put((Id)gc.get('AQB__GiftId__c'), (Id)gc.get('AQB__ContactId__c'));   
+                }
                 // System.debug('AccountId: ' + (Id)gc.get('AQB__DonorAccount__c'));
                 // System.debug('ContactId: ' + (Id)gc.get('AQB__ContactId__c'));
                 // System.debug('GC Contact Parent AccountId: ' + (Id)pAcct.get('AccountId'));
             }
         }
-        // System.debug('giftcredits: ' + gcsJSON);
-        // System.debug('acctIds: ' + acctIds);
     }
 
-    // Retrieve all Opportunities linked to COA; add to OppId set and parent Accounts to acctId set
+    // Retrieve Opportunities linked to COA not already gathered via Transactions; add to OppId set and parent Accounts to acctId set
     public void gatherOpportunities() {
-
+        String mdtObjName = 'Opportunity';
+        String inIDsStr = packageIdsForQuery(oppIds);
+        String whereClause = ' WHERE Chart_of_Accounts__r.Name=\'' + fsCOA + '\' AND Id NOT IN ' + inIDsStr;
+        List<Object> records = queryForRecords(mdtObjName, null, whereClause);
+        if (records != null && records.size()>0) {
+            oppsJSON.add(records);
+            for (Object rec : records) {
+                Map<String, Object> opp = (Map<String, Object>)rec;
+                System.debug('>>> Opportunities: ' + opp);
+                acctIds.add((Id)opp.get('AccountId'));
+            }
+        System.debug('AccountIdsAfterOpps: ' + acctIds);
+        }
     }
 
-    public void upsertAcctsAndContacts() {
+    public void addNewAcctsAndContacts() {
+        // Only add Accounts and Contacts in FSDB that have no matching GFW External Ids from queried records 
         System.debug('inside upsert accounts and contacts');
+        Set<Id> idsToQuery = recIdsToInsert('Account', acctIds);
+/*
+        String inIDsStr = packageIdsForQuery(acctIds);
+        String whereClause = 'WHERE GFW_Account_ID__c IN ' + inIDsStr; 
+        Set<Id> exstAcctIds = new Set<Id>();
+        Set<Id> acctIdsToQuery = new Set<Id>();
+        Account[] exstAccts = Utilities.fetchRecords(
+            'Account', whereClause, null);
+        System.debug('Existing accts: ' + exstAccts);
+        if (exstAccts!=null && !exstAccts.isEmpty()) {
+            for (Account exAcct : exstAccounts) {
+                exstAcctIds.add(exAcct.GFW_Account_ID__c);
+            }
+            // Remove existing Acct Ids
+            acctIdsToQuery.add(acctIds.remove(exstAcctIds));
+        } else {
+            // No accounts exist with matching external ids - add all
+            acctIdsToQuery.add(acctIds);
+        }
+        // Query accounts to add
+        // Insert the accounts
+        // Do the above for Contacts
+        // Query contacts to add
+        // Insert the contacts
+        // Is there a way to genericize this?? YES!
+        // We need: Name of mdt mapping object (Object, External Id field) and Ids set; 
+
+        */
     }
 
     // Add/update FSDB recurring donations
