@@ -80,7 +80,7 @@ public without sharing class SyncController {
         return results;
     }
 
-    public List<Object> queryRecords(String queryStr) {
+    public List<Object> doQuery(String queryStr) {
         // Perform query callout and return records
         String jsonResults = doQueryCallout(queryStr);
         system.debug('Final results: ' + jsonResults);
@@ -125,7 +125,7 @@ public without sharing class SyncController {
             ];
             String whereClause = !String.isBlank(queryMDT.Where_Clause__c) ? ' ' + queryMDT.Where_Clause__c : '';
             String query='SELECT ' + queryMDT.Field_List__c + ' FROM ' + queryMDT.MasterLabel + whereClause;
-            records = queryRecords(query);
+            records = doQuery(query);
         } catch (Exception e) {
             System.debug('Unable to retrieve GFW Sync Query custom metadata. Make sure you\'ve passed the correct developer name.');
             // throw new HTTPCalloutFrameworkException(HTTPCalloutFrameworkException.CUSTOM_METADATA_NOT_FOUND);
@@ -136,22 +136,20 @@ public without sharing class SyncController {
     /*******************
      * CUSTOM METADATA OBJECT/FIELD MAPPINGS
      *******************/
-    // Retrieve all object mappings
-
-    // HOW to initialize this
-    public List<GFW_Sync_Object_Mapping__mdt> getObjectMappingsList() {
+    
+     // Retrieve all object mappings
+    public void setObjectMappingsList() {
         String objName = 'GFW_Sync_Object_Mapping__mdt';
-        GFW_Sync_Object_Mapping__mdt[] mdts = Utilities.fetchAllRecords(
+        mdts = Utilities.fetchAllRecords(
             objName,
             null);
-        return mdts;
+        System.debug('mdts: ' + mdts);
     }
 
     // Retrieve object mapping by mdt name
     public Map<String,GFW_Sync_Object_Mapping__mdt> getObjectMapping(String mdtObjName) {
-        List<GFW_Sync_Object_Mapping__mdt> objMDTs = new List<GFW_Sync_Object_Mapping__mdt>(getObjectMappingsList());
         Map<String,GFW_Sync_Object_Mapping__mdt> objMap = new Map<String,GFW_Sync_Object_Mapping__mdt>();
-        for (GFW_Sync_Object_Mapping__mdt objMDT : objMDTs) {
+        for (GFW_Sync_Object_Mapping__mdt objMDT : mdts) {
             if (objMDT.DeveloperName == mdtObjName) {
                 objMap.put(objMDT.GFW_Object_Name__c, objMDT);
             }
@@ -160,10 +158,8 @@ public without sharing class SyncController {
     }
 
     // Initialize map of FSDB External Id field name to ObjectMapping mdt Name
-    public void getExternalIdFieldNames() {
-        List<GFW_Sync_Object_Mapping__mdt> objMDTs = new List<GFW_Sync_Object_Mapping__mdt>(getObjectMappingsList());
-        Map<String,String> extIdFieldNamesMap = new Map<String,String>();
-        for (GFW_Sync_Object_Mapping__mdt objMDT : objMDTs) {
+    public void setExternalIdFieldNames() {
+        for (GFW_Sync_Object_Mapping__mdt objMDT : mdts) {
             extIdFieldNamesMap.put(objMDT.DeveloperName, objMDT.FSDB_External_Id_Field_API_Name__c);
         }
     }
@@ -200,35 +196,12 @@ public without sharing class SyncController {
         return inIDsStr;
     }
 
-    // Generate and run query based on mdt record
-    public List<Object> queryForRecords(String mdtObjName, Set<Id> idsForQuery, String whereClauseCustom) {
-        // Retrieve mappings: which GFW object corresponds to which FSDB object; GFW fields that correspond to FSDB fields
-        Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
-        System.debug('objMap: ' + objMap);
-        Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappings(mdtObjName);
-        List<Object> records;
-        if ( !objMap.isEmpty() && !fieldMap.isEmpty() ) {
-            // Query GFW for records in Ids list
-            String gfwObjName = new List<String>(objMap.keySet())[0];
-            List<String> gfwfieldList = new List<String>(fieldMap.keySet());
-            String gfwFields = String.join(gfwfieldList, ',');
-            String whereClause = '';
-            if (idsForQuery != null && !idsForQuery.isEmpty()) {
-                String inIDsStr = packageIdsForQuery(idsForQuery);
-                whereClause = ' WHERE Id IN ' + inIDsStr;
-            } else if (whereClauseCustom != null && whereClauseCustom != '') {
-                whereClause = whereClauseCustom;
-            }
-            String query='select ' + gfwFields + ' FROM ' + gfwObjName + whereClause;
-            records = queryRecords(query);
-        }
-        return records;
-    }
-
+    // For Accounts and Contacts, build Ids for records not already in FSDB to insert 
     public Set<Id> recIdsToInsert(String mdtObjName, Set<Id> idsGathered) {
         String gfwObjName = new List<String>(getObjectMapping(mdtObjName).keySet())[0];
         String inIDsStr = packageIdsForQuery(idsGathered);
         String extIdFieldName = externalIdFieldName(mdtObjName);
+        System.debug('external id fieldname for ' + mdtObjName + ': ' + extIdFieldName);
         String whereClause = 'WHERE ' + externalIdFieldName(mdtObjName) + ' IN ' + inIDsStr; 
         Set<Id> idsToQuery = new Set<Id>();
         List<sObject> exstRecs = Utilities.fetchRecords(
@@ -248,71 +221,96 @@ public without sharing class SyncController {
         return idsToQuery;
     }
 
-    // Upsert records based on Object and field mappings
-    public void upsertRecs(String mdtObjName, Set<Id> idsToQuery) {
-        // Retrieve object and field mappings
+    // Generate and run query based on mdt record
+    public List<Object> queryForRecords(String mdtObjName, Set<Id> idsForQuery, String whereClauseCustom) {
+        // Retrieve mappings: which GFW object corresponds to which FSDB object; GFW fields that correspond to FSDB fields
         Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappings(mdtObjName);
+        System.debug('objMap: ' + objMap);
+        List<Object> records;
         if ( !objMap.isEmpty() && !fieldMap.isEmpty() ) {
             // Query GFW for records in Ids list
             String gfwObjName = new List<String>(objMap.keySet())[0];
             List<String> gfwfieldList = new List<String>(fieldMap.keySet());
             String gfwFields = String.join(gfwfieldList, ',');
-            String inIDsStr = packageIdsForQuery(recDonIds);
-            String query='select ' + gfwFields + ' FROM ' + gfwObjName + ' WHERE Id IN ' + inIDsStr;
-            List<Object> records = queryRecords(query);
-            String fsdbObjName = objMap.get(gfwObjName).FSDB_Object_Name__c;
-            String fieldType, fsdbFieldName;
-            List<sObject> objs = new List<sObject>();
-            if (!records.isEmpty()) {
-                // Loop through Recurring Donation JSON records
-                for (Object rec : records) {
-                    sObject sObj = Utilities.newRecord(fsdbObjName);
-                    Map<String, Object> gfwInfo = (Map<String, Object>) rec;
-                    System.debug('>>> Recurring Donations' + gfwInfo);
-                    for (String gfwFieldName : gfwfieldList) {
-                        GFW_Sync_Field_Mapping__mdt fieldmapMDT = fieldMap.get(gfwFieldName);
-                        // Retrieve field type
-                        fsdbFieldName = fieldmapMDT.FSDB_Field_API_Name__c;
-                        fieldType = Utilities.fieldTypeOfField(fsdbObjName, fsdbFieldName);
-                        System.debug('fieldtype: ' + fieldType);
-                        if (gfwInfo.get(gfwFieldName)!= null) {
-                            if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
-                                sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (String)gfwInfo.get(gfwFieldName));
-                            } else if ( fieldType == 'CURRENCY' ) {
-                                sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Decimal)gfwInfo.get(gfwFieldName));
-                            } else if (fieldType == 'INTEGER') {
-                                sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Integer)gfwInfo.get(gfwFieldName));
-                            } else if (fieldType == 'DATE') {
-                                Date dt = date.valueOf((String)gfwInfo.get(gfwFieldName));
-                                sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, dt); 
-                            } else if (fieldType == 'REFERENCE') {
-                                if (fieldmapMDT.MasterLabel.contains('Account')) {
-                                    Account accountReference = new Account();
-                                    System.debug('external id field name: ' + externalIdFieldName('Account') + 'value: ' + (Id)gfwInfo.get(gfwFieldName));
-                                    accountReference.put(externalIdFieldName('Account'), (Id)gfwInfo.get(gfwFieldName));
-                                    // GFW_Account_ID__c=(Id)gfwInfo.get(gfwFieldName));
-                                    sObj.putSObject(fieldmapMDT.FSDB_Field_API_Name__c.replace('__c', '__r'), accountReference);
-                                    // npe03__Recurring_Donation__c rdon = (npe03__Recurring_Donation__c)sObj;
-                                    // rdon.npe03__Organization__r = accountReference;
-                                    // sObj = (sObject)rdon;
-                                }
+            String whereClause = '';
+            if (idsForQuery != null && !idsForQuery.isEmpty()) {
+                String inIDsStr = packageIdsForQuery(idsForQuery);
+                whereClause = ' WHERE Id IN ' + inIDsStr;
+            } else if (whereClauseCustom != null && whereClauseCustom != '') {
+                whereClause = whereClauseCustom;
+            }
+            String query='SELECT ' + gfwFields + ' FROM ' + gfwObjName + whereClause;
+            records = doQuery(query);
+        }
+        return records;
+    }
 
-                            }
-                        }
+    public List<sObject> buildRecsWithValues(String mdtObjName, List<Object> records) {
+        // Retrieve object and field mappings
+        Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
+        Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappings(mdtObjName);
+        String gfwObjName = new List<String>(objMap.keySet())[0];
+        List<String> gfwfieldList = new List<String>(fieldMap.keySet());  
+        String fsdbObjName = objMap.get(gfwObjName).FSDB_Object_Name__c;
+        String fieldType, fsdbFieldName;
+        List<sObject> objs = new List<sObject>();
+        if (records != null && !records.isEmpty()) {
+            // Loop through JSON records
+            for (Object rec : records) {
+                sObject sObj = Utilities.newRecord(fsdbObjName);
+                Map<String, Object> gfwInfo = (Map<String, Object>) rec;
+                System.debug('>>> ' + gfwObjName + ': ' + gfwInfo);
+                for (String gfwFieldName : gfwfieldList) {
+                    GFW_Sync_Field_Mapping__mdt fieldmapMDT = fieldMap.get(gfwFieldName);
+                    // Retrieve field type
+                    fsdbFieldName = fieldmapMDT.FSDB_Field_API_Name__c;
+                    fieldType = Utilities.fieldTypeOfField(fsdbObjName, fsdbFieldName);
+                    System.debug('fieldtype: ' + fieldType);
+                    if (gfwInfo.get(gfwFieldName)!= null) {
                         System.debug('FSDB Field Type for ' + fsdbFieldName + ': ' + fieldType);
                         System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + gfwInfo.get(gfwFieldName));
-                    }
-                    System.debug('sObj to add: ' + sObj);
-                    objs.add(sObj);
-                } // For loop
+                        if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
+                            sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (String)gfwInfo.get(gfwFieldName));
+                        } else if ( fieldType == 'CURRENCY' ) {
+                            sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Decimal)gfwInfo.get(gfwFieldName));
+                        } else if (fieldType == 'INTEGER') {
+                            sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Integer)gfwInfo.get(gfwFieldName));
+                        } else if (fieldType == 'DATE') {
+                            Date dt = date.valueOf((String)gfwInfo.get(gfwFieldName));
+                            sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, dt); 
+                        } else if (fieldType == 'REFERENCE') {
+                            if (fieldmapMDT.MasterLabel.contains('Account')) {
+                                Account accountReference = new Account();
+                                System.debug('external id field name: ' + externalIdFieldName('Account') + 'value: ' + (Id)gfwInfo.get(gfwFieldName));
+                                accountReference.put(externalIdFieldName('Account'), (Id)gfwInfo.get(gfwFieldName));
+                                // GFW_Account_ID__c=(Id)gfwInfo.get(gfwFieldName));
+                                sObj.putSObject(fieldmapMDT.FSDB_Field_API_Name__c.replace('__c', '__r'), accountReference);
+                                // npe03__Recurring_Donation__c rdon = (npe03__Recurring_Donation__c)sObj;
+                                // rdon.npe03__Organization__r = accountReference;
+                                // sObj = (sObject)rdon;
+                            }
+                        }
+                    } // If not null
+                } // for each field
+                System.debug('sObj to add: ' + sObj);
+                objs.add(sObj);
+            } // End for each record loop
+        } // End if records not empty
+        return objs;
+    }
 
-                System.debug('Recurring donations to upsert: ' + objs);
-                // upsert objs;
-                // Database.UpsertResult[] resultsRC = Database.upsert( objs, Unit_of_Service__c.Fields.KLAS_MatRequestLineObj__c, false);
-
-            } // If
-        } // If fieldmap not empty
+    // Upsert records based on Object and field mappings
+    public void upsertRecs(String mdtObjName, Set<Id> idsToQuery) {
+        // Query GFW for records in Ids list   
+        List<Object> records = queryForRecords(mdtObjName, idsToQuery, null);
+        System.debug('Query for records: ' + records);
+        List<sObject> objsToUpsert = new List<sObject>();
+        objsToUpsert = buildRecsWithValues(mdtObjName, records);
+        
+        // System.debug('Obj to upsert: ' + objs);
+        // upsert objs;
+        // Database.UpsertResult[] resultsRC = Database.upsert( objs, Unit_of_Service__c.Fields.KLAS_MatRequestLineObj__c, false);
     }
  
 
@@ -320,8 +318,10 @@ public without sharing class SyncController {
      * MAIN METHOD
      *******************/
     public void LaunchSync() {
-        // Initialize vars
-        getExternalIdFieldNames();
+        // Initialize class vars
+        setObjectMappingsList();
+        setExternalIdFieldNames();
+
         // Retrieve children records and parent Ids
         gatherTransactions();
         gatherGiftCredits();
