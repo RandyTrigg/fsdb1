@@ -1,5 +1,10 @@
 public without sharing class SyncController {
     
+    // Class variables set upon instantiation
+    public String fsCOA;
+    public String fsRole;
+    // TO DO: Retrieve User record/Id
+
     // Public variables for this FS SyncController instance.
     public Set<Id> acctIds = new Set<Id>();
     public Set<Id> ctIds = new Set<Id>();
@@ -9,15 +14,17 @@ public without sharing class SyncController {
     public List<Object> transactionsJSON = new List<Object>();
     public List<Object> gcsJSON = new List<Object>();
     public List<Object> oppsJSON = new List<Object>();
+
+    // TO DO: RECORD TYPES - Create class variable custom map?? Or picklist mapping?
+    // Look into Account record types. In FSDB, only 3 are active: Organization, Organization GM, Household Account. 
+
+    // Need these?
     public List<Account> upsAcctList = new List<Account>();
     public List<Contact> upsCtList = new List<Contact>();
     
-    // Initialized on
+    // Initialized upon launch
     Map<String,String> extIdFieldNamesMap = new Map<String, String>();
     List<GFW_Sync_Object_Mapping__mdt> mdts = new List<GFW_Sync_Object_Mapping__mdt>();
-
-    public String fsCOA;
-    public String fsRole;
 
     public class attributesWrapper {
         string type;
@@ -173,11 +180,16 @@ public without sharing class SyncController {
     public Map<String,GFW_Sync_Field_Mapping__mdt> getFieldMappings(String mdtObjName) {
         String objName = 'GFW_Sync_Field_Mapping__mdt';
         String whereClause = 'WHERE GFW_Sync_Object_Mapping__r.DeveloperName = \'' + mdtObjName + '\'';
+        String[] relFieldNames = new String[]{
+            'GFW_Sync_Object_Mapping__r.DeveloperName',
+            'GFW_Sync_Object_Mapping__r.FSDB_External_Id_Field_API_Name__c', 
+            'GFW_Sync_Object_Mapping__r.FSDB_Object_Name__c', 
+            'GFW_Sync_Object_Mapping__r.GFW_Object_Name__c'};
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         GFW_Sync_Field_Mapping__mdt[] fieldsMDTs = Utilities.fetchRecords(
             objName,
             whereClause,
-            null);
+            relFieldNames);
         for (GFW_Sync_Field_Mapping__mdt fmMDT : fieldsMDTs ) {
             if (fmMDT.GFW_Field_API_Name__c != null && fmMDT.GFW_Field_API_Name__c != '') fieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT);
             // System.debug('GFW Field Name: ' + fmMDT.GFW_Field_API_Name__c + '; FSDB Field Name: ' + fmMDT.FSDB_Field_API_Name__c);
@@ -221,9 +233,42 @@ public without sharing class SyncController {
         return idsToQuery;
     }
 
+    // Set value in given field 
+    public sObject populateFields(sObject sObj, String fieldType, GFW_Sync_Field_Mapping__mdt fieldmapMDT, Object gfwValue) {
+        // TO DO: Add in picklists
+        String fsdbFieldName = fieldmapMDT.FSDB_Field_API_Name__c;
+        String relName;
+        if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
+            // sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (String)gfwInfo.get(gfwFieldName));
+            sObj.put(fsdbFieldName, (String)gfwValue);
+        } else if ( fieldType == 'CURRENCY' ) {
+            // sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Decimal)gfwInfo.get(gfwFieldName));
+            sObj.put(fsdbFieldName, (Decimal)gfwValue);
+        } else if (fieldType == 'INTEGER') {
+            // sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Integer)gfwInfo.get(gfwFieldName));
+            sObj.put(fsdbFieldName, (Integer)gfwValue);
+        } else if (fieldType == 'DATE') {
+            // Date dt = date.valueOf((String)gfwInfo.get(gfwFieldName));
+            Date dt = date.valueOf((String)gfwValue);
+            sObj.put(fsdbFieldName, dt); 
+        } else if (fieldType == 'REFERENCE') {
+            if (fieldmapMDT.MasterLabel.contains('Account')) {
+                // Instantiate new sObject and set that to lookup reference using putSObject 
+                Account accountReference = new Account();
+                System.debug('external id field name: ' + externalIdFieldName('Account') + 'value: ' + (Id)gfwValue);
+                accountReference.put(externalIdFieldName('Account'), (Id)gfwValue);
+                relName = Utilities.relationshipNameForField(fieldmapMDT.GFW_Sync_Object_Mapping__r.FSDB_Object_Name__c, fsdbFieldName);
+                sObj.putSObject(relName, accountReference);
+                System.debug('Relationship name: ' + relName);
+            }
+        }
+        System.debug('sObj from populatefields: ' + sObj);
+        return sObj;
+    }
+
     // Generate and run query based on mdt record
     public List<Object> queryForRecords(String mdtObjName, Set<Id> idsForQuery, String whereClauseCustom) {
-        // Retrieve mappings: which GFW object corresponds to which FSDB object; GFW fields that correspond to FSDB fields
+        // Retrieve object and field mappings
         Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappings(mdtObjName);
         System.debug('objMap: ' + objMap);
@@ -247,16 +292,22 @@ public without sharing class SyncController {
     }
 
     public List<sObject> buildRecsWithValues(String mdtObjName, List<Object> records) {
-        // Retrieve object and field mappings
+        // Retrieve object and field mappings - somewhat duplicative; could put this together with queryForRecords.
         Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappings(mdtObjName);
         String gfwObjName = new List<String>(objMap.keySet())[0];
         List<String> gfwfieldList = new List<String>(fieldMap.keySet());  
+
+        // If merging, do it from here.
         String fsdbObjName = objMap.get(gfwObjName).FSDB_Object_Name__c;
+        String fsdbExternalIdFieldName = objMap.get(gfwObjName).FSDB_External_Id_Field_API_Name__c;
         String fieldType, fsdbFieldName;
         List<sObject> objs = new List<sObject>();
         if (records != null && !records.isEmpty()) {
             // Loop through JSON records
+            // WHAT ABOUT RECORD TYPES??
+            // Retrieve map of objects and record type names in GFW
+            // Loop up fsdb record type/id by GFW name? for the object (as long as the record type names in GFW match record types in FSDB)
             for (Object rec : records) {
                 sObject sObj = Utilities.newRecord(fsdbObjName);
                 Map<String, Object> gfwInfo = (Map<String, Object>) rec;
@@ -270,33 +321,26 @@ public without sharing class SyncController {
                     if (gfwInfo.get(gfwFieldName)!= null) {
                         System.debug('FSDB Field Type for ' + fsdbFieldName + ': ' + fieldType);
                         System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + gfwInfo.get(gfwFieldName));
-                        if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
-                            sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (String)gfwInfo.get(gfwFieldName));
-                        } else if ( fieldType == 'CURRENCY' ) {
-                            sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Decimal)gfwInfo.get(gfwFieldName));
-                        } else if (fieldType == 'INTEGER') {
-                            sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Integer)gfwInfo.get(gfwFieldName));
-                        } else if (fieldType == 'DATE') {
-                            Date dt = date.valueOf((String)gfwInfo.get(gfwFieldName));
-                            sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, dt); 
-                        } else if (fieldType == 'REFERENCE') {
-                            if (fieldmapMDT.MasterLabel.contains('Account')) {
-                                Account accountReference = new Account();
-                                System.debug('external id field name: ' + externalIdFieldName('Account') + 'value: ' + (Id)gfwInfo.get(gfwFieldName));
-                                accountReference.put(externalIdFieldName('Account'), (Id)gfwInfo.get(gfwFieldName));
-                                // GFW_Account_ID__c=(Id)gfwInfo.get(gfwFieldName));
-                                sObj.putSObject(fieldmapMDT.FSDB_Field_API_Name__c.replace('__c', '__r'), accountReference);
-                                // npe03__Recurring_Donation__c rdon = (npe03__Recurring_Donation__c)sObj;
-                                // rdon.npe03__Organization__r = accountReference;
-                                // sObj = (sObject)rdon;
-                            }
-                        }
+                        sObj = populateFields(sObj, fieldType, fieldmapMDT, gfwInfo.get(gfwFieldName));
                     } // If not null
                 } // for each field
                 System.debug('sObj to add: ' + sObj);
                 objs.add(sObj);
             } // End for each record loop
         } // End if records not empty
+        System.debug('List of objs to insert: ' + objs);
+        if (objs.size() > 0) {
+            List<sObject> testList = new List<sObject>{objs.get(0), objs.get(1), objs.get(2), objs.get(3)};
+            Database.UpsertResult[] upsResults = Database.upsert( testList, Utilities.sobjFieldForFieldName(fsdbObjName, fsdbExternalIdFieldName), false);
+            System.debug('upsResults: ' + upsResults);
+            for(Database.upsertResult result:upsResults) {
+                if (result.isSuccess() && result.isCreated()) {
+                    System.debug('Success!!' + (Id)result.getId());
+                } else {
+                    System.debug('Error: ' + result.getErrors());
+                }
+             }
+        }
         return objs;
     }
 
@@ -305,12 +349,10 @@ public without sharing class SyncController {
         // Query GFW for records in Ids list   
         List<Object> records = queryForRecords(mdtObjName, idsToQuery, null);
         System.debug('Query for records: ' + records);
-        List<sObject> objsToUpsert = new List<sObject>();
-        objsToUpsert = buildRecsWithValues(mdtObjName, records);
+        List<sObject> objsToUpsert = new List<sObject>(buildRecsWithValues(mdtObjName, records));
         
         // System.debug('Obj to upsert: ' + objs);
         // upsert objs;
-        // Database.UpsertResult[] resultsRC = Database.upsert( objs, Unit_of_Service__c.Fields.KLAS_MatRequestLineObj__c, false);
     }
  
 
@@ -330,8 +372,8 @@ public without sharing class SyncController {
         addNewAcctsAndContacts();
 
         // Upsert all children records
-        System.debug('recDonIds: '+recDonIds);
-        upsertRecurringDonations();
+        // System.debug('recDonIds: '+recDonIds);
+        // upsertRecurringDonations();
         // upsert gift/opps and opps, then transactions
         // upsert oppcredits
     }
@@ -413,11 +455,11 @@ public without sharing class SyncController {
         System.debug('inside upsert accounts and contacts');
         String mdtObjName = 'Account';
         upsertRecs(mdtObjName, recIdsToInsert(mdtObjName, acctIds));
-        // handle the result? Or just log it!
+        // Log results
 
         mdtObjName = 'Contact';
-        upsertRecs(mdtObjName, recIdsToInsert(mdtObjName, ctIds));
-        // handle the result? Or just log it!
+        // upsertRecs(mdtObjName, recIdsToInsert(mdtObjName, ctIds));
+        
     }
 
     // Add/update FSDB recurring donations

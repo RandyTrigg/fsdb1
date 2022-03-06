@@ -432,6 +432,17 @@ global class Utilities {
         return targetType != null ? targetType.newSObject() : null; 
     }
 
+    // Returns field object for given string fieldName
+    // TO DO: Nix below. Figure out how to declare class variables to stash and save retrievals for this.
+    public static Schema.SObjectField sobjFieldForFieldName(String objName, String fieldName) {
+        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+        Schema.SObjectField field = schemaMap.get(objName)
+            .getDescribe()
+            .fields.getMap().get(fieldName);
+        return field;
+    }
+
+    // Returns field type for given field
     public static String fieldTypeOfField(String objName, String fieldName) {
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
@@ -439,6 +450,15 @@ global class Utilities {
             .fields.getMap();
         Schema.DisplayType fielddataType = fieldMap.get(fieldName).getDescribe().getType();
         return String.valueof(fielddataType);
+    }
+
+    // Returns relationship names - TO DO: Add to test
+    public static String relationshipNameForField(String objName, String fieldName) {
+        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+        Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
+            .getDescribe()
+            .fields.getMap();
+        return fieldMap.get(fieldName).getDescribe().getRelationshipName();
     }
 
     // Return record for given object with given id.  Fetch all local fields plus any given related ones.

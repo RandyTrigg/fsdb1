@@ -19,6 +19,10 @@
             scThisFS.LaunchSync();
         }
 
+        // String relName = Utilities.relationshipNameForField('npe03__Recurring_Donation__c', 'npe03__Organization__c');
+        // System.debug('relname: ' + relName);
+        
+
 
         /*
         SyncController scThisFS = new SyncController();
