@@ -452,13 +452,22 @@ global class Utilities {
         return String.valueof(fielddataType);
     }
 
-    // Returns relationship names - TO DO: Add to test
+    // TO DO: Nix - Returns relationship names
     public static String relationshipNameForField(String objName, String fieldName) {
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
             .getDescribe()
             .fields.getMap();
         return fieldMap.get(fieldName).getDescribe().getRelationshipName();
+    }
+
+    // Return map of field name with ability to get describe.
+    public static Map<String, Schema.SObjectField> fieldMapForObject(String objName) {
+        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+        Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
+            .getDescribe()
+            .fields.getMap();
+        return fieldMap;
     }
 
     // Return record for given object with given id.  Fetch all local fields plus any given related ones.
@@ -521,18 +530,21 @@ global class Utilities {
     // Return ALL records for given object.  Fetch all local fields plus any given related ones.
     public static sObject[] fetchAllRecords(
         String objName,
-        String[] relatedFieldNames
+        String[] relatedFieldNames,
+        String orderByClause
     ) {
         if (objName == null)
             return null;
         String[] fieldNames = fieldNamesForObject(objName);
         if (relatedFieldNames != null)
             fieldNames.addAll(relatedFieldNames);
+        orderByClause = orderByClause != null ? ' ' + orderByClause : '';
         String q =
             'SELECT ' +
             String.join(fieldNames, ', ') +
             ' FROM ' +
-            objName;
+            objName +
+            orderByClause;
         system.debug('fetchRecords: q = ' + q);
         return Database.query(q);
     }

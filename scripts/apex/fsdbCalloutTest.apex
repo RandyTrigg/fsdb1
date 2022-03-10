@@ -1,5 +1,5 @@
 // For each COA retrieved...
-
+        
         String fsRole;
         List<FS_Group_Settings__mdt> fsGroups;
         try {
@@ -17,7 +17,10 @@
             scThisFS.fsCOA = fs.GFW_COA_Name__c;
             scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
             scThisFS.LaunchSync();
-        }
+        } 
+
+        // System.enqueueJob(new Sync_Queueable());
+
 
         // String relName = Utilities.relationshipNameForField('npe03__Recurring_Donation__c', 'npe03__Organization__c');
         // System.debug('relname: ' + relName);
