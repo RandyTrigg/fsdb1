@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>אם מענק זה הוא חידוש של מענק קודם, השתמש בשדה זה לקישור בין רשומה זו והרשומה הקודמת.</help>
+    <label></label>
+    <name>npsp__Previous_Grant_Opportunity__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

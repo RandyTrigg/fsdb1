@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Erstellt automatisch ein Kampagnenmitglied, wenn Sie eine Opportunity erstellen, der ein Hauptansprechpartner und eine Primärkampagnenquelle zugeordnet ist, oder wenn Sie diese Opportunity mit der Phase &quot;Geschlossen/Gewonnen&quot; aktualisieren.</help>
-    <label></label>
-    <name>npsp__Automatic_Campaign_Member_Management__c</name>
-</CustomFieldTranslation>

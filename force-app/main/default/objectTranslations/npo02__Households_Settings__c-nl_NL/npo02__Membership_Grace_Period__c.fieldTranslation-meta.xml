@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>De lengte van de bedenktijd (in dagen) nadat een lidmaatschap vervalt (laatste einddatum) voordat de status van ‘Bedenktijd’ nar ‘Vervallen’ gaat. Standaard is 30 dagen.</help>
-    <label></label>
-    <name>npo02__Membership_Grace_Period__c</name>
-</CustomFieldTranslation>

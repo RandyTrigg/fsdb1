@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>オンの場合、1 つの個人または団体の住所項目を変更すると、新しい住所が作成される代わりに既存の住所が更新されます。</help>
-    <label></label>
-    <name>npsp__Simple_Address_Change_Treated_as_Update__c</name>
-</CustomFieldTranslation>

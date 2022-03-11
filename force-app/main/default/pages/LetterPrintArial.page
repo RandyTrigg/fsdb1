@@ -1,0 +1,31 @@
+<apex:page standardController="Letter__c" renderAs="pdf" applyBodyTag="false" showHeader="false" >
+    <head>
+        <style>
+        @Page{margin:96px;}
+            body {font-family: 'geomanistregular','century gothic', verdana, 'Arial Unicode MS', sans-serif; font-size: 13.25px ;}
+            .sfdc_richtext img { border: 0; height:40px; width: auto; }
+        </style>
+    </head>
+    <body>
+        <apex:variable value="{!Letter__c}" var="let" />
+        <apex:variable var="hasPage2" value="{!not(isblank(let.Page_2__c))}" />
+        <apex:variable var="hasPage3" value="{!not(isblank(let.Page_3__c))}" />
+        <apex:variable var="hasPage4" value="{!not(isblank(let.Page_4__c))}" />
+        <apex:variable var="hasPage5" value="{!not(isblank(let.Page_5__c))}" />
+        <div style="{!'page-break-before:avoid;'}">
+            <apex:outputField value="{!let.Page_1__c}"></apex:outputField>
+        </div>
+        <div style="{!if(hasPage2,'page-break-before:always;', '')}">
+            <apex:outputField value="{!let.Page_2__c}" rendered="{!hasPage2}"></apex:outputField>
+        </div>
+        <div style="{!if(hasPage3,'page-break-before:always;', '')}">
+            <apex:outputField value="{!let.Page_3__c}" rendered="{!hasPage3}"></apex:outputField>
+        </div>
+        <div style="{!if(hasPage4,'page-break-before:always;', '')}">
+            <apex:outputField value="{!let.Page_4__c}" rendered="{!hasPage4}"></apex:outputField>
+        </div>
+        <div style="{!if(hasPage5,'page-break-before:always;', '')}">
+            <apex:outputField value="{!let.Page_5__c}" rendered="{!hasPage5}"></apex:outputField>
+        </div>
+    </body>
+</apex:page>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Namen van Opportunity Record Types die uitgesloten moeten worden van Contact Opportunities Rollups.</help>
-    <label></label>
-    <name>npo02__Excluded_Contact_Opp_Rectypes__c</name>
-</CustomFieldTranslation>

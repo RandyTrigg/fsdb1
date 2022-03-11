@@ -1,0 +1,18 @@
+<apex:page standardController="Proposal__c" extensions="ProposalController" recordSetVar="proposals" lightningStylesheets="true">
+    <apex:form >
+       <apex:pageBlock title="Run OFAC check on the selected proposals (allow a few minutes to complete)">
+           <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!performOFACLookupBatch}" value="Confirm" title="Run OFAC check for these proposals" rerender="all">
+                </apex:commandButton>
+                <apex:commandButton action="{!doCancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!selected}" var="proposal">
+                <apex:column value="{!proposal.Id}"/>
+                <apex:column value="{!proposal.Prop_num_with_renewal__c}"/>
+                <apex:column value="{!proposal.Account__c}"/>
+                <apex:column value="{!proposal.Status__c}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

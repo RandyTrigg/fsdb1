@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>General</fullName>
+        <default>false</default>
+        <label>General</label>
+    </customValue>
+    <customValue>
+        <fullName>Change Matrix</fullName>
+        <default>false</default>
+        <label>Change Matrix</label>
+    </customValue>
+    <customValue>
+        <fullName>Movement Building</fullName>
+        <default>false</default>
+        <label>Movement Building</label>
+    </customValue>
+    <customValue>
+        <fullName>Crisis Response</fullName>
+        <default>false</default>
+        <label>Crisis Response</label>
+    </customValue>
+    <customValue>
+        <fullName>Initiative A</fullName>
+        <default>false</default>
+        <label>Initiative A</label>
+    </customValue>
+    <description>Indicator types</description>
+    <masterLabel>Indicator type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

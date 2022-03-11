@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Das Opportunity-Feld für den Wert des Felds &quot;Wiederkehrende Spende&quot;  Beachten Sie, dass die Datentypen dieser Felder identisch sein müssen.</help>
-    <label></label>
-    <name>npe03__Opportunity_Field__c</name>
-</CustomFieldTranslation>

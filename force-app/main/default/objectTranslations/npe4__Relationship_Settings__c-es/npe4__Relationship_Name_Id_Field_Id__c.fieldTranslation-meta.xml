@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Completar este valor permite que el campo se auto complete cuando se crea una nueva relación desde el Visor de relaciones (ver descripción para más información)</help>
-    <label></label>
-    <name>npe4__Relationship_Name_Id_Field_Id__c</name>
-</CustomFieldTranslation>

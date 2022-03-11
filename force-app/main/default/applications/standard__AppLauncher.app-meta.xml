@@ -5,4 +5,6 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <tabs>standard-AppLauncher</tabs>
+    <tabs>Sync_Log__c</tabs>
+    <tabs>Sync_Log_Action__c</tabs>
 </CustomApplication>

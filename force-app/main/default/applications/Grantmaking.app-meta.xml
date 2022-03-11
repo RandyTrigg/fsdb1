@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Includes tabs for grantmaking-related objects</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Grantmaking</label>
+    <navType>Standard</navType>
+    <tabs>standard-home</tabs>
+    <tabs>standard-Feed</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Dashboard</tabs>
+    <tabs>standard-Account</tabs>
+    <tabs>Proposal__c</tabs>
+    <tabs>Payment__c</tabs>
+    <tabs>Milestone__c</tabs>
+    <tabs>Letter__c</tabs>
+    <tabs>Fund__c</tabs>
+    <tabs>Payment_Method__c</tabs>
+    <tabs>Custom_Reqs__c</tabs>
+    <tabs>Portfolio__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Grantmaking_UtilityBar</utilityBar>
+</CustomApplication>

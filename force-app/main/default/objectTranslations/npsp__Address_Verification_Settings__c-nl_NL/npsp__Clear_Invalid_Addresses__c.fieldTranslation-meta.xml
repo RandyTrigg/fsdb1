@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Indien aangevinkt, elk US Adres dat de service markeert als onbestelbaar wordt automatisch geleegd. (U kunt de ongeldige vermelding in het Adress Record inzien.)</help>
-    <label></label>
-    <name>npsp__Clear_Invalid_Addresses__c</name>
-</CustomFieldTranslation>

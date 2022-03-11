@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Deze waarde heeft invloed op het aantal dagen voor N Dagen Allocatie rollup velden.</help>
-    <label></label>
-    <name>npsp__Rollup_N_Day_Value__c</name>
-</CustomFieldTranslation>

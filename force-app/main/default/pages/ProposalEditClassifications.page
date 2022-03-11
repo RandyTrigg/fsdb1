@@ -1,0 +1,51 @@
+<apex:page standardController="Proposal__c" extensions="ProposalControllerClassifications" sidebar="false" lightningStylesheets="true" >
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" />
+    <apex:form >
+        <script type="text/javascript">
+        jQuery.noConflict();
+        function saveValues() {
+            var checkboxIds = "";
+            jQuery(".cboxChoice").each(function() {
+                if(jQuery(this).prop("checked") && jQuery(this).attr("id") != undefined) {
+                    checkboxIds += jQuery(this).attr("id") + ";";
+                }
+            });
+            document.getElementById('{!$Component.checkboxIds}').value = checkboxIds;
+        }
+        jQuery(document).ready(function () { saveValues(); } );
+        </script>
+        <apex:inputHidden id="checkboxIds" value="{!selectedIds}"/>
+        <apex:pageBlock title="Edit classifications for {!prop.Prop_num_with_renewal__c} ({!prop.Account__r.Name})">
+            <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!doSave}" value="Save"/>
+                <apex:commandButton action="{!doQuickSave}" value="Quick Save"/>
+                <apex:commandButton action="{!cancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Populations" >
+                <apex:repeat var="o" value="{!populations}">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputText value="{!o.HTML}" escape="false"/>
+                        <apex:outputLabel value="{!o.label}"/>
+                    </apex:pageBlockSectionItem>
+                </apex:repeat>
+            </apex:pageBlockSection>     
+            <apex:pageBlockSection title="Strategies" >
+                <apex:repeat var="o" value="{!strategies}">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputText value="{!o.HTML}" escape="false"/>
+                        <apex:outputLabel value="{!o.label}"/>
+                    </apex:pageBlockSectionItem>
+                </apex:repeat>
+            </apex:pageBlockSection>     
+            <apex:pageBlockSection title="Issues" >
+                <apex:repeat var="o" value="{!issues}">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputText value="{!o.HTML}" escape="false"/>
+                        <apex:outputLabel value="{!o.label}"/>
+                    </apex:pageBlockSectionItem>
+                </apex:repeat>
+            </apex:pageBlockSection>     
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

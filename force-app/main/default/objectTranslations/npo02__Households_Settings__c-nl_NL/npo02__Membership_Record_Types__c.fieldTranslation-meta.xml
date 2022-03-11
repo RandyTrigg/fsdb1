@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Namen van Opportunity Record Types, bijvoorbeeld Lidmaatschap, die je met de rollup apart van andere opportunity record types wil hebben.</help>
-    <label></label>
-    <name>npo02__Membership_Record_Types__c</name>
-</CustomFieldTranslation>

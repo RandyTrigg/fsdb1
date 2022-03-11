@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BlacklistedConsumer xmlns="http://soap.sforce.com/2006/04/metadata">
+    <blockedByApiWhitelisting>false</blockedByApiWhitelisting>
+    <consumerKey>3MVG9uudbyLbNPZMFlBATPtMmJNYRY2DL2XjLyz0y3ziKM8VbTCmCNrtPS7q1cDsnmvPZFmM178v4W_jQ_s1q</consumerKey>
+    <consumerName>cumulusci2_jlantz_test</consumerName>
+    <masterLabel>BlacklistedConsumer1283739672255385</masterLabel>
+</BlacklistedConsumer>

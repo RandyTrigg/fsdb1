@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Bedrag van de opportunity wat toegewezen moet worden aan deze algemene accounting unit. Laat leeg voor procent gebaseerde allocaties.</help>
-    <label></label>
-    <name>npsp__Amount__c</name>
-</CustomFieldTranslation>

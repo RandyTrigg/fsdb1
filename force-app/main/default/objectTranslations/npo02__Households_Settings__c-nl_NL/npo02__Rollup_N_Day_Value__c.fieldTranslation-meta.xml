@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Verschaft een waarde van &apos;N dagen&apos; rollups, waar &apos;N&apos; het aantal dagen is van vandaag naar het verleden. De waarde is standaard 365 dagen.</help>
-    <label></label>
-    <name>npo02__Rollup_N_Day_Value__c</name>
-</CustomFieldTranslation>

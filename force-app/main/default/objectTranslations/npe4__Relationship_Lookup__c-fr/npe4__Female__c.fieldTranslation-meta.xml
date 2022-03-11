@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>La valeur utilisée par le champ de genre de ce contact correspond aux valeurs dans l’étiquette personnalisée Féminin ou la formule de salutation du contact indique son genre.</help>
-    <label></label>
-    <name>npe4__Female__c</name>
-</CustomFieldTranslation>

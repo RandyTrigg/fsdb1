@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>נוסחה: אם סוג הכתובת הראשית הוא &apos;אחר&apos;, הכתובת למשלוח דואר.  אם סוג הכתובת המשנית הוא &apos;אחר&apos;, הכתובת האחרת.</help>
+    <label></label>
+    <name>npe01__Other_Address__c</name>
+</CustomFieldTranslation>

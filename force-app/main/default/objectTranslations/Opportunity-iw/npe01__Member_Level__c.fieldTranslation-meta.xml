@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>קובעת את הערך של איש הקשר או החשבון בשדה &apos;רמת חברות אחרונה&apos;.</help>
+    <label></label>
+    <name>npe01__Member_Level__c</name>
+    <picklistValues>
+        <masterLabel>Bronze</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gold</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Silver</masterLabel>
+        <translation></translation>
+    </picklistValues>
+</CustomFieldTranslation>

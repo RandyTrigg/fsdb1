@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customObject>true</customObject>
+    <description>A Distribution record is a link from a Pending fund to a Standard one.  The specified amount of funds (usually unrestricted by the donor) is considered to be &quot;moved&quot; from the pending fund to the standard fund where it is available for grantmaking.</description>
+    <motif>Custom11: Star</motif>
+</CustomTab>

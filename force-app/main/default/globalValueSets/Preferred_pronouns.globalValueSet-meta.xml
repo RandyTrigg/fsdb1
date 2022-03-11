@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>she/her</fullName>
+        <default>false</default>
+        <label>she/her</label>
+    </customValue>
+    <customValue>
+        <fullName>he/him</fullName>
+        <default>false</default>
+        <label>he/him</label>
+    </customValue>
+    <customValue>
+        <fullName>they/them</fullName>
+        <default>false</default>
+        <label>they/them</label>
+    </customValue>
+    <description>Options for preferred pronouns</description>
+    <masterLabel>Preferred pronouns</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

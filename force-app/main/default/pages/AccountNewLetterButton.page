@@ -1,0 +1,23 @@
+<apex:page standardController="Account" extensions="AccountController" lightningStylesheets="true">
+    <apex:form >
+       <apex:pageBlock title="New letter">
+           <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!buildLetters}" value="Confirm" title="Build new letter for this account"/>
+                <apex:commandButton action="{!doCancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Information" >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Template</apex:outputLabel>
+                    <apex:selectList multiselect="false" size="1" value="{!selectedTemplate}">
+                        <apex:selectOptions value="{!templates}" />
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>     
+            <apex:pageBlockTable value="{!Account}" var="account">
+                <apex:column value="{!account.Id}"/>
+                <apex:column value="{!account.Name}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

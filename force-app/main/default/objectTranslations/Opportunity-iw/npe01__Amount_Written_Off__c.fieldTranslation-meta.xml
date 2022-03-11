@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>הערך הכולל של תשלומים שסומנו כמחוקים או בלתי ניתנים לגבייה עבור הזדמנות זו.</help>
+    <label></label>
+    <name>npe01__Amount_Written_Off__c</name>
+</CustomFieldTranslation>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Seleccionar el tipo de usuario al que se le manda notificaciones.</help>
-    <label></label>
-    <name>npsp__Error_Notifications_To__c</name>
-</CustomFieldTranslation>

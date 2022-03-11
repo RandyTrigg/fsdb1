@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Link zum Datensatz, der den Fehler verursacht hat, falls verfügbar</help>
-    <label></label>
-    <name>npe4__Error_Record_Link__c</name>
-</CustomFieldTranslation>

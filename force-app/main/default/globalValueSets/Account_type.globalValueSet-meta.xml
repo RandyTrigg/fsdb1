@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Corporation</fullName>
+        <default>false</default>
+        <label>Corporation</label>
+    </customValue>
+    <customValue>
+        <fullName>Donor Advised Fund</fullName>
+        <default>false</default>
+        <label>Donor Advised Fund</label>
+    </customValue>
+    <customValue>
+        <fullName>Family Foundation</fullName>
+        <default>false</default>
+        <label>Family Foundation</label>
+    </customValue>
+    <customValue>
+        <fullName>Govt/Multilateral</fullName>
+        <default>false</default>
+        <label>Govt/Multilateral</label>
+    </customValue>
+    <customValue>
+        <fullName>Household</fullName>
+        <default>false</default>
+        <label>Household</label>
+    </customValue>
+    <customValue>
+        <fullName>Other Nonprofit</fullName>
+        <default>false</default>
+        <label>Other Nonprofit</label>
+    </customValue>
+    <customValue>
+        <fullName>Private Foundation</fullName>
+        <default>false</default>
+        <label>Private Foundation</label>
+    </customValue>
+    <customValue>
+        <fullName>Religious</fullName>
+        <default>false</default>
+        <label>Religious</label>
+    </customValue>
+    <customValue>
+        <fullName>Fee for Service</fullName>
+        <default>false</default>
+        <label>Fee for Service</label>
+    </customValue>
+    <customValue>
+        <fullName>General</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>General</label>
+    </customValue>
+    <masterLabel>Account type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

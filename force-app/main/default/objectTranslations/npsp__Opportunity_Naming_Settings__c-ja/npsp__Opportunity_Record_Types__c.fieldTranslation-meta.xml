@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>この命名方式が適用される支援レコードタイプを指定します。</help>
-    <label></label>
-    <name>npsp__Opportunity_Record_Types__c</name>
-</CustomFieldTranslation>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Id voor de huidige geplande Opportunity Rollup Taak</help>
-    <label></label>
-    <name>npo02__Opp_Rollup_Scheduled_Job_Id__c</name>
-</CustomFieldTranslation>

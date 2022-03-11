@@ -1,0 +1,17 @@
+<apex:page standardController="Letter__c" extensions="LetterController" recordSetVar="letters" lightningStylesheets="true">
+    <apex:form >
+       <apex:pageBlock title="Reset selected letters">
+           <apex:outputText value="{!$Setup.VF_text_Letter_reset__c.Text__c}" />
+           <apex:pageBlockSection />
+           <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!resetLetters}" value="Confirm" title="Recompute the bodies of these letters"/>
+                <apex:commandButton action="{!doCancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!selected}" var="letter">
+                <apex:column value="{!letter.name}"/>
+                <apex:column value="{!letter.Account__c}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>El estado de miembro de campaña para oportunidades cerradas ganadas que tienen un origen de campaña principal y un contacto principal asociados. Si se deja en blanco, Salesforce utiliza el primer estado Respondida</help>
-    <label></label>
-    <name>npsp__Campaign_Member_Responded_Status__c</name>
-</CustomFieldTranslation>

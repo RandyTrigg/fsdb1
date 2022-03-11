@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>De Rol die gebruikt wordt bij het automatisch maken van Opportunity Contactpersoon Rollen voor Huishoudleden.</help>
-    <label></label>
-    <name>npo02__Household_Member_Contact_Role__c</name>
-</CustomFieldTranslation>

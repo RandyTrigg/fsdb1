@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Für die automatische Erstellung dieses Kampagnenmitglieds berechtigte Kampagnentypen (Das Feld bleibt bei der automatischen Erstellung von Kontakten leer.)</help>
-    <label></label>
-    <name>npe4__Campaign_Types__c</name>
-</CustomFieldTranslation>

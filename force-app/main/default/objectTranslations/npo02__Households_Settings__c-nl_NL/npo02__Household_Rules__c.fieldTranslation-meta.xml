@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Specificeert bij welke contactpersonen automatisch een Huishoud object wordt aangemaakt. Let op: dit wordt alleen gebruikt voor contactpersonen die het One-to-One of individueel account model gebruiken.</help>
-    <label></label>
-    <name>npo02__Household_Rules__c</name>
-</CustomFieldTranslation>

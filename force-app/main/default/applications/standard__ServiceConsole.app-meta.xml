@@ -179,7 +179,15 @@
     <tabs>standard-Case</tabs>
     <tabs>standard-Opportunity</tabs>
     <tabs>standard-Lead</tabs>
+    <tabs>Sync_Log__c</tabs>
+    <tabs>Sync_Log_Action__c</tabs>
     <workspaceConfig>
+        <mappings>
+            <tab>Sync_Log_Action__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Sync_Log__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-Account</tab>
         </mappings>

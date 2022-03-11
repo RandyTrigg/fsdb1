@@ -1,0 +1,15 @@
+<apex:page standardController="Custom_Reqs__c" extensions="CustomReqsController" lightningStylesheets="true">
+    <apex:form >
+       <apex:pageBlock title="Custom Reqs deep clone">
+           <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!deepClone}" value="Confirm" title="Perform deep clone of this custom reqs"/>
+                <apex:commandButton action="{!doCancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!Custom_Reqs__c}" var="cr">
+                <apex:column value="{!cr.Name}"/>
+                <apex:column value="{!cr.Id}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

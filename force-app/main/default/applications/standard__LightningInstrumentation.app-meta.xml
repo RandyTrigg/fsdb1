@@ -6,5 +6,7 @@
     <label>LightningInstrumentation</label>
     <navType>Standard</navType>
     <tabs>standard-LightningInstrumentation</tabs>
+    <tabs>Sync_Log__c</tabs>
+    <tabs>Sync_Log_Action__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

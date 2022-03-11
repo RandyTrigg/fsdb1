@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>De string die gebruikt wordt bij vervangen van lange lijsten met namen.</help>
-    <label></label>
-    <name>npsp__Name_Overrun__c</name>
-</CustomFieldTranslation>
