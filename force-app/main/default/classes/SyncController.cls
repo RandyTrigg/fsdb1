@@ -3,6 +3,8 @@ public without sharing class SyncController {
     // Class variables set upon instantiation
     public String fsCOA;
     public String fsRole;
+    public Datetime startDateTime;
+    public Id syncLogId;
     // public List<Sync_Log_Action__c> lAction = new List<Sync_Log_Action__c>();
 
     // Class variables for this FS SyncController instance.
@@ -48,6 +50,11 @@ public without sharing class SyncController {
         String nextRecordsURL;
         list<recordWrapper> records;
     }
+
+    /*******************
+     * STATIC METHODS
+     *******************/
+
 
     /*******************
      * CALLOUTS TO GFW
@@ -143,7 +150,7 @@ public without sharing class SyncController {
     /*******************
      * INITIALIZE CLASS VARIABLES and CUSTOM METADATA OBJECT/FIELD MAPPINGS
      *******************/
-    
+
     // Retrieve FS User Id who should be Owner of all records created
     public void setFSOwnerId() {
         if (fsRole != null && fsRole != '') fsOwnerId = 
@@ -276,7 +283,7 @@ public without sharing class SyncController {
         List<sObject> exstRecs = Utilities.fetchRecords(
             fsdbObjName, whereClause, null);
         System.debug('Existing recs: ' + exstRecs);
-        if (exstRecs!=null && !exstRecs.isEmpty()) {
+        if (exstRecs!=null) {
             // Remove existing ids from list
             for (sObject extRec : exstRecs) {
                 idsGathered.remove((Id)extRec.get(extIdFieldName));
@@ -316,12 +323,80 @@ public without sharing class SyncController {
     }
 
     /*******************
+     * SYNC LOG ACTIONS
+     *******************/
+
+    // Create new Sync Log
+    public void newSyncLog() {
+        Sync_Log__c sLog = new Sync_Log__c(
+            Type__c = 'Gifts: GFW to FSDB',
+            DateTime_Start__c = startDateTime,
+            Status__c = 'Pending'
+        );
+        insert sLog;
+        syncLogId = sLog.Id;
+    }
+
+    // Create Sync Log Records
+    public void insertSyncLogRecs(String mdtObjName, List<Object> records) {
+        List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>();
+        if (records != null) {
+            // Loop through JSON 'records' and stash them in Sync Log Records
+            for (Object rec : records) {
+                Sync_Log_Record__c slRec = (Sync_Log_Record__c)Utilities.newRecord('Sync_Log_Record__c');
+                slRec.RecordInfo__c = String.valueOf(rec);
+                slRec.Sync_Log__c = syncLogId;
+                slRec.Status__c = 'Pending';
+                slRec.Type__c = mdtObjName;
+                slRecList.add(slRec);
+            }
+        }
+        if (slRecList != null && slRecList.size() > 0) {
+            insert slRecList;
+            System.debug('Inserted list of sync log records');
+        }
+    }
+
+
+    // Retrieve Sync Log Records by type
+    public List<Object> retrieveSyncLogRecs(String mdtObjName) {
+        List<Object> objs = new List<Object>();
+        List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>(Utilities.fetchRecords(
+            'Sync_Log_Record__c',
+            'WHERE Sync_Log__c = ' + syncLogId,
+            null
+        ));
+        
+        /*
+        String objName,
+        String whereClause,
+        String[] relatedFieldNames
+
+        if (records != null) {
+            // Loop through JSON 'records' and stash them in Sync Log Records
+            for (Object rec : records) {
+                Sync_Log_Record__c slRec = (Sync_Log_Record__c)Utilities.newRecord('Sync_Log_Record__c');
+                slRec.RecordInfo__c = String.valueOf(rec);
+                slRec.Sync_Log__c = syncLogId;
+                slRec.Status__c = 'Pending';
+                slRec.Type__c = mdtObjName;
+                slRecList.add(slRec);
+            }
+        }
+        if (slRecList != null && slRecList.size() > 0) {
+            insert slRecList;
+            System.debug('Inserted list of sync log records');
+        } */
+        return objs;
+    }
+
+    /*******************
      * BUILD RECORDS IN FSDB
      *******************/
 
     // Builds records
     public List<sObject> buildRecsWithValues(String mdtObjName, List<Object> records) {
-        // Retrieve object and field mappings - somewhat duplicative; could put this together with queryForRecords.
+        // Retrieve object and field mappings
         Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappingsFSDB(mdtObjName);
         String gfwObjName = new List<String>(objMap.keySet())[0];
@@ -333,11 +408,12 @@ public without sharing class SyncController {
         String fsdbExternalIdFieldName = objMap.get(gfwObjName).FSDB_External_Id_Field_API_Name__c;
         String fieldType, gfwFieldName;
         List<sObject> objs = new List<sObject>();
-        if (records != null && !records.isEmpty()) {
+        if (records != null) {
             // Loop through JSON records
             // Retrieve map of objects and record type names in GFW
             for (Object rec : records) {
                 sObject sObj = Utilities.newRecord(fsdbObjName);
+                // Cast json as map of fieldname(string) to fieldvalue(object)
                 Map<String, Object> gfwInfo = (Map<String, Object>) rec;
                 System.debug('>>> ' + gfwObjName + ': ' + gfwInfo);
                 for (String fsdbFieldName : fsdbFieldList) {
@@ -411,11 +487,6 @@ public without sharing class SyncController {
         return sObj;
     }
 
-    @future
-    public static void doUpsert() {
-
-    }
-
     // HYBRID
     // Upsert records based on Object and field mappings
     public void upsertRecs(String mdtObjName, Set<Id> idsToQuery) {
@@ -432,7 +503,7 @@ public without sharing class SyncController {
  
 
     /*******************
-     * MAIN METHOD
+     * MAIN CLASS METHOD
      *******************/
     public void LaunchSync() {
         // Initialize class vars
@@ -449,7 +520,11 @@ public without sharing class SyncController {
         // Add parent accounts/contacts not already in system
         // gather Account json and Contact json and stash in log records (one for every record?)
         List<Object> records = queryForRecords('Account', recIdsToInsert('Account', acctIds), null);
-
+        System.debug('records queried: ' + records);
+        
+        // Create new sync log after callouts completed (cannot do DML operations before then)
+        newSyncLog();
+        insertSyncLogRecs('Account', records);
         // upsertRecs('Account', recIdsToInsert('Account', acctIds));
 
         // upsertRecs('Contact', recIdsToInsert('Contact', ctIds));
@@ -535,5 +610,13 @@ public without sharing class SyncController {
         System.debug('AccountIdsAfterOpps: ' + acctIds);
         }
     }
+
+
+    @future
+    public static void doUpsert() {
+
+    }
+
+
 
 }
