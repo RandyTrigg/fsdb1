@@ -442,14 +442,13 @@ global class Utilities {
         return field;
     }
 
-    // Returns field type for given field
-    public static String fieldTypeOfField(String objName, String fieldName) {
+    // Return map of field name with ability to get describe.
+    public static Map<String, Schema.SObjectField> fieldMapForObject(String objName) {
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
             .getDescribe()
             .fields.getMap();
-        Schema.DisplayType fielddataType = fieldMap.get(fieldName).getDescribe().getType();
-        return String.valueof(fielddataType);
+        return fieldMap;
     }
 
     // TO DO: Nix - Returns relationship names
@@ -459,15 +458,6 @@ global class Utilities {
             .getDescribe()
             .fields.getMap();
         return fieldMap.get(fieldName).getDescribe().getRelationshipName();
-    }
-
-    // Return map of field name with ability to get describe.
-    public static Map<String, Schema.SObjectField> fieldMapForObject(String objName) {
-        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
-        Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
-            .getDescribe()
-            .fields.getMap();
-        return fieldMap;
     }
 
     // Return record for given object with given id.  Fetch all local fields plus any given related ones.
