@@ -1,0 +1,2 @@
+<apex:page standardController="Classification_Assign__c" recordSetVar="c_assigns" action="{!URLFOR('/apex/ProposalEditClassifications', null, ['id'=$CurrentPage.Parameters.id])}" >
+</apex:page>

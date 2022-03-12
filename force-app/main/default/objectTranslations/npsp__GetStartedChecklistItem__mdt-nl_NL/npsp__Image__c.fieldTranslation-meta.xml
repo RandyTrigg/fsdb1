@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>De bestandsnaam van de afbeelding in de statische resource CumulusResources (in de map gsAssets/step) die moet worden weergegeven.</help>
-    <label></label>
-    <name>npsp__Image__c</name>
-</CustomFieldTranslation>

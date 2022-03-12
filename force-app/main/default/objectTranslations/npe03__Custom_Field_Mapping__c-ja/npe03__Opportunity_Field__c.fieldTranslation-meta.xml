@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>継続支援項目から値を取得する支援項目。これらの項目は同じデータ型にする必要があります。</help>
-    <label></label>
-    <name>npe03__Opportunity_Field__c</name>
-</CustomFieldTranslation>

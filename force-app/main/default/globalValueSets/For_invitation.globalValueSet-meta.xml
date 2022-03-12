@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Suggest request amount</fullName>
+        <default>false</default>
+        <label>Suggest request amount</label>
+    </customValue>
+    <description>Suggestions to add to the letter inviting to proposal</description>
+    <masterLabel>For invitation</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

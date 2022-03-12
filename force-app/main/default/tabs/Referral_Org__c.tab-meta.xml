@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customObject>true</customObject>
+    <description>A referral org contains contact information for a sister organization to which we may refer proposals/grants being declined, withdrawn, or closed.</description>
+    <motif>Custom11: Star</motif>
+</CustomTab>

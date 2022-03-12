@@ -9,4 +9,6 @@
     <tabs>standard-OtherUserProfile</tabs>
     <tabs>standard-CollaborationGroup</tabs>
     <tabs>standard-File</tabs>
+    <tabs>Sync_Log__c</tabs>
+    <tabs>Sync_Log_Action__c</tabs>
 </CustomApplication>

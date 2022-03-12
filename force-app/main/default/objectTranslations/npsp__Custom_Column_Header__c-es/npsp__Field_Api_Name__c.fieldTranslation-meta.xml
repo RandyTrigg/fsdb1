@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Nombre de API del campo mostrado en la vista de lista.</help>
-    <label></label>
-    <name>npsp__Field_Api_Name__c</name>
-</CustomFieldTranslation>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Percentage van opportunity bedrag die toegewezen wordt aan deze standaard accounting unit. Wijzigen van een opportunity bedrag die op percentage is toegewezen zal ook het allocatie bedrag wijzigen.</help>
-    <label></label>
-    <name>npsp__Percent__c</name>
-</CustomFieldTranslation>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Método a usar para generar relaciones reciprocas. Ya sea Configuración de lista que usa configuración personalizada por género (ver Relaciones recíprocas), o Inversión de valores, que invierte el tipo si es apropiado (&quot;Padre-Hijo&quot; a &quot;Hijo-Padre&quot;)</help>
-    <label></label>
-    <name>npe4__Reciprocal_Method__c</name>
-</CustomFieldTranslation>

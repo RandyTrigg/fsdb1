@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>אם מדובר בחידוש, חברות חדשה או חברות של מישהו שעזב או חזר.</help>
+    <label></label>
+    <name>npe01__Membership_Origin__c</name>
+    <picklistValues>
+        <masterLabel>New</masterLabel>
+        <translation>חדש</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reacquire</masterLabel>
+        <translation>רכוש מחדש</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Renewal</masterLabel>
+        <translation>חידוש</translation>
+    </picklistValues>
+</CustomFieldTranslation>

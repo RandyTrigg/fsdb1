@@ -9,8 +9,16 @@
     <tabs>standard-CmsChannel</tabs>
     <tabs>standard-CmsWorkspaces</tabs>
     <tabs>standard-CmsExperiences</tabs>
+    <tabs>Sync_Log__c</tabs>
+    <tabs>Sync_Log_Action__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
+        <mappings>
+            <tab>Sync_Log_Action__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Sync_Log__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-CmsAuthorHome</tab>
         </mappings>

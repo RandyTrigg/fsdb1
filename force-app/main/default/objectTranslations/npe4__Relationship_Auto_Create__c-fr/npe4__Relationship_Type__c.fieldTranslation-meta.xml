@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Le type de relation à créer entre l’objet de base et l’objet lié.  L’objet lié recevra la relation réciproque, s’il en existe une.</help>
-    <label></label>
-    <name>npe4__Relationship_Type__c</name>
-</CustomFieldTranslation>

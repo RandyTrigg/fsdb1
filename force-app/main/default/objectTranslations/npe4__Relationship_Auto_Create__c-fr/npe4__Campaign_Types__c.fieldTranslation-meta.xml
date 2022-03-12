@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Types de campagnes éligibles pour cette autocréation de membre de campagne. (Restera vide pour autocréation de contact)</help>
-    <label></label>
-    <name>npe4__Campaign_Types__c</name>
-</CustomFieldTranslation>

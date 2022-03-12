@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Payment__c$Account_name__c</field>
+    </columns>
+    <columns>
+        <field>Payment__c$Proposal__c</field>
+    </columns>
+    <columns>
+        <field>Payment__c$Name</field>
+    </columns>
+    <columns>
+        <field>Payment__c$Date_paid__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Payment__c$Amount_paid__c</field>
+    </columns>
+    <columns>
+        <field>Payment__c$Currency_of_payment__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Payment__c$Has_problem__c</field>
+    </columns>
+    <columns>
+        <field>Payment__c$LastModifiedBy</field>
+    </columns>
+    <columns>
+        <field>Payment__c$LastModifiedDate</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Payment__c$Account_name__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Emergent group</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Tabular</format>
+    <name>Payments TEMPLATE</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Payments_with_related_info__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Payment__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

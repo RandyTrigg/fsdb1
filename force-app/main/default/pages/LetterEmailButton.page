@@ -1,0 +1,16 @@
+<apex:page standardController="Letter__c" extensions="LetterController" lightningStylesheets="true">
+    <apex:form >
+       <apex:pageBlock title="Email letter directly to email address(es)">
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!emailLetters}" value="Confirm" title="Email this letter"/>
+                <apex:commandButton action="{!doCancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!Letter__c}" var="letter">
+                <apex:column value="{!letter.name}"/>
+                <apex:column value="{!letter.Account__c}"/>
+                <apex:column value="{!letter.Emails__c}"/>
+                <apex:column value="{!letter.Email_override_from_account__c}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

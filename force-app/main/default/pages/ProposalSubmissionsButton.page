@@ -1,0 +1,17 @@
+<apex:page standardController="Proposal__c" extensions="ProposalController" recordSetVar="proposals" lightningStylesheets="true">
+    <apex:form >
+       <apex:pageBlock title="Gather submissions for selected proposals">
+           <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!buildSubmissions}" value="Confirm" title="Gather submissions for these proposals" rerender="submissionPanel"/>
+                <apex:commandButton action="{!doCancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!selected}" var="proposal">
+                <apex:column value="{!proposal.Prop_num_with_renewal__c}"/>
+                <apex:column value="{!proposal.Account__c}"/>
+                <apex:column value="{!proposal.Description__c}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+        <apex:outputText id="submissionPanel" escape="false" value="{!submissions}"/>
+    </apex:form>
+</apex:page>

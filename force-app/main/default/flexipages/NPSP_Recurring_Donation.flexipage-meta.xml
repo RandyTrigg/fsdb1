@@ -16,7 +16,6 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
-                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -26,7 +25,6 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListQuickLinksContainer</componentName>
-                <identifier>force_relatedListQuickLinksContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -36,7 +34,6 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
-                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-1ac173b3-bbf9-42df-b2cf-d9c3e4adb6dc</name>
@@ -58,7 +55,6 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListContainer</componentName>
-                <identifier>force_relatedListContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-df729d2c-0f85-4d90-ac8b-f44fa7f5078b</name>
@@ -76,7 +72,6 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>detailTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -94,7 +89,6 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>relatedListsTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-7003451d-d97d-44c2-b74f-b56f89537a36</name>
@@ -108,7 +102,6 @@
                     <value>facet-7003451d-d97d-44c2-b74f-b56f89537a36</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>
@@ -118,7 +111,6 @@
         <itemInstances>
             <componentInstance>
                 <componentName>npsp:rdActiveSchedule</componentName>
-                <identifier>npsp_rdActiveSchedule</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -128,7 +120,6 @@
                     <value>12</value>
                 </componentInstanceProperties>
                 <componentName>npsp:rdScheduleVisualizer</componentName>
-                <identifier>npsp_rdScheduleVisualizer</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

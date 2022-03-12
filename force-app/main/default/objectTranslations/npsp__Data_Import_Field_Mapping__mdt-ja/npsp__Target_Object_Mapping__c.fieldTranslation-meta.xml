@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>この項目の対応付けの対象データインポートオブジェクトグループ。</help>
-    <label></label>
-    <name>npsp__Target_Object_Mapping__c</name>
-    <relationshipLabel></relationshipLabel>
-</CustomFieldTranslation>

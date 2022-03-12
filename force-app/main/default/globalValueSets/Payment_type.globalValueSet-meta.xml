@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Wire</fullName>
+        <default>true</default>
+        <label>Wire</label>
+    </customValue>
+    <masterLabel>Payment type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

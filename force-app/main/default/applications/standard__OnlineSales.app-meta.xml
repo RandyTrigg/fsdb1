@@ -6,5 +6,7 @@
     <label>Online Sales</label>
     <navType>Standard</navType>
     <tabs>standard-OnlineSalesHome</tabs>
+    <tabs>Sync_Log__c</tabs>
+    <tabs>Sync_Log_Action__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

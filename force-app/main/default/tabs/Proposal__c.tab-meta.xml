@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customObject>true</customObject>
+    <description>Proposals hold tracking and classification information related to submitted proposals. If the proposal is awarded, then the records also hold information related to the grant.</description>
+    <motif>Custom11: Star</motif>
+</CustomTab>

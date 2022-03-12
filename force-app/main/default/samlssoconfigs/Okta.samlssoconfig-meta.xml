@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SamlSsoConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <identityLocation>SubjectNameId</identityLocation>
+    <identityMapping>Username</identityMapping>
+    <issuer>exk1kh6k2k5wr7XJl1d8</issuer>
+    <loginUrl>https://gfw.okta.com/app/salesforce/exk1kh6k2k5wr7XJl1d8/sso/saml</loginUrl>
+    <name>Okta</name>
+    <oauthTokenEndpoint>https://globalfundforwomen-fs.my.salesforce.com/services/oauth2/token</oauthTokenEndpoint>
+    <redirectBinding>false</redirectBinding>
+    <requestSignatureMethod>1</requestSignatureMethod>
+    <requestSigningCertId>0P18c000001JqlC</requestSigningCertId>
+    <salesforceLoginUrl>https://globalfundforwomen-fs.my.salesforce.com</salesforceLoginUrl>
+    <samlEntityId>https://globalfundforwomen-fs.my.salesforce.com</samlEntityId>
+    <samlVersion>SAML2_0</samlVersion>
+    <useConfigRequestMethod>true</useConfigRequestMethod>
+    <userProvisioning>false</userProvisioning>
+    <validationCert>MIIDljCCAn6gAwIBAgIGAV2mroHIMA0GCSqGSIb3DQEBCwUAMIGLMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsGA1UECgwET2t0YTEUMBIGA1UECwwLU1NPUHJvdmlkZXIxDDAKBgNVBAMMA2dmdzEcMBoGCSqGSIb3DQEJARYNaW5mb0Bva3RhLmNvbTAeFw0xNzA4MDMwNTU5NDBaFw0yNzA4MDMwNjAwNDBaMIGLMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsGA1UECgwET2t0YTEUMBIGA1UECwwLU1NPUHJvdmlkZXIxDDAKBgNVBAMMA2dmdzEcMBoGCSqGSIb3DQEJARYNaW5mb0Bva3RhLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIzUOm/2ntFCPCIsG21SEdIpXKl8xsytuB1hPhehnR1EOrnNMlvswabTGUDyI5nnxErSdPn6RemiFo0fsfCmdhZJsAf7BpwgtSiB3ENBw6JtzgWq0HYUa382RIwwxFU0CtaNoOhnH/wGsgs0HP5uT/kbdl5LbvqAZnQvtShUr/rcEjfe59RXLZ/IZUCnunpPXYuH2MZWT2IKh4ib6xFry+VbgZILpkEswage7IxxPb/I4ltTQurH/XoXgNMwRlnDvPbgWCbNW3eqTIw+qWFnMRIzWz620KSgArdPV7oyUtkrrk171eR08Atmthk1AtKmi1+6PZ2/YJEtplv2NRT8xTMCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAc3EULoWFcrjN1GKE7iTJarJbW+FXF2GdW13Wdf46bg8kIb+jUYyhtBYsGd/u+tKUfgHeSqCulAU7/hYeRnSrAXEZROJfRDsKC3daHuR7iymmCZESuxXnqWiIz0hxpgwTKo5rUa5vLL/xQP9/Q6/W8eSGkzejB9sNlqQ7he4JKlrYIh8wn66AuuLPwUERVHiCSQ4JDFQz+OP9wZCpSzZt5M4efXhf44PYMzelkWo1GEJZtSP3fCgl0tM8h0yqHe5wIRyjdabZ/Nf9puiiEt+IC8qWhy/p3PoWoLbAANoxvlL944quJK+zepmEgRkaR+87h3KPGrJi0iQRIF+WlymDdg==</validationCert>
+</SamlSsoConfig>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Relaciones creadas autom. son automáticamente des duplicadas para prevenir relaciones duplicadas de ser creadas entre dos contactos. Seleccionar esta casilla deshabilita esto y permitir la creación de múltiples relaciones del mismo tipo entre contactos.</help>
-    <label></label>
-    <name>npe4__Allow_AutoCreated_Duplicates__c</name>
-</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>この「支援」に対する「支払」データの中で、既に支払われた金額です</help>
+    <label></label>
+    <name>npe01__Payments_Made__c</name>
+</CustomFieldTranslation>

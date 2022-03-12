@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>オンにすると、支援名が空白の場合 (バッチデータエントリページに含まれていない場合)、バッチデータエントリで支援に名前が付けられることはありません。</help>
-    <label></label>
-    <name>npsp__Allow_Blank_Opportunity_Names__c</name>
-</CustomFieldTranslation>

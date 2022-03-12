@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Wanneer aangevinkt, zorgt ervoor dat dat Opp rollup totalen het Fiscale Jaar gebruikt en niet het kalenderjaar. Om Fiscale Jaar info in te stellen, ga naar Setup-&gt;Bedrijfsprofiel-&gt;Fiscaal Jaar. Aangepaste Fiscale Jaar Instellingen worden NIET ondersteund.</help>
-    <label></label>
-    <name>npo02__Use_Fiscal_Year_for_Rollups__c</name>
-</CustomFieldTranslation>

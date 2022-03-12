@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>最終会員レベル項目の個人または団体に基づいて値を決定します。</help>
+    <label></label>
+    <name>npe01__Member_Level__c</name>
+    <picklistValues>
+        <masterLabel>Bronze</masterLabel>
+        <translation>ブロンズ</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gold</masterLabel>
+        <translation>ゴールド</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Silver</masterLabel>
+        <translation>シルバー</translation>
+    </picklistValues>
+</CustomFieldTranslation>

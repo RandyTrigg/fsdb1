@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Automáticamente crea un miembro de campaña cuando se crea una oportunidad que tiene un contacto principal y un origen de campaña principal o cuando se cambia la oportunidad a Ganada Cerrada.</help>
-    <label></label>
-    <name>npsp__Automatic_Campaign_Member_Management__c</name>
-</CustomFieldTranslation>

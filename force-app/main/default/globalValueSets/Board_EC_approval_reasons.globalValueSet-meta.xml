@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Grant amount above staff approval threshold</fullName>
+        <default>false</default>
+        <label>Grant amount above staff approval threshold</label>
+    </customValue>
+    <customValue>
+        <fullName>Proposed grantee does not meet eligibility criteria</fullName>
+        <default>false</default>
+        <label>Proposed grantee does not meet eligibility criteria</label>
+    </customValue>
+    <customValue>
+        <fullName>Proposed grant does not align with approved priorities</fullName>
+        <default>false</default>
+        <label>Proposed grant does not align with approved priorities</label>
+    </customValue>
+    <description>The reasons for soliciting approval from the Board&apos;s Executive Committee</description>
+    <masterLabel>Board/EC approval reasons</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

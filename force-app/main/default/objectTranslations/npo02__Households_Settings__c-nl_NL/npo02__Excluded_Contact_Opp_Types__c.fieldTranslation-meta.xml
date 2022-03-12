@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Waardes van het Opportunity Type veld die uitgesloten moeten worden van statistieken wanneer je rollups gebruikt voor Contactpersoon Opportunities.</help>
-    <label></label>
-    <name>npo02__Excluded_Contact_Opp_Types__c</name>
-</CustomFieldTranslation>

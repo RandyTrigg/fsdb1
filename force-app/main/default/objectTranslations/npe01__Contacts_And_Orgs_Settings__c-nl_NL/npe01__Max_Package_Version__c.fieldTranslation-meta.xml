@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Nieuwe versies van het Non-profit Starter Pakket worden automatisch geïnstalleerd.</help>
-    <label></label>
-    <name>npe01__Max_Package_Version__c</name>
-</CustomFieldTranslation>

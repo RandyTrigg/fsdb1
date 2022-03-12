@@ -12,7 +12,6 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
-                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -37,7 +36,6 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:recentItems</componentName>
-                <identifier>flexipage_recentItems</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>
@@ -47,7 +45,6 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
-                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

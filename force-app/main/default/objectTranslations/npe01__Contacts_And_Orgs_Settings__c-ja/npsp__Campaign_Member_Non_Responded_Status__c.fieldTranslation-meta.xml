@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>主個人と主キャンペーンソースが関連付けられている支援が進行中または不成立の場合にキャンペーンメンバーに自動的に設定される状況。空白のままにすると、最初のレスポンスなしの状況が使用されます。</help>
-    <label></label>
-    <name>npsp__Campaign_Member_Non_Responded_Status__c</name>
-</CustomFieldTranslation>

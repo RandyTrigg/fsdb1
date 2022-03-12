@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Si seleccionado, las modificaciones a direcciones en cuenta o contactos se comportan como modificaciones simples, en ve de crear nuevas direcciones.</help>
-    <label></label>
-    <name>npsp__Simple_Address_Change_Treated_as_Update__c</name>
-</CustomFieldTranslation>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Toeschrijven van allocaties aan een opportunity. Alle opportunities in een gesloten en gewonnen fase zullen worden toegewezen aan deze standaard accounting unit.</help>
-    <label></label>
-    <name>npsp__Opportunity__c</name>
-    <relationshipLabel></relationshipLabel>
-</CustomFieldTranslation>

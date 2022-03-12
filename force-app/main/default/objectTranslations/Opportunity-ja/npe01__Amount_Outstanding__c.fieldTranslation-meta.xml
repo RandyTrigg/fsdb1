@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>数式: この支援から取消支払金額と受取支払金額を差し引いた金額。</help>
+    <label></label>
+    <name>npe01__Amount_Outstanding__c</name>
+</CustomFieldTranslation>

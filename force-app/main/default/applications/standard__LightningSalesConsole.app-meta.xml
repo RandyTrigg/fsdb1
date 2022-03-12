@@ -20,9 +20,17 @@
     <tabs>standard-Feed</tabs>
     <tabs>standard-CollaborationGroup</tabs>
     <tabs>standard-File</tabs>
+    <tabs>Sync_Log__c</tabs>
+    <tabs>Sync_Log_Action__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>LightningSalesConsole_UtilityBar</utilityBar>
     <workspaceConfig>
+        <mappings>
+            <tab>Sync_Log_Action__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Sync_Log__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-Account</tab>
         </mappings>

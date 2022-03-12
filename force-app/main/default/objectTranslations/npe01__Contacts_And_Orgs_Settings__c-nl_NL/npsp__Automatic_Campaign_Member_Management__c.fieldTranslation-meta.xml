@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Maakt automatisch een Campagne Lid aan wanneer je een Opportunity maakt die een gerelateerde Primair Contact en Primaire Campagne bron hebben, of update die Opportunity met Gesloten/Gewonnen fase.</help>
-    <label></label>
-    <name>npsp__Automatic_Campaign_Member_Management__c</name>
-</CustomFieldTranslation>

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>De Rol die gegeven wordt aan de contactpersonen die soft credit moeten ontvangen voor een gematchte gift</help>
-    <label></label>
-    <name>npsp__Matched_Donor_Role__c</name>
-</CustomFieldTranslation>

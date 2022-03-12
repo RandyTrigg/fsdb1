@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>デフォルトの個人の役割は、支援の団体が世帯、1 対 1、または個人の団体でない場合に、支援の主個人に自動的に割り当てられます。</help>
-    <label></label>
-    <name>npsp__Contact_Role_for_Organizational_Opps__c</name>
-</CustomFieldTranslation>

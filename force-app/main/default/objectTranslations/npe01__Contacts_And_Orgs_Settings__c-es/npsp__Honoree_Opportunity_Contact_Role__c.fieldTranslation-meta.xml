@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help>Si se completa se creará automáticamente una función de contacto para las oportunidades con un contacto homenajeado. Si no se selecciona una opción, se des-habilitará la creación automática.</help>
-    <label></label>
-    <name>npsp__Honoree_Opportunity_Contact_Role__c</name>
-</CustomFieldTranslation>

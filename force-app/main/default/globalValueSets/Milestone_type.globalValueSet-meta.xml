@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Payment</fullName>
+        <default>false</default>
+        <label>Payment</label>
+    </customValue>
+    <customValue>
+        <fullName>Report</fullName>
+        <default>false</default>
+        <label>Report</label>
+    </customValue>
+    <customValue>
+        <fullName>Report narrative</fullName>
+        <default>false</default>
+        <label>Report narrative</label>
+    </customValue>
+    <customValue>
+        <fullName>Report financial</fullName>
+        <default>false</default>
+        <label>Report financial</label>
+    </customValue>
+    <customValue>
+        <fullName>Report activities</fullName>
+        <default>false</default>
+        <label>Report activities</label>
+    </customValue>
+    <customValue>
+        <fullName>Site visit</fullName>
+        <default>false</default>
+        <label>Site visit</label>
+    </customValue>
+    <description>Milestone types</description>
+    <masterLabel>Milestone type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

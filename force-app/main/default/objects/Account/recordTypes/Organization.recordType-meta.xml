@@ -53,8 +53,40 @@
     <picklistValues>
         <picklist>Account_type__c</picklist>
         <values>
-            <fullName>General</fullName>
-            <default>true</default>
+            <fullName>Corporation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Donor Advised Fund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Family Foundation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fee for Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Govt%2FMultilateral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Household</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Nonprofit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private Foundation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Religious</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>

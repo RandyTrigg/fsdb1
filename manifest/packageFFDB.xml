@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>AccountController</members>
+        <members>AccountControllerTest</members>
+        <members>AccountUpdateContactInfoInvocable</members>
+        <members>BuildTestProposals</members>
+        <members>ContactController</members>
+        <members>ContactControllerTest</members>
+        <members>CountryController</members>
+        <members>CountryControllerTest</members>
+        <members>CountryStatsBatch</members>
+        <members>CountryStatsSchedule</members>
+        <members>CustomReqsController</members>
+        <members>CustomReqsControllerTest</members>
+        <members>DeleteRecordsBatch</members>
+        <members>DeleteRecordsSchedulable</members>
+        <members>DeleteRecordsSchedulableTest</members>
+        <members>ExpressionException</members>
+        <members>ExpressionFunctions</members>
+        <members>ExpressionInterpreter</members>
+        <members>ExpressionInterpreterTest</members>
+        <members>ExpressionLexer</members>
+        <members>FundController</members>
+        <members>FundControllerTest</members>
+        <members>FundUpdateTotalInvocable</members>
+        <members>FundUpdateTotalsSchedule</members>
+        <members>GenericInsertRecordsBatch</members>
+        <members>GenericTouchRecordsBatch</members>
+        <members>GenericUpdateRecordsBatch</members>
+        <members>GenericUpdateRecordsBatchTest</members>
+        <members>GMDataController</members>
+        <members>GMDataControllerTest</members>
+        <members>GMDataUpdateSchedule</members>
+        <members>InviteCloneProposalInvocable</members>
+        <members>InviteController</members>
+        <members>InviteControllerTest</members>
+        <members>InvitesAllocationsForPropsBatch</members>
+        <members>InvitesAllocationsForRstInvocable</members>
+        <members>LetterController</members>
+        <members>LetterControllerTest</members>
+        <members>LetterReset</members>
+        <members>LetterResetBatch</members>
+        <members>LetterUpdatedInvocable</members>
+        <members>MilestoneController</members>
+        <members>MilestoneControllerTest</members>
+        <members>MilestoneEmailLetterInvocable</members>
+        <members>MilestoneLetterSentInvocable</members>
+        <members>OFACLookup</members>
+        <members>OFACLookupBatch</members>
+        <members>OFACLookupMock</members>
+        <members>OFACLookupTest</members>
+        <members>OpportunityCloneInvocable</members>
+        <members>OpportunityController</members>
+        <members>OpportunityControllerTest</members>
+        <members>PaymentController</members>
+        <members>PaymentControllerTest</members>
+        <members>PaymentMethodController</members>
+        <members>PaymentMethodControllerTest</members>
+        <members>PaymentMethodNewInvocable</members>
+        <members>PaymentMethodProcessFIInvocable</members>
+        <members>PaymentMethodUniqueIdInvocable</members>
+        <members>PortfolioController</members>
+        <members>PortfolioControllerTest</members>
+        <members>ProfileClassificationsCloneInvocable</members>
+        <members>ProfileClassificationsCloneInvocableTest</members>
+        <members>ProfileClassificationsInvocable</members>
+        <members>ProfileClassificationsInvocableTest</members>
+        <members>ProfileCloneBatch</members>
+        <members>ProfileCloneSchedule</members>
+        <members>ProfileController</members>
+        <members>ProfileControllerTest</members>
+        <members>ProjectionController</members>
+        <members>ProjectionControllerTest</members>
+        <members>ProposalController</members>
+        <members>ProposalControllerClassifications</members>
+        <members>ProposalControllerClassificationsTest</members>
+        <members>ProposalControllerTest</members>
+        <members>ProposalEmailLetterInvocable</members>
+        <members>ProposalUpdate</members>
+        <members>ProposalUpdateInvocable</members>
+        <members>ProposalUpdateTest</members>
+        <members>ReparentChildrenInvocable</members>
+        <members>strike_lookupController</members>
+        <members>strike_responseData</members>
+        <members>strike_tst_lookupController</members>
+        <members>strike_utilities</members>
+        <members>TemplateController</members>
+        <members>TemplateControllerTest</members>
+        <members>TouchRecordsSchedulable</members>
+        <members>TouchRecordsSchedulableTest</members>
+        <members>UpdateAccountContactInfo</members>
+        <members>UpdateAccountContactInfoTest</members>
+        <members>Utilities</members>
+        <members>UtilitiesTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>AccountNewLetterButton</members>
+        <members>AccountNewLettersButton</members>
+        <members>ClassificationsEdit</members>
+        <members>CustomReqsDeepClone</members>
+        <members>GMDataNewLetterButton</members>
+        <members>GMDataNewLettersButton</members>
+        <members>InviteNewLetterButton</members>
+        <members>InviteNewLettersButton</members>
+        <members>LetterEmailButton</members>
+        <members>LetterPrint</members>
+        <members>LetterPrintArial</members>
+        <members>LetterPrintButton</members>
+        <members>LetterPrintTY</members>
+        <members>LetterResetButton</members>
+        <members>LettersEmailButton</members>
+        <members>LettersPrint</members>
+        <members>LettersPrintButton</members>
+        <members>LettersResetButton</members>
+        <members>MilestoneNewLetterButton</members>
+        <members>MilestoneNewLettersButton</members>
+        <members>PaymentMethodNewLetterButton</members>
+        <members>PaymentMethodNewLettersButton</members>
+        <members>PaymentNewLetterButton</members>
+        <members>PaymentNewLettersButton</members>
+        <members>ProfileNewLetterButton</members>
+        <members>ProfileNewLettersButton</members>
+        <members>ProfileReviewApp</members>
+        <members>ProposalEditClassifications</members>
+        <members>ProposalNewLetterButton</members>
+        <members>ProposalNewLettersButton</members>
+        <members>ProposalReviewApp</members>
+        <members>ProposalSubmissionButton</members>
+        <members>ProposalSubmissionsButton</members>
+        <members>ProposalsOFACLookup</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>CheckboxChecked</members>
+        <members>CheckboxUnchecked</members>
+        <members>collapseIndicatorGroup</members>
+        <members>Collapsible</members>
+        <members>defaultTokens</members>
+        <members>errorCount</members>
+        <members>expandIndicatorGroup</members>
+        <members>FlowRedirect</members>
+        <members>FundReleasing</members>
+        <members>FundReleasingApp</members>
+        <members>GMDataEditSuper</members>
+        <members>HeadingH3</members>
+        <members>HeadingIndicatorGroup</members>
+        <members>HeadingMedium</members>
+        <members>HeadingSmall</members>
+        <members>IndicatorGroup</members>
+        <members>IndicatorGroup1</members>
+        <members>InfoButton</members>
+        <members>InfoPopover</members>
+        <members>InputCheckbox</members>
+        <members>InputFieldLabeledSuper</members>
+        <members>InputFieldSuper</members>
+        <members>InputIndicator</members>
+        <members>InputNumber</members>
+        <members>InputSelect</members>
+        <members>InputSelectLookup</members>
+        <members>InputSelectMulti</members>
+        <members>InputSelectMulti1</members>
+        <members>InputSuper</members>
+        <members>InputText</members>
+        <members>InputTextarea</members>
+        <members>InputTextReadonly</members>
+        <members>InviteNewProposal</members>
+        <members>Label</members>
+        <members>LabeledFieldset</members>
+        <members>MilestoneEdit</members>
+        <members>MilestoneReviewApp</members>
+        <members>ObjectEdit</members>
+        <members>ProfileEdit</members>
+        <members>ProfileReviewApp</members>
+        <members>ProposalEdit</members>
+        <members>ProposalRequestBoardECAppr</members>
+        <members>ProposalReviewApp</members>
+        <members>RedirectToRecordId</members>
+        <members>RelatedFields</members>
+        <members>setExpId</members>
+        <members>SetFieldValue</members>
+        <members>setStartUrl</members>
+        <members>strike_evt</members>
+        <members>strike_lookup</members>
+        <members>strike_svg</members>
+        <members>strike_tooltip</members>
+        <members>svg</members>
+        <members>Validate</members>
+        <members>WrapperFieldset</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>Account_type</members>
+        <members>Board_EC_approval_reasons</members>
+        <members>Currency</members>
+        <members>Fiscal_Year</members>
+        <members>For_invitation</members>
+        <members>Grant_type</members>
+        <members>Language</members>
+        <members>Milestone_type</members>
+        <members>Payment_type</members>
+        <members>Preferred_pronouns</members>
+        <members>Thematic_priorities</members>
+        <members>Theme</members>
+        <members>Indicator_type</members>
+        <name>GlobalValueSet</name>
+    </types>
+    <types>
+        <members>Fundraising</members>
+        <members>GMadmin</members>
+        <members>Grantmaking</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>Allocation__c</members>
+        <members>Charge__c</members>
+        <members>ChartofAccounts__c</members>
+        <members>Classification__c</members>
+        <members>Classification_Assign__c</members>
+        <members>Classification_Category__c</members>
+        <members>Classification_Profile_Assign__c</members>
+        <members>Country__c</members>
+        <members>Custom_Reqs__c</members>
+        <members>Decline_reason__c</members>
+        <members>Distribution__c</members>
+        <members>Fund__c</members>
+        <members>GM_Data__c</members>
+        <members>Indicator__c</members>
+        <members>Indicator_Assign__c</members>
+        <members>Indicator_Portfolio_Assign__c</members>
+        <members>Invite__c</members>
+        <members>Letter__c</members>
+        <members>Milestone__c</members>
+        <members>Milestone_Spec__c</members>
+        <members>Payment__c</members>
+        <members>Payment_Method__c</members>
+        <members>Portfolio__c</members>
+        <members>Portfolio_Account_Assign__c</members>
+        <members>Portfolio_Assignment__c</members>
+        <members>Portfolio_Profile_Assign__c</members>
+        <members>Profile__c</members>
+        <members>Projection__c</members>
+        <members>Proposal__c</members>
+        <members>Referral__c</members>
+        <members>Referral_Org__c</members>
+        <members>Referral_Org_Region_Assign__c</members>
+        <members>Region__c</members>
+        <members>Restricted_Classification__c</members>
+        <members>Restricted_Classification_GM_Data__c</members>
+        <members>Restricted_Classification_Portfolio__c</members>
+        <members>Review_Form__c</members>
+        <members>Review_Form_Component__c</members>
+        <members>System_Module__c</members>
+        <members>Task_spec__c</members>
+        <members>Task_spec_group__c</members>
+        <members>Template__c</members>
+        <members>Template_macro__c</members>
+        <members>Template_piece__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Fundraising_UtilityBar</members>
+        <members>GM_admin_UtilityBar</members>
+        <members>Grantmaking_UtilityBar</members>
+        <members>Home_Page_Default</members>
+        <members>Home_Page_Default1</members>
+        <members>Opportunity_Record_Page</members>
+        <members>RecPage_Account_Dev</members>
+        <members>RecPage_Account_GM</members>
+        <members>RecPage_Allocation</members>
+        <members>RecPage_Charge</members>
+        <members>RecPage_Classification</members>
+        <members>RecPage_Classification_Assign</members>
+        <members>RecPage_Classification_Category</members>
+        <members>RecPage_Classification_Profile_Assign</members>
+        <members>RecPage_Contact_Dev</members>
+        <members>RecPage_Contact_GM</members>
+        <members>RecPage_Country</members>
+        <members>RecPage_Custom_Reqs</members>
+        <members>RecPage_Decline_reason</members>
+        <members>RecPage_Distribution</members>
+        <members>RecPage_Fund</members>
+        <members>RecPage_GM_Data</members>
+        <members>RecPage_Indicator</members>
+        <members>RecPage_Indicator_Assign</members>
+        <members>RecPage_Invite</members>
+        <members>RecPage_Letter</members>
+        <members>RecPage_Milestone</members>
+        <members>RecPage_Milestone_Spec</members>
+        <members>RecPage_Payment</members>
+        <members>RecPage_Payment_Method</members>
+        <members>RecPage_Portfolio</members>
+        <members>RecPage_Portfolio_Account_Assign</members>
+        <members>RecPage_Portfolio_Assignment</members>
+        <members>RecPage_Portfolio_Profile_Assign</members>
+        <members>RecPage_Profile</members>
+        <members>RecPage_Projection</members>
+        <members>RecPage_Proposal</members>
+        <members>RecPage_Referral</members>
+        <members>RecPage_Referral_Org</members>
+        <members>RecPage_Referral_Org_Region_Assign</members>
+        <members>RecPage_Region</members>
+        <members>RecPage_Restricted_Classification</members>
+        <members>RecPage_Restricted_Classification_GM_Data</members>
+        <members>RecPage_Restricted_Classification_Portfolio</members>
+        <members>RecPage_Review_Form</members>
+        <members>RecPage_Review_Form_Component</members>
+        <members>RecPage_System_Module</members>
+        <members>RecPage_Task_spec</members>
+        <members>RecPage_Task_spec_group</members>
+        <members>RecPage_Template</members>
+        <members>RecPage_Template_macro</members>
+        <members>RecPage_Template_piece</members>
+        <members>System_Module_Record_Page</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Account_GM_geo_update</members>
+        <members>Account_updated_after_save</members>
+        <members>Contact_updated_after_save</members>
+        <members>Distribution_created_before_save</members>
+        <members>Fund_Update_totals</members>
+        <members>Letter_updated_after_save</members>
+        <members>Milestone_created_before_save</members>
+        <members>Milestone_letter_sent</members>
+        <members>Milestone_updated</members>
+        <members>New_Payment</members>
+        <members>New_Payment_Method</members>
+        <members>Payment_method_updated</members>
+        <members>Payment_updated</members>
+        <members>Proposal_created_after_save_New_GM_Data</members>
+        <members>Proposal_updated</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>Account-Account Layout FR</members>
+        <members>Account-Household Account Layout GM</members>
+        <members>Account-Organizational Account Layout GM FS</members>
+        <members>Account-Organizational Account Layout GM</members>
+        <members>Allocation__c-Allocation Layout</members>
+        <members>Charge__c-Charge Layout</members>
+        <members>Classification__c-Classification Layout</members>
+        <members>Classification_Assign__c-Classification Assign Layout</members>
+        <members>Classification_Category__c-Classification Category Layout</members>
+        <members>Classification_Profile_Assign__c-Classification-Profile Assign Layout</members>
+        <members>Contact-Contact Layout FR</members>
+        <members>Contact-Contact Layout GM</members>
+        <members>Country__c-Country Layout</members>
+        <members>Custom_Reqs__c-Custom Reqs Layout</members>
+        <members>Decline_reason__c-Decline reason Layout</members>
+        <members>Distribution__c-Distribution Layout</members>
+        <members>Fund__c-Fund Layout Overhead</members>
+        <members>Fund__c-Fund Layout Pending</members>
+        <members>Fund__c-Fund Layout Revenue</members>
+        <members>Fund__c-Fund Layout Standard</members>
+        <members>GM_Data__c-GM Data Layout</members>
+        <members>Grant_type__mdt-Grant type Layout</members>
+        <members>Indicator__c-Indicator Layout</members>
+        <members>Indicator_Assign__c-Indicator Assign Layout</members>
+        <members>Indicator_Portfolio_Assign__c-Indicator-Portfolio Assign Layout</members>
+        <members>Invite__c-Invite Layout</members>
+        <members>Letter__c-Letter Layout</members>
+        <members>Milestone__c-Milestone Layout</members>
+        <members>Milestone_Spec__c-Milestone spec Layout</members>
+        <members>Opportunity-Opportunity Layout</members>
+        <members>Payment__c-Payment Layout</members>
+        <members>Payment_Method__c-Payment Method Layout Proposal</members>
+        <members>Portfolio__c-Portfolio Layout</members>
+        <members>Portfolio_Account_Assign__c-Portfolio-Account Assign Layout</members>
+        <members>Portfolio_Assignment__c-Portfolio Assignment Layout</members>
+        <members>Portfolio_Profile_Assign__c-Portfolio-Profile Assign Layout</members>
+        <members>Profile__c-Profile Layout</members>
+        <members>Projection__c-Projection Layout</members>
+        <members>Proposal__c-Proposal Layout</members>
+        <members>Proposal_clone_field_to_copy__mdt-Proposal clone fields to copy Layout</members>
+        <members>Referral__c-Referral Layout</members>
+        <members>Referral_Org__c-Referral Org Layout</members>
+        <members>Referral_Org_Region_Assign__c-Referral Org Region Assign Layout</members>
+        <members>Region__c-Region Layout</members>
+        <members>Restricted_Classification__c-Restricted Classification Layout</members>
+        <members>Restricted_Classification_GM_Data__c-Restricted Classification-GM Data Layout</members>
+        <members>Restricted_Classification_Portfolio__c-Restricted Classification-Portfolio Layout</members>
+        <members>Review_Form__c-Review Form Layout</members>
+        <members>Review_Form_Component__c-Review Form Component Layout</members>
+        <members>Sender_email_address__mdt-Sender email address Layout</members>
+        <members>System_Module__c-System Module Layout</members>
+        <members>Task_spec__c-Task spec Layout</members>
+        <members>Task_spec_group__c-Task spec group Layout</members>
+        <members>Template__c-Template Layout</members>
+        <members>Template_macro__c-Template macro Layout</members>
+        <members>Template_piece__c-Template piece Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>FFDB_GM_admin</members>
+        <members>FFDB_Program</members>
+        <members>FFDB_Read_only</members>
+        <members>FFDB_System_admin</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Sender_email_address.Fundraising</members>
+        <members>Sender_email_address.Grantmaking</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>Allocation__c.CreateInvite</members>
+        <members>Fund__c.New_allocation</members>
+        <members>Fund__c.New_distribution</members>
+        <members>Fund__c.Update_totals</members>
+        <members>Invite__c.New_Proposal</members>
+        <members>Payment_Method__c.New_Payment</members>
+        <members>Proposal__c.New_payment</members>
+        <members>Proposal__c.New_Payment_Method</members>
+        <members>Proposal__c.Request_Board_EC_approval</members>
+        <name>QuickAction</name>
+    </types>
+    <types>
+        <members>FFDB</members>
+        <members>FFDB/Proposal_status_template_macros_zud</members>
+        <members>FFDB/* TEMPLATE REPORTS/Accounts_FR_TEMPLATE_dXi</members>
+        <members>FFDB/* TEMPLATE REPORTS/Accounts_GM_TEMPLATE_o3A</members>
+        <members>FFDB/* TEMPLATE REPORTS/Charges_TEMPLATE_Nkw</members>
+        <members>FFDB/* TEMPLATE REPORTS/Classification_assigns_TEMPLATE_w1o</members>
+        <members>FFDB/* TEMPLATE REPORTS/Classification_Categories_TEMPLATE_Vp2</members>
+        <members>FFDB/* TEMPLATE REPORTS/Classifications_TEMPLATE_mq3</members>
+        <members>FFDB/* TEMPLATE REPORTS/Contacts_TEMPLATE_ex3</members>
+        <members>FFDB/* TEMPLATE REPORTS/Funds_TEMPLATE_s0c</members>
+        <members>FFDB/* TEMPLATE REPORTS/Milestones_TEMPLATE_Fce</members>
+        <members>FFDB/* TEMPLATE REPORTS/Opportunities_TEMPLATE_sdQ</members>
+        <members>FFDB/* TEMPLATE REPORTS/Payments_TEMPLATE_uFi</members>
+        <members>FFDB/* TEMPLATE REPORTS/Projections_TEMPLATE_Mq4</members>
+        <members>FFDB/* TEMPLATE REPORTS/Proposals_TEMPLATE_wzM</members>
+        <members>FFDB/* TEMPLATE REPORTS/Review_form_components_TEMPLATE_t9J</members>
+        <members>FFDB/* TEMPLATE REPORTS/Review_forms_TEMPLATE_d2M</members>
+        <members>FFDB/* TEMPLATE REPORTS/Template_Macros_TEMPLATE_BaQ</members>
+        <members>FFDB/* TEMPLATE REPORTS/Template_Pieces_TEMPLATE_YbF</members>
+        <members>FFDB/* TEMPLATE REPORTS/Templates_TEMPLATE_k2g</members>
+        <name>Report</name>
+    </types>
+    <types>
+        <members>Charges_with_related_info</members>
+        <members>Milestones_with_related_info</members>
+        <members>Payments_with_related_info</members>
+        <members>Projections_with_related_info</members>
+        <members>Proposals_with_related_info</members>
+        <members>Template_Macros_w_related_info</members>
+        <members>Template_Pieces_w_related_info</members>
+        <name>ReportType</name>
+    </types>
+    <types>
+        <members>SiteSamples</members>
+        <members>popupCSS</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>Account</members>
+        <members>Contact</members>
+        <members>Opportunity</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Address__c</members>
+        <members>Allocation__c</members>
+        <members>Charge__c</members>
+        <members>ChartofAccounts__c</members>
+        <members>Classification__c</members>
+        <members>Classification_Assign__c</members>
+        <members>Classification_Category__c</members>
+        <members>Classification_Profile_Assign__c</members>
+        <members>Country__c</members>
+        <members>Custom_Reqs__c</members>
+        <members>Decline_reason__c</members>
+        <members>Distribution__c</members>
+        <members>Fund__c</members>
+        <members>GM_Data__c</members>
+        <members>Grant_type__mdt</members>
+        <members>Indicator__c</members>
+        <members>Indicator_Assign__c</members>
+        <members>Indicator_Portfolio_Assign__c</members>
+        <members>Invite__c</members>
+        <members>Letter__c</members>
+        <members>Milestone__c</members>
+        <members>Milestone_Spec__c</members>
+        <members>OFAC_lookup_settings__c</members>
+        <members>OFAC_search_SDN__c</members>
+        <members>Payment__c</members>
+        <members>Payment_Method__c</members>
+        <members>Periodic_delete_queries__c</members>
+        <members>Periodic_touch_queries__c</members>
+        <members>Portfolio__c</members>
+        <members>Portfolio_Account_Assign__c</members>
+        <members>Portfolio_Assignment__c</members>
+        <members>Portfolio_Profile_Assign__c</members>
+        <members>Profile__c</members>
+        <members>Projection__c</members>
+        <members>Proposal__c</members>
+        <members>Proposal_clone_field_to_copy__mdt</members>
+        <members>Referral__c</members>
+        <members>Referral_Org__c</members>
+        <members>Referral_Org_Region_Assign__c</members>
+        <members>Region__c</members>
+        <members>Restricted_Classification__c</members>
+        <members>Restricted_Classification_GM_Data__c</members>
+        <members>Restricted_Classification_Portfolio__c</members>
+        <members>Review_Form__c</members>
+        <members>Review_Form_Component__c</members>
+        <members>Sender_email_address__mdt</members>
+        <members>System_Module__c</members>
+        <members>Task_spec__c</members>
+        <members>Task_spec_group__c</members>
+        <members>Template__c</members>
+        <members>Template_macro__c</members>
+        <members>Template_piece__c</members>
+        <members>VF_text_Letter_reset__c</members>
+        <members>VF_text_New_Letters__c</members>
+        <name>CustomObject</name>
+    </types>
+    <version>53.0</version>
+</Package>
