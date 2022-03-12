@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OrgAffiliationRecordType</fullName>
+    <active>true</active>
+    <description>The record type of an advisor&apos;s org affiliation may not be &quot;Household GM Advisor&quot;.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK( GM_org_affiliation__c )),
+ GM_org_affiliation__r.RecordType.Name = &quot;Household GM Advisor&quot;
+)</errorConditionFormula>
+    <errorDisplayField>GM_org_affiliation__c</errorDisplayField>
+    <errorMessage>The record type of an advisor&apos;s org affiliation may not be &quot;Household GM Advisor&quot;.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_stipend_accepted__c</fullName>
+    <description>The date on which the Advisor accepted to receive a stipend for this term</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which the Advisor accepted to receive a stipend for this term</inlineHelpText>
+    <label>Date stipend accepted</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

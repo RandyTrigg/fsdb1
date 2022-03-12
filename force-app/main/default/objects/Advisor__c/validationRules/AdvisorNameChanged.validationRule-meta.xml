@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AdvisorNameChanged</fullName>
+    <active>false</active>
+    <description>To change advisor name, please change the name in the linked Contact record - from there the change will cascade back to the advisor and its linked account.</description>
+    <errorConditionFormula>/* Note that only offline advisors are checked. */
+AND(
+ ISCHANGED(Name),
+ NOT(ISBLANK(Contact__c)),
+ /* Name &lt;&gt; Contact__r.Name, */
+ Contact__r.RecordType.Name = &quot;Contact GM Advisor&quot;,
+ Community_contact__c = null
+)</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>To change advisor name, please change the name in the linked Contact record - from there the change will cascade back to the advisor and its linked account.</errorMessage>
+</ValidationRule>

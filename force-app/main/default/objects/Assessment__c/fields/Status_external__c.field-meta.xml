@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_external__c</fullName>
+    <description>External status of this assessment (the version that is viewed by the advisor)</description>
+    <externalId>false</externalId>
+    <formula>IF ( CONTAINS( LOWER(Status__c) , &quot;pending&quot; ), &quot;Pending&quot;,
+&quot;Submitted&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>External status of this assessment (the version that is viewed by the advisor)</inlineHelpText>
+    <label>Status external</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

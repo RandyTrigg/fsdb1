@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DateTermBeginsRequired</fullName>
+    <active>true</active>
+    <description>New advisor terms must have non-blank Date Term Begins.</description>
+    <errorConditionFormula>AND(
+ ISNEW(),
+ ISBLANK(Date_term_begins__c)
+)</errorConditionFormula>
+    <errorDisplayField>Date_term_begins__c</errorDisplayField>
+    <errorMessage>New advisor terms must have non-blank Date Term Begins.</errorMessage>
+</ValidationRule>

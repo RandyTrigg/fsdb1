@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_endorse_request_single_advisor</fullName>
+    <availability>online</availability>
+    <description>Build a new endorse request for this advisor</description>
+    <displayType>button</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>New endorse request</masterLabel>
+    <openType>noSidebar</openType>
+    <page>AdvisorNewEndRequestButton</page>
+    <protected>false</protected>
+</WebLink>

@@ -1,0 +1,64 @@
+<template>
+    <div if:true={dataLoaded}>
+        <lightning-breadcrumbs>
+            <lightning-breadcrumb
+                label="Home"
+                onclick={navigateHome}>
+            </lightning-breadcrumb>
+            <lightning-breadcrumb
+                label={parentURLLabel}
+                onclick={navigateToParent}>
+            </lightning-breadcrumb>
+            <lightning-breadcrumb
+                label={currentUrlLabel}
+                onclick={selfClick}>
+            </lightning-breadcrumb>  
+        </lightning-breadcrumbs>
+
+        <!-- Forms only will show the external form viewer at full width -->
+        <div if:true={formsOnly} class="slds-grid slds-gutters">
+            <div data-id="formViewer" class="slds-col slds-size_1-of-1">
+                <c-external-form-viewer record-id={recordId}></c-external-form-viewer>
+            </div>
+        </div>
+
+        <!-- Otherwise, forms are presented on the left and the review form on the right -->
+        <div if:false={formsOnly} class="slds-grid slds-gutters">
+            <div data-id="formViewer" class="slds-col slds-size_1-of-2">
+                <c-external-form-viewer record-id={recordId}></c-external-form-viewer>
+            </div>
+            <div data-id="reviewForm" class="slds-col slds-size_1-of-2">
+                <div if:true={assessmentReview.isProposal} class="slds-var-m-bottom_medium slds-border_bottom">
+                    <p class="slds-text-heading_medium"><span style="font-weight: bold">Reviewer: </span>{assessmentReview.reviewerName}</span></p>
+                    <div class="slds-text-heading_medium">
+                        <p><span style="font-weight: bold">Proposal #: </span>{assessmentReview.linkedProposal.Name}</p>
+                        <p><span style="font-weight: bold">Organization: </span>{assessmentReview.linkedProposal.Account__r.Name}</span></p>
+                    </div>
+                </div>
+                <div if:true={assessmentReview.isGranteeReport} class="slds-var-m-bottom_medium slds-border_bottom">
+                    <div class="slds-text-heading_medium">
+                        <p class="slds-text-heading_medium"><span style="font-weight: bold">Reviewer: </span>{assessmentReview.reviewerName}</span></p>
+                        <p><span style="font-weight: bold">Grantee Report #: </span>{assessmentReview.linkedGranteeReport.Name}</span></p>
+                        <p><span style="font-weight: bold">Proposal #: </span>{assessmentReview.linkedGranteeReport.Proposal__r.Name}</p>
+                        <p><span style="font-weight: bold">Organization: </span>{assessmentReview.accountName}</p>
+                    </div>
+                </div>
+                <div if:true={assessmentReview.isProfile} class="slds-var-m-bottom_medium slds-border_bottom">
+                    <div class="slds-text-heading_medium">
+                        <p class="slds-text-heading_medium"><span style="font-weight: bold">Reviewer: </span>{assessmentReview.reviewerName}</span></p>
+                        <p><span style="font-weight: bold">Profile #: </span>{assessmentReview.linkedProfile.Name}</span></p>
+                        <div if:true={assessmentReview.linkedProfile.Account__c}>
+                            <p class="slds-text-heading_medium"><span style="font-weight: bold">Organization: </span>{assessmentReview.linkedProfile.Account__r.Name}</span></p>
+                        </div>
+                        <div if:false={assessmentReview.linkedProfile.Account__c}>
+                            <p class="slds-text-heading_medium"><span style="font-weight: bold">Organization: </span>{assessmentReview.linkedProfile.Applicant_name__c}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-var-p-horizontal_medium slds-var-m-top_large">
+                    <c-review-form review={assessmentReview} full-viewport="true"></c-review-form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

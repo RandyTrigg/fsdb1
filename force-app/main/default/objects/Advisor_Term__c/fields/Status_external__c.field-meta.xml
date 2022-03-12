@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_external__c</fullName>
+    <description>External status of this advisor term (the version that is viewed by the advisor)</description>
+    <externalId>false</externalId>
+    <formula>IF (CONTAINS(Status__c, &quot; &quot;),
+ TRIM(RIGHT(Status__c, LEN(Status__c) - FIND(&quot; &quot;, Status__c))),
+ Status__c
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>External status of this advisor term (the version that is viewed by the advisor)</inlineHelpText>
+    <label>Status external</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

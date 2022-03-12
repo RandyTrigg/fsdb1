@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>First_payment_method__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The first submitted payment method linked to this advisor term</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The first submitted payment method linked to this advisor term</inlineHelpText>
+    <label>First payment method</label>
+    <referenceTo>Payment_Method__c</referenceTo>
+    <relationshipLabel>Advisor Terms</relationshipLabel>
+    <relationshipName>Advisor_Terms</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

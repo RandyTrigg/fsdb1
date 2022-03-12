@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_endorser_term__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The currently active endorser term (if any) linked to this advisor record</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The currently active endorser term (if any) linked to this advisor record</inlineHelpText>
+    <label>Current endorser term</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>The recent advisor term must belong to this advisor</errorMessage>
+        <filterItems>
+            <field>$Source.Id</field>
+            <operation>equals</operation>
+            <valueField>Advisor_Term__c.Advisor__c</valueField>
+        </filterItems>
+        <infoMessage>The recent advisor term must belong to this advisor</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Advisor_Term__c</referenceTo>
+    <relationshipLabel>Advisors</relationshipLabel>
+    <relationshipName>Advisors</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

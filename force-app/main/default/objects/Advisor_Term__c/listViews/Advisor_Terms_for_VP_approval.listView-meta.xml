@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Advisor_Terms_for_VP_approval</fullName>
+    <columns>NAME</columns>
+    <columns>Advisor__c</columns>
+    <columns>Type__c</columns>
+    <columns>Account_black_listed__c</columns>
+    <columns>Red_flag_Other_non_black_list__c</columns>
+    <columns>Date_VP_approved__c</columns>
+    <columns>Date_commitment_letter_sent__c</columns>
+    <columns>Date_commitment_letter_received__c</columns>
+    <columns>Stipend_response__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Date_invited__c</field>
+        <operation>greaterThan</operation>
+        <value>1/25/2019</value>
+    </filters>
+    <filters>
+        <field>Date_invite_response_received__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Date_accepted__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>Strategic</value>
+    </filters>
+    <filters>
+        <field>Type_invited__c</field>
+        <operation>equals</operation>
+        <value>Strategic</value>
+    </filters>
+    <filters>
+        <field>Date_VP_approved__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>Advisor Terms for VP approval</label>
+</ListView>

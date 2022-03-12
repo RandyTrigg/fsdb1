@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_invite_response_received__c</fullName>
+    <description>The date on which we received a response to the invitation letter for this advisor term</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which we received a response to the invitation letter for this advisor term</inlineHelpText>
+    <label>Date invite response received</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LinkedAccountAndContactRecordTypes</fullName>
+    <active>true</active>
+    <description>This advisor links to a contact record, so the contact must have &quot;Contact GM Advisor&quot; record type, and the linked account must have &quot;Household GM Advisor&quot; record type.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK( Contact__c )),
+ OR(
+  Contact__r.RecordType.Name &lt;&gt; &quot;Contact GM Advisor&quot;,
+  Account__r.RecordType.Name &lt;&gt; &quot;Household GM Advisor&quot;
+ )
+)</errorConditionFormula>
+    <errorMessage>This advisor links to a contact record, so the contact must have &quot;Contact GM Advisor&quot; record type, and the linked account must have &quot;Household GM Advisor&quot; record type.</errorMessage>
+</ValidationRule>

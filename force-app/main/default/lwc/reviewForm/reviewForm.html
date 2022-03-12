@@ -1,0 +1,243 @@
+<template>
+    <div if:true={review}>
+        <div class="slds-scrollable_y partialViewport" data-id="scrollcontainer">
+            <a  class="slds-text-heading_small" href={review.reviewGuideURL} target="_blank">Link to Review Guide</a>
+            <ul >
+                <template if:true={dataLoaded} for:each={formComponentsArray} for:item="formCmp">
+                    <li key={formCmp.id}>
+                        <div class="slds-var-m-top_medium gfw-label" if:true={formCmp.headingSmall}>
+                            <div class="slds-text-heading_small">{formCmp.label}</div>
+                        </div>
+                        <div if:true={formCmp.headingMedium}>
+                            <div class="slds-text-heading_medium gfw-brand slds-var-m-top_x-large">{formCmp.label}</div>
+                        </div>
+                        <div class="slds-var-m-top_medium" if:true={formCmp.inputText}>
+                            <label for={formCmp.id} class="gfw-label">
+                                <abbr if:true={formCmp.isRequired}
+                                    class="slds-required" 
+                                    title="required">* 
+                                </abbr>{formCmp.label}
+                            </label>
+                            <lightning-helptext content={formCmp.helpText}></lightning-helptext>
+                            <lightning-input 
+                                class="slds-m-left_small"
+                                disabled={readOnly}
+                                id={formCmp.id}
+                                variant="label-hidden"
+                                type="text" 
+                                value={formCmp.stringValue}
+                                required={formCmp.isRequired}
+                                onblur={handleTextInputchange}
+                                placeholder="type here...">
+                            </lightning-input>
+                            
+                        </div>
+                        <div class="slds-var-m-top_medium" if:true={formCmp.inputNumber}>
+                            <label for={formCmp.id} class="gfw-label">
+                                <abbr if:true={formCmp.isRequired}
+                                    class="slds-required" 
+                                    title="required">* 
+                                </abbr>{formCmp.label}
+                            </label>
+                            <lightning-helptext content={formCmp.helpText}></lightning-helptext>
+                            <lightning-input 
+                                class="slds-m-left_small"
+                                disabled={readOnly}
+                                id={formCmp.id}
+                                variant="label-hidden"
+                                type="number" 
+                                step=".01"
+                                value={formCmp.numberValue}
+                                required={formCmp.isRequired}
+                                onblur={handleNumberInputchange}
+                                placeholder="type here...">
+                            </lightning-input>
+                            
+                        </div>
+                        <div class="slds-var-m-top_medium" if:true={formCmp.inputTextarea}>
+                            <label for={formCmp.id} class="gfw-label">
+                                <abbr if:true={formCmp.isRequired}
+                                    class="slds-required" 
+                                    title="required">* 
+                                </abbr>{formCmp.label}
+                            </label>
+                            <lightning-helptext content={formCmp.helpText}></lightning-helptext>
+                            <lightning-textarea 
+                                class="slds-m-left_small"
+                                disabled={readOnly}
+                                id={formCmp.id} 
+                                variant="label-hidden"
+                                name="input3" 
+                                value={formCmp.stringValue} 
+                                placeholder="type here..." 
+                                required={formCmp.isRequired}
+                                onblur={handleTextInputchange}>
+                            </lightning-textarea>
+                        </div>
+        
+                        <div class="slds-grid slds-gutters_xx-small" if:true={formCmp.qualitativeInputText}>
+                            <!-- <div class="slds-col slds-size_1-of-12"></div> -->
+                            <div class="slds-col slds-size_11-of-12 slds-m-left_small">
+                                <label class="gfw-label">{formCmp.label}</label>
+                                <lightning-helptext content={formCmp.helpText}></lightning-helptext>
+                                <lightning-textarea 
+                                    id={formCmp.id} 
+                                    disabled={readOnly}
+                                    variant="label-hidden"
+                                    name="input3" 
+                                    value={formCmp.stringValue} 
+                                    placeholder="type here..." 
+                                    required={formCmp.isRequired}
+                                    onblur={handleTextInputchange}>
+                                </lightning-textarea>
+                            </div>
+                        </div>
+                        <div class="slds-var-m-top_medium" if:true={formCmp.isLabel}>
+                            <label class="gfw-label">{formCmp.label}</label>
+                            <lightning-helptext content={formCmp.helpText}></lightning-helptext>
+                        </div>
+                        <div if:true={formCmp.inputCheckbox} class="slds-m-left_small">
+                            <lightning-input 
+                                id={formCmp.id} 
+                                disabled={readOnly}
+                                field-level-help={formCmp.helpText}
+                                type="checkbox" 
+                                label={formCmp.label} 
+                                checked={formCmp.booleanValue} 
+                                name="input1" 
+                                onchange={handleBooleanChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-var-m-top_medium" if:true={formCmp.inputSelect}>
+                            <label for={formCmp.id} class="gfw-label">
+                                    <abbr if:true={formCmp.isRequired}
+                                        class="slds-required" 
+                                        title="required">* 
+                                    </abbr>{formCmp.label}
+                            </label>
+                            <lightning-helptext content={formCmp.helpText}></lightning-helptext>
+                            <lightning-combobox 
+                                class="slds-m-left_small"
+                                disabled={readOnly}
+                                id={formCmp.id} 
+                                data-id={formCmp.id}
+                                required={formCmp.isRequired}
+                                variant="label-hidden"
+                                name="progress" 
+                                value={formCmp.stringValue} 
+                                options={formCmp.picklistValOptions} 
+                                onchange={handleInputSelectChange} >
+                            </lightning-combobox>
+                        </div>
+                        <div if:true={formCmp.isMultiSelect} class="slds-m-left_small">
+                            <lightning-dual-listbox 
+                                id={formCmp.id}
+                                disabled={readOnly}
+                                name={formCmp.joinObjectName}
+                                variant="label-hidden"
+                                source-label="Available"
+                                selected-label="Selected"
+                                options={formCmp.multiSelectOptions}
+                                value={formCmp.multiSelectSelected}
+                                onchange={handleMultiSelectChange}>
+                            </lightning-dual-listbox>
+                        </div>
+                        <div if:true={formCmp.indicatorGroup} class="slds-m-left_small">
+                            <div class="slds-var-m-top_medium gfw-label slds-text-heading_small">
+                                {formCmp.label} 
+                                <lightning-helptext content={formCmp.helpText}></lightning-helptext>
+                            </div>
+                            <template for:each={formCmp.indicators} for:item="indicator">
+                                <li key={indicator.indicatorId} class="slds-m-bottom_small">
+                                    <div class="slds-grid">
+                                        <div class="slds-col slds-size_1-of-12">
+                                            <lightning-input 
+                                                id={indicator.indicatorId}   
+                                                disabled={readOnly} 
+                                                type="checkbox" 
+                                                label="Agree" 
+                                                checked={indicator.selected}
+                                                onchange={handleIndicatorChange}
+                                                variant="label-hidden" 
+                                                name={formCmp.id}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_11-of-12">
+                                            <div class="slds-text-heading_small">{indicator.description}</div>
+                                        </div>
+                                    </div>
+                                    <div if:true={indicator.selected} class="slds-grid slds-gutters_xx-small slds-m-top_small">
+                                        <div class="slds-col slds-size_1-of-12"></div>
+                                        <div if:true={indicator.requiresNumber} class="slds-col slds-size_3-of-12 force-align">
+                                            <div if:true={indicator.requiresNumber} class="required">*</div>
+                                            <lightning-input  
+                                                id={indicator.indicatorId}    
+                                                value={indicator.quantity}
+                                                disabled={readOnly}
+                                                type="number" 
+                                                name={formCmp.id}
+                                                label="Number Reached"
+                                                placeholder="# reached..."
+                                                variant="label-hidden"  
+                                                required={indicator.requiresNumber}
+                                                onblur={handleIndicatorQuantity}>
+                                            </lightning-input> 
+                                        </div>
+                                        <div if:true={indicator.requiresComment} class="slds-col slds-size_8-of-12 force-align">
+                                            <div if:true={indicator.requiresComment} class="required">*</div>
+                                            <lightning-textarea 
+                                                class=gfw-indicator-comment
+                                                id={indicator.indicatorId} 
+                                                disabled={readOnly}
+                                                variant="label-hidden"
+                                                name={formCmp.id}
+                                                value={indicator.comment}
+                                                placeholder="enter comments..."
+                                                required={indicator.requiresComment}
+                                                max-length="255"
+                                                message-when-too-long="Limit Comments to 255 characters."
+                                                onblur={handleIndicatorComments}>
+                                            </lightning-textarea>
+
+                                            <!-- <lightning-input   
+                                                style=width:100%;
+                                                id={indicator.indicatorId} 
+                                                disabled={readOnly}
+                                                value={indicator.comment}    
+                                                name={formCmp.id}
+                                                type="text" 
+                                                label="comment"
+                                                variant="label-hidden" 
+                                                placeholder="enter comments..."
+                                                required={indicator.requiresComment}
+                                                onblur={handleIndicatorComments}>
+                                            </lightning-input> -->
+                                        </div>
+                                    </div>
+                                </li>
+                            </template>
+                        </div>
+                    </li>
+                </template>  
+            </ul>
+        </div>
+        
+        <div class="slds-docked-form-footer slds-var-m-top_large">
+            <lightning-button 
+                label="Highlight Incomplete Fields" 
+                title="Highlight Incomplete Fields" 
+                onclick={highlightIncomplete} >
+            </lightning-button>
+            <lightning-helptext class="slds-var-m-right_medium" content="This will highlight any required fields that are missing a response."></lightning-helptext>
+            <lightning-button 
+                variant="brand" 
+                label={submitLabel} 
+                title="Submit Review" 
+                onclick={handleSubmit} 
+                disabled={submitDisabled}
+                class="slds-var-m-left_medium">
+            </lightning-button>
+            <lightning-helptext content={submitHelptext}></lightning-helptext>
+        </div>
+    </div>
+</template>
