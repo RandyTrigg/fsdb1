@@ -3,11 +3,13 @@ public class Sync_Queueable implements Queueable, Database.AllowsCallouts {
         // Launch sync and logs actions
         public void execute(QueueableContext context) { 
 		 
+        SyncController scThisFS = new SyncController();
+        scThisFS.doUpsert('Account');
+
+        /*
         // Initialize variables
         String fsRole;
         List<FS_Group_Settings__mdt> fsGroups;
-
- 
 
         // Run sync for each FS COA
         fsGroups = [SELECT GFW_COA_Name__c, Designated_Role_for_Ownership__c
@@ -29,6 +31,7 @@ public class Sync_Queueable implements Queueable, Database.AllowsCallouts {
 
                 scThisFS.LaunchSync();
             }    
-        }  
+        }
+        */  
     }        
 }

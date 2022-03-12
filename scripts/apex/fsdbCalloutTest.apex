@@ -20,10 +20,12 @@
                 SyncController scThisFS = new SyncController();
                 // scThisFS.syncLogId = newSyncLogId;
                 // system.debug('New sync log id from callouttest: ' + scThisFS.syncLogId); 
-                scThisFS.startDateTime = datetime.now();
-                scThisFS.fsCOA = fs.GFW_COA_Name__c;
-                scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
-                scThisFS.LaunchSync();
+                // scThisFS.startDateTime = datetime.now();
+                // scThisFS.fsCOA = fs.GFW_COA_Name__c;
+                // scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
+                // scThisFS.LaunchSync();
+                        
+                scThisFS.doUpsert('Account');
                 
             }
         }    

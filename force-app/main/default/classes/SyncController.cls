@@ -338,7 +338,7 @@ public without sharing class SyncController {
     }
 
     // Create Sync Log Records
-    public void insertSyncLogRecs(String mdtObjName, List<Object> records) {
+    public void logRecords(String mdtObjName, List<Object> records) {
         List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>();
         if (records != null) {
             // Loop through JSON 'records' and stash them in Sync Log Records
@@ -357,37 +357,36 @@ public without sharing class SyncController {
         }
     }
 
+    // Retrieve Sync Log Records by type and upsert
+    public void recsFromSyncLogRecs(String mdtObjName) {
+        // Retrieve object and field mappings
+        Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
+        Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappingsFSDB(mdtObjName);
+        String gfwObjName = new List<String>(objMap.keySet())[0];
+        List<String> fsdbFieldList = new List<String>(fieldMap.keySet());
+        // Iterate through FSDB fieldmappings to populate fsdb records with either GFW-queried values or default values if GFW field api name is blank.
 
-    // Retrieve Sync Log Records by type
-    public List<Object> retrieveSyncLogRecs(String mdtObjName) {
-        List<Object> objs = new List<Object>();
-        List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>(Utilities.fetchRecords(
+        String fsdbObjName = objMap.get(gfwObjName).FSDB_Object_Name__c;
+        Map<String, Schema.SObjectField> fieldMapFSDB = Utilities.fieldMapForObject(fsdbObjName);
+        String fsdbExternalIdFieldName = objMap.get(gfwObjName).FSDB_External_Id_Field_API_Name__c;
+        String fieldType, gfwFieldName;
+        List<sObject> objs = new List<sObject>();
+
+
+        List<sObject> objList = new List<sObject>(Utilities.fetchRecords(
             'Sync_Log_Record__c',
-            'WHERE Sync_Log__c = ' + syncLogId,
+            // 'WHERE Sync_Log__c = \'' + syncLogId + '\' AND Type__c = \'' + mdtObjName + '\' AND Status__c = \'Pending\'',
+            'WHERE Type__c = \'' + mdtObjName + '\' AND Status__c = \'Pending\'',
             null
         ));
-        
-        /*
-        String objName,
-        String whereClause,
-        String[] relatedFieldNames
-
-        if (records != null) {
-            // Loop through JSON 'records' and stash them in Sync Log Records
-            for (Object rec : records) {
-                Sync_Log_Record__c slRec = (Sync_Log_Record__c)Utilities.newRecord('Sync_Log_Record__c');
-                slRec.RecordInfo__c = String.valueOf(rec);
-                slRec.Sync_Log__c = syncLogId;
-                slRec.Status__c = 'Pending';
-                slRec.Type__c = mdtObjName;
-                slRecList.add(slRec);
-            }
+        // Loop through Sync Log records to retrieve the json
+        for (sObject obj : objList) {
+            Sync_Log_Record__c slRec = (Sync_Log_Record__c)obj;
+            System.debug('Record info: ' + slRec.RecordInfo__c);
+            Map<String, Object> m = (Map<String, Object>) JSON.deserializeUntyped(slRec.RecordInfo__c);
+            
         }
-        if (slRecList != null && slRecList.size() > 0) {
-            insert slRecList;
-            System.debug('Inserted list of sync log records');
-        } */
-        return objs;
+
     }
 
     /*******************
@@ -402,7 +401,7 @@ public without sharing class SyncController {
         String gfwObjName = new List<String>(objMap.keySet())[0];
         List<String> fsdbFieldList = new List<String>(fieldMap.keySet());
         // Iterate through FSDB fieldmappings to populate fsdb records with either GFW-queried values or default values if GFW field api name is blank.
-        // If merging, do it from here.
+
         String fsdbObjName = objMap.get(gfwObjName).FSDB_Object_Name__c;
         Map<String, Schema.SObjectField> fieldMapFSDB = Utilities.fieldMapForObject(fsdbObjName);
         String fsdbExternalIdFieldName = objMap.get(gfwObjName).FSDB_External_Id_Field_API_Name__c;
@@ -503,11 +502,10 @@ public without sharing class SyncController {
  
 
     /*******************
-     * MAIN CLASS METHOD
+     * MAIN METHOD 1: LAUNCH SYNC
      *******************/
     public void LaunchSync() {
         // Initialize class vars
-        setFSOwnerId();
         setObjMappingsList();
         setExternalIdFieldNames();
         setFieldMappings();
@@ -524,7 +522,7 @@ public without sharing class SyncController {
         
         // Create new sync log after callouts completed (cannot do DML operations before then)
         newSyncLog();
-        insertSyncLogRecs('Account', records);
+        logRecords('Account', records);
         // upsertRecs('Account', recIdsToInsert('Account', acctIds));
 
         // upsertRecs('Contact', recIdsToInsert('Contact', ctIds));
@@ -613,9 +611,24 @@ public without sharing class SyncController {
 
 
     @future
-    public static void doUpsert() {
+    public static void doUpserttestFuture() {
 
     }
+
+
+    /*******************
+     * MAIN METHOD 2: UPSERT RECORDS
+     *******************/
+    public void doUpsert(String mdtObjName) {
+        // Initialize class vars
+        setFSOwnerId();
+        setObjMappingsList();
+        setExternalIdFieldNames();
+        setFieldMappings();
+        recsFromSyncLogRecs(mdtObjName);
+    }
+
+
 
 
 
