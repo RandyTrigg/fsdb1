@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AmountPaidBLANK</fullName>
+    <active>true</active>
+    <description>Amount Paid must not be blank</description>
+    <errorConditionFormula>ISBLANK(Amount_paid__c)</errorConditionFormula>
+    <errorDisplayField>Amount_paid__c</errorDisplayField>
+    <errorMessage>Amount Paid must not be blank</errorMessage>
+</ValidationRule>

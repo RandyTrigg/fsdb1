@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_problem_released__c</fullName>
+    <description>The date (if any) on which a problem (caused by recall, return, non-receipt, etc.) was released and processing of the advisor term allowed to proceed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date (if any) on which a problem (caused by recall, return, non-receipt, etc.) was released and processing of the advisor term allowed to proceed</inlineHelpText>
+    <label>Date problem released</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

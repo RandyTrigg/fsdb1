@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_advisor_non_receipt__c</fullName>
+    <description>Date that we learned that the advisor has not received the payment</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date that we learned that the advisor has not received the payment</inlineHelpText>
+    <label>Date advisor non receipt</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

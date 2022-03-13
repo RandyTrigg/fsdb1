@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_type__c</fullName>
+    <description>The type of payment: Wire, Western Union, GFW check, Official check</description>
+    <externalId>false</externalId>
+    <formula>/* Check for special types based on first chars of payment ref.
+ * Rest are wires with bank-dependent numbering conventions.
+ */
+IF(CONTAINS(LOWER( Payment_ref__c ), &quot;cash&quot;), &quot;Cash&quot;,
+ IF(LEFT (LOWER( Payment_ref__c ),2) = &quot;ck&quot;, &quot;GFW check&quot;,
+ IF(LEFT (LOWER( Payment_ref__c ),2) = &quot;of&quot;, &quot;Official check&quot;,
+ IF(LEFT (LOWER( Payment_ref__c ),2) = &quot;mt&quot;, &quot;Western Union&quot;,
+ &quot;Wire&quot;
+))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The type of payment: Wire, Western Union, GFW check, Official check</inlineHelpText>
+    <label>Payment type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_stalled__c</fullName>
+    <description>If non-blank, the date on which the payment got stalled (see &quot;Reason for Stall&quot; field for explanation and action required)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If non-blank, the date on which the payment got stalled (see &quot;Reason for Stall&quot; field for explanation and action required)</inlineHelpText>
+    <label>Date stalled</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

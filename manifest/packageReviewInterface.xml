@@ -4,24 +4,28 @@
         <members>Assessment__c</members>
         <members>Advisor__c</members>
         <members>Advisor_Term__c</members>
+        <members>Advisor_Payment__c</members>
         <name>CustomObject</name>
     </types>
     <types>
         <members>Assessment__c-Assessment Layout</members>
         <members>Advisor__c-Advisor Layout</members>
         <members>Advisor_Term__c-Advisor Term Layout</members>
+        <members>Advisor_Payment__c-Advisor Payment Layout</members>
         <name>Layout</name>
     </types>
     <types>
         <members>Assessment__c</members>
         <members>Advisor__c</members>
         <members>Advisor_Term__c</members>
+        <members>Advisor_Payment__c</members>
         <name>CustomTab</name>
     </types>
     <types>
         <members>RecPage_Assessment</members>
         <members>RecPage_Advisor</members>
         <members>RecPage_Advisor_Term</members>
+        <members>RecPage_Advisor_Payment</members>
         <name>FlexiPage</name>
     </types>
     <types>
@@ -43,6 +47,8 @@
         <members>AdvisorControllerTest</members>
         <members>AdvisorTermController</members>
         <members>AdvisorTermControllerTest</members>
+        <members>AdvisorPaymentController</members>
+        <members>AdvisorPaymentControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>

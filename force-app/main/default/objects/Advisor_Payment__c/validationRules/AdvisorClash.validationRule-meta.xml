@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AdvisorClash</fullName>
+    <active>true</active>
+    <description>The payment&apos;s advisor must be the same as the linked advisor term&apos;s advisor.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Advisor_Term__c)),
+ Advisor__c != Advisor_Term__r.Advisor__c
+)</errorConditionFormula>
+    <errorDisplayField>Advisor__c</errorDisplayField>
+    <errorMessage>The payment&apos;s advisor must be the same as the linked advisor term&apos;s advisor.</errorMessage>
+</ValidationRule>
