@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Grantee_Report__c</fullName>
+    <fullName>Milestone__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>The grantee report to which this assessment is linked</description>
+    <description>The milestone to which this assessment is linked</description>
     <externalId>false</externalId>
-    <inlineHelpText>The grantee report to which this assessment is linked</inlineHelpText>
-    <label>Grantee Report</label>
-    <referenceTo>Grantee_Report__c</referenceTo>
+    <inlineHelpText>The milestone to which this assessment is linked</inlineHelpText>
+    <label>Milestone</label>
+    <referenceTo>Milestone__c</referenceTo>
     <relationshipLabel>Assessments</relationshipLabel>
     <relationshipName>Assessments</relationshipName>
     <required>false</required>

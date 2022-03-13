@@ -14,8 +14,8 @@ public with sharing class AssessorSiteController {
         //All Ratings
         List < Assessment__c > ratingAssessments = AssessorSiteController.getRatingAssessments(advisorId, null, null);
 
-        //All Grantee Report Assessments
-        List < Assessment__c > grReportAssessments = AssessorSiteController.getGRAssessments(advisorId, null, null);
+        //All Milestone Assessments
+        List < Assessment__c > grReportAssessments = AssessorSiteController.getMilestoneAssessments(advisorId, null, null);
 
         //All Proposal Assessments
         List < Assessment__c > propAssessments = AssessorSiteController.getProposalAssessments(advisorId, null, null);
@@ -30,11 +30,11 @@ public with sharing class AssessorSiteController {
         // Prepare results
         List<LookupSearchResult> results = new List<LookupSearchResult>();
 
-        // Extract Grantee Report Assessments & convert them into LookupSearchResult
+        // Extract Milestone Assessments & convert them into LookupSearchResult
         String grIcon = 'standard:expense_report';
         for (Assessment__c assess: grReportAssessments) {
-            String subtitle = assess.Grantee_Report__r.Account_name__c;
-            results.add(new LookupSearchResult(assess.Id, 'Assessment__c', grIcon, 'gfw-gr-icon', assess.Grantee_Report__r.Name, subtitle));
+            String subtitle = assess.Milestone__r.Account_name__c;
+            results.add(new LookupSearchResult(assess.Id, 'Assessment__c', grIcon, 'gfw-gr-icon', assess.Milestone__r.Name, subtitle));
         }
 
         // Extract Proposal Assessments & convert them into LookupSearchResult
@@ -128,7 +128,7 @@ public with sharing class AssessorSiteController {
             String advisorId = getRunningUserAdvisorId();
 
             return [
-                SELECT Id, Name, Account__c, Advisor__c, Advisor__r.Name, Advisor_Term__c, Date_submitted__c, Grantee_Report__c, Grantee_Report__r.Account_name__c, Grantee_Report__r.Date_review_completed__c, Portfolio__c, Profile__c, Proposal__c, Proposal__r.Account__r.Name, Proposal__r.Date_review_completed__c, Review_Form__c, Status__c, Status_external__c, Profile__r.Applicant_name__c, Profile__r.Account__c, Profile__r.Account__r.Name, Profile__r.Date_review_completed__c, Grantee_Report__r.Name, Grantee_Report__r.Date_received__c, Grantee_Report__r.Review_priority__c, Grantee_Report__r.Country_name__c
+                SELECT Id, Name, Account__c, Advisor__c, Advisor__r.Name, Advisor_Term__c, Date_submitted__c, Milestone__c, Milestone__r.Account_name__c, Milestone__r.Date_review_completed__c, Portfolio__c, Profile__c, Proposal__c, Proposal__r.Account__r.Name, Proposal__r.Date_review_completed__c, Review_Form__c, Status__c, Status_external__c, Profile__r.Applicant_name__c, Profile__r.Account__c, Profile__r.Account__r.Name, Profile__r.Date_review_completed__c, Milestone__r.Name, Milestone__r.Date_received__c, Milestone__r.Review_priority__c, Milestone__r.Country_name__c
                 FROM Assessment__c
                 WHERE Advisor__c=:advisorId
                 AND Form__c=null
@@ -266,8 +266,8 @@ public with sharing class AssessorSiteController {
         try {
             String result;
             switch on objectType {
-                when 'Grantee_Report__c' {
-                    List < Assessment__c > reports = AssessorSiteController.getGRAssessments(advisorId, null, null);
+                when 'Milestone__c' {
+                    List < Assessment__c > reports = AssessorSiteController.getMilestoneAssessments(advisorId, null, null);
                     result = JSON.serialize(reports);
                 }	
                 when 'Proposal__c' {
@@ -353,14 +353,14 @@ public with sharing class AssessorSiteController {
 
 
     //There are several places where we load Assessments based on advisor id, and optionally status and count.  Query logic is shared here to avoid discrepancies and redundancy
-    public static List < Assessment__c > getGRAssessments(String advisorId, String status, Integer count) {
+    public static List < Assessment__c > getMilestoneAssessments(String advisorId, String status, Integer count) {
 
-        String whereClause = ' WHERE Advisor__c=:advisorId AND Form__c=null AND Grantee_Report__c!=null';
+        String whereClause = ' WHERE Advisor__c=:advisorId AND Form__c=null AND Milestone__c!=null';
         if (status!=null) {
             whereClause = whereClause + ' AND Status_external__c=:status';
         }
         
-        String queryString = 'SELECT Id, Name, Advisor__c, Grantee_Report__c, Grantee_Report__r.Account_name__c, Grantee_Report__r.Country_name__c, Grantee_Report__r.Name, Grantee_Report__r.Proposal__r.Grant_type__c, Grantee_Report__r.Proposal__r.Thematic_priority__c, Grantee_Report__r.Date_due__c, Grantee_Report__r.Date_received__c, Grantee_Report__r.Review_priority__c, Grantee_Report__r.Template_language__c, Status_external__c FROM Assessment__c' + whereClause + ' ORDER BY Grantee_Report__r.Review_priority__c DESC, Status_external__c, Date_submitted__c ASC';
+        String queryString = 'SELECT Id, Name, Advisor__c, Milestone__c, Milestone__r.Account_name__c, Milestone__r.Country_name__c, Milestone__r.Name, Milestone__r.Proposal__r.Grant_type__c, Milestone__r.Proposal__r.Thematic_priority__c, Milestone__r.Date_due__c, Milestone__r.Date_received__c, Milestone__r.Review_priority__c, Milestone__r.Template_language__c, Status_external__c FROM Assessment__c' + whereClause + ' ORDER BY Milestone__r.Review_priority__c DESC, Status_external__c, Date_submitted__c ASC';
 
         if (count!=null) {
             queryString = queryString + ' LIMIT: count';
@@ -374,7 +374,7 @@ public with sharing class AssessorSiteController {
 
     public static List < Assessment__c > getProposalAssessments(String advisorId, String status, Integer count) {
 
-        String whereClause = ' WHERE Advisor__c=:advisorId AND Form__c=null AND Grantee_Report__c=null AND Profile__c=null AND Proposal__c!=null';
+        String whereClause = ' WHERE Advisor__c=:advisorId AND Form__c=null AND Milestone__c=null AND Profile__c=null AND Proposal__c!=null';
         if (status!=null) {
             whereClause = whereClause + ' AND Status_external__c=:status';
         }
@@ -393,7 +393,7 @@ public with sharing class AssessorSiteController {
 
     public static List < Assessment__c > getProfileAssessments(String advisorId, String status, Integer count) {
 
-        String whereClause = ' WHERE Advisor__c=:advisorId AND Form__c=null AND Grantee_Report__c=null AND Profile__c!=null';
+        String whereClause = ' WHERE Advisor__c=:advisorId AND Form__c=null AND Milestone__c=null AND Profile__c!=null';
         if (status!=null) {
             whereClause = whereClause + ' AND Status_external__c=:status';
         }

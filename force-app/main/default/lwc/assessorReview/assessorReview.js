@@ -27,10 +27,10 @@ export default class AssessorReview extends NavigationMixin ( LightningElement )
             this.homeUrl = 'https://'+window.location.host;
             let assessmentReview = JSON.parse(await getAssessmentReview({assessmentId: this.recordId}));
             Object.assign(this.assessmentReview, assessmentReview);
-            if (this.assessmentReview.type==='Grantee Report') {
-                this.currentUrlLabel = this.assessmentReview.linkedGranteeReport.Name;
-                this.parentURLLabel = 'Grantee Report Reviews';
-                this.assessmentReview.isGranteeReport = true;
+            if (this.assessmentReview.type==='Milestone') {
+                this.currentUrlLabel = this.assessmentReview.linkedMilestone.Name;
+                this.parentURLLabel = 'Milestone Reviews';
+                this.assessmentReview.isMilestone = true;
             } else if (this.assessmentReview.type==='Profile') {
                 this.currentUrlLabel = this.assessmentReview.linkedProfile.Name;
                 this.parentURLLabel = 'Profile Reviews';
@@ -64,9 +64,9 @@ export default class AssessorReview extends NavigationMixin ( LightningElement )
 
     navigateToParent() {
         let pageName;
-        if (this.assessmentReview.isGranteeReport) {
+        if (this.assessmentReview.isMilestone) {
             pageName = 'GranteeReportReviews__c';
-            objectName = 'Grantee_Report__c';
+            objectName = 'Milestone__c';
         } else if (this.assessmentReview.isProposal) {
             pageName = 'ProposalReviews__c';
             objectName = 'Proposal__c';

@@ -10,13 +10,13 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
     recordId;
     currentPageReference;
     proposalRecordURL;
-    granteeReportURL;
+    milestoneURL;
     profileURL;
     accountURL;
     applicantURL;
     messageOrigin;
     pagePath;
-    granteeReportReceived;
+    milestoneReceived;
 
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
@@ -65,14 +65,14 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
             let pageName = await getInternalReviewVFPageName();
             this.pagePath = "/apex/"+pageName;
             Object.assign(this.internalReview, review);
-            if (this.internalReview.type=='Grantee Report') {
-                this.internalReview.isGranteeReport = true;
+            if (this.internalReview.type=='Milestone') {
+                this.internalReview.isMilestone = true;
                 if (this.internalReview.dateReceived) {
-                    this.granteeReportReceived = true;
+                    this.milestoneReceived = true;
                 } else {
-                    this.granteeReportReceived = false;
+                    this.milestoneReceived = false;
                 }
-                this.generateGranteeReportLink();
+                this.generateMilestoneLink();
                 this.generateProposalLink();
             } else if (this.internalReview.type=='Proposal') {
                 this.internalReview.isProposal = true;
@@ -95,7 +95,7 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
 
     generateProposalLink() {
         let recId;
-        if (this.internalReview.type=='Grantee Report') {
+        if (this.internalReview.type=='Milestone') {
             recId = this.internalReview.linkedGranteeReport.Proposal__r.Id;
         } else if (this.internalReview.type=='Proposal') {
             recId = this.internalReview.linkedProposal.Id;
@@ -135,7 +135,7 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
         });
     }
 
-    generateGranteeReportLink() {
+    generateMilestoneLink() {
         this[NavigationMixin.GenerateUrl]({
             type: 'standard__recordPage',
             attributes: {
@@ -143,7 +143,7 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
                 actionName: 'view',
             },
         }).then(url => {
-            this.granteeReportURL = url;
+            this.milestoneURL = url;
         });
     }
 

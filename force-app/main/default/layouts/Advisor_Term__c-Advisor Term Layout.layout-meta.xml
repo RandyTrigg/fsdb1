@@ -392,7 +392,7 @@
         <fields>Review_Form__c</fields>
         <fields>Account__c</fields>
         <fields>Proposal__c</fields>
-        <fields>Grantee_Report__c</fields>
+        <fields>Milestone__c</fields>
         <fields>Status_numeric__c</fields>
         <fields>Date_submitted__c</fields>
         <fields>Description__c</fields>
@@ -419,7 +419,7 @@
         <fields>Applicant__c</fields>
         <fields>Profile__c</fields>
         <fields>Proposal__c</fields>
-        <fields>Grantee_Report__c</fields>
+        <fields>Milestone__c</fields>
         <fields>Language__c</fields>
         <fields>Form__c</fields>
         <fields>Status__c</fields>

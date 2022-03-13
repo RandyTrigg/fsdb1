@@ -1,5 +1,5 @@
 @isTest
-public without sharing class AssessmentGranteeReportTest {
+public without sharing class AssessmentMilestoneTest {
     
     
     @TestSetup
@@ -17,10 +17,10 @@ public without sharing class AssessmentGranteeReportTest {
         Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
         insert p;
 
-        Grantee_Report__c gr = new Grantee_Report__c (Proposal__c=p.Id, Which_yearly__c=1);    
-        insert gr;   
+        Milestone__c m = new Milestone__c (Proposal__c=p.Id);    
+        insert m;   
 
-        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id, Grantee_Report__c=gr.Id);
+        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id, Milestone__c=m.Id);
         insert gmData;
 
         Classification__c cl =  new Classification__c (Name = 'test classification', Type__c = 'Population');
@@ -32,7 +32,7 @@ public without sharing class AssessmentGranteeReportTest {
         Review_Form__c rf = new Review_Form__c (Name = 'test review form');
         insert rf;
 
-        Assessment__c assess = new Assessment__c (Advisor__c = adv.Id, Account__c = a.Id, Review_Form__c = rf.Id, Proposal__c=p.Id, Grantee_Report__c=gr.Id);
+        Assessment__c assess = new Assessment__c (Advisor__c = adv.Id, Account__c = a.Id, Review_Form__c = rf.Id, Proposal__c=p.Id, Milestone__c=m.Id);
         insert assess;
 
         List < Review_Form_Component__c > components = new List < Review_Form_Component__c > ();
@@ -68,7 +68,7 @@ public without sharing class AssessmentGranteeReportTest {
             Active__c = true,
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
-            Object_name__c = 'Grantee_Report__c',
+            Object_name__c = 'Milestone__c',
             Field_name__c = 'Quality_of_report_ranking__c',
             Sort_number__c = 3
         ));
@@ -144,35 +144,35 @@ public without sharing class AssessmentGranteeReportTest {
 
         AssessorSiteController.submitReview(assess.Id);
 
-        Assessment__c submittedAssessment = [SELECT ID, Date_submitted__c, Grantee_Report__c FROM Assessment__c LIMIT 1];
-        Grantee_Report__c granteeReport =  [SELECT ID, Date_review_completed__c FROM Grantee_Report__c WHERE ID=:submittedAssessment.Grantee_Report__c];
+        Assessment__c submittedAssessment = [SELECT ID, Date_submitted__c, Milestone__c FROM Assessment__c LIMIT 1];
+        Milestone__c milestone =  [SELECT ID, Date_review_completed__c FROM Milestone__c WHERE ID=:submittedAssessment.Milestone__c];
 
         Date d = System.today();
         System.assertEquals(d, submittedAssessment.Date_submitted__c);
-        System.assertEquals(d, granteeReport.Date_review_completed__c);
+        System.assertEquals(d, milestone.Date_review_completed__c);
 
     }
 
     @isTest 
     static void submitReviewNegativeTest() {
-        Assessment__c assess = [SELECT ID, Grantee_Report__c FROM Assessment__c LIMIT 1];
+        Assessment__c assess = [SELECT ID, Milestone__c FROM Assessment__c LIMIT 1];
 
-        // If there is already a date review completed on Grantee Report, don't overwrite it
+        // If there is already a date review completed on Milestone, don't overwrite it
         Date lastWeek = System.today().addDays(-7);
-        Grantee_Report__c rep = new Grantee_Report__c (
-            Id=assess.Grantee_Report__c,
+        Milestone__c rep = new Milestone__c (
+            Id=assess.Milestone__c,
             Date_review_completed__c = lastWeek
         );
         update rep;
 
         AssessorSiteController.submitReview(assess.Id);
 
-        Assessment__c submittedAssessment = [SELECT ID, Date_submitted__c, Grantee_Report__c FROM Assessment__c LIMIT 1];
-        Grantee_Report__c granteeReport =  [SELECT ID, Date_review_completed__c FROM Grantee_Report__c WHERE ID=:submittedAssessment.Grantee_Report__c];
+        Assessment__c submittedAssessment = [SELECT ID, Date_submitted__c, Milestone__c FROM Assessment__c LIMIT 1];
+        Milestone__c milestone =  [SELECT ID, Date_review_completed__c FROM Milestone__c WHERE ID=:submittedAssessment.Milestone__c];
 
         Date d = System.today();
         System.assertEquals(d, submittedAssessment.Date_submitted__c);
-        System.assertEquals(lastWeek, granteeReport.Date_review_completed__c);
+        System.assertEquals(lastWeek, milestone.Date_review_completed__c);
 
     }
 }

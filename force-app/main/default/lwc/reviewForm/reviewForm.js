@@ -66,7 +66,7 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
             // Need to deep clone since there are internals with child objects 
             this.review = JSON.parse(JSON.stringify(this.review));
 
-            //If there is a date submitted, it's a read-only Assessment; if isComplete is true the proposal or grantee report has a completed date
+            //If there is a date submitted, it's a read-only Assessment; if isComplete is true the proposal or milestone has a completed date
             if ((this.review.dateSubmitted || this.review.isComplete) && !this.isInternalReview) {
                 this.readOnly = true;
             }
@@ -552,7 +552,7 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
         if (this.isInternalReview) {
             try {
                 let recId;
-                if (this.review.type==="Grantee Report") {
+                if (this.review.type==="Milestone") {
                     recId = this.review.linkedGranteeReport.Id;
                 } else if (this.review.type==="Profile") {
                     recId = this.review.linkedProfile.Id;

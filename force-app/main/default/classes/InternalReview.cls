@@ -8,11 +8,11 @@ public with sharing class InternalReview extends Review{
     public String proposalAppType;
     public String proposalGrantType;
     public Boolean isWomensFund;
-    public String granteeReportType;
+    public String milestoneType;
 
 
     public InternalReview(Id recordId) {
-        // is this a proposal review or a Grantee report review?
+        // is this a proposal review or a milestone review?
         String objName = Utilities.objectNameFromRecordId(recordId);
         System.debug('objName: '+objName);
 
@@ -31,19 +31,19 @@ public with sharing class InternalReview extends Review{
             
             loadProposal(recordId);
             
-        } else if (objName=='Grantee_Report__c') {
-            Grantee_Report__c gReport = [SELECT ID, Name, Type__c, Date_received__c, Proposal__c, Proposal__r.Grant_type__c, Proposal__r.App_type__c, Proposal__r.Account__c, Proposal__r.Account__r.Name, Proposal__r.Account__r.Womens_Fund__c, Report_Spec__r.Form_reporting_Qs__r.Review_Form__c FROM Grantee_Report__c WHERE ID=:recordId];
-            this.type = 'Grantee Report';
-            this.accountId = gReport.Proposal__r.Account__c;
-            this.accountName = gReport.Proposal__r.Account__r.Name;
-            this.dateReceived = gReport.Date_received__c;
-            this.granteeReportType = gReport.Type__c;
-            this.isWomensFund = gReport.Proposal__r.Account__r.Womens_Fund__c;
-            this.proposalGrantType = gReport.Proposal__r.Grant_type__c;
-            this.proposalAppType = gReport.Proposal__r.App_type__c;
+        } else if (objName=='Milestone__c') {
+            Milestone__c milestone = [SELECT ID, Name, Type__c, Date_received__c, Proposal__c, Proposal__r.Grant_type__c, Proposal__r.App_type__c, Proposal__r.Account__c, Proposal__r.Account__r.Name, Proposal__r.Account__r.Womens_Fund__c, Report_Spec__r.Form_reporting_Qs__r.Review_Form__c FROM Milestone__c WHERE ID=:recordId];
+            this.type = 'Milestone';
+            this.accountId = milestone.Proposal__r.Account__c;
+            this.accountName = milestone.Proposal__r.Account__r.Name;
+            this.dateReceived = milestone.Date_received__c;
+            this.milestoneType = milestone.Type__c;
+            this.isWomensFund = milestone.Proposal__r.Account__r.Womens_Fund__c;
+            this.proposalGrantType = milestone.Proposal__r.Grant_type__c;
+            this.proposalAppType = milestone.Proposal__r.App_type__c;
             // Determine Review Form
-            this.reviewFormId = getGranteeReportReviewForm(gReport);
-            loadGranteeReport(recordId);
+            this.reviewFormId = getMilestoneReviewForm(milestone);
+            loadMilestone(recordId);
             System.debug('this.reviewFormId: '+this.reviewFormId);
             
         } else if (objName=='Profile__c') {
@@ -84,14 +84,14 @@ public with sharing class InternalReview extends Review{
         try {
             Date today = System.today();
 
-            // Update the Grantee Report or Proposal Review Completion Date if not already filled in
-            if (this.type == 'Grantee Report') {
-                if (this.linkedGranteeReport.Date_review_completed__c==null) {
-                    Grantee_Report__c gr = new Grantee_Report__c (
-                        Id=this.linkedGranteeReport.Id,
+            // Update the Milestone or Proposal Review Completion Date if not already filled in
+            if (this.type == 'Milestone') {
+                if (this.linkedMilestone.Date_review_completed__c==null) {
+                    Milestone__c m = new Milestone__c (
+                        Id=this.linkedMilestone.Id,
                         Date_review_completed__c = today
                     );
-                    update gr;
+                    update m;
                 }
             } else if (this.type == 'Proposal') {
                 if (this.linkedProposal.Date_review_completed__c==null) {
@@ -141,10 +141,10 @@ public with sharing class InternalReview extends Review{
         return baseFormId;
     }
 
-    private ID getGranteeReportReviewForm(Grantee_Report__c granteeReport) {
-        //First check and see if the form behind the grantee report links to a review form.  If so, use that form
-        if (granteeReport.Report_Spec__r.Form_reporting_Qs__r.Review_Form__c !=null) {
-            return granteeReport.Report_Spec__r.Form_reporting_Qs__r.Review_Form__c;
+    private ID getMilestoneReviewForm(Milestone__c milestone) {
+        //First check and see if the form behind the milestone links to a review form.  If so, use that form
+        if (milestone.Report_Spec__r.Form_reporting_Qs__r.Review_Form__c !=null) {
+            return milestone.Report_Spec__r.Form_reporting_Qs__r.Review_Form__c;
         } else {
             // First, get all the active review forms.
             Review_Form__c[] reviewForms = [SELECT Id, Name FROM Review_Form__c WHERE Active__c = true];
@@ -156,11 +156,11 @@ public with sharing class InternalReview extends Review{
 
             String baseFormName = 'Report' + (this.proposalGrantType == 'Crisis' ? 'Crisis' : this.proposalAppType);
 
-            Id formId = this.isWomensFund && rfMap.containsKey(baseFormName +this.granteeReportType +'WF') ? rfMap.get(baseFormName +this.granteeReportType +'WF').Id :
+            Id formId = this.isWomensFund && rfMap.containsKey(baseFormName +this.milestoneType +'WF') ? rfMap.get(baseFormName +this.milestoneType +'WF').Id :
                     this.isWomensFund && rfMap.containsKey(baseFormName +'WF') ? rfMap.get(baseFormName +'WF').Id :
-                    rfMap.containsKey(baseFormName +this.granteeReportType) ? rfMap.get(baseFormName +this.granteeReportType).Id :
+                    rfMap.containsKey(baseFormName +this.milestoneType) ? rfMap.get(baseFormName +this.milestoneType).Id :
                     rfMap.containsKey(baseFormName) ? rfMap.get(baseFormName).Id : 
-                    rfMap.containsKey('ReportStandard' +this.granteeReportType) ? rfMap.get('ReportStandard' +this.granteeReportType).Id : 
+                    rfMap.containsKey('ReportStandard' +this.milestoneType) ? rfMap.get('ReportStandard' +this.milestoneType).Id : 
                     rfMap.containsKey('ReportStandard') ? rfMap.get('ReportStandard').Id : 
                     null;
 

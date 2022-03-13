@@ -42,7 +42,7 @@ public without sharing class InternalReviewTest {
         // Submit the review
         rev.submit();
 
-        Grantee_Report__c rep = [SELECT ID, Date_review_completed__c FROM Grantee_Report__c WHERE ID=:granteeReportId];
+        Milestone__c rep = [SELECT ID, Date_review_completed__c FROM Milestone__c WHERE ID=:granteeReportId];
 
         Date today = System.today();
         System.assertEquals(today, rep.Date_review_completed__c);
@@ -78,10 +78,10 @@ public without sharing class InternalReviewTest {
         Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
         insert p;
 
-        Grantee_Report__c gr = new Grantee_Report__c (Proposal__c=p.Id, Which_yearly__c=1);    
+        Milestone__c gr = new Milestone__c (Proposal__c=p.Id, Which_yearly__c=1);    
         insert gr;   
 
-        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id, Grantee_Report__c=gr.Id);
+        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id, Milestone__c=gr.Id);
         insert gmData;
 
         Classification__c cl =  new Classification__c (Name = 'test classification', Type__c = 'Population');
@@ -126,7 +126,7 @@ public without sharing class InternalReviewTest {
             Active__c = true,
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
-            Object_name__c = 'Grantee_Report__c',
+            Object_name__c = 'Milestone__c',
             Field_name__c = 'Quality_of_report_ranking__c',
             Sort_number__c = 3
         ));

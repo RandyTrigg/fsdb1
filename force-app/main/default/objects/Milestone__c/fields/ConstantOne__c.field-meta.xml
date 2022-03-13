@@ -7,7 +7,7 @@
     <formula>1</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Permanently equal to the number 1 - for use in reports</inlineHelpText>
-    <label>Grantee Report Count</label>
+    <label>Milestone Count</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>

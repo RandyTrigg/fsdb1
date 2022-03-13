@@ -577,7 +577,7 @@
         <fields>Description__c</fields>
         <fields>Account__c</fields>
         <fields>Proposal__c</fields>
-        <fields>Grantee_Report__c</fields>
+        <fields>Milestone__c</fields>
         <fields>Date_submitted__c</fields>
         <fields>CREATED_DATE</fields>
         <fields>LAST_UPDATE</fields>

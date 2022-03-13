@@ -1,7 +1,7 @@
-//Wrapper class that defines the contents and logic for a review of a Proposal or Grantee Report
+//Wrapper class that defines the contents and logic for a review of a Proposal or Milestone
 public virtual with sharing class Review {
 
-    public String type;  //Either Grantee Report or Proposal (not implementing Profile)
+    public String type;  //Either Milestone or Proposal (not implementing Profile)
     public Id reviewFormId;
     public String reviewGuideURL;
     public String reviewerName;
@@ -9,7 +9,7 @@ public virtual with sharing class Review {
     public List < FormComponent > formComponents;
     public GM_Data__c linkedGMData;
     public Proposal__c linkedProposal;
-    public Grantee_Report__c linkedGranteeReport;
+    public Milestone__c linkedMilestone;
     public Profile__c linkedProfile;
     public Map < String, Map < String, IndicatorAssign > > indicatorAssignMap; //Outer map is of the outcome Type, inner map is indicator ID to indicator wrapper
     public Map < String, List < ClassificationAssign > > classificationAssignMap;  //Gotta have a wrapper class for Classification Adding so i can pull through the classification name
@@ -122,19 +122,19 @@ public virtual with sharing class Review {
 
     }
 
-    protected void loadGranteeReport(Id granteeReportId) {
+    protected void loadGranteeReport(Id milestoneId) {
         List < String > fieldNames = getAllGranteeReportFields();
 
         String query =
         ' SELECT ' +
             String.join( fieldNames, ',' ) + ', Proposal__r.Name' +
         ' FROM ' +
-            ' Grantee_Report__c ' +
+            ' Milestone__c ' +
         ' WHERE ' +
-            ' Id =:granteeReportId'
+            ' Id =:milestoneId'
         ;
 
-        List < Grantee_Report__c > reportList = Database.query( query );
+        List < Milestone__c > reportList = Database.query( query );
 
         if (reportList.size()>0) {
             this.linkedGranteeReport = reportList[0];
@@ -174,7 +174,7 @@ public virtual with sharing class Review {
     protected void loadProposalGMData(Id proposalId) {
         List < String > fieldNames = getAllGMDataFields();
 
-        // Logic for GM Record ID: IF there is a direct lookup on Proposal__c, use it.  Otherwise find the GM Data based on a lookup from the GMData to the Proposal AND the absence of a Grantee Report
+        // Logic for GM Record ID: IF there is a direct lookup on Proposal__c, use it.  Otherwise find the GM Data based on a lookup from the GMData to the Proposal AND the absence of a Milestone
 
         String query;
         if (this.linkedProposal.GM_Data__c!=null) {
@@ -197,7 +197,7 @@ public virtual with sharing class Review {
             ' WHERE ' +
                 ' Proposal__c =:proposalId' + 
             ' AND ' +
-                ' Grantee_Report__c = null ' +
+                ' Milestone__c = null ' +
             ' LIMIT 1 '
             ;
         }
@@ -464,14 +464,14 @@ public virtual with sharing class Review {
         
     }
 
-    protected void loadGranteeReportGMData(Id granteeReportId) {
+    protected void loadGranteeReportGMData(Id milestoneId) {
         List < String > fieldNames = getAllGMDataFields();
 
-        // Logic for GM Record ID: IF there is a direct lookup on Grantee_Report__c, use it.  Otherwise find the GM Data based on a lookup from the GM Data record to the Grantee report. 
+        // Logic for GM Record ID: IF there is a direct lookup on Milestone__c, use it.  Otherwise find the GM Data based on a lookup from the GM Data record to the Milestone. 
         String query;
-        if (this.linkedGranteeReport.GM_Data__c!=null) {
+        if (this.linkedMilestone.GM_Data__c!=null) {
             System.debug('In direct lookup');
-            String gmDataId = this.linkedGranteeReport.GM_Data__c;
+            String gmDataId = this.linkedMilestone.GM_Data__c;
             query = 
             ' SELECT ' +
                 String.join( fieldNames, ',' ) + 
@@ -489,7 +489,7 @@ public virtual with sharing class Review {
             ' FROM ' +
                 ' GM_Data__c ' +
             ' WHERE ' +
-                ' Grantee_Report__c =:granteeReportId' + 
+                ' Milestone__c =:milestoneId' + 
             ' LIMIT 1 '
             ;
         }
@@ -529,20 +529,20 @@ public virtual with sharing class Review {
                     } else if (fc.dataType=='InputCheckbox') {
                         fc.booleanValue = (Boolean)this.linkedGMData.get(fc.fieldName);
                     }
-                } else if (fc.objectName=='Grantee_Report__c') {
-                    fc.recordId = this.linkedGranteeReport.Id;
+                } else if (fc.objectName=='Milestone__c') {
+                    fc.recordId = this.linkedMilestone.Id;
                     Map < String, String > picklistValsByField = picklistValuesByObjAndField.get(fc.objectName);
                     if (fc.dataType=='InputSelect' || fc.dataType=='InputTextarea' || fc.dataType=='InputText') {
-                        fc.stringValue = (String)this.linkedGranteeReport.get(fc.fieldName);
+                        fc.stringValue = (String)this.linkedMilestone.get(fc.fieldName);
                         if (fc.dataType=='InputSelect') {
                             fc.jsonSelectOptions = picklistValsByField.get(fc.fieldName.toLowerCase());
                         }
                     } else if (fc.dataType=='InputSelectLookup') {
-                        fc.lookupValue = (Id)this.linkedGranteeReport.get(fc.fieldName);
+                        fc.lookupValue = (Id)this.linkedMilestone.get(fc.fieldName);
                     }  else if (fc.dataType=='InputNumber') {
-                        fc.numberValue = (Decimal)this.linkedGranteeReport.get(fc.fieldName);
+                        fc.numberValue = (Decimal)this.linkedMilestone.get(fc.fieldName);
                     } else if (fc.dataType=='InputCheckbox') {
-                        fc.booleanValue = (Boolean)this.linkedGranteeReport.get(fc.fieldName);
+                        fc.booleanValue = (Boolean)this.linkedMilestone.get(fc.fieldName);
                     }
                 } else if (fc.objectName=='Proposal__c') {
                     Map < String, String > picklistValsByField = picklistValuesByObjAndField.get(fc.objectName);
@@ -640,8 +640,8 @@ public virtual with sharing class Review {
         return picklistValuesByObjAndField;
     }
 
-    public static List < String > getAllGranteeReportFields () {
-		DescribeSObjectResult describeResult = Grantee_Report__c.getSObjectType().getDescribe();
+    public static List < String > getAllMilestoneFields () {
+		DescribeSObjectResult describeResult = Milestone__c.getSObjectType().getDescribe();
 		List<String> fieldNames = new List<String>( describeResult.fields.getMap().keySet() );
 		return fieldNames;
 	}

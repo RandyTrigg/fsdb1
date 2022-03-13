@@ -282,7 +282,7 @@ public without sharing class AssessmentProposalTest {
     static void submitReviewNegativeTest() {
         Assessment__c assess = [SELECT ID, Proposal__c FROM Assessment__c LIMIT 1];
 
-        // If there is already a date review completed on Grantee Report, don't overwrite it
+        // If there is already a date review completed on Milestone, don't overwrite it
         Date lastWeek = System.today().addDays(-7);
         Proposal__c prop = new Proposal__c (
             Id=assess.Proposal__c,

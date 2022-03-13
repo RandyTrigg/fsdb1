@@ -49,14 +49,14 @@ export default class AssessmentsAssigned extends NavigationMixin ( LightningElem
             console.log(this.mutableRecords);
             for (let rec of this.mutableRecords) {
                 this.reviewerName = rec.Advisor__r.Name;
-                if (rec.Grantee_Report__c) {
-                    rec.type = 'Grantee Report Review';
-                    rec.accountName = rec.Grantee_Report__r.Account_name__c;
-                    rec.reportName = rec.Grantee_Report__r.Name;
-                    rec.dateReceived = rec.Grantee_Report__r.Date_received__c;
-                    rec.priority = rec.Grantee_Report__r.Review_priority__c;
-                    rec.country = rec.Grantee_Report__r.Country_name__c;
-                    if (rec.Date_submitted__c || rec.Grantee_Report__r.Date_review_completed__c) {
+                if (rec.Milestone__c) {
+                    rec.type = 'Milestone Review';
+                    rec.accountName = rec.Milestone__r.Account_name__c;
+                    rec.reportName = rec.Milestone__r.Name;
+                    rec.dateReceived = rec.Milestone__r.Date_received__c;
+                    rec.priority = rec.Milestone__r.Review_priority__c;
+                    rec.country = rec.Milestone__r.Country_name__c;
+                    if (rec.Date_submitted__c || rec.Milestone__r.Date_review_completed__c) {
                         rec.isReadOnly = true;
                     }
                 } else if (rec.Profile__c) {

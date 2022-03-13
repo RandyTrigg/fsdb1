@@ -63,7 +63,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Grantee_Report__c</field>
+                <field>Milestone__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

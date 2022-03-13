@@ -35,10 +35,10 @@ public class AssessorSiteTest {
         p.Invite__c = inv.Id;
         update p;
 
-        Grantee_Report__c gr = new Grantee_Report__c (Proposal__c=p.Id, Which_yearly__c=1, Time_sensitive__c=true);    
-        insert gr;   
+        Milestone__c m = new Milestone__c (Proposal__c=p.Id, Which_yearly__c=1, Time_sensitive__c=true);    
+        insert m;   
 
-        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id, Grantee_Report__c=gr.Id);
+        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id, Milestone__c=m.Id);
         insert gmData;
 
         Portfolio__c portfolio = new Portfolio__c(Name='Test Portfolio', Active__c=true, Type__c='Externally viewed');
@@ -66,8 +66,8 @@ public class AssessorSiteTest {
         insert form;
 
         List < Assessment__c > assessmentsToInsert = new List < Assessment__c >();
-        Assessment__c grAssess = new Assessment__c (Advisor__c = adv.Id, Account__c = a.Id, Review_Form__c = rf.Id, Proposal__c=p.Id, Grantee_Report__c=gr.Id);
-        assessmentsToInsert.add(grAssess);
+        Assessment__c mAssess = new Assessment__c (Advisor__c = adv.Id, Account__c = a.Id, Review_Form__c = rf.Id, Proposal__c=p.Id, Milestone__c=m.Id);
+        assessmentsToInsert.add(mAssess);
 
         Assessment__c prAssess = new Assessment__c (Advisor__c = adv.Id, Account__c = a.Id, Review_Form__c = rf.Id, Proposal__c=p.Id);
         assessmentsToInsert.add(prAssess);
@@ -116,7 +116,7 @@ public class AssessorSiteTest {
             Active__c = true,
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
-            Object_name__c = 'Grantee_Report__c',
+            Object_name__c = 'Milestone__c',
             Field_name__c = 'Quality_of_report_ranking__c',
             Sort_number__c = 3
         ));
@@ -159,7 +159,7 @@ public class AssessorSiteTest {
         System.assertEquals(1, summary.ratingsAssigned.size());
         System.assertEquals(1, summary.proposalReviewsAssigned.size());
         System.assertEquals(1, summary.profileReviewsAssigned.size());
-        System.assertEquals(1, summary.grReviewsAssigned.size());
+        System.assertEquals(1, summary.milestoneReviewsAssigned.size());
 
     }
 
@@ -232,9 +232,9 @@ public class AssessorSiteTest {
 
     @isTest
     static void testGetAssessmentInvitesReview() {
-        Assessment__c grAssess = [SELECT ID, Grantee_Report__c FROM Assessment__c WHERE Grantee_Report__c!=null LIMIT 1];
+        Assessment__c mAssess = [SELECT ID, Milestone__c FROM Assessment__c WHERE Milestone__c!=null LIMIT 1];
 
-        Assessment assessment = (Assessment)JSON.deserialize(AssessorSiteController.getAssessmentReview(grAssess.Id),Assessment.class);
+        Assessment assessment = (Assessment)JSON.deserialize(AssessorSiteController.getAssessmentReview(mAssess.Id),Assessment.class);
 
         System.assertNotEquals(null, assessment);
     }
@@ -359,8 +359,8 @@ public class AssessorSiteTest {
             System.debug('summary: '+summary);
 
             //Run through advisor record loads
-            List < Assessment__c > grAssessments = (List < Assessment__c >)JSON.deserialize(AssessorSiteController.loadAdvisorRecords('Grantee_Report__c'),List < Assessment__c >.class);
-            System.assertEquals(1, grAssessments.size());
+            List < Assessment__c > mAssessments = (List < Assessment__c >)JSON.deserialize(AssessorSiteController.loadAdvisorRecords('Milestone__c'),List < Assessment__c >.class);
+            System.assertEquals(1, mAssessments.size());
 
             List < Assessment__c > propAssessments = (List < Assessment__c >)JSON.deserialize(AssessorSiteController.loadAdvisorRecords('Proposal__c'),List < Assessment__c >.class);
             System.assertEquals(1, propAssessments.size());
