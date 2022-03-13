@@ -16,10 +16,6 @@ public without sharing class SyncController {
     List<Object> transactionsJSON = new List<Object>();
     List<Object> gcsJSON = new List<Object>();
     List<Object> oppsJSON = new List<Object>();
-
-    // Need these?
-    public List<Account> upsAcctList = new List<Account>();
-    public List<Contact> upsCtList = new List<Contact>();
     
     // Initialized upon launch
     Id fsOwnerId;
@@ -37,8 +33,6 @@ public without sharing class SyncController {
         attributesWrapper attributes;
         String Name;
         String Id;
-        // String AQB__Account__c;
-        // String AQB__Gift__c;
         public recordWrapper (){
             attributes = new attributesWrapper();
         }
@@ -127,34 +121,16 @@ public without sharing class SyncController {
         return records;
     }
 
-    // DITCH
-    public List<Object> queryGFWObjectForRecords(String objName) {
-        GFW_Sync_Query__mdt queryMDT;
-        List<Object> records;
-        try {
-            queryMDT = [
-                SELECT MasterLabel, Field_List__c, Where_Clause__c
-                FROM GFW_Sync_Query__mdt
-                WHERE DeveloperName =:objName
-            ];
-            String whereClause = !String.isBlank(queryMDT.Where_Clause__c) ? ' ' + queryMDT.Where_Clause__c : '';
-            String query='SELECT ' + queryMDT.Field_List__c + ' FROM ' + queryMDT.MasterLabel + whereClause;
-            records = doQuery(query);
-        } catch (Exception e) {
-            System.debug('Unable to retrieve GFW Sync Query custom metadata. Make sure you\'ve passed the correct developer name.');
-            // throw new HTTPCalloutFrameworkException(HTTPCalloutFrameworkException.CUSTOM_METADATA_NOT_FOUND);
-        }
-        return records;
-    }
-
     /*******************
      * INITIALIZE CLASS VARIABLES and CUSTOM METADATA OBJECT/FIELD MAPPINGS
      *******************/
 
     // Retrieve FS User Id who should be Owner of all records created
     public void setFSOwnerId() {
+        System.debug('Role for ownership: ' + fsRole);
         if (fsRole != null && fsRole != '') fsOwnerId = 
             [SELECT Id FROM User WHERE UserRole.DeveloperName =: fsRole AND IsActive = TRUE LIMIT 1].Id;
+        system.debug('fsOwnerId: ' + fsOwnerId);
     }
 
     // Retrieve all object mappings
@@ -267,7 +243,7 @@ public without sharing class SyncController {
     }
 
     /*******************
-     * RETRIEVE RECORDS FROM GFW AS JSON
+     * RETRIEVE RECORDS FROM GFW
      *******************/
 
     // For Accounts and Contacts, build Ids for records not already in FSDB to insert 
@@ -297,7 +273,7 @@ public without sharing class SyncController {
         return idsToQuery;
     }
 
-    // Generate and run query based on mdt record
+    // Generate and query GFW by mdt record
     public List<Object> queryForRecords(String mdtObjName, Set<Id> idsForQuery, String whereClauseCustom) {
         // Retrieve object and field mappings
         Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
@@ -337,18 +313,21 @@ public without sharing class SyncController {
         syncLogId = sLog.Id;
     }
 
-    // Create Sync Log Records
+    // Stash json in Sync Log Records
     public void logRecords(String mdtObjName, List<Object> records) {
         List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>();
         if (records != null) {
             // Loop through JSON 'records' and stash them in Sync Log Records
             for (Object rec : records) {
                 Sync_Log_Record__c slRec = (Sync_Log_Record__c)Utilities.newRecord('Sync_Log_Record__c');
-                slRec.RecordInfo__c = String.valueOf(rec);
+                slRec.RecordInfo__c = JSON.serialize(rec);
+                System.debug('JSON serialized: ' + JSON.serialize(rec));
                 slRec.Sync_Log__c = syncLogId;
                 slRec.Status__c = 'Pending';
                 slRec.Type__c = mdtObjName;
                 slRecList.add(slRec);
+                slRec.FSGroupOwnerId__c = fsOwnerId;
+                slRec.FS_Group__c = fsCOA;
             }
         }
         if (slRecList != null && slRecList.size() > 0) {
@@ -372,21 +351,57 @@ public without sharing class SyncController {
         String fieldType, gfwFieldName;
         List<sObject> objs = new List<sObject>();
 
-
+        // Retrieve Sync Log Records for json
         List<sObject> objList = new List<sObject>(Utilities.fetchRecords(
             'Sync_Log_Record__c',
             // 'WHERE Sync_Log__c = \'' + syncLogId + '\' AND Type__c = \'' + mdtObjName + '\' AND Status__c = \'Pending\'',
             'WHERE Type__c = \'' + mdtObjName + '\' AND Status__c = \'Pending\'',
             null
         ));
-        // Loop through Sync Log records to retrieve the json
+        // Loop through Sync Log records to retrieve and deserialize json; create new records
         for (sObject obj : objList) {
             Sync_Log_Record__c slRec = (Sync_Log_Record__c)obj;
             System.debug('Record info: ' + slRec.RecordInfo__c);
-            Map<String, Object> m = (Map<String, Object>) JSON.deserializeUntyped(slRec.RecordInfo__c);
+            // Cast json as map: fieldname(string) to fieldvalue(object)
+            Map<String, Object> gfwInfo = (Map<String, Object>)JSON.deserializeUntyped(slRec.RecordInfo__c);
+            System.debug('map gfwInfo: ' + gfwInfo);
             
+            // Build new FSDB record
+            sObject sObj = Utilities.newRecord(fsdbObjName);
+            System.debug('>>> ' + gfwObjName + ': ' + gfwInfo);
+            
+            // Loop through FSDB fields in mdt to set with GFW values
+            for (String fsdbFieldName : fsdbFieldList) {
+                GFW_Sync_Field_Mapping__mdt fieldmapMDT = fieldMap.get(fsdbFieldName);
+                // Retrieve field type
+                fieldType = String.valueof(fieldMapFSDB.get(fsdbFieldName).getDescribe().getType());        
+                System.debug('fieldtype: ' + fieldType);
+                gfwFieldName = fieldmapMDT.GFW_Field_API_Name__c;
+                if (gfwFieldName != null) {
+                    System.debug('FSDB Field Type for ' + fsdbFieldName + ': ' + fieldType);
+                    System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + gfwInfo.get(gfwFieldName));
+                    sObj = populateFields(sObj, fieldType, fieldmapMDT, gfwInfo.get(gfwFieldName));
+                } else {
+                    // Use default value - TO DO: Cast type?
+                    sObj.put(fsdbFieldName, fieldmapMDT.DefaultValue__c);
+                }
+            } // for each FSDB field
+            System.debug('sObj to add: ' + sObj);
+            objs.add(sObj);
+        } // for each sync log record
+        System.debug('List of objs to insert: ' + objs);
+        if (objs != null && objs.size() > 0) {
+            // List<sObject> testList = new List<sObject>{objs.get(0), objs.get(1), objs.get(2), objs.get(3)};
+            Database.UpsertResult[] upsResults = Database.upsert( objs, Utilities.sobjFieldForFieldName(fsdbObjName, fsdbExternalIdFieldName), false);
+            System.debug('upsResults: ' + upsResults);
+            for(Database.upsertResult result:upsResults) {
+                if (result.isSuccess() && result.isCreated()) {
+                    System.debug('Success!!' + (Id)result.getId());
+                } else {
+                    System.debug('Error: ' + result.getErrors());
+                }
+             }
         }
-
     }
 
     /*******************
@@ -506,6 +521,7 @@ public without sharing class SyncController {
      *******************/
     public void LaunchSync() {
         // Initialize class vars
+        setFSOwnerId();
         setObjMappingsList();
         setExternalIdFieldNames();
         setFieldMappings();
@@ -621,7 +637,7 @@ public without sharing class SyncController {
      *******************/
     public void doUpsert(String mdtObjName) {
         // Initialize class vars
-        setFSOwnerId();
+        // setFSOwnerId();
         setObjMappingsList();
         setExternalIdFieldNames();
         setFieldMappings();
