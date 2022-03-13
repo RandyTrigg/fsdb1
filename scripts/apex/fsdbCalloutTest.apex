@@ -1,5 +1,5 @@
 // For each COA retrieved...
-        /*
+        
         String fsRole;
         List<FS_Group_Settings__mdt> fsGroups;
         
@@ -20,14 +20,14 @@
                 scThisFS.LaunchSync();
                 */
 
-        /*       
+               
                 scThisFS.doUpsert('Account');
                 
             }
         }    
-        */
+        
 
-        System.enqueueJob(new Sync_Queueable());
+        // System.enqueueJob(new Sync_Queueable());
 
 
         // String relName = Utilities.relationshipNameForField('npe03__Recurring_Donation__c', 'npe03__Organization__c');
