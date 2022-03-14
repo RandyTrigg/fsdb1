@@ -20,6 +20,7 @@ public without sharing class SyncController {
     // Initialized upon launch
     Id fsOwnerId;
     List<GFW_Sync_Picklist_Mapping__mdt	> picklistMapping = new List<GFW_Sync_Picklist_Mapping__mdt>();
+    Map<Id, List<GFW_Sync_Picklist_Mapping__mdt>> picklistMap = new Map<Id, List<GFW_Sync_Picklist_Mapping__mdt>>();
     Map<String,String> extIdFieldNamesMap = new Map<String, String>();
     Map<String,Map<String,GFW_Sync_Field_Mapping__mdt>> gfwFieldMapByMDTName = new Map<String,Map<String,GFW_Sync_Field_Mapping__mdt>>();
     Map<String,Map<String,GFW_Sync_Field_Mapping__mdt>> fsdbFieldMapByMDTName = new Map<String,Map<String,GFW_Sync_Field_Mapping__mdt>>();
@@ -238,13 +239,26 @@ public without sharing class SyncController {
         String[] relatedFieldNames = new String[]{
             'GFW_Sync_Field_Mapping__r.GFW_Sync_Object_Mapping__r.DeveloperName',
             'GFW_Sync_Field_Mapping__r.FSDB_Field_API_Name__c'};
+        String orderByClause = 'ORDER BY GFW_Sync_Field_Mapping__c';
         picklistMapping = Utilities.fetchAllRecords(
             objName,
-            null,
-            null);
+            relatedFieldNames,
+            orderByClause);
         System.debug('picklistmapping: ' + picklistMapping);
+        Id storeId;
+        List<GFW_Sync_Picklist_Mapping__mdt> addPicklists = new List<GFW_Sync_Picklist_Mapping__mdt>();
+        for (GFW_Sync_Picklist_Mapping__mdt pList : picklistMapping) {
+            if (storeId == null) storeId = pList.GFW_Sync_Field_Mapping__c;
+            if (storeId != pList.GFW_Sync_Field_Mapping__c) {
+                picklistMap.put(storeId, addPicklists);
+                storeId = pList.GFW_Sync_Field_Mapping__c;
+                addPicklists = new List<GFW_Sync_Picklist_Mapping__mdt>();
+            }
+            addPicklists.add(pList);
+        }
+        // Add last set of picklistmappings
+        picklistMap.put(storeId, addPicklists);
     }
-
 
     // Package Ids for WHERE IN query clause.
     public String packageIdsForQuery(Set<Id> Ids) {
@@ -436,6 +450,16 @@ public without sharing class SyncController {
         // TO DO: Assign owner? (Add to FieldMapping mdt fsdb Owner field; nothing on GFW field mapping side)
         String fsdbFieldName = fieldmapMDT.FSDB_Field_API_Name__c;
         String relName;
+        // Check for picklist map
+        List<GFW_Sync_Picklist_Mapping__mdt> pLVals = new List<GFW_Sync_Picklist_Mapping__mdt>(picklistMap.get(fieldmapMDT.Id));
+        System.debug('pLVals: ' + pLVals);
+        if (pLVals != null && !pLVals.IsEmpty()) {
+            // Look up picklist value from map
+            System.debug('Picklists not null!');
+            for (GFW_Sync_Picklist_Mapping__mdt pL : pLVals ) {
+                if ((String)gfwValue == pL.GFW_Picklist_Value__c) gfwValue = (Object)pL.FSDB_Picklist_Value__c;
+            }
+        } // ****BOOKMARK - double check this works
         if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
             // sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (String)gfwInfo.get(gfwFieldName));
             sObj.put(fsdbFieldName, (String)gfwValue);
