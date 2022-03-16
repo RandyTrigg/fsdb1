@@ -80,9 +80,6 @@ public class AssessorSiteTest {
 
         insert assessmentsToInsert;
 
-        Endorsement__c endorse = new Endorsement__c (Advisor__c = adv.Id, Account__c = a.Id);
-        insert endorse;
-
         List < Review_Form_Component__c > components = new List < Review_Form_Component__c > ();
 
         components.add(new Review_Form_Component__c (
@@ -220,14 +217,6 @@ public class AssessorSiteTest {
             String interfaceType = AssessorSiteController.getInterfaceType();
             System.assertEquals('invitations', interfaceType);
         }
-    }
-
-    @isTest
-    static void testGetEndorsements() {
-        List<Endorsement__c> results = (List<Endorsement__c>)JSON.deserialize(AssessorSiteController.getEndorsements(),List<Endorsement__c>.class);
-
-        System.debug('endorsement results: '+results);
-        System.assertEquals(1, results.size());
     }
 
     @isTest
@@ -373,9 +362,6 @@ public class AssessorSiteTest {
 
             List < Invite__c > invites = (List < Invite__c >)JSON.deserialize(AssessorSiteController.loadAdvisorRecords('Form'),List < Invite__c >.class);
             System.assertEquals(1, invites.size());
-
-            List < Endorsement__c > endorsements = (List < Endorsement__c >)JSON.deserialize(AssessorSiteController.loadAdvisorRecords('Endorsement__c'),List < Endorsement__c >.class);
-            System.assertEquals(1, endorsements.size());
 
         }
 

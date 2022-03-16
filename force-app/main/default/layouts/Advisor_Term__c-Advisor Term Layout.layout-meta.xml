@@ -403,19 +403,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Advisor__c</fields>
-        <fields>Account__c</fields>
-        <fields>Endorse_Request__c</fields>
-        <fields>Status__c</fields>
-        <fields>Date_requested__c</fields>
-        <fields>Date_due__c</fields>
-        <fields>Expiration_date__c</fields>
-        <fields>Date_received__c</fields>
-        <fields>Rating__c</fields>
-        <relatedList>Endorsement__c.Advisor_Term__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <fields>Applicant__c</fields>
         <fields>Profile__c</fields>
         <fields>Proposal__c</fields>

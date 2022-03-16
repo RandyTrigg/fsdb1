@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>SingleActiveEndorserTerm</fullName>
+    <fullName>SingleActiveAssessorTerm</fullName>
     <active>true</active>
-    <description>This advisor already has an active endorser term.</description>
+    <description>This advisor already has an active assessor term.</description>
     <errorConditionFormula>AND(
  ISNEW(),
- NOT(ISBLANK(Advisor__r.Current_endorser_term__c)),
- RecordType.Name = &apos;Endorser&apos;
+ NOT(ISBLANK(Advisor__r.Current_assessor_term__c)),
+ RecordType.Name = &apos;Assessor&apos;
 )</errorConditionFormula>
-    <errorMessage>This advisor already has an active endorser term.</errorMessage>
+    <errorMessage>This advisor already has an active assessor term.</errorMessage>
 </ValidationRule>

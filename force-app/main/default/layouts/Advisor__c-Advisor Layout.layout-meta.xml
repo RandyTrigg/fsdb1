@@ -119,17 +119,17 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Current Endorser term</label>
+        <label>Current Assessor term</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Current_endorser_term__c</field>
+                <field>Current_assessor_term__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Current_endorser_term_type__c</field>
+                <field>Current_assessor_term_type__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -284,11 +284,11 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Num_endorsements_req_d_last_5_years__c</field>
+                <field>Num_assessments_req_d_last_5_years__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Num_endorsements_rec_d_last_5_years__c</field>
+                <field>Num_assessments_rec_d_last_5_years__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -298,11 +298,11 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Num_endorsements_req_d_since_2007__c</field>
+                <field>Num_assessments_req_d_since_2007__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Num_endorsements_rec_d_since_2007__c</field>
+                <field>Num_assessments_rec_d_since_2007__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -337,11 +337,11 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Num_endorsements_received__c</field>
+                <field>Num_assessments_received__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Num_endorsements_requested__c</field>
+                <field>Num_assessments_requested__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -544,32 +544,6 @@
         <fields>Net_paid__c</fields>
         <fields>Has_problem__c</fields>
         <relatedList>Advisor_Payment__c.Advisor__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Endorse_Request__c.NAME</fields>
-        <fields>Endorse_Request__c.Language__c</fields>
-        <fields>Endorse_Request__c.Endorsee_countries__c</fields>
-        <fields>Endorse_Request__c.Date_of_deadline__c</fields>
-        <fields>Endorse_Request__c.Endorsee_descriptions__c</fields>
-        <fields>CREATEDBY_USER</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>Endorse_Request_Advisor__c.Advisor__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>Account.NAME</fields>
-        <fields>Account.GM_country__c</fields>
-        <fields>Endorse_Request__c</fields>
-        <fields>Status__c</fields>
-        <fields>CREATED_DATE</fields>
-        <fields>Date_received__c</fields>
-        <fields>Rating__c</fields>
-        <fields>UPDATEDBY_USER</fields>
-        <relatedList>Endorsement__c.Advisor__c</relatedList>
-        <sortField>CREATED_DATE</sortField>
-        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

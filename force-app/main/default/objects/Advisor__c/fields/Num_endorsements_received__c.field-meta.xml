@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Num_endorsements_received__c</fullName>
-    <description>The number of endorsements received from this advisor</description>
+    <fullName>Num_assessments_received__c</fullName>
+    <description>The number of assessments received from this advisor</description>
     <externalId>false</externalId>
-    <inlineHelpText>The number of endorsements received from this advisor</inlineHelpText>
-    <label>Num endorsements received</label>
+    <inlineHelpText>The number of assessments received from this advisor</inlineHelpText>
+    <label>Num assessments received</label>
     <summaryFilterItems>
-        <field>Endorsement__c.Date_received__c</field>
+        <field>Assessment__c.Date_received__c</field>
         <operation>notEqual</operation>
         <value></value>
     </summaryFilterItems>
-    <summaryForeignKey>Endorsement__c.Advisor__c</summaryForeignKey>
+    <summaryForeignKey>Assessment__c.Advisor__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

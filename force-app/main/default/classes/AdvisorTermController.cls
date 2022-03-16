@@ -118,9 +118,9 @@ public class AdvisorTermController {
      * For general use
      *********************************/
 
-    public static String reminderTemplateName = 'Endorsement Reminder/Overdue letter';
+    public static String reminderTemplateName = 'Assessment Reminder/Overdue letter';
 
-    // Send email reminders/overdue notices for advisor terms with pending endorsements, at least one of which is more than 2 days old.
+    // Send email reminders/overdue notices for advisor terms with pending assessments, at least one of which is more than 2 days old.
     public static void emailRemindersOverdues () {
         Template__c tmpl = [SELECT Id FROM Template__c WHERE Name = : reminderTemplateName LIMIT 1];
         // Fetch advisor terms needing a reminder letter.
@@ -132,10 +132,9 @@ public class AdvisorTermController {
             AND Date_auto_reminders_paused__c = null
             AND ID IN (
                 SELECT Advisor_Term__c 
-                FROM Endorsement__c
+                FROM Assessment__c
                 WHERE Status_external__c = 'Pending'
-                AND Account__r.Num_pos_endorsements_last_2_years__c < 2
-                AND (Date_requested__c < : recentDay OR CreatedDate < : recentDay)
+                AND CreatedDate < : recentDay
                 )
         ]);
         if (ats.size() > 0 && tmpl != null) {

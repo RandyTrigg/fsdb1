@@ -2,9 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Active__c</fullName>
     <defaultValue>true</defaultValue>
-    <description>If checked, then it&apos;s okay to send endorsement requests to this advisor.</description>
+    <description>If checked, then it&apos;s okay to send assessment requests to this advisor.</description>
     <externalId>false</externalId>
-    <inlineHelpText>If checked, then it&apos;s okay to send endorsement requests to this advisor.</inlineHelpText>
+    <inlineHelpText>If checked, then it&apos;s okay to send assessment requests to this advisor.</inlineHelpText>
     <label>Active</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>

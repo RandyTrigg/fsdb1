@@ -148,7 +148,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>Compact_Advisor</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Holds information about an advisor&apos;s interests, region of expertise.  Links from letters, endorsements and advisor terms.</description>
+    <description>Holds information about an advisor&apos;s interests, region of expertise.  Links from letters, assessments and advisor terms.</description>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>true</enableEnhancedLookup>
@@ -196,7 +196,7 @@
         <searchFilterFields>ResponseRate__c</searchFilterFields>
         <searchFilterFields>Type__c</searchFilterFields>
         <searchResultsAdditionalFields>Account__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Current_endorser_term_type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Current_assessor_term_type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Active__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Country_1__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Program__c</searchResultsAdditionalFields>

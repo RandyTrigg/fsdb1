@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Endorser</fullName>
+    <fullName>Assessor</fullName>
     <active>true</active>
-    <description>An advisor term during which endorsements may be requested from the advisor</description>
-    <label>Endorser</label>
+    <description>An advisor term during which assessments may be requested from the advisor</description>
+    <label>Assessor</label>
     <picklistValues>
         <picklist>Stipend_response__c</picklist>
         <values>

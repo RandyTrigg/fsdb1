@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>All_Endorser_Terms</fullName>
+    <fullName>All_Assessor_Terms</fullName>
     <columns>NAME</columns>
     <columns>Advisor__c</columns>
     <columns>Date_term_begins__c</columns>
@@ -14,7 +14,7 @@
     <filters>
         <field>RECORDTYPE</field>
         <operation>equals</operation>
-        <value>Advisor_Term__c.Endorser</value>
+        <value>Advisor_Term__c.Assessor</value>
     </filters>
-    <label>All - Endorser Terms</label>
+    <label>All - Assessor Terms</label>
 </ListView>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Response_rate_since_2007__c</fullName>
-    <description>The fraction of endorsements requested since 7/1/2007 that have been received</description>
+    <description>The fraction of assessments requested since 7/1/2007 that have been received</description>
     <externalId>false</externalId>
-    <formula>IF(Num_endorsements_req_d_since_2007__c = 0, null,
- Num_endorsements_rec_d_since_2007__c / Num_endorsements_req_d_since_2007__c
+    <formula>IF(Num_assessments_req_d_since_2007__c = 0, null,
+ Num_assessments_rec_d_since_2007__c / Num_assessments_req_d_since_2007__c
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>The fraction of endorsements requested since 7/1/2007 that have been received</inlineHelpText>
+    <inlineHelpText>The fraction of assessments requested since 7/1/2007 that have been received</inlineHelpText>
     <label>Response rate since 2007</label>
     <precision>18</precision>
     <required>false</required>

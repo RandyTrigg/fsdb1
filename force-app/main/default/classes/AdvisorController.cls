@@ -92,30 +92,6 @@ public class AdvisorController {
         return ls;
     }
     
-    // Build a new endorsement request and join records for selected advisors.
-    public PageReference buildEndorseRequest() {
-        Set<Id> selIds = getSelectedIds();
-        Map<Id, Advisor__c> selMap = new Map<Id, Advisor__c> ([
-            SELECT Id
-            FROM Advisor__c
-            WHERE Id IN : selIds
-        ]);
-        // Build empty endorse request record.
-        Endorse_Request__c er = new Endorse_Request__c();
-        insert er;
-        // Build a join record for each advisor.
-        List<Endorse_Request_Advisor__c> erjs = new List<Endorse_Request_Advisor__c>();
-        for (Advisor__c a : selMap.values()){
-            erjs.add(new Endorse_Request_Advisor__c (
-                Advisor__c = a.Id,
-                Endorse_Request__c = er.Id
-            ));
-        }
-        insert erjs;
-        // Changes have been saved; jump to the new endorse request record.
-        return Utilities.pageReferenceForRecord(er);
-    }
-    
     private Set<Id> getSelectedIds() {
         Set<Id> selIds;
         if (standardSetController != null) {
@@ -212,10 +188,10 @@ public class AdvisorController {
             Advisor_Term__c advt = new Advisor_Term__c (
                 RecordTypeId = Utilities.getRecTypeId('Advisor_Term__c', termRecordType),
                 Advisor__c = adv.Id,
-                Type__c = termRecordType == 'Endorser' && termType == 'Reference' ? 'Reference' : null,
-                Type_invited__c = termRecordType == 'Endorser' && termType != 'Reference' ? termType : null,
+                Type__c = termRecordType == 'Assessor' && termType == 'Reference' ? 'Reference' : null,
+                Type_invited__c = termRecordType == 'Assessor' && termType != 'Reference' ? termType : null,
                 Date_term_begins__c = advisorTermStartDate != null ? advisorTermStartDate : Date.today(),
-                Date_term_ends__c = termRecordType == 'Endorser' && termType == 'Reference' ? null : advisorTermEndDate,
+                Date_term_ends__c = termRecordType == 'Assessor' && termType == 'Reference' ? null : advisorTermEndDate,
                 Portfolio__c = idFromJSON(jsonMap, 'portfolioId')
             );
             insert advt;
@@ -375,28 +351,28 @@ public class AdvisorController {
      * For general use
      *********************************/
     
-    // Ensure that the Current Endorser Term lookup field is up to date. 
+    // Ensure that the Current Assessor Term lookup field is up to date. 
     public static void updateLookups (Id advisorId) {
-        Id currentEndorserTermId;
+        Id currentAssessorTermId;
         Date today = Date.today();
         Advisor__c adv = [
-            SELECT Current_endorser_term__c, Active__c, 
+            SELECT Current_assessor_term__c, Active__c, 
             (SELECT Id, Status__c 
             FROM Advisor_Terms__r 
-            WHERE RecordType.Name = 'Endorser' 
+            WHERE RecordType.Name = 'Assessor' 
             )
             FROM Advisor__c
             WHERE Id = :advisorId
         ];
         system.debug('updateLookups: adv = ' +JSON.serialize(adv));
-        // If advisor is active, look for an active endorser advisor term.  There should be at most one!
+        // If advisor is active, look for an active assessor advisor term.  There should be at most one!
         if (adv.Active__c) {
             for (Advisor_Term__c advt : adv.Advisor_Terms__r) {
-                if (advt.Status__c.toLowerCase().contains('active')) currentEndorserTermId = advt.Id;
+                if (advt.Status__c.toLowerCase().contains('active')) currentAssessorTermId = advt.Id;
             }
         }
-        if (adv.Current_endorser_term__c != currentEndorserTermId) {
-            adv.Current_endorser_term__c = currentEndorserTermId;
+        if (adv.Current_assessor_term__c != currentAssessorTermId) {
+            adv.Current_assessor_term__c = currentAssessorTermId;
             update adv;
         }
     }

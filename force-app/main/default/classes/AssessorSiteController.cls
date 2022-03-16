@@ -21,11 +21,7 @@ public with sharing class AssessorSiteController {
         List < Assessment__c > propAssessments = AssessorSiteController.getProposalAssessments(advisorId, null, null);
 
         //All Profile Assessments
-        List < Assessment__c > profileAssessments = AssessorSiteController.getProfileAssessments(advisorId, null, null);
-
-        //All endorsements
-        List < Endorsement__c > endorsements = AssessorSiteController.getEndorsements(advisorId, null, null);
-    
+        List < Assessment__c > profileAssessments = AssessorSiteController.getProfileAssessments(advisorId, null, null);    
 
         // Prepare results
         List<LookupSearchResult> results = new List<LookupSearchResult>();
@@ -56,13 +52,6 @@ public with sharing class AssessorSiteController {
         for (Assessment__c assess: ratingAssessments) {
             String subtitle = assess.Proposal__r.Country__r.Name;
             results.add(new LookupSearchResult(assess.Id, 'Assessment__c', ratingIcon, 'gfw-rating-icon', assess.Proposal__r.Account__r.Name, subtitle));
-        }
-
-        // Extract Endorsements & convert them into LookupSearchResult
-        String endIcon = 'standard:product_required';
-        for (Endorsement__c endorse: endorsements) {
-            String subtitle = String.valueOf(endorse.Date_due__c);
-            results.add(new LookupSearchResult(endorse.Id, 'Endorsement__c', endIcon, 'gfw-endorse-icon', endorse.Account__r.Name, subtitle));
         }
 
         // Extract Forms & convert them into LookupSearchResult
@@ -106,14 +95,6 @@ public with sharing class AssessorSiteController {
         }
 
     }  
-
-    @AuraEnabled //Do not cache
-    public static String getEndorsements () {
-        List < Endorsement__c > endorsements = [SELECT ID, Name, Proposal__c, Proposal__r.Name, Status_external__c,Date_due__c, Advisor__r.Name FROM Endorsement__c];
-
-        return JSON.serialize(endorsements);
-
-    } 
 
     @AuraEnabled //Do not cache
     public static String getAssessmentReview(String assessmentId) {
@@ -284,10 +265,6 @@ public with sharing class AssessorSiteController {
                     result = JSON.serialize(profiles);
                     System.debug('profiles: '+result);
                 }
-                when 'Endorsement__c' {
-                    List < Endorsement__c > endorsements = AssessorSiteController.getEndorsements(advisorId, null, null);
-                    result = JSON.serialize(endorsements);
-                }
                 when 'Form' {
                     System.debug('in form section');
                     List < Invite__c > invites = loadInviteViewForms(advRecord.Advisor_Terms__r,null);
@@ -407,25 +384,6 @@ public with sharing class AssessorSiteController {
         List < Assessment__c > profReportAssessments = Database.query(queryString);
 
         return profReportAssessments;
-        
-    }
-
-    public static List < Endorsement__c > getEndorsements(String advisorId, String status, Integer count) {
-
-        String whereClause = ' WHERE Advisor__c=:advisorId';
-        if (status!=null) {
-            whereClause = whereClause + ' AND Status_external__c=:status';
-        }
-        
-        String queryString = 'SELECT ID, Account__c, Account__r.Name, Account__r.GM_country__r.Name, Date_requested__c, Date_due__c, Expiration_date__c, Status_external__c, Proposal__c, Proposal__r.Name FROM Endorsement__c' + whereClause + ' ORDER BY Status_external__c, Date_received__c';
-
-        if (count!=null) {
-            queryString = queryString + ' LIMIT: count';
-        }
-
-        List < Endorsement__c > endorsements = Database.query(queryString);
-
-        return endorsements;
         
     }
 

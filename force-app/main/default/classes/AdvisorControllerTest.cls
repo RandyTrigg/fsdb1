@@ -25,7 +25,7 @@ public class AdvisorControllerTest {
             'countryId' => country.Id,
             'programId' => country.Region__r.Program__c,
             'orgAffilName' => 'org1',
-            'advisorTermRecordType' => 'Endorser',
+            'advisorTermRecordType' => 'Assessor',
             'advisorTermType' => 'Strategic',
             'advisorTermStartDate' => Date.today().addDays(-10),
             'portfolioId' => port.Id
@@ -39,8 +39,8 @@ public class AdvisorControllerTest {
         advt.Type__c = 'Strategic'; 
         update advt;
         AdvisorUpdateLookupsInvocable.updateLookups(new List<Id> {advt.Advisor__c});
-        Advisor__c adv = [SELECT Id, Current_endorser_term__c FROM Advisor__c WHERE Id = : advt.Advisor__c];
-        system.assertEquals(advt.Id, adv.Current_endorser_term__c);
+        Advisor__c adv = [SELECT Id, Current_assessor_term__c FROM Advisor__c WHERE Id = : advt.Advisor__c];
+        system.assertEquals(advt.Id, adv.Current_assessor_term__c);
         // Build a new advisor controller and use it to build new letters for the selected advisors.
         Template__c temp = new Template__c (Name = 'Test template', Source_object__c = 'Advisor__c');
         insert temp;
@@ -143,7 +143,7 @@ public class AdvisorControllerTest {
 		for(Advisor__c adv : advs) {      
 			advTs.add(new Advisor_Term__c(
                 Advisor__c = adv.Id,
-                RecordTypeId = Utilities.getRecTypeId('Advisor_Term__c', 'Endorser'),
+                RecordTypeId = Utilities.getRecTypeId('Advisor_Term__c', 'Assessor'),
                 Date_term_begins__c = Date.today().addDays(-100),
                 Type__c = 'Reference'
 				));
@@ -280,22 +280,6 @@ public class AdvisorControllerTest {
             
             Test.StopTest();
         }
-    }
-    
-    // Test building endorse request
-    static testmethod void AdvisorControllerTest4 () {
-        // Build new advisors and accounts
-        InitTestObjects(1, 1);
-        Map<Id, Advisor__c> aMap = new Map<Id, Advisor__c> ([SELECT Id FROM Advisor__c]);
-        // Build new standard set controller and select the new advisors.
-        ApexPages.StandardSetController ssc = new ApexPages.StandardSetController(aMap.values());
-        ssc.setSelected(aMap.values());        
-        
-        Test.StartTest();
-        // Build a new controller and use it to build endorse request for the selected advisor.
-        AdvisorController ac = new AdvisorController (ssc);
-        ac.buildEndorseRequest(); // Build endorse request record with join for the advisor.
-        Test.StopTest();
     }
 
     @IsTest

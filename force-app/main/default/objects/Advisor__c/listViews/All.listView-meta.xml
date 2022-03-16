@@ -5,7 +5,7 @@
     <columns>Account__c</columns>
     <columns>Org_advisor__c</columns>
     <columns>Active__c</columns>
-    <columns>Current_endorser_term_type__c</columns>
+    <columns>Current_assessor_term_type__c</columns>
     <columns>Country_1__c</columns>
     <columns>Program__c</columns>
     <columns>Keep_confidential__c</columns>

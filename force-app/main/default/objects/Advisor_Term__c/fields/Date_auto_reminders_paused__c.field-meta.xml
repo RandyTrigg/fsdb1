@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Date_auto_reminders_paused__c</fullName>
-    <description>The date on which automated reminder and overdue letters for pending endorsements linked to this advisor term were suspended</description>
+    <description>The date on which automated reminder and overdue letters for pending assessments linked to this advisor term were suspended</description>
     <externalId>false</externalId>
-    <inlineHelpText>The date on which automated reminder and overdue letters for pending endorsements linked to this advisor term were suspended</inlineHelpText>
+    <inlineHelpText>The date on which automated reminder and overdue letters for pending assessments linked to this advisor term were suspended</inlineHelpText>
     <label>Date auto-reminders paused</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
