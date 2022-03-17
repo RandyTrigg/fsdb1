@@ -7,7 +7,6 @@
     <columns>Active__c</columns>
     <columns>Current_assessor_term_type__c</columns>
     <columns>Country_1__c</columns>
-    <columns>Program__c</columns>
     <columns>Keep_confidential__c</columns>
     <columns>Language__c</columns>
     <columns>UPDATEDBY_USER</columns>

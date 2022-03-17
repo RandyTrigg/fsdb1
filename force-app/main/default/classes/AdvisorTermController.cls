@@ -72,7 +72,6 @@ public class AdvisorTermController {
                 Advisor_Term__c = r.Id,
                 Advisor__c = adv.Id,
                 Contact__c = adv.Contact__c,
-                Program__c = adv.Program__c,
                 Emails__c = emails
             );
             // update any additional values from the map
@@ -92,7 +91,7 @@ public class AdvisorTermController {
         system.debug('fetchRecords: ids = ' +JSON.serialize(ids));
         return [
             SELECT Id, Status_numeric__c, Advisor__c, Advisor__r.Account__c, Advisor__r.Account__r.OwnerId, Advisor__r.Contact__c,
-            Advisor__r.Program__c, Advisor__r.Emails__c, 
+            Advisor__r.Emails__c, 
             Advisor__r.Contact__r.Email, Advisor__r.Contact__r.AQB__OtherEmail__c
             FROM Advisor_Term__c
             WHERE Id IN : ids

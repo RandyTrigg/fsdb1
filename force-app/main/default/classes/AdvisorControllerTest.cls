@@ -14,7 +14,7 @@ public class AdvisorControllerTest {
         
         Test.StartTest();
         // Test code to build advisor records.
-        Country__c country = [SELECT Id, Region__r.Program__c FROM Country__c LIMIT 1];
+        Country__c country = [SELECT Id, Region__r.Name FROM Country__c LIMIT 1];
         insert new Portfolio__c (Name = 'test portfolio', Type__c = 'Saved Set');
         Portfolio__c port = [SELECT Id FROM Portfolio__c LIMIT 1];
         String jsonString = JSON.serialize(new Map<String, Object> {
@@ -23,7 +23,6 @@ public class AdvisorControllerTest {
             'lastName' => 'Sprat', 
             'email' => 'abc@def.org', 
             'countryId' => country.Id,
-            'programId' => country.Region__r.Program__c,
             'orgAffilName' => 'org1',
             'advisorTermRecordType' => 'Assessor',
             'advisorTermType' => 'Strategic',
@@ -151,9 +150,7 @@ public class AdvisorControllerTest {
         system.debug('InitTestObjects: advTs = ' +JSON.serialize(advTs));
         insert advTs;
         // Build a country record.
-        Program__c prog = new Program__c (Name = 'test program');
-        insert prog;
-        Region__c reg = new Region__c (Name = 'test region', Program__c = prog.Id);
+        Region__c reg = new Region__c (Name = 'test region');
         insert reg;
         insert new Country__c (Name = 'test country', Region__c = reg.Id);
     }
@@ -170,7 +167,7 @@ public class AdvisorControllerTest {
         system.assertEquals(1, advs1.size());
         String profPerms = AdvisorController.fetchProfileAndPermissionSets();
         // Test code to add advisor to a community.
-        Country__c country = [SELECT Id, Region__r.Program__c FROM Country__c LIMIT 1];
+        Country__c country = [SELECT Id, Region__r.Name FROM Country__c LIMIT 1];
         insert new Account (
             Name = AdvisorController.communityAccountName, 
             GM_country__c = country.Id,
@@ -213,7 +210,7 @@ public class AdvisorControllerTest {
             Advisor__c adv = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email FROM Advisor__c][0];
             String email = adv.Contact__r.Email;
             Id pIdAdv = [SELECT Id FROM Profile WHERE Name = : AdvisorController.advisorCommunityProfileName LIMIT 1].Id;
-            Country__c country = [SELECT Id, Region__r.Program__c FROM Country__c LIMIT 1];
+            Country__c country = [SELECT Id, Region__r.Name FROM Country__c LIMIT 1];
             insert new Account (
                 Name = AdvisorController.communityAccountName, 
                 GM_country__c = country.Id,
@@ -297,7 +294,7 @@ public class AdvisorControllerTest {
             Advisor__c adv = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email FROM Advisor__c][0];
             String email = adv.Contact__r.Email;
             Id pIdAdv = [SELECT Id FROM Profile WHERE Name = : AdvisorController.advisorCommunityProfileName LIMIT 1].Id;
-            Country__c country = [SELECT Id, Region__r.Program__c FROM Country__c LIMIT 1];
+            Country__c country = [SELECT Id, Region__r.Name FROM Country__c LIMIT 1];
             insert new Account (
                 Name = AdvisorController.communityAccountName, 
                 GM_country__c = country.Id,

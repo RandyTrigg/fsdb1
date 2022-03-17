@@ -43,10 +43,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Program__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Language__c</field>
             </layoutItems>
             <layoutItems>
@@ -413,7 +409,6 @@
         <fields>Type__c</fields>
         <fields>Active__c</fields>
         <fields>Country_1__c</fields>
-        <fields>Program__c</fields>
         <fields>Keep_confidential__c</fields>
         <fields>Language__c</fields>
     </miniLayout>

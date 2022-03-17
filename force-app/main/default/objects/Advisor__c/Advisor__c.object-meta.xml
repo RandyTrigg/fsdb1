@@ -173,7 +173,6 @@
         <customTabListAdditionalFields>Type__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Active__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Country_1__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>Program__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Keep_confidential__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Language__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>UPDATEDBY_USER</customTabListAdditionalFields>
@@ -181,7 +180,6 @@
         <lookupDialogsAdditionalFields>Type__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Active__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Country_1__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>Program__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Keep_confidential__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Language__c</lookupDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
@@ -198,7 +196,6 @@
         <searchResultsAdditionalFields>Current_assessor_term_type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Active__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Country_1__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Program__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Keep_confidential__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Language__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>UPDATEDBY_USER</searchResultsAdditionalFields>

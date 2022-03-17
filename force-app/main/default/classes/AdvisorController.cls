@@ -56,7 +56,7 @@ public class AdvisorController {
         // Query for data to build the letters
         Map<Id, Advisor__c> selMap = new Map<Id, Advisor__c> ([
             SELECT Id, Account__c, Account__r.OwnerId, Contact__c,
-            Program__c, Emails__c, Contact__r.Email, Contact__r.AQB__OtherEmail__c
+            Emails__c, Contact__r.Email, Contact__r.AQB__OtherEmail__c
             FROM Advisor__c
             WHERE Id IN : selIds
         ]);
@@ -77,7 +77,6 @@ public class AdvisorController {
                 Letter_owner__c = UserInfo.getUserId(),
                 Advisor__c = r.Id,
                 Contact__c = r.Contact__c,
-                Program__c = r.Program__c,
                 Emails__c = emails
             );
             // update any additional values from the map
@@ -177,7 +176,6 @@ public class AdvisorController {
                 Name = advName,
                 Type__c = termType == 'Strategic' ? 'Official' : termType == 'Expert' ? 'Informal' : termType,
                 Language__c = (String)jsonMap.get('language'),
-                Program__c = idFromJSON(jsonMap, 'programId'),
                 Global__c = (String)jsonMap.get('global') == 'true' ? true : false,
                 Account__c = advAcct.Id,
                 Contact__c = advCon.Id,
