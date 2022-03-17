@@ -36,10 +36,6 @@
                 <field>Account_black_listed__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Red_flag_Other_non_black_list__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Date_auto_reminders_paused__c</field>
             </layoutItems>

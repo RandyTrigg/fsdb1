@@ -5,7 +5,6 @@
     <columns>Advisor__c</columns>
     <columns>Type__c</columns>
     <columns>Account_black_listed__c</columns>
-    <columns>Red_flag_Other_non_black_list__c</columns>
     <columns>Date_VP_approved__c</columns>
     <columns>Date_commitment_letter_sent__c</columns>
     <columns>Date_commitment_letter_received__c</columns>

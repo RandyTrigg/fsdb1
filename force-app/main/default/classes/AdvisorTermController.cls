@@ -127,8 +127,7 @@ public class AdvisorTermController {
         Map<Id, Advisor_Term__c> ats = new Map<Id, Advisor_Term__c> ([
             SELECT Id
             FROM Advisor_Term__c
-            WHERE Advisor__r.Account__r.Account_black_listed__c = false
-            AND Date_auto_reminders_paused__c = null
+            WHERE Date_auto_reminders_paused__c = null
             AND ID IN (
                 SELECT Advisor_Term__c 
                 FROM Assessment__c
