@@ -214,8 +214,8 @@ public without sharing class InternalReviewTest {
             Active__c = true,
             Lightning_component_name__c = 'InputCheckbox',
             Label__c = 'input checkbox label',
-            Object_name__c = 'GM_Data__c',
-            Field_name__c = 'New_group_with_established_players__c',
+            Object_name__c = 'Proposal__c',
+            Field_name__c = 'CFO_approved__c',
             Sort_number__c = 3
         ));
 
@@ -283,10 +283,7 @@ public without sharing class InternalReviewTest {
         Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
-        Applicant__c app = new Applicant__c (Name='test applicant', Account__c = a.Id);
-        insert app;
-
-        Profile__c prof = new Profile__c (Account__c=a.Id, Applicant__c=app.Id);
+        Profile__c prof = new Profile__c (Account__c=a.Id);
         insert prof;
 
         Classification__c cl =  new Classification__c (Name = 'test classification', Type__c = 'Issue');

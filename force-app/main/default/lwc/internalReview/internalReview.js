@@ -80,9 +80,6 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
             } else if ( this.internalReview.type=='Profile') {
                 this.internalReview.isProfile = true;
                 this.generateProfileLink();
-                if (!this.internalReview.accountId) {
-                    this.generateApplicantLink();
-                }
             }
             this.generateAccountLink();
             this.dataLoaded = true;            
@@ -120,18 +117,6 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
             },
         }).then(url => {
             this.profileURL = url;
-        });
-    }
-
-    generateApplicantLink() {
-        this[NavigationMixin.GenerateUrl]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: this.internalReview.linkedProfile.Applicant__c,
-                actionName: 'view',
-            },
-        }).then(url => {
-            this.applicantURL = url;
         });
     }
 

@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>Advisor_Payment__c</members>
-        <name>CustomObject</name>
+        <members>Advisor_term_types</members>
+        <members>Accept_Decline</members>
+        <name>GlobalValueSet</name>
     </types>
     <types>
-        <members>Advisor_Payment__c</members>
-        <name>CustomTab</name>
-    </types>
-    <types>
-        <members>Advisor_Payment__c-Advisor Payment Layout</members>
-        <name>Layout</name>
-    </types>
-    <types>
-        <members>RecPage_Advisor_Payment</members>
-        <name>FlexiPage</name>
-    </types>
-    <types>
-        <members>AdvisorPaymentController</members>
-        <members>AdvisorPaymentControllerTest</members>
-        <name>ApexClass</name>
+        <members>AdvisorPaymentNewLetterButton</members>
+        <members>AdvisorPaymentNewLettersButton</members>
+        <members>AdvisorTermNewLetterButton</members>
+        <members>AdvisorTermNewLettersButton</members>
+        <members>AdvisorNewLetterButton</members>
+        <members>AdvisorNewLettersButton</members>
+        <members>AssessmentNewLetterButton</members>
+        <members>AssessmentsNewLettersButton</members>
+        <members>lwcUtilities</members>
+        <name>ApexPage</name>
     </types>
     <version>53.0</version>
 </Package>

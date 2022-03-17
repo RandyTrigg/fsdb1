@@ -399,7 +399,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Applicant__c</fields>
         <fields>Profile__c</fields>
         <fields>Proposal__c</fields>
         <fields>Milestone__c</fields>

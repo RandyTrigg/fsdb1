@@ -13,10 +13,7 @@ public without sharing class AssessmentProfileTest {
         Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
-        Applicant__c app = new Applicant__c (Name='test applicant', Account__c = a.Id);
-        insert app;
-
-        Profile__c prof = new Profile__c (Account__c=a.Id, Applicant__c=app.Id);
+        Profile__c prof = new Profile__c (Account__c=a.Id);
         insert prof;
 
         Classification__c cl =  new Classification__c (Name = 'test classification', Type__c = 'Issue');

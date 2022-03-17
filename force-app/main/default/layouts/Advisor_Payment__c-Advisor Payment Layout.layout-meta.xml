@@ -310,7 +310,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Applicant__c</fields>
         <fields>Profile__c</fields>
         <fields>Proposal__c</fields>
         <fields>Language__c</fields>

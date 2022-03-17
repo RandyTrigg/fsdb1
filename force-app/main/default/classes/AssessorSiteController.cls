@@ -375,7 +375,7 @@ public with sharing class AssessorSiteController {
             whereClause = whereClause + ' AND Status_external__c=:status';
         }
         
-        String queryString = 'SELECT Id, Account__c, Profile__r.Applicant__c, Profile__r.Applicant__r.Name, Profile__r.Country_name__c, Profile__r.Name, Date_submitted__c, Profile__r.Language__c,Status_external__c, Profile__r.Date_submitted__c FROM Assessment__c' + whereClause + ' ORDER BY Status_external__c, Date_submitted__c, Profile__r.Name ASC';
+        String queryString = 'SELECT Id, Account__c, Profile__r.Country_name__c, Profile__r.Name, Date_submitted__c, Profile__r.Language__c,Status_external__c, Profile__r.Date_submitted__c FROM Assessment__c' + whereClause + ' ORDER BY Status_external__c, Date_submitted__c, Profile__r.Name ASC';
 
         if (count!=null) {
             queryString = queryString + ' LIMIT: count';

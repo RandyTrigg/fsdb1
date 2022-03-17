@@ -13,19 +13,16 @@ public class AssessorSiteTest {
         Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
-        Applicant__c app = new Applicant__c (Name='test applicant', Account__c = a.Id);
-        insert app;
-
-        Profile__c prof = new Profile__c (Account__c=a.Id, Applicant__c=app.Id);
+        Profile__c prof = new Profile__c (Account__c=a.Id;
         insert prof;
 
         Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
         insert p;
 
-        Restriction__c restrict = new Restriction__c(Name='TestRestriction');
+        Fund__c fund = new Fund__c(Name='TestRestriction');
         insert restrict;
 
-        Allocation__c alloc = new Allocation__c(Restriction__c=restrict.Id, Grant_size__c=10000, Num_grants__c=2, Years__c='MY2');
+        Allocation__c alloc = new Allocation__c(Fund__c=fund.Id, Grant_size__c=10000, Num_grants__c=2, Years__c='MY2');
         insert alloc;
 
         Invite__c inv = new Invite__c(Account__c = a.Id,Profile__c=prof.Id,Proposal__c=p.Id, Allocation__c=alloc.Id);

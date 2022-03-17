@@ -66,8 +66,8 @@ public without sharing class AssessmentProposalTest {
             Active__c = true,
             Lightning_component_name__c = 'InputCheckbox',
             Label__c = 'input checkbox label',
-            Object_name__c = 'GM_Data__c',
-            Field_name__c = 'New_group_with_established_players__c',
+            Object_name__c = 'Proposal__c',
+            Field_name__c = 'CFO_approved__c',
             Sort_number__c = 3
         ));
 
@@ -210,13 +210,13 @@ public without sharing class AssessmentProposalTest {
 
     @isTest 
     static void updateBooleantest() {
-        GM_Data__c gmData = [SELECT ID FROM GM_Data__c LIMIT 1];
+        Proposal__c pData = [SELECT ID FROM Proposal__c LIMIT 1];
 
-        ReviewFormController.updateBoolean('GM_Data__c', gmData.Id, 'New_group_with_established_players__c', true);
+        ReviewFormController.updateBoolean('Proposal__c', pData.Id, 'CFO_approved__c', true);
 
-        GM_Data__c updatedGmData = [SELECT ID, New_group_with_established_players__c FROM GM_Data__c LIMIT 1];
+        Proposal__c updatedProp = [SELECT ID, CFO_approved__c FROM Proposal__c LIMIT 1];
 
-        System.assertEquals(true, updatedGmData.New_group_with_established_players__c);
+        System.assertEquals(true, updatedProp.CFO_approved__c);
         
     }
 
