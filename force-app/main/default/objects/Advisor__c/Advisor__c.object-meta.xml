@@ -178,7 +178,6 @@
         <customTabListAdditionalFields>Language__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>UPDATEDBY_USER</customTabListAdditionalFields>
         <listViewButtons>New_letters</listViewButtons>
-        <listViewButtons>New_endorse_request</listViewButtons>
         <lookupDialogsAdditionalFields>Type__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Active__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Country_1__c</lookupDialogsAdditionalFields>

@@ -43,7 +43,6 @@ public class LetterController {
     public static Boolean resetLetters0(Set<Id> letIds, Boolean emailFlg) {
         if (letIds.size() == 0)
             return false;
-        // Special handling for assessment letters, assumed to be in a batch with single template and belonging to a single endorse request.
         String templateName = [
             SELECT Template__r.Name
             FROM Letter__c

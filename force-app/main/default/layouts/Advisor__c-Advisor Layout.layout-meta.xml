@@ -495,7 +495,7 @@
             <sortOrder>14</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>New_endorse_request_single_advisor</actionName>
+            <actionName>New_assessor_request_single_advisor</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>15</sortOrder>
         </platformActionListItems>

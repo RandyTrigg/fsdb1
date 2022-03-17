@@ -66,13 +66,11 @@ public without sharing class InternalReviewTest {
     }
 
     static String setupGranteeReportData(){
-        Program__c prog = new Program__c (Name = 'test program');
-        insert prog;
-        Region__c reg = new Region__c (Name = 'test region', Program__c = prog.Id);
+        Region__c reg = new Region__c (Name = 'test region');
         insert reg;
         insert new Country__c (Name = 'test country', Region__c = reg.Id);
 
-        Account a = new Account (Name = 'test account', GM_program__c = prog.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
+        Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
         Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
@@ -160,13 +158,11 @@ public without sharing class InternalReviewTest {
 
     static String setupProposalData() {
         // Build a country record.
-        Program__c prog = new Program__c (Name = 'test program');
-        insert prog;
-        Region__c reg = new Region__c (Name = 'test region', Program__c = prog.Id);
+        Region__c reg = new Region__c (Name = 'test region');
         insert reg;
         insert new Country__c (Name = 'test country', Region__c = reg.Id);
 
-        Account a = new Account (Name = 'test account', GM_program__c = prog.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
+        Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
         Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
@@ -281,10 +277,10 @@ public without sharing class InternalReviewTest {
 
     static String setupProfileData() {
         // Build a country record.
-        Program__c prog = new Program__c (Name = 'test program');
-        insert prog;
+        Region__c reg = new Region__c (Name = 'test region');
+        insert reg;
 
-        Account a = new Account (Name = 'test account', GM_program__c = prog.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
+        Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
         Applicant__c app = new Applicant__c (Name='test applicant', Account__c = a.Id);

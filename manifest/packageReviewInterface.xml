@@ -31,7 +31,7 @@
     <types>
         <members>Review</members>
         <members>ReviewFormController</members>
-        <members>AssessmentGranteeReportTest</members>
+        <members>AssessmentMilestoneTest</members>
         <members>AssessmentProfileTest</members>
         <members>AssessmentProposalTest</members>
         <members>AssessorSiteController</members>

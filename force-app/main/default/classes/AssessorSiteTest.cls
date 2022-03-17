@@ -4,13 +4,13 @@ public class AssessorSiteTest {
     @TestSetup
     static void makeData(){
 
-        // This will set up a Program, Adviosr, Advisor Term
+        // This will set up a Region, Adviosr, Advisor Term
         AdvisorControllerTest.InitTestObjects(1, 1);
-        Program__c prog = [SELECT ID, Name FROM Program__c WHERE Name=:'test program'];
+        Region__c reg = [SELECT ID, Name FROM Region__c WHERE Name=:'test region'];
 
         Advisor__c adv = [SELECT ID, Account__c FROM Advisor__c LIMIT 1];
 
-        Account a = new Account (Name = 'test account', GM_program__c = prog.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
+        Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
         Applicant__c app = new Applicant__c (Name='test applicant', Account__c = a.Id);
@@ -176,9 +176,7 @@ public class AssessorSiteTest {
         //create account/contact
         Id orgGMRtId = Utilities.getRecTypeId('Account', 'Organization_GM');
         // Build a country record.
-        Program__c prog = new Program__c (Name = 'test program');
-        insert prog;
-        Region__c reg = new Region__c (Name = 'test region', Program__c = prog.Id);
+        Region__c reg = new Region__c (Name = 'test region');
         insert reg;
         Country__c country = new Country__c (Name = 'test country', Region__c = reg.Id);
         insert country;
@@ -237,9 +235,7 @@ public class AssessorSiteTest {
         //create account/contact
         Id orgGMRtId = Utilities.getRecTypeId('Account', 'Organization_GM');
         // Build a country record.
-        Program__c prog = new Program__c (Name = 'test program');
-        insert prog;
-        Region__c reg = new Region__c (Name = 'test region', Program__c = prog.Id);
+        Region__c reg = new Region__c (Name = 'test region');
         insert reg;
         Country__c country = new Country__c (Name = 'test country', Region__c = reg.Id);
         insert country;
@@ -305,9 +301,7 @@ public class AssessorSiteTest {
         //create account/contact
         Id orgGMRtId = Utilities.getRecTypeId('Account', 'Organization_GM');
         // Build a country record.
-        Program__c prog = new Program__c (Name = 'test program');
-        insert prog;
-        Region__c reg = new Region__c (Name = 'test region', Program__c = prog.Id);
+        Region__c reg = new Region__c (Name = 'test region');
         insert reg;
         Country__c country = new Country__c (Name = 'test country', Region__c = reg.Id);
         insert country;

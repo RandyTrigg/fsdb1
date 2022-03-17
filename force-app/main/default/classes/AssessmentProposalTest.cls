@@ -4,14 +4,14 @@ public without sharing class AssessmentProposalTest {
     @TestSetup
     static void makeData(){
 
-        // This will set up a Program, Adviosr, Advisor Term
+        // This will set up a Region, Adviosr, Advisor Term
         AdvisorControllerTest.InitTestObjects(1, 1);
-        Program__c prog = [SELECT ID, Name FROM Program__c WHERE Name=:'test program'];
+        Region__c reg = [SELECT ID, Name FROM Region__c WHERE Name=:'test region'];
 
         Advisor__c adv = [SELECT ID, Account__c FROM Advisor__c LIMIT 1];
 
 
-        Account a = new Account (Name = 'test account', GM_program__c = prog.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
+        Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
         Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
