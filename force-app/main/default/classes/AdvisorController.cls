@@ -298,7 +298,6 @@ public class AdvisorController {
                     AQB__Type__c = 'Friend',
                     Email = email,
                     Online_email__c = email,
-                    AQB__EmailPreference__c = 'Online Email',
                     LastName = adv.Contact__r.LastName,
                     FirstName = adv.Contact__r.FirstName
                 );

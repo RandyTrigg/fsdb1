@@ -110,8 +110,6 @@ public class AdvisorControllerTest {
 				LastName = 'ptest_' + String.valueOf(x),
 				AccountId = accounts[x].Id,
                 Email = 'ptest_' + String.valueOf(x) + '@ptest.org',
-                AQB__OtherEmail__c = 'ptest_' + String.valueOf(x) + '@ptest.org',
-                AQB__EmailPreference__c = 'Other Email',
                 RecordTypeId = ctAdvRecTypeId,
                 Rank__c = 1
 				));

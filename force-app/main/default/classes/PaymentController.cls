@@ -59,7 +59,7 @@ public class PaymentController {
         Set<Id> accIds = new Set<Id>();
         for (Payment__c p : selRecs)
             accIds.add(p.Proposal__r.Account__c);
-        Map<Id, List<String>> emails = AccountController.emailsForAccounts(accIds);
+        Map<Id, List<String>> emails = Utilities.emailsForAccounts(accIds);
         // Build new letters for selected records.
         Id templateId = Utilities.recordIdFromName(
             'Template__c',

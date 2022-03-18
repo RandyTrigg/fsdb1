@@ -420,7 +420,7 @@ public class GMDataController {
                     )
             ]
         );
-        Map<Id, List<String>> emails = AccountController.emailsForAccounts(
+        Map<Id, List<String>> emails = Utilities.emailsForAccounts(
             aMap.keySet()
         );
         // Build new letters for selected records.

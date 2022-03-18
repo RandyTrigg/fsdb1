@@ -420,6 +420,11 @@ global class Utilities {
             ' failures.'
         );
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+    } 
+    
+    // Return emails for given accounts.  Dish off to code in AccountController.
+    public static Map<Id, List<String>> emailsForAccounts(Set<Id> aIds) {
+        return AccountController.emailsForAccounts(aids); 
     }
 
     /*******************

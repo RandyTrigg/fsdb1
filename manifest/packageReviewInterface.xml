@@ -54,6 +54,8 @@
         <members>AdvisorTermControllerTest</members>
         <members>AdvisorPaymentController</members>
         <members>AdvisorPaymentControllerTest</members>
+        <members>AdvisorUpdateLookupsInvocable</members>
+        <members>AdvisorTermRemindersSchedule</members>
         <name>ApexClass</name>
     </types>
     <types>

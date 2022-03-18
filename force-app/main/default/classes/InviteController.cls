@@ -59,7 +59,7 @@ public class InviteController {
         Set<Id> accIds = new Set<Id>();
         for (Invite__c i : selRecs)
             accIds.add(i.Account__c);
-        Map<Id, List<String>> emails = AccountController.emailsForAccounts(
+        Map<Id, List<String>> emails = Utilities.emailsForAccounts(
             accIds
         );
         // Build new letters for selected records.

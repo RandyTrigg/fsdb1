@@ -103,7 +103,7 @@ public class InviteControllerTest {
                     )
             ]
         );
-        Map<Id, List<String>> emailMap = AccountController.emailsForAccounts(
+        Map<Id, List<String>> emailMap = Utilities.emailsForAccounts(
             aMap.keySet()
         );
         system.debug(

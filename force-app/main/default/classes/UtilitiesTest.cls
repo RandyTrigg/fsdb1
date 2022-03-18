@@ -111,6 +111,7 @@ public class UtilitiesTest {
         s = Utilities.formatCurrency(3.14);
         s = Utilities.formatInteger(2000.1);
         system.assertEquals('2,000', s);
+        mils = Utilities.emailsForAccounts(new Set<Id> {acct.Id, acct1.Id});
         s = Utilities.stringJoinWithCharLimit(
             new List<String>{ 'str1', 'str2' },
             ',',
