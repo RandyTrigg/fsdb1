@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>AdvisorTermRemindersSchedule</members>
-        <members>AdvisorUpdateLookupsInvocable</members>
+        <name>GlobalValueSet</name>
+    </types>
+    <types>
         <name>ApexClass</name>
+    </types>
+    <types>
+        <members>RecPage_Assessment</members>
+        <members>RecPage_Advisor</members>
+        <members>RecPage_Advisor_Term</members>
+        <members>RecPage_Advisor_Payment</members>
+        <name>FlexiPage</name>
     </types>
     <version>53.0</version>
 </Package>

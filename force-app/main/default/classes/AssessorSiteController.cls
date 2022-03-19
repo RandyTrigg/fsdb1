@@ -43,7 +43,7 @@ public with sharing class AssessorSiteController {
         // Extract Profile Assessments & convert them into LookupSearchResult
         String profIcon = 'standard:channel_program_members';
         for (Assessment__c assess: profileAssessments) {
-            String subtitle = assess.Profile__r.Applicant__r.Name;
+            String subtitle = assess.Profile__r.Org_name__c;
             results.add(new LookupSearchResult(assess.Id, 'Assessment__c', profIcon, 'gfw-prof-icon', assess.Profile__r.Name, subtitle));
         }
 
@@ -109,7 +109,7 @@ public with sharing class AssessorSiteController {
             String advisorId = getRunningUserAdvisorId();
 
             return [
-                SELECT Id, Name, Account__c, Advisor__c, Advisor__r.Name, Advisor_Term__c, Date_submitted__c, Milestone__c, Milestone__r.Account_name__c, Milestone__r.Date_review_completed__c, Portfolio__c, Profile__c, Proposal__c, Proposal__r.Account__r.Name, Proposal__r.Date_review_completed__c, Review_Form__c, Status__c, Status_external__c, Profile__r.Applicant_name__c, Profile__r.Account__c, Profile__r.Account__r.Name, Profile__r.Date_review_completed__c, Milestone__r.Name, Milestone__r.Date_received__c, Milestone__r.Review_priority__c, Milestone__r.Country_name__c
+                SELECT Id, Name, Account__c, Advisor__c, Advisor__r.Name, Advisor_Term__c, Date_submitted__c, Milestone__c, Milestone__r.Account_name__c, Milestone__r.Date_submitted__c, Portfolio__c, Profile__c, Proposal__c, Proposal__r.Account__r.Name, Proposal__r.Date_received__c, Review_Form__c, Status__c, Status_external__c, Profile__r.Org_name__c, Profile__r.Account__c, Profile__r.Account__r.Name, Profile__r.Date_submitted__c, Milestone__r.Name, Milestone__r.Date_submitted__c, Milestone__r.Review_priority__c, Milestone__r.Country_name__c
                 FROM Assessment__c
                 WHERE Advisor__c=:advisorId
                 AND Form__c=null
@@ -337,7 +337,7 @@ public with sharing class AssessorSiteController {
             whereClause = whereClause + ' AND Status_external__c=:status';
         }
         
-        String queryString = 'SELECT Id, Name, Advisor__c, Milestone__c, Milestone__r.Account_name__c, Milestone__r.Country_name__c, Milestone__r.Name, Milestone__r.Proposal__r.Grant_type__c, Milestone__r.Proposal__r.Thematic_priority__c, Milestone__r.Date_due__c, Milestone__r.Date_received__c, Milestone__r.Review_priority__c, Milestone__r.Template_language__c, Status_external__c FROM Assessment__c' + whereClause + ' ORDER BY Milestone__r.Review_priority__c DESC, Status_external__c, Date_submitted__c ASC';
+        String queryString = 'SELECT Id, Name, Advisor__c, Milestone__c, Milestone__r.Account_name__c, Milestone__r.Country_name__c, Milestone__r.Name, Milestone__r.Proposal__r.Grant_type__c, Milestone__r.Proposal__r.Thematic_priority__c, Milestone__r.Date_due__c, Milestone__r.Date_submitted__c, Milestone__r.Review_priority__c, Milestone__r.Template_language__c, Status_external__c FROM Assessment__c' + whereClause + ' ORDER BY Milestone__r.Review_priority__c DESC, Status_external__c, Date_submitted__c ASC';
 
         if (count!=null) {
             queryString = queryString + ' LIMIT: count';

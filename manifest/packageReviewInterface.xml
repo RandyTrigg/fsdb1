@@ -3,6 +3,7 @@
     <types>
         <members>Advisor_term_types</members>
         <members>Accept_Decline</members>
+        <members>Indicator_outcome_types</members>
         <name>GlobalValueSet</name>
     </types>
     <types>
@@ -11,6 +12,14 @@
         <members>Advisor_Term__c</members>
         <members>Advisor_Payment__c</members>
         <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Assessment__c.Advisor__c</members>
+        <members>Letter__c.Advisor_Payment__c</members>
+        <members>Letter__c.Advisor_Term__c</members>
+        <members>Letter__c.Advisor__c</members>
+        <members>Letter__c.Assessment__c</members>
+        <name>CustomField</name>
     </types>
     <types>
         <members>Assessment__c-Assessment Layout</members>
@@ -36,6 +45,7 @@
     <types>
         <members>Review</members>
         <members>ReviewFormController</members>
+        <members>Assessment</members>
         <members>AssessmentMilestoneTest</members>
         <members>AssessmentProfileTest</members>
         <members>AssessmentProposalTest</members>
@@ -46,6 +56,7 @@
         <members>LookupSearchResult</members>
         <members>LookupSearchResultTests</members>
         <members>GFW_Exception</members>
+        <members>LWC_Exception</members>
         <members>AssessmentController</members>
         <members>AssessmentControllerTest</members>
         <members>AdvisorController</members>
@@ -56,6 +67,7 @@
         <members>AdvisorPaymentControllerTest</members>
         <members>AdvisorUpdateLookupsInvocable</members>
         <members>AdvisorTermRemindersSchedule</members>
+        <members>AdvisorSummary</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -79,6 +91,35 @@
         <members>assessmentsAssigned</members>
         <members>lwcUtilities</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Application_Setting__mdt</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Application_Setting__mdt.Datetime_Value__c</members>
+        <members>Application_Setting__mdt.Description__c</members>
+        <members>Application_Setting__mdt.Integer_Value__c</members>
+        <members>Application_Setting__mdt.String_Value__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Application_Setting.Internal_Review_Mode</members>
+        <members>Application_Setting.Permissible_form_types_Collab_minimal</members>
+        <members>Application_Setting.Permissible_form_types_Assessments</members>
+        <members>Application_Setting.Permissible_form_types_External_review</members>
+        <members>Application_Setting.Permissible_form_types_Internal_review</members>
+        <members>Permissible_form_types_Participatory_GM</members>
+        <members>Permissible_form_types_View_forms</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>Application_Setting__mdt-Application Setting Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Review_Form_Component__c.Indicator_outcome_type__c</members>
+        <name>CustomField</name>
     </types>
     <version>53.0</version>
 </Package>

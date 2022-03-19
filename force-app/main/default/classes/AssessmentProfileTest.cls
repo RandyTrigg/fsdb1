@@ -129,7 +129,7 @@ public without sharing class AssessmentProfileTest {
 
         System.assertEquals('Pending', assessWrapper.statusExternal);
         System.assertEquals(1, assessWrapper.classificationAssignMap.values().size());
-        System.assertEquals(null, assessWrapper.linkedGranteeReport);
+        System.assertEquals(null, assessWrapper.linkedMilestone);
 
     }
 

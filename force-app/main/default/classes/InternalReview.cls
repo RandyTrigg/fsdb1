@@ -7,7 +7,6 @@ public with sharing class InternalReview extends Review{
     public String statusExternal;
     public String proposalAppType;
     public String proposalGrantType;
-    public Boolean isWomensFund;
     public String milestoneType;
 
 
@@ -17,7 +16,7 @@ public with sharing class InternalReview extends Review{
         System.debug('objName: '+objName);
 
         if (objName=='Proposal__c') {
-            Proposal__c prop = [SELECT ID, Account__r.Name, Account__c, Status__c, Status_external__c, Date_approved__c, Date_declined__c, Date_awarded__c, Date_received__c, App_type__c FROM Proposal__c WHERE ID=:recordId];
+            Proposal__c prop = [SELECT ID, Account__r.Name, Account__c, Status__c, Status_external__c, Date_declined__c, Date_awarded__c, Date_received__c, App_type__c FROM Proposal__c WHERE ID=:recordId];
             this.type = 'Proposal';
             this.accountId = prop.Account__c;
             this.accountName = prop.Account__r.Name;
@@ -32,13 +31,12 @@ public with sharing class InternalReview extends Review{
             loadProposal(recordId);
             
         } else if (objName=='Milestone__c') {
-            Milestone__c milestone = [SELECT ID, Name, Type__c, Date_received__c, Proposal__c, Proposal__r.Grant_type__c, Proposal__r.App_type__c, Proposal__r.Account__c, Proposal__r.Account__r.Name, Proposal__r.Account__r.Womens_Fund__c, Report_Spec__r.Form_reporting_Qs__r.Review_Form__c FROM Milestone__c WHERE ID=:recordId];
+            Milestone__c milestone = [SELECT ID, Name, Type__c, Date_submitted__c, Proposal__c, Proposal__r.Grant_type__c, Proposal__r.App_type__c, Proposal__r.Account__c, Proposal__r.Account__r.Name, Milestone_Spec__r.Review_Form__c FROM Milestone__c WHERE ID=:recordId];
             this.type = 'Milestone';
             this.accountId = milestone.Proposal__r.Account__c;
             this.accountName = milestone.Proposal__r.Account__r.Name;
-            this.dateReceived = milestone.Date_received__c;
+            this.dateReceived = milestone.Date_submitted__c;
             this.milestoneType = milestone.Type__c;
-            this.isWomensFund = milestone.Proposal__r.Account__r.Womens_Fund__c;
             this.proposalGrantType = milestone.Proposal__r.Grant_type__c;
             this.proposalAppType = milestone.Proposal__r.App_type__c;
             // Determine Review Form
@@ -86,10 +84,10 @@ public with sharing class InternalReview extends Review{
 
             // Update the Milestone or Proposal Review Completion Date if not already filled in
             if (this.type == 'Milestone') {
-                if (this.linkedMilestone.Date_review_completed__c==null) {
+                if (this.linkedMilestone.Date_reviewed__c==null) {
                     Milestone__c m = new Milestone__c (
                         Id=this.linkedMilestone.Id,
-                        Date_review_completed__c = today
+                        Date_reviewed__c = today
                     );
                     update m;
                 }
@@ -143,8 +141,8 @@ public with sharing class InternalReview extends Review{
 
     private ID getMilestoneReviewForm(Milestone__c milestone) {
         //First check and see if the form behind the milestone links to a review form.  If so, use that form
-        if (milestone.Report_Spec__r.Form_reporting_Qs__r.Review_Form__c !=null) {
-            return milestone.Report_Spec__r.Form_reporting_Qs__r.Review_Form__c;
+        if (milestone.Milestone_Spec__r.Review_Form__c !=null) {
+            return milestone.Milestone_Spec__r.Review_Form__c;
         } else {
             // First, get all the active review forms.
             Review_Form__c[] reviewForms = [SELECT Id, Name FROM Review_Form__c WHERE Active__c = true];
@@ -156,9 +154,7 @@ public with sharing class InternalReview extends Review{
 
             String baseFormName = 'Report' + (this.proposalGrantType == 'Crisis' ? 'Crisis' : this.proposalAppType);
 
-            Id formId = this.isWomensFund && rfMap.containsKey(baseFormName +this.milestoneType +'WF') ? rfMap.get(baseFormName +this.milestoneType +'WF').Id :
-                    this.isWomensFund && rfMap.containsKey(baseFormName +'WF') ? rfMap.get(baseFormName +'WF').Id :
-                    rfMap.containsKey(baseFormName +this.milestoneType) ? rfMap.get(baseFormName +this.milestoneType).Id :
+            Id formId = rfMap.containsKey(baseFormName +this.milestoneType) ? rfMap.get(baseFormName +this.milestoneType).Id :
                     rfMap.containsKey(baseFormName) ? rfMap.get(baseFormName).Id : 
                     rfMap.containsKey('ReportStandard' +this.milestoneType) ? rfMap.get('ReportStandard' +this.milestoneType).Id : 
                     rfMap.containsKey('ReportStandard') ? rfMap.get('ReportStandard').Id : 

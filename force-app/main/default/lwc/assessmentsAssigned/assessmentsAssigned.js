@@ -56,13 +56,13 @@ export default class AssessmentsAssigned extends NavigationMixin ( LightningElem
                     rec.dateReceived = rec.Milestone__r.Date_received__c;
                     rec.priority = rec.Milestone__r.Review_priority__c;
                     rec.country = rec.Milestone__r.Country_name__c;
-                    if (rec.Date_submitted__c || rec.Milestone__r.Date_review_completed__c) {
+                    if (rec.Date_submitted__c || rec.Milestone__r.Date_reviewed__c) {
                         rec.isReadOnly = true;
                     }
                 } else if (rec.Profile__c) {
                     rec.type = 'Profile Review';
                     if (!rec.Profile__r.Account__c) {
-                        rec.accountName = rec.Profile__r.Applicant_name__c;
+                        rec.accountName = rec.Profile__r.Org_name__c;
                     } else {
                         rec.accountName = rec.Profile__r.Account__r.Name;
                     }

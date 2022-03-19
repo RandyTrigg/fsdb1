@@ -553,7 +553,7 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
             try {
                 let recId;
                 if (this.review.type==="Milestone") {
-                    recId = this.review.linkedGranteeReport.Id;
+                    recId = this.review.linkedMilestone.Id;
                 } else if (this.review.type==="Profile") {
                     recId = this.review.linkedProfile.Id;
                 } else if (this.review.type==="Proposal") {

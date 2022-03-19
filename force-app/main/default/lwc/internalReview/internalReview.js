@@ -93,7 +93,7 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
     generateProposalLink() {
         let recId;
         if (this.internalReview.type=='Milestone') {
-            recId = this.internalReview.linkedGranteeReport.Proposal__r.Id;
+            recId = this.internalReview.linkedMilestone.Proposal__r.Id;
         } else if (this.internalReview.type=='Proposal') {
             recId = this.internalReview.linkedProposal.Id;
         }
@@ -124,7 +124,7 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
         this[NavigationMixin.GenerateUrl]({
             type: 'standard__recordPage',
             attributes: {
-                recordId: this.internalReview.linkedGranteeReport.Id,
+                recordId: this.internalReview.linkedMilestone.Id,
                 actionName: 'view',
             },
         }).then(url => {

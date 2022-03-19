@@ -14,13 +14,13 @@ public without sharing class AssessmentMilestoneTest {
         Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
-        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
+        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard');
         insert p;
 
         Milestone__c m = new Milestone__c (Proposal__c=p.Id);    
         insert m;   
 
-        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id, Milestone__c=m.Id);
+        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id);
         insert gmData;
 
         Classification__c cl =  new Classification__c (Name = 'test classification', Type__c = 'Population');
@@ -145,11 +145,11 @@ public without sharing class AssessmentMilestoneTest {
         AssessorSiteController.submitReview(assess.Id);
 
         Assessment__c submittedAssessment = [SELECT ID, Date_submitted__c, Milestone__c FROM Assessment__c LIMIT 1];
-        Milestone__c milestone =  [SELECT ID, Date_review_completed__c FROM Milestone__c WHERE ID=:submittedAssessment.Milestone__c];
+        Milestone__c milestone =  [SELECT ID, Date_submitted__c FROM Milestone__c WHERE ID=:submittedAssessment.Milestone__c];
 
         Date d = System.today();
         System.assertEquals(d, submittedAssessment.Date_submitted__c);
-        System.assertEquals(d, milestone.Date_review_completed__c);
+        System.assertEquals(d, milestone.Date_submitted__c);
 
     }
 
@@ -161,18 +161,18 @@ public without sharing class AssessmentMilestoneTest {
         Date lastWeek = System.today().addDays(-7);
         Milestone__c rep = new Milestone__c (
             Id=assess.Milestone__c,
-            Date_review_completed__c = lastWeek
+            Date_submitted__c = lastWeek
         );
         update rep;
 
         AssessorSiteController.submitReview(assess.Id);
 
         Assessment__c submittedAssessment = [SELECT ID, Date_submitted__c, Milestone__c FROM Assessment__c LIMIT 1];
-        Milestone__c milestone =  [SELECT ID, Date_review_completed__c FROM Milestone__c WHERE ID=:submittedAssessment.Milestone__c];
+        Milestone__c milestone =  [SELECT ID, Date_submitted__c FROM Milestone__c WHERE ID=:submittedAssessment.Milestone__c];
 
         Date d = System.today();
         System.assertEquals(d, submittedAssessment.Date_submitted__c);
-        System.assertEquals(lastWeek, milestone.Date_review_completed__c);
+        System.assertEquals(lastWeek, milestone.Date_submitted__c);
 
     }
 }

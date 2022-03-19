@@ -56,7 +56,7 @@ public class AdvisorController {
         // Query for data to build the letters
         Map<Id, Advisor__c> selMap = new Map<Id, Advisor__c> ([
             SELECT Id, Account__c, Account__r.OwnerId, Contact__c,
-            Emails__c, Contact__r.Email, Contact__r.AQB__OtherEmail__c
+            Emails__c, Contact__r.Email, Contact__r.Email2__c
             FROM Advisor__c
             WHERE Id IN : selIds
         ]);
@@ -295,9 +295,7 @@ public class AdvisorController {
                 c = new Contact(
                     RecordTypeId = recTypeIdContactGM,
                     AccountId = commAccId,
-                    AQB__Type__c = 'Friend',
                     Email = email,
-                    Online_email__c = email,
                     LastName = adv.Contact__r.LastName,
                     FirstName = adv.Contact__r.FirstName
                 );

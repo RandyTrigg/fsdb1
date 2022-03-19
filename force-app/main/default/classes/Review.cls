@@ -108,7 +108,6 @@ public virtual with sharing class Review {
             this.outcomeType = indicator.Outcome_type__c;
             this.code = indicator.Code__c;
             this.description = indicator.Description__c;
-            this.impactArea = indicator.Impact_area__c;
             this.notes = indicator.Notes__c;
             this.comment = comment;
             this.quantity = quantity;
@@ -122,8 +121,8 @@ public virtual with sharing class Review {
 
     }
 
-    protected void loadGranteeReport(Id milestoneId) {
-        List < String > fieldNames = getAllGranteeReportFields();
+    protected void loadMilestone(Id milestoneId) {
+        List < String > fieldNames = getAllMilestoneFields();
 
         String query =
         ' SELECT ' +
@@ -137,11 +136,11 @@ public virtual with sharing class Review {
         List < Milestone__c > reportList = Database.query( query );
 
         if (reportList.size()>0) {
-            this.linkedGranteeReport = reportList[0];
-            if (this.linkedGranteeReport.Date_review_completed__c!=null) {
+            this.linkedMilestone = reportList[0];
+            if (this.linkedMilestone.Date_reviewed__c!=null) {
                 this.isComplete = true;
             }
-            loadGranteeReportGMData(reportList[0].Id);
+            loadMilestoneGMData(reportList[0].Id);
         }
     }
 
@@ -288,7 +287,7 @@ public virtual with sharing class Review {
             }
 
             // Get a list of all relevant Indicator Records
-            List < Indicator__c > allRelevantIndicators = [SELECT ID, Name, Outcome_type__c, Code__c, Description__c, Impact_area__c, Notes__c, Requires_number__c, Requires_comment__c FROM Indicator__c WHERE Active__c=true AND Outcome_type__c in:indicatorTypes];
+            List < Indicator__c > allRelevantIndicators = [SELECT ID, Name, Outcome_type__c, Code__c, Description__c, Notes__c, Requires_number__c, Requires_comment__c FROM Indicator__c WHERE Active__c=true AND Outcome_type__c in:indicatorTypes];
 
             // create the full map of existing and empty Indicator Assigns
             for (String outcomeType : indicatorTypes) {
@@ -464,7 +463,7 @@ public virtual with sharing class Review {
         
     }
 
-    protected void loadGranteeReportGMData(Id milestoneId) {
+    protected void loadMilestoneGMData(Id milestoneId) {
         List < String > fieldNames = getAllGMDataFields();
 
         // Logic for GM Record ID: IF there is a direct lookup on Milestone__c, use it.  Otherwise find the GM Data based on a lookup from the GM Data record to the Milestone. 

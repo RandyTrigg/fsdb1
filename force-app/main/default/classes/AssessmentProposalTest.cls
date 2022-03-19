@@ -14,7 +14,7 @@ public without sharing class AssessmentProposalTest {
         Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
-        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
+        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard');
         insert p;
 
         GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id);
@@ -118,7 +118,7 @@ public without sharing class AssessmentProposalTest {
             Label__c = 'input text area label',
             Help_text__c = 'help text',
             Object_name__c = 'GM_Data__c',
-            Field_name__c = 'Org_capacity_risk_description__c',
+            Field_name__c = 'Resource_mobilization_comment__c',
             Sort_number__c = 2
         ));
 
@@ -145,7 +145,7 @@ public without sharing class AssessmentProposalTest {
 
         System.assertEquals('Pending', assessWrapper.statusExternal);
         System.assertEquals(1, assessWrapper.classificationAssignMap.values().size());
-        System.assertEquals(null, assessWrapper.linkedGranteeReport);
+        System.assertEquals(null, assessWrapper.linkedMilestone);
 
     }
 
@@ -200,11 +200,11 @@ public without sharing class AssessmentProposalTest {
     static void updateTextPickOrLookupTest() {
         GM_Data__c gmData = [SELECT ID FROM GM_Data__c LIMIT 1];
 
-        ReviewFormController.updateTextPickOrLookup('GM_Data__c', gmData.Id, 'Org_capacity_risk_description__c', 'test description value');
+        ReviewFormController.updateTextPickOrLookup('GM_Data__c', gmData.Id, 'Resource_mobilization_comment__c', 'test description value');
 
-        GM_Data__c updatedGmData = [SELECT ID, Org_capacity_risk_description__c FROM GM_Data__c LIMIT 1];
+        GM_Data__c updatedGmData = [SELECT ID, Resource_mobilization_comment__c FROM GM_Data__c LIMIT 1];
 
-        System.assertEquals('test description value', updatedGmData.Org_capacity_risk_description__c);
+        System.assertEquals('test description value', updatedGmData.Resource_mobilization_comment__c);
 
     }
 

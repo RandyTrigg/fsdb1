@@ -13,16 +13,16 @@ public class AssessorSiteTest {
         Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
-        Profile__c prof = new Profile__c (Account__c=a.Id;
+        Profile__c prof = new Profile__c (Account__c=a.Id);
         insert prof;
 
-        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
+        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard');
         insert p;
 
         Fund__c fund = new Fund__c(Name='TestRestriction');
-        insert restrict;
+        insert fund;
 
-        Allocation__c alloc = new Allocation__c(Fund__c=fund.Id, Grant_size__c=10000, Num_grants__c=2, Years__c='MY2');
+        Allocation__c alloc = new Allocation__c(Fund__c=fund.Id, Grant_size__c=10000, Num_grants__c=2);
         insert alloc;
 
         Invite__c inv = new Invite__c(Account__c = a.Id,Profile__c=prof.Id,Proposal__c=p.Id, Allocation__c=alloc.Id);
@@ -32,10 +32,10 @@ public class AssessorSiteTest {
         p.Invite__c = inv.Id;
         update p;
 
-        Milestone__c m = new Milestone__c (Proposal__c=p.Id, Which_yearly__c=1, Time_sensitive__c=true);    
+        Milestone__c m = new Milestone__c (Proposal__c=p.Id, Time_sensitive__c=true);    
         insert m;   
 
-        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id, Milestone__c=m.Id);
+        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id);
         insert gmData;
 
         Portfolio__c portfolio = new Portfolio__c(Name='Test Portfolio', Active__c=true, Type__c='Externally viewed');

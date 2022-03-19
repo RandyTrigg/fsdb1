@@ -62,7 +62,7 @@ public class AssessmentController {
         
         Set<Id> accIds = new Set<Id> ();
         for (Assessment__c ap : assessRecords) {
-            Id accId = ap.Advisor__r.Account__c;
+            Id accId = ap.Account__c;
             if (accId != null) accIds.add(accId);
         }
         Map<Id, List<String>> emails = Utilities.emailsForAccounts(accIds);
@@ -96,7 +96,7 @@ public class AssessmentController {
     private static Assessment__c[] fetchRecords(Set<Id> ids) {
         system.debug('fetchRecords: ids = ' +JSON.serialize(ids));
         return [
-            SELECT Id, Advisor__c, Advisor__r.Account__c, 
+            SELECT Id, Advisor__c, Account__c, 
             Status_numeric__c, Advisor__r.OwnerId
             FROM Assessment__c
             WHERE Id IN : ids

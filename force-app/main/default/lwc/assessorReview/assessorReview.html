@@ -38,8 +38,8 @@
                 <div if:true={assessmentReview.isMilestone} class="slds-var-m-bottom_medium slds-border_bottom">
                     <div class="slds-text-heading_medium">
                         <p class="slds-text-heading_medium"><span style="font-weight: bold">Reviewer: </span>{assessmentReview.reviewerName}</span></p>
-                        <p><span style="font-weight: bold">Milestone #: </span>{assessmentReview.linkedGranteeReport.Name}</span></p>
-                        <p><span style="font-weight: bold">Proposal #: </span>{assessmentReview.linkedGranteeReport.Proposal__r.Name}</p>
+                        <p><span style="font-weight: bold">Milestone #: </span>{assessmentReview.linkedMilestone.Name}</span></p>
+                        <p><span style="font-weight: bold">Proposal #: </span>{assessmentReview.linkedMilestone.Proposal__r.Name}</p>
                         <p><span style="font-weight: bold">Organization: </span>{assessmentReview.accountName}</p>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                             <p class="slds-text-heading_medium"><span style="font-weight: bold">Organization: </span>{assessmentReview.linkedProfile.Account__r.Name}</span></p>
                         </div>
                         <div if:false={assessmentReview.linkedProfile.Account__c}>
-                            <p class="slds-text-heading_medium"><span style="font-weight: bold">Organization: </span>{assessmentReview.linkedProfile.Applicant_name__c}</span></p>
+                            <p class="slds-text-heading_medium"><span style="font-weight: bold">Organization: </span>{assessmentReview.linkedProfile.Org_name__c}</span></p>
                         </div>
                     </div>
                 </div>

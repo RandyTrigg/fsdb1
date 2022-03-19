@@ -35,17 +35,17 @@ public without sharing class InternalReviewTest {
     }
 
     @isTest
-    static void granteeReportReviewTest() {
-        String granteeReportId = setupGranteeReportData();
-        InternalReview rev = new InternalReview(granteeReportId);
+    static void milestoneReviewTest() {
+        String milestoneId = setupMilestoneData();
+        InternalReview rev = new InternalReview(milestoneId);
 
         // Submit the review
         rev.submit();
 
-        Milestone__c rep = [SELECT ID, Date_review_completed__c FROM Milestone__c WHERE ID=:granteeReportId];
+        Milestone__c rep = [SELECT ID, Date_reviewed__c FROM Milestone__c WHERE ID=:milestoneId];
 
         Date today = System.today();
-        System.assertEquals(today, rep.Date_review_completed__c);
+        System.assertEquals(today, rep.Date_reviewed__c);
     }
 
     @isTest
@@ -65,7 +65,7 @@ public without sharing class InternalReviewTest {
 
     }
 
-    static String setupGranteeReportData(){
+    static String setupMilestoneData(){
         Region__c reg = new Region__c (Name = 'test region');
         insert reg;
         insert new Country__c (Name = 'test country', Region__c = reg.Id);
@@ -73,13 +73,13 @@ public without sharing class InternalReviewTest {
         Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
-        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
+        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard');
         insert p;
 
-        Milestone__c gr = new Milestone__c (Proposal__c=p.Id, Which_yearly__c=1);    
+        Milestone__c gr = new Milestone__c (Proposal__c=p.Id);    
         insert gr;   
 
-        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id, Milestone__c=gr.Id);
+        GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id);
         insert gmData;
 
         Classification__c cl =  new Classification__c (Name = 'test classification', Type__c = 'Population');
@@ -165,7 +165,7 @@ public without sharing class InternalReviewTest {
         Account a = new Account (Name = 'test account', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
         insert a;
 
-        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard', Fund__c = 'Program');
+        Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard');
         insert p;
 
         GM_Data__c gmData = new GM_Data__c (Account__c = a.Id, Proposal__c = p.Id);
@@ -266,7 +266,7 @@ public without sharing class InternalReviewTest {
             Label__c = 'input text area label',
             Help_text__c = 'help text',
             Object_name__c = 'GM_Data__c',
-            Field_name__c = 'Org_capacity_risk_description__c',
+            Field_name__c = 'Resource_mobilization_comment__c',
             Sort_number__c = 2
         ));
 

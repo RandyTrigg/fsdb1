@@ -92,7 +92,7 @@ public class AdvisorTermController {
         return [
             SELECT Id, Status_numeric__c, Advisor__c, Advisor__r.Account__c, Advisor__r.Account__r.OwnerId, Advisor__r.Contact__c,
             Advisor__r.Emails__c, 
-            Advisor__r.Contact__r.Email, Advisor__r.Contact__r.AQB__OtherEmail__c
+            Advisor__r.Contact__r.Email, Advisor__r.Contact__r.Email2__c
             FROM Advisor_Term__c
             WHERE Id IN : ids
         ];
