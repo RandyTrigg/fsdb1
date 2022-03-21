@@ -92,10 +92,6 @@
                 <field>Closing_survey_form__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Anonymous_applicant__c</field>
-            </layoutItems>
-            <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
@@ -321,23 +317,11 @@
         <relatedList>RelatedHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
-        <fields>OBJECT_ID</fields>
-        <fields>Account__c</fields>
-        <fields>Contact_email__c</fields>
-        <fields>Country__c</fields>
-        <fields>Keep_confidential__c</fields>
-        <fields>LAST_UPDATE</fields>
-        <fields>UPDATEDBY_USER</fields>
-        <relatedList>Applicant__c.Form_prequal__c</relatedList>
-    </relatedLists>
-    <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <fields>Advisor__c</fields>
-        <fields>Applicant__c</fields>
         <fields>Proposal__c</fields>
         <fields>Status__c</fields>
         <fields>Date_submitted__c</fields>
@@ -350,7 +334,6 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Operation__c</fields>
-        <fields>Applicant__c</fields>
         <fields>Form_Instance__c</fields>
         <fields>Language__c</fields>
         <fields>Notes__c</fields>

@@ -62,10 +62,6 @@
                 <behavior>Readonly</behavior>
                 <field>Form_name__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Applicant__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -366,7 +362,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Applicant__c</fields>
         <fields>Profile__c</fields>
         <fields>Proposal__c</fields>
         <fields>Language__c</fields>
@@ -375,17 +370,6 @@
         <fields>Number_of_errors__c</fields>
         <fields>Last_modified_datetime__c</fields>
         <relatedList>Form_Instance__c.Pre_populated_from__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>OBJECT_ID</fields>
-        <fields>Account__c</fields>
-        <fields>Contact_email__c</fields>
-        <fields>Country__c</fields>
-        <fields>Keep_confidential__c</fields>
-        <fields>LAST_UPDATE</fields>
-        <fields>UPDATEDBY_USER</fields>
-        <relatedList>Applicant__c.Self_assessment_form_instance__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

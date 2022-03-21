@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customButtons>Deep_clone</customButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -152,11 +151,6 @@
             <actionType>QuickAction</actionType>
             <sortOrder>12</sortOrder>
         </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Deep_clone</actionName>
-            <actionType>CustomButton</actionType>
-            <sortOrder>13</sortOrder>
-        </platformActionListItems>
     </platformActionList>
     <relatedLists>
         <relatedList>RelatedFileList</relatedList>
@@ -175,7 +169,6 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Sort_number__c</fields>
-        <fields>Form_Item__c</fields>
         <fields>Type__c</fields>
         <fields>UPDATEDBY_USER</fields>
         <relatedList>Form_Component__c.Form_Phrase__c</relatedList>
@@ -196,13 +189,6 @@
         <fields>Target_component__c</fields>
         <fields>Target_item__c</fields>
         <relatedList>Form_Component_Connector__c.Form_Phrase__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Type__c</fields>
-        <fields>Form_Section__c</fields>
-        <fields>Sort_number__c</fields>
-        <relatedList>Form_Item__c.Form_Phrase__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
@@ -269,7 +255,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Form_Item__c</fields>
         <fields>Required__c</fields>
         <fields>Sort_number__c</fields>
         <fields>Type__c</fields>
@@ -337,7 +322,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Form_Item__c</fields>
         <fields>Required__c</fields>
         <fields>Sort_number__c</fields>
         <fields>Type__c</fields>
@@ -386,17 +370,6 @@
         <fields>Num_profiles__c</fields>
         <fields>Num_advisors__c</fields>
         <relatedList>Portfolio__c.Form_Phrase_welcome_new_org__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>OBJECT_ID</fields>
-        <fields>Account__c</fields>
-        <fields>Contact_email__c</fields>
-        <fields>Country__c</fields>
-        <fields>Keep_confidential__c</fields>
-        <fields>LAST_UPDATE</fields>
-        <fields>UPDATEDBY_USER</fields>
-        <relatedList>Applicant__c.Form_Phrase_welcome_new_org__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
@@ -478,7 +451,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Applicant__c</fields>
         <fields>Profile__c</fields>
         <fields>Proposal__c</fields>
         <fields>Language__c</fields>

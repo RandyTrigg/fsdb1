@@ -149,19 +149,8 @@
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
-        <fields>Form_Phrase__c</fields>
-        <fields>Sort_number__c</fields>
-        <fields>CREATEDBY_USER</fields>
-        <fields>UPDATEDBY_USER</fields>
-        <relatedList>Form_Picklist_Phrase__c.Form_Picklist__c</relatedList>
-        <sortField>Sort_number__c</sortField>
-        <sortOrder>Asc</sortOrder>
-    </relatedLists>
-    <relatedLists>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
-        <fields>Form_Item__c</fields>
         <fields>Required__c</fields>
         <fields>Sort_number__c</fields>
         <fields>Type__c</fields>

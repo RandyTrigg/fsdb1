@@ -3,7 +3,7 @@
     <fullName>Form_name__c</fullName>
     <description>The name of the form containing this form component</description>
     <externalId>false</externalId>
-    <formula>Form_Item__r.Form_Section__r.Form__r.Name</formula>
+    <formula>Form__r.Name</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>The name of the form containing this form component</inlineHelpText>
     <label>Form name</label>

@@ -13,10 +13,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Form_Item__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Type__c</field>
             </layoutItems>
             <layoutItems>
@@ -177,7 +173,6 @@
         <fields>Name</fields>
         <fields>Form_phrase_in_English__c</fields>
         <fields>Type__c</fields>
-        <fields>Form_Item__c</fields>
         <fields>Required__c</fields>
         <fields>Character_limit__c</fields>
         <fields>Word_limit__c</fields>
@@ -263,7 +258,6 @@
     </platformActionList>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Applicant__c</fields>
         <fields>Index__c</fields>
         <fields>Type__c</fields>
         <fields>Data_text__c</fields>
@@ -319,7 +313,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Form_Item__c</fields>
         <fields>Required__c</fields>
         <fields>Sort_number__c</fields>
         <fields>Type__c</fields>
