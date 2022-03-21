@@ -432,17 +432,7 @@ global class Utilities {
         return targetType != null ? targetType.newSObject() : null; 
     }
 
-    // Returns field object for given string fieldName
-    // TO DO: Nix below. Figure out how to declare class variables to stash and save retrievals for this.
-    public static Schema.SObjectField sobjFieldForFieldName(String objName, String fieldName) {
-        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
-        Schema.SObjectField field = schemaMap.get(objName)
-            .getDescribe()
-            .fields.getMap().get(fieldName);
-        return field;
-    }
-
-    // Return map of field name with ability to get describe.
+    // Returns map of field name with ability to get describe.
     public static Map<String, Schema.SObjectField> fieldMapForObject(String objName) {
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
@@ -450,6 +440,21 @@ global class Utilities {
             .fields.getMap();
         return fieldMap;
     }
+    
+    // Returns map of record type DeveloperName to record type Id.
+    public static Map<String, Id> recTypeMapForObject(String objName) {
+        // Example used as reference: String gsRecordTypeID = Schema.getGlobalDescribe().get('Case').getDescribe().getRecordTypeInfosByName().get('Record Type Label').getRecordTypeId();
+        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+        Map<String, Schema.RecordTypeInfo> recTypeMap = schemaMap.get(objName)
+            .getDescribe()
+            .getRecordTypeInfosByDeveloperName();
+        Map<String, Id> recTypeMapNameId = new Map<String,Id>();
+        for (String name : recTypeMap.keyset()) {
+            recTypeMapNameId.put(name, recTypeMap.get(name).getRecordTypeId());
+        }
+        return recTypeMapNameId;
+    }
+
 
     // TO DO: Nix - Returns relationship names
     public static String relationshipNameForField(String objName, String fieldName) {

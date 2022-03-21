@@ -18,8 +18,9 @@ public without sharing class SyncController {
     List<Object> transactionsJSON = new List<Object>();
     List<Object> gcsJSON = new List<Object>();
     List<Object> oppsJSON = new List<Object>();
+    Map<String, Schema.SObjectField> fieldMapFSDB;
     
-    // Initialized upon launch
+    // Initialized upon launch / buildrecs
     Id fsOwnerId;
     List<GFW_Sync_Picklist_Mapping__mdt	> picklistMapping = new List<GFW_Sync_Picklist_Mapping__mdt>();
     Map<Id, List<GFW_Sync_Picklist_Mapping__mdt>> picklistMap = new Map<Id, List<GFW_Sync_Picklist_Mapping__mdt>>();
@@ -27,6 +28,7 @@ public without sharing class SyncController {
     Map<String,Map<String,GFW_Sync_Field_Mapping__mdt>> gfwFieldMapByMDTName = new Map<String,Map<String,GFW_Sync_Field_Mapping__mdt>>();
     Map<String,Map<String,GFW_Sync_Field_Mapping__mdt>> fsdbFieldMapByMDTName = new Map<String,Map<String,GFW_Sync_Field_Mapping__mdt>>();
     List<GFW_Sync_Object_Mapping__mdt> mdts = new List<GFW_Sync_Object_Mapping__mdt>();
+    Map<String,Id> recTypeMapDevNameId;
 
     public class attributesWrapper {
         string type;
@@ -290,16 +292,13 @@ public without sharing class SyncController {
         List<sObject> exstRecs = Utilities.fetchRecords(
             fsdbObjName, whereClause, null);
         System.debug('Existing recs: ' + exstRecs);
-        if (exstRecs!=null) {
+        if (exstRecs!=null && !exstRecs.IsEmpty()) {
             // Remove existing ids from list
             for (sObject extRec : exstRecs) {
                 idsGathered.remove((Id)extRec.get(extIdFieldName));
             }
-            idsToQuery.addAll(idsGathered);
-        } else {
-            // No existing ids - add all recs
-            idsToQuery.addAll(idsGathered);
         }
+        idsToQuery.addAll(idsGathered);
         System.debug('idsToQuery: ' + idsToQuery);
         return idsToQuery;
     }
@@ -382,18 +381,22 @@ public without sharing class SyncController {
 
     // Retrieve Sync Log Records by type and upsert
     public List<sObject> recsFromSyncLogRecs(String mdtObjName) {
+        // Iterate through FSDB fieldmappings to populate fsdb records with either GFW-queried values or default values if GFW field api name is blank.
+
         // Retrieve object and field mappings
         Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappingsFSDB(mdtObjName);
         String gfwObjName = new List<String>(objMap.keySet())[0];
         List<String> fsdbFieldList = new List<String>(fieldMap.keySet());
-        // Iterate through FSDB fieldmappings to populate fsdb records with either GFW-queried values or default values if GFW field api name is blank.
-
         String fsdbObjName = objMap.get(gfwObjName).FSDB_Object_Name__c;
-        Map<String, Schema.SObjectField> fieldMapFSDB = Utilities.fieldMapForObject(fsdbObjName);
-        String fsdbExternalIdFieldName = objMap.get(gfwObjName).FSDB_External_Id_Field_API_Name__c;
+        recTypeMapDevNameId = Utilities.recTypeMapForObject(fsdbObjName);
+        fieldMapFSDB = Utilities.fieldMapForObject(fsdbObjName);
+        
         // Set public class variable to field reference for external id (required for upsert operation)
-        extIdFieldReference = fieldMapFSDB.get(fsdbExternalIdFieldName);   // Formerly called this: Utilities.sobjFieldForFieldName(fsdbObjName, fsdbExternalIdFieldName);
+        String fsdbExternalIdFieldName = objMap.get(gfwObjName).FSDB_External_Id_Field_API_Name__c;
+        extIdFieldReference = fieldMapFSDB.get(fsdbExternalIdFieldName); 
+        
+        // Declare method variables
         String fieldType, gfwFieldName;
         List<sObject> objs = new List<sObject>();
 
@@ -420,6 +423,7 @@ public without sharing class SyncController {
                 System.debug('fieldtype: ' + fieldType);
                 gfwFieldName = fieldmapMDT.GFW_Field_API_Name__c;
                 if (fsdbFieldName == 'RecordTypeId') {
+                    // Special handling required: JSON contains related info for record type; not field name for storing record type id
                     sObj = populateFields(sObj, fieldType, fieldmapMDT, gfwInfo.get('RecordType'));
                     System.debug('This is the recordtype name field in GFW for mapping to FSDB record type Id: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + gfwInfo.get('RecordType'));
                 } else if (gfwFieldName != null) {
@@ -438,25 +442,10 @@ public without sharing class SyncController {
         } // for each sync log record
         System.debug('List of objs to insert: ' + objs);
         return objs;
-        // BOOKMARK extId *****
-        /* if (objs != null && objs.size() > 0) {
-            // List<sObject> testList = new List<sObject>{objs.get(0), objs.get(1), objs.get(2), objs.get(3)};
-            Database.UpsertResult[] upsResults = Database.upsert( objs, Utilities.sobjFieldForFieldName(fsdbObjName, fsdbExternalIdFieldName), false);
-            System.debug('upsResults: ' + upsResults);
-            for(Database.upsertResult result:upsResults) {
-                if (result.isSuccess() && result.isCreated()) {
-                    System.debug('Success!!' + (Id)result.getId());
-                } else {
-                    System.debug('Error: ' + result.getErrors());
-                }
-             }
-        } */
     }
 
     // Set value in given field 
     public sObject populateFields(sObject sObj, String fieldType, GFW_Sync_Field_Mapping__mdt fieldmapMDT, Object gfwValue) {
-        // TO DO: Add in picklists / record types
-        // TO DO: Assign owner? (Add to FieldMapping mdt fsdb Owner field; nothing on GFW field mapping side)
         String fsdbFieldName = fieldmapMDT.FSDB_Field_API_Name__c;
         String relName;
         // Check for picklist map
@@ -467,12 +456,14 @@ public without sharing class SyncController {
             System.debug('Picklists not null!');
             // For record type, retrieve record type Name from record json
             if (fsdbFieldName == 'RecordTypeId') {
-                // In picklist mapping, grab Id associated with record type name
+                // Reset gfwValue from map (record type info) to recordtype's DeveloperName.
+                // Picklist mapping swaps GFW's recordtype DeveloperName with fsdb recordtype DeveloperName.
                 Map<String,Object> rTypeMap = (Map<String,Object>) gfwValue;
-                gfwValue = rTypeMap.get('Name'); // BOOKMARK
+                gfwValue = rTypeMap.get('DeveloperName');
                 System.debug('Record type picklist; gfwValue set to: ' + (String)gfwValue);
             }
             for (GFW_Sync_Picklist_Mapping__mdt pL : pLVals ) {
+                // Set gfwValue based on picklist mapping
                 if ((String)gfwValue == pL.GFW_Picklist_Value__c) gfwValue = (Object)pL.FSDB_Picklist_Value__c;
             }
         } // ****BOOKMARK - double check this works
@@ -492,17 +483,24 @@ public without sharing class SyncController {
         } else if (fieldType == 'REFERENCE') {
             system.debug('reference fsdbFieldName: ' + fsdbFieldName);
             if (fsdbFieldName == 'RecordTypeId') {
-                // BOOKMARK!! gfwValue at this point is another map of RecordType to object, with 'Name' holding the value of the recordtype
-                sObj.put(fsdbFieldName, (Id)gfwValue);
+                // At this point, gfwValue set to DeveloperName of record type in fsdb. 
+                // Look up recordtypeid by DeveloperName to set RecordTypeId.
+                sObj.put(fsdbFieldName, recTypeMapDevNameId.get((String)gfwValue));
             }
-            // TO DO: Genericize this
-            else if (fieldmapMDT.MasterLabel.contains('Account')) {
-                // Instantiate new sObject and set that to lookup reference using putSObject 
-                Account accountReference = new Account();
-                System.debug('external id field name: ' + externalIdFieldName('Account') + 'value: ' + (Id)gfwValue);
-                accountReference.put(externalIdFieldName('Account'), (Id)gfwValue);
-                relName = Utilities.relationshipNameForField(fieldmapMDT.GFW_Sync_Object_Mapping__r.FSDB_Object_Name__c, fsdbFieldName);
-                sObj.putSObject(relName, accountReference);
+            else {
+                // Instantiate new lookup/reference sObject.
+                // Set that to lookup reference using putSObject 
+                Schema.sObjectType reference = fieldMapFSDB.get(fsdbFieldName).getDescribe().getReferenceTo()[0];
+                String refObjName = reference.getDescribe().getName();
+                sObject refSObj = Schema.getGlobalDescribe().get(refObjName).newSObject();
+                // Account accountReference = new Account();
+                System.debug('external id field name: ' + externalIdFieldName(refObjName) + 'value: ' + (Id)gfwValue);
+                // possible to set fields on generic sObject?
+                sObj.put(externalIdFieldName(refObjName), (Id)gfwValue);
+                // relName = Utilities.relationshipNameForField(fieldmapMDT.GFW_Sync_Object_Mapping__r.FSDB_Object_Name__c, fsdbFieldName);
+                relName =  String.valueof(fieldMapFSDB.get(fsdbFieldName).getDescribe().getRelationshipName());
+                // sObj.putSObject(relName, accountReference);
+                sObj.putSObject(relName, refSObj);
                 System.debug('Relationship name: ' + relName);
             } 
         }
@@ -525,14 +523,31 @@ public without sharing class SyncController {
         gatherGiftCredits();
         gatherOpportunities();
 
-        // Add parent accounts/contacts not already in system
+        // Generate Sync Log and Sync Log Records after callouts completed (cannot do DML operations before then)
+
+        Set<Id> idsToUpsert;
+        List<Object> records;
+        Map<String, Set<Id>> objNamesIdsMap = new Map<String, Set<Id>>();
+        objNamesIdsMap.put('Account', acctIds);
+        // objNamesIdsMap.put('Contact', ctIds);
+        System.debug('ContactIds gathered: ' + ctIds);
+
+        // Add accounts/contacts not already in system
         // gather Account json and Contact json and stash in log records (one for every record?)
-        List<Object> records = queryForRecords('Account', recIdsToInsert('Account', acctIds), null);
-        System.debug('records queried: ' + records);
-        
-        // Create new sync log after callouts completed (cannot do DML operations before then)
-        newSyncLog();
-        logRecords('Account', records);
+        for (String thisObjName : objNamesIdsMap.keyset()) {
+            idsToUpsert = recIdsToInsert(thisObjName, objNamesIdsMap.get(thisObjName));
+            System.debug('thisObjName: ' + thisObjName + '; idsToUpsert: ' + idsToUpsert);
+            if (!idsToUpsert.IsEmpty()) {
+                records = queryForRecords(thisObjName, idsToUpsert, null);
+                System.debug('Launch sync: ' + thisObjName + ' records to create: ' + records);
+                
+                // ******* ERROR: Can't put this in a loop - DML operations need to be done AFTER all callouts
+                // Stash account records and contact records in public variables. THEN create sync log and log records.
+                newSyncLog();
+                logRecords(thisObjName, records);
+            }
+        }
+
         //Contacts, Recurring Donations, Opportunities, Tasks on Opportunities, Gifts, Transactions, GiftCredits, SoftCredits 
 
         // upsertRecs('Contact', recIdsToInsert('Contact', ctIds));
@@ -585,7 +600,8 @@ public without sharing class SyncController {
                 if (gc.get('AQB__DonorAccount__c') != null) { acctIds.add((Id)gc.get('AQB__DonorAccount__c')); }
                 if (gc.get('AQB__ContactId__c') != null) { 
                     // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
-                    ctIds.add((Id)gc.get('AQB_ContactId__c')); 
+                    ctIds.add((Id)gc.get('AQB__ContactId__c')); 
+                    System.debug('GiftCredit contactIds: ' + ctIds);
                     pAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
                     if (pAcct != null) acctIds.add((Id)pAcct.get('AccountId'));
                     // Package GCs for OppContactRoles - GFWGiftExternalId on Opp and GFWContactExternalId.

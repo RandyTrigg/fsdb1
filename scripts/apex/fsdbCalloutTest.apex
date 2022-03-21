@@ -7,32 +7,33 @@
         fsGroups = [SELECT GFW_COA_Name__c, Designated_Role_for_Ownership__c
             FROM FS_Group_Settings__mdt
         ];
-/*
+
         if (fsGroups != null && !fsGroups.isEmpty()) {
             for (FS_Group_Settings__mdt fs : fsGroups) {
                 // For each FS, grab COA and role to assign record ownership             
                 SyncController scThisFS = new SyncController();
-*/
-                /*
+
+                
                 scThisFS.startDateTime = datetime.now();
                 scThisFS.fsCOA = fs.GFW_COA_Name__c;
                 scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
                 scThisFS.LaunchSync();
-                */
+     
 /*
                 List<sObject> ls = new List<sObject>();               
                 ls = scThisFS.buildRecsToUpsert('Account');
                 system.debug('Here is the final list: ' + ls);
+*/
             }
         }   
 
-*/
 
 
+/*
         // BATCHABLE
         Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert('Account'), 5);
         System.debug('batchInstanceId: ' + batchInstanceId);
-
+*/
         // QUEUEABLE
         // System.enqueueJob(new Sync_Queueable());
 
