@@ -272,41 +272,6 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Statistics</label>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Num_assessments_req_d_last_5_years__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Num_assessments_rec_d_last_5_years__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Response_rate_last_5_years__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Num_assessments_req_d_since_2007__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Num_assessments_rec_d_since_2007__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Response_rate_since_2007__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <style>TwoColumnsLeftToRight</style>
-    </layoutSections>
-    <layoutSections>
-        <customLabel>true</customLabel>
-        <detailHeading>true</detailHeading>
-        <editHeading>true</editHeading>
         <label>Archived Fields</label>
         <layoutColumns>
             <layoutItems>
@@ -555,7 +520,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Application__c</fields>
         <fields>Form_Component__c</fields>
         <fields>Type__c</fields>
         <fields>Data_text__c</fields>

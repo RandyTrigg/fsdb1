@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reminder_template__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The correspondence template for reminder letters/emails for unsubmitted form instances</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The correspondence template for reminder letters/emails for unsubmitted form instances</inlineHelpText>
+    <label>Reminder template</label>
+    <referenceTo>Template__c</referenceTo>
+    <relationshipLabel>Forms (Reminder template)</relationshipLabel>
+    <relationshipName>Forms1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

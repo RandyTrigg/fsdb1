@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Phrase_replacement_for_View__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The text phrase that replaces this component in View mode - if blank, then component display is the same in View and Edit.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The text phrase that replaces this component in View mode - if blank, then component display is the same in View and Edit.</inlineHelpText>
+    <label>Form Phrase replacement for View</label>
+    <referenceTo>Form_Phrase__c</referenceTo>
+    <relationshipLabel>Form Components (Form Phrase replacement for View)</relationshipLabel>
+    <relationshipName>Form_Components2</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

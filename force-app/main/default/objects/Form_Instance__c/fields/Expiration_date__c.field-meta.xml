@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expiration_date__c</fullName>
+    <description>Date on which this form instance expires (only applicable for certain forms). Used to &quot;force&quot; certain behavior on Online Apps.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date on which this form instance expires (only applicable for certain forms). Used to &quot;force&quot; certain behavior on Online Apps.</inlineHelpText>
+    <label>Expiration date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

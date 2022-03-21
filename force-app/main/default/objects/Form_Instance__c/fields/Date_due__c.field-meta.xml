@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_due__c</fullName>
+    <description>Date by which time this form instance should be submitted</description>
+    <externalId>false</externalId>
+    <formula>IF (NOT(ISBLANK( Date_due_override__c )), Date_due_override__c , 
+
+ IF (NOT(ISBLANK( Milestone__c)) &amp;&amp; TEXT(Form__r.Type__c) = &quot;Reporting&quot;, Milestone__r.Date_due__c , 
+ IF (NOT(ISBLANK( Proposal__c)) &amp;&amp; CONTAINS(Form_name__c, &quot;Application&quot;), Proposal__r.Proposal_submit_deadline__c ,
+ IF (NOT(ISBLANK( Assessment__c)), Assessment__r.Date_due__c,
+ IF (NOT(ISBLANK( Portfolio__c)), Portfolio__r.Eligibility_deadline__c ,
+
+ IF (NOT(ISBLANK( Form__r.Days_from_created_to_due__c)), DATEVALUE(CreatedDate) + Form__r.Days_from_created_to_due__c,
+ null
+))))))</formula>
+    <inlineHelpText>Date by which time this form instance should be submitted</inlineHelpText>
+    <label>Date due</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

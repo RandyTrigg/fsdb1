@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Constant_values__c</fullName>
+    <description>Return-separated list of constant values for this picklist - the values should be numeric or some other form that does not need translating</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Return-separated list of constant values for this picklist - the values should be numeric or some other form that does not need translating</inlineHelpText>
+    <label>Constant values</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>10</visibleLines>
+</CustomField>

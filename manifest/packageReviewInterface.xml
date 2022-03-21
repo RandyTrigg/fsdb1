@@ -4,6 +4,7 @@
         <members>Advisor_term_types</members>
         <members>Accept_Decline</members>
         <members>Indicator_outcome_types</members>
+        <members>Form_type</members>
         <name>GlobalValueSet</name>
     </types>
     <types>
@@ -11,6 +12,13 @@
         <members>Advisor__c</members>
         <members>Advisor_Term__c</members>
         <members>Advisor_Payment__c</members>
+        <members>Form__c</members>
+        <members>Form_Phrase__c</members>
+        <members>Form_Phrase_Translation__c</members>
+        <members>Form_Instance__c</members>
+        <members>Form_Data__c</members>
+        <members>Form_Component__c</members>
+        <members>Form_Picklist__c</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -26,6 +34,13 @@
         <members>Advisor__c-Advisor Layout</members>
         <members>Advisor_Term__c-Advisor Term Layout</members>
         <members>Advisor_Payment__c-Advisor Payment Layout</members>
+        <members>Form__c-Form Layout</members>
+        <members>Form_Phrase__c-Form Phrase Layout</members>
+        <members>Form_Phrase_Translation__c-Form Phrase Translation Layout</members>
+        <members>Form_Instance__c-Form Instance Layout</members>
+        <members>Form_Data__c-Form Data Layout</members>
+        <members>Form_Component__c-Form Component Layout</members>
+        <members>Form_Picklist__c-Form Picklist Layout</members>
         <name>Layout</name>
     </types>
     <types>
@@ -33,6 +48,13 @@
         <members>Advisor__c</members>
         <members>Advisor_Term__c</members>
         <members>Advisor_Payment__c</members>
+        <members>Form__c</members>
+        <members>Form_Phrase__c</members>
+        <members>Form_Phrase_Translation__c</members>
+        <members>Form_Instance__c</members>
+        <members>Form_Data__c</members>
+        <members>Form_Component__c</members>
+        <members>Form_Picklist__c</members>
         <name>CustomTab</name>
     </types>
     <types>
@@ -40,6 +62,13 @@
         <members>RecPage_Advisor</members>
         <members>RecPage_Advisor_Term</members>
         <members>RecPage_Advisor_Payment</members>
+        <members>RecPage_Form_Phrase</members>
+        <members>RecPage_Form_Picklist</members>
+        <members>RecPage_Form</members>
+        <members>RecPage_Form_Component</members>
+        <members>RecPage_Form_Data</members>
+        <members>RecPage_Form_Instance</members>
+        <members>RecPage_Form_Phrase_Translation</members>
         <name>FlexiPage</name>
     </types>
     <types>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Phrase_Intro__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The (translatable) intro text for this form</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The (translatable) intro text for this form</inlineHelpText>
+    <label>Form Phrase Intro</label>
+    <referenceTo>Form_Phrase__c</referenceTo>
+    <relationshipLabel>Forms</relationshipLabel>
+    <relationshipName>Forms</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

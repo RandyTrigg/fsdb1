@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApprovedButNotSubmitted</fullName>
+    <active>true</active>
+    <description>Date submitted must be non-blank if Date approved is non-blank</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Date_approved__c)),
+ ISBLANK(Date_submitted__c)
+)</errorConditionFormula>
+    <errorMessage>Date submitted must be non-blank if Date approved is non-blank</errorMessage>
+</ValidationRule>

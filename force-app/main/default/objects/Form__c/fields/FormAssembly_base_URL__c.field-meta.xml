@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FormAssembly_base_URL__c</fullName>
+    <description>If non-blank, should be the base URL for a FormAssembly form, including the necessary form assembly field ids, for example, https://www.tfaforms.com/4897536?tfa_1=&lt;OrgName&gt;&amp;tfa_3=&lt;FormInstanceId&gt;</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If non-blank, should be the base URL for a FormAssembly form, including the necessary form assembly field ids, for example, https://www.tfaforms.com/4897536?tfa_1=&lt;OrgName&gt;&amp;tfa_3=&lt;FormInstanceId&gt;</inlineHelpText>
+    <label>FormAssembly base URL</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

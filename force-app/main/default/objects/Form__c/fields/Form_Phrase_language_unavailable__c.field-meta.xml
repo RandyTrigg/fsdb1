@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Phrase_language_unavailable__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>If form is unavailable in the online apps group&apos;s selected language, then display this phrase, else a generic phrase.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If form is unavailable in the online apps group&apos;s selected language, then display this phrase, else a generic phrase.</inlineHelpText>
+    <label>Form Phrase language unavailable</label>
+    <referenceTo>Form_Phrase__c</referenceTo>
+    <relationshipLabel>Forms (Form Phrase language unavailable)</relationshipLabel>
+    <relationshipName>FormsbZLX</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

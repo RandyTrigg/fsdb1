@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposal__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The proposal with which this value is associated</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The proposal with which this value is associated</inlineHelpText>
+    <label>Proposal</label>
+    <referenceTo>Proposal__c</referenceTo>
+    <relationshipLabel>Form Data</relationshipLabel>
+    <relationshipName>Form_Data</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

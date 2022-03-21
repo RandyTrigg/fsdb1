@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <description>Status of this form instance</description>
+    <externalId>false</externalId>
+    <formula>IF(NOT(ISBLANK(Date_invalidated__c)), &quot;Invalid&quot;,
+IF(
+ OR(
+  NOT(ISBLANK(Date_form_closed__c)),
+  AND( /* Expired pending form instances are considered closed. */
+   ISBLANK(Date_submitted__c),
+   NOT(ISBLANK(Expiration_date__c)),
+   Expiration_date__c &lt; TODAY()
+  ),
+  AND(
+   ISBLANK(Advisor__c), ISBLANK(Advisor_Term__c), ISBLANK(Assessment__c),
+   Form__r.Name &lt;&gt; &quot;Grantee Feedback Survey&quot;,
+   NOT(ISBLANK(Proposal__c)),
+   OR(
+     /* These tests are on date fields rather than status numeric to avoid overrunning formula compiled size. */
+     NOT(ISBLANK(Proposal__r.Date_award_withdrawn__c)),
+     NOT(ISBLANK(Proposal__r.Date_completed__c)),
+     NOT(ISBLANK(Proposal__r.Date_request_withdrawn__c)),
+     NOT(ISBLANK(Proposal__r.Date_declined__c))
+   )
+  )
+ ), &quot;Closed&quot;,
+IF(NOT(ISBLANK( Date_submitted__c )), &quot;Submitted&quot; ,
+IF( /* See if the most recent payment has a problem */
+ AND(
+  Name &lt;&gt; &quot;FI-024595&quot;,
+  Name &lt;&gt; &quot;FI-024596&quot;,
+  ISBLANK(Advisor__c), ISBLANK(Advisor_Term__c), ISBLANK(Assessment__c),
+  NOT(ISBLANK(Proposal__c)),
+  NOT(ISBLANK(Proposal__r.Payment_recent__c)),
+  OR(
+   Proposal__r.Payment_recent__r.Has_problem__c,
+   ISBLANK(Proposal__r.Payment_recent__r.Date_payment_letter_sent__c),
+   NOT(ISBLANK( Proposal__r.Payment_recent__r.Date_stalled__c ))
+  ),
+  OR( /* See if this form instance is for a brand new payment method. */
+   ISBLANK(Proposal__r.Current_payment_method__c),
+   Proposal__r.Current_payment_method__r.Form_Instance__c &lt;&gt; Id,
+   Proposal__r.Payment_recent__r.Payment_Method__c = Proposal__r.Current_payment_method__c,
+   Proposal__r.Current_payment_method__r.CreatedDate &lt; Proposal__r.Payment_recent__r.CreatedDate
+  )
+ ), &quot;Paused&quot;,
+&quot;Pending&quot;
+))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Status of this form instance</inlineHelpText>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

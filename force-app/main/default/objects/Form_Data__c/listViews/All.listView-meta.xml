@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Profile__c</columns>
+    <columns>Form_Instance__c</columns>
+    <columns>Form_Component__c</columns>
+    <columns>Type__c</columns>
+    <columns>Data_text__c</columns>
+    <columns>Data_textarea__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Profile__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Search_terms__c</field>
+        <operation>contains</operation>
+        <value>AG</value>
+    </filters>
+    <label>All</label>
+</ListView>
