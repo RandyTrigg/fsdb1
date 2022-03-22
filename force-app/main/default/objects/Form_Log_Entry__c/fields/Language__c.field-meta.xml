@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Language__c</fullName>
+    <description>The language used at the time this log entry was made</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The language used at the time this log entry was made</inlineHelpText>
+    <label>Language</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>The language at the time this record was last saved</fullName>
+                <default>false</default>
+                <label>The language at the time this record was last saved</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

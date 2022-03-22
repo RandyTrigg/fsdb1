@@ -109,7 +109,12 @@ public with sharing class AssessorSiteController {
             String advisorId = getRunningUserAdvisorId();
 
             return [
-                SELECT Id, Name, Account__c, Advisor__c, Advisor__r.Name, Advisor_Term__c, Date_submitted__c, Milestone__c, Milestone__r.Account_name__c, Milestone__r.Date_submitted__c, Portfolio__c, Profile__c, Proposal__c, Proposal__r.Account__r.Name, Proposal__r.Date_received__c, Review_Form__c, Status__c, Status_external__c, Profile__r.Org_name__c, Profile__r.Account__c, Profile__r.Account__r.Name, Profile__r.Date_submitted__c, Milestone__r.Name, Milestone__r.Date_submitted__c, Milestone__r.Review_priority__c, Milestone__r.Country_name__c
+                SELECT Id, Name, Account__c, Advisor__c, Advisor__r.Name, Advisor_Term__c, Date_submitted__c, 
+                Milestone__c, Milestone__r.Account_name__c, Milestone__r.Date_submitted__c, Milestone__r.Name, 
+                Milestone__r.Review_priority__c, Milestone__r.Country_name__c, Portfolio__c, Profile__c, 
+                Proposal__c, Proposal__r.Account__r.Name, Proposal__r.Date_received__c, Review_Form__c, Status__c, 
+                Status_external__c, Profile__r.Org_name__c, Profile__r.Account__c, Profile__r.Account__r.Name, 
+                Profile__r.Date_submitted__c
                 FROM Assessment__c
                 WHERE Advisor__c=:advisorId
                 AND Form__c=null

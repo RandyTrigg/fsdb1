@@ -181,37 +181,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Type__c</fields>
-        <fields>Operation__c</fields>
-        <fields>Source_form_name__c</fields>
-        <fields>Source_component__c</fields>
-        <fields>Target_form_name__c</fields>
-        <fields>Target_component__c</fields>
-        <fields>Target_item__c</fields>
-        <relatedList>Form_Component_Connector__c.Form_Phrase__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Form_Picklist__c</fields>
-        <fields>Sort_number__c</fields>
-        <fields>UPDATEDBY_USER</fields>
-        <relatedList>Form_Picklist_Phrase__c.Form_Phrase__c</relatedList>
-        <sortField>Sort_number__c</sortField>
-        <sortOrder>Asc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Form__c</fields>
-        <fields>Form_Phrase_Intro__c</fields>
-        <relatedList>Form_Section__c.Form_Phrase_Title__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Form__c</fields>
-        <relatedList>Form_Section__c.Form_Phrase_Intro__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <relatedList>Form__c.Form_Phrase_Intro__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -300,28 +269,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Error_Phrase__c</fields>
-        <fields>Form_Component__c</fields>
-        <fields>Target_component__c</fields>
-        <fields>Operation__c</fields>
-        <fields>Type__c</fields>
-        <fields>Value_number__c</fields>
-        <fields>LAST_UPDATE</fields>
-        <relatedList>Form_Component_Validator__c.Form_Phrase__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Form_Phrase__c</fields>
-        <fields>Form_Component__c</fields>
-        <fields>Target_component__c</fields>
-        <fields>Operation__c</fields>
-        <fields>Type__c</fields>
-        <fields>Value_number__c</fields>
-        <fields>LAST_UPDATE</fields>
-        <relatedList>Form_Component_Validator__c.Error_Phrase__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <fields>Required__c</fields>
         <fields>Sort_number__c</fields>
         <fields>Type__c</fields>
@@ -360,19 +307,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Type__c</fields>
-        <fields>Purpose__c</fields>
-        <fields>Date_started__c</fields>
-        <fields>Date_ended__c</fields>
-        <fields>OWNER.FIRST_NAME</fields>
-        <fields>Num_proposals__c</fields>
-        <fields>Num_accounts__c</fields>
-        <fields>Num_profiles__c</fields>
-        <fields>Num_advisors__c</fields>
-        <relatedList>Portfolio__c.Form_Phrase_welcome_new_org__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <fields>Active__c</fields>
         <fields>Prequal_form__c</fields>
         <fields>Sort_number__c</fields>
@@ -383,19 +317,6 @@
         <fields>CREATEDBY_USER</fields>
         <fields>UPDATEDBY_USER</fields>
         <relatedList>Form__c.Form_Phrase_fail_text__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Type__c</fields>
-        <fields>Purpose__c</fields>
-        <fields>Date_started__c</fields>
-        <fields>Date_ended__c</fields>
-        <fields>OWNER.FIRST_NAME</fields>
-        <fields>Num_proposals__c</fields>
-        <fields>Num_accounts__c</fields>
-        <fields>Num_profiles__c</fields>
-        <fields>Num_advisors__c</fields>
-        <relatedList>Portfolio__c.Form_Phrase_details__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

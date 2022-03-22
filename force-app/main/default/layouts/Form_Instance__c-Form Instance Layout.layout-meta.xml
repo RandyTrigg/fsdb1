@@ -66,10 +66,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Print_form_URL__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Profile__c</field>
             </layoutItems>
             <layoutItems>
@@ -86,7 +82,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Grantee_Report__c</field>
+                <field>Milestone__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -106,10 +102,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Advisor_Payment__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Endorsement__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -200,16 +192,11 @@
         <fields>Profile__c</fields>
         <fields>Proposal__c</fields>
         <fields>Payment__c</fields>
-        <fields>Grantee_Report__c</fields>
+        <fields>Milestone__c</fields>
         <fields>LastModifiedById</fields>
     </miniLayout>
     <platformActionList>
         <actionListContext>Record</actionListContext>
-        <platformActionListItems>
-            <actionName>Form_Instance__c.Send_reminders</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>15</sortOrder>
-        </platformActionListItems>
         <platformActionListItems>
             <actionName>NewTask</actionName>
             <actionType>QuickAction</actionType>

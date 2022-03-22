@@ -78,9 +78,7 @@ public class InviteController {
                     Letter_owner__c = UserInfo.getUserId(),
                     Invite__c = r.Id,
                     Region__c = r.Account__r.GM_Region__c,
-                    Emails__c = (es == null)
-                        ? ''
-                        : Utilities.stringJoinWithCharLimit(es, ',', 255)
+                    Emails__c = (es == null) ? '' : Utilities.stringJoinWithCharLimit(es, ',', 255)
                 )
             );
         }
@@ -99,21 +97,14 @@ public class InviteController {
     static private Invite__c[] fetchRecords(Set<Id> ids) {
         system.debug('fetchRecords: ids = ' + JSON.serialize(ids));
         return [
-            SELECT
-                Id,
-                Status_numeric__c,
-                Account__c,
-                Account__r.OwnerId,
-                Account__r.GM_Region__c
+            SELECT Id, Status_numeric__c, Account__c, Account__r.OwnerId, Account__r.GM_Region__c
             FROM Invite__c
             WHERE Id IN :ids
         ];
     }
 
     public PageReference doCancel() {
-        return (standardSetController != null)
-            ? standardSetController.cancel()
-            : standardController.cancel();
+        return (standardSetController != null) ? standardSetController.cancel() : standardController.cancel();
     }
 
     /**********************************

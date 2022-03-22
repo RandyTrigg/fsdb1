@@ -294,7 +294,7 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Num_assessments_received__c</field>
+                <field>Num_assessments_submitted__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

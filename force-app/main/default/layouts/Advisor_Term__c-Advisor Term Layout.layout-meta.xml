@@ -372,19 +372,6 @@
     </quickActionList>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Letter__c</fields>
-        <fields>Template_name__c</fields>
-        <fields>dsfs__Sender__c</fields>
-        <fields>dsfs__Subject__c</fields>
-        <fields>dsfs__Envelope_Status__c</fields>
-        <fields>dsfs__Sent_Date_Time__c</fields>
-        <fields>dsfs__Completed_Date_Time__c</fields>
-        <relatedList>dsfs__DocuSign_Status__c.Advisor_Term__c</relatedList>
-        <sortField>dsfs__Sent_Date_Time__c</sortField>
-        <sortOrder>Desc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <fields>Review_Form__c</fields>
         <fields>Account__c</fields>
         <fields>Proposal__c</fields>
@@ -442,7 +429,6 @@
         <fields>Advisor__c</fields>
         <fields>Template__c</fields>
         <fields>Date_sent__c</fields>
-        <fields>DocuSign_Status__c</fields>
         <fields>UPDATEDBY_USER</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Letter__c.Advisor_Term__c</relatedList>

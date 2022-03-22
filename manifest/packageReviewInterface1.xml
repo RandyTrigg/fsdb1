@@ -19,6 +19,8 @@
         <members>Form_Data__c</members>
         <members>Form_Component__c</members>
         <members>Form_Picklist__c</members>
+        <members>Form_Log_Entry__c</members>
+        <members>Portfolio_Advisor_Assign__c</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -27,6 +29,9 @@
         <members>Letter__c.Advisor_Term__c</members>
         <members>Letter__c.Advisor__c</members>
         <members>Letter__c.Assessment__c</members>
+        <members>Payment_Method__c.Form_Instance__c</members>
+        <members>Payment_Method__c.Advisor_Term__c</members>
+        <members>Payment_Method__c.WU_id__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -41,6 +46,8 @@
         <members>Form_Data__c-Form Data Layout</members>
         <members>Form_Component__c-Form Component Layout</members>
         <members>Form_Picklist__c-Form Picklist Layout</members>
+        <members>Form_Log_Entry__c-Form Log Entry Layout</members>
+        <members>Portfolio_Advisor_Assign__c-Portfolio-Advisor Assign Layout</members>
         <name>Layout</name>
     </types>
     <types>
@@ -55,6 +62,8 @@
         <members>Form_Data__c</members>
         <members>Form_Component__c</members>
         <members>Form_Picklist__c</members>
+        <members>Form_Log_Entry__c</members>
+        <members>Portfolio_Advisor_Assign__c</members>
         <name>CustomTab</name>
     </types>
     <types>
@@ -62,13 +71,16 @@
         <members>RecPage_Advisor</members>
         <members>RecPage_Advisor_Term</members>
         <members>RecPage_Advisor_Payment</members>
-        <members>RecPage_Form_Phrase</members>
-        <members>RecPage_Form_Picklist</members>
         <members>RecPage_Form</members>
         <members>RecPage_Form_Component</members>
         <members>RecPage_Form_Data</members>
+        <members>RecPage_Form_Log_Entry</members>
         <members>RecPage_Form_Instance</members>
+        <members>RecPage_Form_Phrase</members>
         <members>RecPage_Form_Phrase_Translation</members>
+        <members>RecPage_Form_Picklist</members>
+        <members>RecPage_Form_Log_Entry</members>
+        <members>RecPage_Portfolio_Advisor_Assign</members>
         <name>FlexiPage</name>
     </types>
     <types>
@@ -100,28 +112,6 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>AdvisorPaymentNewLetterButton</members>
-        <members>AdvisorPaymentNewLettersButton</members>
-        <members>AdvisorTermNewLetterButton</members>
-        <members>AdvisorTermNewLettersButton</members>
-        <members>AdvisorNewLetterButton</members>
-        <members>AdvisorNewLettersButton</members>
-        <members>AssessmentNewLetterButton</members>
-        <members>AssessmentsNewLettersButton</members>
-        <members>lwcUtilities</members>
-        <name>ApexPage</name>
-    </types>
-    <types>
-        <members>reviewForm</members>
-        <members>internalReview</members>
-        <members>assessorReview</members>
-        <members>assessorSiteHeader</members>
-        <members>assessorSiteHome</members>
-        <members>assessmentsAssigned</members>
-        <members>lwcUtilities</members>
-        <name>LightningComponentBundle</name>
-    </types>
-    <types>
         <members>Application_Setting__mdt</members>
         <name>CustomObject</name>
     </types>
@@ -149,6 +139,28 @@
     <types>
         <members>Review_Form_Component__c.Indicator_outcome_type__c</members>
         <name>CustomField</name>
+    </types>
+    <types>
+        <members>AdvisorPaymentNewLetterButton</members>
+        <members>AdvisorPaymentNewLettersButton</members>
+        <members>AdvisorTermNewLetterButton</members>
+        <members>AdvisorTermNewLettersButton</members>
+        <members>AdvisorNewLetterButton</members>
+        <members>AdvisorNewLettersButton</members>
+        <members>AssessmentNewLetterButton</members>
+        <members>AssessmentsNewLettersButton</members>
+        <members>lwcUtilities</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>reviewForm</members>
+        <members>internalReview</members>
+        <members>assessorReview</members>
+        <members>assessorSiteHeader</members>
+        <members>assessorSiteHome</members>
+        <members>assessmentsAssigned</members>
+        <members>lwcUtilities</members>
+        <name>LightningComponentBundle</name>
     </types>
     <version>53.0</version>
 </Package>

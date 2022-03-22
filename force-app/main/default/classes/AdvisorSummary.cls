@@ -87,7 +87,7 @@ public with sharing class AdvisorSummary {
                 mSumm.detail1Label = 'Organization Name';
                 mSumm.detail1 = milestoneAssessments[i].Milestone__r.Account_name__c;
                 mSumm.dateDescription = 'Date Recieved';
-                mSumm.dateValue = milestoneAssessments[i].Milestone__r.Date_received__c;
+                mSumm.dateValue = milestoneAssessments[i].Milestone__r.Date_submitted__c;
                 milestoneReviewsAssigned.add(mSumm);
             }
         }

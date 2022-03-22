@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customButtons>Deep_clone</customButtons>
     <layoutSections>
         <customLabel>false</customLabel>
         <detailHeading>false</detailHeading>
@@ -297,11 +296,6 @@
             <sortOrder>13</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Deep_clone</actionName>
-            <actionType>CustomButton</actionType>
-            <sortOrder>14</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Form__c.Tag_form_phrases</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>15</sortOrder>
@@ -341,16 +335,6 @@
         <relatedList>Form_Log_Entry__c.Form__c</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
-        <fields>Sort_number__c</fields>
-        <fields>Form_Phrase_Intro__c</fields>
-        <fields>Form_Phrase_Title__c</fields>
-        <fields>UPDATEDBY_USER</fields>
-        <relatedList>Form_Section__c.Form__c</relatedList>
-        <sortField>Sort_number__c</sortField>
-        <sortOrder>Asc</sortOrder>
-    </relatedLists>
-    <relatedLists>
         <relatedList>RelatedFileList</relatedList>
     </relatedLists>
     <relatedLists>
@@ -368,45 +352,6 @@
         <fields>TASK.PRIORITY</fields>
         <fields>CORE.USERS.FULL_NAME</fields>
         <relatedList>RelatedActivityList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Type__c</fields>
-        <fields>Purpose__c</fields>
-        <fields>Date_started__c</fields>
-        <fields>Date_ended__c</fields>
-        <fields>OWNER.FIRST_NAME</fields>
-        <fields>Num_proposals__c</fields>
-        <fields>Num_accounts__c</fields>
-        <fields>Num_profiles__c</fields>
-        <fields>Num_advisors__c</fields>
-        <relatedList>Portfolio__c.Form_prequal__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Type__c</fields>
-        <fields>Purpose__c</fields>
-        <fields>Date_started__c</fields>
-        <fields>Date_ended__c</fields>
-        <fields>OWNER.FIRST_NAME</fields>
-        <fields>Num_proposals__c</fields>
-        <fields>Num_accounts__c</fields>
-        <fields>Num_profiles__c</fields>
-        <fields>Num_advisors__c</fields>
-        <relatedList>Portfolio__c.Form_application__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Type__c</fields>
-        <fields>Purpose__c</fields>
-        <fields>Date_started__c</fields>
-        <fields>Date_ended__c</fields>
-        <fields>OWNER.FIRST_NAME</fields>
-        <fields>Num_proposals__c</fields>
-        <fields>Num_accounts__c</fields>
-        <fields>Num_profiles__c</fields>
-        <fields>Num_advisors__c</fields>
-        <relatedList>Portfolio__c.Form_eligibility__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
@@ -429,19 +374,6 @@
         <fields>Description__c</fields>
         <fields>LAST_UPDATE</fields>
         <relatedList>Reporting_Reqs__c.Form_proposal_Application__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Active__c</fields>
-        <fields>Prequal_form__c</fields>
-        <fields>Sort_number__c</fields>
-        <fields>Form_Phrase_Title__c</fields>
-        <fields>Form_Phrase_Intro__c</fields>
-        <fields>Under_construction__c</fields>
-        <fields>Form_languages_unavailable__c</fields>
-        <fields>CREATEDBY_USER</fields>
-        <fields>UPDATEDBY_USER</fields>
-        <relatedList>Form__c.Closing_survey_form__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

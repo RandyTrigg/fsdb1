@@ -8,14 +8,6 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>enableActionsConfiguration</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>hideChatterActions</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>numVisibleActions</name>
                     <value>10</value>
                 </componentInstanceProperties>
@@ -25,10 +17,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>hideHeader</name>
-                    <value>false</value>
-                </componentInstanceProperties>
                 <componentName>force:relatedListQuickLinksContainer</componentName>
                 <identifier>force_relatedListQuickLinksContainer</identifier>
             </componentInstance>
@@ -43,7 +31,7 @@
                 <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-05fc0587-9d2f-4a58-b382-1dad12bf9865</name>
+        <name>Facet-97c4b6ff-7732-43f4-9be3-246a77f4d4a7</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -53,7 +41,7 @@
                 <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-ca823a4b-61b7-422c-81a2-0fcbb59e99b3</name>
+        <name>Facet-38f532cd-ee47-4386-8d9e-82a6ad9db390</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -61,7 +49,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
-                    <value>Assessment__c.Id</value>
+                    <value>Form_Log_Entry__c.Id</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
@@ -71,19 +59,11 @@
                     <name>relatedListComponentOverride</name>
                     <value>NONE</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
                 <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-a7934c87-571f-4994-ae38-afef79dde958</name>
+        <name>Facet-22ebe2ee-24f8-4e26-afe8-c8a2f8c98625</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -91,7 +71,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
-                    <value>Assessment__c.Id</value>
+                    <value>Form_Log_Entry__c.Id</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
@@ -101,37 +81,23 @@
                     <name>relatedListComponentOverride</name>
                     <value>NONE</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
                 <identifier>force_relatedListSingleContainer2</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-719f0714-fcf3-4286-aa2b-b4c9181232b6</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>forceChatter:recordFeedContainer</componentName>
-                <identifier>forceChatter_recordFeedContainer</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-745222eb-f85b-470c-80b8-d5f4e87b1cc9</name>
+        <name>Facet-fx5gvt768p</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>active</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-05fc0587-9d2f-4a58-b382-1dad12bf9865</value>
+                    <value>Facet-97c4b6ff-7732-43f4-9be3-246a77f4d4a7</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -144,8 +110,12 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>active</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-ca823a4b-61b7-422c-81a2-0fcbb59e99b3</value>
+                    <value>Facet-38f532cd-ee47-4386-8d9e-82a6ad9db390</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -159,7 +129,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-a7934c87-571f-4994-ae38-afef79dde958</value>
+                    <value>Facet-22ebe2ee-24f8-4e26-afe8-c8a2f8c98625</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -173,7 +143,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-719f0714-fcf3-4286-aa2b-b4c9181232b6</value>
+                    <value>Facet-fx5gvt768p</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -183,21 +153,7 @@
                 <identifier>customTab2</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-745222eb-f85b-470c-80b8-d5f4e87b1cc9</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.collaborate</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>collaborateTab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-3b5b0451-6f7c-4bc4-baf8-bbbe8bd74907</name>
+        <name>Facet-3caf230a-594d-4cf2-85cc-0e1ec4ed8df5</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -205,7 +161,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
-                    <value>Facet-3b5b0451-6f7c-4bc4-baf8-bbbe8bd74907</value>
+                    <value>Facet-3caf230a-594d-4cf2-85cc-0e1ec4ed8df5</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
                 <identifier>flexipage_tabset</identifier>
@@ -215,53 +171,11 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;color: rgb(255, 51, 153); font-size: 22px;&quot;&gt;* Advisor blacklisted *&lt;/b&gt;&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Advisor__r.Account_black_listed__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;font-size: 18px; color: rgb(255, 51, 153);&quot;&gt;= Advisor NOT Active =&lt;/b&gt;&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText3</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Advisor__r.Active__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>false</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>RecPage Assessment</masterLabel>
-    <sobjectType>Assessment__c</sobjectType>
+    <masterLabel>RecPage Form Log Entry</masterLabel>
+    <sobjectType>Form_Log_Entry__c</sobjectType>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
