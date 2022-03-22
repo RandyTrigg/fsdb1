@@ -5,6 +5,7 @@ public without sharing class SyncController {
     public String fsRole;
     public Datetime startDateTime;
     public Id syncLogId;
+    public List<Id> syncLogRecIds = new List<Id>();
     
     // Class variables set for building recs for upsert
     public Schema.SObjectField extIdFieldReference;
@@ -15,6 +16,9 @@ public without sharing class SyncController {
     Set<Id> giftIds = new Set<Id>();
     Set<Id> oppIds = new Set<Id>();
     Set<Id> recDonIds = new Set<Id>();
+    List<Object> acctsJSON = new List<Object>();
+    List<Object> ctsJSON = new List<Object>();
+    List<Object> rdsJSON = new List<Object>();
     List<Object> transactionsJSON = new List<Object>();
     List<Object> gcsJSON = new List<Object>();
     List<Object> oppsJSON = new List<Object>();
@@ -346,7 +350,7 @@ public without sharing class SyncController {
     // Stash json in Sync Log Records
     public void logRecords(String mdtObjName, List<Object> records) {
         List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>();
-        if (records != null) {
+        if (records != null && !records.isEmpty()) {
             // Loop through JSON 'records' and stash them in Sync Log Records
             for (Object rec : records) {
                 Sync_Log_Record__c slRec = (Sync_Log_Record__c)Utilities.newRecord('Sync_Log_Record__c');
@@ -406,6 +410,7 @@ public without sharing class SyncController {
         // Loop through Sync Log records to retrieve and deserialize json; create new records
         for (sObject obj : objList) {
             Sync_Log_Record__c slRec = (Sync_Log_Record__c)obj;
+            syncLogRecIds.add(slRec.Id);
             System.debug('Record info: ' + slRec.RecordInfo__c);
             // Cast json as map of fieldname(string) to fieldvalue(object)
             Map<String, Object> gfwInfo = (Map<String, Object>)JSON.deserializeUntyped(slRec.RecordInfo__c);
@@ -423,8 +428,11 @@ public without sharing class SyncController {
                 System.debug('fieldtype: ' + fieldType);
                 gfwFieldName = fieldmapMDT.GFW_Field_API_Name__c;
                 if (fsdbFieldName == 'RecordTypeId') {
-                    // Special handling required: JSON contains related info for record type; not field name for storing record type id
-                    sObj = populateFields(sObj, fieldType, fieldmapMDT, gfwInfo.get('RecordType'));
+                    // Special handling required:
+                    // JSON for record type contains related info about record type
+                    // Extract DeveloperName from record type info
+                    Map<String,Object> rTypeMap = (Map<String,Object>)gfwInfo.get('RecordType');
+                    sObj = populateFields(sObj, fieldType, fieldmapMDT, rTypeMap.get('DeveloperName'));
                     System.debug('This is the recordtype name field in GFW for mapping to FSDB record type Id: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + gfwInfo.get('RecordType'));
                 } else if (gfwFieldName != null) {
                     System.debug('FSDB Field Type for ' + fsdbFieldName + ': ' + fieldType);
@@ -436,10 +444,10 @@ public without sharing class SyncController {
                     // Set field to default value in cmdt - TO DO: Cast type?
                     sObj.put(fsdbFieldName, fieldmapMDT.DefaultValue__c);
                 }
-            } // for each FSDB field
+            } // End for each FSDB field
             System.debug('sObj to add: ' + sObj);
             objs.add(sObj);
-        } // for each sync log record
+        } // End for each sync log record
         System.debug('List of objs to insert: ' + objs);
         return objs;
     }
@@ -455,35 +463,25 @@ public without sharing class SyncController {
             // Look up picklist value from map
             System.debug('Picklists not null!');
             // For record type, retrieve record type Name from record json
-            if (fsdbFieldName == 'RecordTypeId') {
-                // Reset gfwValue from map (record type info) to recordtype's DeveloperName.
-                // Picklist mapping swaps GFW's recordtype DeveloperName with fsdb recordtype DeveloperName.
-                Map<String,Object> rTypeMap = (Map<String,Object>) gfwValue;
-                gfwValue = rTypeMap.get('DeveloperName');
-                System.debug('Record type picklist; gfwValue set to: ' + (String)gfwValue);
-            }
             for (GFW_Sync_Picklist_Mapping__mdt pL : pLVals ) {
                 // Set gfwValue based on picklist mapping
                 if ((String)gfwValue == pL.GFW_Picklist_Value__c) gfwValue = (Object)pL.FSDB_Picklist_Value__c;
             }
-        } // ****BOOKMARK - double check this works
+        }
+        // Cast value based on fieldType and set field.
         if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
-            // sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (String)gfwInfo.get(gfwFieldName));
             sObj.put(fsdbFieldName, (String)gfwValue);
         } else if ( fieldType == 'CURRENCY' ) {
-            // sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Decimal)gfwInfo.get(gfwFieldName));
             sObj.put(fsdbFieldName, (Decimal)gfwValue);
         } else if (fieldType == 'INTEGER') {
-            // sObj.put(fieldmapMDT.FSDB_Field_API_Name__c, (Integer)gfwInfo.get(gfwFieldName));
             sObj.put(fsdbFieldName, (Integer)gfwValue);
         } else if (fieldType == 'DATE') {
-            // Date dt = date.valueOf((String)gfwInfo.get(gfwFieldName));
             Date dt = date.valueOf((String)gfwValue);
             sObj.put(fsdbFieldName, dt); 
         } else if (fieldType == 'REFERENCE') {
             system.debug('reference fsdbFieldName: ' + fsdbFieldName);
             if (fsdbFieldName == 'RecordTypeId') {
-                // At this point, gfwValue set to DeveloperName of record type in fsdb. 
+                // At this point, gfwValue contains DeveloperName of record type in fsdb. 
                 // Look up recordtypeid by DeveloperName to set RecordTypeId.
                 sObj.put(fsdbFieldName, recTypeMapDevNameId.get((String)gfwValue));
             }
@@ -496,7 +494,7 @@ public without sharing class SyncController {
                 // Account accountReference = new Account();
                 System.debug('external id field name: ' + externalIdFieldName(refObjName) + 'value: ' + (Id)gfwValue);
                 // possible to set fields on generic sObject?
-                sObj.put(externalIdFieldName(refObjName), (Id)gfwValue);
+                refSObj.put(externalIdFieldName(refObjName), (Id)gfwValue);
                 // relName = Utilities.relationshipNameForField(fieldmapMDT.GFW_Sync_Object_Mapping__r.FSDB_Object_Name__c, fsdbFieldName);
                 relName =  String.valueof(fieldMapFSDB.get(fsdbFieldName).getDescribe().getRelationshipName());
                 // sObj.putSObject(relName, accountReference);
@@ -523,37 +521,44 @@ public without sharing class SyncController {
         gatherGiftCredits();
         gatherOpportunities();
 
-        // Generate Sync Log and Sync Log Records after callouts completed (cannot do DML operations before then)
-
+        // Gather json records for each object mapping.
         Set<Id> idsToUpsert;
         List<Object> records;
         Map<String, Set<Id>> objNamesIdsMap = new Map<String, Set<Id>>();
         objNamesIdsMap.put('Account', acctIds);
-        // objNamesIdsMap.put('Contact', ctIds);
+        objNamesIdsMap.put('Contact', ctIds);
         System.debug('ContactIds gathered: ' + ctIds);
+        objNamesIdsMap.put('Recurring_Donations', recDonIds);
 
-        // Add accounts/contacts not already in system
-        // gather Account json and Contact json and stash in log records (one for every record?)
         for (String thisObjName : objNamesIdsMap.keyset()) {
-            idsToUpsert = recIdsToInsert(thisObjName, objNamesIdsMap.get(thisObjName));
+            // For Contacts/Accounts, only upsert those not already in fsdb.
+            idsToUpsert = thisObjName == 'Contact' || thisObjName == 'Account' ? recIdsToInsert(thisObjName, objNamesIdsMap.get(thisObjName)) : objNamesIdsMap.get(thisObjName);
             System.debug('thisObjName: ' + thisObjName + '; idsToUpsert: ' + idsToUpsert);
             if (!idsToUpsert.IsEmpty()) {
                 records = queryForRecords(thisObjName, idsToUpsert, null);
                 System.debug('Launch sync: ' + thisObjName + ' records to create: ' + records);
-                
-                // ******* ERROR: Can't put this in a loop - DML operations need to be done AFTER all callouts
-                // Stash account records and contact records in public variables. THEN create sync log and log records.
-                newSyncLog();
-                logRecords(thisObjName, records);
+                switch on thisObjName {
+                    when 'Account' {
+                        acctsJSON = records;
+                    } when 'Contact' {
+                        ctsJSON = records;
+                    } when 'Recurring_Donations' {
+                        rdsJSON = records;
+                    }
+                }
             }
         }
 
-        //Contacts, Recurring Donations, Opportunities, Tasks on Opportunities, Gifts, Transactions, GiftCredits, SoftCredits 
+        // Generate Sync Log and Sync Log Records (DML operations must be done AFTER all callouts)
+        // Stash json 'records' in Sync Log Records (one for every record?)
+        newSyncLog();
+        logRecords('Account', acctsJSON);
+        logRecords('Contact', ctsJSON);
 
-        // upsertRecs('Contact', recIdsToInsert('Contact', ctIds));
+        logRecords('Recurring_Donations', rdsJSON);
+
+        //Contacts, Recurring Donations, Opportunities, Tasks on Opportunities, Gifts, Transactions, GiftCredits, SoftCredits 
         // Upsert all children records
-        // Recurring Donations
-        // System.debug('recDonIds: '+recDonIds);
         // upsertRecs('Recurring_Donations', recDonIds);
         // upsert gift/opps and opps, then transactions
         // upsert oppcredits
@@ -630,12 +635,6 @@ public without sharing class SyncController {
             }
         System.debug('AccountIdsAfterOpps: ' + acctIds);
         }
-    }
-
-
-    @future
-    public static void doUpserttestFuture() {
-
     }
 
 

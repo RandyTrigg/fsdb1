@@ -5,6 +5,7 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
     // Database.Stateful allows instance member variables to retain their values between transactions. 
     private Schema.SObjectField extIdFieldReference;
     private String mdtObjName;
+    private List<Id> syncLogRecIds;
 
     public Sync_BatchableUpsert(String strParam) {
         mdtObjName = strParam;
@@ -17,6 +18,7 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
         SyncController scThisFS = new SyncController();
         List<sObject> recs = new List<sObject>(scThisFS.buildRecsToUpsert(mdtObjName));
         extIdFieldReference = scThisFS.extIdFieldReference;
+        syncLogRecIds = scThisFS.syncLogRecIds;
         return recs;
     }
     
@@ -24,18 +26,25 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
         if (recs != null && recs.size() > 0) {
             Database.UpsertResult[] upsResults = Database.upsert( recs, extIdFieldReference, false);
             System.debug('upsResults: ' + upsResults);
+            Integer i = 0;
+            Map<Id, String> syncLogRecIdToResults = new Map<Id,String>();
             for(Database.upsertResult result:upsResults) {
                 if (result.isSuccess() && result.isCreated()) {
                     System.debug('Success!!' + (Id)result.getId());
                 } else {
                     System.debug('Error: ' + result.getErrors());
                 }
+                String resultMsg = result.isSuccess() ? 'Success; new record: ' + (String)result.getId() : 'Error: ' + result.getErrors();
+                syncLogRecIdToResults.put(syncLogRecIds[i], resultMsg);
              }
+             // Fetch sync log records where ids in list
+             // Loop through each to extract the result and update record
+             // Update records
         }
     }
 
     public void finish(Database.BatchableContext bc) {
-        Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert('Contact'), 5);
+        // Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert('Contact'), 15);
         System.debug('batchInstanceId: ' + batchInstanceId);
     }
 
