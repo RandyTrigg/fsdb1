@@ -268,16 +268,7 @@ public without sharing class SyncController {
         picklistMap.put(storeId, addPicklists);
     }
 
-    // Package Ids for WHERE IN query clause.
-    public String packageIdsForQuery(Set<Id> Ids) {
-        // Ids in quotes, separated by commas, and encased as a whole in parentheses: '(\'a0D1Y000017aM9WUAU\',\'a0D1Y000017aMAYUA2\')'
-        String inIDsStr = '(';
-        for (Id thisId : Ids) {
-            inIDsStr = inIDsStr + '\'' + thisId + '\',';
-        }
-        inIDsStr = inIDsStr.removeEnd(',') + ')';
-        return inIDsStr;
-    }
+
 
     /*******************
      * RETRIEVE RECORDS FROM GFW
@@ -288,7 +279,7 @@ public without sharing class SyncController {
         String gfwObjName = new List<String>(getObjectMapping(mdtObjName).keySet())[0];
         GFW_Sync_Object_Mapping__mdt objMDT = getObjectMapping(mdtObjName).get(gfwObjName);
         String fsdbObjName = objMDT.FSDB_Object_Name__c;
-        String inIDsStr = packageIdsForQuery(idsGathered);
+        String inIDsStr = Utilities.packageIdsForQuery(idsGathered);
         String extIdFieldName = externalIdFieldName(mdtObjName);
         System.debug('external id fieldname for ' + mdtObjName + ': ' + extIdFieldName);
         String whereClause = 'WHERE ' + externalIdFieldName(mdtObjName) + ' IN ' + inIDsStr; 
@@ -321,7 +312,7 @@ public without sharing class SyncController {
             String gfwFields = String.join(gfwfieldList, ',');
             String whereClause = '';
             if (idsForQuery != null && !idsForQuery.isEmpty()) {
-                String inIDsStr = packageIdsForQuery(idsForQuery);
+                String inIDsStr = Utilities.packageIdsForQuery(idsForQuery);
                 whereClause = ' WHERE Id IN ' + inIDsStr;
             } else if (whereClauseCustom != null && whereClauseCustom != '') {
                 whereClause = whereClauseCustom;
@@ -490,17 +481,15 @@ public without sharing class SyncController {
                 // Set that to lookup reference using putSObject 
                 Schema.sObjectType reference = fieldMapFSDB.get(fsdbFieldName).getDescribe().getReferenceTo()[0];
                 String refObjName = reference.getDescribe().getName();
+                // Create new instance of related sObject with its External Id set to GFW Id.
                 sObject refSObj = Schema.getGlobalDescribe().get(refObjName).newSObject();
-                // Account accountReference = new Account();
                 System.debug('external id field name: ' + externalIdFieldName(refObjName) + 'value: ' + (Id)gfwValue);
-                // possible to set fields on generic sObject?
                 refSObj.put(externalIdFieldName(refObjName), (Id)gfwValue);
-                // relName = Utilities.relationshipNameForField(fieldmapMDT.GFW_Sync_Object_Mapping__r.FSDB_Object_Name__c, fsdbFieldName);
                 relName =  String.valueof(fieldMapFSDB.get(fsdbFieldName).getDescribe().getRelationshipName());
-                // sObj.putSObject(relName, accountReference);
+                // Set relationship (e.g., LookupRelationship__r) to refSObj (sObject reference)
                 sObj.putSObject(relName, refSObj);
                 System.debug('Relationship name: ' + relName);
-            } 
+            }
         }
         System.debug('sObj from populatefields: ' + sObj);
         return sObj;
@@ -591,7 +580,7 @@ public without sharing class SyncController {
         // AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c
         // Retrieve AQB_DonorAccount__c, not Credited Account. Retrieve AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         String mdtObjName = 'GiftCredit_to_OppContactRole';
-        String inIDsStr = packageIdsForQuery(giftIds);
+        String inIDsStr = Utilities.packageIdsForQuery(giftIds);
         String whereClause = ' WHERE AQB__GiftId__c IN ' + inIDsStr;
         List<Object> records = queryForRecords(mdtObjName, null, whereClause);
         Map<String, Object> pAcct;
@@ -623,7 +612,7 @@ public without sharing class SyncController {
     // Retrieve Opportunities linked to COA not already gathered via Transactions; add to OppId set and parent Accounts to acctId set
     public void gatherOpportunities() {
         String mdtObjName = 'Opportunity';
-        String inIDsStr = packageIdsForQuery(oppIds);
+        String inIDsStr = Utilities.packageIdsForQuery(oppIds);
         String whereClause = ' WHERE Chart_of_Accounts__r.Name=\'' + fsCOA + '\' AND Id NOT IN ' + inIDsStr;
         List<Object> records = queryForRecords(mdtObjName, null, whereClause);
         if (records != null && records.size()>0) {

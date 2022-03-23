@@ -455,14 +455,15 @@ global class Utilities {
         return recTypeMapNameId;
     }
 
-
-    // TO DO: Nix - Returns relationship names
-    public static String relationshipNameForField(String objName, String fieldName) {
-        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
-        Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
-            .getDescribe()
-            .fields.getMap();
-        return fieldMap.get(fieldName).getDescribe().getRelationshipName();
+    // Package Ids for WHERE IN query clause.
+    public static String packageIdsForQuery(Set<Id> Ids) {
+        // Ids in quotes, separated by commas, and encased as a whole in parentheses: '(\'a0D1Y000017aM9WUAU\',\'a0D1Y000017aMAYUA2\')'
+        String inIDsStr = '(';
+        for (Id thisId : Ids) {
+            inIDsStr = inIDsStr + '\'' + thisId + '\',';
+        }
+        inIDsStr = inIDsStr.removeEnd(',') + ')';
+        return inIDsStr;
     }
 
     // Return record for given object with given id.  Fetch all local fields plus any given related ones.
