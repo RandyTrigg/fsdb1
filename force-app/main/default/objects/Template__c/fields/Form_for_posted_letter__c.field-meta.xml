@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_for_posted_letter__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Link to a form from which to build a form instance when a letter with this template is posted</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Link to a form from which to build a form instance when a letter with this template is posted</inlineHelpText>
+    <label>Form for posted letter</label>
+    <referenceTo>Form__c</referenceTo>
+    <relationshipLabel>Templates</relationshipLabel>
+    <relationshipName>Templates</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

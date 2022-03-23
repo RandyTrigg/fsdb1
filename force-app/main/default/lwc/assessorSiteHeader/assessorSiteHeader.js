@@ -1,13 +1,13 @@
 import { LightningElement, api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import getSearchableRecords from '@salesforce/apex/AssessorSiteController.getSearchableRecords';
-import logoResource from '@salesforce/resourceUrl/GFWAdvisorSiteLogo';
+//import logoResource from '@salesforce/resourceUrl/GFWAdvisorSiteLogo';
 
 export default class AssessorSiteHeader extends NavigationMixin(LightningElement) {
     @api hideSearch;
     showMenu = false;
     sfdcBaseURL;
-    gfwLogo = logoResource;
+    //gfwLogo = logoResource;
 
     //Lookup components
     @api notifyViaAlerts = false;

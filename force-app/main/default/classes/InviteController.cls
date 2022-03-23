@@ -5,28 +5,14 @@ public class InviteController {
     public InviteController(ApexPages.StandardController standardController) {
         this.standardController = standardController;
         this.selRecs = fetchRecords(new Set<Id>{ standardController.getId() });
-        this.templates = Utilities.templatesMenu(
-            objectName,
-            START,
-            selRecs,
-            statusFieldName
-        );
+        this.templates = Utilities.templatesMenu(objectName, START, selRecs, statusFieldName);
     }
 
-    public InviteController(
-        ApexPages.StandardSetController standardSetController
-    ) {
+    public InviteController(ApexPages.StandardSetController standardSetController) {
         this.standardSetController = standardSetController;
-        Map<Id, Invite__c> selMap = new Map<Id, Invite__c>(
-            (List<Invite__c>) standardSetController.getSelected()
-        );
+        Map<Id, Invite__c> selMap = new Map<Id, Invite__c>((List<Invite__c>) standardSetController.getSelected());
         this.selRecs = fetchRecords(selMap.keySet());
-        this.templates = Utilities.templatesMenu(
-            objectName,
-            START,
-            selRecs,
-            statusFieldName
-        );
+        this.templates = Utilities.templatesMenu(objectName, START, selRecs, statusFieldName);
     }
 
     // Build the menu of admissible correspondence templates for this object.
@@ -35,21 +21,15 @@ public class InviteController {
     private static String statusFieldName = 'Status_numeric__c';
     private List<Invite__c> selRecs;
     public List<selectOption> templates { get; private set; }
-    public String selectedTemplate { get; set; }
-
-    {
-        selectedTemplate = START;
-    }
+    public String selectedTemplate { get; set; } { selectedTemplate = START; }
 
     // Get selected records, then build and reset letters for them.
     public PageReference buildLetters() {
         // Generate error if no selected template - assign error to the templateType field.
         if (selectedTemplate == null || selectedTemplate == START) {
-            ApexPages.AddMessage(
-                new ApexPages.Message(
-                    ApexPages.Severity.ERROR,
-                    'Please select a template',
-                    'Must select a template before building new letters'
+            ApexPages.AddMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 
+                'Please select a template',
+                'Must select a template before building new letters'
                 )
             );
             selectedTemplate = START; // If I don't reset to the START value, it gets set to one of the non-disabled values.

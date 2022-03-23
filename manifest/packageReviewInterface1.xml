@@ -30,8 +30,10 @@
         <members>Letter__c.Advisor__c</members>
         <members>Letter__c.Assessment__c</members>
         <members>Payment_Method__c.Form_Instance__c</members>
+        <members>Payment_Method__c.Advisor__c</members>
         <members>Payment_Method__c.Advisor_Term__c</members>
         <members>Payment_Method__c.WU_id__c</members>
+        <members>Template__c.Form_for_posted_letter__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -109,6 +111,9 @@
         <members>AdvisorUpdateLookupsInvocable</members>
         <members>AdvisorTermRemindersSchedule</members>
         <members>AdvisorSummary</members>
+        <members>FormTagFormPhrasesInvocable</members>
+        <members>FormController</members>
+        <members>FormControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -128,8 +133,8 @@
         <members>Application_Setting.Permissible_form_types_Assessments</members>
         <members>Application_Setting.Permissible_form_types_External_review</members>
         <members>Application_Setting.Permissible_form_types_Internal_review</members>
-        <members>Permissible_form_types_Participatory_GM</members>
-        <members>Permissible_form_types_View_forms</members>
+        <!-- <members>Application_Setting.Permissible_form_types_Participatory_GM</members> -->
+        <!-- <members>Application_Setting.Permissible_form_types_View_forms</members> -->
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -149,7 +154,8 @@
         <members>AdvisorNewLettersButton</members>
         <members>AssessmentNewLetterButton</members>
         <members>AssessmentsNewLettersButton</members>
-        <members>lwcUtilities</members>
+        <members>AdvisorPaymentNewButtonOverride</members>
+        <members>StdExceptionTemplate</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -160,7 +166,20 @@
         <members>assessorSiteHome</members>
         <members>assessmentsAssigned</members>
         <members>lwcUtilities</members>
+        <members>invitesAssigned</members>
+        <members>assessmentsAssigned</members>
+        <members>lookup</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Advisor_Term__c.New_advisor_payment</members>
+        <members>Form_Phrase__c.NewTranslation</members>
+        <members>Form__c.Tag_form_phrases</members>
+        <name>QuickAction</name>
+    </types>
+    <types>
+        <members>Form_Tag_form_phrases</members>
+        <name>Flow</name>
     </types>
     <version>53.0</version>
 </Package>

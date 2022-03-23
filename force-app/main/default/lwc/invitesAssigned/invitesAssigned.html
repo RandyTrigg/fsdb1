@@ -1,17 +1,16 @@
 <template>
     <div class="slds-align_absolute-center slds-text-heading_medium">
-        <h1>Welcome to the GFW Assessor Site</h1>
-    </div>
-    <div class="slds-align_absolute-center slds-text-heading_medium">
-        <h2><strong>{reviewerName}</strong></h2>
+        <h1>
+            <p class="slds-align_absolute-center">Welcome to the GFW Assessor Site</p>
+        </h1>
     </div>
     <div class="slds-align_absolute-center slds-text-heading_small slds-var-m-bottom_x-large">
-        <h1></h1><i>Select a Proposal, Profile or Grantee Report to review below</i></h1>
+        <h1></h1><i>Select a Row to View Forms</i></h1>
     </div>
-    <div if:true={mutableRecords}>
+    <div if:true={inviteList}>
         <lightning-datatable
             key-field="id"
-            data={mutableRecords}
+            data={inviteList}
             columns={columns}
             onrowaction={handleRowAction}
             hide-checkbox-column>

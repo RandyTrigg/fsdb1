@@ -1,5 +1,4 @@
 public class AdvisorController {
-
     private ApexPages.StandardController standardController;
     private ApexPages.StandardSetController standardSetController;
  
@@ -17,7 +16,6 @@ public class AdvisorController {
     public List<selectOption> templates { get; private set; } { templates = Utilities.templatesForObject(objectName, START); }
     public String selectedTemplate {get; set;} { selectedTemplate = START; }
 
-
     // Get selected records, then build and reset letters for them.
     public PageReference buildLetters() {
         // Generate error if no selected template - assign error to the templateType field.
@@ -26,7 +24,6 @@ public class AdvisorController {
             selectedTemplate = START; // If I don't reset to the START value, it gets set to one of the non-disabled values. 
             return null;
         }
-        // Get Selected Record IDs from Controller
         Set<Id> selIds;
         if (standardSetController != null) {
             Map<Id, Advisor__c> selMap = new Map<Id, Advisor__c> ((List<Advisor__c>) standardSetController.getSelected());
@@ -34,26 +31,6 @@ public class AdvisorController {
         } else {
             selIds = new Set<Id> {standardController.getId()};
         }
-
-        // Pass selections to the letter builder
-        Map < String, String > customParams = new Map < String, String >{'isEmail'=>'false'};
-        List<Letter__c> ls = buildLetters0(selIds, selectedTemplate, customParams); //Not emails
-        
-        // Changes have been saved; jump to the new letter if there's only one.
-        if(standardController != null && ls.size() == 1) return Utilities.pageReferenceForRecord(ls[0]);
-        else return doCancel(); // Stay in current layout.
-    }
-
-
-    public static List<Letter__c> buildLetters0(Set<Id> selIds, ID templateId, Map < String, String > customParams) {
-
-        //Set email flag from params
-        Boolean emailFlg = false;
-        if (customParams.containsKey('isEmail') && customParams.get('isEmail')=='true') {
-            emailFlg = true;
-        }
-                
-        // Query for data to build the letters
         Map<Id, Advisor__c> selMap = new Map<Id, Advisor__c> ([
             SELECT Id, Account__c, Account__r.OwnerId, Contact__c,
             Emails__c, Contact__r.Email, Contact__r.Email2__c
@@ -66,11 +43,12 @@ public class AdvisorController {
         Map<Id, List<String>> accEmails = Utilities.emailsForAccounts(accIds);
         system.debug('buildLetters: accEmails = ' +JSON.serialize(accEmails));
         // Build new letters for selected records.
+        Id templateId = Utilities.recordIdFromName('Template__c', selectedTemplate);
         List<Letter__c> ls = new List<Letter__c>();
         for (Advisor__c r : selMap.values()) {
             Id accId = r.Account__c;
             String emails = accId != null && accEmails.get(accId) != null ? String.join(Utilities.removeNulls(accEmails.get(accId)), ',') : null;
-            Letter__c let = new Letter__c (
+            ls.add(new Letter__c (
                 Template__c = templateId,
                 Account__c = r.Account__c,
                 Account_owner__c = r.Account__r.OwnerId,
@@ -78,28 +56,15 @@ public class AdvisorController {
                 Advisor__c = r.Id,
                 Contact__c = r.Contact__c,
                 Emails__c = emails
-            );
-            // update any additional values from the map
-            let = LetterController.updateWithParams(let, customParams);
-            ls.add(let);
+            ));
         }
-        System.debug('letters:'+JSON.serialize(ls));
         insert ls;
         Map<Id, Letter__c> lsMap = new Map<Id, Letter__c> (ls);
         // Reset the new letters.
-        LetterController.resetLetters0(lsMap.keySet(), emailFlg);
-        return ls;
-    }
-    
-    private Set<Id> getSelectedIds() {
-        Set<Id> selIds;
-        if (standardSetController != null) {
-            Map<Id, Advisor__c> selMap = new Map<Id, Advisor__c> ((List<Advisor__c>) standardSetController.getSelected());
-            selIds = selMap.keySet();
-        } else {
-            selIds = new Set<Id> {standardController.getId()};
-        }
-        return selIds;
+        LetterController.resetLetters0(lsMap.keySet(), false);
+        // Changes have been saved; jump to the new letter if there's only one.
+        if(standardController != null && ls.size() == 1) return Utilities.pageReferenceForRecord(ls[0]);
+        else return doCancel(); // Stay in current layout.
     }
     
     public PageReference doCancel() {       

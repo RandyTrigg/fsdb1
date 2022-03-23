@@ -355,28 +355,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Reporting_Reqs__c</fields>
-        <fields>Type__c</fields>
-        <fields>Year_number__c</fields>
-        <fields>Date_due__c</fields>
-        <fields>Date_due_non_English__c</fields>
-        <fields>Num_months_due__c</fields>
-        <fields>Num_months_due_non_English__c</fields>
-        <fields>Time_sensitive_donor_report__c</fields>
-        <fields>LAST_UPDATE</fields>
-        <relatedList>Report_Spec__c.Form_reporting_Qs__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Active__c</fields>
-        <fields>Expected_award_date__c</fields>
-        <fields>Expected_payment_date__c</fields>
-        <fields>Description__c</fields>
-        <fields>LAST_UPDATE</fields>
-        <relatedList>Reporting_Reqs__c.Form_proposal_Application__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <fields>Advisor__c</fields>
         <fields>Date_submitted__c</fields>
         <fields>Account__c</fields>

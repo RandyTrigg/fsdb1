@@ -32,39 +32,21 @@ public class AdvisorTermController {
             selectedTemplate = START; // If I don't reset to the START value, it gets set to one of the non-disabled values. 
             return null;
         }
-        Set<Id> selIds = getSelectedIds();
-        Map < String, String > customParams = new Map < String, String >{'isEmail'=>'false'};
-        List<Letter__c> ls = buildLetters0(selIds, selectedTemplate, customParams); //Not emails
-
-        if(standardController != null && ls.size() == 1) return Utilities.pageReferenceForRecord(ls[0]);
-        else return doCancel(); // Stay in current layout.
-    }
-
-    public static List<Letter__c> buildLetters0(Set<Id> selIds, ID templateId, Map < String, String > customParams) {
-        //Set email flag from params
-        Boolean emailFlg = false;
-        if (customParams.containsKey('isEmail') && customParams.get('isEmail')=='true') {
-            emailFlg = true;
-        }
-        
-        // Load Advisor Records from IDS 
-        List < Advisor_Term__c > advTermRecords = fetchRecords(selIds);
-
-        // Build list of Account Ids
+        Set<Id> advIds = new Set<Id> ();
+        for (Advisor_Term__c at : selRecs) advIds.add(at.Advisor__c);
+        // Gather email addresses from the advisor accounts.
         Set<Id> accIds = new Set<Id> ();
-        for (Advisor_Term__c at : advTermRecords) {
-            accIds.add(at.Advisor__r.Account__c);
-        }
-
+        for (Advisor_Term__c advt : selRecs) accIds.add(advt.Advisor__r.Account__c);
         Map<Id, List<String>> accEmails = Utilities.emailsForAccounts(accIds);
         system.debug('buildLetters: accEmails = ' +JSON.serialize(accEmails));
         // Build new letters for selected records.
+        Id templateId = Utilities.recordIdFromName('Template__c', selectedTemplate);
         List<Letter__c> ls = new List<Letter__c>();
-        for (Advisor_Term__c r : advTermRecords){
+        for (Advisor_Term__c r : selRecs){
             Advisor__c adv = r.Advisor__r;
             Id accId = adv.Account__c;
             String emails = accId != null && accEmails.get(accId) != null ? String.join(Utilities.removeNulls(accEmails.get(accId)), ',') : null;
-            Letter__c let = new Letter__c (
+            ls.add(new Letter__c (
                 Template__c = templateId,
                 Account__c = adv.Account__c,
                 Account_owner__c = adv.Account__r.OwnerId,
@@ -73,17 +55,15 @@ public class AdvisorTermController {
                 Advisor__c = adv.Id,
                 Contact__c = adv.Contact__c,
                 Emails__c = emails
-            );
-            // update any additional values from the map
-            let = LetterController.updateWithParams(let, customParams);
-            ls.add(let);
+            ));
         }
         insert ls;
         Map<Id, Letter__c> lsMap = new Map<Id, Letter__c> (ls);
         // Reset the new letters.
-        LetterController.resetLetters0(lsMap.keySet(), emailFlg);
-        
-        return ls;
+        LetterController.resetLetters0(lsMap.keySet(), false);
+        // Changes have been saved; jump to the new letter if there's only one.
+        if(standardController != null && ls.size() == 1) return Utilities.pageReferenceForRecord(ls[0]);
+        else return doCancel(); // Stay in current layout.
     }
     
     // Get records for given ids.
@@ -91,8 +71,7 @@ public class AdvisorTermController {
         system.debug('fetchRecords: ids = ' +JSON.serialize(ids));
         return [
             SELECT Id, Status_numeric__c, Advisor__c, Advisor__r.Account__c, Advisor__r.Account__r.OwnerId, Advisor__r.Contact__c,
-            Advisor__r.Emails__c, 
-            Advisor__r.Contact__r.Email, Advisor__r.Contact__r.Email2__c
+            Advisor__r.Emails__c, Advisor__r.Contact__r.Email, Advisor__r.Contact__r.Email2__c
             FROM Advisor_Term__c
             WHERE Id IN : ids
         ];
@@ -102,17 +81,6 @@ public class AdvisorTermController {
         return (standardSetController != null) ? standardSetController.cancel() : standardController.cancel();   
     }
 
-    private Set<Id> getSelectedIds() {
-        Set<Id> selIds;
-        if (standardSetController != null) {
-            Map<Id, Advisor_Term__c> selMap = new Map<Id, Advisor_Term__c> ((List<Advisor_Term__c>) standardSetController.getSelected());
-            selIds = selMap.keySet();
-        } else {
-            selIds = new Set<Id> {standardController.getId()};
-        }
-        return selIds;
-    }
-
     /**********************************
      * For general use
      *********************************/
@@ -120,6 +88,7 @@ public class AdvisorTermController {
     public static String reminderTemplateName = 'Assessment Reminder/Overdue letter';
 
     // Send email reminders/overdue notices for advisor terms with pending assessments, at least one of which is more than 2 days old.
+    // NOTE: As of 3/22/22, the call to build and email letters is commented out. Can uncomment when Melissa's bulk email infrastructure is in LetterController (ala GFW).
     public static void emailRemindersOverdues () {
         Template__c tmpl = [SELECT Id FROM Template__c WHERE Name = : reminderTemplateName LIMIT 1];
         // Fetch advisor terms needing a reminder letter.
@@ -137,7 +106,8 @@ public class AdvisorTermController {
         ]);
         if (ats.size() > 0 && tmpl != null) {
             Map <String, String> customParams = new Map <String, String>{'isEmail'=>'true','autoGeneratedEmail'=>'true'};
-            LetterController.buildAndEmailLetters(tmpl.Id, ats.keySet(), customParams);
+            // Temporarily disabled - see comment above
+            //LetterController.buildAndEmailLetters(tmpl.Id, ats.keySet(), customParams);
         }
     }
    

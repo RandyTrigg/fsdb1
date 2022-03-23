@@ -16,18 +16,22 @@
         </lightning-breadcrumbs>
 
         <!-- Forms only will show the external form viewer at full width -->
+        <!-- 3/22/22 Form rendering not yet supported 
         <div if:true={formsOnly} class="slds-grid slds-gutters">
             <div data-id="formViewer" class="slds-col slds-size_1-of-1">
                 <c-external-form-viewer record-id={recordId}></c-external-form-viewer>
             </div>
         </div>
+        -->
 
         <!-- Otherwise, forms are presented on the left and the review form on the right -->
         <div if:false={formsOnly} class="slds-grid slds-gutters">
+            <!-- 3/22/22 Form rendering not yet supported 
             <div data-id="formViewer" class="slds-col slds-size_1-of-2">
                 <c-external-form-viewer record-id={recordId}></c-external-form-viewer>
             </div>
-            <div data-id="reviewForm" class="slds-col slds-size_1-of-2">
+            -->
+            <div data-id="reviewForm" class="slds-col slds-size_1-of-1">
                 <div if:true={assessmentReview.isProposal} class="slds-var-m-bottom_medium slds-border_bottom">
                     <p class="slds-text-heading_medium"><span style="font-weight: bold">Reviewer: </span>{assessmentReview.reviewerName}</span></p>
                     <div class="slds-text-heading_medium">

@@ -7,7 +7,6 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>Payment_Method__c.Advisor__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -20,8 +19,24 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>RecPage_Portfolio_Advisor_Assign</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
         <name>FlexiPage</name>
+    </types>
+    <types>
+        <name>QuickAction</name>
+    </types>
+    <types>
+        <name>Flow</name>
+    </types>
+    <types>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Application_Setting.Permissible_form_types_Participatory_GM</members>
+        <members>Application_Setting.Permissible_form_types_View_forms</members>
+        <name>CustomMetadata</name>
     </types>
     <version>53.0</version>
 </Package>
