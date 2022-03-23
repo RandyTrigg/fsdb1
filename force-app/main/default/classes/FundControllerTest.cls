@@ -1,5 +1,5 @@
 @isTest
-public class FundControllerTest {
+public with sharing class FundControllerTest {
     static testMethod void FundControllerTest1() {
         // Build new records.
         insert new ChartofAccounts__c(Name = 'Test c-of-a');

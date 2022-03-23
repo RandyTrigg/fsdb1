@@ -1,4 +1,4 @@
-public class CountryController {
+public with sharing class CountryController {
     
     // Update grantmaking stats fields for given countries.
     public static void updateStatsFields (List<Id> countryIds) {

@@ -1,5 +1,5 @@
 @isTest
-public class FormControllerTest {
+public with sharing class FormControllerTest {
     
     // Test form phrase tagging code
     static testmethod void FormCloneTest3 () {

@@ -1,5 +1,5 @@
 @isTest
-public class AdvisorPaymentControllerTest {
+public with sharing class AdvisorPaymentControllerTest {
     static testmethod void AdvisorPaymentControllerTest1 () {
         // Build new advisors and accounts and advisor terms.
         AdvisorControllerTest.InitTestObjects(1, 1);

@@ -27,7 +27,7 @@ public with sharing class AdvisorSummary {
     public List < ItemSummary > viewFormsAvailable;
     
     
-    public class ItemSummary {
+    public with sharing class ItemSummary {
         public Boolean isPriority;
         public Date dateValue;
         public ID sfId;

@@ -1,5 +1,5 @@
 @isTest
-public class AssessorSiteTest {
+public with sharing class AssessorSiteTest {
     
     @TestSetup
     static void makeData(){

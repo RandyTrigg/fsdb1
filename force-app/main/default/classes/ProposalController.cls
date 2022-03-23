@@ -1,4 +1,4 @@
-public class ProposalController {
+public with sharing class ProposalController {
     /**********************************
      * For use in Lightning components
      *********************************/
@@ -536,7 +536,7 @@ public class ProposalController {
         );
     }
 
-    public class buildSubmissionsException extends Exception {
+    public with sharing class buildSubmissionsException extends Exception {
     }
 
     // Build the menu of admissible correspondence templates for this object.

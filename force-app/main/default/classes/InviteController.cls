@@ -1,4 +1,4 @@
-public class InviteController {
+public with sharing class InviteController {
     private ApexPages.StandardController standardController;
     private ApexPages.StandardSetController standardSetController;
 

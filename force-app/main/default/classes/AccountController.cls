@@ -1,4 +1,4 @@
-public class AccountController {
+public with sharing class AccountController {
     private ApexPages.StandardController standardController;
     private ApexPages.StandardSetController standardSetController;
 

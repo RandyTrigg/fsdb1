@@ -1,5 +1,5 @@
 @isTest
-public class ProfileControllerTest {
+public with sharing class ProfileControllerTest {
     /**********************************
      * Test the component-related methods
      * *******************************/

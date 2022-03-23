@@ -1,4 +1,4 @@
-public class AdvisorPaymentController {
+public with sharing class AdvisorPaymentController {
 
     private ApexPages.StandardController standardController;
     private ApexPages.StandardSetController standardSetController;

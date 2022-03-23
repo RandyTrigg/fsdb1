@@ -1,5 +1,5 @@
-public class UpdateAccountContactInfo {
-    public class myException extends Exception {
+public with sharing class UpdateAccountContactInfo {
+    public with sharing class myException extends Exception {
     }
 
     @InvocableMethod(

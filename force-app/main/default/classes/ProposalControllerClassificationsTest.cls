@@ -1,5 +1,5 @@
 @isTest
-public class ProposalControllerClassificationsTest {
+public with sharing class ProposalControllerClassificationsTest {
     static testMethod void ProposalControllerClassificationsTest() {
         // Build one new proposal and account, plus some classifications and linked join records.
         BuildTestProposals.InitTestObjects(1, 1);

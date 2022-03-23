@@ -1,5 +1,5 @@
 @isTest
-public class UtilitiesTest {
+public with sharing class UtilitiesTest {
     static testMethod void UtilitiesTest1() {
         // Reference the static strings in Utilities
         Integer testRef =

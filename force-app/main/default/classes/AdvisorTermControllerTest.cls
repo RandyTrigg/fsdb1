@@ -1,5 +1,5 @@
 @isTest
-public class AdvisorTermControllerTest {
+public with sharing class AdvisorTermControllerTest {
     
     static testmethod void AdvisorTermControllerTest1a () {
         // Build new advisors and accounts and advisor terms.

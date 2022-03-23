@@ -1,5 +1,5 @@
 @isTest
-public class TouchRecordsSchedulableTest {
+public with sharing class TouchRecordsSchedulableTest {
     static testMethod void TouchRecordsSchedulableTest() {
         // Build custom setting instance with dummy data.
         insert (new Classification__c(Name = 'test class'));

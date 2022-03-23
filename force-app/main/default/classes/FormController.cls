@@ -1,4 +1,4 @@
-public class FormController {
+public with sharing class FormController {
 
     /**********************************
      * For general use

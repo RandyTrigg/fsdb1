@@ -1,5 +1,5 @@
 @isTest
-public class CountryControllerTest {
+public with sharing class CountryControllerTest {
     static testMethod void CountryControllerTest() {
         // Build new records
         ProposalUpdateTest.buildTemplateMacros();

@@ -1,4 +1,4 @@
-public class ProfileController {
+public with sharing class ProfileController {
     public static String notificationTemplateName = 'Request to submit Updated Profile';
 
     /**********************************

@@ -1,4 +1,4 @@
-public class LWC_ExceptionData {
+public with sharing class LWC_ExceptionData {
     public string codeLocation;
     public string title;
     public string variant;

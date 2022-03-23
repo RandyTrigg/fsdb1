@@ -1,5 +1,5 @@
 @isTest
-public class GMDataControllerTest {
+public with sharing class GMDataControllerTest {
     /**********************************
      * Test the component-related methods
      * *******************************/

@@ -1,5 +1,5 @@
 @isTest
-public class DeleteRecordsSchedulableTest {
+public with sharing class DeleteRecordsSchedulableTest {
     // Test the batch apex class.
     static testMethod void DeleteRecordsSchedulableTest1() {
         // Build records to delete.

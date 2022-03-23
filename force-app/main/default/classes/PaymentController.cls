@@ -1,4 +1,4 @@
-public class PaymentController {
+public with sharing class PaymentController {
     private ApexPages.StandardController standardController;
     private ApexPages.StandardSetController standardSetController;
 

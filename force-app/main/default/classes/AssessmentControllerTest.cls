@@ -1,5 +1,5 @@
 @isTest
-public class AssessmentControllerTest {
+public with sharing class AssessmentControllerTest {
     
     // New letter for assessment set
     static testmethod void AssessmentControllerTest1a () {

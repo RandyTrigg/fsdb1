@@ -1,4 +1,4 @@
-public class GMDataController {
+public with sharing class GMDataController {
     /**********************************
      * For use in Lightning components
      *********************************/

@@ -16,7 +16,7 @@ public virtual with sharing class Review {
     public List < PortfolioAssign > portfolioAssignments;  //Wrapper to pull in Portfolio Join info
 
 
-    public class FormComponent {
+    public with sharing class FormComponent {
         public Id id;
         public Boolean isActive;
         public Boolean enableBeforeSubmission;
@@ -43,7 +43,7 @@ public virtual with sharing class Review {
 
     }
 
-    public class ClassificationAssign {
+    public with sharing class ClassificationAssign {
         public ID id;
         public ID classificationId;
         public String classificationName;
@@ -66,7 +66,7 @@ public virtual with sharing class Review {
 
     }
 
-    public class PortfolioAssign {
+    public with sharing class PortfolioAssign {
         public ID id;
         public ID portfolioId;
         public String portfolioName;
@@ -86,7 +86,7 @@ public virtual with sharing class Review {
         }
     }
 
-    public class IndicatorAssign {
+    public with sharing class IndicatorAssign {
         public ID id;
         public ID indicatorId;
         public String indicatorName;

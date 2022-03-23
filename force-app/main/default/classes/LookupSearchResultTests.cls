@@ -1,7 +1,7 @@
 // Part of the open-source LWC Lookup component: https://github.com/pozil/sfdc-ui-lookup-lwc
 
 @isTest(isParallel=true)
-public class LookupSearchResultTests {
+public with sharing class LookupSearchResultTests {
     @isTest
     static void compareTo_should_work_with_two_null_titles() {
         LookupSearchResult r1 = getSearchResult(null);

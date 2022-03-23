@@ -1,3 +1,3 @@
 @isTest
-public class ProjectionControllerTest {
+public with sharing class ProjectionControllerTest {
 }

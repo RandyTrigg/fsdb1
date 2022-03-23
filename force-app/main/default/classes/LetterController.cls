@@ -1,4 +1,4 @@
-public class LetterController {
+public with sharing class LetterController {
     public static Integer updateBatchSize = 5;
     public static Integer emailBatchSize = 5;
     public static Integer resetBatchSize = 5;

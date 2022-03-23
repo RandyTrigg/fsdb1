@@ -1,4 +1,4 @@
-public class AdvisorTermController {
+public with sharing class AdvisorTermController {
 
     private ApexPages.StandardController standardController;
     private ApexPages.StandardSetController standardSetController;

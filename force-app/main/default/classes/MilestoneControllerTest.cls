@@ -1,5 +1,5 @@
 @isTest
-public class MilestoneControllerTest {
+public with sharing class MilestoneControllerTest {
     /**********************************
      * Test the component-related methods
      * *******************************/

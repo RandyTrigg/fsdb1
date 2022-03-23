@@ -1,5 +1,5 @@
 @isTest
-public class CustomReqsControllerTest {
+public with sharing class CustomReqsControllerTest {
     static testMethod void CustomReqsControllerTest1() {
         insert new Custom_Reqs__c(Name = 'test custom reqs');
         Custom_Reqs__c cr = [SELECT Id FROM Custom_Reqs__c LIMIT 1];

@@ -1,3 +1,3 @@
 @isTest
-public class ContactControllerTest {
+public with sharing class ContactControllerTest {
 }

@@ -1,4 +1,4 @@
-public class MilestoneController {
+public with sharing class MilestoneController {
     /**********************************
      * For use in Lightning components
      *********************************/

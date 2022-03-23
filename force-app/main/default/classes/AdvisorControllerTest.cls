@@ -1,5 +1,5 @@
 @isTest
-public class AdvisorControllerTest {
+public with sharing class AdvisorControllerTest {
     public static Id organizationRtId = Utilities.getRecTypeId('Account', 'Organization');
     public static Id ctAdvRecTypeId = Utilities.getRecTypeId('Contact', 'Contact_GM_Advisor');
     public static Id orgGMRtId = Utilities.getRecTypeId('Account', 'Organization_GM');

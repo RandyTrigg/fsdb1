@@ -1,4 +1,4 @@
-public class AdvisorController {
+public with sharing class AdvisorController {
     private ApexPages.StandardController standardController;
     private ApexPages.StandardSetController standardSetController;
  
@@ -75,7 +75,7 @@ public class AdvisorController {
      * For use in Lightning components
      *********************************/
     
-    public class AdvException extends Exception {}
+    public with sharing class AdvException extends Exception {}
     public static Id recTypeIdContactGM = Utilities.getRecTypeId('Contact', 'Contact_GM');
     public static Id recTypeIdContactAdv = Utilities.getRecTypeId('Contact', 'Contact_GM_Advisor');
     public static Id recTypeIdAcctHouseholdAdv = Utilities.getRecTypeId('Account', 'Household_GM_Advisor');

@@ -1,4 +1,4 @@
-public class BuildTestProposals {
+public with sharing class BuildTestProposals {
     // Grab account record type Ids.
     public static Id householdRtId = Utilities.getRecTypeId(
         'Account',

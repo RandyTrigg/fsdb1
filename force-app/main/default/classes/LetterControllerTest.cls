@@ -1,5 +1,5 @@
 @isTest
-public class LetterControllerTest {
+public with sharing class LetterControllerTest {
     /*
      * Test of LetterReset class
      */
