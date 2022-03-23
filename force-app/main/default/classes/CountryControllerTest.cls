@@ -54,7 +54,7 @@ public class CountryControllerTest {
         system.assertEquals(150, c.Total_awarded__c);
 
         // Schedule test of country stats update.
-        String cronExp = '0 0 0 15 3 ? 2022';
+        String cronExp = '0 0 0 15 3 ?';
         String jobId = System.schedule(
             'ScheduleApexClassTest',
             cronExp,

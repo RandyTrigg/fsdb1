@@ -50,7 +50,7 @@ public class AdvisorTermControllerTest {
         insert new Template__c (Name = AdvisorTermController.reminderTemplateName, Source_object__c = 'Advisor_Term__c');
         Test.StartTest();
         // Test emailing reminders via the schedulable class.
-        String CRON_EXP = '0 0 0 15 3 ? 2022';    
+        String CRON_EXP = '0 0 0 15 3 ?';    
         String jobId = System.schedule('Email reminders', CRON_EXP, new AdvisorTermRemindersSchedule());
         Test.StopTest();
     }

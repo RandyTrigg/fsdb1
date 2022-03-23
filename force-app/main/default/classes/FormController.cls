@@ -8,7 +8,7 @@ public class FormController {
     public static void tagFormPhrases (Id formId) {
         // Fetch form and related records.
         Form__c form = (Form__c) Utilities.fetchRecord('Form__c', formId, null);
-        Form_Component__c[] comps = (Form_Component__c[]) Utilities.fetchChildRecords('Form_Component__c', formId, 'Form_Item__r.Form_Section__r.Form__c', null);
+        Form_Component__c[] comps = (Form_Component__c[]) Utilities.fetchChildRecords('Form_Component__c', formId, 'Form__c', null);
         // Fetch form phrases already tagged with the form name.
         Map<Id, Form_Phrase__c> fPhrasesTagged = new Map<Id, Form_Phrase__c> ([
             SELECT Id 

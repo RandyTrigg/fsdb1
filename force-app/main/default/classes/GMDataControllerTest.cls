@@ -195,7 +195,7 @@ public class GMDataControllerTest {
         */
 
         Test.StartTest();
-        String cronExp = '0 0 0 15 3 ? 2022';
+        String cronExp = '0 0 0 15 3 ?';
         System.schedule(
             'GMDataUpdateSchedule',
             cronExp,

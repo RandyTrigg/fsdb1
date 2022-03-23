@@ -10,7 +10,7 @@ public class TouchRecordsSchedulableTest {
             Batch_size__c = 1
         ));
         // The schedule time isn't actually used; it just runs after Test.StopTest().
-        String CRON_EXP = '0 0 0 15 3 ? 2022';
+        String CRON_EXP = '0 0 0 15 3 ?';
         Test.StartTest();
         String jobId = System.schedule(
             'Touch records',

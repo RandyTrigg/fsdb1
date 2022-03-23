@@ -107,7 +107,7 @@ public class FundControllerTest {
         FundUpdateTotalInvocable.updateTotal(new List<Id>{ fund1.Id });
         System.schedule(
             'UpdateTotals test',
-            '0 0 0 15 3 ? 2022',
+            '0 0 0 15 3 ?',
             new FundUpdateTotalsSchedule()
         );
     }

@@ -121,7 +121,7 @@ public class ProfileControllerTest {
 
         Test.StartTest();
         // Schedule test of profile clone.  Check results after test.stopTest().
-        String cronExp = '0 0 0 15 3 ? 2022';
+        String cronExp = '0 0 0 15 3 ?';
         String jobId = System.schedule(
             'ScheduleApexClassTest',
             cronExp,
