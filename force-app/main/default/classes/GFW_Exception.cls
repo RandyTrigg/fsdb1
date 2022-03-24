@@ -1,4 +1,4 @@
-global class GFW_Exception extends Exception {
+global with sharing class GFW_Exception extends Exception {
 
     //Constructor with Standard Exception and LWC handling
     global GFW_Exception (String methodIdentifier, String message) {

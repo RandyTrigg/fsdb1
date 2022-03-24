@@ -1,4 +1,4 @@
-global class ProfileCloneBatch implements Database.Batchable<sObject>, Database.Stateful {
+global with sharing class ProfileCloneBatch implements Database.Batchable<sObject>, Database.Stateful {
     global final String query;
     global final List<Id> profileIds;
     global Map<Id, Profile__c> pCloneMap = new Map<Id, Profile__c>();

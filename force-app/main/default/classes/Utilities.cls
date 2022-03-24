@@ -1,4 +1,4 @@
-global class Utilities {
+public with sharing class Utilities {
     // Miscellaneous utility constants and methods
 
     public static String EmailAddressIM = 'im@globalfundforwomen.org';

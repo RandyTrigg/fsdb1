@@ -1,5 +1,5 @@
 // Build invite and allocation records for proposals returned from given query.
-global class InvitesAllocationsForPropsBatch implements Database.Batchable<sObject> {
+global with sharing class InvitesAllocationsForPropsBatch implements Database.Batchable<sObject> {
     private String query;
 
     global InvitesAllocationsForPropsBatch(String query) {
