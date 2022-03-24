@@ -19,6 +19,7 @@ public without sharing class SyncController {
     List<Object> acctsJSON = new List<Object>();
     List<Object> ctsJSON = new List<Object>();
     List<Object> rdsJSON = new List<Object>();
+    List<Object> giftsJSON = new List<Object>();
     List<Object> transactionsJSON = new List<Object>();
     List<Object> gcsJSON = new List<Object>();
     List<Object> oppsJSON = new List<Object>();
@@ -472,13 +473,14 @@ public without sharing class SyncController {
         } else if (fieldType == 'REFERENCE') {
             system.debug('reference fsdbFieldName: ' + fsdbFieldName);
             if (fsdbFieldName == 'RecordTypeId') {
-                // At this point, gfwValue contains DeveloperName of record type in fsdb. 
+                // gfwValue contains DeveloperName of record type in fsdb. 
                 // Look up recordtypeid by DeveloperName to set RecordTypeId.
                 sObj.put(fsdbFieldName, recTypeMapDevNameId.get((String)gfwValue));
             }
             else {
+                // Create dynamic reference for lookup/master-detail relationships via that lookup's GFW external id 
                 // Instantiate new lookup/reference sObject.
-                // Set that to lookup reference using putSObject 
+                // Set lookup reference to that reference sObject using putSObject 
                 Schema.sObjectType reference = fieldMapFSDB.get(fsdbFieldName).getDescribe().getReferenceTo()[0];
                 String refObjName = reference.getDescribe().getName();
                 // Create new instance of related sObject with its External Id set to GFW Id.
@@ -518,6 +520,7 @@ public without sharing class SyncController {
         objNamesIdsMap.put('Contact', ctIds);
         System.debug('ContactIds gathered: ' + ctIds);
         objNamesIdsMap.put('Recurring_Donations', recDonIds);
+        objNamesIdsMap.put('Gift_to_Opportunity', giftIds);
 
         for (String thisObjName : objNamesIdsMap.keyset()) {
             // For Contacts/Accounts, only upsert those not already in fsdb.
@@ -533,6 +536,8 @@ public without sharing class SyncController {
                         ctsJSON = records;
                     } when 'Recurring_Donations' {
                         rdsJSON = records;
+                    } when 'Gift_to_Opportunity' {
+                        giftsJSON = records;
                     }
                 }
             }
@@ -545,6 +550,9 @@ public without sharing class SyncController {
         logRecords('Contact', ctsJSON);
 
         logRecords('Recurring_Donations', rdsJSON);
+        logRecords('Gift_to_Opportunity', giftsJSON);
+        // logRecords('Opportunity', oppsJSON); - Need to figure out these first
+        // logRecords('Transaction_to_Payment', transactionsJSON);
 
         //Contacts, Recurring Donations, Opportunities, Tasks on Opportunities, Gifts, Transactions, GiftCredits, SoftCredits 
         // Upsert all children records

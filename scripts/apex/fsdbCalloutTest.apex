@@ -1,5 +1,5 @@
 // For each COA retrieved...
-        
+ /*       
         String fsRole;
         List<FS_Group_Settings__mdt> fsGroups;
         
@@ -7,7 +7,7 @@
         fsGroups = [SELECT GFW_COA_Name__c, Designated_Role_for_Ownership__c
             FROM FS_Group_Settings__mdt
         ];
-/*
+
         if (fsGroups != null && !fsGroups.isEmpty()) {
             for (FS_Group_Settings__mdt fs : fsGroups) {
                 // For each FS, grab COA and role to assign record ownership             
@@ -27,12 +27,11 @@
 
             }
         }   
-
 */
 
 
         // BATCHABLE
-        List<String> objNames = new List<String>{'Account', 'Contact'};
+        List<String> objNames = new List<String>{'Account', 'Contact', 'Recurring_Donations'};
         Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 5);
         System.debug('batchInstanceId: ' + batchInstanceId);
 

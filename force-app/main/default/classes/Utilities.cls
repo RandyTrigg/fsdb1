@@ -523,6 +523,7 @@ global class Utilities {
         return Database.query(q);
     }
 
+    // NIX - Use fetchRecords and update to add space ' ' if whereClause not null. (Then put Order by clause in whereClause parameter.)
     // Return ALL records for given object.  Fetch all local fields plus any given related ones.
     public static sObject[] fetchAllRecords(
         String objName,
