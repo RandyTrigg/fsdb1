@@ -147,7 +147,7 @@ public without sharing class SyncController {
     // Retrieve all object mappings
     public void setObjMappingsList() {
         String objName = 'GFW_Sync_Object_Mapping__mdt';
-        mdts = Utilities.fetchAllRecords(
+        mdts = Utilities.fetchRecords(
             objName,
             null,
             null);
@@ -402,7 +402,7 @@ public without sharing class SyncController {
         // Loop through Sync Log records to retrieve and deserialize json; create new records
         for (sObject obj : objList) {
             Sync_Log_Record__c slRec = (Sync_Log_Record__c)obj;
-            syncLogRecIds.add(slRec.Id);
+
             System.debug('Record info: ' + slRec.RecordInfo__c);
             // Cast json as map of fieldname(string) to fieldvalue(object)
             Map<String, Object> gfwInfo = (Map<String, Object>)JSON.deserializeUntyped(slRec.RecordInfo__c);
@@ -437,7 +437,10 @@ public without sharing class SyncController {
                     sObj.put(fsdbFieldName, fieldmapMDT.DefaultValue__c);
                 }
             } // End for each FSDB field
+            // Add link to Sync Log Record
+            sObj.put('Sync_Log_Record__c', slRec.Id);
             System.debug('sObj to add: ' + sObj);
+            // syncLogRecIds.add(slRec.Id);
             objs.add(sObj);
         } // End for each sync log record
         System.debug('List of objs to insert: ' + objs);
@@ -461,7 +464,9 @@ public without sharing class SyncController {
             }
         }
         // Cast value based on fieldType and set field.
-        if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
+        if (gfwValue == null) {
+            sObj.put(fsdbFieldName, null);
+        } else if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
             sObj.put(fsdbFieldName, (String)gfwValue);
         } else if ( fieldType == 'CURRENCY' ) {
             sObj.put(fsdbFieldName, (Decimal)gfwValue);
@@ -550,7 +555,7 @@ public without sharing class SyncController {
         logRecords('Contact', ctsJSON);
 
         logRecords('Recurring_Donations', rdsJSON);
-        logRecords('Gift_to_Opportunity', giftsJSON);
+        // logRecords('Gift_to_Opportunity', giftsJSON);
         // logRecords('Opportunity', oppsJSON); - Need to figure out these first
         // logRecords('Transaction_to_Payment', transactionsJSON);
 
@@ -566,7 +571,7 @@ public without sharing class SyncController {
         // Assumes account and opportunity lookups on the Transaction can be relied upon exclusively for gift's account/opportunity.
         System.debug('fsCOA: ' + fsCOA);
         String mdtObjName = 'Transaction_to_Payment';
-        String whereClause = ' WHERE AQB__ChartofAccounts__r.Name=\'' + fsCOA + '\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
+        String whereClause = ' WHERE AQB__ChartofAccounts__r.Name LIKE \'' + fsCOA + '%\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
         List<Object> records = queryForRecords(mdtObjName, null, whereClause);
         if (records != null && records.size()>0) {
             transactionsJSON.add(records);

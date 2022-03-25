@@ -1,5 +1,5 @@
 // For each COA retrieved...
- /*       
+  
         String fsRole;
         List<FS_Group_Settings__mdt> fsGroups;
         
@@ -12,29 +12,29 @@
             for (FS_Group_Settings__mdt fs : fsGroups) {
                 // For each FS, grab COA and role to assign record ownership             
                 SyncController scThisFS = new SyncController();
-
-               
+ 
                 scThisFS.startDateTime = datetime.now();
                 scThisFS.fsCOA = fs.GFW_COA_Name__c;
                 scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
                 scThisFS.LaunchSync();
-*/
-     
-/*
-                List<sObject> ls = new List<sObject>();               
-                ls = scThisFS.buildRecsToUpsert('Contact');
-                system.debug('Here is the final list: ' + ls);
 
+                // , 'Recurring_Donations'
+/*        
+                List<sObject> ls = new List<sObject>();               
+                ls = scThisFS.buildRecsToUpsert('Recurring_Donations');
+                system.debug('Here is the final list: ' + ls);
+*/
             }
         }   
-*/
 
 
+
+/*
         // BATCHABLE
         List<String> objNames = new List<String>{'Account', 'Contact', 'Recurring_Donations'};
         Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 5);
         System.debug('batchInstanceId: ' + batchInstanceId);
-
+*/
 
 
 

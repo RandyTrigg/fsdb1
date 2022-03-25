@@ -5,8 +5,8 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
     // Database.Stateful allows instance member variables to retain their values between transactions. 
     Schema.SObjectField extIdFieldReference;
     List<String> mdtObjNames;
-    List<Id> syncLogRecIds;
-    Integer i = 0;
+    Map<String,GFW_Sync_Object_Mapping__mdt> objMap;
+    String mdtObjName;
 
     public Sync_BatchableUpsert(List<String> strListParam) {
         mdtObjNames = strListParam;
@@ -14,16 +14,17 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
     }
 
     public Iterable<sObject> start(Database.BatchableContext bc) {
-        // Instantiate new SyncController to build records of type mdtObjName
+        // Instantiates new SyncController to build records of type mdtObjName
         // Returns records to execute method for upserting
         List<sObject> recs;
         if (mdtObjNames.size() > 0) {
             System.debug('Batch START top mdtObjNames: ' + mdtObjNames);
-            String mdtObjName = mdtObjNames.remove(0);
+            mdtObjName = mdtObjNames.remove(0);
             SyncController scThisFS = new SyncController();
             recs = new List<sObject>(scThisFS.buildRecsToUpsert(mdtObjName));
             extIdFieldReference = scThisFS.extIdFieldReference;
-            syncLogRecIds = scThisFS.syncLogRecIds;
+            // syncLogRecIds = scThisFS.syncLogRecIds;
+            objMap = scThisFS.getObjectMapping(mdtObjName);
             system.debug('Batch START this mdtObjName: ' + mdtObjName);
             System.debug('Batch START bottom mdtObjNames: ' + mdtObjNames);
         }
@@ -31,40 +32,36 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
     }
     
     public void execute(Database.BatchableContext bc, List<sObject> recs) {
+        String resultMsg;
+        String status;
+        Id slRecId;
+        List<Sync_Log_Record__c> upSLRs = new List<Sync_Log_Record__c>();
+        String slrLookupFieldName;
+        // Loop through results to update Sync Log Records.
         if (recs != null && recs.size() > 0) {
+            slrLookupFieldName = objMap.get(mdtObjName).SyncLogRecordLookupFieldName__c;
             Database.UpsertResult[] upsResults = Database.upsert( recs, extIdFieldReference, false);
             System.debug('upsResults: ' + upsResults);
-            Map<Id, String> syncLogRecIdToResults = new Map<Id,String>();
-            for(Database.upsertResult result:upsResults) {
-                if (result.isSuccess() && result.isCreated()) {
-                    System.debug('Success!!' + (Id)result.getId());
+            // Upsert results are in the same order as original list. 
+            for(Integer index = 0, size = upsResults.size(); index < size; index++) {
+                Sync_Log_Record__c slrecUpdate = new Sync_Log_Record__c();
+                slrecUpdate.Id = (Id)recs[index].get('Sync_Log_Record__c');
+                if(upsResults[index].isSuccess()) {
+                    status = 'Success';
+                    resultMsg = upsResults[index].isCreated() ? 
+                        (String)upsResults[index].getid() + ' was created' : 
+                        (String)upsResults[index].getid() + ' was updated';
+                    slrecUpdate.put(slrLookupFieldName, upsResults[index].getid());
                 } else {
-                    System.debug('Error: ' + result.getErrors());
+                    status = 'Error';
+                    resultMsg = String.join(upsResults[index].getErrors(), ';');
                 }
-                String resultMsg = result.isSuccess() ? 'Success; new record: ' + (String)result.getId() : 'Error: ' + result.getErrors();
-                // upsertResult list should be in the same order as syncLogRecIds
-                syncLogRecIdToResults.put(syncLogRecIds[i], resultMsg);
-                i++;
-             }
-             // Fetch sync log records where ids in list
-             if (syncLogRecIdToResults != null && !syncLogRecIdToResults.IsEmpty()) {
-                Set<Id> slrIds = new Set<Id>(syncLogRecIds);
-                String idsToQuery = Utilities.packageIdsForQuery(slrIds);
-                String whereClause = 'WHERE Id IN ' + idsToQuery;
-                List<sObject> slRecs = Utilities.fetchRecords('Sync_Log_Record__c', whereClause, null);
-                List<Sync_Log_Record__c> slRecsToUpdate = new List<Sync_Log_Record__c>();
-                for (sObject rec : slRecs) {
-                    Sync_Log_Record__c slRec = (Sync_Log_Record__c)rec;
-                    String resultString = syncLogRecIdToResults.get(slRec.Id);
-                    if (resultString != null && resultString != '') {
-                        slRec.Status__c = resultString.contains('Success') ? 'Success' : 'Error';
-                        slRec.Results__c = resultString;
-                        slRecsToUpdate.add(slRec);
-                    }
-                }
-                if (slRecsToUpdate.size()>0) {
-                    update slRecsToUpdate;
-                }
+                slrecUpdate.Status__c = status;
+                slrecUpdate.Results__c = resultMsg;
+                upSLRs.add(slrecUpdate);
+            }
+            if (upSLRs != null && !upSLRs.IsEmpty()) {
+                update upSLRs;
             }
         }
     }

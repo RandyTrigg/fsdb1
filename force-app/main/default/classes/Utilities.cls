@@ -507,8 +507,9 @@ global class Utilities {
         String whereClause,
         String[] relatedFieldNames
     ) {
-        if (objName == null || whereClause == null)
+        if (objName == null)
             return null;
+        whereClause = whereClause != null ? ' ' + whereClause : ''; 
         String[] fieldNames = fieldNamesForObject(objName);
         if (relatedFieldNames != null)
             fieldNames.addAll(relatedFieldNames);
@@ -517,7 +518,6 @@ global class Utilities {
             String.join(fieldNames, ', ') +
             ' FROM ' +
             objName +
-            ' ' +
             whereClause;
         system.debug('fetchRecords: q = ' + q);
         return Database.query(q);
