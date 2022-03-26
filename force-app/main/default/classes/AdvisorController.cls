@@ -78,15 +78,14 @@ public with sharing class AdvisorController {
     public with sharing class AdvException extends Exception {}
     public static Id recTypeIdContactGM = Utilities.getRecTypeId('Contact', 'Contact_GM');
     public static Id recTypeIdContactAdv = Utilities.getRecTypeId('Contact', 'Contact_GM_Advisor');
-    public static Id recTypeIdAcctHouseholdAdv = Utilities.getRecTypeId('Account', 'Household_GM_Advisor');
     public static Id recTypeIdAcctOrgGM = Utilities.getRecTypeId('Account', 'Organization_GM');
-    public static String communityAccountName = 'GFW Community Members Advisors';
+    public static String advisorContactsAccountName = 'Account for advisor contacts';
     public static String grantCommunityProfileName = 'GFW community member';
     public static String advisorCommunityProfileName = 'GFW community member Advisor';
     public static String standardUserGMProfileName = 'Standard User GM';
     public static String advisorCommunityPermSetName = 'Community: Advisors';
     
-    // Build three interlinked records: Advisor, Contact, Account (household), Advisor Term, and optionally a GM Org account for org affiliation.
+    // Build interlinked records: Advisor, Contact, Advisor Term, and optionally a GM Org account for org affiliation.
     @AuraEnabled
     public static String buildAdvisorRecs(String jsonString) {
         strike_responseData responseData = new strike_responseData();
@@ -101,11 +100,7 @@ public with sharing class AdvisorController {
             Date advisorTermEndDate = jsonMap.get('advisorTermEndDate') != null ? Date.valueOf((String)jsonMap.get('advisorTermEndDate')) : null;
             system.debug('buildAdvisorRecs: advisorTermStartDate = ' +advisorTermStartDate+ '; advisorTermEndDate = ' +advisorTermEndDate);
             String advName = firstName +' '+ lastName;
-            Account advAcct = new Account (
-                RecordTypeId = recTypeIdAcctHouseholdAdv,
-                Name = advName
-            );
-            insert advAcct;
+            Account advAcct = [SELECT Id FROM Account WHERE Name = : advisorContactsAccountName LIMIT 1];
             system.debug('buildAdvisorRecs: advAcct = ' +JSON.serialize(advAcct));
             // Build org affiliation account if necessary.
             Account orgAffilAcct;
@@ -142,7 +137,6 @@ public with sharing class AdvisorController {
                 Type__c = termType == 'Strategic' ? 'Official' : termType == 'Expert' ? 'Informal' : termType,
                 Language__c = (String)jsonMap.get('language'),
                 Global__c = (String)jsonMap.get('global') == 'true' ? true : false,
-                Account__c = advAcct.Id,
                 Contact__c = advCon.Id,
                 GM_org_affiliation__c = orgAffilAcctId
             );
@@ -162,7 +156,6 @@ public with sharing class AdvisorController {
             advt = [SELECT Id, Name FROM Advisor_Term__c WHERE Id = :advt.Id];
             responseData.results = new Map<String, Object> {
                 'advisorId' => adv.Id,
-                'accountId' => advAcct.Id,
                 'contactId' => advCon.Id,
                 'orgAffilAcctId' => orgAffilAcctId,
                 'orgAffilName' => orgAffilName,
@@ -217,8 +210,7 @@ public with sharing class AdvisorController {
             // Currently, this only works for individual advisors whose contact records have emails and who aren't already online.
             if (advId == null || adv.Community_contact__c != null || adv.Contact__c == null || adv.Contact__r.Email == null) 
                 throw new AdvException ('Advisor already in community or not individual or has blank email');
-            // Look up community profile/account.
-            Id commAccId = [SELECT Id FROM Account WHERE Name = : communityAccountName LIMIT 1].Id;
+            // Look up community profile/perm set.
             Id pIdGrnt = [SELECT Id FROM Profile WHERE Name = : grantCommunityProfileName LIMIT 1].Id;
             Id pIdAdv = [SELECT Id FROM Profile WHERE Name = : advisorCommunityProfileName LIMIT 1].Id;
             Id psIdAdv = [SELECT Id FROM PermissionSet WHERE Label = : advisorCommunityPermSetName LIMIT 1].Id;
@@ -257,9 +249,10 @@ public with sharing class AdvisorController {
             }
             // If no contact, then build a new one in the community account.
             if (c == null) {
+                Account advAcct = [SELECT Id FROM Account WHERE Name = : advisorContactsAccountName LIMIT 1];
                 c = new Contact(
                     RecordTypeId = recTypeIdContactGM,
-                    AccountId = commAccId,
+                    AccountId = advAcct.Id,
                     Email = email,
                     LastName = adv.Contact__r.LastName,
                     FirstName = adv.Contact__r.FirstName
@@ -305,6 +298,71 @@ public with sharing class AdvisorController {
         Advisor__c[] advs = [SELECT Id, Name FROM Advisor__c WHERE Account__c = : accountId];
         system.debug('advisorsFromAccount: advs = ' +JSON.serialize(advs));
         return advs;
+    }
+    
+    // Return a map of emails for given advisors.
+    public static Map<Id, List<String>> emailsForAdvisors(Set<Id> aIds) {
+        Map<ID, List<String>> eMap = new Map<Id, List<String>>();
+        List<Account> accts = fetchAccountsContactInfo(aIds);
+        //system.debug('accts = ' +JSON.serialize(accts));
+        // Gather emails for each account.
+        for (Account a : accts) {
+            List<String> emails = emailsForAccount(a);
+            if (emails.size() > 0) eMap.put(a.Id, emails);
+        }
+        return eMap;
+    }
+    
+    // Return the unique email addresses that haven't been marked invalid for the given account.
+    // Use Email and Email2 fields plus emails of rank 1 contacts.  If none of those, use linked emails.
+    // Also throw in applicant and advisor email, if any.
+    // NOTE: The caller should have fetched all necessary contact info fields into given account.
+    public static List<String> emailsForAdvisor(Advisor__c a) {
+        Set<String> uniqueEmails = new Set<String> ();
+        List<String> orderedEmails = new List<String> (); // Used for contact emails of Dev accounts
+        // Get applicant/advisor linked to this account, if any.
+        Applicant__c appl = a.Applicants__r.size() > 0 ? a.Applicants__r[0] : null;
+        Advisor__c adv = a.Advisors__r.size() > 0 ? a.Advisors__r[0] : null;
+        if (a.RecordType.Name.contains('GM')) {
+            // Gather emails for a GM account.
+            // For non-advisors, grab emails from fields.
+            if (!a.RecordType.Name.contains('Advisor')) {
+                if(a.GM_Email__c != null) uniqueEmails.add(a.GM_Email__c);
+                if(a.GM_Email2__c != null) uniqueEmails.add(a.GM_Email2__c);
+            }
+            // For GM accounts, add emails from rank 1 contacts.
+            for (Contact c : a.Contacts) {
+                if (c.Rank__c == 1) {
+                    uniqueEmails.add(c.Email);
+                    // Advisors include OtherEmail if non-blank.
+                    if (adv != null && c.AQB__OtherEmail__c != null) uniqueEmails.add(c.AQB__OtherEmail__c);
+                }
+            }
+            // Note that an account linked from an "org" advisor has non-advisor record type so gathers emails just like a GM org. 
+            if (a.RecordType.Name.contains('Advisor')) {
+                // If haven't found any emails, then look on the advisor record itself.
+                if (uniqueEmails.size() == 0 && adv != null && adv.Emails__c != null) { 
+                    for (String email : adv.Emails__c.split(',')) uniqueEmails.add(email.trim());
+                }
+                // Throw in community email from online advisor, if any.
+                if (adv != null && adv.Community_contact_email__c != null) uniqueEmails.add(adv.Community_contact_email__c);
+            } else {
+                // Non-advisor account: Grab emails from the emails related list if none of the above yielded emails.
+                if (uniqueEmails.size() == 0)
+                    for (Email__c e : a.Emails__r) if(e.Email__c  != null) uniqueEmails.add(e.Email__c);
+                // Throw in community email from online applicant, if any.
+                if (appl != null && appl.Contact_email__c != null) uniqueEmails.add(appl.Contact_email__c);
+            }
+            return new List<String> (uniqueEmails);
+        } else {
+            // For Dev accounts, gather unique contact emails, preserving the original rank order.
+            for (Contact c : a.Contacts) 
+                if (!uniqueEmails.contains(c.Email)) {
+                    uniqueEmails.add(c.Email);
+                    orderedEmails.add(c.Email);
+                }
+            return orderedEmails;
+        }
     }
     
     /**********************************

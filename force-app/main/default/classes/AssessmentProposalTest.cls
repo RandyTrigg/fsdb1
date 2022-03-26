@@ -5,7 +5,7 @@ public without sharing class AssessmentProposalTest {
     static void makeData(){
 
         // This will set up a Region, Adviosr, Advisor Term
-        AdvisorControllerTest.InitTestObjects(1, 1);
+        AdvisorControllerTest.InitTestObjects(1);
         Region__c reg = [SELECT ID, Name FROM Region__c WHERE Name=:'test region'];
 
         Advisor__c adv = [SELECT ID, Account__c FROM Advisor__c LIMIT 1];
@@ -77,7 +77,7 @@ public without sharing class AssessmentProposalTest {
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
             Object_name__c = 'GM_Data__c',
-            Field_name__c = 'Org_capacity_risk_level__c',
+            Field_name__c = 'Resource_mobilization__c',
             Sort_number__c = 3
         ));
 
@@ -87,7 +87,7 @@ public without sharing class AssessmentProposalTest {
             Lightning_component_name__c = 'InputSelectLookup',
             Label__c = 'input select lookup label',
             Object_name__c = 'Proposal__c',
-            Field_name__c = 'Decline_reason_1__c',
+            Field_name__c = 'Decline_reason__c',
             Sort_number__c = 3
         ));
         
@@ -162,12 +162,12 @@ public without sharing class AssessmentProposalTest {
 
     @isTest
     static void getAssignedAssessmentsTest() {
-
-        Profile profile = [select id, Name from profile where name='GFW Community Member Assessor'];
+        // 3/25/2022: Can we avoid hardwiring a profile name here? Or at least use a more generic profile?
+        Profile profile = [select id, Name from profile where name='BFF Community Login User'];
         Contact c = [SELECT ID, FirstName, LastName, Email FROM Contact LIMIT 1];
 
         // Assign the community user on the advisor
-        Advisor__c adv = [SELECT ID, Account__c FROM Advisor__c LIMIT 1];
+        Advisor__c adv = [SELECT ID FROM Advisor__c LIMIT 1];
         adv.Community_contact__c = c.Id;
         update adv;
 

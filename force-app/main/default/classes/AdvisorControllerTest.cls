@@ -6,7 +6,7 @@ public with sharing class AdvisorControllerTest {
     
     static testmethod void AdvisorControllerTest1 () {
         // Build new advisors and accounts
-        InitTestObjects(2, 2);
+        InitTestObjects(2);
         Map<Id, Advisor__c> advMap = new Map<Id, Advisor__c> ([SELECT Id FROM Advisor__c]);
         // Build new standard set controller and select the new advisors.
         ApexPages.StandardSetController ssc = new ApexPages.StandardSetController(advMap.values());
@@ -66,49 +66,36 @@ public with sharing class AdvisorControllerTest {
             WHERE Id IN : lIds
         ]);
         Map<Id, Advisor__c> advMap = new Map<Id, Advisor__c> ([
-            SELECT Id
+            SELECT Id, Contact__c, Contact__r.Email
             FROM Advisor__c
             WHERE Id IN (SELECT Advisor__c FROM Letter__c WHERE Id IN : lIds)
         ]);
         // Should be a different letter for each advisor.
         system.assertEquals(lMap.size(), advMap.size());
-        // Gather email addresses for contacts under accounts of these advisors. 
-        Map<Id, Account> aMap = new Map<Id, Account> ([
-            SELECT (SELECT Email FROM Contacts)
-            FROM Account
-            WHERE Id IN (SELECT Account__c FROM Advisor__c WHERE Id IN : advMap.keySet())
-        ]);
-        system.debug('validate: lMap = ' +JSON.serialize(lMap));
-        system.debug('validate: aMap = ' +JSON.serialize(aMap));
-        // The emails stored on the letter need to agree with the account's emails.
+        // The emails stored on the letter need to agree with the advisor's emails.
         for (Letter__c l : lMap.values()) {
-            List<String> emails = new List<String> ();
-            for (Contact c : aMap.get(l.Account__c).Contacts) emails.add(c.Email);
-            system.assertEquals(String.join(emails, ','), l.Emails__c);
+            system.assertEquals(l.Emails__c, advMap.get(l.Advisor__c).Contact__r.Email);
         }
     }
-    // Prepare the specified number of advisors and accounts.  Include one contact per account.
-    // The advisors are distributed evenly among the number of accounts specified.
-    public static void InitTestObjects(Integer NumberOfAdvisors, Integer NumberOfAccounts)
-    {
- 		List<Account>accts = new List<Account>();
-        Id acctAdvRecTypeId = Utilities.getRecTypeId('Account', 'Household_GM_Advisor');
-		for(Integer x=0;x<NumberOfAccounts;x++) {      
-			accts.add(new Account(
-                Name = 'advtest_acct_' + String.valueOf(x),
-                RecordTypeId = acctAdvRecTypeId
-            ));
-		}
-		insert accts;
-        system.debug('InitTestObjects: accts = ' +JSON.serialize(accts));
-        // Use record type filter in SOQL call to ensure that we're not picking up random accounts from non-advisor InitTestObjects calls.
-		List<Account> accounts = new List<Account> ([SELECT Id, Name FROM Account WHERE RecordTypeId = : acctAdvRecTypeId]);
-
+    // Prepare the specified number of advisors.  Include one contact per advisor.
+    public static void InitTestObjects(Integer NumberOfAdvisors) {
+        // Build a country record.
+        Region__c reg = new Region__c (Name = 'test region');
+        insert reg;
+        Country__c country = new Country__c (Name = 'test country', Region__c = reg.Id);
+        insert country;
+        Account advAcct = new Account (
+            Name = AdvisorController.advisorContactsAccountName, 
+            GM_country__c = country.Id,
+            RecordTypeId = orgGMRtId
+            );
+        insert advAcct;
+        system.debug('InitTestObjects: advAcct = ' +JSON.serialize(advAcct));
 		List<Contact>cts = new List<Contact>();
-		for(Integer x=0;x<NumberOfAccounts;x++) {      
+		for(Integer x=0;x<NumberOfAdvisors;x++) {      
 			cts.add(new Contact(
 				LastName = 'ptest_' + String.valueOf(x),
-				AccountId = accounts[x].Id,
+				AccountId = advAcct.Id,
                 Email = 'ptest_' + String.valueOf(x) + '@ptest.org',
                 RecordTypeId = ctAdvRecTypeId,
                 Rank__c = 1
@@ -121,17 +108,11 @@ public with sharing class AdvisorControllerTest {
 
 		// Build and insert advisors linked to appropriate accounts.  
 		List<Advisor__c> advs = new List<Advisor__c>();    
-		Integer acctnumber = 0;
-		for(Integer x=0; x<NumberOfAdvisors; x++) {      
+		for(Contact ct : cts) {      
 			advs.add(new Advisor__c(
-				Account__c = contacts[acctnumber].AccountId
-                , Contact__c = contacts[acctnumber].Id
-                , Name = 'Test advisor ' + x
-                , Global__c = true
+				Contact__c = ct.Id, Name = 'Test advisor ' + ct.LastName, Global__c = true
                 // Add other field assignments for advisors
 				));
-			acctnumber++;
-			if(acctnumber >= NumberOfAccounts) acctnumber = 0;	
 		}
         insert advs;
         system.debug('InitTestObjects: advs = ' +JSON.serialize(advs));
@@ -142,20 +123,16 @@ public with sharing class AdvisorControllerTest {
                 Advisor__c = adv.Id,
                 RecordTypeId = Utilities.getRecTypeId('Advisor_Term__c', 'Assessor'),
                 Date_term_begins__c = Date.today().addDays(-100),
-                Type__c = 'Reference'
+                Type__c = 'Assessor'
 				));
 		}
         system.debug('InitTestObjects: advTs = ' +JSON.serialize(advTs));
         insert advTs;
-        // Build a country record.
-        Region__c reg = new Region__c (Name = 'test region');
-        insert reg;
-        insert new Country__c (Name = 'test country', Region__c = reg.Id);
     }
 
     static testmethod void AdvisorControllerTest2 () {
         // Build new advisors and accounts
-        InitTestObjects(2, 2);
+        InitTestObjects(2);
         Advisor__c[] advs = [SELECT Id FROM Advisor__c];
         
         Test.StartTest();
@@ -165,13 +142,7 @@ public with sharing class AdvisorControllerTest {
         system.assertEquals(1, advs1.size());
         String profPerms = AdvisorController.fetchProfileAndPermissionSets();
         // Test code to add advisor to a community.
-        Country__c country = [SELECT Id, Region__r.Name FROM Country__c LIMIT 1];
-        insert new Account (
-            Name = AdvisorController.communityAccountName, 
-            GM_country__c = country.Id,
-            RecordTypeId = orgGMRtId
-            );
-        Account acc1 = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.communityAccountName LIMIT 1];
+        Account acc1 = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.advisorContactsAccountName LIMIT 1];
         String jsonString = JSON.serialize(new Map<String, Object> {
             'advisorId' => advs[0].Id
         });
@@ -204,17 +175,11 @@ public with sharing class AdvisorControllerTest {
         // System.runAs avoids the Mixed DML Operations error.  (Can't update setup object like User in same context as non-setup object.)
         System.runAs(thisUser) {
             // Build new advisors and accounts
-            InitTestObjects(1, 1);
+            InitTestObjects(1);
             Advisor__c adv = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email FROM Advisor__c][0];
             String email = adv.Contact__r.Email;
             Id pIdAdv = [SELECT Id FROM Profile WHERE Name = : AdvisorController.advisorCommunityProfileName LIMIT 1].Id;
-            Country__c country = [SELECT Id, Region__r.Name FROM Country__c LIMIT 1];
-            insert new Account (
-                Name = AdvisorController.communityAccountName, 
-                GM_country__c = country.Id,
-                RecordTypeId = orgGMRtId
-                );
-            Account acc = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.communityAccountName LIMIT 1];
+            Account acc = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.advisorContactsAccountName LIMIT 1];
             insert new Contact (AccountId = acc.Id, LastName = 'test contact');
             Contact c = [SELECT Id FROM Contact WHERE LastName = 'test contact' LIMIT 1];
             
@@ -288,17 +253,11 @@ public with sharing class AdvisorControllerTest {
         // System.runAs avoids the Mixed DML Operations error.  (Can't update setup object like User in same context as non-setup object.)
         System.runAs(thisUser) {
             // Build new advisors and accounts
-            InitTestObjects(1, 1);
+            InitTestObjects(1);
             Advisor__c adv = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email FROM Advisor__c][0];
             String email = adv.Contact__r.Email;
             Id pIdAdv = [SELECT Id FROM Profile WHERE Name = : AdvisorController.advisorCommunityProfileName LIMIT 1].Id;
-            Country__c country = [SELECT Id, Region__r.Name FROM Country__c LIMIT 1];
-            insert new Account (
-                Name = AdvisorController.communityAccountName, 
-                GM_country__c = country.Id,
-                RecordTypeId = orgGMRtId
-                );
-            Account acc = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.communityAccountName LIMIT 1];
+            Account acc = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.advisorContactsAccountName LIMIT 1];
             insert new Contact (AccountId = acc.Id, LastName = 'test contact');
             Contact c = [SELECT Id FROM Contact WHERE LastName = 'test contact' LIMIT 1];
             

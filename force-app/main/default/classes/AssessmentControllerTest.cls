@@ -4,7 +4,7 @@ public with sharing class AssessmentControllerTest {
     // New letter for assessment set
     static testmethod void AssessmentControllerTest1a () {
         // Build new advisors and accounts and advisor terms.
-        AdvisorControllerTest.InitTestObjects(1, 1);
+        AdvisorControllerTest.InitTestObjects(1);
         Advisor__c adv = [SELECT Id, Account__c FROM Advisor__c LIMIT 1];
         insert new Account (Name = 'Test account');
         Account acc = [SELECT Id FROM Account LIMIT 1];
@@ -34,7 +34,7 @@ public with sharing class AssessmentControllerTest {
     // New letter for single assessment
     static testmethod void AssessmentControllerTest1b () {
         // Build new advisors and accounts and advisor terms.
-        AdvisorControllerTest.InitTestObjects(1, 1);
+        AdvisorControllerTest.InitTestObjects(1);
         Advisor__c adv = [SELECT Id, Account__c FROM Advisor__c LIMIT 1];
         insert new Account (Name = 'Test account');
         Account acc = [SELECT Id FROM Account LIMIT 1];

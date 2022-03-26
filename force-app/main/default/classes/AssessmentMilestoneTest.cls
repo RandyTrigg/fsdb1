@@ -6,7 +6,7 @@ public without sharing class AssessmentMilestoneTest {
     static void makeData(){
 
         // This will set up a Region, Adviosr, Advisor Term
-        AdvisorControllerTest.InitTestObjects(1, 1);
+        AdvisorControllerTest.InitTestObjects(1);
         Region__c reg = [SELECT ID, Name FROM Region__c WHERE Name=:'test region'];
 
         Advisor__c adv = [SELECT ID, Account__c FROM Advisor__c LIMIT 1];
@@ -59,7 +59,7 @@ public without sharing class AssessmentMilestoneTest {
             Lightning_component_name__c = 'InputCheckbox',
             Label__c = 'input checkbox label',
             Object_name__c = 'GM_Data__c',
-            Field_name__c = 'Story_individual__c',
+            Field_name__c = 'Test_indicator_tracking__c',
             Sort_number__c = 3
         ));
 
@@ -69,7 +69,7 @@ public without sharing class AssessmentMilestoneTest {
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
             Object_name__c = 'Milestone__c',
-            Field_name__c = 'Quality_of_report_ranking__c',
+            Field_name__c = 'Type__c',
             Sort_number__c = 3
         ));
 
@@ -145,11 +145,11 @@ public without sharing class AssessmentMilestoneTest {
         AssessorSiteController.submitReview(assess.Id);
 
         Assessment__c submittedAssessment = [SELECT ID, Date_submitted__c, Milestone__c FROM Assessment__c LIMIT 1];
-        Milestone__c milestone =  [SELECT ID, Date_submitted__c FROM Milestone__c WHERE ID=:submittedAssessment.Milestone__c];
+        Milestone__c milestone =  [SELECT ID, Date_reviewed__c FROM Milestone__c WHERE ID=:submittedAssessment.Milestone__c];
 
         Date d = System.today();
         System.assertEquals(d, submittedAssessment.Date_submitted__c);
-        System.assertEquals(d, milestone.Date_submitted__c);
+        System.assertEquals(d, milestone.Date_reviewed__c);
 
     }
 

@@ -149,7 +149,7 @@ public virtual with sharing class Review {
 
         String query =
         ' SELECT ' +
-            String.join( fieldNames, ',' ) + ', Applicant__r.Name, Decline_reason_1__r.Name' +
+            String.join( fieldNames, ',' ) + ', Decline_reason__r.Name' +
         ' FROM ' +
             ' Proposal__c ' +
         ' WHERE ' +
@@ -555,7 +555,7 @@ public virtual with sharing class Review {
                         fc.numberValue = (Decimal)this.linkedProposal.get(fc.fieldName);
                     } else if (fc.dataType=='InputCheckbox') {
                         fc.booleanValue = (Boolean)this.linkedProposal.get(fc.fieldName);
-                    } else if (fc.dataType=='InputSelectLookup' && fc.fieldName=='Decline_reason_1__c') { // Decline Reason is a lookup, but we present it as a picklist, since it's not clear to all users what they would search for
+                    } else if (fc.dataType=='InputSelectLookup' && fc.fieldName=='Decline_reason__c') { // Decline Reason is a lookup, but we present it as a picklist, since it's not clear to all users what they would search for
                         List < Decline_reason__c > proposalDeclineReasons = [SELECT Id, Name, For_proposal__c FROM Decline_reason__c WHERE Active__c = true AND For_proposal__c = true ORDER BY Name Asc];
                         List < Map<String, String> > picklistSelectOptions = new List < Map<String, String> >();
                         for (Decline_reason__c dr: proposalDeclineReasons) {

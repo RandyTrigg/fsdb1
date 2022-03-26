@@ -88,7 +88,7 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
                         cmp.inputText = true;
                         break;
                     case 'InputSelectLookup':
-                        if (cmp.fieldName=="Decline_reason_1__c" || cmp.fieldName=="Decline_reason__c") {// Decline Reason is a lookup, but we present it as a picklist, since it's not clear to all users what they would search for
+                        if (cmp.fieldName=="Decline_reason__c" || cmp.fieldName=="Decline_reason__c") {// Decline Reason is a lookup, but we present it as a picklist, since it's not clear to all users what they would search for
                             cmp.inputSelect = true;
                             cmp.picklistValOptions = JSON.parse(cmp.jsonSelectOptions);
                             cmp.picklistValOptions.unshift({label: "-- None (Not Declined) --", value:null});

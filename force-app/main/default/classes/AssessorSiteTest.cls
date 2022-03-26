@@ -5,7 +5,7 @@ public with sharing class AssessorSiteTest {
     static void makeData(){
 
         // This will set up a Region, Adviosr, Advisor Term
-        AdvisorControllerTest.InitTestObjects(1, 1);
+        AdvisorControllerTest.InitTestObjects(1);
         Region__c reg = [SELECT ID, Name FROM Region__c WHERE Name=:'test region'];
 
         Advisor__c adv = [SELECT ID, Account__c FROM Advisor__c LIMIT 1];
@@ -19,7 +19,7 @@ public with sharing class AssessorSiteTest {
         Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard');
         insert p;
 
-        Fund__c fund = new Fund__c(Name='TestRestriction');
+        Fund__c fund = new Fund__c(Name='TestFund', Active__c=true);
         insert fund;
 
         Allocation__c alloc = new Allocation__c(Fund__c=fund.Id, Grant_size__c=10000, Num_grants__c=2);
@@ -101,7 +101,7 @@ public with sharing class AssessorSiteTest {
             Lightning_component_name__c = 'InputCheckbox',
             Label__c = 'input checkbox label',
             Object_name__c = 'GM_Data__c',
-            Field_name__c = 'Story_individual__c',
+            Field_name__c = 'Test_indicator_tracking__c',
             Sort_number__c = 3
         ));
 
@@ -111,7 +111,7 @@ public with sharing class AssessorSiteTest {
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
             Object_name__c = 'Milestone__c',
-            Field_name__c = 'Quality_of_report_ranking__c',
+            Field_name__c = 'Type__c',
             Sort_number__c = 3
         ));
 
@@ -179,7 +179,7 @@ public with sharing class AssessorSiteTest {
         insert country;
         //Build the accont
         Account commContactAccount = new Account (
-            Name = AdvisorController.communityAccountName, 
+            Name = AdvisorController.advisorContactsAccountName, 
             RecordTypeId = orgGMRtId,
             GM_country__c = country.Id
         );
@@ -238,7 +238,7 @@ public with sharing class AssessorSiteTest {
         insert country;
         //Build the accont
         Account commContactAccount = new Account (
-            Name = AdvisorController.communityAccountName, 
+            Name = AdvisorController.advisorContactsAccountName, 
             RecordTypeId = orgGMRtId,
             GM_country__c = country.Id
         );
@@ -304,7 +304,7 @@ public with sharing class AssessorSiteTest {
         insert country;
         //Build the accont
         Account commContactAccount = new Account (
-            Name = AdvisorController.communityAccountName, 
+            Name = AdvisorController.advisorContactsAccountName, 
             RecordTypeId = orgGMRtId,
             GM_country__c = country.Id
         );

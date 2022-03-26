@@ -4,7 +4,7 @@ public without sharing class AssessmentProfileTest {
     @TestSetup
     static void makeData(){
         // This will set up a Region, Adviosr, Advisor Term
-        AdvisorControllerTest.InitTestObjects(1, 1);
+        AdvisorControllerTest.InitTestObjects(1);
         Region__c reg = [SELECT ID, Name FROM Region__c WHERE Name=:'test region'];
 
         Advisor__c adv = [SELECT ID, Account__c FROM Advisor__c LIMIT 1];
@@ -63,7 +63,7 @@ public without sharing class AssessmentProfileTest {
             Lightning_component_name__c = 'InputCheckbox',
             Label__c = 'input checkbox label',
             Object_name__c = 'Profile__c',
-            Field_name__c = 'Intersectional_analysis__c',
+            Field_name__c = 'Registered_NGO__c',
             Sort_number__c = 3
         ));
 
@@ -73,7 +73,7 @@ public without sharing class AssessmentProfileTest {
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
             Object_name__c = 'Profile__c',
-            Field_name__c = 'Girl_centered_org__c',
+            Field_name__c = 'Language__c',
             Sort_number__c = 3
         ));
 
@@ -83,7 +83,7 @@ public without sharing class AssessmentProfileTest {
             Lightning_component_name__c = 'InputSelectLookup',
             Label__c = 'input select lookup label',
             Object_name__c = 'Profile__c',
-            Field_name__c = 'Decline_reason_1__c',
+            Field_name__c = 'Decline_reason__c',
             Sort_number__c = 3
         ));
         
@@ -114,7 +114,7 @@ public without sharing class AssessmentProfileTest {
             Label__c = 'input text area label',
             Help_text__c = 'help text',
             Object_name__c = 'Profile__c',
-            Field_name__c = 'Overall_alignment__c',
+            Field_name__c = 'Mission_Vision__c',
             Sort_number__c = 2
         ));
 
@@ -238,7 +238,7 @@ public without sharing class AssessmentProfileTest {
         );
         insert term;
 
-        Id profileId = [SELECT ID from Profile where name='Basic Community Login User'].id;
+        Id profileId = [SELECT ID from Profile where name='BFF Community Login User'].id;
 
         // Invite__c inv = new Invite__c (
         //     Profile__c = profileId,

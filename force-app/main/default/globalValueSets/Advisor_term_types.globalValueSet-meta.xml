@@ -25,22 +25,6 @@
         <default>false</default>
         <label>View forms</label>
     </customValue>
-    <customValue>
-        <fullName>Informal_LEGACY</fullName>
-        <default>false</default>
-        <label>Informal (LEGACY)</label>
-    </customValue>
-    <customValue>
-        <fullName>Garment initiative evaluator</fullName>
-        <default>false</default>
-        <label>Garment initiative evaluator</label>
-    </customValue>
-    <customValue>
-        <fullName>India coordinator</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>India coordinator</label>
-    </customValue>
     <description>The types of advisor terms</description>
     <masterLabel>Advisor term types</masterLabel>
     <sorted>false</sorted>

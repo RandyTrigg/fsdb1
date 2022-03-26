@@ -3,7 +3,7 @@ public with sharing class AdvisorTermControllerTest {
     
     static testmethod void AdvisorTermControllerTest1a () {
         // Build new advisors and accounts and advisor terms.
-        AdvisorControllerTest.InitTestObjects(2, 2);
+        AdvisorControllerTest.InitTestObjects(2);
         Map<Id, Advisor_Term__c> atMap = new Map<Id, Advisor_Term__c> ([SELECT Id FROM Advisor_Term__c]);
         // Build new standard set controller and select the new advisor terms.
         ApexPages.StandardSetController ssc = new ApexPages.StandardSetController(atMap.values());
@@ -25,7 +25,7 @@ public with sharing class AdvisorTermControllerTest {
     
     static testmethod void AdvisorTermControllerTest1b () {
         // Build new advisors and accounts and advisor terms.
-        AdvisorControllerTest.InitTestObjects(2, 2);
+        AdvisorControllerTest.InitTestObjects(2);
         Map<Id, Advisor_Term__c> atMap = new Map<Id, Advisor_Term__c> ([SELECT Id FROM Advisor_Term__c]);
         // Build new standard controller and select the new advisor term.
         ApexPages.StandardController sc = new ApexPages.StandardController(atMap.values()[0]);
@@ -46,7 +46,7 @@ public with sharing class AdvisorTermControllerTest {
     
     static testmethod void AdvisorTermControllerTest2 () {
         // Build new advisors and accounts and advisor terms.
-        AdvisorControllerTest.InitTestObjects(1, 1);
+        AdvisorControllerTest.InitTestObjects(1);
         insert new Template__c (Name = AdvisorTermController.reminderTemplateName, Source_object__c = 'Advisor_Term__c');
         Test.StartTest();
         // Test emailing reminders via the schedulable class.

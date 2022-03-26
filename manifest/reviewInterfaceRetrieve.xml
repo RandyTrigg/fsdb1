@@ -34,9 +34,11 @@
         <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>Application_Setting.Permissible_form_types_Participatory_GM</members>
-        <members>Application_Setting.Permissible_form_types_View_forms</members>
         <name>CustomMetadata</name>
+    </types>
+    <types>
+        <name>Contact.Contact_GM_Advisor</name>
+        <members>RecordType</members>
     </types>
     <version>53.0</version>
 </Package>

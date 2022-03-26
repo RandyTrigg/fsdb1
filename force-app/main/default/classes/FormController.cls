@@ -7,8 +7,8 @@ public with sharing class FormController {
     // Search for all form phrases linked directly and indirectly from a given form - tag with form name in SavedSetNames.
     public static void tagFormPhrases (Id formId) {
         // Fetch form and related records.
-        Form__c form = (Form__c) Utilities.fetchRecord('Form__c', formId, null);
-        Form_Component__c[] comps = (Form_Component__c[]) Utilities.fetchChildRecords('Form_Component__c', formId, 'Form__c', null);
+        String subQuery = Utilities.buildChildSubQuery('Form_Component__c', 'Form_Components__r', null);
+        Form__c form = (Form__c) Utilities.fetchRecord('Form__c', formId, new List<String>{subQuery});
         // Fetch form phrases already tagged with the form name.
         Map<Id, Form_Phrase__c> fPhrasesTagged = new Map<Id, Form_Phrase__c> ([
             SELECT Id 
@@ -18,7 +18,7 @@ public with sharing class FormController {
         // Gather ids of form phrases "under" given form.
         Set<Id> formPhraseIds = new Set<Id>();
         formPhraseIds.addAll(fetchIdsFromFields(new List<Form__c>{form}, getFormPhraseFieldNames('Form__c')));
-        formPhraseIds.addAll(fetchIdsFromFields(comps, getFormPhraseFieldNames('Form_Component__c')));
+        formPhraseIds.addAll(fetchIdsFromFields(form.Form_Components__r, getFormPhraseFieldNames('Form_Component__c')));
         // Fetch the form phrases.
         Form_Phrase__c[] fPhrasesToTag = [SELECT SavedSetNames__c FROM Form_Phrase__c WHERE Id IN : formPhraseIds];
         Map<Id, Form_Phrase__c> toUpdate = new Map<Id, Form_Phrase__c>();

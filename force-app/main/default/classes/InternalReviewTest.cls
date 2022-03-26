@@ -115,7 +115,7 @@ public without sharing class InternalReviewTest {
             Lightning_component_name__c = 'InputCheckbox',
             Label__c = 'input checkbox label',
             Object_name__c = 'GM_Data__c',
-            Field_name__c = 'Story_individual__c',
+            Field_name__c = 'Test_indicator_tracking__c',
             Sort_number__c = 3
         ));
 
@@ -125,7 +125,7 @@ public without sharing class InternalReviewTest {
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
             Object_name__c = 'Milestone__c',
-            Field_name__c = 'Quality_of_report_ranking__c',
+            Field_name__c = 'Type__c',
             Sort_number__c = 3
         ));
 
@@ -225,7 +225,7 @@ public without sharing class InternalReviewTest {
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
             Object_name__c = 'GM_Data__c',
-            Field_name__c = 'Org_capacity_risk_level__c',
+            Field_name__c = 'Resource_mobilization__c',
             Sort_number__c = 3
         ));
 
@@ -235,7 +235,7 @@ public without sharing class InternalReviewTest {
             Lightning_component_name__c = 'InputSelectLookup',
             Label__c = 'input select lookup label',
             Object_name__c = 'Proposal__c',
-            Field_name__c = 'Decline_reason_1__c',
+            Field_name__c = 'Decline_reason__c',
             Sort_number__c = 3
         ));
         
@@ -330,7 +330,7 @@ public without sharing class InternalReviewTest {
             Lightning_component_name__c = 'InputCheckbox',
             Label__c = 'input checkbox label',
             Object_name__c = 'Profile__c',
-            Field_name__c = 'Intersectional_analysis__c',
+            Field_name__c = 'Registered_NGO__c',
             Sort_number__c = 3
         ));
 
@@ -340,7 +340,7 @@ public without sharing class InternalReviewTest {
             Lightning_component_name__c = 'InputSelect',
             Label__c = 'input select label',
             Object_name__c = 'Profile__c',
-            Field_name__c = 'Girl_centered_org__c',
+            Field_name__c = 'Language__c',
             Sort_number__c = 3
         ));
 
@@ -350,7 +350,7 @@ public without sharing class InternalReviewTest {
             Lightning_component_name__c = 'InputSelectLookup',
             Label__c = 'input select lookup label',
             Object_name__c = 'Profile__c',
-            Field_name__c = 'Decline_reason_1__c',
+            Field_name__c = 'Decline_reason__c',
             Sort_number__c = 3
         ));
         
@@ -381,7 +381,7 @@ public without sharing class InternalReviewTest {
             Label__c = 'input text area label',
             Help_text__c = 'help text',
             Object_name__c = 'Profile__c',
-            Field_name__c = 'Overall_alignment__c',
+            Field_name__c = 'Mission_Vision__c',
             Sort_number__c = 2
         ));
 

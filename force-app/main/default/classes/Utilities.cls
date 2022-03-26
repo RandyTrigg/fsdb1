@@ -453,11 +453,7 @@ public with sharing class Utilities {
     }
 
     // Build a child relationship sub-query, to be used in fetchRecord calls.
-    public static String buildChildSubQuery(
-        String objName,
-        String relName,
-        String whereClause
-    ) {
+    public static String buildChildSubQuery(String objName, String relName, String whereClause) {
         return '(SELECT ' +
             String.join(Utilities.fieldNamesForObject(objName), ', ') +
             ' FROM ' +
