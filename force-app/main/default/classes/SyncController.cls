@@ -14,15 +14,18 @@ public without sharing class SyncController {
     Set<Id> acctIds = new Set<Id>();
     Set<Id> ctIds = new Set<Id>();
     Set<Id> giftIds = new Set<Id>();
-    Set<Id> oppIds = new Set<Id>();
+    Set<Id> campIds = new Set<Id>();
+    Set<Id> oppIds = new Set<Id>(); // OpportunityIds linked to transactions
     Set<Id> recDonIds = new Set<Id>();
+    List<Object> coasJSON = new List<Object>();
     List<Object> acctsJSON = new List<Object>();
     List<Object> ctsJSON = new List<Object>();
     List<Object> rdsJSON = new List<Object>();
     List<Object> giftsJSON = new List<Object>();
+    List<Object> campsJSON = new List<Object>();
     List<Object> transactionsJSON = new List<Object>();
     List<Object> gcsJSON = new List<Object>();
-    List<Object> oppsJSON = new List<Object>();
+    List<Object> oppsJSON = new List<Object>(); // 'Floating' opportunities with no transactions
     Map<String, Schema.SObjectField> fieldMapFSDB;
     
     // Initialized upon launch / buildrecs
@@ -516,8 +519,9 @@ public without sharing class SyncController {
         gatherTransactions();
         gatherGiftCredits();
         gatherOpportunities();
+        // TO DO: Add gatherGifts? in order to gather up Opp Ids and Camp Ids from Gifts.
 
-        // Gather json records for each object mapping.
+        // Gather json records for each set of Ids.
         Set<Id> idsToUpsert;
         List<Object> records;
         Map<String, Set<Id>> objNamesIdsMap = new Map<String, Set<Id>>();
@@ -526,6 +530,7 @@ public without sharing class SyncController {
         System.debug('ContactIds gathered: ' + ctIds);
         objNamesIdsMap.put('Recurring_Donations', recDonIds);
         objNamesIdsMap.put('Gift_to_Opportunity', giftIds);
+        objNamesIdsMap.put('Campaign', campIds); // TO DO: Add field mapping for campaign owner
 
         for (String thisObjName : objNamesIdsMap.keyset()) {
             // For Contacts/Accounts, only upsert those not already in fsdb.
@@ -543,6 +548,8 @@ public without sharing class SyncController {
                         rdsJSON = records;
                     } when 'Gift_to_Opportunity' {
                         giftsJSON = records;
+                    } when 'Campaign' {
+                        campsJSON = records;
                     }
                 }
             }
@@ -553,17 +560,14 @@ public without sharing class SyncController {
         newSyncLog();
         logRecords('Account', acctsJSON);
         logRecords('Contact', ctsJSON);
-
+        logRecords('ChartofAccounts', coasJSON);
         logRecords('Recurring_Donations', rdsJSON);
-        // logRecords('Gift_to_Opportunity', giftsJSON);
+        logRecords('Campaign', campsJSON);
+        logRecords('Gift_to_Opportunity', giftsJSON);
         // logRecords('Opportunity', oppsJSON); - Need to figure out these first
         // logRecords('Transaction_to_Payment', transactionsJSON);
 
         //Contacts, Recurring Donations, Opportunities, Tasks on Opportunities, Gifts, Transactions, GiftCredits, SoftCredits 
-        // Upsert all children records
-        // upsertRecs('Recurring_Donations', recDonIds);
-        // upsert gift/opps and opps, then transactions
-        // upsert oppcredits
     }
 
     public void gatherTransactions() {
@@ -581,6 +585,7 @@ public without sharing class SyncController {
                 System.debug('>>> Transactions: ' + t);
                 giftIds.add((Id)t.get('AQB__Gift__c'));
                 acctIds.add((Id)t.get('AQB__Account__c'));
+                campIds.add((Id)t.get('AQB__CampaignAppealId__c'));
                 if (t.get('AQB__CreditedOpportunity__c') != null) { oppIds.add((Id)t.get('AQB__CreditedOpportunity__c')); }
                 if (t.get('Recurring_Donations__c') != null) { recDonIds.add((Id)t.get('Recurring_Donations__c')); }
             }
@@ -626,7 +631,7 @@ public without sharing class SyncController {
     public void gatherOpportunities() {
         String mdtObjName = 'Opportunity';
         String inIDsStr = Utilities.packageIdsForQuery(oppIds);
-        String whereClause = ' WHERE Chart_of_Accounts__r.Name=\'' + fsCOA + '\' AND Id NOT IN ' + inIDsStr;
+        String whereClause = ' WHERE Chart_of_Accounts__r.Name LIKE \'' + fsCOA + '\' AND Id NOT IN ' + inIDsStr;
         List<Object> records = queryForRecords(mdtObjName, null, whereClause);
         if (records != null && records.size()>0) {
             oppsJSON.add(records);
@@ -636,6 +641,15 @@ public without sharing class SyncController {
                 acctIds.add((Id)opp.get('AccountId'));
             }
         System.debug('AccountIdsAfterOpps: ' + acctIds);
+        }
+    }
+
+    public void gatherCOAs() {
+        String mdtObjName = 'ChartofAccounts';
+        String whereClause = ' WHERE Name LIKE \'' + fsCOA + '\'';
+        List<Object> records = queryForRecords(mdtObjName, null, whereClause);
+        if (records != null && records.size()>0) {
+            coasJSON.add(records);
         }
     }
 

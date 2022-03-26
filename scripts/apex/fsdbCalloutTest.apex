@@ -1,5 +1,5 @@
 // For each COA retrieved...
-  
+
         String fsRole;
         List<FS_Group_Settings__mdt> fsGroups;
         
@@ -12,18 +12,59 @@
             for (FS_Group_Settings__mdt fs : fsGroups) {
                 // For each FS, grab COA and role to assign record ownership             
                 SyncController scThisFS = new SyncController();
- 
+ /*
                 scThisFS.startDateTime = datetime.now();
                 scThisFS.fsCOA = fs.GFW_COA_Name__c;
                 scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
                 scThisFS.LaunchSync();
+*/
+
 
                 // , 'Recurring_Donations'
-/*        
-                List<sObject> ls = new List<sObject>();               
-                ls = scThisFS.buildRecsToUpsert('Recurring_Donations');
-                system.debug('Here is the final list: ' + ls);
-*/
+                String mdtObjName = 'Recurring_Donations';
+                List<sObject> recs = new List<sObject>(scThisFS.buildRecsToUpsert(mdtObjName));
+                system.debug('Here is the final list: ' + recs);
+                
+                Map<String,GFW_Sync_Object_Mapping__mdt> objMap;
+                Schema.SObjectField extIdFieldReference;
+                extIdFieldReference = scThisFS.extIdFieldReference;
+                objMap = scThisFS.getObjectMapping(mdtObjName);
+
+        String resultMsg;
+        String status;
+        Id slRecId;
+        List<Sync_Log_Record__c> upSLRs = new List<Sync_Log_Record__c>();
+        String slrLookupFieldName;
+        // Loop through results to update Sync Log Records.
+        if (recs != null && recs.size() > 0) {
+            slrLookupFieldName = objMap.get('Recurring_Donations__c').SyncLogRecordLookupFieldName__c;
+            Database.UpsertResult[] upsResults = Database.upsert( recs, extIdFieldReference, false);
+            System.debug('upsResults: ' + upsResults);
+            // Upsert results are in the same order as original list of records. 
+            for(Integer index = 0, size = upsResults.size(); index < size; index++) {
+                Sync_Log_Record__c slrecUpdate = new Sync_Log_Record__c();
+                slrecUpdate.Id = (Id)recs[index].get('Sync_Log_Record__c');
+                if(upsResults[index].isSuccess()) {
+                    status = 'Success';
+                    resultMsg = upsResults[index].isCreated() ? 
+                        (String)upsResults[index].getid() + ' was created' : 
+                        (String)upsResults[index].getid() + ' was updated';
+                    slrecUpdate.put(slrLookupFieldName, upsResults[index].getid());
+                } else {
+                    status = 'Error';
+                    resultMsg = String.join(upsResults[index].getErrors(), ';');
+                }
+                slrecUpdate.Status__c = status;
+                slrecUpdate.Results__c = resultMsg;
+                upSLRs.add(slrecUpdate);
+            }
+            if (upSLRs != null && !upSLRs.IsEmpty()) {
+                update upSLRs;
+            }
+        }
+
+
+
             }
         }   
 
@@ -34,8 +75,8 @@
         List<String> objNames = new List<String>{'Account', 'Contact', 'Recurring_Donations'};
         Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 5);
         System.debug('batchInstanceId: ' + batchInstanceId);
-*/
 
+*/
 
 
         // QUEUEABLE
