@@ -5,7 +5,7 @@ public with sharing class AdvisorControllerTest {
     public static Id orgGMRtId = Utilities.getRecTypeId('Account', 'Organization_GM');
     
     static testmethod void AdvisorControllerTest1 () {
-        // Build new advisors and accounts
+        // Build new advisors
         InitTestObjects(2);
         Map<Id, Advisor__c> advMap = new Map<Id, Advisor__c> ([SELECT Id FROM Advisor__c]);
         // Build new standard set controller and select the new advisors.
@@ -61,7 +61,7 @@ public with sharing class AdvisorControllerTest {
     
     public static void validate(Set<ID> lIds) {
         Map<Id, Letter__c> lMap = new Map<Id, Letter__c> ([
-            SELECT Account__c, Emails__c, Advisor__c
+            SELECT Account__c, Advisor__c, Emails__c
             FROM Letter__c
             WHERE Id IN : lIds
         ]);
@@ -106,7 +106,7 @@ public with sharing class AdvisorControllerTest {
 		List<Contact> contacts = new List<Contact> ([SELECT AccountId, LastName, RecordType.Name FROM Contact WHERE RecordTypeId = : ctAdvRecTypeId]);
         system.debug('InitTestObjects: contacts = ' +JSON.serialize(contacts));
 
-		// Build and insert advisors linked to appropriate accounts.  
+		// Build and insert advisors.  
 		List<Advisor__c> advs = new List<Advisor__c>();    
 		for(Contact ct : cts) {      
 			advs.add(new Advisor__c(
@@ -131,15 +131,14 @@ public with sharing class AdvisorControllerTest {
     }
 
     static testmethod void AdvisorControllerTest2 () {
-        // Build new advisors and accounts
+        // Build new advisors and contacts
         InitTestObjects(2);
         Advisor__c[] advs = [SELECT Id FROM Advisor__c];
+        Map<Id, List<String>> emails = AdvisorController.emailsForAdvisors(new Set<Id> {advs[0].Id, advs[1].Id});
+        system.assert(emails.size() > 0);
         
         Test.StartTest();
-        // Code coverage for advisorsFromAccount method.
-        Account acc = [SELECT Id FROM Account LIMIT 1];
-        Advisor__c[] advs1 = AdvisorController.advisorsFromAccount(acc.Id);
-        system.assertEquals(1, advs1.size());
+        system.assertEquals(1, advs.size());
         String profPerms = AdvisorController.fetchProfileAndPermissionSets();
         // Test code to add advisor to a community.
         Account acc1 = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.advisorContactsAccountName LIMIT 1];

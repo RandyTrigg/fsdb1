@@ -21,6 +21,7 @@ public with sharing class AssessorSiteTest {
 
         Fund__c fund = new Fund__c(Name='TestFund', Active__c=true);
         insert fund;
+        system.debug('makeData: fund = ' +fund);
 
         Allocation__c alloc = new Allocation__c(Fund__c=fund.Id, Grant_size__c=10000, Num_grants__c=2);
         insert alloc;

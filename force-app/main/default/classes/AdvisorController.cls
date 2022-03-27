@@ -33,7 +33,7 @@ public with sharing class AdvisorController {
         }
         Map<Id, Advisor__c> selMap = new Map<Id, Advisor__c> ([
             SELECT Id, Account__c, Account__r.OwnerId, Contact__c,
-            Emails__c, Contact__r.Email, Contact__r.Email2__c
+            Contact__r.Email, Contact__r.Email2__c
             FROM Advisor__c
             WHERE Id IN : selIds
         ]);
@@ -291,78 +291,42 @@ public with sharing class AdvisorController {
         system.debug('assignPermissionSet: userId = ' +userId+ '; permSetId = ' +permSetId);
         insert new PermissionSetAssignment (PermissionSetId = permSetId, AssigneeId = userId);
     }
-
-    // Fetch org advisors linked to account, if any.
-    @AuraEnabled(cacheable=true)
-    public static Advisor__c[] advisorsFromAccount(Id accountId) {
-        Advisor__c[] advs = [SELECT Id, Name FROM Advisor__c WHERE Account__c = : accountId];
-        system.debug('advisorsFromAccount: advs = ' +JSON.serialize(advs));
-        return advs;
-    }
     
     // Return a map of emails for given advisors.
     public static Map<Id, List<String>> emailsForAdvisors(Set<Id> aIds) {
         Map<ID, List<String>> eMap = new Map<Id, List<String>>();
-        List<Account> accts = fetchAccountsContactInfo(aIds);
-        //system.debug('accts = ' +JSON.serialize(accts));
-        // Gather emails for each account.
-        for (Account a : accts) {
-            List<String> emails = emailsForAccount(a);
+        String[] fieldNames = Utilities.fieldNamesForObject('Advisor__c');
+        fieldNames.addAll(new List<String>{
+            'Contact__r.Email', 'Contact__r.Email2__c', 
+            'Account__r.Contact_emails_GM__c', 'GM_org_affiliation__r.Contact_emails_GM__c'
+        });
+        String q = 'SELECT ' +String.join(fieldNames, ', ')+ ' FROM Advisor__c WHERE Id IN : aIds';
+        List<Advisor__c> advs = Database.query(q);
+        //system.debug('advs = ' +JSON.serialize(advs));
+        // Gather emails for each advisor.
+        for (Advisor__c a : advs) {
+            List<String> emails = emailsForAdvisor(a);
             if (emails.size() > 0) eMap.put(a.Id, emails);
         }
         return eMap;
     }
     
-    // Return the unique email addresses that haven't been marked invalid for the given account.
-    // Use Email and Email2 fields plus emails of rank 1 contacts.  If none of those, use linked emails.
-    // Also throw in applicant and advisor email, if any.
-    // NOTE: The caller should have fetched all necessary contact info fields into given account.
+    // Return the unique email addresses for the given advisor.
+    // NOTE: The caller should have fetched all necessary contact info fields into given advisor.
     public static List<String> emailsForAdvisor(Advisor__c a) {
         Set<String> uniqueEmails = new Set<String> ();
-        List<String> orderedEmails = new List<String> (); // Used for contact emails of Dev accounts
-        // Get applicant/advisor linked to this account, if any.
-        Applicant__c appl = a.Applicants__r.size() > 0 ? a.Applicants__r[0] : null;
-        Advisor__c adv = a.Advisors__r.size() > 0 ? a.Advisors__r[0] : null;
-        if (a.RecordType.Name.contains('GM')) {
-            // Gather emails for a GM account.
-            // For non-advisors, grab emails from fields.
-            if (!a.RecordType.Name.contains('Advisor')) {
-                if(a.GM_Email__c != null) uniqueEmails.add(a.GM_Email__c);
-                if(a.GM_Email2__c != null) uniqueEmails.add(a.GM_Email2__c);
-            }
-            // For GM accounts, add emails from rank 1 contacts.
-            for (Contact c : a.Contacts) {
-                if (c.Rank__c == 1) {
-                    uniqueEmails.add(c.Email);
-                    // Advisors include OtherEmail if non-blank.
-                    if (adv != null && c.AQB__OtherEmail__c != null) uniqueEmails.add(c.AQB__OtherEmail__c);
-                }
-            }
-            // Note that an account linked from an "org" advisor has non-advisor record type so gathers emails just like a GM org. 
-            if (a.RecordType.Name.contains('Advisor')) {
-                // If haven't found any emails, then look on the advisor record itself.
-                if (uniqueEmails.size() == 0 && adv != null && adv.Emails__c != null) { 
-                    for (String email : adv.Emails__c.split(',')) uniqueEmails.add(email.trim());
-                }
-                // Throw in community email from online advisor, if any.
-                if (adv != null && adv.Community_contact_email__c != null) uniqueEmails.add(adv.Community_contact_email__c);
-            } else {
-                // Non-advisor account: Grab emails from the emails related list if none of the above yielded emails.
-                if (uniqueEmails.size() == 0)
-                    for (Email__c e : a.Emails__r) if(e.Email__c  != null) uniqueEmails.add(e.Email__c);
-                // Throw in community email from online applicant, if any.
-                if (appl != null && appl.Contact_email__c != null) uniqueEmails.add(appl.Contact_email__c);
-            }
-            return new List<String> (uniqueEmails);
-        } else {
-            // For Dev accounts, gather unique contact emails, preserving the original rank order.
-            for (Contact c : a.Contacts) 
-                if (!uniqueEmails.contains(c.Email)) {
-                    uniqueEmails.add(c.Email);
-                    orderedEmails.add(c.Email);
-                }
-            return orderedEmails;
+        if (a.Contact__r.Email != null) uniqueEmails.add(a.Contact__r.Email);
+        if (a.Contact__r.Email2__c != null) uniqueEmails.add(a.Contact__r.Email2__c);
+        // Throw in community email from online advisor, if any.
+        if (a.Community_contact_email__c != null) uniqueEmails.add(a.Community_contact_email__c);
+        // Throw in emails from linked accounts, if any.
+        if (a.Account__r.Contact_emails_GM__c != null) {
+            for (String e : a.Account__r.Contact_emails_GM__c.split(',')) uniqueEmails.add(e.trim());
         }
+        if (a.GM_org_affiliation__r.Contact_emails_GM__c != null) {
+            for (String e : a.GM_org_affiliation__r.Contact_emails_GM__c.split(',')) uniqueEmails.add(e.trim());
+        }
+        return new List<String> (uniqueEmails);
     }
     
     /**********************************

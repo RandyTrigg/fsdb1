@@ -28,9 +28,9 @@ public with sharing class AdvisorPaymentControllerTest {
     static testmethod void AdvisorPaymentControllerTest2 () {
         // Build new advisors and accounts and advisor terms.
         AdvisorControllerTest.InitTestObjects(1);
-        Advisor_Term__c at = [SELECT Id FROM Advisor_Term__c LIMIT 1];
+        Advisor_Term__c at = [SELECT Id, Advisor__c FROM Advisor_Term__c LIMIT 1];
         Date d = System.today();
-        insert new Advisor_Payment__c (Advisor_Term__c = at.Id, Amount_paid__c=0, Date_paid_accounting__c=d, Payment_ref__c='Cash');
+        insert new Advisor_Payment__c (Advisor_Term__c = at.Id, Advisor__c = at.Advisor__c, Amount_paid__c=0, Date_paid_accounting__c=d, Payment_ref__c='Cash');
         Map<Id, Advisor_Payment__c> apMap = new Map<Id, Advisor_Payment__c> ([SELECT Id FROM Advisor_Payment__c]);
         // Build new standard controller.
         ApexPages.StandardController sc = new ApexPages.StandardController(apMap.values()[0]);
