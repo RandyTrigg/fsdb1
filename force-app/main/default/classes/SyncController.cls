@@ -15,9 +15,9 @@ public without sharing class SyncController {
     Set<Id> ctIds = new Set<Id>();
     Set<Id> giftIds = new Set<Id>();
     Set<Id> campIds = new Set<Id>();
-    Set<Id> giftOppIds = new Set<Id>();
-    Set<Id> giftOppIdsToUpdate = new Set<Id>();
-    Set<Id> oppIds = new Set<Id>(); // OpportunityIds linked to transactions
+    Set<Id> giftOppIds = new Set<Id>();  // OpportunityIds linked to gifts
+    Set<Id> giftOppIdsToUpdate = new Set<Id>(); // Opportunities in FSDB with matching ExtOppIds to GiftOpportunities
+    Set<Id> oppIds = new Set<Id>(); // Unlinked Opportunities
     Set<Id> recDonIds = new Set<Id>();
     List<Object> coasJSON = new List<Object>();
     List<Object> acctsJSON = new List<Object>();
@@ -532,7 +532,7 @@ public without sharing class SyncController {
         objNamesIdsMap.put('Contact', ctIds);
         System.debug('ContactIds gathered: ' + ctIds);
         objNamesIdsMap.put('Recurring_Donations', recDonIds);
-        // objNamesIdsMap.put('GiftOpportunity', giftOppIds);
+        // objNamesIdsMap.put('GiftOpportunity', giftOppIdsToUpdate);
         objNamesIdsMap.put('Gift_to_Opportunity', giftIds);
         objNamesIdsMap.put('Campaign', campIds); // TO DO: Add field mapping for campaign owner
 
