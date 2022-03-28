@@ -523,29 +523,6 @@ global class Utilities {
         return Database.query(q);
     }
 
-    // NIX - Use fetchRecords and update to add space ' ' if whereClause not null. (Then put Order by clause in whereClause parameter.)
-    // Return ALL records for given object.  Fetch all local fields plus any given related ones.
-    public static sObject[] fetchAllRecords(
-        String objName,
-        String[] relatedFieldNames,
-        String orderByClause
-    ) {
-        if (objName == null)
-            return null;
-        String[] fieldNames = fieldNamesForObject(objName);
-        if (relatedFieldNames != null)
-            fieldNames.addAll(relatedFieldNames);
-        orderByClause = orderByClause != null ? ' ' + orderByClause : '';
-        String q =
-            'SELECT ' +
-            String.join(fieldNames, ', ') +
-            ' FROM ' +
-            objName +
-            orderByClause;
-        system.debug('fetchRecords: q = ' + q);
-        return Database.query(q);
-    }
-
     // Return record for given object with given id.
     // Fetch all local fields plus specified related fields, plus all local fields of related records identified by list of relationship names.
     public static sObject fetchRecordAndRelatedRecords(

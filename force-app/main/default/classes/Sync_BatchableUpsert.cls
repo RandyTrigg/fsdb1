@@ -5,7 +5,7 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
     // Database.Stateful allows instance member variables to retain their values between transactions. 
     Schema.SObjectField extIdFieldReference;
     List<String> mdtObjNames;
-    Map<String,GFW_Sync_Object_Mapping__mdt> objMap;
+    GFW_Sync_Object_Mapping__mdt objMap;
     String mdtObjName;
 
     public Sync_BatchableUpsert(List<String> strListParam) {
@@ -39,8 +39,7 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
         String slrLookupFieldName;
         // Loop through results to update Sync Log Records.
         if (recs != null && recs.size() > 0) {
-            // TO DO: FIX below line 'mdtObjName' should be the gfw field name.
-            slrLookupFieldName = objMap.get(mdtObjName).SyncLogRecordLookupFieldName__c;
+            slrLookupFieldName = objMap.SyncLogRecordLookupFieldName__c;
             Database.UpsertResult[] upsResults = Database.upsert( recs, extIdFieldReference, false);
             System.debug('upsResults: ' + upsResults);
             // Upsert results are in the same order as original list of records. 

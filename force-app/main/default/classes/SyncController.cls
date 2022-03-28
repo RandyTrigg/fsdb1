@@ -15,6 +15,8 @@ public without sharing class SyncController {
     Set<Id> ctIds = new Set<Id>();
     Set<Id> giftIds = new Set<Id>();
     Set<Id> campIds = new Set<Id>();
+    Set<Id> giftOppIds = new Set<Id>();
+    Set<Id> giftOppIdsToUpdate = new Set<Id>();
     Set<Id> oppIds = new Set<Id>(); // OpportunityIds linked to transactions
     Set<Id> recDonIds = new Set<Id>();
     List<Object> coasJSON = new List<Object>();
@@ -157,12 +159,12 @@ public without sharing class SyncController {
         System.debug('mdts: ' + mdts);
     }
 
-    // Retrieve GFW-based object mapping by mdt name
-    public Map<String,GFW_Sync_Object_Mapping__mdt> getObjectMapping(String mdtObjName) {
-        Map<String,GFW_Sync_Object_Mapping__mdt> objMap = new Map<String,GFW_Sync_Object_Mapping__mdt>();
+    // Retrieve object mapping by mdt name
+    public GFW_Sync_Object_Mapping__mdt getObjectMapping(String mdtObjName) {
+        GFW_Sync_Object_Mapping__mdt objMap = new GFW_Sync_Object_Mapping__mdt();
         for (GFW_Sync_Object_Mapping__mdt objMDT : mdts) {
             if (objMDT.DeveloperName == mdtObjName) {
-                objMap.put(objMDT.GFW_Object_Name__c, objMDT);
+                objMap = objMDT;
             }
         }
         return objMap;
@@ -192,8 +194,8 @@ public without sharing class SyncController {
         Map<String,GFW_Sync_Field_Mapping__mdt> gfwFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         Map<String,GFW_Sync_Field_Mapping__mdt> fsdbFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         String orderByClause = 'ORDER BY GFW_Sync_Object_Mapping__c';
-        GFW_Sync_Field_Mapping__mdt[] fieldsMDTs = Utilities.fetchAllRecords(
-            objName, relFieldNames, orderByClause);
+        GFW_Sync_Field_Mapping__mdt[] fieldsMDTs = Utilities.fetchRecords(
+            objName, orderByClause, relFieldNames);
         // System.debug('fieldsMDTs: ' + fieldsMDTs);
         
         // Build field mapping for each object map
@@ -252,10 +254,11 @@ public without sharing class SyncController {
             'GFW_Sync_Field_Mapping__r.GFW_Sync_Object_Mapping__r.DeveloperName',
             'GFW_Sync_Field_Mapping__r.FSDB_Field_API_Name__c'};
         String orderByClause = 'ORDER BY GFW_Sync_Field_Mapping__c';
-        picklistMapping = Utilities.fetchAllRecords(
+        picklistMapping = Utilities.fetchRecords(
             objName,
-            relatedFieldNames,
-            orderByClause);
+            orderByClause,
+            relatedFieldNames
+            );
         System.debug('picklistmapping: ' + picklistMapping);
         Id storeId;
         List<GFW_Sync_Picklist_Mapping__mdt> addPicklists = new List<GFW_Sync_Picklist_Mapping__mdt>();
@@ -280,8 +283,8 @@ public without sharing class SyncController {
 
     // For Accounts and Contacts, build Ids for records not already in FSDB to insert 
     public Set<Id> recIdsToInsert(String mdtObjName, Set<Id> idsGathered) {
-        String gfwObjName = new List<String>(getObjectMapping(mdtObjName).keySet())[0];
-        GFW_Sync_Object_Mapping__mdt objMDT = getObjectMapping(mdtObjName).get(gfwObjName);
+        GFW_Sync_Object_Mapping__mdt objMDT = getObjectMapping(mdtObjName);
+        String gfwObjName = objMDT.GFW_Object_Name__c;
         String fsdbObjName = objMDT.FSDB_Object_Name__c;
         String inIDsStr = Utilities.packageIdsForQuery(idsGathered);
         String extIdFieldName = externalIdFieldName(mdtObjName);
@@ -305,13 +308,13 @@ public without sharing class SyncController {
     // Generate and query GFW by mdt record
     public List<Object> queryForRecords(String mdtObjName, Set<Id> idsForQuery, String whereClauseCustom) {
         // Retrieve object and field mappings
-        Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
+        GFW_Sync_Object_Mapping__mdt objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappingsGFW(mdtObjName);
         System.debug('objMap: ' + objMap);
         List<Object> records;
-        if ( !objMap.isEmpty() && !fieldMap.isEmpty() ) {
+        if ( !fieldMap.isEmpty() ) {
             // Query GFW for records in Ids list
-            String gfwObjName = new List<String>(objMap.keySet())[0];
+            String gfwObjName = objMap.GFW_Object_Name__c;
             List<String> gfwfieldList = new List<String>(fieldMap.keySet());
             String gfwFields = String.join(gfwfieldList, ',');
             String whereClause = '';
@@ -383,16 +386,16 @@ public without sharing class SyncController {
         // Iterate through FSDB fieldmappings to populate fsdb records with either GFW-queried values or default values if GFW field api name is blank.
 
         // Retrieve object and field mappings
-        Map<String,GFW_Sync_Object_Mapping__mdt> objMap = getObjectMapping(mdtObjName);
+        GFW_Sync_Object_Mapping__mdt objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappingsFSDB(mdtObjName);
-        String gfwObjName = new List<String>(objMap.keySet())[0];
+        String gfwObjName = objMap.GFW_Object_Name__c;
         List<String> fsdbFieldList = new List<String>(fieldMap.keySet());
-        String fsdbObjName = objMap.get(gfwObjName).FSDB_Object_Name__c;
+        String fsdbObjName = objMap.FSDB_Object_Name__c;
         recTypeMapDevNameId = Utilities.recTypeMapForObject(fsdbObjName);
         fieldMapFSDB = Utilities.fieldMapForObject(fsdbObjName);
         
         // Set public class variable to field reference for external id (required for upsert operation)
-        String fsdbExternalIdFieldName = objMap.get(gfwObjName).FSDB_External_Id_Field_API_Name__c;
+        String fsdbExternalIdFieldName = objMap.FSDB_External_Id_Field_API_Name__c;
         extIdFieldReference = fieldMapFSDB.get(fsdbExternalIdFieldName); 
         
         // Declare method variables
@@ -529,6 +532,7 @@ public without sharing class SyncController {
         objNamesIdsMap.put('Contact', ctIds);
         System.debug('ContactIds gathered: ' + ctIds);
         objNamesIdsMap.put('Recurring_Donations', recDonIds);
+        // objNamesIdsMap.put('GiftOpportunity', giftOppIds);
         objNamesIdsMap.put('Gift_to_Opportunity', giftIds);
         objNamesIdsMap.put('Campaign', campIds); // TO DO: Add field mapping for campaign owner
 
@@ -586,7 +590,8 @@ public without sharing class SyncController {
                 giftIds.add((Id)t.get('AQB__Gift__c'));
                 acctIds.add((Id)t.get('AQB__Account__c'));
                 campIds.add((Id)t.get('AQB__CampaignAppealId__c'));
-                if (t.get('AQB__CreditedOpportunity__c') != null) { oppIds.add((Id)t.get('AQB__CreditedOpportunity__c')); }
+                // TO DO: Update cmd to opportunity thru gift and update next line accordingly.
+                if (t.get('AQB__CreditedOpportunity__c') != null) { giftOppIds.add((Id)t.get('AQB__CreditedOpportunity__c')); }
                 if (t.get('Recurring_Donations__c') != null) { recDonIds.add((Id)t.get('Recurring_Donations__c')); }
             }
         }
@@ -627,10 +632,24 @@ public without sharing class SyncController {
         }
     }
 
+    // Retrieve Opportunities in FSDB with matching ext Opp Id. (To set their ext Gift Ids)
+    public void gatherGiftOpportunities() {
+        String mdtObjName = 'GiftOpportunity'; // TO DO: Create new mdt 'GiftOpportunity'
+        String inIDsStr = Utilities.packageIdsForQuery(giftOppIds);
+        String whereClause = 'WHERE GFW_Opportunity_ID__c IN ' + inIDsStr;
+        Opportunity[] exstRecs = Utilities.fetchRecords(
+            'Opportunity', whereClause, null);
+        Id extOppId;
+        for (Opportunity rec : exstRecs) {
+            extOppId = rec.GFW_Opportunity_ID__c;
+            giftOppIdsToUpdate.add(extOppId);
+        }
+    }
+
     // Retrieve Opportunities linked to COA not already gathered via Transactions; add to OppId set and parent Accounts to acctId set
     public void gatherOpportunities() {
         String mdtObjName = 'Opportunity';
-        String inIDsStr = Utilities.packageIdsForQuery(oppIds);
+        String inIDsStr = Utilities.packageIdsForQuery(giftOppIds);
         String whereClause = ' WHERE Chart_of_Accounts__r.Name LIKE \'' + fsCOA + '\' AND Id NOT IN ' + inIDsStr;
         List<Object> records = queryForRecords(mdtObjName, null, whereClause);
         if (records != null && records.size()>0) {

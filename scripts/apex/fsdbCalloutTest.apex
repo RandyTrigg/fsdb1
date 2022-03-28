@@ -1,5 +1,5 @@
 // For each COA retrieved...
-
+/*
         String fsRole;
         List<FS_Group_Settings__mdt> fsGroups;
         
@@ -12,20 +12,20 @@
             for (FS_Group_Settings__mdt fs : fsGroups) {
                 // For each FS, grab COA and role to assign record ownership             
                 SyncController scThisFS = new SyncController();
- /*
+
                 scThisFS.startDateTime = datetime.now();
                 scThisFS.fsCOA = fs.GFW_COA_Name__c;
                 scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
                 scThisFS.LaunchSync();
-*/
 
 
+ 
                 // , 'Recurring_Donations'
-                String mdtObjName = 'Recurring_Donations';
+                String mdtObjName = 'Gift_to_Opportunity';
                 List<sObject> recs = new List<sObject>(scThisFS.buildRecsToUpsert(mdtObjName));
                 system.debug('Here is the final list: ' + recs);
                 
-                Map<String,GFW_Sync_Object_Mapping__mdt> objMap;
+                GFW_Sync_Object_Mapping__mdt objMap;
                 Schema.SObjectField extIdFieldReference;
                 extIdFieldReference = scThisFS.extIdFieldReference;
                 objMap = scThisFS.getObjectMapping(mdtObjName);
@@ -37,7 +37,8 @@
         String slrLookupFieldName;
         // Loop through results to update Sync Log Records.
         if (recs != null && recs.size() > 0) {
-            slrLookupFieldName = objMap.get('Recurring_Donations__c').SyncLogRecordLookupFieldName__c;
+            // AQB__Gift__c
+            slrLookupFieldName = objMap.SyncLogRecordLookupFieldName__c;
             Database.UpsertResult[] upsResults = Database.upsert( recs, extIdFieldReference, false);
             System.debug('upsResults: ' + upsResults);
             // Upsert results are in the same order as original list of records. 
@@ -67,16 +68,16 @@
 
             }
         }   
+*/
 
 
 
-/*
         // BATCHABLE
-        List<String> objNames = new List<String>{'Account', 'Contact', 'Recurring_Donations'};
+        List<String> objNames = new List<String>{'Account', 'Contact', 'Recurring_Donations', 'Gift_to_Opportunity'};
         Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 5);
         System.debug('batchInstanceId: ' + batchInstanceId);
 
-*/
+
 
 
         // QUEUEABLE
