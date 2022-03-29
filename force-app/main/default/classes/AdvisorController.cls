@@ -37,17 +37,14 @@ public with sharing class AdvisorController {
             FROM Advisor__c
             WHERE Id IN : selIds
         ]);
-        // Gather email addresses from the advisor accounts.
-        Set<Id> accIds = new Set<Id> ();
-        for (Advisor__c adv : selMap.values()) accIds.add(adv.Account__c);
-        Map<Id, List<String>> accEmails = Utilities.emailsForAccounts(accIds);
-        system.debug('buildLetters: accEmails = ' +JSON.serialize(accEmails));
+        // Gather email addresses from the advisors.
+        Map<Id, List<String>> advEmails = AdvisorController.emailsForAdvisors(selMap.keySet());
+        system.debug('buildLetters: advEmails = ' +JSON.serialize(advEmails));
         // Build new letters for selected records.
         Id templateId = Utilities.recordIdFromName('Template__c', selectedTemplate);
         List<Letter__c> ls = new List<Letter__c>();
         for (Advisor__c r : selMap.values()) {
-            Id accId = r.Account__c;
-            String emails = accId != null && accEmails.get(accId) != null ? String.join(Utilities.removeNulls(accEmails.get(accId)), ',') : null;
+            String emails = advEmails.get(r.Id) != null ? String.join(Utilities.removeNulls(advEmails.get(r.Id)), ',') : null;
             ls.add(new Letter__c (
                 Template__c = templateId,
                 Account__c = r.Account__c,
@@ -80,10 +77,10 @@ public with sharing class AdvisorController {
     public static Id recTypeIdContactAdv = Utilities.getRecTypeId('Contact', 'Contact_GM_Advisor');
     public static Id recTypeIdAcctOrgGM = Utilities.getRecTypeId('Account', 'Organization_GM');
     public static String advisorContactsAccountName = 'Account for advisor contacts';
-    public static String grantCommunityProfileName = 'GFW community member';
-    public static String advisorCommunityProfileName = 'GFW community member Advisor';
-    public static String standardUserGMProfileName = 'Standard User GM';
-    public static String advisorCommunityPermSetName = 'Community: Advisors';
+    public static String grantCommunityProfileName = 'BFF Community Login User';
+    public static String advisorCommunityProfileName = 'BFF Community Login User';
+    public static String standardUserGMProfileName = 'Standard User FSDB';
+    public static String advisorCommunityPermSetName = 'Community: BFF';
     
     // Build interlinked records: Advisor, Contact, Advisor Term, and optionally a GM Org account for org affiliation.
     @AuraEnabled

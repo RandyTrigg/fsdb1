@@ -34,18 +34,15 @@ public with sharing class AdvisorTermController {
         }
         Set<Id> advIds = new Set<Id> ();
         for (Advisor_Term__c at : selRecs) advIds.add(at.Advisor__c);
-        // Gather email addresses from the advisor accounts.
-        Set<Id> accIds = new Set<Id> ();
-        for (Advisor_Term__c advt : selRecs) accIds.add(advt.Advisor__r.Account__c);
-        Map<Id, List<String>> accEmails = Utilities.emailsForAccounts(accIds);
-        system.debug('buildLetters: accEmails = ' +JSON.serialize(accEmails));
+        // Gather email addresses from the advisors.
+        Map<Id, List<String>> advEmails = AdvisorController.emailsForAdvisors(advIds);
+        system.debug('buildLetters: advEmails = ' +JSON.serialize(advEmails));
         // Build new letters for selected records.
         Id templateId = Utilities.recordIdFromName('Template__c', selectedTemplate);
         List<Letter__c> ls = new List<Letter__c>();
         for (Advisor_Term__c r : selRecs){
             Advisor__c adv = r.Advisor__r;
-            Id accId = adv.Account__c;
-            String emails = accId != null && accEmails.get(accId) != null ? String.join(Utilities.removeNulls(accEmails.get(accId)), ',') : null;
+            String emails = advEmails.get(adv.Id) != null ? String.join(Utilities.removeNulls(advEmails.get(adv.Id)), ',') : null;
             ls.add(new Letter__c (
                 Template__c = templateId,
                 Account__c = adv.Account__c,

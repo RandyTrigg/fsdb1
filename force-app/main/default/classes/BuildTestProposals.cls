@@ -2,7 +2,7 @@ public with sharing class BuildTestProposals {
     // Grab account record type Ids.
     public static Id householdRtId = Utilities.getRecTypeId(
         'Account',
-        'Household'
+        'HH_Account'
     );
     public static Id organizationRtId = Utilities.getRecTypeId(
         'Account',

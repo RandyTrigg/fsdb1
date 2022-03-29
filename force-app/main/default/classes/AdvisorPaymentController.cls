@@ -32,21 +32,21 @@ public with sharing class AdvisorPaymentController {
             selectedTemplate = START; // If I don't reset to the START value, it gets set to one of the non-disabled values. 
             return null;
         }
-        Set<Id> accIds = new Set<Id> ();
+        Set<Id> advIds = new Set<Id> ();
         for (Advisor_Payment__c ap : selRecs) {
-            Id accId = ap.Advisor_Term__r.Advisor__r.Account__c;
-            if (accId != null) accIds.add(accId);
+            Id advId = ap.Advisor_Term__r.Advisor__c;
+            if (advId != null) advIds.add(advId);
         }
-        Map<Id, List<String>> emails = Utilities.emailsForAccounts(accIds);
+        Map<Id, List<String>> emails = AdvisorController.emailsForAdvisors(advIds);
         // Build new letters for selected records.
         Id templateId = Utilities.recordIdFromName('Template__c', selectedTemplate);
         List<Letter__c> ls = new List<Letter__c>();
         for (Advisor_Payment__c r : selRecs){
-            Id accId = r.Advisor_Term__r.Advisor__r.Account__c;
-            List<String> es = emails.get(accId);
+            Id advId = r.Advisor_Term__r.Advisor__c;
+            List<String> es = emails.get(advId);
             ls.add(new Letter__c (
                 Template__c = templateId,
-                Account__c = accId,
+                Account__c = r.Advisor_Term__r.Advisor__r.Account__c,
                 Account_owner__c = r.Advisor_Term__r.Advisor__r.OwnerId,
                 Letter_owner__c = UserInfo.getUserId(),
                 Advisor_Payment__c = r.Id,

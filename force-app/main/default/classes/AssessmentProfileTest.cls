@@ -247,7 +247,7 @@ public without sharing class AssessmentProfileTest {
 
         String advisorRecTypeId = Schema.Sobjecttype.Contact.RecordTypeInfosByName.get('Contact GM Advisor').RecordTypeId;
 
-        Id householdRtId = Utilities.getRecTypeId('Account', 'Household');
+        Id householdRtId = Utilities.getRecTypeId('Account', 'HH_Account');
         Account a = new Account (
             Name = 'AccountTest',
             RecordTypeId = householdRtId

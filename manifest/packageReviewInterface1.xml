@@ -114,6 +114,9 @@
         <members>FormTagFormPhrasesInvocable</members>
         <members>FormController</members>
         <members>FormControllerTest</members>
+        <members>BuildTestProposals</members>
+        <members>LetterControllerTest</members>
+        <members>UtilitiesTest</members>
         <name>ApexClass</name>
     </types>
     <types>

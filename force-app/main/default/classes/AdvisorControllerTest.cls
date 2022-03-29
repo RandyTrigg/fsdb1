@@ -25,7 +25,7 @@ public with sharing class AdvisorControllerTest {
             'countryId' => country.Id,
             'orgAffilName' => 'org1',
             'advisorTermRecordType' => 'Assessor',
-            'advisorTermType' => 'Strategic',
+            'advisorTermType' => 'Assessor',
             'advisorTermStartDate' => Date.today().addDays(-10),
             'portfolioId' => port.Id
         });
@@ -35,7 +35,7 @@ public with sharing class AdvisorControllerTest {
         // Force type to be non-blank, as though we've successfully invited them to be a strategic advisor.
         advt.Date_term_begins__c = Date.today().addDays(-100);
         advt.Date_accepted__c = Date.today();
-        advt.Type__c = 'Strategic'; 
+        advt.Type__c = 'Assessor'; 
         update advt;
         AdvisorUpdateLookupsInvocable.updateLookups(new List<Id> {advt.Advisor__c});
         Advisor__c adv = [SELECT Id, Current_assessor_term__c FROM Advisor__c WHERE Id = : advt.Advisor__c];
@@ -138,7 +138,7 @@ public with sharing class AdvisorControllerTest {
         system.assert(emails.size() > 0);
         
         Test.StartTest();
-        system.assertEquals(1, advs.size());
+        system.assertEquals(2, advs.size());
         String profPerms = AdvisorController.fetchProfileAndPermissionSets();
         // Test code to add advisor to a community.
         Account acc1 = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.advisorContactsAccountName LIMIT 1];
@@ -166,10 +166,11 @@ public with sharing class AdvisorControllerTest {
     }
     
     static testmethod void AdvisorControllerTest3 () {
-        UserRole r = [SELECT ID FROM UserRole WHERE Name='Top Level'];
+        // 3/28/22: Don't necessarily have 'Top level' users so trying without overwriting role of current user.
+        //UserRole r = [SELECT ID FROM UserRole WHERE Name='Top Level'];
         User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        thisUser.UserRoleId = r.Id;
-        update thisUser;
+        //thisUser.UserRoleId = r.Id;
+        //update thisUser;
 
         // System.runAs avoids the Mixed DML Operations error.  (Can't update setup object like User in same context as non-setup object.)
         System.runAs(thisUser) {
@@ -244,10 +245,11 @@ public with sharing class AdvisorControllerTest {
     @IsTest
     static void getRunningUserAdvisorIdTest(){
         //Setup test data
-        UserRole r = [SELECT ID FROM UserRole WHERE Name='Top Level'];
+        // 3/28/22: Don't necessarily have 'Top level' users so trying without overwriting role of current user.
+        //UserRole r = [SELECT ID FROM UserRole WHERE Name='Top Level'];
         User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
-        thisUser.UserRoleId = r.Id;
-        update thisUser;
+        //thisUser.UserRoleId = r.Id;
+        //update thisUser;
 
         // System.runAs avoids the Mixed DML Operations error.  (Can't update setup object like User in same context as non-setup object.)
         System.runAs(thisUser) {
