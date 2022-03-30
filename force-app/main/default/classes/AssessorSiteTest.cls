@@ -162,7 +162,7 @@ public with sharing class AssessorSiteTest {
     static void testGetSearchableRecords() {
         List<LookupSearchResult> results = (List<LookupSearchResult>)JSON.deserialize(AssessorSiteController.getSearchableRecords(),List<LookupSearchResult>.class);
 
-        System.assertEquals(6, results.size());
+        System.assertEquals(5, results.size());
     }
 
     @isTest 
@@ -211,7 +211,7 @@ public with sharing class AssessorSiteTest {
         Test.startTest();
         System.runAs(u) {
             String interfaceType = AssessorSiteController.getInterfaceType();
-            System.assertEquals('invitations', interfaceType);
+            System.assertEquals('invites', interfaceType);
         }
     }
 

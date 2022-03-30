@@ -15,7 +15,7 @@ public with sharing class AssessorSiteController {
         List < Assessment__c > ratingAssessments = AssessorSiteController.getRatingAssessments(advisorId, null, null);
 
         //All Milestone Assessments
-        List < Assessment__c > grReportAssessments = AssessorSiteController.getMilestoneAssessments(advisorId, null, null);
+        List < Assessment__c > mReportAssessments = AssessorSiteController.getMilestoneAssessments(advisorId, null, null);
 
         //All Proposal Assessments
         List < Assessment__c > propAssessments = AssessorSiteController.getProposalAssessments(advisorId, null, null);
@@ -27,10 +27,10 @@ public with sharing class AssessorSiteController {
         List<LookupSearchResult> results = new List<LookupSearchResult>();
 
         // Extract Milestone Assessments & convert them into LookupSearchResult
-        String grIcon = 'standard:expense_report';
-        for (Assessment__c assess: grReportAssessments) {
+        String mIcon = 'standard:expense_report';
+        for (Assessment__c assess: mReportAssessments) {
             String subtitle = assess.Milestone__r.Account_name__c;
-            results.add(new LookupSearchResult(assess.Id, 'Assessment__c', grIcon, 'gfw-gr-icon', assess.Milestone__r.Name, subtitle));
+            results.add(new LookupSearchResult(assess.Id, 'Assessment__c', mIcon, 'gfw-m-icon', assess.Milestone__r.Name, subtitle));
         }
 
         // Extract Proposal Assessments & convert them into LookupSearchResult
@@ -87,9 +87,9 @@ public with sharing class AssessorSiteController {
         }
         List < Portfolio__c > portfolios = [SELECT ID, Type__c FROM Portfolio__c WHERE Type__c='Externally viewed' AND ID in:portfolioIDs];
         
-        //If they have an active Advisor Term that is linked to a Portfolio of type "Externally viewed, they get the Invitations view
+        //If they have an active Advisor Term that is linked to a Portfolio of type "Externally viewed, they get the invites view
         if (portfolios.size()>0) {
-            return 'invitations';
+            return 'invites';
         } else {
             return 'assessments';
         }
@@ -141,6 +141,7 @@ public with sharing class AssessorSiteController {
                     WHERE Status_external__c='Active') 
                 FROM Advisor__c 
                 WHERE Community_contact__c =:u.ContactId LIMIT 1];
+            system.debug('getAssignedInvites: runningAdvisor = ' +runningAdvisor);
 
             //Now get the Portfolios linked to any active Advisor term to see if they have an Externally Viewed Portfolio linked
             List < ID > portfolioIDs = new List < ID >();
@@ -162,7 +163,7 @@ public with sharing class AssessorSiteController {
                     accountIds.add(pa.Account__c);
                 }
 
-                // We will also load any invitations linked to Proposals that are linked to this portfolio
+                // We will also load any invites linked to Proposals that are linked to this portfolio
                 List < Portfolio_Assignment__c > portfolioLinkedProposals = [
                     SELECT ID, Proposal__c, Proposal__r.Invite__c
                     FROM Portfolio_Assignment__c 
@@ -171,17 +172,19 @@ public with sharing class AssessorSiteController {
                 for (Portfolio_Assignment__c pa: portfolioLinkedProposals) {
                     inviteIDsFromProposals.add(pa.Proposal__r.Invite__c);
                 }
+                system.debug('getAssignedInvites: inviteIDsFromProposals = ' +inviteIDsFromProposals);
 
-                //Finally, get the list of invitations for all these accounts with the correct status
-                List < Invite__c > invitations = [
+                //Finally, get the list of invites for all these accounts with the correct status
+                List < Invite__c > invites = [
                     SELECT ID, Account__r.Name, Status__c, Status_numeric__c, Comments__c, Profile__c, Has_proposal__c, Proposal__r.Status_numeric__c, CreatedDate
                     FROM Invite__c 
                     WHERE (ID in:inviteIDsFromProposals 
                     OR (Account__c in:accountIds AND (Proposal__c=null OR (Proposal__r.Status_numeric__c<10 AND Proposal__r.Status_numeric__c>=1))))
                     ORDER BY CreatedDate Desc
                 ];
+                system.debug('getAssignedInvites: invites = ' +invites);
 
-                return JSON.serialize(invitations);
+                return JSON.serialize(invites);
 
             } else {
                 //throw exception
@@ -303,7 +306,7 @@ public with sharing class AssessorSiteController {
                 accountIds.add(pa.Account__c);
             }
 
-            // We will also load any invitations linked to Proposals that are linked to this portfolio
+            // We will also load any invites linked to Proposals that are linked to this portfolio
             List < Portfolio_Assignment__c > portfolioLinkedProposals = [
                 SELECT ID, Proposal__c, Proposal__r.Invite__c
                 FROM Portfolio_Assignment__c 
@@ -313,11 +316,11 @@ public with sharing class AssessorSiteController {
                 inviteIDsFromProposals.add(pa.Proposal__r.Invite__c);
             }
 
-            //Finally, get the list of invitations for all these accounts with the correct status
+            //Finally, get the list of invites for all these accounts with the correct status
             if (limitCount==null) {
                 limitCount = 50000;
             }
-            List < Invite__c > invitations = [
+            List < Invite__c > invites = [
                 SELECT ID, Account__r.Name, Account__r.GM_country__r.Name, Status__c, Status_numeric__c, Comments__c, Profile__c, Has_proposal__c, Proposal__r.Name, Proposal__r.Status_numeric__c, Proposal__r.Template_language__c, CreatedDate
                 FROM Invite__c 
                 WHERE (ID in:inviteIDsFromProposals 
@@ -326,7 +329,7 @@ public with sharing class AssessorSiteController {
                 LIMIT :limitCount
             ];
 
-            return invitations;
+            return invites;
 
         } else {
             return null;
@@ -348,9 +351,9 @@ public with sharing class AssessorSiteController {
             queryString = queryString + ' LIMIT: count';
         }
 
-        List < Assessment__c > grReportAssessments = Database.query(queryString);
+        List < Assessment__c > mReportAssessments = Database.query(queryString);
 
-        return grReportAssessments;
+        return mReportAssessments;
         
     }
 

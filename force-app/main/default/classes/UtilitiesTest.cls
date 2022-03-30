@@ -29,10 +29,7 @@ public with sharing class UtilitiesTest {
         ];
         insert new Account(
             Name = 'test_acct_1',
-            RecordTypeId = Utilities.getRecTypeId(
-                'Account',
-                'HH_Account'
-            )
+            RecordTypeId = Utilities.getRecTypeId('Account', 'HH_Account')
         );
         Account acct1 = [
             SELECT Id, Name

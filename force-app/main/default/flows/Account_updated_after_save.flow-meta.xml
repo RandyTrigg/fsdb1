@@ -16,6 +16,28 @@
         </inputParameters>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
+    <decisions>
+        <name>IsGMAccountTest</name>
+        <label>IsGMAccountTest</label>
+        <locationX>486</locationX>
+        <locationY>152</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsGMAccount</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>GM</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateAccountContactInfo</targetReference>
+            </connector>
+            <label>IsGMAccount</label>
+        </rules>
+    </decisions>
     <interviewLabel>Account updated - after save {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Account updated - after save</label>
     <processMetadataValues>
@@ -41,7 +63,7 @@
         <locationX>50</locationX>
         <locationY>50</locationY>
         <connector>
-            <targetReference>UpdateAccountContactInfo</targetReference>
+            <targetReference>IsGMAccountTest</targetReference>
         </connector>
         <object>Account</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>

@@ -9,7 +9,7 @@ export default class AssessorSiteHome extends LightningElement {
         let type = await getInterfaceType();
         if (type==='assessments') {
             this.isAssessmentView = true;
-        } else if (type==='invitations') {
+        } else if (type==='invites') {
             this.isInvitesView = true;
         }
     }

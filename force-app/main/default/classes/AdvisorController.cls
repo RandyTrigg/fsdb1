@@ -262,10 +262,6 @@ public with sharing class AdvisorController {
                 u.ContactId = c.Id; // Link user to new community contact.
                 if (u.Id == null) insert u;
                 else update u; // Not sure if it's actually possible to hit this else clause, given conditions on u and c above.
-            } 
-            if (u.ProfileId == pIdGrnt) {
-                // User is in grants community profile, so assign the advisors community permission set (so user is in both communities).
-                assignPermissionSet(u.Id, psIdAdv);
             }
             // Link advisor to community contact.
             adv.Community_contact__c = c.Id;

@@ -274,10 +274,10 @@ public without sharing class AssessmentProfileTest {
     
         insert u;
 
-        User adminUser = [Select Id, UserRoleId From User Where Profile.Name='GFW System Admin no pwd exp' AND IsActive=true Limit 1];
+        User adminUser = [Select Id, UserRoleId From User Where Profile.Name='System Admin FSDB' AND IsActive=true Limit 1];
         
         System.runAs(adminUser) {
-            PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = 'Community_Assessors'];
+            PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = 'Community_BFF'];
             insert new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps.Id);
         }
 

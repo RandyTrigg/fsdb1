@@ -182,7 +182,15 @@
     </types>
     <types>
         <members>Form_Tag_form_phrases</members>
+        <members>Account_updated_after_save</members>
         <name>Flow</name>
+    </types>
+    <types>
+        <members>FFDB_General</members>
+        <members>FFDB_GM_Admin</members>
+        <members>FFDB_Read_only</members>
+        <members>FFDB_System_admin</members>
+        <name>PermissionSet</name>
     </types>
     <version>53.0</version>
 </Package>
