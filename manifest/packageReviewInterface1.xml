@@ -192,5 +192,9 @@
         <members>FFDB_System_admin</members>
         <name>PermissionSet</name>
     </types>
+    <types>
+        <members>Community Apex Testing</members>
+        <name>Profile</name>
+    </types>
     <version>53.0</version>
 </Package>

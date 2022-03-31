@@ -7,23 +7,9 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>Form__c</members>
-        <members>Form_Phrase__c</members>
-        <members>Form_Phrase_Translation__c</members>
-        <members>Form_Instance__c</members>
-        <members>Form_Data__c</members>
-        <members>Form_Component__c</members>
-        <members>Form_Picklist__c</members>
         <name>CustomTab</name>
     </types>
     <types>
-        <members>Form__c-Form Layout</members>
-        <members>Form_Phrase__c-Form Phrase Layout</members>
-        <members>Form_Phrase_Translation__c-Form Phrase Translation Layout</members>
-        <members>Form_Instance__c-Form Instance Layout</members>
-        <members>Form_Data__c-Form Data Layout</members>
-        <members>Form_Component__c-Form Component Layout</members>
-        <members>Form_Picklist__c-Form Picklist Layout</members>
         <name>Layout</name>
     </types>
     <types>
@@ -31,6 +17,10 @@
     </types>
     <types>
         <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>GFW community member Assessor</members>
+        <name>Profile</name>
     </types>
     <version>53.0</version>
 </Package>
