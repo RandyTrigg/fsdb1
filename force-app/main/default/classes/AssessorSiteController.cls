@@ -83,9 +83,10 @@ public with sharing class AssessorSiteController {
             if (term.Portfolio__c!=null) {
                 portfolioIDs.add(term.Portfolio__c);
             }
-            
         }
+        system.debug('getInterfaceType: portfolioIDs = ' +portfolioIDs);
         List < Portfolio__c > portfolios = [SELECT ID, Type__c FROM Portfolio__c WHERE Type__c='Externally viewed' AND ID in:portfolioIDs];
+        system.debug('getInterfaceType: portfolios = ' +portfolios);
         
         //If they have an active Advisor Term that is linked to a Portfolio of type "Externally viewed, they get the invites view
         if (portfolios.size()>0) {
@@ -162,6 +163,7 @@ public with sharing class AssessorSiteController {
                 for (Portfolio_Account_Assign__c pa: portfolioAssigns) {
                     accountIds.add(pa.Account__c);
                 }
+                system.debug('getAssignedInvites: accountIds = ' +accountIds);
 
                 // We will also load any invites linked to Proposals that are linked to this portfolio
                 List < Portfolio_Assignment__c > portfolioLinkedProposals = [
@@ -183,6 +185,8 @@ public with sharing class AssessorSiteController {
                     ORDER BY CreatedDate Desc
                 ];
                 system.debug('getAssignedInvites: invites = ' +invites);
+                Invite__c[] invites1 = [SELECT Id FROM Invite__c];
+                system.debug('getAssignedInvites: invites1 = ' +invites1);
 
                 return JSON.serialize(invites);
 

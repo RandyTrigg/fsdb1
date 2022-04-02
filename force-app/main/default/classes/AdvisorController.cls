@@ -77,8 +77,9 @@ public with sharing class AdvisorController {
     public static Id recTypeIdContactAdv = Utilities.getRecTypeId('Contact', 'Contact_GM_Advisor');
     public static Id recTypeIdAcctOrgGM = Utilities.getRecTypeId('Account', 'Organization_GM');
     public static String advisorContactsAccountName = 'Account for advisor contacts';
-    public static String grantCommunityProfileName = 'BFF Community Login User';
-    public static String advisorCommunityProfileName = 'BFF Community Login User';
+    public static String grantCommunityProfileName = 'Community Apex Testing';
+    public static String advisorCommunityProfileName = 'Community Apex Testing';
+    public static String adminProfileName = 'System Admin FSDB';
     public static String standardUserGMProfileName = 'Standard User FSDB';
     public static String advisorCommunityPermSetName = 'Community: BFF';
     
