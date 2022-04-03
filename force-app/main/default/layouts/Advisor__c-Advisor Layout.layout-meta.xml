@@ -275,10 +275,6 @@
         <label>Archived Fields</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Emails__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>InterestArea1__c</field>
             </layoutItems>

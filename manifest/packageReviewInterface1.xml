@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>FFDB_General</members>
+        <!-- <members>FFDB_GM_Admin</members> -->
+        <members>FFDB_Read_only</members>
+        <members>FFDB_System_admin</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
         <members>Advisor_term_types</members>
         <members>Accept_Decline</members>
         <members>Indicator_outcome_types</members>
@@ -100,6 +107,7 @@
         <members>LookupSearchResultTests</members>
         <members>GFW_Exception</members>
         <members>LWC_Exception</members>
+        <members>LWC_ExceptionData</members>
         <members>AssessmentController</members>
         <members>AssessmentControllerTest</members>
         <members>AdvisorController</members>
@@ -116,6 +124,7 @@
         <members>FormControllerTest</members>
         <members>BuildTestProposals</members>
         <members>LetterControllerTest</members>
+        <members>Utilities</members>
         <members>UtilitiesTest</members>
         <name>ApexClass</name>
     </types>
@@ -136,8 +145,8 @@
         <members>Application_Setting.Permissible_form_types_Assessments</members>
         <members>Application_Setting.Permissible_form_types_External_review</members>
         <members>Application_Setting.Permissible_form_types_Internal_review</members>
-        <!-- <members>Application_Setting.Permissible_form_types_Participatory_GM</members> -->
-        <!-- <members>Application_Setting.Permissible_form_types_View_forms</members> -->
+        <members>Application_Setting.Permissible_form_types_Participatory_GM</members>
+        <members>Application_Setting.Permissible_form_types_View_forms</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -184,13 +193,6 @@
         <members>Form_Tag_form_phrases</members>
         <members>Account_updated_after_save</members>
         <name>Flow</name>
-    </types>
-    <types>
-        <members>FFDB_General</members>
-        <members>FFDB_GM_Admin</members>
-        <members>FFDB_Read_only</members>
-        <members>FFDB_System_admin</members>
-        <name>PermissionSet</name>
     </types>
     <types>
         <members>Community Apex Testing</members>
