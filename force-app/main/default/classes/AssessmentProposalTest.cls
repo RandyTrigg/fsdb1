@@ -163,7 +163,7 @@ public without sharing class AssessmentProposalTest {
     @isTest
     static void getAssignedAssessmentsTest() {
         // 3/25/2022: Can we avoid hardwiring a profile name here? Or at least use a more generic profile?
-        Profile profile = [select id, Name from profile where name='BFF Community Login User'];
+        Profile profile = [select id, Name from profile where name=: AdvisorController.advisorCommunityProfileName];
         Contact c = [SELECT ID, FirstName, LastName, Email FROM Contact LIMIT 1];
 
         // Assign the community user on the advisor

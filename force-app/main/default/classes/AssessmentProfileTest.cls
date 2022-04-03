@@ -238,7 +238,7 @@ public without sharing class AssessmentProfileTest {
         );
         insert term;
 
-        Id profileId = [SELECT ID from Profile where name='BFF Community Login User'].id;
+        Id profileId = [SELECT ID from Profile where name=: AdvisorController.advisorCommunityProfileName].id;
 
         // Invite__c inv = new Invite__c (
         //     Profile__c = profileId,
