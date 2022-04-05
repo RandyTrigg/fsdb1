@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Classes__c</fullName>
+    <description>Extra classes (space-separated) for the DOM element for this component (e.g. bootstrap width classes)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Extra classes (space-separated) for the DOM element for this component (e.g. bootstrap width classes)</inlineHelpText>
+    <label>Classes</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

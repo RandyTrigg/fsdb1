@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Read_only__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked if the data in this component is not allowed to be edited</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if the data in this component is not allowed to be edited</inlineHelpText>
+    <label>Read only</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

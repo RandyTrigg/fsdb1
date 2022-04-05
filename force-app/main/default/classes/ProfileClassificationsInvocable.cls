@@ -1,5 +1,5 @@
-public class ProfileClassificationsInvocable {
-    public class myException extends Exception {
+public with sharing class ProfileClassificationsInvocable {
+    public with sharing class myException extends Exception {
     }
 
     @InvocableMethod(
@@ -115,7 +115,7 @@ public class ProfileClassificationsInvocable {
     // The selectedNames parameter is a double-vertical bar-separated list of short characteristic names.
     // NOTE: as of 2/2/16, there seems to be a bug in invocableVariable.  It errors out on null parameters.
     // So any calling Processes/Flows need to ensure that selectedNames is passed in as "||" rather than blank.
-    public class UpdateClassificationsRequest {
+    public with sharing class UpdateClassificationsRequest {
         @InvocableVariable(required=true)
         public ID profileId;
         @InvocableVariable(required=true)

@@ -1,4 +1,4 @@
-public class ProposalUpdate {
+public with sharing class ProposalUpdate {
     public static String GMAdminEmail = 'GMadmin@globalfundforwomen.org';
 
     /**********************************

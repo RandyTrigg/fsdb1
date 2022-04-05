@@ -1,5 +1,5 @@
 // Batch process used to reset letters when the number is over a threshold.
-global class LetterResetBatch implements Database.Batchable<Id>, Database.Stateful {
+global with sharing class LetterResetBatch implements Database.Batchable<Id>, Database.Stateful {
     global final List<Id> letIds;
     global List<Id> unprocessedLetIds = new List<Id>();
     global Boolean emailOnCompletionFlg;

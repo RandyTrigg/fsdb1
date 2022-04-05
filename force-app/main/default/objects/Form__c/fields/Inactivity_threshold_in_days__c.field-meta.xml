@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Inactivity_threshold_in_days__c</fullName>
+    <description># of &quot;inactive&quot; days, if any, after which action is taken on an unsubmitted form instance linked to this form. &quot;Inactive&quot; = no saved changes. 
+(Ex. props w/ unsubmitted and inactive app form instances get auto-withdrawn)</description>
+    <externalId>false</externalId>
+    <inlineHelpText># of &quot;inactive&quot; days, if any, after which action is taken on an unsubmitted form instance linked to this form. &quot;Inactive&quot; = no saved changes. 
+(Ex. props w/ unsubmitted and inactive app form instances get auto-withdrawn)</inlineHelpText>
+    <label>Inactivity threshold (in days)</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_dupe_selections_within_item__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Within an item, no two components based on this picklist may have the same selection.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Within an item, no two components based on this picklist may have the same selection.</inlineHelpText>
+    <label>No dupe selections within item</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

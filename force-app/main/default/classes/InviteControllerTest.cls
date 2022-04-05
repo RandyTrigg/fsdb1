@@ -1,5 +1,5 @@
 @isTest
-public class InviteControllerTest {
+public with sharing class InviteControllerTest {
     public static Id organizationRtId = Utilities.getRecTypeId(
         'Account',
         'Organization_GM'
@@ -103,7 +103,7 @@ public class InviteControllerTest {
                     )
             ]
         );
-        Map<Id, List<String>> emailMap = AccountController.emailsForAccounts(
+        Map<Id, List<String>> emailMap = Utilities.emailsForAccounts(
             aMap.keySet()
         );
         system.debug(

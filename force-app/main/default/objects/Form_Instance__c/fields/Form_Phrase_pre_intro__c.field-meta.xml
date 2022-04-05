@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Phrase_pre_intro__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>If present, this text appears before the form intro (if any) at online apps</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If present, this text appears before the form intro (if any) at online apps</inlineHelpText>
+    <label>Form Phrase pre-intro</label>
+    <referenceTo>Form_Phrase__c</referenceTo>
+    <relationshipLabel>Form Instances</relationshipLabel>
+    <relationshipName>Form_Instances</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

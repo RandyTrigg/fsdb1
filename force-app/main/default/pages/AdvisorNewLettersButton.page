@@ -1,0 +1,23 @@
+<apex:page standardController="Advisor__c" extensions="AdvisorController" recordSetVar="advisors" lightningStylesheets="true">
+    <apex:form >
+       <apex:pageBlock title="New letters for selected advisors">
+           <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!buildLetters}" value="Confirm" title="Build new letters for these advisors"/>
+                <apex:commandButton action="{!doCancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Information" >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Template</apex:outputLabel>
+                    <apex:selectList multiselect="false" size="1" value="{!selectedTemplate}">
+                        <apex:selectOptions value="{!templates}" />
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>     
+            <apex:pageBlockTable value="{!selected}" var="advisor">
+                <apex:column value="{!advisor.Name}"/>
+                <apex:column value="{!advisor.Account__c}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

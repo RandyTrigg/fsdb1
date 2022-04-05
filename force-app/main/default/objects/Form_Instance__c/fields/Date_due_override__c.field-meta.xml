@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_due_override__c</fullName>
+    <description>If non-blank, then will be used as the date due for this form instance, overriding any values from linked proposal, etc.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If non-blank, then will be used as the date due for this form instance, overriding any values from linked proposal, etc.</inlineHelpText>
+    <label>Date due override</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

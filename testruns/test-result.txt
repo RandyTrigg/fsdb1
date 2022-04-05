@@ -1,0 +1,263 @@
+=== Test Summary
+NAME                 VALUE                              
+───────────────────  ───────────────────────────────────
+Outcome              Failed                             
+Tests Ran            151                                
+Pass Rate            98%                                
+Fail Rate            2%                                 
+Skip Rate            0%                                 
+Test Run Id          7073J00001BJ7hb                    
+Test Execution Time  343691 ms                          
+Org Id               00D3J0000008pjwUAA                 
+Username             rtrigg+fs@globalfundforwomen.org.gm
+Org Wide Coverage    86%                                
+
+
+=== Test Results
+TEST NAME                                                                                         OUTCOME  MESSAGE                                                                           RUNTIME (MS)
+────────────────────────────────────────────────────────────────────────────────────────────────  ───────  ────────────────────────────────────────────────────────────────────────────────  ────────────
+LookupSearchResultTests.compareTo_should_work_with_non_null_titles                                Pass                                                                                       41          
+LookupSearchResultTests.compareTo_should_work_with_other_null_title                               Pass                                                                                       358         
+LookupSearchResultTests.compareTo_should_work_with_this_null_title                                Pass                                                                                       5           
+LookupSearchResultTests.compareTo_should_work_with_two_null_titles                                Pass                                                                                       5           
+LookupSearchResultTests.getters_should_work                                                       Pass                                                                                       5           
+LookupSearchResultTests.getters_should_work_icon_class                                            Pass                                                                                       6           
+FormControllerTest.FormCloneTest3                                                                 Pass                                                                                       1509        
+AssessorSiteTest.loadAdvisorSummary                                                               Pass                                                                                       269         
+AssessorSiteTest.testGetAssessmentInvitesReview                                                   Pass                                                                                       812         
+AssessorSiteTest.testGetAssignedAssessments                                                       Fail     System.AssertException: Assertion Failed: Expected: 1, Actual: 0                  
+                                                                                                           Class.AssessorSiteTest.testGetAssignedAssessments: line 278, column 1                         
+AssessorSiteTest.testGetInterfaceType                                                             Fail     System.AssertException: Assertion Failed: Expected: invites, Actual: assessments  
+                                                                                                           Class.AssessorSiteTest.testGetInterfaceType: line 216, column 1                               
+AssessorSiteTest.testGetInviteFormInfo                                                            Pass                                                                                       188         
+AssessorSiteTest.testGetSearchableRecords                                                         Pass                                                                                       237         
+AssessorSiteTest.testLoadAdvisorSummary                                                           Fail     System.AssertException: Assertion Failed: Expected: 1, Actual: 0                  
+                                                                                                           Class.AssessorSiteTest.testLoadAdvisorSummary: line 358, column 1                             
+InternalReviewTest.controllerTest                                                                 Pass                                                                                       3790        
+InternalReviewTest.getInternalReviewVFPageNameTest                                                Pass                                                                                       19          
+InternalReviewTest.milestoneReviewTest                                                            Pass                                                                                       1562        
+InternalReviewTest.profileReviewTest                                                              Pass                                                                                       1038        
+InternalReviewTest.proposalReviewTest                                                             Pass                                                                                       1445        
+SiteLoginControllerTest.testSiteLoginController                                                   Pass                                                                                       55          
+AssessmentControllerTest.AssessmentControllerTest1a                                               Pass                                                                                       14857       
+AssessmentControllerTest.AssessmentControllerTest1b                                               Pass                                                                                       1854        
+LightningForgotPasswordControllerTest.testLightningForgotPasswordControllerInvalidUserName        Pass                                                                                       7           
+LightningForgotPasswordControllerTest.testLightningForgotPasswordControllerWithNullCheckEmailRef  Pass                                                                                       6           
+LightningForgotPasswordControllerTest.LightningForgotPasswordControllerInstantiation              Pass                                                                                       39          
+LightningSelfRegisterControllerTest.testGetExtraFieldsInSelfRegistration                          Pass                                                                                       16          
+LightningSelfRegisterControllerTest.LightningSelfRegisterControllerInstantiation                  Pass                                                                                       21          
+LightningSelfRegisterControllerTest.testGetNonEmptyExtraFields                                    Pass                                                                                       7           
+LightningSelfRegisterControllerTest.testGetNullExtraFields                                        Pass                                                                                       8           
+LightningSelfRegisterControllerTest.testIsValidPassword                                           Pass                                                                                       7           
+LightningSelfRegisterControllerTest.testSelfRegisterWithCreatedAccount                            Pass                                                                                       409         
+LightningSelfRegisterControllerTest.testSelfRegisterWithProperCredentials                         Pass                                                                                       9           
+LightningSelfRegisterControllerTest.testSelfRegistration                                          Pass                                                                                       12          
+LightningSelfRegisterControllerTest.testSiteAsContainerEnabled                                    Pass                                                                                       12          
+AssessmentProposalTest.classificationJoinTest                                                     Pass                                                                                       431         
+AssessmentProposalTest.getAssessmentReviewTest                                                    Pass                                                                                       1227        
+AssessmentProposalTest.getAssignedAssessmentsTest                                                 Pass                                                                                       566         
+AssessmentProposalTest.instantiateTest                                                            Pass                                                                                       642         
+AssessmentProposalTest.portfolioAssignTest                                                        Pass                                                                                       189         
+AssessmentProposalTest.submitReviewNegativeTest                                                   Pass                                                                                       634         
+AssessmentProposalTest.submitReviewTest                                                           Pass                                                                                       641         
+AssessmentProposalTest.updateBooleantest                                                          Pass                                                                                       101         
+AssessmentProposalTest.updateTextPickOrLookupTest                                                 Pass                                                                                       51          
+AssessmentMilestoneTest.instantiateTest                                                           Pass                                                                                       775         
+AssessmentMilestoneTest.submitReviewNegativeTest                                                  Pass                                                                                       491         
+AssessmentMilestoneTest.submitReviewTest                                                          Pass                                                                                       464         
+AssessmentMilestoneTest.IndicatorAssignTest                                                       Pass                                                                                       313         
+AssessmentProfileTest.classificationJoinTest                                                      Pass                                                                                       251         
+AssessmentProfileTest.instantiateTest                                                             Pass                                                                                       555         
+AssessmentProfileTest.inviteBasedFormView                                                         Pass                                                                                       2245        
+AssessmentProfileTest.portfolioAssignTest                                                         Pass                                                                                       266         
+AssessmentProfileTest.submitReviewTest                                                            Pass                                                                                       302         
+AssessmentProfileTest.submitReviewNegativeTest                                                    Pass                                                                                       311         
+CustomReqsControllerTest.CustomReqsControllerTest1                                                Pass                                                                                       590         
+DeleteRecordsSchedulableTest.DeleteRecordsSchedulableTest1                                        Pass                                                                                       2927        
+DeleteRecordsSchedulableTest.DeleteRecordsSchedulableTest2                                        Pass                                                                                       959         
+ExpressionInterpreterTest.ExpressionInterpreterTest                                               Pass                                                                                       7199        
+CountryControllerTest.CountryControllerTest                                                       Pass                                                                                       13275       
+AccountControllerTest.AccountControllerTest1                                                      Pass                                                                                       4034        
+AccountControllerTest.AccountControllerTest4                                                      Pass                                                                                       1050        
+LetterControllerTest.LetterControllerTest2                                                        Pass                                                                                       3281        
+LetterControllerTest.LetterControllerTestBatch1                                                   Pass                                                                                       3198        
+LetterControllerTest.LetterControllerTestBatch2                                                   Pass                                                                                       3420        
+LetterControllerTest.LetterControllerTestBatch3                                                   Pass                                                                                       4489        
+LetterControllerTest.LetterControllerTestPrint                                                    Pass                                                                                       5460        
+LetterControllerTest.LetterResetTest1                                                             Pass                                                                                       1702        
+LetterControllerTest.LetterResetTest2                                                             Pass                                                                                       1157        
+ProposalControllerTest.ProposalControllerTest                                                     Pass                                                                                       4971        
+ProposalControllerTest.ProposalControllerTest1                                                    Pass                                                                                       2791        
+ProposalControllerTest.ProposalControllerTest2                                                    Pass                                                                                       2156        
+ProposalControllerTest.ProposalControllerTest4                                                    Pass                                                                                       1939        
+ProposalControllerTest.ProposalControllerTest5                                                    Pass                                                                                       1984        
+ProposalUpdateTest.ProposalUpdateTest1a                                                           Pass                                                                                       17010       
+ProposalUpdateTest.ProposalUpdateTest1b                                                           Pass                                                                                       11417       
+ProposalUpdateTest.ProposalUpdateTest1c                                                           Pass                                                                                       17468       
+ProposalUpdateTest.ProposalUpdateTest2                                                            Pass                                                                                       10296       
+ProposalUpdateTest.ProposalUpdateTest3                                                            Pass                                                                                       7449        
+ProposalUpdateTest.ProposalUpdateTest4                                                            Pass                                                                                       10671       
+MilestoneControllerTest.MilestoneControllerTest1                                                  Pass                                                                                       3814        
+MilestoneControllerTest.MilestoneControllerTest2a                                                 Pass                                                                                       2632        
+MilestoneControllerTest.MilestoneControllerTest2b                                                 Pass                                                                                       2139        
+MilestoneControllerTest.MilestoneControllerTest3                                                  Pass                                                                                       2375        
+MilestoneControllerTest.MilestoneControllerTest4                                                  Pass                                                                                       1915        
+MilestoneControllerTest.MilestoneControllerTest5                                                  Pass                                                                                       1920        
+TemplateControllerTest.TemplateControllerTest1                                                    Pass                                                                                       4105        
+ProposalControllerClassificationsTest.ProposalControllerClassificationsTest                       Pass                                                                                       5085        
+GenericUpdateRecordsBatchTest.GenericUpdateRecordsBatchTest                                       Pass                                                                                       2019        
+ProfileControllerTest.ProfileControllerTest1                                                      Pass                                                                                       2438        
+ProfileControllerTest.ProfileControllerTest2                                                      Pass                                                                                       971         
+ProfileControllerTest.ProfileControllerTest3                                                      Pass                                                                                       1006        
+ProfileControllerTest.ProfileControllerTestVF                                                     Pass                                                                                       2200        
+InviteControllerTest.InviteControllerTest1                                                        Pass                                                                                       2690        
+InviteControllerTest.InviteControllerTest2                                                        Pass                                                                                       1571        
+InviteControllerTest.InviteControllerTest3                                                        Pass                                                                                       1958        
+InviteControllerTest.InviteControllerTest4                                                        Pass                                                                                       1550        
+InviteControllerTest.InviteControllerTest5                                                        Pass                                                                                       1382        
+FundControllerTest.FundControllerTest1                                                            Pass                                                                                       1908        
+FundControllerTest.FundControllerTest2                                                            Pass                                                                                       2035        
+FundControllerTest.FundControllerTest3                                                            Pass                                                                                       1409        
+FundControllerTest.FundControllerTest4                                                            Pass                                                                                       1476        
+PortfolioControllerTest.PortfolioControllerTest                                                   Pass                                                                                       2721        
+ProfileClassificationsCloneInvocableTest.ProfileClassificationsCloneInvocableTest                 Pass                                                                                       3746        
+GMDataControllerTest.GMDataControllerTest1                                                        Pass                                                                                       2118        
+GMDataControllerTest.GMDataControllerTest2                                                        Pass                                                                                       2027        
+GMDataControllerTest.GMDataControllerTestVF                                                       Pass                                                                                       1431        
+ProfileClassificationsInvocableTest.ProfileClassificationsInvocableTest                           Pass                                                                                       1348        
+MicrobatchSelfRegControllerTest.testMicrobatchSelfRegController                                   Pass                                                                                       42          
+CommunitiesSelfRegConfirmControllerTest.testCommunitiesSelfRegConfirmController                   Pass                                                                                       39          
+LightningLoginFormControllerTest.LightningLoginFormControllerInstantiation                        Pass                                                                                       56          
+LightningLoginFormControllerTest.testAuthConfig                                                   Pass                                                                                       13          
+LightningLoginFormControllerTest.testGetSelfRegistrationURL                                       Pass                                                                                       9           
+LightningLoginFormControllerTest.testIsSelfRegistrationEnabled                                    Pass                                                                                       10          
+LightningLoginFormControllerTest.testIsUsernamePasswordEnabled                                    Pass                                                                                       15          
+AdvisorControllerTest.AdvisorControllerTest1                                                      Pass                                                                                       4987        
+AdvisorControllerTest.AdvisorControllerTest2                                                      Pass                                                                                       2705        
+AdvisorControllerTest.AdvisorControllerTest3                                                      Pass                                                                                       2955        
+AdvisorControllerTest.getRunningUserAdvisorIdTest                                                 Pass                                                                                       1973        
+AdvisorTermControllerTest.AdvisorTermControllerTest1a                                             Pass                                                                                       4977        
+AdvisorTermControllerTest.AdvisorTermControllerTest1b                                             Pass                                                                                       1902        
+AdvisorTermControllerTest.AdvisorTermControllerTest2                                              Pass                                                                                       1536        
+CommunitiesSelfRegControllerTest.testCommunitiesSelfRegController                                 Pass                                                                                       81          
+AdvisorPaymentControllerTest.AdvisorPaymentControllerTest1                                        Pass                                                                                       3113        
+AdvisorPaymentControllerTest.AdvisorPaymentControllerTest2                                        Pass                                                                                       1878        
+CommunitiesLandingControllerTest.testCommunitiesLandingController                                 Pass                                                                                       18          
+MyProfilePageControllerTest.testSave                                                              Pass                                                                                       682         
+PaymentControllerTest.PaymentControllerTest1                                                      Pass                                                                                       3855        
+PaymentControllerTest.PaymentControllerTest2                                                      Pass                                                                                       15045       
+strike_tst_lookupController.test_error                                                            Pass                                                                                       20          
+strike_tst_lookupController.test_getData                                                          Pass                                                                                       533         
+strike_tst_lookupController.test_getData_addressField                                             Pass                                                                                       416         
+strike_tst_lookupController.test_getData_reference                                                Pass                                                                                       1015        
+strike_tst_lookupController.test_getData_subtitleField                                            Pass                                                                                       382         
+strike_tst_lookupController.test_getRecentRecords                                                 Pass                                                                                       55          
+strike_tst_lookupController.test_getRecordLabel                                                   Pass                                                                                       415         
+ForgotPasswordControllerTest.testForgotPasswordController                                         Pass                                                                                       24          
+PaymentMethodControllerTest.PaymentMethodControllerTest1a                                         Pass                                                                                       4047        
+PaymentMethodControllerTest.PaymentMethodControllerTest2a                                         Pass                                                                                       1734        
+PaymentMethodControllerTest.PaymentMethodControllerTest3                                          Pass                                                                                       1725        
+PaymentMethodControllerTest.PaymentMethodControllerTest4                                          Pass                                                                                       12323       
+CommunitiesLoginControllerTest.testCommunitiesLoginController                                     Pass                                                                                       17          
+TouchRecordsSchedulableTest.TouchRecordsSchedulableTest                                           Pass                                                                                       447         
+OFACLookupTest.OFACLookupTest                                                                     Pass                                                                                       5771        
+UpdateAccountContactInfoTest.UpdateAccountContactInfoTest1                                        Pass                                                                                       3118        
+ChangePasswordControllerTest.testChangePasswordController                                         Pass                                                                                       37          
+UtilitiesTest.UtilitiesTest1                                                                      Pass                                                                                       6373        
+UtilitiesTest.UtilitiesTest2                                                                      Pass                                                                                       5534        
+UtilitiesTest.UtilitiesTest3                                                                      Pass                                                                                       726         
+UtilitiesTest.UtilitiesTest4                                                                      Pass                                                                                       905         
+OpportunityControllerTest.OpportunityControllerTest1                                              Pass                                                                                       2373        
+OpportunityControllerTest.OpportunityControllerTest2                                              Pass                                                                                       2473        
+SiteRegisterControllerTest.testRegistration                                                       Pass                                                                                       49          
+
+
+=== Apex Code Coverage by Class
+CLASSES                               PERCENT  UNCOVERED LINES       
+────────────────────────────────────  ───────  ──────────────────────
+ProfileCloneBatch                     90%      31,52                 
+FundUpdateTotalInvocable              100%                           
+ExpressionLexer                       92%      90,155,156,157,174... 
+LetterResetBatch                      81%      49,57,58,59,60...     
+GMDataUpdateSchedule                  100%                           
+TouchRecordsSchedulable               100%                           
+CountryController                     100%                           
+PaymentMethodUniqueIdInvocable        100%                           
+OpportunityController                 82%      85,88,95,97,116...    
+LetterController                      82%      21,29,38,45,62...     
+CountryStatsBatch                     100%                           
+ProposalController                    86%      54,55,56,58,61...     
+AccountController                     85%      5,6,32,33,34...       
+LetterReset                           84%      98,99,306,307,308...  
+PaymentMethodController               81%      5,8,9,10,51...        
+MilestoneEmailLetterInvocable         100%                           
+ExpressionInterpreter                 83%      64,78,154,155,161...  
+InviteController                      93%      82,318,319,335,365... 
+FundController                        85%      30,62,64,81,82...     
+ExpressionException                   100%                           
+ProposalEmailLetterInvocable          100%                           
+LetterUpdatedInvocable                100%                           
+GenericTouchRecordsBatch              91%      36                    
+PaymentMethodNewInvocable             100%                           
+ProfileCloneSchedule                  100%                           
+OpportunityCloneInvocable             100%                           
+PaymentController                     96%      82,93,118             
+UpdateAccountContactInfo              70%      85,87,99,100,101...   
+InviteCloneProposalInvocable          100%                           
+DeleteRecordsSchedulable              100%                           
+BuildTestProposals                    100%                           
+CustomReqsController                  96%      38,61                 
+InvitesAllocationsForPropsBatch       92%      33                    
+FundUpdateTotalsSchedule              100%                           
+MilestoneController                   89%      43,44,45,47,50...     
+strike_utilities                      100%                           
+ProposalUpdate                        89%      141,142,143,144,145...
+ProfileController                     86%      98,133,136,196,254... 
+CountryStatsSchedule                  100%                           
+ProfileClassificationsCloneInvocable  100%                           
+strike_lookupController               94%      45,46,63,64,78...     
+DeleteRecordsBatch                    100%                           
+OFACLookup                            100%                           
+GMDataController                      89%      37,105,113,114,115... 
+ProfileClassificationsInvocable       100%                           
+Utilities                             91%      106,107,209,237,239...
+InvitesAllocationsForRstInvocable     100%                           
+ProposalUpdateInvocable               75%      7                     
+ReparentChildrenInvocable             100%                           
+TemplateController                    97%      95                    
+OFACLookupBatch                       100%                           
+ExpressionFunctions                   86%      75,76,77,78,79...     
+ProposalControllerClassifications     85%      11,12,15,51,52...     
+strike_responseData                   100%                           
+GenericUpdateRecordsBatch             95%      45                    
+PortfolioController                   100%                           
+AccountUpdateContactInfoInvocable     100%                           
+MilestoneLetterSentInvocable          100%                           
+AdvisorUpdateLookupsInvocable         100%                           
+InternalReview                        90%      52,53,111,112,134...  
+AdvisorController                     92%      5,6,23,24,25...       
+ReviewFormController                  77%      10,12,13,14,15...     
+AdvisorSummary                        98%      191,203,204           
+FormTagFormPhrasesInvocable           100%                           
+AssessmentController                  93%      31,32,33              
+Assessment                            94%      56,57,100,101         
+AdvisorTermController                 92%      31,32,33,105          
+AdvisorTermRemindersSchedule          100%                           
+AdvisorPaymentController              94%      31,32,33              
+Review                                86%      84,141,191,192,193... 
+LookupSearchResult                    97%      16                    
+AssessorSiteController                90%      93,124,125,164,174... 
+FormController                        100%                           
+MyProfilePageController               88%      21,37,38              
+SiteRegisterController                81%      39,40,43,44,45        
+ChangePasswordController              100%                           
+ForgotPasswordController              89%      15                    
+CommunitiesSelfRegController          76%      16,51,52,53,54...     
+MicrobatchSelfRegController           80%      10,40,41,42,43...     
+SiteLoginController                   100%                           
+CommunitiesLandingController          100%                           
+CommunitiesLoginController            100%                           
+LightningSelfRegisterController       73%      21,51,87,93,111...    
+LightningForgotPasswordController     50%      15,16,24,26,27...     
+LightningLoginFormController          45%      8,9,10,11,12...       
+CommunitiesSelfRegConfirmController   100%                           

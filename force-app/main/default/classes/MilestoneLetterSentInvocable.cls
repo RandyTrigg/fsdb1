@@ -1,4 +1,4 @@
-global class MilestoneLetterSentInvocable {
+global with sharing class MilestoneLetterSentInvocable {
     @InvocableMethod(
         label='Actions when milestone letter sent'
         description='Actions when milestone letter sent'
@@ -15,7 +15,7 @@ global class MilestoneLetterSentInvocable {
         MilestoneController.letterSent(request.letterId);
     }
 
-    global class MilestoneLetterSentRequest {
+    global with sharing class MilestoneLetterSentRequest {
         @InvocableVariable(required=true)
         public Id letterId;
     }

@@ -5,6 +5,31 @@
         <default>false</default>
         <label>English</label>
     </customValue>
+    <customValue>
+        <fullName>Spanish</fullName>
+        <default>false</default>
+        <label>Spanish</label>
+    </customValue>
+    <customValue>
+        <fullName>French</fullName>
+        <default>false</default>
+        <label>French</label>
+    </customValue>
+    <customValue>
+        <fullName>Portuguese</fullName>
+        <default>false</default>
+        <label>Portuguese</label>
+    </customValue>
+    <customValue>
+        <fullName>Russian</fullName>
+        <default>false</default>
+        <label>Russian</label>
+    </customValue>
+    <customValue>
+        <fullName>Arabic</fullName>
+        <default>false</default>
+        <label>Arabic</label>
+    </customValue>
     <description>The languages in use for correspondence</description>
     <masterLabel>Language</masterLabel>
     <sorted>false</sorted>

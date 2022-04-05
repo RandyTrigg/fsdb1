@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Picklist__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The picklist of possible values for this component (when the component is rendered as radio buttons or pull-down menu)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The picklist of possible values for this component (when the component is rendered as radio buttons or pull-down menu)</inlineHelpText>
+    <label>Form Picklist</label>
+    <referenceTo>Form_Picklist__c</referenceTo>
+    <relationshipLabel>Form Components</relationshipLabel>
+    <relationshipName>Form_Components</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

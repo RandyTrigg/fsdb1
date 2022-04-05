@@ -1,4 +1,4 @@
-public class PaymentMethodProcessFIInvocable {
+public with sharing class PaymentMethodProcessFIInvocable {
     @InvocableMethod(
         label='Process a payment method-related form instance'
         description='Process a payment method-related form instance'

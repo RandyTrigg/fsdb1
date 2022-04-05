@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_commitment_letter_received__c</fullName>
+    <description>Date received for the letter from the advisor commiting to be an official GFW advisor</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date received for the letter from the advisor commiting to be an official GFW advisor</inlineHelpText>
+    <label>Date commitment letter received</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

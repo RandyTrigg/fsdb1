@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prefill_object_name__c</fullName>
+    <description>The name of the object used to pre-fill form data for this form component for new form instances</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The name of the object used to pre-fill form data for this form component for new form instances</inlineHelpText>
+    <label>Prefill object name</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

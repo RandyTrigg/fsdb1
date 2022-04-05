@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Both_target_fields_or_neither</fullName>
+    <active>true</active>
+    <description>Target object name and Target field name must both have values or both be blank, except when type = &apos;indicator&apos;.</description>
+    <errorConditionFormula>OR(
+ AND(
+  ISBLANK(Target_object_name__c),
+  NOT(ISBLANK( Target_field_name__c )),
+  TEXT(Type__c) &lt;&gt; &quot;indicator&quot;
+ ),
+ AND(
+  ISBLANK(Target_field_name__c),
+  NOT(ISBLANK( Target_object_name__c )),
+  TEXT(Type__c) &lt;&gt; &quot;indicator&quot;
+ )
+)</errorConditionFormula>
+    <errorDisplayField>Target_object_name__c</errorDisplayField>
+    <errorMessage>Target object name and Target field name must both have values or both be blank, except when type = &apos;indicator&apos;.</errorMessage>
+</ValidationRule>

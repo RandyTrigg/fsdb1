@@ -1,7 +1,7 @@
 /*
  * Update the risk fields in gm data for under review props.
  */
-global class GMDataUpdateSchedule implements Schedulable {
+global with sharing class GMDataUpdateSchedule implements Schedulable {
     global void execute(SchedulableContext scMain) {
         Map<Id, GM_Data__c> gmDatas = new Map<Id, GM_Data__c>(
             [

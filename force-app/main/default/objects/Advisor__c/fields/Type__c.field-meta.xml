@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <description>Type of advisor (including official, informal, reference)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Type of advisor (including official, informal, reference)</inlineHelpText>
+    <label>Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Official_LEGACY</fullName>
+                <default>false</default>
+                <label>Official (LEGACY)</label>
+            </value>
+            <value>
+                <fullName>Informal_LEGACY</fullName>
+                <default>false</default>
+                <label>Informal (LEGACY)</label>
+            </value>
+            <value>
+                <fullName>Reference_LEGACY</fullName>
+                <default>false</default>
+                <label>Reference (LEGACY)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

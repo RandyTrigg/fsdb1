@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Character_limit__c</fullName>
+    <description>Upper limit on the number of characters permitted in this component&apos;s value</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Upper limit on the number of characters permitted in this component&apos;s value</inlineHelpText>
+    <label>Character limit</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

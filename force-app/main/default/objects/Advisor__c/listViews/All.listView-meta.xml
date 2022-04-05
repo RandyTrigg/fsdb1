@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Account__c</columns>
+    <columns>Org_advisor__c</columns>
+    <columns>Active__c</columns>
+    <columns>Current_assessor_term_type__c</columns>
+    <columns>Country_1__c</columns>
+    <columns>Keep_confidential__c</columns>
+    <columns>Language__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Account__c</field>
+        <operation>notContain</operation>
+        <value>DONOTUSE</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>notContain</operation>
+        <value>DONOTUSE</value>
+    </filters>
+    <label>All</label>
+</ListView>

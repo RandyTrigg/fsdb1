@@ -118,7 +118,7 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Account Stats (Endorsements &amp; Profile strength)</label>
+        <label>Account Stats (assessments &amp; Profile strength)</label>
         <layoutColumns>
             <layoutItems>
                 <emptySpace>true</emptySpace>

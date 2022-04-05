@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ack_template__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The correspondence template to be used when acknowledging submission of a form instance.  If blank, then acknowledge using the ack email subject/body form phrases.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The correspondence template to be used when acknowledging submission of a form instance.  If blank, then acknowledge using the ack email subject/body form phrases.</inlineHelpText>
+    <label>Ack template</label>
+    <referenceTo>Template__c</referenceTo>
+    <relationshipLabel>Forms</relationshipLabel>
+    <relationshipName>Forms</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Advisor_Payment__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The advisor payment linked to this letter</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The advisor payment linked to this letter</inlineHelpText>
+    <label>Advisor Payment</label>
+    <referenceTo>Advisor_Payment__c</referenceTo>
+    <relationshipLabel>Letters</relationshipLabel>
+    <relationshipName>Letters</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

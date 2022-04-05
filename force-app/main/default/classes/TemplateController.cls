@@ -1,4 +1,4 @@
-public class TemplateController {
+public with sharing class TemplateController {
     /* -----------------
     At the moment, this code is invoked from ProposalUpdate to calculate status.  Unlike LetterReset, this version of
     template parsing handles only template macros, not template pieces.  At some point, we need to integrate
@@ -13,7 +13,7 @@ public class TemplateController {
     -------------------- */
 
     // Class for processing a template's macros.  Used, for example, in status calculations.
-    public class TemplateMacros {
+    public with sharing class TemplateMacros {
         // Mapping from macro name to macro
         private Map<String, Template_macro__c> mNameMap = new Map<String, Template_macro__c>();
 

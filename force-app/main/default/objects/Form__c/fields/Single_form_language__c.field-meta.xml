@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Single_form_language__c</fullName>
+    <description>If non-blank, then the selected language is the ONLY one available for this form.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If non-blank, then the selected language is the ONLY one available for this form.</inlineHelpText>
+    <label>Single form language</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Language</valueSetName>
+    </valueSet>
+</CustomField>

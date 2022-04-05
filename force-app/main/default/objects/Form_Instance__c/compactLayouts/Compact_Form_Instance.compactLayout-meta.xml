@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compact_Form_Instance</fullName>
+    <fields>Name</fields>
+    <fields>Form__c</fields>
+    <fields>Date_due__c</fields>
+    <fields>Date_submitted__c</fields>
+    <fields>Language__c</fields>
+    <fields>LastModifiedById</fields>
+    <label>Compact Form Instance</label>
+</CompactLayout>

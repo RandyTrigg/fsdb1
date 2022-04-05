@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PropGRLinkClash</fullName>
+    <active>true</active>
+    <description>This form instance&apos;s proposal/milestone must be the same as the proposal/milestone linked from the assessment</description>
+    <errorConditionFormula>OR(
+ AND(
+  NOT(ISBLANK(Proposal__c)),
+  NOT(ISBLANK(Assessment__c)),
+  Proposal__c &lt;&gt; Assessment__r.Proposal__c
+ ),
+ AND(
+  NOT(ISBLANK(Milestone__c)),
+  NOT(ISBLANK(Assessment__c)),
+  Milestone__c&lt;&gt; Assessment__r.Milestone__c
+ )
+)</errorConditionFormula>
+    <errorMessage>This form instance&apos;s proposal/milestone must be the same as the proposal/milestone linked from the assessment</errorMessage>
+</ValidationRule>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unique_code__c</fullName>
+    <description>Code formed from the form data&apos;s links to form component and form instance plus the index (if any). This code should be unique across form data records.</description>
+    <externalId>false</externalId>
+    <formula>&quot;|&quot; &amp;
+LEFT(Form_Instance__c, 15) &amp; &quot;|&quot; &amp;
+LEFT(Form_Component__c, 15) &amp; &quot;|&quot; &amp;
+TEXT(Index__c) &amp; &quot;|&quot;</formula>
+    <inlineHelpText>Code formed by combining the ids of the linked form component and form instance, plus the index (if any). This code should be unique across form data records.</inlineHelpText>
+    <label>Unique code</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Portfolio__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>For &quot;View Forms&quot; advisor terms, this portfolio contains the proposals/accounts to be shared with the advisor</description>
+    <externalId>false</externalId>
+    <inlineHelpText>For &quot;View Forms&quot; advisor terms, this portfolio contains the proposals/accounts to be shared with the advisor</inlineHelpText>
+    <label>Portfolio</label>
+    <referenceTo>Portfolio__c</referenceTo>
+    <relationshipLabel>Advisor Terms</relationshipLabel>
+    <relationshipName>Advisor_Terms</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

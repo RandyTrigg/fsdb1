@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <description>The type of this picklist</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The type of this picklist</inlineHelpText>
+    <label>Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Phrases</fullName>
+                <default>true</default>
+                <label>Phrases</label>
+            </value>
+            <value>
+                <fullName>Numeric range</fullName>
+                <default>false</default>
+                <label>Numeric range</label>
+            </value>
+            <value>
+                <fullName>Years</fullName>
+                <default>false</default>
+                <label>Years</label>
+            </value>
+            <value>
+                <fullName>Constants</fullName>
+                <default>false</default>
+                <label>Constants</label>
+            </value>
+            <value>
+                <fullName>Countries</fullName>
+                <default>false</default>
+                <label>Countries</label>
+            </value>
+            <value>
+                <fullName>Contacts</fullName>
+                <default>false</default>
+                <label>Contacts</label>
+            </value>
+            <value>
+                <fullName>Contacts with email</fullName>
+                <default>false</default>
+                <label>Contacts with email</label>
+            </value>
+            <value>
+                <fullName>Contacts with email (Applicant email invalid)</fullName>
+                <default>false</default>
+                <label>Contacts with email (Applicant email invalid)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

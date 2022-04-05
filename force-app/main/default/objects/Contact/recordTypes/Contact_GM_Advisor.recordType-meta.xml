@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_GM_Advisor</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>Compact_Contact_GM</compactLayoutAssignment>
+    <description>For contact records of advisors</description>
+    <label>Contact GM Advisor</label>
+    <picklistValues>
+        <picklist>Approximate_age__c</picklist>
+        <values>
+            <fullName>35 or younger</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Over 35</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Email_unsubscribe_preferences__c</picklist>
+        <values>
+            <fullName>Action Alerts %28Occasional%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Events %28Occasional%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fundraising Appeals %28Occasional%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newsletter %28Once a month%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Gender_GM__c</picklist>
+        <values>
+            <fullName>Female</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Male</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trans</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LeadSource</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Name</picklist>
+        <values>
+            <fullName>Dr%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mrs%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prof%2E</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Preferred_language__c</picklist>
+        <values>
+            <fullName>Arabic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>English</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>French</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Russian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spanish</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Preferred_pronouns__c</picklist>
+        <values>
+            <fullName>he%2Fhim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>she%2Fher</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>they%2Fthem</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Time_with_org__c</picklist>
+        <values>
+            <fullName>1 - 2 years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>11 - 20 years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3 - 5 years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6 - 10 years</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Less than 1 year</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Over 20 years</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -1,5 +1,5 @@
-public class ProfileClassificationsCloneInvocable {
-    public class myException extends Exception {
+public with sharing class ProfileClassificationsCloneInvocable {
+    public with sharing class myException extends Exception {
     }
 
     @InvocableMethod(
@@ -40,7 +40,7 @@ public class ProfileClassificationsCloneInvocable {
             insert newJoins;
     }
 
-    public class CloneClassificationsRequest {
+    public with sharing class CloneClassificationsRequest {
         @InvocableVariable(required=true)
         public ID profileId;
         @InvocableVariable(required=true)

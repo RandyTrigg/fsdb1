@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Website_mention_response__c</fullName>
+    <description>Does the advisor permit us to mention them on our website</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Does the advisor permit us to mention them on our website</inlineHelpText>
+    <label>Website mention response</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Accept_Decline</valueSetName>
+    </valueSet>
+</CustomField>

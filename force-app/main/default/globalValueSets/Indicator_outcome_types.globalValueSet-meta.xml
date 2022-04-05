@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Awareness</fullName>
+        <default>false</default>
+        <label>Awareness</label>
+    </customValue>
+    <customValue>
+        <fullName>Access</fullName>
+        <default>false</default>
+        <label>Access</label>
+    </customValue>
+    <customValue>
+        <fullName>Laws and policies</fullName>
+        <default>false</default>
+        <label>Laws and policies</label>
+    </customValue>
+    <customValue>
+        <fullName>Movement building</fullName>
+        <default>false</default>
+        <label>Movement building</label>
+    </customValue>
+    <customValue>
+        <fullName>Social norms</fullName>
+        <default>false</default>
+        <label>Social norms</label>
+    </customValue>
+    <customValue>
+        <fullName>Crisis</fullName>
+        <default>false</default>
+        <label>Crisis</label>
+    </customValue>
+    <customValue>
+        <fullName>Crisis COVID19</fullName>
+        <default>false</default>
+        <label>Crisis COVID19</label>
+    </customValue>
+    <customValue>
+        <fullName>Crisis WF</fullName>
+        <default>false</default>
+        <label>Crisis WF</label>
+    </customValue>
+    <customValue>
+        <fullName>Individual change</fullName>
+        <default>false</default>
+        <label>Individual change</label>
+    </customValue>
+    <customValue>
+        <fullName>Systemic change</fullName>
+        <default>false</default>
+        <label>Systemic change</label>
+    </customValue>
+    <masterLabel>Indicator outcome types</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

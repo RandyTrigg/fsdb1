@@ -1,4 +1,4 @@
-global class ProposalEmailLetterInvocable {
+global with sharing class ProposalEmailLetterInvocable {
     @InvocableMethod(
         label='Build/email proposal letter'
         description='Build a new proposal letter of given template, and email it.'
@@ -18,7 +18,7 @@ global class ProposalEmailLetterInvocable {
         );
     }
 
-    global class EmailLetterRequest {
+    global with sharing class EmailLetterRequest {
         @InvocableVariable(required=true)
         public Id propId;
         @InvocableVariable(required=true)

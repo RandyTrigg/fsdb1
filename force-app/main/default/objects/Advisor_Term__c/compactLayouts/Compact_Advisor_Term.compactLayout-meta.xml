@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compact_Advisor_Term</fullName>
+    <fields>Name</fields>
+    <fields>Advisor__c</fields>
+    <fields>Date_term_begins__c</fields>
+    <fields>Date_term_ends__c</fields>
+    <fields>Payment_amount__c</fields>
+    <fields>Status__c</fields>
+    <fields>LastModifiedById</fields>
+    <label>Compact Advisor Term</label>
+</CompactLayout>

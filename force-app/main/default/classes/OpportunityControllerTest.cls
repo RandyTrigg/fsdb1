@@ -1,5 +1,5 @@
 @isTest
-public class OpportunityControllerTest {
+public with sharing class OpportunityControllerTest {
     static testMethod void OpportunityControllerTest1() {
         User u = [SELECT Id FROM User WHERE IsActive = true LIMIT 1];
         insert new Opportunity(

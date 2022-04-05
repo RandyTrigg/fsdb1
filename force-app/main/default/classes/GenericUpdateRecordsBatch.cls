@@ -1,7 +1,7 @@
 /* Update a list of records already created in memory.
  * Alternately can include a second set of records (and a batch size) to update in the 'finish' method.
  */
-global class GenericUpdateRecordsBatch implements Database.Batchable<sObject> {
+global with sharing class GenericUpdateRecordsBatch implements Database.Batchable<sObject> {
     private List<sObject> recs, recs2;
     private Integer batchSize;
 

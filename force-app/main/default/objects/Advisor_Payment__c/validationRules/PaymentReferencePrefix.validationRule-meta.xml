@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PaymentReferencePrefix</fullName>
+    <active>true</active>
+    <description>The initial characters of the Payment Reference field must be either &quot;cash&quot;, &quot;ck&quot;, &quot;of&quot;, &quot;mt&quot;, or &quot;otr&quot;. (Upper and lower case are permitted.)</description>
+    <errorConditionFormula>AND(
+ OR(
+  ISNEW(),
+  ISCHANGED( Payment_ref__c )
+ ),
+ LOWER(LEFT(Payment_ref__c, 4)) &lt;&gt; &quot;cash&quot;,
+ LOWER(LEFT(Payment_ref__c, 2)) &lt;&gt; &quot;ck&quot;,
+ LOWER(LEFT(Payment_ref__c, 2)) &lt;&gt; &quot;of&quot;,
+ LOWER(LEFT(Payment_ref__c, 2)) &lt;&gt; &quot;mt&quot;,
+ LOWER(LEFT(Payment_ref__c, 3)) &lt;&gt; &quot;otr&quot;
+)</errorConditionFormula>
+    <errorDisplayField>Date_paid_accounting__c</errorDisplayField>
+    <errorMessage>The initial characters of the Payment Reference field must be either &quot;cash&quot;, &quot;ck&quot;, &quot;of&quot;, &quot;mt&quot;, or &quot;otr&quot;. (Upper and lower case are permitted.)</errorMessage>
+</ValidationRule>

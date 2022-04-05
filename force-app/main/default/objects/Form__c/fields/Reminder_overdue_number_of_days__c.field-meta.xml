@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reminder_overdue_number_of_days__c</fullName>
+    <description>Comma-separated list of numbers indicates when to auto-send reminder and overdue emails for forms not yet submitted. For example, &quot;-10, -5, 0, 20, 7+&quot; sends reminders 10 and 5 days before the due date as well as on the due date. It sends an overdue notice 20 days after the due date and every 7 days thereafter.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Comma-separated list of numbers indicates when to auto-send reminder and overdue emails for forms not yet submitted. For example, &quot;-10, -5, 0, 20, 7+&quot; sends reminders 10 and 5 days before the due date as well as on the due date. It sends an overdue notice 20 days after the due date and every 7 days thereafter.</inlineHelpText>
+    <label>Reminder/overdue number of days</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>
