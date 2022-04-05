@@ -2,7 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>FFDB_General</members>
-        <!-- <members>FFDB_GM_Admin</members> -->
+        <members>FFDB_GM_Admin</members>
         <members>FFDB_Read_only</members>
         <members>FFDB_System_admin</members>
         <name>PermissionSet</name>
