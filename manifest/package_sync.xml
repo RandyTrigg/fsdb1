@@ -6,12 +6,31 @@
 		<members>GFW_Sync_Picklist_Mapping__mdt</members>
 		<members>Sync_Log_Record__c</members>
 		<members>Sync_Log__c</members>
+		<members>Commitment__c</members>
 		<name>CustomObject</name>
 	</types>
 	<types>
 		<members>Account.Sync_Log_Record__c</members>
 		<members>Campaign.Sync_Log_Record__c</members>
 		<members>ChartofAccounts__c.Sync_Log_Record__c</members>
+		<members>Commitment__c.Account__c</members>
+		<members>Commitment__c.Amount__c</members>
+		<members>Commitment__c.Authorization_Scan_Box_Link__c</members>
+		<members>Commitment__c.Bad_CC_Last_4_Digits__c</members>
+		<members>Commitment__c.CC_Exp_date__c</members>
+		<members>Commitment__c.CC_Last_4_digits__c</members>
+		<members>Commitment__c.CC_Type__c</members>
+		<members>Commitment__c.Contact__c</members>
+		<members>Commitment__c.Date_closed__c</members>
+		<members>Commitment__c.Date_established__c</members>
+		<members>Commitment__c.Date_last_donation__c</members>
+		<members>Commitment__c.Date_next_donation__c</members>
+		<members>Commitment__c.EA_Commitment_ID__c</members>
+		<members>Commitment__c.Form_of_payment__c</members>
+		<members>Commitment__c.GFW_RecurringDonation_ID__c</members>
+		<members>Commitment__c.Notes__c</members>
+		<members>Commitment__c.Payment_processor_donor_ID__c</members>
+		<members>Commitment__c.Status__c</members>
 		<members>Commitment__c.Sync_Log_Record__c</members>
 		<members>Contact.Sync_Log_Record__c</members>
 		<members>GFW_Sync_Field_Mapping__mdt.DefaultValue__c</members>

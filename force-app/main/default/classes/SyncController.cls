@@ -32,6 +32,8 @@ public without sharing class SyncController {
     List<Object> transactionsJSON = new List<Object>();
     List<Object> gcsJSON = new List<Object>();
     List<Object> oppsJSON = new List<Object>(); // 'Floating' opportunities with no transactions
+    Map<Id,Id> GiftIdToGiftOppId = new Map<Id, Id>();
+    List<sObject> giftToOppsToDelete = new List<sObject>();
     Map<String, Schema.SObjectField> fieldMapFSDB;
     
     // Initialized upon launch / buildrecs
@@ -194,27 +196,29 @@ public without sharing class SyncController {
             'GFW_Sync_Object_Mapping__r.DeveloperName',
             'GFW_Sync_Object_Mapping__r.FSDB_External_Id_Field_API_Name__c', 
             'GFW_Sync_Object_Mapping__r.FSDB_Object_Name__c', 
-            'GFW_Sync_Object_Mapping__r.GFW_Object_Name__c'};
+            'GFW_Sync_Object_Mapping__r.GFW_Object_Name__c',
+            'LookupRelTo_SyncObjectMapping__r.FSDB_External_Id_Field_API_Name__c'};
         Map<String,GFW_Sync_Field_Mapping__mdt> gfwFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         Map<String,GFW_Sync_Field_Mapping__mdt> fsdbFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         String orderByClause = 'ORDER BY GFW_Sync_Object_Mapping__c';
         GFW_Sync_Field_Mapping__mdt[] fieldsMDTs = Utilities.fetchRecords(
             objName, orderByClause, relFieldNames);
-        // System.debug('fieldsMDTs: ' + fieldsMDTs);
+        System.debug('fieldsMDTs: ' + fieldsMDTs);
         
         // Build field mapping for each object map
         for (GFW_Sync_Field_Mapping__mdt fmMDT : fieldsMDTs ) {
             // Initialize mdtObjName on first iteration
             if (mdtObjName == '') mdtObjName = fmMDT.GFW_Sync_Object_Mapping__r.DeveloperName;
 
-            if (mdtObjName != fmMDT.GFW_Sync_Object_Mapping__r.DeveloperName) {
             // On next objMap. Populate field mappings for last object and clear map.
+            if (mdtObjName != fmMDT.GFW_Sync_Object_Mapping__r.DeveloperName) {
                 if (gfwFieldMap != null && !gfwFieldMap.isEmpty()) {
                     gfwFieldMapByMDTName.put(mdtObjName, gfwFieldMap);
                     System.debug('gfwFieldMapByMDTName: ' + gfwFieldMapByMDTName);
                 }
                 if (fsdbFieldMap != null && !fsdbFieldMap.isEmpty()) {
                     fsdbFieldMapByMDTName.put(mdtObjName, fsdbFieldMap);
+                    System.debug('SetFieldMappings inside loop if statement: ' + mdtObjName);
                 }
                 gfwFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
                 fsdbFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
@@ -223,7 +227,9 @@ public without sharing class SyncController {
             if (fmMDT.GFW_Field_API_Name__c != null && fmMDT.GFW_Field_API_Name__c != '') gfwFieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT);
             System.debug('gfwfieldMap: ' + gfwFieldMap);
             if (fmMDT.FSDB_Field_API_Name__c != null && fmMDT.FSDB_Field_API_Name__c != '') fsdbFieldMap.put(fmMDT.FSDB_Field_API_Name__c, fmMDT);
-            // System.debug('GFW Field Name: ' + fmMDT.GFW_Field_API_Name__c + '; FSDB Field Name: ' + fmMDT.FSDB_Field_API_Name__c);
+            if (mdtObjName == 'ChartOfAccounts') System.debug('COA field mappings');
+            System.debug('fsdbFieldMap: ' + fsdbFieldMap);
+            System.debug('GFW Field Name: ' + fmMDT.GFW_Field_API_Name__c + '; FSDB Field Name: ' + fmMDT.FSDB_Field_API_Name__c);
         }
         // Add last set of fieldmappings
         if (gfwFieldMap != null && !gfwFieldMap.isEmpty()) {
@@ -231,6 +237,8 @@ public without sharing class SyncController {
         }
         if (fsdbFieldMap != null && !fsdbFieldMap.isEmpty()) {
             fsdbFieldMapByMDTName.put(mdtObjName, fsdbFieldMap);
+            System.debug('SetFieldMappings outside loop if statement: ' + mdtObjName);
+            System.debug('COA fsdbFieldMap: ' + fsdbFieldMap);
         }
         System.debug('gfwFieldMapByMDTName FINAL: ' + gfwFieldMapByMDTName);
         System.debug('fsdbFieldMapByMDTName FINAL: ' + fsdbFieldMapByMDTName);
@@ -245,6 +253,8 @@ public without sharing class SyncController {
     }
 
     public Map<String,GFW_Sync_Field_Mapping__mdt> getFieldMappingsFSDB(String mdtObjName) {
+        System.debug('getFieldMappingsFSDB mdtObjName: ' + mdtObjName);
+        System.debug('fsdbFieldMapByMDTName: ' + fsdbFieldMapByMDTName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>(
             fsdbFieldMapByMDTName.get(mdtObjName)
         );
@@ -350,11 +360,10 @@ public without sharing class SyncController {
         syncLogId = sLog.Id;
     }
 
-    // Stash json in Sync Log Records
+    // Stash json 'records' in separate Sync Log Records
     public void logRecords(String mdtObjName, List<Object> records) {
         List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>();
         if (records != null && !records.isEmpty()) {
-            // Loop through JSON 'records' and stash them in Sync Log Records
             for (Object rec : records) {
                 Sync_Log_Record__c slRec = (Sync_Log_Record__c)Utilities.newRecord('Sync_Log_Record__c');
                 slRec.RecordInfo__c = JSON.serialize(rec);
@@ -369,9 +378,33 @@ public without sharing class SyncController {
         }
         if (slRecList != null && slRecList.size() > 0) {
             insert slRecList;
-            System.debug('Inserted list of sync log records');
+            System.debug('Inserted list of sync log records: ' + mdtObjName);
         }
     }
+
+    // Deletes sObj recs and logs results in separate Sync Log Records
+    public void deleteAndLog(String mdtObjName, List<sObject> recsToDelete) {
+        if (recsToDelete != null && !recsToDelete.isEmpty()) {
+            List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>();
+            Database.DeleteResult[] drList = Database.delete(recsToDelete, false);
+            for (Database.DeleteResult dr : drList) {
+                Sync_Log_Record__c slRec = (Sync_Log_Record__c)Utilities.newRecord('Sync_Log_Record__c');
+                slRec.RecordInfo__c = JSON.serialize(recsToDelete);
+                System.debug('JSON serialized: ' + JSON.serialize(recsToDelete));
+                slRec.Sync_Log__c = syncLogId;
+                slRec.Type__c = mdtObjName + '_delete';
+                slRec.Status__c = dr.isSuccess() ? 'Success' : 'Error';
+                slRec.Results__c = dr.isSuccess() ? 'Deleted: ' + dr.getId() : 'Error: ' + String.join(dr.getErrors(), ';');
+                slRecList.add(slRec);
+                slRec.FS_Group__c = fsCOA;
+            }
+            if (slRecList != null && slRecList.size() > 0) {
+                insert slRecList;
+                System.debug('Inserted list of delete sync log records');
+            }
+        }
+    }
+
 
     public List<sObject> retrievePendingLogRecs(String mdtObjName) {
         List<sObject> objList = new List<sObject>(Utilities.fetchRecords(
@@ -467,8 +500,8 @@ public without sharing class SyncController {
         List<GFW_Sync_Picklist_Mapping__mdt> pLVals = new List<GFW_Sync_Picklist_Mapping__mdt>(picklistMap.get(fieldmapMDT.Id));
         System.debug('pLVals for ' + fsdbFieldName + ': ' + pLVals);
         if (pLVals != null && !pLVals.IsEmpty()) {
-            // Look up picklist value from map
             System.debug('Picklists not null!');
+            // Look up picklist value from map
             // For record type, retrieve record type Name from record json
             for (GFW_Sync_Picklist_Mapping__mdt pL : pLVals ) {
                 // Set gfwValue based on picklist mapping
@@ -484,6 +517,8 @@ public without sharing class SyncController {
             sObj.put(fsdbFieldName, (Decimal)gfwValue);
         } else if (fieldType == 'INTEGER') {
             sObj.put(fsdbFieldName, (Integer)gfwValue);
+        } else if (fieldType == 'BOOLEAN') {
+            sObj.put(fsdbFieldName, (Boolean)gfwValue);
         } else if (fieldType == 'DATE') {
             Date dt = date.valueOf((String)gfwValue);
             sObj.put(fsdbFieldName, dt); 
@@ -496,16 +531,16 @@ public without sharing class SyncController {
             }
             else {
                 // Create dynamic reference for lookup/master-detail relationships via that lookup's GFW external id 
-                // Instantiate new lookup/reference sObject.
-                // Set lookup reference to that reference sObject using putSObject 
+                // Instantiate new lookup/reference sObject and set lookup reference to it using putSObject.
                 Schema.sObjectType reference = fieldMapFSDB.get(fsdbFieldName).getDescribe().getReferenceTo()[0];
                 String refObjName = reference.getDescribe().getName();
                 // Create new instance of related sObject with its External Id set to GFW Id.
                 sObject refSObj = Schema.getGlobalDescribe().get(refObjName).newSObject();
-                System.debug('external id field name: ' + externalIdFieldName(refObjName) + 'value: ' + (Id)gfwValue);
-                // Reset refObjName to mdtObjName for Payments linking to Opportunity.
-                String mdtObjName = fsdbFieldName == 'npe01__Opportunity__c' ? 'Gift_to_Opportunity' : refObjName;
-                refSObj.put(externalIdFieldName(mdtObjName), (Id)gfwValue);
+                String extIdFieldNameByMDT = fieldmapMDT.LookupRelTo_SyncObjectMapping__c != null ? 
+                    fieldmapMDT.LookupRelTo_SyncObjectMapping__r.FSDB_External_Id_Field_API_Name__c : 
+                    externalIdFieldName(refObjName);
+                System.debug('external id field name: ' + extIdFieldNameByMDT + 'value: ' + (Id)gfwValue);
+                refSObj.put(extIdFieldNameByMDT, (Id)gfwValue);
                 relName =  String.valueof(fieldMapFSDB.get(fsdbFieldName).getDescribe().getRelationshipName());
                 // Set relationship (e.g., LookupRelationship__r) to refSObj (sObject reference)
                 sObj.putSObject(relName, refSObj);
@@ -569,6 +604,8 @@ public without sharing class SyncController {
             }
         }
 
+        System.debug('campsJSON: ' + campsJSON);
+
         // Generate Sync Log and Sync Log Records (DML operations must be done AFTER all callouts)
         // Stash each json 'record' in Sync Log Record
         newSyncLog();
@@ -586,13 +623,15 @@ public without sharing class SyncController {
         for (String objName : objNamesJSONMap.keySet()) {
             logRecords(objName, objNamesJSONMap.get(objName));
         }
-        //Contacts, Recurring Donations, Opportunities, Tasks on Opportunities, Gifts, Transactions, GiftCredits, SoftCredits 
+
+        // Delete any GiftToOpportunities newly linked to existing floating Opportunities.
+        deleteAndLog('Gift_to_Opportunity', giftToOppsToDelete); 
     }
 
     public void gatherTransactions() {
         // Retrieve transactions incl soft credit types (don't upsert as Payment records). Assume we have everything linked.
         // Assumes account and opportunity lookups on the Transaction can be relied upon exclusively for gift's account/opportunity.
-        Map<String, Object> giftOpp;
+        Map<String, Object> relGift;
         System.debug('fsCOA: ' + fsCOA);
         String mdtObjName = 'Transaction_to_Payment';
         String whereClause = ' WHERE AQB__ChartofAccounts__r.Name LIKE \'' + fsCOA + '%\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
@@ -603,21 +642,29 @@ public without sharing class SyncController {
                 // Grab all parent/related Ids
                 Map<String, Object> t = (Map<String, Object>) rec;
                 System.debug('>>> Transactions: ' + t);
-                giftIds.add((Id)t.get('AQB__Gift__c'));
-                acctIds.add((Id)t.get('AQB__Account__c'));
-                campIds.add((Id)t.get('AQB__CampaignAppealId__c'));
-                if (t.get('Recurring_Donations__c') != null) { recDonIds.add((Id)t.get('Recurring_Donations__c')); }
-                // Retrieve transaction's parent gift from nested json: AQB__Gift__r={AQB__CreditedOpportunity__c=0065d00000wWBdeAAG, attributes...
-                giftOpp = (Map<String, Object>)t.get('AQB__Gift__r');
-                if (giftOpp.get('AQB__CreditedOpportunity__c') != null) giftOppIds.add((Id)giftOpp.get('AQB__CreditedOpportunity__c'));
+                Id giftId = (Id)t.get('AQB__Gift__c');
+                giftIds.add(giftId);
+                if (t.get('Recurring_Donations__c') != null) recDonIds.add((Id)t.get('Recurring_Donations__c'));
+                if (t.get('AQB__CampaignAppealId__c') != null) campIds.add((Id)t.get('AQB__CampaignAppealId__c'));
+                // Retrieve parent gift's account and opportunity from nested json: AQB__Gift__r={AQB__CreditedOpportunity__c=0065d00000wWBdeAAG...
+                relGift = (Map<String, Object>)t.get('AQB__Gift__r');
+                acctIds.add((Id)relGift.get('AQB__AccountId__c'));
+                if (relGift.get('AQB__CreditedOpportunity__c') != null) {
+                    Id oppId = (Id)relGift.get('AQB__CreditedOpportunity__c');
+                    giftOppIds.add(oppId);
+                    // Build map of GifIds to OppIds for gatherGiftOpportunities (to identify GiftOpps that need merging).
+                    if (!GiftIdToGiftOppId.containsKey(giftId)) GiftIdToGiftOppId.put(giftId, oppId);
+                }
             }
         }
         System.debug('giftOppIds: ' + giftOppIds);
+        System.debug('GiftIdToGiftOppId: ' + GiftIdToGiftOppId);
+        System.debug('campIds: ' + campIds);
     }
     
-    // Retrieve gift credits and their linked accounts/contacts from giftIds.
     public void gatherGiftCredits() {
-        // Figure out: Account credits; no partial credit (amt/percentage)
+        // Retrieve gift credits and their linked accounts/contacts from giftIds.
+        // TO DO: Only gather gift credits where Contact's Account not equal to gift's Account
         // AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c
         // Retrieve AQB_DonorAccount__c, not Credited Account. Retrieve AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         if (!giftIds.isEmpty()) {
@@ -652,11 +699,11 @@ public without sharing class SyncController {
         }
     }
 
-    // Identify existing floating Opportunities in FSDB that match GFW GiftOpportunities.
-    // Set Ext Gift Ids to ensure gift upsert will update those Opportunities without creating dupes.
     public void gatherGiftOpportunities() {
-        // Query FSDB for existing Opportunities that match new gift opportunities.
+        // Identify floating Opportunities in FSDB that match GFW GiftOpportunities.
+        // Set Ext Gift Ids so gift upsert will update those Opps without creating dupes.
         if (!giftOppIds.isEmpty()) {
+            Set<Id> extGiftIdsToDelete = new Set<Id>();
             String inIDsStr = Utilities.packageIdsForQuery(giftOppIds);
             String whereClauseFetch = 'WHERE GFW_Gift_ID__c = null AND GFW_Opportunity_ID__c IN ' + inIDsStr;
             Opportunity[] exstRecs = Utilities.fetchRecords(
@@ -665,11 +712,24 @@ public without sharing class SyncController {
                 giftOppIdsToUpdate.add(rec.GFW_Opportunity_ID__c);
             }
             System.debug('Inside gatherGiftOpportunities. giftOppIdsToUpdate: ' + giftOppIdsToUpdate);
-            // Build json of gift/opp Ids for setting ext gift ids in these Opportunities.
-            String mdtObjName = 'GiftOpportunity';
-            String inIDsStrToUpdate = Utilities.packageIdsForQuery(giftOppIdsToUpdate);
-            String whereClauseQuery = ' WHERE AQB__CreditedOpportunity__c IN ' + inIDsStrToUpdate;
-            giftOppsJSON = queryForRecords(mdtObjName, null, whereClauseQuery);
+            if (!giftOppIdsToUpdate.isEmpty()) {
+                // Retrieve json records for setting ext gift ids in these Opportunities.
+                String mdtObjName = 'GiftOpportunity';
+                String inIDsStrToUpdate = Utilities.packageIdsForQuery(giftOppIdsToUpdate);
+                String whereClauseQuery = ' WHERE AQB__CreditedOpportunity__c IN ' + inIDsStrToUpdate;
+                giftOppsJSON = queryForRecords(mdtObjName, null, whereClauseQuery);
+                // Retrieve existing FSDB Opps that match those ext gift ids to delete
+                for (Id extGiftId : GiftIdToGiftOppId.keyset()) {
+                    System.debug('Inside gatherGiftOpportunities - GiftIdToGiftOppId map loop: ' + extGiftId);
+                    if (giftOppIdsToUpdate.contains(GiftIdToGiftOppId.get(extGiftId))) extGiftIdsToDelete.add(extGiftId);
+                }
+                System.debug('extGiftIdsToDelete: ' + extGiftIdsToDelete);
+                if (extGiftIdsToDelete != null && !extGiftIdsToDelete.isEmpty()) {
+                    String idsToQuery = Utilities.packageIdsForQuery(extGiftIdsToDelete);
+                    String whereQuery = 'WHERE GFW_Gift_ID__c IN ' + idsToQuery;
+                    giftToOppsToDelete = Utilities.fetchRecords('Opportunity', whereQuery, null);
+                }
+            }
             System.debug('gatherGiftOpportunities giftOppsJSON: ' + giftOppsJSON);
         }
     }

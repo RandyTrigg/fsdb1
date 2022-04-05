@@ -2,7 +2,7 @@
 
         String fsRole;
         List<FS_Group_Settings__mdt> fsGroups;
-   
+/*
         // Run sync for each FS COA
         fsGroups = [SELECT GFW_COA_Name__c, Designated_Role_for_Ownership__c
             FROM FS_Group_Settings__mdt WHERE Active__c = TRUE
@@ -18,11 +18,11 @@
                 scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
                 scThisFS.LaunchSync();
 
-  /* 
 
-                // , 'Recurring_Donations'
+
+                // 'Recurring_Donations', 'ChartOfAccounts', 'Campaign', 'Gift_to_Opportunity', 'GiftOpportunity', 'Opportunity', 'Transaction_to_Payment'};
                 String mdtObjName = 'Transaction_to_Payment';
-                // String mdtObjName = 'Campaign';
+                // String mdtObjName = 'ChartOfAccounts';
                 List<sObject> recs = new List<sObject>(scThisFS.buildRecsToUpsert(mdtObjName));
                 system.debug('Here is the final list: ' + recs);
                 
@@ -65,20 +65,20 @@
             }
         }
 
-*/
+
 
             }
         }   
 
+ */
 
-/*
 
-        // BATCHABLE
-        List<String> objNames = new List<String>{'Account', 'Contact', 'Recurring_Donations', 'Gift_to_Opportunity', 'GiftOpportunity', 'Opportunity', 'Transaction_to_Payment'};
+        // BATCHABLE 'ChartOfAccounts'
+        List<String> objNames = new List<String>{'Account', 'Contact', 'Recurring_Donations', 'Campaign', 'GiftOpportunity', 'Opportunity', 'Gift_to_Opportunity', 'Transaction_to_Payment'};
         Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 5);
         System.debug('batchInstanceId: ' + batchInstanceId);
 
-*/
+
 
 
         // QUEUEABLE
