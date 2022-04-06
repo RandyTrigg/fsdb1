@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
+		<members>FS_Group_Settings__mdt</members>
 		<members>GFW_Sync_Field_Mapping__mdt</members>
 		<members>GFW_Sync_Object_Mapping__mdt</members>
 		<members>GFW_Sync_Picklist_Mapping__mdt</members>
@@ -13,6 +14,14 @@
 		<members>Account.Sync_Log_Record__c</members>
 		<members>Campaign.Sync_Log_Record__c</members>
 		<members>ChartofAccounts__c.Sync_Log_Record__c</members>
+		<members>Contact.Sync_Log_Record__c</members>
+		<members>Opportunity.Sync_Log_Record__c</members>
+		<members>npe01__OppPayment__c.Sync_Log_Record__c</members>
+		<members>npe01__OppPayment__c.CampaignAppeal__c</members>
+		<members>npe01__OppPayment__c.Chart_of_Accounts__c</members>
+		<members>npe01__OppPayment__c.Commitment__c</members>
+		<members>npe01__OppPayment__c.GFW_Transaction_ID__c</members>
+		<members>Commitment__c.Sync_Log_Record__c</members>
 		<members>Commitment__c.Account__c</members>
 		<members>Commitment__c.Amount__c</members>
 		<members>Commitment__c.Authorization_Scan_Box_Link__c</members>
@@ -31,8 +40,9 @@
 		<members>Commitment__c.Notes__c</members>
 		<members>Commitment__c.Payment_processor_donor_ID__c</members>
 		<members>Commitment__c.Status__c</members>
-		<members>Commitment__c.Sync_Log_Record__c</members>
-		<members>Contact.Sync_Log_Record__c</members>
+		<members>FS_Group_Settings__mdt.Active__c</members>
+		<members>FS_Group_Settings__mdt.Designated_Role_for_Ownership__c</members>
+		<members>FS_Group_Settings__mdt.GFW_COA_Name__c</members>
 		<members>GFW_Sync_Field_Mapping__mdt.DefaultValue__c</members>
 		<members>GFW_Sync_Field_Mapping__mdt.FSDB_Field_API_Name__c</members>
 		<members>GFW_Sync_Field_Mapping__mdt.GFW_Field_API_Name__c</members>
@@ -43,10 +53,11 @@
 		<members>GFW_Sync_Object_Mapping__mdt.FSDB_Object_Name__c</members>
 		<members>GFW_Sync_Object_Mapping__mdt.GFW_Object_Name__c</members>
 		<members>GFW_Sync_Object_Mapping__mdt.SyncLogRecordLookupFieldName__c</members>
+		<members>GFW_Sync_Object_Mapping__mdt.Active__c</members>
+		<members>GFW_Sync_Object_Mapping__mdt.Sort_order__c</members>
 		<members>GFW_Sync_Picklist_Mapping__mdt.FSDB_Picklist_Value__c</members>
 		<members>GFW_Sync_Picklist_Mapping__mdt.GFW_Picklist_Value__c</members>
 		<members>GFW_Sync_Picklist_Mapping__mdt.GFW_Sync_Field_Mapping__c</members>
-		<members>Opportunity.Sync_Log_Record__c</members>
 		<members>Sync_Log_Record__c.Account__c</members>
 		<members>Sync_Log_Record__c.Campaign__c</members>
 		<members>Sync_Log_Record__c.Chart_of_Accounts__c</members>
@@ -66,8 +77,14 @@
 		<members>Sync_Log__c.DateTime_Start__c</members>
 		<members>Sync_Log__c.Status__c</members>
 		<members>Sync_Log__c.Type__c</members>
-		<members>npe01__OppPayment__c.Sync_Log_Record__c</members>
 		<name>CustomField</name>
+	</types>
+	<types>
+		<members>FS_Group_Settings.BFF</members>
+		<members>FS_Group_Settings.VAL</members>
+		<name>CustomMetadata</name>
 	</types>
 	<version>53.0</version>
 </Package>
+
+
