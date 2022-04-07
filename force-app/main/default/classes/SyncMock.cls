@@ -26,22 +26,26 @@ global class SyncMock implements HttpCalloutMock {
     '[ { "attributes" : ' +
     '{"type" : "Account",' +
     '"url" : "/services/data/v54.0/sobjects/Account/001D000000IRFmaIAH"},' +  
-    '"Name" : "Test 1",' + 
+    '"Name" : "Test 1","RecordType":{' +
+    '"DeveloperName":"Household","attributes":{' +
+    '"url":"/services/data/v48.0/sobjects/RecordType/012i0000000HNlOAAW","type":"RecordType"}},' + 
     // Added a bunch of fields from transactions
     '"AQB__Amount__c":125.0,"AQB__ChartofAccounts__c":"a0I1Y00000vkWFrUAM",' +
     '"AQB__Date__c":"2022-03-13","AQB__Gift__c":"a0D5d00001CTEh8EAH","AQB__Posted__c":true,' +
     '"AQB__Gift__r":{"AQB__AccountId__c":"0015d00003V5f0SAAR","AQB__CreditedOpportunity__c":"a0c5d00000gA6QLAA0","attributes":{"url":"/services/data/v48.0/sobjects/AQB__Gift__c/a0D5d00001CTEh8EAH","type":"AQB__Gift__c"}},'+
-    '"Id":"a0c5d00000gA6QLAA0","AQB__CampaignAppealId__c":"7011Y000002BRjHQAW","Recurring_Donations__c":null},' +
+    '"Id":"0011Y00002LvEcKQAV","AQB__CampaignAppealId__c":"7011Y000002BRjHQAW","Recurring_Donations__c":null},' +
     // Next record
     '{ "attributes" : ' +
     '{"type" : "Account",' +
     '"url" : "/services/data/v54.0/sobjects/Account/001D000000IomazIAB"},' +
-    '"Name" : "Test 2",' +
+    '"Name" : "Test 2","RecordType":{' +
+    '"DeveloperName":"Household","attributes":{' +
+    '"url":"/services/data/v48.0/sobjects/RecordType/012i0000000HNlOAAW","type":"RecordType"}},' +
     // Transaction fields
     '"AQB__Amount__c":125.0,"AQB__ChartofAccounts__c":"a0I1Y00000vkWFrUAM",' +
     '"AQB__Date__c":"2022-03-13","AQB__Gift__c":"a0D5d00001CTEh8EAH","AQB__Posted__c":true,' +
     '"AQB__Gift__r":{"AQB__AccountId__c":"0015d00003V5f0SAAR","AQB__CreditedOpportunity__c":null,"attributes":{"url":"/services/data/v48.0/sobjects/AQB__Gift__c/a0D5d00001CTEh8EAH","type":"AQB__Gift__c"}},'+
-    '"Id":"a0c5d00000gA6QLAA0","AQB__CampaignAppealId__c":"7011Y000002BRjHQAW","Recurring_Donations__c":null}' +
+    '"Id":"0011Y00002LvEcKQAG","AQB__CampaignAppealId__c":"7011Y000002BRjHQAW","Recurring_Donations__c":null}' +
     ']}';
 
     // Response body from callout that retrieves an Account record from GFW.

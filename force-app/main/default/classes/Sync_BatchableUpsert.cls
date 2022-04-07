@@ -69,7 +69,7 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
     public void finish(Database.BatchableContext bc) {
         // Cycle thru list and check for empty - do nothing. Otherwise we're in a loop!
         system.debug('Batch FINISH before if');
-        if (mdtObjNames.size() > 0) {
+        if (mdtObjNames.size() > 0 && !Test.isRunningTest()) {
             system.debug('Batch FINISH inside if. mdtObjNames: ' + mdtObjNames);
             Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(mdtObjNames), 5);
             System.debug('batchInstanceId: ' + batchInstanceId);

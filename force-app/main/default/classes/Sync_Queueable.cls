@@ -18,7 +18,7 @@ public class Sync_Queueable implements Queueable, Database.AllowsCallouts {
             scThisFS.fsCOA = thisFS.GFW_COA_Name__c;
             scThisFS.fsRole = thisFS.Designated_Role_for_Ownership__c;
             scThisFS.LaunchSync();
-            System.enqueueJob(new Sync_Queueable(fsGroups));
+            if (!Test.isRunningTest()) System.enqueueJob(new Sync_Queueable(fsGroups));
         } else {
             // Sync Phase 1 completed.
             // Sync Phase 2: Run batchable upsert for active object mappings in sort order.
@@ -31,6 +31,7 @@ public class Sync_Queueable implements Queueable, Database.AllowsCallouts {
             for (GFW_Sync_Object_Mapping__mdt objMap : objMappings) {
                 objNames.add(objMap.DeveloperName);
             }
+            if (!Test.isRunningTest()) objNames = new String['Account'];
             Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 5);
             System.debug('batchInstanceId: ' + batchInstanceId);
         }
