@@ -2,22 +2,6 @@
 global class SyncMock implements HttpCalloutMock {
 
     // Full response body from callout for Account record from GFW.
-    private String responseBodyAccountFull = '' +
-    '{' +
-    '"done" : true, ' +
-    '"totalSize" : 14,' +
-    '"records" : ' +
-    '[ { "attributes" : ' +
-    '{"type" : "Account",' +
-    '"url" : "/services/data/v54.0/sobjects/Account/001D000000IRFmaIAH"},' +  
-    '"Name" : "Test 1"},' + 
-    '{ "attributes" : ' +
-    '{"type" : "Account",' +
-    '"url" : "/services/data/v54.0/sobjects/Account/001D000000IomazIAB"},' +
-    '"Name" : "Test 2"}' +
-    ']}';
-
-    // Full response body from callout for Account record from GFW.
     private String responseBodyFull = '' +
     '{' +
     '"done" : true, ' +
