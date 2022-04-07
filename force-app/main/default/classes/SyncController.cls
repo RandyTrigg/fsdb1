@@ -214,41 +214,32 @@ public without sharing class SyncController {
         
         // Build field mapping for each object map
         for (GFW_Sync_Field_Mapping__mdt fmMDT : fieldsMDTs ) {
-            // Initialize mdtObjName on first iteration
-            if (mdtObjName == '') mdtObjName = fmMDT.GFW_Sync_Object_Mapping__r.DeveloperName;
-
-            // On next objMap. Populate field mappings for last object and clear map.
-            if (mdtObjName != fmMDT.GFW_Sync_Object_Mapping__r.DeveloperName) {
-                if (gfwFieldMap != null && !gfwFieldMap.isEmpty()) {
-                    gfwFieldMapByMDTName.put(mdtObjName, gfwFieldMap);
-                    System.debug('gfwFieldMapByMDTName: ' + gfwFieldMapByMDTName);
-                }
-                if (fsdbFieldMap != null && !fsdbFieldMap.isEmpty()) {
-                    fsdbFieldMapByMDTName.put(mdtObjName, fsdbFieldMap);
-                    System.debug('SetFieldMappings inside loop if statement: ' + mdtObjName);
-                }
-                gfwFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
-                fsdbFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
-            }
             mdtObjName = fmMDT.GFW_Sync_Object_Mapping__r.DeveloperName;
-            if (fmMDT.GFW_Field_API_Name__c != null && fmMDT.GFW_Field_API_Name__c != '') gfwFieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT);
-            System.debug('gfwfieldMap: ' + gfwFieldMap);
-            if (fmMDT.FSDB_Field_API_Name__c != null && fmMDT.FSDB_Field_API_Name__c != '') fsdbFieldMap.put(fmMDT.FSDB_Field_API_Name__c, fmMDT);
-            if (mdtObjName == 'ChartOfAccounts') System.debug('COA field mappings');
-            System.debug('fsdbFieldMap: ' + fsdbFieldMap);
-            System.debug('GFW Field Name: ' + fmMDT.GFW_Field_API_Name__c + '; FSDB Field Name: ' + fmMDT.FSDB_Field_API_Name__c);
-        }
-        // Add last set of fieldmappings
-        if (gfwFieldMap != null && !gfwFieldMap.isEmpty()) {
-            gfwFieldMapByMDTName.put(mdtObjName, gfwFieldMap);
-        }
-        if (fsdbFieldMap != null && !fsdbFieldMap.isEmpty()) {
-            fsdbFieldMapByMDTName.put(mdtObjName, fsdbFieldMap);
-            System.debug('SetFieldMappings outside loop if statement: ' + mdtObjName);
-            System.debug('COA fsdbFieldMap: ' + fsdbFieldMap);
+            // GFW field mapping
+            // If obj in map, retrieve its fields, add current field, and replace obj w/ fieldmaps.
+            // Otherwise set obj map to current fieldmap.
+            if (fmMDT.GFW_Field_API_Name__c != null && fmMDT.GFW_Field_API_Name__c != '') {
+                if (gfwFieldMapByMDTName.containsKey(mdtObjName)) {
+                    gfwFieldMap = gfwFieldMapByMDTName.get(mdtObjName); 
+                } else {
+                    gfwFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
+                }
+                gfwFieldMap.put(fmMDT.GFW_Field_API_Name__c, fmMDT);
+                gfwFieldMapByMDTName.put(mdtObjName, gfwFieldMap);
+            }
+            // FSDB field mapping: Same method as above
+            if (fmMDT.FSDB_Field_API_Name__c != null && fmMDT.FSDB_Field_API_Name__c != '') {
+                if (fsdbFieldMapByMDTName.containsKey(mdtObjName)) {
+                    fsdbFieldMap = fsdbFieldMapByMDTName.get(mdtObjName);
+                } else {
+                    fsdbFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
+                }
+                fsdbFieldMap.put(fmMDT.FSDB_Field_API_Name__c, fmMDT);
+                fsdbFieldMapByMDTName.put(mdtObjName, fsdbFieldMap);
+            }
         }
         System.debug('gfwFieldMapByMDTName FINAL: ' + gfwFieldMapByMDTName);
-        System.debug('fsdbFieldMapByMDTName FINAL: ' + fsdbFieldMapByMDTName);
+        System.debug('fsdbFieldMapByMDTName FINAL: ' + fsdbFieldMapByMDTName); 
     }
 
     public Map<String,GFW_Sync_Field_Mapping__mdt> getFieldMappingsGFW(String mdtObjName) {
