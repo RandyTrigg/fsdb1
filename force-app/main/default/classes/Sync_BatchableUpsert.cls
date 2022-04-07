@@ -71,7 +71,7 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
         system.debug('Batch FINISH before if');
         if (mdtObjNames.size() > 0) {
             system.debug('Batch FINISH inside if. mdtObjNames: ' + mdtObjNames);
-            Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(mdtObjNames), 15);
+            Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(mdtObjNames), 5);
             System.debug('batchInstanceId: ' + batchInstanceId);
         }
     }

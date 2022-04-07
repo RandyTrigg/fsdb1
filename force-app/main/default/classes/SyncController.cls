@@ -304,26 +304,28 @@ public without sharing class SyncController {
 
     // Build set of Ids for records not already in FSDB to insert 
     public Set<Id> recIdsToInsert(String mdtObjName, Set<Id> idsGathered) {
-        System.debug('idsGathered: ' + idsGathered);
-        GFW_Sync_Object_Mapping__mdt objMDT = getObjectMapping(mdtObjName);
-        String gfwObjName = objMDT.GFW_Object_Name__c;
-        String fsdbObjName = objMDT.FSDB_Object_Name__c;
-        String inIDsStr = Utilities.packageIdsForQuery(idsGathered);
-        String extIdFieldName = externalIdFieldName(mdtObjName);
-        System.debug('external id fieldname for ' + mdtObjName + ': ' + extIdFieldName);
-        String whereClause = 'WHERE ' + externalIdFieldName(mdtObjName) + ' IN ' + inIDsStr; 
         Set<Id> idsToQuery = new Set<Id>();
-        List<sObject> exstRecs = Utilities.fetchRecords(
-            fsdbObjName, whereClause, null);
-        System.debug('Existing recs: ' + exstRecs);
-        if (exstRecs!=null && !exstRecs.IsEmpty()) {
-            // Remove existing ids from list
-            for (sObject extRec : exstRecs) {
-                idsGathered.remove((Id)extRec.get(extIdFieldName));
+        System.debug('idsGathered: ' + idsGathered);
+        if (!idsGathered.isEmpty()) {
+            GFW_Sync_Object_Mapping__mdt objMDT = getObjectMapping(mdtObjName);
+            String gfwObjName = objMDT.GFW_Object_Name__c;
+            String fsdbObjName = objMDT.FSDB_Object_Name__c;
+            String inIDsStr = Utilities.packageIdsForQuery(idsGathered);
+            String extIdFieldName = externalIdFieldName(mdtObjName);
+            System.debug('external id fieldname for ' + mdtObjName + ': ' + extIdFieldName);
+            String whereClause = 'WHERE ' + externalIdFieldName(mdtObjName) + ' IN ' + inIDsStr; 
+            List<sObject> exstRecs = Utilities.fetchRecords(
+                fsdbObjName, whereClause, null);
+            System.debug('Existing recs: ' + exstRecs);
+            if (exstRecs!=null && !exstRecs.IsEmpty()) {
+                // Remove existing ids from list
+                for (sObject extRec : exstRecs) {
+                    idsGathered.remove((Id)extRec.get(extIdFieldName));
+                }
             }
+            idsToQuery.addAll(idsGathered);
+            System.debug('idsToQuery: ' + idsToQuery);
         }
-        idsToQuery.addAll(idsGathered);
-        System.debug('idsToQuery: ' + idsToQuery);
         return idsToQuery;
     }
 
@@ -359,9 +361,9 @@ public without sharing class SyncController {
     // Create new Sync Log
     public void newSyncLog() {
         Sync_Log__c sLog = new Sync_Log__c(
-            Type__c = 'Gifts: GFW to FSDB',
+            Type__c = 'GFW to FSDB',
             DateTime_Start__c = startDateTime,
-            Status__c = 'Pending'
+            Status__c = 'Launched'
         );
         insert sLog;
         syncLogId = sLog.Id;
@@ -378,9 +380,9 @@ public without sharing class SyncController {
                 slRec.Sync_Log__c = syncLogId;
                 slRec.Status__c = 'Pending';
                 slRec.Type__c = mdtObjName;
-                slRecList.add(slRec);
                 slRec.FSGroupOwnerId__c = fsOwnerId;
                 slRec.FS_Group__c = fsCOA;
+                slRecList.add(slRec);
             }
         }
         if (slRecList != null && slRecList.size() > 0) {
