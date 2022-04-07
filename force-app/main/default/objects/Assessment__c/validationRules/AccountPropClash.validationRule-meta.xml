@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AccountPropClash</fullName>
+    <active>true</active>
+    <description>The linked milestone must be linked to this assessment&apos;s linked proposal, and both must belong to the linked account.</description>
+    <errorConditionFormula>OR(
+ AND(
+  NOT(ISBLANK(Milestone__c)),
+  NOT(ISBLANK(Proposal__c)),
+  Proposal__c &lt;&gt; Milestone__r.Proposal__c
+ ),
+ AND(
+  NOT(ISBLANK(Proposal__c)),
+  NOT(ISBLANK(Account__c)),
+  Account__c &lt;&gt; Proposal__r.Account__c
+  )
+)</errorConditionFormula>
+    <errorMessage>The linked milestone must be linked to this assessment&apos;s linked proposal, and both must belong to the linked account.</errorMessage>
+</ValidationRule>

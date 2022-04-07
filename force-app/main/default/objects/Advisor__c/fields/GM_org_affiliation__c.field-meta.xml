@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GM_org_affiliation__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The GM organization (if any) with which this advisor is affiliated (employee, consultant, board member, etc.)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The GM organization (if any) with which this advisor is affiliated (employee, consultant, board member, etc.)</inlineHelpText>
+    <label>GM org affiliation</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Affiliated advisors</relationshipLabel>
+    <relationshipName>Advisors1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

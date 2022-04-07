@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compact_Advisor</fullName>
+    <fields>Name</fields>
+    <fields>Current_assessor_term_type__c</fields>
+    <fields>GM_org_affiliation__c</fields>
+    <fields>Contact_emails__c</fields>
+    <fields>Language__c</fields>
+    <fields>Keep_confidential__c</fields>
+    <fields>Account__c</fields>
+    <fields>Contact__c</fields>
+    <fields>LastModifiedById</fields>
+    <label>Compact Advisor</label>
+</CompactLayout>

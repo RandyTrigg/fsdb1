@@ -1,5 +1,5 @@
 @isTest
-public class TemplateControllerTest {
+public with sharing class TemplateControllerTest {
     // Test of TemplateMacros class
     static testMethod void TemplateControllerTest1() {
         // Build new accounts, template macros, templates

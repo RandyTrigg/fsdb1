@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Phrase_Title__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The (translatable) title phrase for this form</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The (translatable) title phrase for this form</inlineHelpText>
+    <label>Form Phrase Title</label>
+    <referenceTo>Form_Phrase__c</referenceTo>
+    <relationshipLabel>Forms (Form Phrase Title)</relationshipLabel>
+    <relationshipName>Forms1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

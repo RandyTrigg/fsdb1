@@ -1,4 +1,4 @@
-public class ProfileController {
+public with sharing class ProfileController {
     public static String notificationTemplateName = 'Request to submit Updated Profile';
 
     /**********************************
@@ -544,7 +544,7 @@ public class ProfileController {
             if (accId != null)
                 accIds.add(accId);
         }
-        Map<Id, List<String>> emails = AccountController.emailsForAccounts(accIds);
+        Map<Id, List<String>> emails = Utilities.emailsForAccounts(accIds);
         // Build new letters for selected records.
         Id templateId = Utilities.recordIdFromName(
             'Template__c',

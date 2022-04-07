@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_numeric__c</fullName>
+    <description>Numeric representation of the status, for use in sorting at online apps</description>
+    <externalId>false</externalId>
+    <formula>/* Note that all non-pending statuses have number 2 in order that form instance sorting works at online apps. */
+IF(Status__c = &quot;Pending&quot;, 1, 2)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Numeric representation of the status, for use in sorting at online apps</inlineHelpText>
+    <label>Status numeric</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

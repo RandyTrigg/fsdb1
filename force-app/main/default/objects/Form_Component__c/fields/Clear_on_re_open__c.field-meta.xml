@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Clear_on_re_open__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If checked, then delete the form data associated with this component when a form instance is re-opened, that is, when its Date Submitted is cleared.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If checked, then delete the form data associated with this component when a form instance is re-opened, that is, when its Date Submitted is cleared.</inlineHelpText>
+    <label>Clear on re-open</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

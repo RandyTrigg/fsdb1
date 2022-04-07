@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reporting_Forms_Final</fullName>
+    <columns>NAME</columns>
+    <columns>Active__c</columns>
+    <columns>Closing_survey_form__c</columns>
+    <columns>Prequal_form__c</columns>
+    <columns>Sort_number__c</columns>
+    <columns>Form_Phrase_Title__c</columns>
+    <columns>Form_Phrase_sub_title__c</columns>
+    <columns>Form_Phrase_Intro__c</columns>
+    <columns>Form_languages_unavailable__c</columns>
+    <columns>Under_construction__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>NAME</field>
+        <operation>contains</operation>
+        <value>ReportingQs</value>
+    </filters>
+    <filters>
+        <field>NAME</field>
+        <operation>notContain</operation>
+        <value>Interim</value>
+    </filters>
+    <label>Reporting Forms - Final</label>
+</ListView>

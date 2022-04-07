@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AmountReturnedDateReturned</fullName>
+    <active>true</active>
+    <description>Amount returned and Date returned must either both be blank or both non-blank.</description>
+    <errorConditionFormula>AND(
+ OR(
+  ISNEW(),
+  ISCHANGED(Amount_returned__c),
+  ISCHANGED(Date_returned__c)
+ ),
+ ISBLANK(Amount_returned__c) &lt;&gt; ISBLANK(Date_returned__c)
+)</errorConditionFormula>
+    <errorMessage>Amount returned and Date returned must either both be blank or both non-blank.</errorMessage>
+</ValidationRule>

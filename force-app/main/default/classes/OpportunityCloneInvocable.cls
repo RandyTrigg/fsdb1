@@ -1,4 +1,4 @@
-public class OpportunityCloneInvocable {
+public with sharing class OpportunityCloneInvocable {
     @InvocableMethod(
         label='Clone closed opportunity'
         description='Clone closed opportunity'

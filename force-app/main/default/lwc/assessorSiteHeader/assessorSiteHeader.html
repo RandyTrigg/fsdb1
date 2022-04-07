@@ -1,0 +1,68 @@
+<template>
+    <header class="slds-global-header_container gfw-header-container">
+        <div class="slds-global-header slds-grid gfw-global-header slds-grid_align-spread">
+            <div class="slds-global-header__item">
+                <!-- <div class="slds-global-header__logo">
+                    <span class="slds-assistive-text">Back Home</span>
+                    <img class="gfw-logo-header gfw-pointer" src={gfwLogo} onclick={handleHome}>
+                </div> -->
+                
+                <lightning-button-icon
+                    label="Home"
+                    class="slds-float_left"
+                    icon-name="utility:home"
+                    size="large"
+                    variant="bare"
+                    onclick={handleHome}
+                    alternative-text="Back to Home">
+                </lightning-button-icon>
+            </div>
+            <!-- <div class="slds-global-header__item slds-col_bump-left">
+                <lightning-combobox
+                    class="gfw-menu-item"
+                    name="language"
+                    value={value}
+                    placeholder="Select Language"
+                    options={options}
+                    onchange={handleChange} >
+                </lightning-combobox>
+            </div> -->
+            <div class="slds-global-header__item">
+                <lightning-button-menu 
+                    alternative-text="Show menu" 
+                    icon-name="utility:settings" 
+                    variant="border-inverse"
+                    menu-alignment="auto"
+                    onselect={handleMenuSelect}>
+                        <lightning-menu-item 
+                            value="GetHelp" 
+                            label="Support" 
+                            href="mailto:grantsinfo@globalfundforwomen.org?Subject=Question about Assessor Site" 
+                            target="_blank">
+                        </lightning-menu-item>
+                        <lightning-menu-item 
+                            value="Logout" 
+                            label="Logout" 
+                            onclick={handleLogout}>
+                        </lightning-menu-item>
+                </lightning-button-menu>
+            </div>
+        </div>
+        <div if:false={hideSearch} class="slds-global-header slds-grid gfw-search-header slds-grid_align-center">
+            <div class="slds-global-header__item gfw-global-search">
+                <c-lookup
+                    data-id="searchLookup"    
+                    errors={errors}
+                    onsearch={handleLookupSearch}
+                    onclick={handleSearchClick}
+                    placeholder="Search Items"
+                    scroll-after-n-items="10"
+                    is-multi-entry={isMultiEntry}
+                    apply-gfw-icon-color="true"
+                    required
+                >
+                </c-lookup>
+            </div>
+        </div>
+    </header>    
+</template>

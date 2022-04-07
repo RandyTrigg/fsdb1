@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <name>GlobalValueSet</name>
+    </types>
+    <types>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <name>Layout</name>
+    </types>
+    <types>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>GFW community member Assessor</members>
+        <name>Profile</name>
+    </types>
+    <version>53.0</version>
+</Package>

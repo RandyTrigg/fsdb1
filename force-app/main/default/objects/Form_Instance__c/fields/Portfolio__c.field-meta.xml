@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Portfolio__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The restricted portfolio (if any) to which this eligibility form instance is linked</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The restricted portfolio (if any) to which this eligibility form instance is linked</inlineHelpText>
+    <label>Portfolio</label>
+    <referenceTo>Portfolio__c</referenceTo>
+    <relationshipLabel>Form Instances</relationshipLabel>
+    <relationshipName>Form_Instances</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

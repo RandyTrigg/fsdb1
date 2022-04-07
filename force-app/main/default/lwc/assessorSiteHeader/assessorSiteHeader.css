@@ -1,0 +1,25 @@
+.gfw-global-header {
+	background: #D228F4;
+}
+.gfw-logo-header {
+	height: inherit;
+}
+.gfw-search-header {
+	background: #F6F3F8;
+}
+.gfw-menu-item {
+    display: inline-flex;
+}
+
+.gfw-pointer{
+    cursor: pointer;
+}
+
+.gfw-global-search {
+    max-width: var(--lwc-sizeMedium, 30rem);
+    min-width: var(--lwc-sizeMedium, 20rem);
+}
+
+:host {
+    --sds-c-button-color-background: #ffffff;
+}

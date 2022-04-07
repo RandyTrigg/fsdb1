@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Phrase_confirm__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The text to display on the confirm page for this form (Confirm page appears prior to entering the form and only for &quot;non-invited&quot; proposals, ie auto-assigned invites to allocations). If blank, confirm page is skipped.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The text to display on the confirm page for this form (Confirm page appears prior to entering the form and only for &quot;non-invited&quot; proposals, ie auto-assigned invites to allocations). If blank, confirm page is skipped.</inlineHelpText>
+    <label>Form Phrase confirm</label>
+    <referenceTo>Form_Phrase__c</referenceTo>
+    <relationshipLabel>Forms (Form Phrase confirm)</relationshipLabel>
+    <relationshipName>Forms9</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ContractSignerClash</fullName>
+    <active>true</active>
+    <description>The contract signer contact must belong to the advisor&apos;s account</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Contract_signer__c)),
+ Contract_signer__r.AccountId &lt;&gt; Advisor__r.Account__c
+)</errorConditionFormula>
+    <errorDisplayField>Contract_signer__c</errorDisplayField>
+    <errorMessage>The contract signer contact must belong to the advisor&apos;s account</errorMessage>
+</ValidationRule>

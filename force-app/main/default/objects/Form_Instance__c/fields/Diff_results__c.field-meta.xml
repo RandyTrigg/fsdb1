@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Diff_results__c</fullName>
+    <description>The results of comparing the form data of this form instance with the prior one from which form data was pre-populated. The diff is computed when this form instance is submitted.  The results are a list of component names whose values differ.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The results of comparing the form data of this form instance with the prior one from which form data was pre-populated. The diff is computed when this form instance is submitted.  The results are a list of component names whose values differ.</inlineHelpText>
+    <label>Diff results</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

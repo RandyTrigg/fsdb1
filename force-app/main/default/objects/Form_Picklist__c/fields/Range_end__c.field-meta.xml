@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Range_end__c</fullName>
+    <description>The end value of the numeric range associated with this picklist</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The end value of the numeric range associated with this picklist</inlineHelpText>
+    <label>Range end</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

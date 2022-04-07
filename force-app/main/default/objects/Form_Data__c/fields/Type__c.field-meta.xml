@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <description>The type of this data</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The type of this data</inlineHelpText>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>email</fullName>
+                <default>false</default>
+                <label>email</label>
+            </value>
+            <value>
+                <fullName>number</fullName>
+                <default>false</default>
+                <label>number</label>
+            </value>
+            <value>
+                <fullName>text</fullName>
+                <default>false</default>
+                <label>text</label>
+            </value>
+            <value>
+                <fullName>textarea</fullName>
+                <default>false</default>
+                <label>textarea</label>
+            </value>
+            <value>
+                <fullName>indicator</fullName>
+                <default>false</default>
+                <label>indicator</label>
+            </value>
+            <value>
+                <fullName>select</fullName>
+                <default>false</default>
+                <label>select</label>
+            </value>
+            <value>
+                <fullName>radio</fullName>
+                <default>false</default>
+                <label>radio</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

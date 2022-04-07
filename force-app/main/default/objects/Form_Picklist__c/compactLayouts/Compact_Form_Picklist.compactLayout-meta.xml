@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Compact_Form_Picklist</fullName>
+    <fields>Name</fields>
+    <fields>Type__c</fields>
+    <fields>No_dupe_selections_within_item__c</fields>
+    <fields>Range_start__c</fields>
+    <fields>Range_end__c</fields>
+    <fields>LastModifiedById</fields>
+    <fields>CreatedById</fields>
+    <label>Compact Form Picklist</label>
+</CompactLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Missing_Form_link</fullName>
+    <active>true</active>
+    <description>A form instance record must have a non-blank Form link.</description>
+    <errorConditionFormula>ISBLANK(Form__c)</errorConditionFormula>
+    <errorDisplayField>Form__c</errorDisplayField>
+    <errorMessage>A form instance record must have a non-blank Form link.</errorMessage>
+</ValidationRule>

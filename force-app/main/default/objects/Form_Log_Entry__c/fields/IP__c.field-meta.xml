@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IP__c</fullName>
+    <description>IP number logged in at the time of this log entry</description>
+    <externalId>false</externalId>
+    <inlineHelpText>IP number logged in at the time of this log entry</inlineHelpText>
+    <label>IP</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

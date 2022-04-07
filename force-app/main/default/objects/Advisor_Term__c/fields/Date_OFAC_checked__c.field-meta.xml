@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_OFAC_checked__c</fullName>
+    <description>Date of last OFAC check for the advisor name</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date of last OFAC check for the advisor name</inlineHelpText>
+    <label>Date OFAC checked</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

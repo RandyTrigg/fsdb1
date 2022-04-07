@@ -1,9 +1,9 @@
 // Workhorse class for resetting the bodies of a collection of letters.
-public class LetterReset {
+public with sharing class LetterReset {
     public LetterReset() {
     }
 
-    public class letterResetException extends Exception {
+    public with sharing class letterResetException extends Exception {
     }
     private String defaultLanguage = Utilities.defaultLanguage();
 

@@ -1,5 +1,5 @@
 @isTest
-public class PaymentMethodControllerTest {
+public with sharing class PaymentMethodControllerTest {
     static testMethod void PaymentMethodControllerTest1a() {
         // Build new payment methods, proposals and accounts
         InitTestObjects(1, 1);
@@ -57,7 +57,7 @@ public class PaymentMethodControllerTest {
         system.assertEquals(lMap.size(), pMap.size());
         // Gather email addresses for contacts under the accounts.
         Map<Id, Account> aMap = new Map<Id, Account>([SELECT Id FROM Account]);
-        Map<Id, List<String>> emailMap = AccountController.emailsForAccounts(
+        Map<Id, List<String>> emailMap = Utilities.emailsForAccounts(
             aMap.keySet()
         );
         // The emails stored on the letter need to agree with the account's emails.

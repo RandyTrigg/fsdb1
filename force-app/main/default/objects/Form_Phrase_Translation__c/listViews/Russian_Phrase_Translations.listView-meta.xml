@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Russian_Phrase_Translations</fullName>
+    <columns>NAME</columns>
+    <columns>Form_Phrase__c</columns>
+    <columns>Revise__c</columns>
+    <columns>Language__c</columns>
+    <columns>Text__c</columns>
+    <columns>Text_in_English__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Language__c</field>
+        <operation>equals</operation>
+        <value>Russian</value>
+    </filters>
+    <label>Phrase Translations RUSSIAN</label>
+</ListView>

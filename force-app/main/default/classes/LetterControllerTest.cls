@@ -1,5 +1,5 @@
 @isTest
-public class LetterControllerTest {
+public with sharing class LetterControllerTest {
     /*
      * Test of LetterReset class
      */
@@ -90,10 +90,9 @@ public class LetterControllerTest {
             accts.add(
                 new Account(
                     Name = 'LetterTest_' + String.valueOf(x),
-                    // Record type Household is currently (10/8/20) hidden for FFDB
                     RecordTypeId = Utilities.getRecTypeId(
                         'Account',
-                        'Organization' // 'Household'
+                        'HH_Account'
                     ),
                     Description = String.valueOf(Math.mod(x, 2))
                 )
@@ -190,10 +189,9 @@ public class LetterControllerTest {
             accts.add(
                 new Account(
                     Name = 'LetterTest_' + String.valueOf(x),
-                    // Record type Household is currently (10/8/20) hidden for FFDB
                     RecordTypeId = Utilities.getRecTypeId(
                         'Account',
-                        'Organization' // 'Household'
+                        'HH_Account'
                     ),
                     Description = String.valueOf(Math.mod(x, 2))
                 )
@@ -313,10 +311,9 @@ public class LetterControllerTest {
         // Build new accounts, letters, template pieces, template macros, templates
         insert new Account(
             Name = 'LetterTest',
-            // Record type Household is currently (10/8/20) hidden for FFDB
             RecordTypeId = Utilities.getRecTypeId(
                 'Account',
-                'Organization' // 'Household'
+                'HH_Account'
             )
         );
         Id acc1Id = [SELECT Id FROM Account LIMIT 1].Id;

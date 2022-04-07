@@ -1,5 +1,5 @@
 @isTest
-public class FundControllerTest {
+public with sharing class FundControllerTest {
     static testMethod void FundControllerTest1() {
         // Build new records.
         insert new ChartofAccounts__c(Name = 'Test c-of-a');
@@ -16,12 +16,14 @@ public class FundControllerTest {
                 'Fund__c',
                 'Standard' // 'Overhead'
             ),
+            Active__c = true,
             Name = 'Testfundoverhead',
             Amount_funded__c = 0,
             Fiscal_year__c = fy
         );
         insert new Fund__c(
             RecordTypeId = Utilities.getRecTypeId('Fund__c', 'Standard'),
+            Active__c = true,
             Name = 'Testfundstandard',
             Amount_funded__c = 100,
             Fiscal_year__c = fy
@@ -38,6 +40,7 @@ public class FundControllerTest {
                 'Fund__c',
                 'Standard' // 'Pending'
             ),
+            Active__c = true,
             Name = 'Testfundpending',
             Amount_funded__c = 100,
             Fiscal_year__c = fy
@@ -64,6 +67,7 @@ public class FundControllerTest {
         // Build a fund with no projections/distributions whose total amount projected needs to be zeroed out.
         insert new Fund__c(
             RecordTypeId = Utilities.getRecTypeId('Fund__c', 'Standard'),
+            Active__c = true,
             Name = 'Testfundstandard 3',
             Amount_funded__c = 100,
             Total_available__c = 10
@@ -107,7 +111,7 @@ public class FundControllerTest {
         FundUpdateTotalInvocable.updateTotal(new List<Id>{ fund1.Id });
         System.schedule(
             'UpdateTotals test',
-            '0 0 0 15 3 ? 2022',
+            '0 0 0 15 3 ?',
             new FundUpdateTotalsSchedule()
         );
     }

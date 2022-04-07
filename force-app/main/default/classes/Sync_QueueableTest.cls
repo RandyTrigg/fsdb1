@@ -1,8 +1,7 @@
 @isTest
 public without sharing class Sync_QueueableTest {
 
-    @isTest
-    static void QueueableTest() {
+    static testmethod void QueueableTest() {
         
         Test.setMock(HttpCalloutMock.class, new SyncMock());
 
@@ -25,4 +24,15 @@ public without sharing class Sync_QueueableTest {
         system.assert(accts.size()>0);
         system.assertEquals(logRecs.size(), accts.size());
     }
+
+    static testmethod void SchedulableTest() {
+        Test.setMock(HttpCalloutMock.class, new SyncMock());
+        Test.StartTest();
+        // Test sync via the schedulable class.
+        String CRON_EXP = '0 0 0 15 3 ? 2022';    
+        String jobId = system.schedule('Sync', CRON_EXP, new Sync_QueueableSchedule());
+        Test.StopTest();
+    }
+
+
 }

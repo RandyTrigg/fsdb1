@@ -1,5 +1,5 @@
 @isTest
-public class UpdateAccountContactInfoTest {
+public with sharing class UpdateAccountContactInfoTest {
     static testMethod void UpdateAccountContactInfoTest1() {
         // Build data records
         insert new Region__c(Name = 'Region test');

@@ -1,4 +1,4 @@
-global class InvitesAllocationsForRstInvocable {
+global with sharing class InvitesAllocationsForRstInvocable {
     @InvocableMethod(
         label='Build invites and allocations for charges on a fund'
         description='Build invites and allocations for charges on a fund'
@@ -17,7 +17,7 @@ global class InvitesAllocationsForRstInvocable {
         InviteController.newAllocationsInvitesForFund(request.fundId);
     }
 
-    global class NewInvsAllocsRequest {
+    global with sharing class NewInvsAllocsRequest {
         @InvocableVariable(required=true)
         public Id fundId;
     }

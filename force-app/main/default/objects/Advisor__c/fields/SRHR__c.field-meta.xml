@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SRHR__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Advisor expertise aligned with GFW thematic priority of SRHR (self-selected)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Advisor expertise aligned with GFW thematic priority of SRHR (self-selected)</inlineHelpText>
+    <label>SRHR</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

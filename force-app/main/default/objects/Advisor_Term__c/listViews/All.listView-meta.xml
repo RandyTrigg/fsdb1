@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>RECORDTYPE</columns>
+    <columns>Type__c</columns>
+    <columns>Advisor__c</columns>
+    <columns>Date_term_begins__c</columns>
+    <columns>Date_term_ends__c</columns>
+    <columns>Date_commitment_letter_received__c</columns>
+    <columns>Date_payment_sent__c</columns>
+    <columns>Payment_amount__c</columns>
+    <columns>Payment_method__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

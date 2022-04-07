@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>In_process_or_flow__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked if this record is currently being updated in a process or flow. Prevents recursive calls.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if this record is currently being updated in a process or flow. Prevents recursive calls.</inlineHelpText>
+    <label>In process or flow</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

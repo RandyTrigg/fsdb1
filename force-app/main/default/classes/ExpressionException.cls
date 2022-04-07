@@ -1,4 +1,4 @@
-public class ExpressionException extends Exception {
+public with sharing class ExpressionException extends Exception {
     public Integer pos;
     // Exception class constructor     
     public ExpressionException(string message, Integer pos) {

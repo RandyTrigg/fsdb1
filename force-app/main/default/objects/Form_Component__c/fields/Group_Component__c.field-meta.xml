@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Group_Component__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The parent component of this component, if any.  Used for example, to pack multiple components into a single cell of a table.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The parent component of this component, if any.  Used for example, to pack multiple components into a single cell of a table.</inlineHelpText>
+    <label>Group Component</label>
+    <referenceTo>Form_Component__c</referenceTo>
+    <relationshipLabel>Form Components</relationshipLabel>
+    <relationshipName>Form_Components</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

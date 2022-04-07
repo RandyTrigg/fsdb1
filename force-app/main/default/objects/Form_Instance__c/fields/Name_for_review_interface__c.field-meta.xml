@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Name_for_review_interface__c</fullName>
+    <description>Name to use for this form instance in the left side of review interfaces</description>
+    <externalId>false</externalId>
+    <formula>/* Start with form title or form name */
+IF(NOT(ISBLANK( Form__r.Form_Phrase_Title__c )), 
+ Form__r.Form_Phrase_Title__r.Phrase_in_English_trimmed__c,
+ Form__r.Name
+) &amp;
+
+/* Add parenthetical with date submitted or due. */
+&quot; (&quot; &amp; 
+IF( NOT(ISBLANK(Date_submitted__c)), &quot;submitted &quot; &amp; TEXT(Date_submitted__c), &quot;due &quot; &amp; TEXT(Date_due__c) ) &amp; 
+
+/* For profiles indicate whether it&apos;s the latest or an earlier version. */
+IF(CONTAINS(Form__r.Name, &quot;Profile&quot;) &amp;&amp;  NOT(ISBLANK(Profile__c)),
+ IF(ISBLANK(Profile__r.Next_profile__c), &quot;, latest profile&quot;, &quot;, prior profile&quot;),
+ &quot;&quot;
+) &amp;
+
+/* Close parenthetical */
+&quot;)&quot;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Name to use for this form instance in the left side of review interfaces</inlineHelpText>
+    <label>Name for review interface</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

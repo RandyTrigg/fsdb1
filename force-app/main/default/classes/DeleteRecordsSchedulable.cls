@@ -2,7 +2,7 @@
  * Delete collections of records determined by SOQL queries found in custom settings.
  * Run this on a regular basis, by using the Schedule button from the Setup/apex classes/ interface.
  */
-global class DeleteRecordsSchedulable implements Schedulable {
+global with sharing class DeleteRecordsSchedulable implements Schedulable {
     global void execute(SchedulableContext scMain) {
         // Look for active queries to run from custom settings.
         // Note that the max length of a query is 255 characters.

@@ -1,0 +1,25 @@
+<apex:page standardController="Assessment__c" extensions="AssessmentController" recordSetVar="assessments">
+    <apex:form >
+       <apex:pageBlock title="New letters for selected assessments">
+           <apex:outputText value="{!$Setup.VF_text_Letter_reset__c.Text__c}" />
+           <apex:pageBlockSection />
+           <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!buildLetters}" value="Confirm" title="Build new letters for these assessments"/>
+                <apex:commandButton action="{!doCancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Information" >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Template</apex:outputLabel>
+                    <apex:selectList multiselect="false" size="1" value="{!selectedTemplate}">
+                        <apex:selectOptions value="{!templates}" />
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>     
+            <apex:pageBlockTable value="{!selected}" var="assessment">
+                <apex:column value="{!assessment.Name}"/>
+                <apex:column value="{!assessment.Advisor__r.Name}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

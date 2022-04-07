@@ -1,0 +1,28 @@
+.gfw-brand {
+    /* color: var(--lwc-brandAccessible); */
+    color: #ad06e8;
+}
+
+.gfw-label {
+    color:#16325c;
+}
+
+.gfw-indicator-comment {
+    width:90vmin;
+}
+
+.slds-docked-form-footer {
+    position: sticky; 
+}
+
+.force-align {
+    display:inherit
+}
+
+.fullViewport {
+    height:75vmin;
+}
+
+.partialViewport {
+    height:60vmin;
+}

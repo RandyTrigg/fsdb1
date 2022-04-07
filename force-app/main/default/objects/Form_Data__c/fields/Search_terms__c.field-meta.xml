@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Search_terms__c</fullName>
+    <description>Comma-separated list of search terms that appear in the Data textarea field of this form data (auto-maintained by apex code)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Comma-separated list of search terms that appear in the Data textarea field of this form data (auto-maintained by apex code)</inlineHelpText>
+    <label>Search terms</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

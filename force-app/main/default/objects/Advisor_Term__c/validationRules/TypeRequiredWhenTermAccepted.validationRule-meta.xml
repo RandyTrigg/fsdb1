@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TypeRequiredWhenTermAccepted</fullName>
+    <active>true</active>
+    <description>The Type field must be entered if the Date accepted is non-blank</description>
+    <errorConditionFormula>AND( 
+ NOT(ISBLANK(Date_accepted__c)), 
+ ISBLANK(TEXT(Type__c)) 
+)</errorConditionFormula>
+    <errorDisplayField>Type__c</errorDisplayField>
+    <errorMessage>The Type field must be entered if the Date accepted is non-blank</errorMessage>
+</ValidationRule>

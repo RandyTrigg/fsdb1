@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_submit_enabled_later_than_date_due</fullName>
+    <active>true</active>
+    <description>The date submit enabled, if non-blank, must not be later than the date due.</description>
+    <errorConditionFormula>AND(
+ NOT(ISBLANK(Date_submit_enabled__c)),
+ NOT(ISBLANK(Date_due__c)),
+ Date_submit_enabled__c &gt; Date_due__c
+)</errorConditionFormula>
+    <errorMessage>The date submit enabled, if non-blank, must not be later than the date due.</errorMessage>
+</ValidationRule>

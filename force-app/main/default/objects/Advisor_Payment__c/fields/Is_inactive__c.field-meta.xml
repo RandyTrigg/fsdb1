@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_inactive__c</fullName>
+    <description>Payment is considered inactive if there is a date returned and the parent advisor term is fully paid.</description>
+    <externalId>false</externalId>
+    <formula>AND(NOT(ISBLANK( Date_returned__c )), Advisor_Term__r.To_be_paid__c == 0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Payment is considered inactive if there is a date returned and the parent advisor term is fully paid.</inlineHelpText>
+    <label>Is inactive</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Phrase_in_English_trimmed__c</fullName>
+    <description>First 255 characters of the &quot;Phrase in English&quot; field (auto-maintained)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>First 255 characters of the &quot;Phrase in English&quot; field (auto-maintained)</inlineHelpText>
+    <label>Phrase in English (trimmed)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

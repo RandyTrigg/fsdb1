@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Country_2__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Second country of expertise</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Second country of expertise</inlineHelpText>
+    <label>Country 2</label>
+    <referenceTo>Country__c</referenceTo>
+    <relationshipLabel>Advisors (Country 2)</relationshipLabel>
+    <relationshipName>Advisors1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

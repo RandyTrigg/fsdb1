@@ -3,7 +3,7 @@
  * Invoke, for example, over all contacts, by typing this at Execute Anonymous:
  *     Id batchInstanceId = Database.executeBatch(new GenericTouchRecordsBatch('select id from Contact'));
  */
-global class GenericTouchRecordsBatch implements Database.Batchable<sObject> {
+global with sharing class GenericTouchRecordsBatch implements Database.Batchable<sObject> {
     private String query;
 
     global GenericTouchRecordsBatch(String query) {

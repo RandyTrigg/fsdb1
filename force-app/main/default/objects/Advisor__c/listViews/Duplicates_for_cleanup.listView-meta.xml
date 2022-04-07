@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Duplicates_for_cleanup</fullName>
+    <columns>OBJECT_ID</columns>
+    <columns>NAME</columns>
+    <columns>Type__c</columns>
+    <columns>SavedSetNames__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>SavedSetNames__c</field>
+        <operation>contains</operation>
+        <value>Duplicate</value>
+    </filters>
+    <label>Duplicates - for cleanup</label>
+</ListView>

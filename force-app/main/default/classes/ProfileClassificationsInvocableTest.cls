@@ -1,5 +1,5 @@
 @isTest
-public class ProfileClassificationsInvocableTest {
+public with sharing class ProfileClassificationsInvocableTest {
     static testMethod void ProfileClassificationsInvocableTest() {
         // Build new records
         insert new Profile__c();

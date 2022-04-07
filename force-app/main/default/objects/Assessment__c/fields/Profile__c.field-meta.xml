@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Profile__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The profile to which this assessment is linked</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The profile to which this assessment is linked</inlineHelpText>
+    <label>Profile</label>
+    <referenceTo>Profile__c</referenceTo>
+    <relationshipLabel>Assessments</relationshipLabel>
+    <relationshipName>Assessments</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

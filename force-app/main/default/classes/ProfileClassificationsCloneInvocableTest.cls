@@ -1,5 +1,5 @@
 @isTest
-public class ProfileClassificationsCloneInvocableTest {
+public with sharing class ProfileClassificationsCloneInvocableTest {
     static testMethod void ProfileClassificationsCloneInvocableTest() {
         // Build new records
         BuildTestProposals.InitTestObjects(1, 1);

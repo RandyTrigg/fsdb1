@@ -1,4 +1,4 @@
-public class PaymentMethodNewInvocable {
+public with sharing class PaymentMethodNewInvocable {
     @InvocableMethod(
         label='Build new payment method, normally by cloning a prior payment method'
         description='Build new payment method, normally by cloning a prior payment method'

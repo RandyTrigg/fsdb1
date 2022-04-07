@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Phrase_form_invalid__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The &quot;warning&quot; text to use if the form instance is invalid</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The &quot;warning&quot; text to use if the form instance is invalid</inlineHelpText>
+    <label>Form Phrase form invalid</label>
+    <referenceTo>Form_Phrase__c</referenceTo>
+    <relationshipLabel>Forms (Form Phrase form closed)</relationshipLabel>
+    <relationshipName>Formswy5j</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Needs_picklist</fullName>
+    <active>true</active>
+    <description>A component that is of type select or a collection of radio buttons must have non-blank picklist.</description>
+    <errorConditionFormula>AND(
+ ISBLANK( Form_Picklist__c ),
+ OR(
+   ISPICKVAL(Type__c, &quot;select&quot;), 
+   ISPICKVAL(Type__c, &quot;radio&quot;), 
+   ISPICKVAL(Type__c, &quot;radio in-line&quot;)
+ )
+)</errorConditionFormula>
+    <errorDisplayField>Form_Picklist__c</errorDisplayField>
+    <errorMessage>A component that is of type select or a collection of radio buttons must have non-blank picklist.</errorMessage>
+</ValidationRule>

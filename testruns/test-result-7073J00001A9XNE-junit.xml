@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="force.apex" timestamp="2022-03-23T15:34:39.000Z" hostname="https://globalfundforwomen-fs--gm.my.salesforce.com" tests="124" failures="42"  errors="0"  time="293.05">
+        <properties>
+            <property name="outcome" value="Failed"/>
+            <property name="testsRan" value="124"/>
+            <property name="passing" value="82"/>
+            <property name="failing" value="42"/>
+            <property name="skipped" value="0"/>
+            <property name="passRate" value="66%"/>
+            <property name="failRate" value="34%"/>
+            <property name="testStartTime" value="Wed Mar 23 2022 8:34:39 AM"/>
+            <property name="testExecutionTime" value="293.05 s"/>
+            <property name="testTotalTime" value="293.05 s"/>
+            <property name="commandTime" value="0.49 s"/>
+            <property name="hostname" value="https://globalfundforwomen-fs--gm.my.salesforce.com"/>
+            <property name="orgId" value="00D3J0000008pjwUAA"/>
+            <property name="username" value="rtrigg+fs@globalfundforwomen.org.gm"/>
+            <property name="testRunId" value="7073J00001A9XNE"/>
+            <property name="userId" value="0058c000008SCHYAA4"/>
+            <property name="coveredLines" value="5312"/>
+            <property name="testRunCoverage" value="85%"/>
+            <property name="orgWideCoverage" value="74%"/>
+        </properties>
+        <testcase name="LetterControllerTest2" classname="LetterControllerTest" time="6.82">
+        </testcase>
+        <testcase name="LetterControllerTestBatch1" classname="LetterControllerTest" time="1.70">
+        </testcase>
+        <testcase name="LetterControllerTestBatch2" classname="LetterControllerTest" time="2.06">
+        </testcase>
+        <testcase name="LetterControllerTestBatch3" classname="LetterControllerTest" time="1.92">
+        </testcase>
+        <testcase name="LetterControllerTestPrint" classname="LetterControllerTest" time="2.34">
+        </testcase>
+        <testcase name="LetterResetTest1" classname="LetterControllerTest" time="1.93">
+        </testcase>
+        <testcase name="LetterResetTest2" classname="LetterControllerTest" time="1.19">
+        </testcase>
+        <testcase name="ProposalControllerTest" classname="ProposalControllerTest" time="7.64">
+        </testcase>
+        <testcase name="ProposalControllerTest1" classname="ProposalControllerTest" time="2.54">
+        </testcase>
+        <testcase name="ProposalControllerTest2" classname="ProposalControllerTest" time="1.82">
+        </testcase>
+        <testcase name="ProposalControllerTest4" classname="ProposalControllerTest" time="2.32">
+        </testcase>
+        <testcase name="ProposalControllerTest5" classname="ProposalControllerTest" time="1.46">
+        </testcase>
+        <testcase name="ProposalUpdateTest1a" classname="ProposalUpdateTest" time="25.61">
+        </testcase>
+        <testcase name="ProposalUpdateTest1b" classname="ProposalUpdateTest" time="4.78">
+        </testcase>
+        <testcase name="ProposalUpdateTest1c" classname="ProposalUpdateTest" time="7.64">
+        </testcase>
+        <testcase name="ProposalUpdateTest2" classname="ProposalUpdateTest" time="3.79">
+        </testcase>
+        <testcase name="ProposalUpdateTest3" classname="ProposalUpdateTest" time="3.75">
+        </testcase>
+        <testcase name="ProposalUpdateTest4" classname="ProposalUpdateTest" time="4.94">
+        </testcase>
+        <testcase name="MilestoneControllerTest1" classname="MilestoneControllerTest" time="6.69">
+        </testcase>
+        <testcase name="MilestoneControllerTest2a" classname="MilestoneControllerTest" time="1.89">
+        </testcase>
+        <testcase name="MilestoneControllerTest2b" classname="MilestoneControllerTest" time="1.61">
+        </testcase>
+        <testcase name="MilestoneControllerTest3" classname="MilestoneControllerTest" time="1.76">
+        </testcase>
+        <testcase name="MilestoneControllerTest4" classname="MilestoneControllerTest" time="1.63">
+        </testcase>
+        <testcase name="MilestoneControllerTest5" classname="MilestoneControllerTest" time="2.20">
+        </testcase>
+        <testcase name="TemplateControllerTest1" classname="TemplateControllerTest" time="7.90">
+        </testcase>
+        <testcase name="compareTo_should_work_with_non_null_titles" classname="LookupSearchResultTests" time="0.02">
+        </testcase>
+        <testcase name="compareTo_should_work_with_other_null_title" classname="LookupSearchResultTests" time="0.00">
+        </testcase>
+        <testcase name="compareTo_should_work_with_this_null_title" classname="LookupSearchResultTests" time="0.00">
+        </testcase>
+        <testcase name="compareTo_should_work_with_two_null_titles" classname="LookupSearchResultTests" time="0.00">
+        </testcase>
+        <testcase name="getters_should_work" classname="LookupSearchResultTests" time="0.00">
+        </testcase>
+        <testcase name="getters_should_work_icon_class" classname="LookupSearchResultTests" time="0.00">
+        </testcase>
+        <testcase name="ProposalControllerClassificationsTest" classname="ProposalControllerClassificationsTest" time="7.91">
+        </testcase>
+        <testcase name="FormCloneTest3" classname="FormControllerTest" time="0.84">
+            <failure message="System.QueryException: Didn't understand relationship 'Form_Item__r' in field path. If you are attempting to use a custom relationship, be sure to append the '__r' after the custom relationship name. Please reference your WSDL or the describe call for the appropriate names."><![CDATA[Class.Utilities.fetchChildRecords: line 562, column 1
+Class.FormController.tagFormPhrases: line 11, column 1
+Class.FormTagFormPhrasesInvocable.tagFormPhrases: line 7, column 1
+Class.FormControllerTest.FormCloneTest3: line 13, column 1]]></failure>
+        </testcase>
+        <testcase name="loadAdvisorSummary" classname="AssessorSiteTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessorSiteTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="testGetAssessmentInvitesReview" classname="AssessorSiteTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessorSiteTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="testGetAssignedAssessments" classname="AssessorSiteTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessorSiteTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="testGetInterfaceType" classname="AssessorSiteTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessorSiteTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="testGetInviteFormInfo" classname="AssessorSiteTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessorSiteTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="testGetSearchableRecords" classname="AssessorSiteTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessorSiteTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="testLoadAdvisorSummary" classname="AssessorSiteTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessorSiteTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="GenericUpdateRecordsBatchTest" classname="GenericUpdateRecordsBatchTest" time="6.27">
+        </testcase>
+        <testcase name="ProfileControllerTest1" classname="ProfileControllerTest" time="6.57">
+        </testcase>
+        <testcase name="ProfileControllerTest2" classname="ProfileControllerTest" time="0.89">
+        </testcase>
+        <testcase name="ProfileControllerTest3" classname="ProfileControllerTest" time="0.86">
+        </testcase>
+        <testcase name="ProfileControllerTestVF" classname="ProfileControllerTest" time="1.56">
+        </testcase>
+        <testcase name="controllerTest" classname="InternalReviewTest" time="7.04">
+            <failure message="System.QueryException: Didn't understand relationship 'Applicant__r' in field path. If you are attempting to use a custom relationship, be sure to append the '__r' after the custom relationship name. Please reference your WSDL or the describe call for the appropriate names."><![CDATA[Class.Review.loadProposal: line 159, column 1
+Class.InternalReview.<init>: line 31, column 1
+Class.ReviewFormController.getInternalReview: line 5, column 1
+Class.InternalReviewTest.controllerTest: line 55, column 1]]></failure>
+        </testcase>
+        <testcase name="getInternalReviewVFPageNameTest" classname="InternalReviewTest" time="0.02">
+        </testcase>
+        <testcase name="milestoneReviewTest" classname="InternalReviewTest" time="1.76">
+            <failure message="System.SObjectException: Invalid field Story_individual__c for GM_Data__c"><![CDATA[Class.Review.finishFormComponentBuild: line 529, column 1
+Class.InternalReview.<init>: line 77, column 1
+Class.InternalReviewTest.milestoneReviewTest: line 40, column 1]]></failure>
+        </testcase>
+        <testcase name="profileReviewTest" classname="InternalReviewTest" time="0.83">
+            <failure message="System.SObjectException: Invalid field Overall_alignment__c for Profile__c"><![CDATA[Class.Review.finishFormComponentBuild: line 578, column 1
+Class.InternalReview.<init>: line 77, column 1
+Class.InternalReviewTest.profileReviewTest: line 25, column 1]]></failure>
+        </testcase>
+        <testcase name="proposalReviewTest" classname="InternalReviewTest" time="0.84">
+            <failure message="System.QueryException: Didn't understand relationship 'Applicant__r' in field path. If you are attempting to use a custom relationship, be sure to append the '__r' after the custom relationship name. Please reference your WSDL or the describe call for the appropriate names."><![CDATA[Class.Review.loadProposal: line 159, column 1
+Class.InternalReview.<init>: line 31, column 1
+Class.InternalReviewTest.proposalReviewTest: line 9, column 1]]></failure>
+        </testcase>
+        <testcase name="InviteControllerTest1" classname="InviteControllerTest" time="6.15">
+        </testcase>
+        <testcase name="InviteControllerTest2" classname="InviteControllerTest" time="1.28">
+        </testcase>
+        <testcase name="InviteControllerTest3" classname="InviteControllerTest" time="1.55">
+        </testcase>
+        <testcase name="InviteControllerTest4" classname="InviteControllerTest" time="1.37">
+        </testcase>
+        <testcase name="InviteControllerTest5" classname="InviteControllerTest" time="0.98">
+        </testcase>
+        <testcase name="AssessmentControllerTest1a" classname="AssessmentControllerTest" time="0.09">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentControllerTest.AssessmentControllerTest1a: line 7, column 1]]></failure>
+        </testcase>
+        <testcase name="AssessmentControllerTest1b" classname="AssessmentControllerTest" time="0.02">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentControllerTest.AssessmentControllerTest1b: line 37, column 1]]></failure>
+        </testcase>
+        <testcase name="FundControllerTest1" classname="FundControllerTest" time="1.49">
+        </testcase>
+        <testcase name="FundControllerTest2" classname="FundControllerTest" time="1.50">
+        </testcase>
+        <testcase name="FundControllerTest3" classname="FundControllerTest" time="1.00">
+        </testcase>
+        <testcase name="FundControllerTest4" classname="FundControllerTest" time="1.19">
+        </testcase>
+        <testcase name="PortfolioControllerTest" classname="PortfolioControllerTest" time="6.07">
+        </testcase>
+        <testcase name="classificationJoinTest" classname="AssessmentProposalTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProposalTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="getAssessmentReviewTest" classname="AssessmentProposalTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProposalTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="getAssignedAssessmentsTest" classname="AssessmentProposalTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProposalTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="instantiateTest" classname="AssessmentProposalTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProposalTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="portfolioAssignTest" classname="AssessmentProposalTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProposalTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="submitReviewNegativeTest" classname="AssessmentProposalTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProposalTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="submitReviewTest" classname="AssessmentProposalTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProposalTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="updateBooleantest" classname="AssessmentProposalTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProposalTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="updateTextPickOrLookupTest" classname="AssessmentProposalTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProposalTest.makeData: line 8, column 1]]></failure>
+        </testcase>
+        <testcase name="ProfileClassificationsCloneInvocableTest" classname="ProfileClassificationsCloneInvocableTest" time="6.68">
+        </testcase>
+        <testcase name="IndicatorAssignTest" classname="AssessmentMilestoneTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentMilestoneTest.makeData: line 9, column 1]]></failure>
+        </testcase>
+        <testcase name="instantiateTest" classname="AssessmentMilestoneTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentMilestoneTest.makeData: line 9, column 1]]></failure>
+        </testcase>
+        <testcase name="submitReviewNegativeTest" classname="AssessmentMilestoneTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentMilestoneTest.makeData: line 9, column 1]]></failure>
+        </testcase>
+        <testcase name="submitReviewTest" classname="AssessmentMilestoneTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentMilestoneTest.makeData: line 9, column 1]]></failure>
+        </testcase>
+        <testcase name="GMDataControllerTest1" classname="GMDataControllerTest" time="6.75">
+        </testcase>
+        <testcase name="GMDataControllerTest2" classname="GMDataControllerTest" time="2.98">
+        </testcase>
+        <testcase name="GMDataControllerTestVF" classname="GMDataControllerTest" time="1.43">
+        </testcase>
+        <testcase name="classificationJoinTest" classname="AssessmentProfileTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProfileTest.makeData: line 7, column 1]]></failure>
+        </testcase>
+        <testcase name="instantiateTest" classname="AssessmentProfileTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProfileTest.makeData: line 7, column 1]]></failure>
+        </testcase>
+        <testcase name="inviteBasedFormView" classname="AssessmentProfileTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProfileTest.makeData: line 7, column 1]]></failure>
+        </testcase>
+        <testcase name="portfolioAssignTest" classname="AssessmentProfileTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProfileTest.makeData: line 7, column 1]]></failure>
+        </testcase>
+        <testcase name="submitReviewNegativeTest" classname="AssessmentProfileTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProfileTest.makeData: line 7, column 1]]></failure>
+        </testcase>
+        <testcase name="submitReviewTest" classname="AssessmentProfileTest" time="0.00">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AssessmentProfileTest.makeData: line 7, column 1]]></failure>
+        </testcase>
+        <testcase name="ProfileClassificationsInvocableTest" classname="ProfileClassificationsInvocableTest" time="0.88">
+        </testcase>
+        <testcase name="CustomReqsControllerTest1" classname="CustomReqsControllerTest" time="0.83">
+        </testcase>
+        <testcase name="DeleteRecordsSchedulableTest1" classname="DeleteRecordsSchedulableTest" time="7.90">
+        </testcase>
+        <testcase name="DeleteRecordsSchedulableTest2" classname="DeleteRecordsSchedulableTest" time="1.32">
+        </testcase>
+        <testcase name="ExpressionInterpreterTest" classname="ExpressionInterpreterTest" time="8.72">
+        </testcase>
+        <testcase name="AdvisorControllerTest1" classname="AdvisorControllerTest" time="0.15">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1]]></failure>
+        </testcase>
+        <testcase name="AdvisorControllerTest2" classname="AdvisorControllerTest" time="0.02">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1]]></failure>
+        </testcase>
+        <testcase name="AdvisorControllerTest3" classname="AdvisorControllerTest" time="0.02">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1]]></failure>
+        </testcase>
+        <testcase name="getRunningUserAdvisorIdTest" classname="AdvisorControllerTest" time="0.01">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1]]></failure>
+        </testcase>
+        <testcase name="AdvisorTermControllerTest1a" classname="AdvisorTermControllerTest" time="0.10">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AdvisorTermControllerTest.AdvisorTermControllerTest1a: line 6, column 1]]></failure>
+        </testcase>
+        <testcase name="AdvisorTermControllerTest1b" classname="AdvisorTermControllerTest" time="0.02">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AdvisorTermControllerTest.AdvisorTermControllerTest1b: line 28, column 1]]></failure>
+        </testcase>
+        <testcase name="AdvisorTermControllerTest2" classname="AdvisorTermControllerTest" time="0.02">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AdvisorTermControllerTest.AdvisorTermControllerTest2: line 49, column 1]]></failure>
+        </testcase>
+        <testcase name="AdvisorPaymentControllerTest1" classname="AdvisorPaymentControllerTest" time="0.24">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AdvisorPaymentControllerTest.AdvisorPaymentControllerTest1: line 5, column 1]]></failure>
+        </testcase>
+        <testcase name="AdvisorPaymentControllerTest2" classname="AdvisorPaymentControllerTest" time="0.02">
+            <failure message="System.QueryException: List has no rows for assignment to SObject"><![CDATA[Class.Utilities.getRecTypeId: line 148, column 1
+Class.AdvisorControllerTest: line 4, column 1
+Class.AdvisorPaymentControllerTest.AdvisorPaymentControllerTest2: line 30, column 1]]></failure>
+        </testcase>
+        <testcase name="PaymentControllerTest1" classname="PaymentControllerTest" time="7.41">
+        </testcase>
+        <testcase name="PaymentControllerTest2" classname="PaymentControllerTest" time="6.14">
+        </testcase>
+        <testcase name="test_error" classname="strike_tst_lookupController" time="0.05">
+        </testcase>
+        <testcase name="test_getData" classname="strike_tst_lookupController" time="0.74">
+        </testcase>
+        <testcase name="test_getData_addressField" classname="strike_tst_lookupController" time="0.47">
+        </testcase>
+        <testcase name="test_getData_reference" classname="strike_tst_lookupController" time="0.99">
+        </testcase>
+        <testcase name="test_getData_subtitleField" classname="strike_tst_lookupController" time="0.39">
+        </testcase>
+        <testcase name="test_getRecentRecords" classname="strike_tst_lookupController" time="0.04">
+        </testcase>
+        <testcase name="test_getRecordLabel" classname="strike_tst_lookupController" time="0.40">
+        </testcase>
+        <testcase name="PaymentMethodControllerTest1a" classname="PaymentMethodControllerTest" time="6.89">
+        </testcase>
+        <testcase name="PaymentMethodControllerTest2a" classname="PaymentMethodControllerTest" time="1.63">
+        </testcase>
+        <testcase name="PaymentMethodControllerTest3" classname="PaymentMethodControllerTest" time="3.22">
+        </testcase>
+        <testcase name="PaymentMethodControllerTest4" classname="PaymentMethodControllerTest" time="5.57">
+        </testcase>
+        <testcase name="CountryControllerTest" classname="CountryControllerTest" time="10.90">
+        </testcase>
+        <testcase name="TouchRecordsSchedulableTest" classname="TouchRecordsSchedulableTest" time="0.96">
+        </testcase>
+        <testcase name="OFACLookupTest" classname="OFACLookupTest" time="7.51">
+        </testcase>
+        <testcase name="UpdateAccountContactInfoTest1" classname="UpdateAccountContactInfoTest" time="6.78">
+        </testcase>
+        <testcase name="UtilitiesTest1" classname="UtilitiesTest" time="10.04">
+        </testcase>
+        <testcase name="UtilitiesTest2" classname="UtilitiesTest" time="5.09">
+        </testcase>
+        <testcase name="UtilitiesTest3" classname="UtilitiesTest" time="0.52">
+        </testcase>
+        <testcase name="UtilitiesTest4" classname="UtilitiesTest" time="0.52">
+        </testcase>
+        <testcase name="OpportunityControllerTest1" classname="OpportunityControllerTest" time="4.99">
+        </testcase>
+        <testcase name="OpportunityControllerTest2" classname="OpportunityControllerTest" time="2.76">
+        </testcase>
+        <testcase name="AccountControllerTest1" classname="AccountControllerTest" time="3.94">
+        </testcase>
+        <testcase name="AccountControllerTest4" classname="AccountControllerTest" time="0.96">
+        </testcase>
+    </testsuite>
+</testsuites>

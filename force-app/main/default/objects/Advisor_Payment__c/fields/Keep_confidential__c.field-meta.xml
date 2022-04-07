@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Keep_confidential__c</fullName>
+    <description>Checked if this advisor payment belongs to an advisor that is marked as Keep Confidential</description>
+    <externalId>false</externalId>
+    <formula>Advisor_Term__r.Advisor__r.Keep_confidential__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Checked if this advisor payment belongs to an advisor that is marked as Keep Confidential</inlineHelpText>
+    <label>Keep confidential</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

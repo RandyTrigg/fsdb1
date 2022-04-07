@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>App_type__c</fullName>
+    <description>For grant application forms, the intended app type for proposals associated with this form</description>
+    <externalId>false</externalId>
+    <inlineHelpText>For grant application forms, the intended app type for proposals associated with this form</inlineHelpText>
+    <label>App type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Standard</fullName>
+                <default>false</default>
+                <label>Standard</label>
+            </value>
+            <value>
+                <fullName>Travel</fullName>
+                <default>false</default>
+                <label>Travel</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Crisis</fullName>
+                <default>false</default>
+                <label>Crisis</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

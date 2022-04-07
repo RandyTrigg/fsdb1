@@ -1,5 +1,5 @@
 @isTest
-public class UtilitiesTest {
+public with sharing class UtilitiesTest {
     static testMethod void UtilitiesTest1() {
         // Reference the static strings in Utilities
         Integer testRef =
@@ -29,11 +29,7 @@ public class UtilitiesTest {
         ];
         insert new Account(
             Name = 'test_acct_1',
-            // Record type Household is currently (10/8/20) hidden for FFDB
-            RecordTypeId = Utilities.getRecTypeId(
-                'Account',
-                'Organization' // 'Household'
-            )
+            RecordTypeId = Utilities.getRecTypeId('Account', 'HH_Account')
         );
         Account acct1 = [
             SELECT Id, Name
@@ -94,7 +90,7 @@ public class UtilitiesTest {
         x = Utilities.getRandomInt(0, 100);
         s = Utilities.generateRandomString(5);
         sd = Utilities.commaSepStringToDecimalSet('1.3, 2');
-        i = Utilities.getRecTypeId('Account', 'Household');
+        i = Utilities.getRecTypeId('Account', 'HH_Account');
         b = Utilities.dateInThisFY(date.today());
         b = Utilities.dateInLastFY(date.today());
         b = Utilities.dateInLastFY2(date.today());
@@ -111,6 +107,7 @@ public class UtilitiesTest {
         s = Utilities.formatCurrency(3.14);
         s = Utilities.formatInteger(2000.1);
         system.assertEquals('2,000', s);
+        mils = Utilities.emailsForAccounts(new Set<Id> {acct.Id, acct1.Id});
         s = Utilities.stringJoinWithCharLimit(
             new List<String>{ 'str1', 'str2' },
             ',',
@@ -281,7 +278,7 @@ public class UtilitiesTest {
 
     // Test task creation method.
     static testMethod void UtilitiesTest4() {
-        User u = [SELECT Id FROM User WHERE IsActive = true LIMIT 1];
+        User u = [SELECT Id FROM User WHERE IsActive = true AND Id = :UserInfo.getUserId()];
         insert new Account(Name = 'test account 1');
         Account acc = [SELECT Id FROM Account LIMIT 1];
         insert new Task_Spec_Group__c(
