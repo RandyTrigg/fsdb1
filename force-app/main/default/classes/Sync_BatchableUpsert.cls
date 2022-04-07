@@ -2,7 +2,7 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
     // Carries out upserts in batch sizes set in executable
 
     // Class variables set in start method and used in execute
-    // Database.Stateful allows instance member variables to retain their values between transactions. 
+    // Note: Database.Stateful allows instance member variables to retain their values between transactions. 
     Schema.SObjectField extIdFieldReference;
     List<String> mdtObjNames;
     GFW_Sync_Object_Mapping__mdt objMap;
@@ -23,7 +23,6 @@ public class Sync_BatchableUpsert implements Database.batchable<sObject>, Databa
             SyncController scThisFS = new SyncController();
             recs = new List<sObject>(scThisFS.buildRecsToUpsert(mdtObjName));
             extIdFieldReference = scThisFS.extIdFieldReference;
-            // syncLogRecIds = scThisFS.syncLogRecIds;
             objMap = scThisFS.getObjectMapping(mdtObjName);
             system.debug('Batch START this mdtObjName: ' + mdtObjName);
             System.debug('Batch START bottom mdtObjNames: ' + mdtObjNames);

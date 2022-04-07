@@ -5,7 +5,7 @@ public without sharing class SyncController {
     Part 1: LauchSync fetches json from GFW and stashes in Sync Log Records
     Part 2: BuildRecs returns List<sObject> for upsert in calling code
 
-    Main methods appear at the bottom; below variables and supporting methods.
+    Par 1 and 2 main methods appear towards bottom; below variables and supporting methods.
 
     Part 1 triggered by Sync_Queueable for each FS group;
     Sync_Queueable then launches Sync_BatchableUpsert, which activates Part 2 by object.
@@ -154,16 +154,16 @@ public without sharing class SyncController {
      * INITIALIZE CLASS VARIABLES and CUSTOM METADATA OBJECT/FIELD MAPPINGS
      *******************/
 
-    // Retrieve FS User Id who should be Owner of all records created
     public void setFSOwnerId() {
+        // Retrieve FS User Id as designated record Owner
         System.debug('Role for ownership: ' + fsRole);
         if (fsRole != null && fsRole != '') fsOwnerId = 
             [SELECT Id FROM User WHERE UserRole.DeveloperName =: fsRole AND IsActive = TRUE LIMIT 1].Id;
         system.debug('fsOwnerId: ' + fsOwnerId);
     }
 
-    // Retrieve all object mappings
     public void setObjMappingsList() {
+        // Retrieve all object mappings
         String objName = 'GFW_Sync_Object_Mapping__mdt';
         mdts = Utilities.fetchRecords(
             objName,
@@ -172,8 +172,8 @@ public without sharing class SyncController {
         System.debug('mdts: ' + mdts);
     }
 
-    // Retrieve object mapping by mdt name
     public GFW_Sync_Object_Mapping__mdt getObjectMapping(String mdtObjName) {
+        // Retrieve object mapping by mdt name
         GFW_Sync_Object_Mapping__mdt objMap = new GFW_Sync_Object_Mapping__mdt();
         for (GFW_Sync_Object_Mapping__mdt objMDT : mdts) {
             if (objMDT.DeveloperName == mdtObjName) {
@@ -183,20 +183,20 @@ public without sharing class SyncController {
         return objMap;
     }
 
-    // Initialize map of FSDB External Id field name to ObjectMapping mdt Name
     public void setExternalIdFieldNames() {
+        // Initialize map of FSDB External Id field name to ObjectMapping mdt Name
         for (GFW_Sync_Object_Mapping__mdt objMDT : mdts) {
             extIdFieldNamesMap.put(objMDT.DeveloperName, objMDT.FSDB_External_Id_Field_API_Name__c);
         }
     }
 
-    // Retrieve External Id field name by ObjectMapping mdt Name
     public String externalIdFieldName(String mdtObjName) {
+        // Retrieve External Id field name by ObjectMapping mdt Name
         return (String)extIdFieldNamesMap.get(mdtObjName);
     }
 
-    // Retrieve all field mappings
     public void setFieldMappings() {
+        // Retrieve all field mappings
         String objName = 'GFW_Sync_Field_Mapping__mdt';
         String mdtObjName = '';
         String[] relFieldNames = new String[]{
@@ -251,8 +251,8 @@ public without sharing class SyncController {
         System.debug('fsdbFieldMapByMDTName FINAL: ' + fsdbFieldMapByMDTName);
     }
 
-    // Retrieve field mappings by ObjectMapping mdt Name
     public Map<String,GFW_Sync_Field_Mapping__mdt> getFieldMappingsGFW(String mdtObjName) {
+        // Retrieve field mappings by ObjectMapping mdt Name
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>(
             gfwFieldMapByMDTName.get(mdtObjName)
         );
@@ -268,8 +268,8 @@ public without sharing class SyncController {
         return fieldMap;
     }
 
-    // Retrieve picklist mappings by mdt name
     public void setPicklistMappingsList() {
+        // Retrieve picklist mappings by mdt name
         String objName = 'GFW_Sync_Picklist_Mapping__mdt';
         String[] relatedFieldNames = new String[]{
             'GFW_Sync_Field_Mapping__r.GFW_Sync_Object_Mapping__r.DeveloperName',
@@ -301,9 +301,9 @@ public without sharing class SyncController {
     /*******************
      * RETRIEVE RECORDS FROM GFW
      *******************/
-
-    // Build set of Ids for records not already in FSDB to insert 
+ 
     public Set<Id> recIdsToInsert(String mdtObjName, Set<Id> idsGathered) {
+        // Build set of Ids for records not already in FSDB to insert
         Set<Id> idsToQuery = new Set<Id>();
         System.debug('idsGathered: ' + idsGathered);
         if (!idsGathered.isEmpty()) {
@@ -329,8 +329,8 @@ public without sharing class SyncController {
         return idsToQuery;
     }
 
-    // Generate and query GFW by mdt record
     public List<Object> queryForRecords(String mdtObjName, Set<Id> idsForQuery, String whereClauseCustom) {
+        // Generate and query GFW by mdt record
         // Retrieve object and field mappings
         GFW_Sync_Object_Mapping__mdt objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappingsGFW(mdtObjName);
@@ -358,8 +358,8 @@ public without sharing class SyncController {
      * SYNC LOG ACTIONS
      *******************/
 
-    // Create new Sync Log
     public void newSyncLog() {
+        // Create new Sync Log
         Sync_Log__c sLog = new Sync_Log__c(
             Type__c = 'GFW to FSDB',
             DateTime_Start__c = startDateTime,
@@ -369,8 +369,8 @@ public without sharing class SyncController {
         syncLogId = sLog.Id;
     }
 
-    // Stash json 'records' in separate Sync Log Records
     public void logRecords(String mdtObjName, List<Object> records) {
+        // Stash json 'records' in separate Sync Log Records
         List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>();
         if (records != null && !records.isEmpty()) {
             for (Object rec : records) {
@@ -391,8 +391,8 @@ public without sharing class SyncController {
         }
     }
 
-    // Deletes sObj recs and logs results in separate Sync Log Records
     public void deleteAndLog(String mdtObjName, List<sObject> recsToDelete) {
+        // Delete sObj recs (for merges). Log results in separate Sync Log Records.
         if (recsToDelete != null && !recsToDelete.isEmpty()) {
             List<Sync_Log_Record__c> slRecList = new List<Sync_Log_Record__c>();
             Database.DeleteResult[] drList = Database.delete(recsToDelete, false);
@@ -414,7 +414,6 @@ public without sharing class SyncController {
         }
     }
 
-
     public List<sObject> retrievePendingLogRecs(String mdtObjName) {
         List<sObject> objList = new List<sObject>(Utilities.fetchRecords(
             'Sync_Log_Record__c',
@@ -429,24 +428,23 @@ public without sharing class SyncController {
      *******************/
 
     public void gatherTransactions() {
-        // Retrieve transactions incl soft credit types (don't upsert as Payment records). Assume we have everything linked.
-        // Assumes account and opportunity lookups on the Transaction can be relied upon exclusively for gift's account/opportunity.
+        // Retrieve transactions NOT including soft credit types and build list of parent/related Ids.
+        // Rely on gift's account and opportunity from nested json: AQB__Gift__r={AQB__CreditedOpportunity__c=0065d00000wWBdeAAG...
+        // (TO DO: Handle soft-credits in next iteration.)
         Map<String, Object> relGift;
         System.debug('fsCOA: ' + fsCOA);
         String mdtObjName = 'Transaction_to_Payment';
-        String whereClause = ' WHERE AQB__ChartofAccounts__r.Name LIKE \'' + fsCOA + '%\' and (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
+        String whereClause = ' WHERE AQB__ChartofAccounts__r.Name LIKE \'' + fsCOA + '%\' AND AQB__Type__c != \'Soft credit\' AND (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
         List<Object> records = queryForRecords(mdtObjName, null, whereClause);
         if (records != null && records.size()>0) {
             transactionsJSON = records;
             for (Object rec : records) {
-                // Grab all parent/related Ids
                 Map<String, Object> t = (Map<String, Object>) rec;
                 System.debug('>>> Transactions: ' + t);
                 Id giftId = (Id)t.get('AQB__Gift__c');
                 giftIds.add(giftId);
                 if (t.get('Recurring_Donations__c') != null) recDonIds.add((Id)t.get('Recurring_Donations__c'));
                 if (t.get('AQB__CampaignAppealId__c') != null) campIds.add((Id)t.get('AQB__CampaignAppealId__c'));
-                // Retrieve parent gift's account and opportunity from nested json: AQB__Gift__r={AQB__CreditedOpportunity__c=0065d00000wWBdeAAG...
                 relGift = (Map<String, Object>)t.get('AQB__Gift__r');
                 acctIds.add((Id)relGift.get('AQB__AccountId__c'));
                 if (relGift.get('AQB__CreditedOpportunity__c') != null) {
@@ -465,8 +463,7 @@ public without sharing class SyncController {
     public void gatherGiftCredits() {
         // Retrieve gift credits and their linked accounts/contacts from giftIds.
         // TO DO: Only gather gift credits where Contact's Account not equal to gift's Account
-        // AQB__SecondaryGiftCreditAmount__c,AQB__PrimaryGiftRecognitionCreditPercent__c
-        // Retrieve AQB_DonorAccount__c, not Credited Account. Retrieve AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
+        // Rely on AQB_DonorAccount__c, not Credited Account; AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         if (!giftIds.isEmpty()) {
             String mdtObjName = 'GiftCredit_to_OppContactRole';
             String inIDsStr = Utilities.packageIdsForQuery(giftIds);
@@ -534,9 +531,9 @@ public without sharing class SyncController {
         }
     }
 
-    // Retrieve 'floating' (non-gift) Opportunities linked to COA
-    // Add to OppId set and parent Accounts acctId set
     public void gatherOpportunities() {
+        // Retrieve 'floating' (non-gift) Opportunities linked to COA
+        // Add to OppId set and parent Accounts acctId set
         String mdtObjName = 'Opportunity';
         String inIDsStr = giftOppIds.isEmpty() ? '' : ' AND Id NOT IN ' + Utilities.packageIdsForQuery(giftOppIds);
         String whereClause = ' WHERE Chart_of_Accounts__r.Name LIKE \'' + fsCOA + '\'' + inIDsStr;
@@ -564,11 +561,9 @@ public without sharing class SyncController {
      * BUILD RECORDS IN FSDB
      *******************/
 
-    // Retrieve Sync Log Records by type and upsert
     public List<sObject> recsFromSyncLogRecs(String mdtObjName) {
-        // Iterate through FSDB fieldmappings to populate fsdb records with either GFW-queried values or default values if GFW field api name is blank.
-
-        // Retrieve object and field mappings
+        // Retrieve Sync Log Records by type and upsert
+        // Iterate through FSDB fieldmappings to populate fsdb records with GFW-queried values or default values.
         GFW_Sync_Object_Mapping__mdt objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappingsFSDB(mdtObjName);
         String gfwObjName = objMap.GFW_Object_Name__c;
@@ -636,9 +631,9 @@ public without sharing class SyncController {
         System.debug('List of objs to insert: ' + objs);
         return objs;
     }
-
-    // Set value in given field 
+ 
     public sObject populateFields(sObject sObj, String fieldType, GFW_Sync_Field_Mapping__mdt fieldmapMDT, Object gfwValue) {
+        // Set value for given field
         String fsdbFieldName = fieldmapMDT.FSDB_Field_API_Name__c;
         String relName;
         // Check for picklist map
@@ -705,7 +700,9 @@ public without sharing class SyncController {
      *******************/
 
     public void LaunchSync() {
-        // Initialize class vars
+        // Gather records from GFW and store json 'records' in Sync Log Records
+        
+        // Initialize vars
         setFSOwnerId();
         setObjMappingsList();
         setExternalIdFieldNames();
@@ -754,8 +751,7 @@ public without sharing class SyncController {
             }
         }
 
-        // Generate Sync Log and Sync Log Records (DML operations must be done AFTER all callouts)
-        // Stash each json 'record' in Sync Log Record
+        // Note: DML operations must be done after all callouts.
         newSyncLog();
         Map<String, List<Object>> objNamesJSONMap = new Map<String, List<Object>>{
             'Account' => acctsJSON,
@@ -785,8 +781,8 @@ public without sharing class SyncController {
      *******************/
     
      public List<sObject> buildRecsToUpsert(String mdtObjName) {
-        // Initialize class vars
-        // setFSOwnerId(); This is on GFW side. Now we're exclusively in fsdb.
+        // Returns sObjects of specified type for caller to upsert
+        // Initialize vars
         setObjMappingsList();
         setExternalIdFieldNames();
         setFieldMappings();
