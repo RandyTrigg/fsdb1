@@ -265,26 +265,23 @@ public without sharing class SyncController {
         String[] relatedFieldNames = new String[]{
             'GFW_Sync_Field_Mapping__r.GFW_Sync_Object_Mapping__r.DeveloperName',
             'GFW_Sync_Field_Mapping__r.FSDB_Field_API_Name__c'};
-        String orderByClause = 'ORDER BY GFW_Sync_Field_Mapping__c';
         picklistMapping = Utilities.fetchRecords(
             objName,
-            orderByClause,
+            null,
             relatedFieldNames
             );
         System.debug('picklistmapping: ' + picklistMapping);
         Id storeId;
         List<GFW_Sync_Picklist_Mapping__mdt> addPicklists = new List<GFW_Sync_Picklist_Mapping__mdt>();
         for (GFW_Sync_Picklist_Mapping__mdt pList : picklistMapping) {
-            if (storeId == null) storeId = pList.GFW_Sync_Field_Mapping__c;
-            if (storeId != pList.GFW_Sync_Field_Mapping__c) {
-                picklistMap.put(storeId, addPicklists);
-                storeId = pList.GFW_Sync_Field_Mapping__c;
+            if(picklistMap.containsKey(pList.GFW_Sync_Field_Mapping__c)) {
+                addPicklists = picklistMap.get(pList.GFW_Sync_Field_Mapping__c);
+            } else {
                 addPicklists = new List<GFW_Sync_Picklist_Mapping__mdt>();
             }
             addPicklists.add(pList);
+            picklistMap.put(pList.GFW_Sync_Field_Mapping__c, addPicklists);
         }
-        // Add last set of picklistmappings
-        picklistMap.put(storeId, addPicklists);
     }
 
 
