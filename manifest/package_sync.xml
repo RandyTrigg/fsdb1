@@ -24,16 +24,14 @@
 		<name>CustomObject</name>
 	</types>
 	<types>
+		<members>Account.GFW_Account_ID__c</members>
+		<members>Account.Seeded_by_GFW__c</members>
 		<members>Account.Sync_Log_Record__c</members>
+		<members>Campaign.GFW_Campaign_ID__c</members>
 		<members>Campaign.Sync_Log_Record__c</members>
+		<members>ChartofAccounts__c.GFW_ChartofAccount_Id__c</members>
 		<members>ChartofAccounts__c.Sync_Log_Record__c</members>
 		<members>Contact.Sync_Log_Record__c</members>
-		<members>Opportunity.Sync_Log_Record__c</members>
-		<members>npe01__OppPayment__c.Sync_Log_Record__c</members>
-		<members>npe01__OppPayment__c.CampaignAppeal__c</members>
-		<members>npe01__OppPayment__c.Chart_of_Accounts__c</members>
-		<members>npe01__OppPayment__c.Commitment__c</members>
-		<members>npe01__OppPayment__c.GFW_Transaction_ID__c</members>
 		<members>Commitment__c.Sync_Log_Record__c</members>
 		<members>Commitment__c.Account__c</members>
 		<members>Commitment__c.Amount__c</members>
@@ -53,6 +51,7 @@
 		<members>Commitment__c.Notes__c</members>
 		<members>Commitment__c.Payment_processor_donor_ID__c</members>
 		<members>Commitment__c.Status__c</members>
+		<members>Contact.GFW_Contact_ID__c</members>
 		<members>FS_Group_Settings__mdt.Active__c</members>
 		<members>FS_Group_Settings__mdt.Designated_Role_for_Ownership__c</members>
 		<members>FS_Group_Settings__mdt.GFW_COA_Name__c</members>
@@ -62,6 +61,7 @@
 		<members>GFW_Sync_Field_Mapping__mdt.GFW_Sync_Object_Mapping__c</members>
 		<members>GFW_Sync_Field_Mapping__mdt.Notes__c</members>
 		<members>GFW_Sync_Field_Mapping__mdt.Required__c</members>
+		<members>GFW_Sync_Field_Mapping__mdt.LookupRelTo_SyncObjectMapping__c</members>
 		<members>GFW_Sync_Object_Mapping__mdt.FSDB_External_Id_Field_API_Name__c</members>
 		<members>GFW_Sync_Object_Mapping__mdt.FSDB_Object_Name__c</members>
 		<members>GFW_Sync_Object_Mapping__mdt.GFW_Object_Name__c</members>
@@ -71,6 +71,14 @@
 		<members>GFW_Sync_Picklist_Mapping__mdt.FSDB_Picklist_Value__c</members>
 		<members>GFW_Sync_Picklist_Mapping__mdt.GFW_Picklist_Value__c</members>
 		<members>GFW_Sync_Picklist_Mapping__mdt.GFW_Sync_Field_Mapping__c</members>
+		<members>npe01__OppPayment__c.Sync_Log_Record__c</members>
+		<members>npe01__OppPayment__c.CampaignAppeal__c</members>
+		<members>npe01__OppPayment__c.Chart_of_Accounts__c</members>
+		<members>npe01__OppPayment__c.Commitment__c</members>
+		<members>npe01__OppPayment__c.GFW_Transaction_ID__c</members>
+		<members>Opportunity.Sync_Log_Record__c</members>
+		<members>Opportunity.GFW_Gift_ID__c</members>
+		<members>Opportunity.GFW_Opportunity_ID__c</members>
 		<members>Sync_Log_Record__c.Account__c</members>
 		<members>Sync_Log_Record__c.Campaign__c</members>
 		<members>Sync_Log_Record__c.Chart_of_Accounts__c</members>
@@ -91,10 +99,110 @@
 		<members>Sync_Log__c.Status__c</members>
 		<members>Sync_Log__c.Type__c</members>
 		<name>CustomField</name>
-	</types>
+	</types>	
 	<types>
 		<members>FS_Group_Settings.BFF</members>
 		<members>FS_Group_Settings.VAL</members>
+		<members>GFW_Sync_Field_Mapping.AC_AccountType</members>
+		<members>GFW_Sync_Field_Mapping.AC_ExternalId</members>
+		<members>GFW_Sync_Field_Mapping.AC_Name</members>
+		<members>GFW_Sync_Field_Mapping.AC_Owner</members>
+		<members>GFW_Sync_Field_Mapping.AC_RecordType</members>
+		<members>GFW_Sync_Field_Mapping.CHT_Name</members>
+		<members>GFW_Sync_Field_Mapping.CH_Active</members>
+		<members>GFW_Sync_Field_Mapping.CH_Country</members>
+		<members>GFW_Sync_Field_Mapping.CH_CountryText</members>
+		<members>GFW_Sync_Field_Mapping.CH_ExternalId</members>
+		<members>GFW_Sync_Field_Mapping.CH_FinanceInitiative</members>
+		<members>GFW_Sync_Field_Mapping.CH_Narrative</members>
+		<members>GFW_Sync_Field_Mapping.CM_ExternalId</members>
+		<members>GFW_Sync_Field_Mapping.CM_Name</members>
+		<members>GFW_Sync_Field_Mapping.CM_Owner</members>
+		<members>GFW_Sync_Field_Mapping.CT_Account</members>
+		<members>GFW_Sync_Field_Mapping.CT_ExternalId</members>
+		<members>GFW_Sync_Field_Mapping.CT_FirstName</members>
+		<members>GFW_Sync_Field_Mapping.CT_LastName</members>
+		<members>GFW_Sync_Field_Mapping.CT_Owner</members>
+		<members>GFW_Sync_Field_Mapping.CT_RecordType</members>
+		<members>GFW_Sync_Field_Mapping.GC_AccountLookup</members>
+		<members>GFW_Sync_Field_Mapping.GC_ContactAccountLookup</members>
+		<members>GFW_Sync_Field_Mapping.GC_ContactLookup</members>
+		<members>GFW_Sync_Field_Mapping.GC_GiftLookup</members>
+		<members>GFW_Sync_Field_Mapping.GC_Role</members>
+		<members>GFW_Sync_Field_Mapping.GF_Account</members>
+		<members>GFW_Sync_Field_Mapping.GF_AckDate</members>
+		<members>GFW_Sync_Field_Mapping.GF_Anonymous</members>
+		<members>GFW_Sync_Field_Mapping.GF_AskAmount</members>
+		<members>GFW_Sync_Field_Mapping.GF_Description</members>
+		<members>GFW_Sync_Field_Mapping.GF_ExternalId</members>
+		<members>GFW_Sync_Field_Mapping.GF_GiftDate</members>
+		<members>GFW_Sync_Field_Mapping.GF_Name</members>
+		<members>GFW_Sync_Field_Mapping.GF_Online</members>
+		<members>GFW_Sync_Field_Mapping.GF_Opportunity</members>
+		<members>GFW_Sync_Field_Mapping.GF_Owner</members>
+		<members>GFW_Sync_Field_Mapping.GF_RecordType</members>
+		<members>GFW_Sync_Field_Mapping.GF_StageName</members>
+		<members>GFW_Sync_Field_Mapping.GF_Total</members>
+		<members>GFW_Sync_Field_Mapping.GO_ExternalGiftId</members>
+		<members>GFW_Sync_Field_Mapping.GO_OpportunityExternalId</members>
+		<members>GFW_Sync_Field_Mapping.OP_AccountLookup</members>
+		<members>GFW_Sync_Field_Mapping.OP_Amount</members>
+		<members>GFW_Sync_Field_Mapping.OP_AskAmount</members>
+		<members>GFW_Sync_Field_Mapping.OP_CloseDate</members>
+		<members>GFW_Sync_Field_Mapping.OP_Description</members>
+		<members>GFW_Sync_Field_Mapping.OP_ExternalId</members>
+		<members>GFW_Sync_Field_Mapping.OP_Name</members>
+		<members>GFW_Sync_Field_Mapping.OP_Owner</members>
+		<members>GFW_Sync_Field_Mapping.OP_StageName</members>
+		<members>GFW_Sync_Field_Mapping.RD_Account</members>
+		<members>GFW_Sync_Field_Mapping.RD_Amount</members>
+		<members>GFW_Sync_Field_Mapping.RD_Box_Link</members>
+		<members>GFW_Sync_Field_Mapping.RD_Contact</members>
+		<members>GFW_Sync_Field_Mapping.RD_DateClosed</members>
+		<members>GFW_Sync_Field_Mapping.RD_Date_Established</members>
+		<members>GFW_Sync_Field_Mapping.RD_Date_Last_Donation</members>
+		<members>GFW_Sync_Field_Mapping.RD_Date_Next_Donation</members>
+		<members>GFW_Sync_Field_Mapping.RD_EACommitmentID</members>
+		<members>GFW_Sync_Field_Mapping.RD_ExternalId</members>
+		<members>GFW_Sync_Field_Mapping.RD_Name</members>
+		<members>GFW_Sync_Field_Mapping.RD_Notes</members>
+		<members>GFW_Sync_Field_Mapping.RD_Owner</members>
+		<members>GFW_Sync_Field_Mapping.RD_PaymentMethod</members>
+		<members>GFW_Sync_Field_Mapping.RD_PaymentProcessorId</members>
+		<members>GFW_Sync_Field_Mapping.RD_Status</members>
+		<members>GFW_Sync_Field_Mapping.TR_AccountLookup</members>
+		<members>GFW_Sync_Field_Mapping.TR_Amount</members>
+		<members>GFW_Sync_Field_Mapping.TR_CampaignLookup</members>
+		<members>GFW_Sync_Field_Mapping.TR_ChartOfAccounts</members>
+		<members>GFW_Sync_Field_Mapping.TR_Commitment</members>
+		<members>GFW_Sync_Field_Mapping.TR_ExternalId</members>
+		<members>GFW_Sync_Field_Mapping.TR_GiftLookup</members>
+		<members>GFW_Sync_Field_Mapping.TR_OpportunityLookupFromGift</members>
+		<members>GFW_Sync_Field_Mapping.TR_PaymentDate</members>
+		<members>GFW_Sync_Field_Mapping.TR_PostedPaid</members>
+		<members>GFW_Sync_Field_Mapping.TR_RecurringDonationLookup</members>
+		<members>GFW_Sync_Object_Mapping.Account</members>
+		<members>GFW_Sync_Object_Mapping.Campaign</members>
+		<members>GFW_Sync_Object_Mapping.ChartofAccounts</members>
+		<members>GFW_Sync_Object_Mapping.Contact</members>
+		<members>GFW_Sync_Object_Mapping.GiftCredit_to_OppContactRole</members>
+		<members>GFW_Sync_Object_Mapping.GiftOpportunity</members>
+		<members>GFW_Sync_Object_Mapping.Gift_to_Opportunity</members>
+		<members>GFW_Sync_Object_Mapping.Opportunity</members>
+		<members>GFW_Sync_Object_Mapping.Recurring_Donations</members>
+		<members>GFW_Sync_Object_Mapping.Transaction_to_Payment</members>
+		<members>GFW_Sync_Picklist_Mapping.AccountRecordTypeHousehold</members>
+		<members>GFW_Sync_Picklist_Mapping.AccountRecordTypeOrganization</members>
+		<members>GFW_Sync_Picklist_Mapping.Active</members>
+		<members>GFW_Sync_Picklist_Mapping.ContactDevRecordType</members>
+		<members>GFW_Sync_Picklist_Mapping.GF_RecordTypeGift</members>
+		<members>GFW_Sync_Picklist_Mapping.GF_RecordTypeGrant</members>
+		<members>GFW_Sync_Picklist_Mapping.GF_RecordTypeMatching</members>
+		<members>GFW_Sync_Picklist_Mapping.GF_RecordTypePlanned</members>
+		<members>GFW_Sync_Picklist_Mapping.GF_RecordTypePledge</members>
+		<members>GFW_Sync_Picklist_Mapping.StatusClosed</members>
+		<members>GFW_Sync_Picklist_Mapping.StatusDeclinedLapsed</members>
+		<members>GFW_Sync_Picklist_Mapping.StatusOnHoldPaused</members>
 		<name>CustomMetadata</name>
 	</types>
 	<version>53.0</version>

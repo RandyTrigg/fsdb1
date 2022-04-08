@@ -1,4 +1,4 @@
-public without sharing class SyncController {
+public with sharing class SyncController {
 
     /* -----------------
     Runs donations sync from GFW to FSDB in 2 parts:
@@ -354,7 +354,8 @@ public without sharing class SyncController {
         Sync_Log__c sLog = new Sync_Log__c(
             Type__c = 'GFW to FSDB',
             DateTime_Start__c = startDateTime,
-            Status__c = 'Launched'
+            Status__c = 'Launched',
+            Comments__c = fsCOA
         );
         insert sLog;
         syncLogId = sLog.Id;

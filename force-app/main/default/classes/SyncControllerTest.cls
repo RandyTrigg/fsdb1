@@ -1,5 +1,5 @@
 @isTest
-public without sharing class SyncControllerTest {
+public with sharing class SyncControllerTest {
     
     @isTest 
     static void testLaunchSync() {
