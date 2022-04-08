@@ -1,4 +1,4 @@
-public class Sync_BatchableUpsert implements Database.batchable<sObject>, Database.Stateful{
+public without sharing class Sync_BatchableUpsert implements Database.batchable<sObject>, Database.Stateful{
     // Carries out upserts in batch sizes set in executable
 
     // Class variables set in start method and used in execute

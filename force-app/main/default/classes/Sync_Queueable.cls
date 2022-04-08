@@ -1,4 +1,4 @@
-public class Sync_Queueable implements Queueable, Database.AllowsCallouts {
+public without sharing class Sync_Queueable implements Queueable, Database.AllowsCallouts {
     // Executes sync operation in 2 phases:
     // Phase 1: Launches sync, performs callouts to GFW, and seeds sync log records in FSDB.
     // Phase 2: Upserts records in sequential order by object.
