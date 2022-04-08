@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Anonymous__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If checked, the donor wishes this Gift to be treated as Anonymous.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If checked, the donor wishes this Gift to be treated as Anonymous.</inlineHelpText>
+    <label>Anonymous</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

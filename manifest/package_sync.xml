@@ -31,6 +31,7 @@
 		<members>Campaign.Sync_Log_Record__c</members>
 		<members>ChartofAccounts__c.GFW_ChartofAccount_Id__c</members>
 		<members>ChartofAccounts__c.Sync_Log_Record__c</members>
+		<members>ChartofAccounts__c.Finance_initiative_sub_account__c</members>
 		<members>Contact.Sync_Log_Record__c</members>
 		<members>Commitment__c.Sync_Log_Record__c</members>
 		<members>Commitment__c.Account__c</members>
@@ -79,6 +80,8 @@
 		<members>Opportunity.Sync_Log_Record__c</members>
 		<members>Opportunity.GFW_Gift_ID__c</members>
 		<members>Opportunity.GFW_Opportunity_ID__c</members>
+		<members>Opportunity.Anonymous__c</members>
+		<members>Opportunity.Online_gift__c</members>
 		<members>Sync_Log_Record__c.Account__c</members>
 		<members>Sync_Log_Record__c.Campaign__c</members>
 		<members>Sync_Log_Record__c.Chart_of_Accounts__c</members>
@@ -99,7 +102,11 @@
 		<members>Sync_Log__c.Status__c</members>
 		<members>Sync_Log__c.Type__c</members>
 		<name>CustomField</name>
-	</types>	
+	</types>
+	<types>
+		<members>Opportunity.Pledge</members>
+		<name>RecordType</name>
+	</types>
 	<types>
 		<members>FS_Group_Settings.BFF</members>
 		<members>FS_Group_Settings.VAL</members>
