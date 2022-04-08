@@ -149,7 +149,7 @@ public class HTTPCalloutService {
     public HTTPCalloutService(String customMetadataName) {
         try {
             calloutMetadata = [
-                SELECT Method__c, URLParameters__c, HeaderParameters__c, Endpoint__c,
+                SELECT Method__c, URLParametersLong__c, HeaderParametersLong__c, Endpoint__c,
                 Body__c, Timeout__c, CertificateName__c, IsCompressed__c, Success_Status_Code__c
                 FROM HTTPCalloutConfiguration__mdt
                 WHERE DeveloperName =:customMetadataName
@@ -175,8 +175,8 @@ public class HTTPCalloutService {
             isCompressedRequest = calloutMetadata.IsCompressed__c;
             requestCertificate = calloutMetadata.CertificateName__c;
             successStatusCode = Integer.valueOf(calloutMetadata.Success_Status_Code__c);
-            setUrlOrHeaderParameters(TYPE_URL_PARAMETERS, calloutMetadata.URLParameters__c);
-            setUrlOrHeaderParameters(TYPE_HEADER_PARAMETERS, calloutMetadata.HeaderParameters__c);
+            setUrlOrHeaderParameters(TYPE_URL_PARAMETERS, calloutMetadata.URLParametersLong__c);
+            setUrlOrHeaderParameters(TYPE_HEADER_PARAMETERS, calloutMetadata.HeaderParametersLong__c);
         }
     }
 
@@ -292,4 +292,3 @@ public class HTTPCalloutService {
         return http.send(request);
     }
 }
-
