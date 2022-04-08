@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>GF RecordTypePlanned</label>
+    <protected>false</protected>
+    <values>
+        <field>FSDB_Picklist_Value__c</field>
+        <value xsi:type="xsd:string">Planned_Gift</value>
+    </values>
+    <values>
+        <field>GFW_Picklist_Value__c</field>
+        <value xsi:type="xsd:string">PlannedGift</value>
+    </values>
+    <values>
+        <field>GFW_Sync_Field_Mapping__c</field>
+        <value xsi:type="xsd:string">GF_RecordType</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ChartofAccounts</label>
+    <protected>false</protected>
+    <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>FSDB_External_Id_Field_API_Name__c</field>
+        <value xsi:type="xsd:string">GFW_ChartofAccount_Id__c</value>
+    </values>
+    <values>
+        <field>FSDB_Object_Name__c</field>
+        <value xsi:type="xsd:string">ChartofAccounts__c</value>
+    </values>
+    <values>
+        <field>GFW_Object_Name__c</field>
+        <value xsi:type="xsd:string">AQB__LLChartofAccounts__c</value>
+    </values>
+    <values>
+        <field>Sort_order__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>SyncLogRecordLookupFieldName__c</field>
+        <value xsi:type="xsd:string">Chart_of_Accounts__c</value>
+    </values>
+</CustomMetadata>

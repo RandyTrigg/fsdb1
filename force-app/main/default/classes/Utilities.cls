@@ -1,4 +1,4 @@
-public with sharing class Utilities {
+global class Utilities {
     // Miscellaneous utility constants and methods
 
     public static String EmailAddressIM = 'im@globalfundforwomen.org';
@@ -420,11 +420,6 @@ public with sharing class Utilities {
             ' failures.'
         );
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
-    } 
-    
-    // Return emails for given accounts.  Dish off to code in AccountController.
-    public static Map<Id, List<String>> emailsForAccounts(Set<Id> aIds) {
-        return AccountController.emailsForAccounts(aids); 
     }
 
     /*******************
@@ -493,7 +488,11 @@ public with sharing class Utilities {
     }
 
     // Build a child relationship sub-query, to be used in fetchRecord calls.
-    public static String buildChildSubQuery(String objName, String relName, String whereClause) {
+    public static String buildChildSubQuery(
+        String objName,
+        String relName,
+        String whereClause
+    ) {
         return '(SELECT ' +
             String.join(Utilities.fieldNamesForObject(objName), ', ') +
             ' FROM ' +
