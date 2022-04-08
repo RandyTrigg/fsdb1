@@ -31,7 +31,7 @@ public class Sync_Queueable implements Queueable, Database.AllowsCallouts {
             for (GFW_Sync_Object_Mapping__mdt objMap : objMappings) {
                 objNames.add(objMap.DeveloperName);
             }
-            if (!Test.isRunningTest()) objNames = new List<String>{'Account'};
+            if (Test.isRunningTest()) objNames = new List<String>{'Account'};
             Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 5);
             System.debug('batchInstanceId: ' + batchInstanceId);
         }
