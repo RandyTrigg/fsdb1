@@ -29,7 +29,7 @@ public without sharing class Sync_QueueableTest {
         Test.setMock(HttpCalloutMock.class, new SyncMock());
         Test.StartTest();
         // Test sync via the schedulable class.
-        String CRON_EXP = '0 0 0 15 3 ? 2022';    
+        String CRON_EXP = '0 0 0 15 3 ? 2023';    
         String jobId = system.schedule('Sync', CRON_EXP, new Sync_QueueableSchedule());
         Test.StopTest();
     }

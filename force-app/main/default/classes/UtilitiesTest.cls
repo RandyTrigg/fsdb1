@@ -158,11 +158,6 @@ public class UtilitiesTest {
                 )
             }
         );
-        Utilities.fetchAllRecords(
-            'Proposal__c',
-            new List<String>{ 'Account__r.Name' },
-            null
-        );
         Utilities.fetchRecords(
             'Proposal__c',
             'WHERE Id = \'' +

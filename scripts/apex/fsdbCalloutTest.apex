@@ -72,13 +72,13 @@
 
  */
 
-/*
+
         // BATCHABLE 'ChartOfAccounts'
         List<String> objNames = new List<String>{'Account', 'Contact', 'Recurring_Donations', 'Campaign', 'GiftOpportunity', 'Opportunity', 'Gift_to_Opportunity', 'Transaction_to_Payment'};
         Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 5);
         System.debug('batchInstanceId: ' + batchInstanceId);
-*/
 
+/*
         // For schedulable:
         // Run sync for each FS COA
         List<FS_Group_Settings__mdt> fsGroups = [SELECT GFW_COA_Name__c, Designated_Role_for_Ownership__c
@@ -86,7 +86,7 @@
 
         // QUEUEABLE
         System.enqueueJob(new Sync_Queueable(fsGroups));
-
+*/
 
 
 
