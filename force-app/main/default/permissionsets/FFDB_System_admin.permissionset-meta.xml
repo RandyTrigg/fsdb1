@@ -6311,6 +6311,10 @@
         <tab>npe01__OppPayment__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>Proposal_Review</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <userPermissions>
         <enabled>true</enabled>
         <name>CreateCustomizeReports</name>
