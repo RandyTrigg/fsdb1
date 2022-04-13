@@ -42,8 +42,6 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
 
     connectedCallback() {
         if (this.review) {
-            console.log('reviewForm.connectedCallback: this.review.formComponents');
-            console.dir(this.review.formComponents);
             this.loadData();
         }
     }
@@ -75,7 +73,9 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
             
             // Update components for markup
             for (let cmp of this.review.formComponents) {
-                //Add "Cumulative" to the lable of any input whose object is GM Data
+                //console.log('reviewForm.loadData loop: cmp');
+                //console.dir(cmp);
+                //Add "Cumulative" to the label of any input whose object is GM Data
                 if (cmp.objectName==="GM_Data__c" && cmp.label) {
                     cmp.label = cmp.label + " (Cumulative)";
                 }
@@ -125,7 +125,8 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
                         cmp.isLabel = true;
                         break;
                     case 'InputSelectMulti1':
-                        if (cmp.joinObjectName=='Classification_Assign__c' || cmp.joinObjectName=='Classification_Profile_Assign__c'){
+                        if ((cmp.joinObjectName=='Classification_Assign__c' || cmp.joinObjectName=='Classification_Profile_Assign__c') 
+                                && this.review.classificationAssignMap.size > 0){
                             // get the set of classifications that match the type
                             let classificationAssigns = this.review.classificationAssignMap[cmp.joinObjectType];
                             let multiSelectOptions = [];
