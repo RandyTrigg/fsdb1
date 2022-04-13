@@ -592,19 +592,32 @@ public without sharing class SyncController {
                 fieldType = String.valueof(fieldMapFSDB.get(fsdbFieldName).getDescribe().getType());        
                 System.debug('fieldtype: ' + fieldType);
                 gfwFieldName = fieldmapMDT.GFW_Field_API_Name__c;
-                if (fsdbFieldName == 'RecordTypeId') {
-                    // Special handling required:
-                    // JSON for record type contains related info about record type
-                    // Extract DeveloperName from record type info
-                    Map<String,Object> rTypeMap = (Map<String,Object>)gfwInfo.get('RecordType');
-                    sObj = populateFields(sObj, fieldType, fieldmapMDT, rTypeMap.get('DeveloperName'));
-                    System.debug('This is the recordtype name field in GFW for mapping to FSDB record type Id: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + gfwInfo.get('RecordType'));
+                System.debug('gfwFieldName: ' + gfwFieldName);
+                if (fsdbFieldName == 'OwnerId') {
+                    sObj.put(fsdbFieldName, slRec.FSGroupOwnerId__c);
+                } else if (gfwFieldName.contains('.')) {
+                    // Special handling required for related fields (e.g., AQB__CreditedOpportunity__r.Box_Link__c).
+		            Map<String, Object> innerMap = new Map<String, Object>(gfwInfo);
+                    List<String> relPieces = gfwFieldName.split('\\.');
+		            Integer counter = relPieces.size() - 1;
+                    System.debug('counter: ' + counter);
+                    // Loop thru each piece. While we're less than numPieces, retrieve object
+                    Integer i=0;
+                    do {
+                        String relPiece = relPieces[i];
+                        innerMap = (Map<String,Object>)innerMap.get(relPiece);
+                        System.debug('innerMap: ' + innerMap + '; relPiece: ' + relPiece);
+                        i++;
+	                } while ( i < counter && innerMap != null);
+                    System.debug('This is a related name field: ' + gfwFieldName + ' (relPieces: ' + relPieces + ') which we retrieve from gfwInfo: ' + gfwInfo + '; AND within that from innerMap: ' + innerMap);
+                    if (innerMap != null) {
+                        gfwFieldName = relPieces[counter];
+                        sObj = populateFields(sObj, fieldType, fieldmapMDT, innerMap.get(gfwFieldName));
+                    }
                 } else if (gfwFieldName != null) {
                     System.debug('FSDB Field Type for ' + fsdbFieldName + ': ' + fieldType);
-                    System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' to this value: ' + gfwInfo.get(gfwFieldName));
+                    System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' based on gfwFieldName ' + gfwFieldName + ' to this value: ' + gfwInfo.get(gfwFieldName));
                     sObj = populateFields(sObj, fieldType, fieldmapMDT, gfwInfo.get(gfwFieldName));
-                } else if (fsdbFieldName == 'OwnerId') {
-                    sObj.put(fsdbFieldName, slRec.FSGroupOwnerId__c);
                 } else {
                     // Set field to default value in cmdt - TO DO: Cast type?
                     sObj.put(fsdbFieldName, fieldmapMDT.DefaultValue__c);
@@ -639,8 +652,6 @@ public without sharing class SyncController {
         // Cast value based on fieldType and set field.
         if (gfwValue == null) {
             sObj.put(fsdbFieldName, null);
-        } else if (fieldType == 'STRING' || fieldType == 'TEXTAREA' || fieldType == 'EMAIL' || fieldType == 'PICKLIST') {
-            sObj.put(fsdbFieldName, (String)gfwValue);
         } else if ( fieldType == 'CURRENCY' ) {
             sObj.put(fsdbFieldName, (Decimal)gfwValue);
         } else if (fieldType == 'INTEGER') {
@@ -674,6 +685,10 @@ public without sharing class SyncController {
                 sObj.putSObject(relName, refSObj);
                 System.debug('Relationship name: ' + relName);
             }
+        }
+        else {
+            // Catch all is to cast as string (textarea, picklists, phone, email, URL, etc.)
+            sObj.put(fsdbFieldName, (String)gfwValue);
         }
         System.debug('sObj from populatefields: ' + sObj);
         return sObj;
@@ -711,8 +726,8 @@ public without sharing class SyncController {
             'Contact' => ctIds,
             'Recurring_Donations' => recDonIds,
             'Gift_to_Opportunity' => giftIds,
-            'Opportunity' => oppIds,
-            'Campaign' => campIds
+            'Opportunity' => oppIds
+            // 'Campaign' => campIds
         };
         for (String thisObjName : objNamesIdsMap.keyset()) {
             // For Contacts, Accounts, floating Opportunities, only upsert those not already in fsdb.
@@ -746,7 +761,7 @@ public without sharing class SyncController {
             'Contact' => ctsJSON,
             'ChartofAccounts' => coasJSON,
             'Recurring_Donations' => rdsJSON,
-            'Campaign' => campsJSON,
+            // 'Campaign' => campsJSON,
             'GiftOpportunity' => giftOppsJSON,
             'Gift_to_Opportunity' => giftsJSON,
             'Opportunity' => oppsJSON,
