@@ -42,6 +42,8 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
 
     connectedCallback() {
         if (this.review) {
+            console.log('reviewForm.connectedCallback: this.review.formComponents');
+            console.dir(this.review.formComponents);
             this.loadData();
         }
     }

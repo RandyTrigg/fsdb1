@@ -90,6 +90,7 @@
         <members>RecPage_Form_Picklist</members>
         <members>RecPage_Form_Log_Entry</members>
         <members>RecPage_Portfolio_Advisor_Assign</members>
+        <members>Proposal_Review</members>
         <name>FlexiPage</name>
     </types>
     <types>

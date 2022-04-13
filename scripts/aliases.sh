@@ -20,6 +20,9 @@ alias dxlistlogs='sfdx force:apex:log:list'
 # To view log, grab log id from above command, and insert into following:
 # sfdx force:apex:log:get --logid <log id>
 
+# Install the data loader package from powerloader (using hard-wired package version id). 
+alias dxinstalldataloader='sfdx force:package:install -p 04t440000009HJyAAM &> deploy-results.log'
+
 # Delete all log files from connected org
 # sfdx force:data:soql:query -q "SELECT Id FROM ApexLog" -r "csv" > out.csv
 # sfdx force:data:bulk:delete -s ApexLog -f out.csv
