@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LookupRelTo_SyncObjectMapping__c</fullName>
+    <description>Custom Metadata Type SyncObjectMapping to which this field mapping has a Reference type (lookup) relationship. Used to retrieve External Id in that lookup object for linking.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>LookupRelTo SyncObjectMapping</label>
+    <referenceTo>GFW_Sync_Object_Mapping__mdt</referenceTo>
+    <relationshipLabel>GFW Sync Field Mappings (LookupRelTo SyncObjectMapping)</relationshipLabel>
+    <relationshipName>GFW_Sync_Field_Mappings1</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

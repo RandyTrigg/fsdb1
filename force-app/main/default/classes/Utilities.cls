@@ -1,4 +1,4 @@
-public with sharing class Utilities {
+global class Utilities {
     // Miscellaneous utility constants and methods
 
     public static String EmailAddressIM = 'im@globalfundforwomen.org';
@@ -420,16 +420,51 @@ public with sharing class Utilities {
             ' failures.'
         );
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
-    } 
-    
-    // Return emails for given accounts.  Dish off to code in AccountController.
-    public static Map<Id, List<String>> emailsForAccounts(Set<Id> aIds) {
-        return AccountController.emailsForAccounts(aids); 
     }
 
     /*******************
      * METADATA-BASED METHODS
      *******************/
+
+    // Build a new record with the type passed in as an argument at run time.
+    public static sObject newRecord(String typeName) {
+        Schema.SObjectType targetType = Schema.getGlobalDescribe().get(typeName);
+        return targetType != null ? targetType.newSObject() : null; 
+    }
+
+    // Returns map of field name with ability to get describe.
+    public static Map<String, Schema.SObjectField> fieldMapForObject(String objName) {
+        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+        Map<String, Schema.SObjectField> fieldMap = schemaMap.get(objName)
+            .getDescribe()
+            .fields.getMap();
+        return fieldMap;
+    }
+    
+    // Returns map of record type DeveloperName to record type Id.
+    public static Map<String, Id> recTypeMapForObject(String objName) {
+        // Example used as reference: String gsRecordTypeID = Schema.getGlobalDescribe().get('Case').getDescribe().getRecordTypeInfosByName().get('Record Type Label').getRecordTypeId();
+        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+        Map<String, Schema.RecordTypeInfo> recTypeMap = schemaMap.get(objName)
+            .getDescribe()
+            .getRecordTypeInfosByDeveloperName();
+        Map<String, Id> recTypeMapNameId = new Map<String,Id>();
+        for (String name : recTypeMap.keyset()) {
+            recTypeMapNameId.put(name, recTypeMap.get(name).getRecordTypeId());
+        }
+        return recTypeMapNameId;
+    }
+
+    // Package Ids for WHERE IN query clause.
+    public static String packageIdsForQuery(Set<Id> Ids) {
+        // Ids in quotes, separated by commas, and encased as a whole in parentheses: '(\'a0D1Y000017aM9WUAU\',\'a0D1Y000017aMAYUA2\')'
+        String inIDsStr = '(';
+        for (Id thisId : Ids) {
+            inIDsStr = inIDsStr + '\'' + thisId + '\',';
+        }
+        inIDsStr = inIDsStr.removeEnd(',') + ')';
+        return inIDsStr;
+    }
 
     // Return record for given object with given id.  Fetch all local fields plus any given related ones.
     public static sObject fetchRecord(
@@ -453,7 +488,11 @@ public with sharing class Utilities {
     }
 
     // Build a child relationship sub-query, to be used in fetchRecord calls.
-    public static String buildChildSubQuery(String objName, String relName, String whereClause) {
+    public static String buildChildSubQuery(
+        String objName,
+        String relName,
+        String whereClause
+    ) {
         return '(SELECT ' +
             String.join(Utilities.fieldNamesForObject(objName), ', ') +
             ' FROM ' +
@@ -468,8 +507,9 @@ public with sharing class Utilities {
         String whereClause,
         String[] relatedFieldNames
     ) {
-        if (objName == null || whereClause == null)
+        if (objName == null)
             return null;
+        whereClause = whereClause != null ? ' ' + whereClause : ''; 
         String[] fieldNames = fieldNamesForObject(objName);
         if (relatedFieldNames != null)
             fieldNames.addAll(relatedFieldNames);
@@ -478,7 +518,6 @@ public with sharing class Utilities {
             String.join(fieldNames, ', ') +
             ' FROM ' +
             objName +
-            ' ' +
             whereClause;
         system.debug('fetchRecords: q = ' + q);
         return Database.query(q);

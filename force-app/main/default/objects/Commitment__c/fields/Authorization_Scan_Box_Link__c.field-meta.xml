@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Authorization_Scan_Box_Link__c</fullName>
+    <description>Scan of Authorization to charge CC monthly saved in Box</description>
+    <externalId>false</externalId>
+    <label>Authorization Scan Box Link</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

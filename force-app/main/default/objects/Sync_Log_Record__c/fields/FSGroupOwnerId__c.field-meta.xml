@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FSGroupOwnerId__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Field for setting OwnerId of new records so they belong to FS Group.</description>
+    <externalId>false</externalId>
+    <label>FSGroupOwnerId</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Sync_Log_Records</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

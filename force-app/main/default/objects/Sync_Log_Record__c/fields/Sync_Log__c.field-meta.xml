@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sync_Log__c</fullName>
+    <description>Parent Sync Log record</description>
+    <externalId>false</externalId>
+    <label>Sync Log</label>
+    <referenceTo>Sync_Log__c</referenceTo>
+    <relationshipLabel>Sync Log Records</relationshipLabel>
+    <relationshipName>Sync_Log_Records</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

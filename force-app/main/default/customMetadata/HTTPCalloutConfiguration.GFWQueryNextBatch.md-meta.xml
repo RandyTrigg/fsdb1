@@ -15,7 +15,7 @@
         <value xsi:type="xsd:string">callout:GFW_NamedCredential</value>
     </values>
     <values>
-        <field>HeaderParameters__c</field>
+        <field>HeaderParametersLong__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -35,7 +35,7 @@
         <value xsi:type="xsd:double">120000.0</value>
     </values>
     <values>
-        <field>URLParameters__c</field>
+        <field>URLParametersLong__c</field>
         <value xsi:nil="true"/>
     </values>
 </CustomMetadata>
