@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sync_Log_Record__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Link to related Sync Log Record responsible for updating/creating this Campaign.</description>
+    <externalId>false</externalId>
+    <label>Sync Log Record</label>
+    <referenceTo>Sync_Log_Record__c</referenceTo>
+    <relationshipLabel>Campaigns</relationshipLabel>
+    <relationshipName>Campaigns</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>
