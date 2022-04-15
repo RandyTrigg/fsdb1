@@ -22,6 +22,7 @@
         <name>ApexPage</name>
     </types>
     <types>
+        <members>Proposal_Review</members>
         <name>FlexiPage</name>
     </types>
     <types>
@@ -35,10 +36,6 @@
     </types>
     <types>
         <name>CustomMetadata</name>
-    </types>
-    <types>
-        <name>Contact.Contact_GM_Advisor</name>
-        <members>RecordType</members>
     </types>
     <version>53.0</version>
 </Package>
