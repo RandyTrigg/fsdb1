@@ -1,4 +1,4 @@
-public without sharing class Sync_BatchableUpsert implements Database.batchable<sObject>, Database.Stateful{
+public without sharing class Sync_BatchableUpsert implements Database.batchable<List<sObject>>, Database.Stateful{
     // Carries out upserts in batch sizes set in executable
 
     // Class variables set in start method and used in execute
@@ -13,24 +13,24 @@ public without sharing class Sync_BatchableUpsert implements Database.batchable<
         system.debug('parameter: ' + mdtObjNames);
     }
 
-    public Iterable<sObject> start(Database.BatchableContext bc) {
+    public Iterable<List<sObject>> start(Database.BatchableContext bc) {
         // Instantiates new SyncController to build records of type mdtObjName
         // Returns records to execute method for upserting
-        List<sObject> recs;
+        List<List<sObject>> recs;
         if (mdtObjNames.size() > 0) {
             System.debug('Batch START top mdtObjNames: ' + mdtObjNames);
             mdtObjName = mdtObjNames.remove(0);
             SyncController scThisFS = new SyncController();
-            recs = new List<sObject>(scThisFS.buildRecsToUpsert(mdtObjName));
+            recs = new List<List<sObject>>(scThisFS.buildRecsToUpsert(mdtObjName));
             extIdFieldReference = scThisFS.extIdFieldReference;
             objMap = scThisFS.getObjectMapping(mdtObjName);
             system.debug('Batch START this mdtObjName: ' + mdtObjName);
             System.debug('Batch START bottom mdtObjNames: ' + mdtObjNames);
         }
-        return recs; 
+        return recs;
     }
     
-    public void execute(Database.BatchableContext bc, List<sObject> recs) {
+    public void execute(Database.BatchableContext bc, List<List<sObject>> recs) {
         String resultMsg;
         String status;
         Id slRecId;
@@ -39,25 +39,27 @@ public without sharing class Sync_BatchableUpsert implements Database.batchable<
         // Loop through results to update Sync Log Records.
         if (recs != null && recs.size() > 0) {
             slrLookupFieldName = objMap.SyncLogRecordLookupFieldName__c;
-            Database.UpsertResult[] upsResults = Database.upsert( recs, extIdFieldReference, false);
-            System.debug('upsResults: ' + upsResults);
-            // Upsert results are in the same order as original list of records. 
-            for(Integer index = 0, size = upsResults.size(); index < size; index++) {
-                Sync_Log_Record__c slrecUpdate = new Sync_Log_Record__c();
-                slrecUpdate.Id = (Id)recs[index].get('Sync_Log_Record__c');
-                if(upsResults[index].isSuccess()) {
-                    status = 'Success';
-                    resultMsg = upsResults[index].isCreated() ? 
-                        (String)upsResults[index].getid() + ' was created' : 
-                        (String)upsResults[index].getid() + ' was updated';
-                    slrecUpdate.put(slrLookupFieldName, upsResults[index].getid());
-                } else {
-                    status = 'Error';
-                    resultMsg = String.join(upsResults[index].getErrors(), ';');
+            for (List<sObject> recBatch : recs) {
+                Database.UpsertResult[] upsResults = Database.upsert( recBatch, extIdFieldReference, false);
+                System.debug('upsResults: ' + upsResults);
+                // Upsert results are in the same order as original list of records. 
+                for(Integer index = 0, size = upsResults.size(); index < size; index++) {
+                    Sync_Log_Record__c slrecUpdate = new Sync_Log_Record__c();
+                    slrecUpdate.Id = (Id)recBatch[index].get('Sync_Log_Record__c');
+                    if(upsResults[index].isSuccess()) {
+                        status = 'Success';
+                        resultMsg = upsResults[index].isCreated() ? 
+                            (String)upsResults[index].getid() + ' was created' : 
+                            (String)upsResults[index].getid() + ' was updated';
+                        slrecUpdate.put(slrLookupFieldName, upsResults[index].getid());
+                    } else {
+                        status = 'Error';
+                        resultMsg = String.join(upsResults[index].getErrors(), ';');
+                    }
+                    slrecUpdate.Status__c = status;
+                    slrecUpdate.Results__c = resultMsg;
+                    upSLRs.add(slrecUpdate);
                 }
-                slrecUpdate.Status__c = status;
-                slrecUpdate.Results__c = resultMsg;
-                upSLRs.add(slrecUpdate);
             }
             if (upSLRs != null && !upSLRs.IsEmpty()) {
                 update upSLRs;
@@ -75,5 +77,4 @@ public without sharing class Sync_BatchableUpsert implements Database.batchable<
         }
     }
 
-    
 }

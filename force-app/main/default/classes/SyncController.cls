@@ -351,7 +351,9 @@ public without sharing class SyncController {
         Sync_Log__c sLog = new Sync_Log__c(
             Type__c = 'GFW to FSDB',
             DateTime_Start__c = startDateTime,
-            Status__c = 'Launched'
+            Status__c = 'Launched',
+            OwnerId = fsOwnerId,
+            FS_Group__c = fsCOA
         );
         insert sLog;
         syncLogId = sLog.Id;
@@ -368,8 +370,6 @@ public without sharing class SyncController {
                 slRec.Sync_Log__c = syncLogId;
                 slRec.Status__c = 'Pending';
                 slRec.Type__c = mdtObjName;
-                slRec.FSGroupOwnerId__c = fsOwnerId;
-                slRec.FS_Group__c = fsCOA;
                 slRecList.add(slRec);
             }
         }
@@ -393,7 +393,6 @@ public without sharing class SyncController {
                 slRec.Status__c = dr.isSuccess() ? 'Success' : 'Error';
                 slRec.Results__c = dr.isSuccess() ? 'Deleted: ' + dr.getId() : 'Error: ' + String.join(dr.getErrors(), ';');
                 slRecList.add(slRec);
-                slRec.FS_Group__c = fsCOA;
             }
             if (slRecList != null && slRecList.size() > 0) {
                 insert slRecList;
@@ -403,12 +402,13 @@ public without sharing class SyncController {
     }
 
     public List<sObject> retrievePendingLogRecs(String mdtObjName) {
-        List<sObject> objList = new List<sObject>(Utilities.fetchRecords(
+        String[] relFieldNames = new String[]{'Sync_Log__r.OwnerId', 'Sync_Log__r.FS_Group__c'};
+        List<sObject> logRecObjs = new List<sObject>(Utilities.fetchRecords(
             'Sync_Log_Record__c',
             'WHERE Type__c = \'' + mdtObjName + '\' AND Status__c = \'Pending\'',
-            null
+            relFieldNames
         ));
-        return objList;
+        return logRecObjs;
     }
 
     /*******************
@@ -549,9 +549,12 @@ public without sharing class SyncController {
      * BUILD RECORDS IN FSDB
      *******************/
 
-    public List<sObject> recsFromSyncLogRecs(String mdtObjName) {
+    public List<List<sObject>> recsFromSyncLogRecs(String mdtObjName) {
         // Retrieve Sync Log Records by type and upsert
         // Iterate through FSDB fieldmappings to populate fsdb records with GFW-queried values or default values.
+        Map<String,List<sObject>> fsRecsMap = new Map<String,List<sObject>>();
+        List<sObject> recList = new List<sObject>();
+        List<List<sObject>> recListOfList = new List<List<sObject>>();
         GFW_Sync_Object_Mapping__mdt objMap = getObjectMapping(mdtObjName);
         Map<String,GFW_Sync_Field_Mapping__mdt> fieldMap = getFieldMappingsFSDB(mdtObjName);
         String gfwObjName = objMap.GFW_Object_Name__c;
@@ -569,10 +572,10 @@ public without sharing class SyncController {
         List<sObject> objs = new List<sObject>();
 
         // Retrieve Sync Log Records for json
-        List<sObject> objList = new List<sObject>(retrievePendingLogRecs(mdtObjName));
+        List<sObject> logRecObjs = new List<sObject>(retrievePendingLogRecs(mdtObjName));
 
         // Loop through Sync Log records to retrieve and deserialize json; create new records
-        for (sObject obj : objList) {
+        for (sObject obj : logRecObjs) {
             Sync_Log_Record__c slRec = (Sync_Log_Record__c)obj;
 
             System.debug('Record info: ' + slRec.RecordInfo__c);
@@ -594,7 +597,7 @@ public without sharing class SyncController {
                 gfwFieldName = fieldmapMDT.GFW_Field_API_Name__c;
                 System.debug('gfwFieldName: ' + gfwFieldName);
                 if (fsdbFieldName == 'OwnerId') {
-                    sObj.put(fsdbFieldName, slRec.FSGroupOwnerId__c);
+                    sObj.put(fsdbFieldName, slRec.Sync_Log__r.OwnerId);
                 } else if (gfwFieldName.contains('.')) {
                     // Special handling required for related fields (e.g., AQB__CreditedOpportunity__r.Box_Link__c).
 		            Map<String, Object> innerMap = new Map<String, Object>(gfwInfo);
@@ -623,14 +626,24 @@ public without sharing class SyncController {
                     sObj.put(fsdbFieldName, fieldmapMDT.DefaultValue__c);
                 }
             } // End for each FSDB field
-            // Add link to Sync Log Record
+            // Add link to Sync Log Record and build Map of FS -> List of recs
             sObj.put('Sync_Log_Record__c', slRec.Id);
             System.debug('sObj to add: ' + sObj);
             // syncLogRecIds.add(slRec.Id);
-            objs.add(sObj);
+            // TO DO: Once tested, clean up old code that's been commented out.
+            if (fsRecsMap.containsKey(slRec.Sync_Log__r.FS_Group__c)) {
+                recList = fsRecsMap.get(slRec.Sync_Log__r.FS_Group__c);
+            } else {
+                recList = new List<SObject>();
+            }
+            recList.add(sObj);
+            fsRecsMap.put(slRec.Sync_Log__r.FS_Group__c, recList);
+            // objs.add(sObj);
         } // End for each sync log record
         System.debug('List of objs to insert: ' + objs);
-        return objs;
+        // return objs;
+        recListOfList = fsRecsMap.values();
+        return recListOfList;
     }
  
     public sObject populateFields(sObject sObj, String fieldType, GFW_Sync_Field_Mapping__mdt fieldmapMDT, Object gfwValue) {
@@ -783,7 +796,7 @@ public without sharing class SyncController {
      * 
      *******************/
     
-     public List<sObject> buildRecsToUpsert(String mdtObjName) {
+     public List<List<sObject>> buildRecsToUpsert(String mdtObjName) {
         // Returns sObjects of specified type for caller to upsert
         // Initialize vars
         setObjMappingsList();
