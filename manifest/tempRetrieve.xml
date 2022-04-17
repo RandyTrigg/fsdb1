@@ -19,8 +19,11 @@
         <name>FlexiPage</name>
     </types>
     <types>
-        <members>GFW community member Assessor</members>
         <name>Profile</name>
+    </types>
+    <types>
+        <members>formsUtilities</members>
+        <name>LightningComponentBundle</name>
     </types>
     <version>53.0</version>
 </Package>
