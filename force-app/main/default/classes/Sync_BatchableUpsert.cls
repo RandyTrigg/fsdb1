@@ -26,6 +26,7 @@ public without sharing class Sync_BatchableUpsert implements Database.batchable<
             objMap = scThisFS.getObjectMapping(mdtObjName);
             system.debug('Batch START this mdtObjName: ' + mdtObjName);
             System.debug('Batch START bottom mdtObjNames: ' + mdtObjNames);
+            system.debug('Size of recs list (should be 2): ' + recs.size());
         }
         return recs;
     }
@@ -40,6 +41,7 @@ public without sharing class Sync_BatchableUpsert implements Database.batchable<
         if (recs != null && recs.size() > 0) {
             slrLookupFieldName = objMap.SyncLogRecordLookupFieldName__c;
             for (List<sObject> recBatch : recs) {
+                System.debug('Size of recBatch: ' + recBatch.size());
                 Database.UpsertResult[] upsResults = Database.upsert( recBatch, extIdFieldReference, false);
                 System.debug('upsResults: ' + upsResults);
                 // Upsert results are in the same order as original list of records. 

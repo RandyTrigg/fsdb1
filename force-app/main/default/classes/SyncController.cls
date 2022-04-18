@@ -739,8 +739,8 @@ public without sharing class SyncController {
             'Contact' => ctIds,
             'Recurring_Donations' => recDonIds,
             'Gift_to_Opportunity' => giftIds,
-            'Opportunity' => oppIds
-            // 'Campaign' => campIds
+            'Opportunity' => oppIds,
+            'Campaign' => campIds
         };
         for (String thisObjName : objNamesIdsMap.keyset()) {
             // For Contacts, Accounts, floating Opportunities, only upsert those not already in fsdb.
@@ -774,7 +774,7 @@ public without sharing class SyncController {
             'Contact' => ctsJSON,
             'ChartofAccounts' => coasJSON,
             'Recurring_Donations' => rdsJSON,
-            // 'Campaign' => campsJSON,
+            'Campaign' => campsJSON,
             'GiftOpportunity' => giftOppsJSON,
             'Gift_to_Opportunity' => giftsJSON,
             'Opportunity' => oppsJSON,
