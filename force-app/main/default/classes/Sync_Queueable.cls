@@ -32,7 +32,7 @@ public without sharing class Sync_Queueable implements Queueable, Database.Allow
                 objNames.add(objMap.DeveloperName);
             }
             if (Test.isRunningTest()) objNames = new List<String>{'Account'};
-            Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 5);
+            Id batchInstanceId = Database.executeBatch(new Sync_BatchableUpsert(objNames), 2);
             System.debug('batchInstanceId: ' + batchInstanceId);
         }
     }      
