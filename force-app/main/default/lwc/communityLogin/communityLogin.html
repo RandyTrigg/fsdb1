@@ -1,0 +1,62 @@
+<template>
+
+    <form>
+
+     <div class="main-container slds-grid slds-grid_vertical">
+
+
+         <div class=slds-col>
+
+             <h1 class="text-align-center">
+                 <b class="main-heading">Welcome to Community,</b> 
+             </h1>
+             
+             <h1 class="text-align-center">
+                 <b class="main-heading"> Black Feminist Fund</b>
+             </h1>
+
+             <p class="slds-var-p-top_medium text-align-center">
+                 <span class="sub-heading">Please login below or click "Register" to sign up!</span>
+             </p>
+
+             <template if:true={errorCheck}>
+                 <div class="error slds-var-p-around_x-small slds-var-p-top_small" role="alert">
+                     <span>{errorMessage}</span>
+                 </div>
+             </template>
+
+         </div>
+
+         <div class="slds-col slds-var-p-top_small">                
+             <div class="slds-form-element">
+                
+                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                     <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="username" size="xx-small"></lightning-icon>
+                     <input type="text" data-id="inputUsername" placeholder="Username" class="slds-input input-element" onchange={handleUserNameChange} required><label class="slds-form-element__label" for="inputUsername">Username</label></input>
+                 </div>
+             </div>
+         </div>
+
+         <div class="slds-col slds-var-p-top_small">               
+             <div class="slds-form-element">
+                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                     <lightning-icon class="input-icon" icon-name="utility:lock" alternative-text="username" size="xx-small"></lightning-icon>
+                     <label class="slds-form-element__label" for="inputPassword">Password</label>
+                     <input type="password" data-id="inputPassword" placeholder="Password" class="slds-input input-element" onchange={handlePasswordChange} required/>
+                 </div>
+             </div>
+         </div>
+
+         <div class="slds-col slds-var-p-top_small">
+             <button type="submit" class="login-button slds-button" onclick={handleLogin}>Log In</button>
+         </div>
+
+         <div class="slds-col slds-var-p-top_small">
+             <a href="/bff/s/login/ForgotPassword" class="forgot-password-text">Forgot your password?</a>
+             <a href="/bff/s/login/SelfRegister" class="register-text">Register</a>
+         </div>
+
+     </div>
+
+     </form>
+</template>
