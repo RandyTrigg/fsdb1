@@ -163,11 +163,12 @@ public without sharing class SyncController {
     }
 
     public void setObjMappingsList() {
-        // Retrieve all object mappings
+        // Retrieve all active object mappings
+        String whereClause = 'WHERE Active__c = true ORDER BY Sort_order__c';
         String objName = 'GFW_Sync_Object_Mapping__mdt';
         mdts = Utilities.fetchRecords(
             objName,
-            null,
+            whereClause,
             null);
         System.debug('mdts: ' + mdts);
     }
@@ -351,7 +352,9 @@ public without sharing class SyncController {
         Sync_Log__c sLog = new Sync_Log__c(
             Type__c = 'GFW to FSDB',
             DateTime_Start__c = startDateTime,
-            Status__c = 'Launched'
+            Status__c = 'Launched',
+            OwnerId = fsOwnerId,
+            FS_Group__c = fsCOA
         );
         insert sLog;
         syncLogId = sLog.Id;
@@ -403,12 +406,13 @@ public without sharing class SyncController {
     }
 
     public List<sObject> retrievePendingLogRecs(String mdtObjName) {
-        List<sObject> objList = new List<sObject>(Utilities.fetchRecords(
+        String[] relFieldNames = new String[]{'Sync_Log__r.OwnerId', 'Sync_Log__r.FS_Group__c'};
+        List<sObject> logRecObjs = new List<sObject>(Utilities.fetchRecords(
             'Sync_Log_Record__c',
             'WHERE Type__c = \'' + mdtObjName + '\' AND Status__c = \'Pending\'',
-            null
+            relFieldNames
         ));
-        return objList;
+        return logRecObjs;
     }
 
     /*******************
@@ -569,10 +573,10 @@ public without sharing class SyncController {
         List<sObject> objs = new List<sObject>();
 
         // Retrieve Sync Log Records for json
-        List<sObject> objList = new List<sObject>(retrievePendingLogRecs(mdtObjName));
+        List<sObject> logRecObjs = new List<sObject>(retrievePendingLogRecs(mdtObjName));
 
         // Loop through Sync Log records to retrieve and deserialize json; create new records
-        for (sObject obj : objList) {
+        for (sObject obj : logRecObjs) {
             Sync_Log_Record__c slRec = (Sync_Log_Record__c)obj;
 
             System.debug('Record info: ' + slRec.RecordInfo__c);
@@ -594,7 +598,7 @@ public without sharing class SyncController {
                 gfwFieldName = fieldmapMDT.GFW_Field_API_Name__c;
                 System.debug('gfwFieldName: ' + gfwFieldName);
                 if (fsdbFieldName == 'OwnerId') {
-                    sObj.put(fsdbFieldName, slRec.FSGroupOwnerId__c);
+                    sObj.put(fsdbFieldName, slRec.Sync_Log__r.OwnerId);
                 } else if (gfwFieldName.contains('.')) {
                     // Special handling required for related fields (e.g., AQB__CreditedOpportunity__r.Box_Link__c).
 		            Map<String, Object> innerMap = new Map<String, Object>(gfwInfo);
@@ -721,6 +725,9 @@ public without sharing class SyncController {
         // Gather json records for each set of Ids.
         Set<Id> idsToUpsert;
         List<Object> records;
+
+        // Is there a more generic way of dealing with these?
+        // Maybe as a class variable? 
         Map<String, Set<Id>> objNamesIdsMap = new Map<String, Set<Id>>{
             'Account' => acctIds,
             'Contact' => ctIds,
@@ -729,6 +736,12 @@ public without sharing class SyncController {
             'Opportunity' => oppIds
             // 'Campaign' => campIds
         };
+        // Use this List<GFW_Sync_Object_Mapping__mdt> mdts
+        for (GFW_Sync_Object_Mapping__mdt objMDT : mdts) {
+            // Add checkbox for insert only
+            // switch on objMDT.DeveloperName { }
+        }
+
         for (String thisObjName : objNamesIdsMap.keyset()) {
             // For Contacts, Accounts, floating Opportunities, only upsert those not already in fsdb.
             idsToUpsert = thisObjName == 'Contact' || thisObjName == 'Account' || thisObjName == 'Opportunity' ? recIdsToInsert(thisObjName, objNamesIdsMap.get(thisObjName)) : objNamesIdsMap.get(thisObjName);
