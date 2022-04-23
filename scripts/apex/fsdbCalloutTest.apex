@@ -1,5 +1,5 @@
 // For each COA retrieved...
-/*
+
         String fsRole;
         List<FS_Group_Settings__mdt> fsGroups;
 
@@ -18,7 +18,7 @@
                 scThisFS.fsRole = fs.Designated_Role_for_Ownership__c;
                 scThisFS.LaunchSync();
 
-
+/*
 
                 // 'Recurring_Donations', 'ChartOfAccounts', 'Campaign', 'Gift_to_Opportunity', 'GiftOpportunity', 'Opportunity', 'Transaction_to_Payment'};
                 String mdtObjName = 'Gift_to_Opportunity';
@@ -65,12 +65,12 @@
             }
         }
 
-
+*/
 
             }
         }   
 
-*/
+
 
 /*
         // BATCHABLE 'ChartOfAccounts'
@@ -81,11 +81,13 @@
 
         // For schedulable:
         // Run sync for each FS COA
+        /*
         List<FS_Group_Settings__mdt> fsGroups = [SELECT GFW_COA_Name__c, Designated_Role_for_Ownership__c 
         FROM FS_Group_Settings__mdt WHERE Active__c = TRUE];
 
         // QUEUEABLE
         System.enqueueJob(new Sync_Queueable(fsGroups));
+        */
 
 
 
