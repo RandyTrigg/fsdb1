@@ -295,11 +295,23 @@ public without sharing class SyncController {
         // Build set of Ids for records not already in FSDB to insert
         Set<Id> idsToQuery = new Set<Id>();
         System.debug('idsGathered: ' + idsGathered);
+        String inIDsStr;
         if (!idsGathered.isEmpty()) {
             GFW_Sync_Object_Mapping__mdt objMDT = getObjectMapping(mdtObjName);
             String gfwObjName = objMDT.GFW_Object_Name__c;
             String fsdbObjName = objMDT.FSDB_Object_Name__c;
-            String inIDsStr = Utilities.packageIdsForQuery(idsGathered);
+            Boolean hasPrefExtId = objMDT.PrefixExternalIds__c;
+            if (hasPrefExtId) {
+                // This object adds prefix to External Ids. Prefix Ids and package for query.
+                String inList = '(';
+                for (Id thisId : idsGathered) {
+                    inList = inList + '\'' + fsCOA + '_' + thisId + '\',';
+                }
+                inIDsStr = inList.removeEnd(',') + ')';
+                System.debug('Inside recIdsToInsert w/ prefixed ext Id for ' + gfwObjName + ': ' + inIdsStr);
+            } else {
+                inIDsStr = Utilities.packageIdsForQuery(idsGathered);
+            }
             String extIdFieldName = externalIdFieldName(mdtObjName);
             System.debug('external id fieldname for ' + mdtObjName + ': ' + extIdFieldName);
             String whereClause = 'WHERE ' + externalIdFieldName(mdtObjName) + ' IN ' + inIDsStr; 
@@ -309,7 +321,10 @@ public without sharing class SyncController {
             if (exstRecs!=null && !exstRecs.IsEmpty()) {
                 // Remove existing ids from list
                 for (sObject extRec : exstRecs) {
-                    idsGathered.remove((Id)extRec.get(extIdFieldName));
+                    // Remove prefix if it exists
+                    String extIdStr = String.valueOf(extRec.get(extIdFieldName));
+                    // TO DO: Clean up once tested. Id extId = hasPrefExtId ? (Id)extIdStr.remove(fsCOA + '_') : (Id)extIdStr;
+                    idsGathered.remove((Id)extIdStr.remove(fsCOA + '_'));
                 }
             }
             idsToQuery.addAll(idsGathered);
@@ -454,6 +469,7 @@ public without sharing class SyncController {
     
     public void gatherGiftCredits() {
         // Retrieve gift credits and their linked accounts/contacts from giftIds.
+        // Contacts gathered via gift credits.
         // TO DO: Only gather gift credits where Contact's Account not equal to gift's Account
         // Rely on AQB_DonorAccount__c, not Credited Account; AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         if (!giftIds.isEmpty()) {
@@ -465,8 +481,6 @@ public without sharing class SyncController {
             Map<Id, Id> extGiftContactIdMap = new Map<Id, Id>();
             if (records != null && records.size()>0) {
                 // Stash gc record json and gather parent/related Ids
-                // TO DO: Add the JSON to the Map instead of this variable.
-                gcsJSON.add(records);
                 for (Object rec : records) {
                     Map<String, Object> gc = (Map<String, Object>)rec;
                     System.debug('>>> Gift Credits: ' + gc);
@@ -477,6 +491,8 @@ public without sharing class SyncController {
                         System.debug('GiftCredit contactIds: ' + ctIds);
                         pAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
                         if (pAcct != null) acctIds.add((Id)pAcct.get('AccountId'));
+                        // TO DO: Update this to be only gcs that we need to add. objNamesJSONMap.put(mdtObjName, records);
+                        // TO DO: If pAcct.get('AccountId') != AQB__DonorAccount__c, then add JSON?
                         // Package GCs for OppContactRoles - GFWGiftExternalId on Opp and GFWContactExternalId.
                         // System.debug('giftid: ' + (Id)gc.get('AQB__GiftId__c') + '; contactId: ' + (Id)gc.get('AQB__ContactId__c'));
                         extGiftContactIdMap.put((Id)gc.get('AQB__GiftId__c'), (Id)gc.get('AQB__ContactId__c'));   
@@ -721,7 +737,7 @@ public without sharing class SyncController {
         // Retrieve children records and parent Ids
         gatherCOAs();
         gatherTransactions();
-        // gatherGiftCredits(); TO DO: Reactivate when supported (and ObjMapping activated). 
+        gatherGiftCredits(); // TO DO: Reactivate when supported (and ObjMapping activated). 
         gatherGiftOpportunities();
         gatherOpportunities();
 
