@@ -302,7 +302,7 @@ public without sharing class SyncController {
             String fsdbObjName = objMDT.FSDB_Object_Name__c;
             Boolean hasPrefExtId = objMDT.PrefixExternalIds__c;
             if (hasPrefExtId) {
-                // This object adds prefix to External Ids. Prefix Ids and package for query.
+                // This object has prefixed External Ids. Append Prefix to Ids for internal querying.
                 String inList = '(';
                 for (Id thisId : idsGathered) {
                     inList = inList + '\'' + fsCOA + '_' + thisId + '\',';
@@ -323,7 +323,7 @@ public without sharing class SyncController {
                 for (sObject extRec : exstRecs) {
                     // Remove prefix if it exists
                     String extIdStr = String.valueOf(extRec.get(extIdFieldName));
-                    // TO DO: Clean up once tested. Id extId = hasPrefExtId ? (Id)extIdStr.remove(fsCOA + '_') : (Id)extIdStr;
+                    System.debug('Removing extId: ' + (String)extIdStr.remove(fsCOA + '_'));
                     idsGathered.remove((Id)extIdStr.remove(fsCOA + '_'));
                 }
             }
@@ -737,7 +737,7 @@ public without sharing class SyncController {
         // Retrieve children records and parent Ids
         gatherCOAs();
         gatherTransactions();
-        gatherGiftCredits(); // TO DO: Reactivate when supported (and ObjMapping activated). 
+        gatherGiftCredits(); 
         gatherGiftOpportunities();
         gatherOpportunities();
 
@@ -745,7 +745,7 @@ public without sharing class SyncController {
         Set<Id> idsToUpsert;
         List<Object> records;
 
-        // Maybe establish as a class variable - evaluate afterwards. leave for now.
+        // TO DO: Maybe establish as a class variable - evaluate afterwards. leave for now.
         Map<String, Set<Id>> objNamesIdsMap = new Map<String, Set<Id>>{
             'Account' => acctIds,
             'Contact' => ctIds,
@@ -759,8 +759,7 @@ public without sharing class SyncController {
         for (GFW_Sync_Object_Mapping__mdt thisObj : mdts) {
             String thisObjName = thisObj.DeveloperName;
             if ( objNamesIdsMap.containsKey(thisObjName) ) {
-                // UpsertNewOnly: E.g. Contacts, Accounts, floating Opportunities.
-                // Only upsert new records not already in fsdb.
+                // UpsertNewOnly: Only upsert records not already in fsdb. (Contacts, Accounts, floating Opportunities.)
                 idsToUpsert = thisObj.UpsertNewOnly__c ? recIdsToInsert(thisObjName, objNamesIdsMap.get(thisObjName)) : objNamesIdsMap.get(thisObjName);
                 System.debug('thisObjName: ' + thisObjName + '; idsToUpsert: ' + idsToUpsert);
                 if (!idsToUpsert.IsEmpty() && idsToUpsert != null) {
