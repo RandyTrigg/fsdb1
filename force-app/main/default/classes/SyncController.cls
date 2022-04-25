@@ -16,7 +16,7 @@ public without sharing class SyncController {
      *******************/
 
     // Class variables set upon instantiation for sync launch
-    public String fsCOA;
+    public String fsCOA; // Note: For buildRecsForUpsert, set based on sync logs
     public String fsRole;
     public Datetime startDateTime;
     public Id syncLogId;
@@ -205,7 +205,8 @@ public without sharing class SyncController {
             'GFW_Sync_Object_Mapping__r.FSDB_External_Id_Field_API_Name__c', 
             'GFW_Sync_Object_Mapping__r.FSDB_Object_Name__c', 
             'GFW_Sync_Object_Mapping__r.GFW_Object_Name__c',
-            'LookupRelTo_SyncObjectMapping__r.FSDB_External_Id_Field_API_Name__c'};
+            'LookupRelTo_SyncObjectMapping__r.FSDB_External_Id_Field_API_Name__c',
+            'LookupRelTo_SyncObjectMapping__r.PrefixExternalIds__c'};
         Map<String,GFW_Sync_Field_Mapping__mdt> gfwFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         Map<String,GFW_Sync_Field_Mapping__mdt> fsdbFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         String orderByClause = 'ORDER BY GFW_Sync_Object_Mapping__c';
@@ -582,14 +583,12 @@ public without sharing class SyncController {
         String fsdbObjName = objMap.FSDB_Object_Name__c;
         recTypeMapDevNameId = Utilities.recTypeMapForObject(fsdbObjName);
         fieldMapFSDB = Utilities.fieldMapForObject(fsdbObjName);
-        
-        // Set public class variable to field reference for external id (required for upsert operation)
-        String fsdbExternalIdFieldName = objMap.FSDB_External_Id_Field_API_Name__c;
-        extIdFieldReference = fieldMapFSDB.get(fsdbExternalIdFieldName); 
-        
-        // Declare method variables
         String fieldType, gfwFieldName;
         List<sObject> objs = new List<sObject>();
+
+        // Set public class variable to field reference for external id (required for upsert operation)
+        String fsdbExternalIdFieldName = externalIdFieldName(mdtObjName); // objMap.FSDB_External_Id_Field_API_Name__c;
+        extIdFieldReference = fieldMapFSDB.get(fsdbExternalIdFieldName);
 
         // Retrieve Sync Log Records for json
         List<sObject> logRecObjs = new List<sObject>(retrievePendingLogRecs(mdtObjName));
@@ -597,6 +596,7 @@ public without sharing class SyncController {
         // Loop through Sync Log records to retrieve and deserialize json; create new records
         for (sObject obj : logRecObjs) {
             Sync_Log_Record__c slRec = (Sync_Log_Record__c)obj;
+            fsCOA = slRec.Sync_Log__r.FS_Group__c;
 
             System.debug('Record info: ' + slRec.RecordInfo__c);
             // Cast json as map of fieldname(string) to fieldvalue(object)
@@ -618,6 +618,10 @@ public without sharing class SyncController {
                 System.debug('gfwFieldName: ' + gfwFieldName);
                 if (fsdbFieldName == 'OwnerId') {
                     sObj.put(fsdbFieldName, slRec.Sync_Log__r.OwnerId);
+                } else if (fsdbFieldName == fsdbExternalIdFieldName && objMap.PrefixExternalIds__c) {
+                    // Prefixed External Id: Append prefix before setting.
+                    // Note: Regular external Ids set the same as other fields. 
+                    sObj.put(fsdbFieldName, fsCOA + '_' + gfwInfo.get(gfwFieldName));
                 } else if (gfwFieldName.contains('.')) {
                     // Special handling required for related fields (e.g., AQB__CreditedOpportunity__r.Box_Link__c).
 		            Map<String, Object> innerMap = new Map<String, Object>(gfwInfo);
@@ -701,8 +705,11 @@ public without sharing class SyncController {
                 String extIdFieldNameByMDT = fieldmapMDT.LookupRelTo_SyncObjectMapping__c != null ? 
                     fieldmapMDT.LookupRelTo_SyncObjectMapping__r.FSDB_External_Id_Field_API_Name__c : 
                     externalIdFieldName(refObjName);
-                System.debug('external id field name: ' + extIdFieldNameByMDT + 'value: ' + (Id)gfwValue);
-                refSObj.put(extIdFieldNameByMDT, (Id)gfwValue);
+                // Append prefix on external Id of related record if needed.
+                Boolean needsPref = fieldmapMDT.LookupRelTo_SyncObjectMapping__r.PrefixExternalIds__c;
+                String extId = (needsPref ? fsCOA + '_' : '') + (String)gfwValue;
+                refSObj.put(extIdFieldNameByMDT, extId);
+                System.debug('external id field name: ' + extIdFieldNameByMDT + 'value: ' + extId);
                 relName =  String.valueof(fieldMapFSDB.get(fsdbFieldName).getDescribe().getRelationshipName());
                 // Set relationship (e.g., LookupRelationship__r) to refSObj (sObject reference)
                 sObj.putSObject(relName, refSObj);
