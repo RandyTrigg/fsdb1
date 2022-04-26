@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ExternalID__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>External ID for use when importing related records</description>
+    <externalId>true</externalId>
+    <inlineHelpText>External ID for use when importing related records</inlineHelpText>
+    <label>ExternalID</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

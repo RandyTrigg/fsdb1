@@ -28,6 +28,7 @@
         <members>Form_Picklist__c</members>
         <members>Form_Log_Entry__c</members>
         <members>Portfolio_Advisor_Assign__c</members>
+        <members>Form_Picklist_Phrase__c</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -57,6 +58,7 @@
         <members>Form_Picklist__c-Form Picklist Layout</members>
         <members>Form_Log_Entry__c-Form Log Entry Layout</members>
         <members>Portfolio_Advisor_Assign__c-Portfolio-Advisor Assign Layout</members>
+        <members>Form_Picklist_Phrase__c-Form Picklist Phrase Layout</members>
         <name>Layout</name>
     </types>
     <types>
@@ -73,6 +75,7 @@
         <members>Form_Picklist__c</members>
         <members>Form_Log_Entry__c</members>
         <members>Portfolio_Advisor_Assign__c</members>
+        <members>Form_Picklist_Phrase__c</members>
         <name>CustomTab</name>
     </types>
     <types>
@@ -91,6 +94,7 @@
         <members>RecPage_Form_Log_Entry</members>
         <members>RecPage_Portfolio_Advisor_Assign</members>
         <members>Proposal_Review</members>
+        <members>RecPage_Form_Picklist_Phrase</members>
         <name>FlexiPage</name>
     </types>
     <types>

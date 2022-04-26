@@ -4,15 +4,18 @@
         <name>GlobalValueSet</name>
     </types>
     <types>
+        <members>Form_Picklist_Phrase__c</members>
         <name>CustomObject</name>
     </types>
     <types>
         <name>CustomField</name>
     </types>
     <types>
+        <members>Form_Picklist_Phrase__c</members>
         <name>CustomTab</name>
     </types>
     <types>
+        <members>Form_Picklist_Phrase__c-Form Picklist Phrase Layout</members>
         <name>Layout</name>
     </types>
     <types>
@@ -22,7 +25,7 @@
         <name>ApexPage</name>
     </types>
     <types>
-        <members>Proposal_Review</members>
+        <members>RecPage_Form_Picklist_Phrase</members>
         <name>FlexiPage</name>
     </types>
     <types>
@@ -36,6 +39,10 @@
     </types>
     <types>
         <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>Form_Picklist_Phrase__c.All</members>
+        <name>ListView</name>
     </types>
     <version>53.0</version>
 </Package>
