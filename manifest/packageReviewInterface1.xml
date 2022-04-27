@@ -127,6 +127,8 @@
         <members>FormTagFormPhrasesInvocable</members>
         <members>FormController</members>
         <members>FormControllerTest</members>
+        <members>FormInstanceController</members>
+        <members>FormInstanceControllerTest</members>
         <members>BuildTestProposals</members>
         <members>LetterControllerTest</members>
         <members>Utilities</members>
@@ -186,6 +188,8 @@
         <members>invitesAssigned</members>
         <members>assessmentsAssigned</members>
         <members>lookup</members>
+        <members>formFieldViewer</members>
+        <members>formFieldEditor</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
@@ -197,6 +201,7 @@
     <types>
         <members>Form_Tag_form_phrases</members>
         <members>Account_updated_after_save</members>
+        <members>Form_Phrase_Translation_updated_after_save</members>
         <name>Flow</name>
     </types>
     <types>

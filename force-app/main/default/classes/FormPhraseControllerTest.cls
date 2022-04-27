@@ -11,11 +11,7 @@ public class FormPhraseControllerTest {
         Form_Phrase_Translation__c transSpan = [SELECT Id FROM Form_Phrase_Translation__c WHERE Language__c='Spanish' LIMIT 1];
         insert new Form__c (Name = 'test form', Type__c = 'Admin');
         Form__c f = [SELECT Id FROM Form__c LIMIT 1];
-        insert new Form_Section__c (Name = 'test form section', Form__c = f.Id, Sort_number__c = 1);
-        Form_Section__c sec = [SELECT Id FROM Form_Section__c LIMIT 1];
-        insert new Form_Item__c (Name = 'test form item', Form_Section__c = sec.Id, Sort_number__c = 1);
-        Form_Item__c item = [SELECT Id FROM Form_Item__c LIMIT 1];
-        insert new Form_Component__c (Name = 'test form component', Form_Item__c = item.Id, Sort_number__c = 1, Form_Phrase__c = phr.Id);
+        insert new Form_Component__c (Name = 'test form component', Form__c = f.Id, Sort_number__c = 1, Form_Phrase__c = phr.Id);
         Form_Component__c comp = [SELECT Id FROM Form_Component__c LIMIT 1];
         
         Test.startTest();
