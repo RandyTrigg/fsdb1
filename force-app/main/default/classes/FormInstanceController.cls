@@ -10,305 +10,96 @@ public class FormInstanceController {
         String[] relatedFieldNames = new List<String>{'Profile__r.Name', 'Profile__r.Account__c'};
         return (Form_Instance__c) Utilities.fetchRecord('Form_Instance__c', fiId, relatedFieldNames);
     }
-
+    
+    // Fetch all local fields of the form instance's form data, plus a few specified related fields. 
     @AuraEnabled
-    public static Form__c getForm(Id formId) {
-        return [
-            SELECT Id, Name, Form_Phrase_Title__c, Form_Phrase_Title__r.Phrase_in_English__c
-            FROM Form__c
-            WHERE Id = :formId
-        ][0];
-    }
-
-    @AuraEnabled
-    public static Form_Section__c[] getSections(Id formId) {
-        return [
-            SELECT Id, Name, Form_Phrase_Title__c, Form_Phrase_Title__r.Phrase_in_English__c, Sort_number__c
-            FROM Form_Section__c
-            WHERE Form__c = :formId
-            ORDER BY Sort_number__c
-        ];
-    }
-
-    @AuraEnabled
-    public static Form_Item__c[] getItems(Id sectionId) {
-        return [
-            SELECT Id, Name, Form_Phrase__c, Form_Phrase__r.Phrase_in_English__c, 
-            Sort_number__c, Sort_number_child__c, Sort_number_parent__c,
-            Hierarchical_sort_num__c, Hierarchical_level_num__c, Sub_numbered__c,
-            Type__c, Number_of_columns__c, Numbered__c, Hide_on_disable__c,
-            Form_Item_Parent__c
-            FROM Form_Item__c
-            WHERE Form_Section__c = :sectionId
-            ORDER BY Hierarchical_sort_num__c
-        ];
-    }
-
-    @AuraEnabled
-    public static Form_Item__c[] getItemsForForm(Id formId) {
-        return [
-            SELECT Id, Name, Form_Section__c,
-            Form_Phrase__c, Form_Phrase__r.Phrase_in_English__c, 
-            Sort_number__c, Sort_number_child__c, Sort_number_parent__c,
-            Hierarchical_sort_num__c, Hierarchical_level_num__c, Sub_numbered__c,
-            Type__c, Number_of_columns__c, Numbered__c, Hide_on_disable__c,
-            Form_Item_Parent__c
-            FROM Form_Item__c
-            WHERE Form_Section__r.Form__c = :formId
-            ORDER BY Hierarchical_sort_num__c
-        ];
-    }
-
-    @AuraEnabled
-    public static Form_Component__c[] getComponents(Id itemId) {
-        return [
-            SELECT Id, Name, Form_Phrase__c, Form_Phrase__r.Phrase_in_English__c, 
-            Sort_number__c, Form_Picklist__c,
-            Type__c, Required__c, Classes__c, Group_Component__c
-            FROM Form_Component__c
-            WHERE Form_Item__c = :itemId
-            AND Group_Component__c = null
-            ORDER BY Sort_number__c
-        ];
-    }
-
-    // Fetch all form components in form.  Note inclusion of sub-components using Group Component lookup.
-    @AuraEnabled
-    public static Form_Component__c[] getComponentsForForm(Id formId) {
-        return [
-            SELECT Id, Name, Form_Item__c, Form_Item__r.Form_Section__c,
-            Form_Phrase__c, Form_Phrase__r.Phrase_in_English__c, 
-            Sort_number__c, Form_Picklist__c,
-            Type__c, Required__c, Classes__c, Group_Component__c,
-            (SELECT Id, Name, Form_Phrase__c, Form_Phrase__r.Phrase_in_English__c, 
-             Sort_number__c, Form_Picklist__c,
-             Type__c, Required__c, Classes__c
-             FROM Form_Components__r
-            )
-            FROM Form_Component__c
-            WHERE Form_Item__r.Form_Section__r.Form__c = :formId
-            AND Group_Component__c = null
-            ORDER BY Sort_number__c
-        ];
-    }
-
-    @AuraEnabled
-    public static Form_Component__c[] getComponentsInGroup(Id groupComponentId) {
-        return [
-            SELECT Id, Name, Form_Phrase__c, Form_Phrase__r.Phrase_in_English__c, 
-            Sort_number__c, Form_Picklist__c,
-            Type__c, Required__c, Classes__c, Group_Component__c
-            FROM Form_Component__c
-            WHERE Group_Component__c = :groupComponentId
-            ORDER BY Sort_number__c
-        ];
-    }
-
-    @AuraEnabled
-    public static Form_Data__c[] getFormData(Id componentId, Id formInstanceId) {
-        return [
-            SELECT Id, Name, Type__c,
-            Form_Component__c, Data_text__c, Data_textarea__c, Index__c
-            FROM Form_Data__c
-            WHERE Form_Component__c = :componentId
-            AND Form_Instance__c = :formInstanceId
-            ORDER BY Form_Component__c, Index__c, LastModifiedDate DESC
-        ];
-    }
-
-    @AuraEnabled
-    public static Form_Data__c[] getFormDataForFormInstance(Id formInstanceId) {
-        return [
-            SELECT Id, Name, Type__c,
-            Form_Component__c, Form_Component__r.Form_Item__c, Form_Component__r.Form_Item__r.Form_Section__c,
-            Data_text__c, Data_textarea__c, Index__c, 
-            Form_Component__r.Name, Target_Id__c, Applicant__c,
-            Form_Component__r.NoFormDataClone__c,
-            Form_Instance__r.Language__c
-            FROM Form_Data__c
-            WHERE Form_Instance__c = :formInstanceId
-            AND Disabled__c = false
-            ORDER BY Form_Component__c, Index__c, LastModifiedDate DESC
-        ];
+    public static Form_Component__c[] getComponents(Id formId) {
+        String[] relatedFieldNames = new List<String>{
+            'Form_Phrase__r.Phrase_in_English__c'
+			};
+        String whereClause = 
+            ' WHERE Form_Component__c = \'' +formId+ '\'' +
+            ' ORDER BY Sort_number__c';
+        return (List<Form_Component__c>) Utilities.fetchRecords('Form_Component__c', whereClause, relatedFieldNames);
     }
     
-    // Fetch all local fields of a form data record, plus a few specified related fields. 
+    // Fetch all local fields of the form instance's form data, plus a few specified related fields. 
     @AuraEnabled
-    public static Form_Data__c[] getFormDataForFormInstanceAllFields(Id fiId) {
-        String objName = 'Form_Data__c';
+    public static Form_Data__c[] getFormData(Id fiId) {
         String[] relatedFieldNames = new List<String>{
             'Form_Component__r.Form_Item__c', 'Form_Component__r.Form_Item__r.Form_Section__c',
             'Form_Component__r.Name', 'Form_Component__r.NoFormDataClone__c'
 			};
-		String[] fieldNames = Utilities.fieldNamesForObject(objName);
-        fieldNames.addAll(relatedFieldNames);
-        String q = 
-            'SELECT '+ String.join(fieldNames, ', ') +
-            ' FROM '+ objName +
-            ' WHERE Form_Instance__c = : fiId';
-        system.debug('get all fields for ' +objName+ ': q = ' +q);
-        return Database.query(q);
+        String whereClause = 
+            ' WHERE Form_Instance__c = \'' +fiId+ '\'' +
+            ' ORDER BY Form_Component__c, Index__c, LastModifiedDate DESC';
+        return (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, relatedFieldNames);
     }
 
-    /**********************************
-     * Render form instance to text - called from aura and elsewhere
-     *********************************/
-    
-    // For given form instance, return text rendering of its form data, including html tags.  
-    // Suitable for pushing into rich text area fields.
-    public static String renderFormInstanceText(Id fiId) {
-        String[] resultStrs = new List<String> ();
-        String sectionsJson = renderSectionTexts (fiId);
-        system.debug('renderFormInstanceText: responseStr = ' +JSON.serialize(sectionsJson));
-        Map<String, Object> response = (Map<String, Object>)JSON.deserializeUntyped(sectionsJson);
-        system.debug('renderFormInstanceText: response = ' +JSON.serialize(response));
-        Map<String, Object> results = (Map<String, Object>)response.get('results');
-        List<Object> sections = (List<Object>)results.get('sections');
-        for (Object sectionObj : sections) {
-            Map<String, Object> sectionMap = (Map<String, Object>) sectionObj;
-            resultStrs.add('<big><b>' + (String)sectionMap.get('title') + '</b></big >');
-            resultStrs.add((String)sectionMap.get('text'));
-        }
-        return String.join(resultStrs, '<br/><br/>');
-    }
-
-    // For given form instance, return list of pairs of section title and rendered section text.
-    // Suitable for invocation from left side of review interfaces.
+    // Return a mapping of form component id to its appropriate number string based on hierarchical sort order.
     @AuraEnabled
-    public static String renderSectionTexts(Id fiId) {
-        strike_responseData responseData = new strike_responseData();
-        // Retrieve form structure and data.
-        Form_Instance__c fi = getFormInstanceAllFields(fiId);
-        Form_Data__c[] fds = getFormDataForFormInstance(fiId);
-        Id formId = fi.Form__c;
-        Form_Section__c[] secs = getSections(formId);
-        Form_Item__c[] items = getItemsForForm(formId);
-        Form_Component__c[] comps = getComponentsForForm(formId);
-        // Walk through sections gathering titles and rendering texts.
-        Object[] sectionResults = new List<Object>();
-        for (Form_Section__c sec : secs) {
-            String secTitle = sec.Form_Phrase_Title__r.Phrase_in_English__c != null ? sec.Form_Phrase_Title__r.Phrase_in_English__c : sec.Name;
-            Form_Item__c[] secItems = new List<Form_Item__c> ();
-            for (Form_Item__c item : items) if (item.Form_Section__c == sec.Id) secItems.add(item);
-            Form_Component__c[] secComps = new List<Form_Component__c> ();
-            for (Form_Component__c comp : comps) if (comp.Form_Item__r.Form_Section__c == sec.Id) secComps.add(comp);
-            Form_Data__c[] secData = new List<Form_Data__c> ();
-            for (Form_Data__c fd : fds) if (fd.Form_Component__r.Form_Item__r.Form_Section__c == sec.Id) secData.add(fd);
-            system.debug('renderSectionTexts: secTitle = ' +secTitle+ '; # items = ' +secItems.size()+ '; # comps = ' +secComps.size()+ '; # data = ' +secData.size());
-            sectionResults.add(new Map<String, Object> {
-                'title' => secTitle,
-                'text' => renderItemsText(secItems, secComps, secData)
-            });
-        }
-        responseData.results = new Map<String, Object> {
-            'sections' => sectionResults
-        };
-        system.debug('renderSectionTexts: responseData = ' +JSON.serialize(responseData));
-        return responseData.getJsonString();
-    }
-
-    // Return text rendering of a list of items.
-    private static String renderItemsText (Form_Item__c[] items, Form_Component__c[] components, Form_Data__c[] formData) {
-        Map<Id, String> itemNumMap = buildItemNumberMap(items);
-        String[] itemTexts = new List<String>();
-        for (Form_Item__c item : items) {
-            Boolean inTable = item.Type__c.contains('Table');
-            // Gather form components and form data belonging to this item.
-            Form_Component__c[] comps = new List<Form_Component__c>();
-            for (Form_Component__c comp : components) if (comp.Form_Item__c == item.Id) comps.add(comp);
-            // Organize this item's form data by which table row (if any) it's in - 0 means not in a table row.
-            Map<Integer, List<Form_Data__c>> fdMap = new Map<Integer, List<Form_Data__c>>();
-            for (Form_Data__c fd : formData) {
-                if (fd.Form_Component__r.Form_Item__c == item.Id) {
-                    Integer row = fd.Index__c > 0 ? Integer.valueOf(fd.Index__c) : 0;
-                    if (!fdMap.containsKey(row)) fdMap.put(row, new List<Form_Data__c>());
-                    fdMap.get(row).add(fd);
-                }
-            }
-            if (fdMap.size() > 0) { // Skip items with no non-disabled data.
-                // Build text for this item, one table row at a time.
-                String num = itemNumMap.get(item.Id);
-                String itemLabel = '<b>'+ (num != null ? num + '. ' : '') + item.Form_Phrase__r.Phrase_in_English__c +'</b>';
-                // First render components not in a table (if any).
-                String itemNonTableTexts = '';
-                if (fdMap.containsKey(0) && fdMap.get(0).size() > 0) itemNonTableTexts = renderComponentsText (comps, fdMap.get(0), inTable);
-                // If the first non-table component has no label (starts with non-breaking spaces), then only one return after item label, else two.
-                Boolean addExtraSpace = itemNonTableTexts.length() == 0 || !itemNonTableTexts.startsWith('&nbsp;&nbsp;');
-                itemTexts.add(itemLabel +'<br/>'+ (addExtraSpace ? '<br/>' : '') + itemNonTableTexts);
-                // Next, render components in table, one row at a time, bailing when encountering a row with no data.
-                Integer row = 1;
-                while (fdMap.containsKey(row) && fdMap.get(row).size() > 0) {
-                    itemTexts.add(renderComponentsText (comps, fdMap.get(row), inTable));
-                    row += 1;
+    public static Map<Id, String> buildCmpNumberMap (Form_Component__c[] cmps) {
+        Map<Id, Form_Component__c> cmpsMap = new Map<Id, Form_Component__c> (cmps);
+        Map<Id, String> cmpsNumberMap = new Map<Id, String> ();
+        // Build mapping of id to count of its descendant form components.
+        Map<Id, Integer> descendantCmpsCount = new Map<Id, Integer> ();
+        for (Form_Component__c cmp : cmps) {
+            if (cmp.Numbered__c) {
+                Id cId = cmp.Group_component__c;
+                while (icIdId != null) { // Increment the count of parent, grandparent, etc.
+                    Boolean hasCount = descendantCmpsCount.containsKey(cId);
+                    descendantCmpsCount.put(cId, hasCount ? descendantCmpsCount.get(cId) + 1 : 1);
+                    cId = itemsMap.get(cId).Group_component__c;
                 }
             }
         }
-        return String.join(itemTexts, '<br/><br/>');
-    }
-
-    // Return a mapping of item id to its appropriate item number string based on hierarchical sort order.
-    public static Map<Id, String> buildItemNumberMap (Form_Item__c[] items) {
-        Map<Id, Form_Item__c> itemsMap = new Map<Id, Form_Item__c> (items);
-        Map<Id, String> itemsNumberMap = new Map<Id, String> ();
-        // Build mapping of id to count of its descendant items.
-        Map<Id, Integer> descendantItemsCount = new Map<Id, Integer> ();
-        for (Form_Item__c item : items) {
-            if (item.Numbered__c) {
-                Id iId = item.Form_Item_Parent__c;
-                while (iId != null) { // Increment the count of parent, grandparent, etc.
-                    Boolean hasCount = descendantItemsCount.containsKey(iId);
-                    descendantItemsCount.put(iId, hasCount ? descendantItemsCount.get(iId) + 1 : 1);
-                    iId = itemsMap.get(iId).Form_Item_Parent__c;
-                }
-            }
-        }
-        // Build mapping of id to item number based on hierarchical position.
+        // Build mapping of id to form component number based on hierarchical position.
         Integer level;
         Integer priorLevel = 0;
         String num;
         String priorNum = '0';
         Boolean numbering = true;
-        for (Form_Item__c item : items) {
-            level = Integer.valueOf(item.Hierarchical_level_num__c);
+        for (Form_Component__c cmp : cmps) {
+            level = Integer.valueOf(cmp.Hierarchical_level_num__c);
             // If numbering is off, leave it off until we bounce back to the level where it was turned off.
             if (!numbering && level <= priorLevel) numbering = true;
             // Turn numbering off if this item isn't numbered nor are any of its descendants.
-            if (!item.Numbered__c && !descendantItemsCount.containsKey(item.Id)) numbering = false;
-            if (numbering) { // The next item needs numbering.
+            if (!cmp.Numbered__c && !descendantItemsCount.containsKey(cmp.Id)) numbering = false;
+            if (numbering) { // The next cmp needs numbering.
                 // Increment the number at the (possibly new) level.
-                system.debug('buildItemNumberMap: num = ' +num+ '; priorNum = ' +priorNum+ '; level = ' +level);
+                system.debug('buildCmpNumberMap: num = ' +num+ '; priorNum = ' +priorNum+ '; level = ' +level);
                 num = incItemNum(priorNum, level);
-                // If item is supposed to be sub-numbered, then start it at the next level down.
-                if (item.Sub_numbered__c) {
+                // If cmp is supposed to be sub-numbered, then start it at the next level down.
+                if (cmp.Sub_numbered__c) {
                     level = level+1;
-                    system.debug('buildItemNumberMap: num = ' +num+ '; priorNum = ' +priorNum+ '; level = ' +level);
-                    num = incItemNum(num, level);
+                    system.debug('buildCmpNumberMap: num = ' +num+ '; priorNum = ' +priorNum+ '; level = ' +level);
+                    num = incCmpNum(num, level);
                 }
                 priorLevel = level;
                 priorNum = num;
             } else num = null;
-            if (num != null) itemsNumberMap.put(item.Id, itemNumDisplay(num));
+            if (num != null) cmpsNumberMap.put(cmp.Id, cmpNumDisplay(num));
         }
-        return itemsNumberMap;
+        return cmpsNumberMap;
     }
     
-    // Increment an item number to the next one at the given zero-based level, possibly popping higher levels.
-    // An item number is a period-delimited sequence of numbers, ala 1.3.2.  
+    // Increment a form component number to the next one at the given zero-based level, possibly popping higher levels.
+    // A cmp number is a period-delimited sequence of numbers, ala 1.3.2.
     // For level=1, the result is 1.4; for level=0, the result is 2.
-    private static String incItemNum (String numStr, Integer level) {
+    private static String incCmpNum (String numStr, Integer level) {
         String[] numStrList = numStr.split('\\.'); // Break up string using '.' as delimiter.
         // Compute a "slice" of the first level+1 elements of the num list. 
         String[] numArr = new List<String> ();
         for(Integer a = 0; a < Math.min(numStrList.size(), level+1); a++) numArr.add(numStrList[a]);
-        system.debug('incItemNum: level = ' +level+ '; numStrList = ' +JSON.serialize(numStrList));
-        system.debug('incItemNum: numArr = ' +JSON.serialize(numArr));
+        system.debug('incCmpNum: level = ' +level+ '; numStrList = ' +JSON.serialize(numStrList));
+        system.debug('incCmpNum: numArr = ' +JSON.serialize(numArr));
         if (numArr.size() < level+1) numArr.add('1');
         else numArr.add(String.valueOf(Integer.valueOf(numArr.remove(numArr.size()-1)) + 1));
         return String.join(numArr, '.');
     }
 
-    // Reformat an item number for display in item labels.  For example, 1.3.2 becomes 1c.2.
-    private static String itemNumDisplay (String numStr) {
+    // Reformat a cmp number for display in cmp labels.  For example, 1.3.2 becomes 1c.2.
+    private static String cmpNumDisplay (String numStr) {
         String[] numArr = numStr.split('\\.');
         if (numArr.size() <= 1) return numStr;
         String prefix = numArr[0] + String.fromCharArray(new List<Integer> {'a'.charAt(0) + Integer.valueOf(numArr[1]) - 1});
@@ -351,89 +142,9 @@ public class FormInstanceController {
      * For general use
      *********************************/
     
-    // Anonymize a form instance by cloning it (to replace Owner and CreatedBy fields) and clearing the lookup fields.
-    // Attach the new form instance to the given applicant.
-    // Also clone the form data records and clear their lookup fields.  
-    // Finally, delete original form instance, form data records, and form log entries.  (The new form instance has no form log entries.)
-    public static void anonymize(Id formInstanceId, Id applicantId) {
-        system.debug('anonymize: formInstanceId = ' +formInstanceId+ '; applicantId = ' +applicantId);
-        // Use current user as owner for the cloned form data
-        Id currentUserId = UserInfo.getUserId();
-        // Grab "Is First Grant" field from linked proposal to check that form data is correct, as we've been getting ambiguous dupe form data (rt 9/27/21).
-        String[] relFIFields = new List<String> {'Proposal__r.Is_first_grant__c'};
-        Form_Instance__c fi = (Form_Instance__c)Utilities.fetchRecord('Form_Instance__c', formInstanceId, relFIFields);
-        Boolean isFirstGrant = fi.Proposal__r.Is_first_grant__c;
-        String[] relFDFields = new List<String> {'Form_Component__r.Prefill_object_name__c', 'Form_Component__r.Prefill_field_name__c'};
-        Form_Data__c[] fds = (Form_Data__c[])Utilities.fetchChildRecords('Form_Data__c', fi.Id, 'Form_Instance__c', relFDFields);
-        Form_Log_Entry__c[] fles = [SELECT Id FROM Form_Log_Entry__c WHERE Form_Instance__c = : fi.Id];
-        if (fles.size() == 0) return; // Bail if no form log entries, that is, form instance is already anonymized.
-        sObject[] toInsert = new List<sObject> (); 
-        sObject[] toDelete = new List<sObject> (); 
-        // Clone form instance, clear lookup fields, set applicant, form and owner links.
-        Form_Instance__c fiNew = fi.clone(false, true);
-        for (String fName : Utilities.relFieldNamesForObject('Form_Instance__c')) fiNew.put(fName, null);
-        fiNew.Applicant__c = applicantId; 
-        fiNew.Form__c = fi.Form__c;
-        fiNew.OwnerId = currentUserId;
-        insert fiNew;
-        // Clone form data records, clear their lookup fields, then set parent applicant, form instance, form component, and owner.
-        String[] formDataRelFieldNames = Utilities.relFieldNamesForObject('Form_Data__c');
-        for (Form_Data__c fd : fds) {
-            if (fd.Form_Component__r.Prefill_object_name__c == 'Proposal__c' && 
-                fd.Form_Component__r.Prefill_field_name__c == 'Is_first_grant__c' && 
-                isFirstGrant != (fd.Data_text__c != null ? Boolean.valueOf(fd.Data_text__c) : false)
-            ) {
-                fd.Data_textarea__c = 'This form data has the wrong value. It should be: ' +isFirstGrant;
-            }
-            Form_Data__c fdNew = fd.clone(false, true);
-            for (String fName : formDataRelFieldNames) fdNew.put(fName, null);
-            fdNew.Applicant__c = applicantId; 
-            fdNew.Form_Instance__c = fiNew.Id;
-            fdNew.Form_Component__c = fd.Form_Component__c;
-            fdNew.OwnerId = currentUserId;
-            toInsert.add(fdNew);
-        }
-        if (toInsert.size() > 0) insert toInsert;
-        // Delete the original form instance and child records.
-        toDelete.add(fi);
-        toDelete.addAll((sObject[])fds);
-        toDelete.addAll((sObject[])fles);
-        delete toDelete;
-        return;
-    }
-    
-    // Delete unsubmitted form instances for anonymizing forms if they've been expired for at least a week (to avoid mishaps at online apps).
-    public static void deleteExpiredAnonymizingFormInstances () {
-        Integer offsetFromExpirationDate = 7; // Delete if we're more than this number of days from expiration date.
-        Integer deleteBatchSize = Test.isRunningTest() ? 3 : 1; // Batch size at least 3 for testing (one each of form instance, form data, form log entry).
-        Date today = Date.today();
-        Form_Instance__c[] fis = [
-            SELECT Id, Expiration_date__c
-            FROM Form_Instance__c
-            WHERE Date_submitted__c = null
-            AND Form__r.Anonymous_applicant__c <> null
-            AND Expiration_date__c <> null
-        ];
-        Map<Id, Form_Instance__c> fisToDelete = new Map<Id, Form_Instance__c> ();
-        for (Form_Instance__c fi : fis) { // Gather the form instances that expired a while ago.
-            if (fi.Expiration_date__c.addDays(offsetFromExpirationDate) < today) fisToDelete.put(fi.Id, fi);
-        }
-        if (fisToDelete.size() > 0) {
-            // Delete the form instances and child records.
-            Form_Data__c[] fds = [SELECT Id FROM Form_Data__c WHERE Form_Instance__c IN : fisToDelete.keySet()];
-            Form_Log_Entry__c[] fles = [SELECT Id FROM Form_Log_Entry__c WHERE Form_Instance__c IN : fisToDelete.keySet()];
-            sObject[] toDelete = new List<sObject> (); 
-            toDelete.addAll((sObject[])fisToDelete.values());
-            toDelete.addAll((sObject[])fds);
-            toDelete.addAll((sObject[])fles);
-            Database.executeBatch(new DeleteRecordsBatch(toDelete, true), deleteBatchSize);
-        }
-        return;
-    } 
-    
     // Clone the form instance, clearing Date Submitted, Date form closed, Number of errors. 
     public static Form_Instance__c formInstanceClone(Id formInstanceId) {
-        Form_Instance__c fi = getFormInstanceAllFields(formInstanceId);
+        Form_Instance__c fi = getFormInstance(formInstanceId);
         Form_Instance__c fiNew = fi.clone(false, true);
         // Clear Date Submitted to push status back to Pending, and insert new form instance.
         fiNew.Date_submitted__c = null;
@@ -446,12 +157,12 @@ public class FormInstanceController {
     // Clone all of the first form instance's linked form data records except those with components for which NoFormDataClone is checked.
     // Link them to the new form instance, and use that form instance's profile and proposal Ids.
     public static List<Form_Data__c> formDataClone(Id fiId, Id fiNewId) {
-        Form_Instance__c fi = getFormInstanceAllFields(fiId);
-        Form_Instance__c fiNew = getFormInstanceAllFields(fiNewId);
+        Form_Instance__c fi = getFormInstance(fiId);
+        Form_Instance__c fiNew = getFormInstance(fiNewId);
     	// If the form instances are for different forms, then build a map to assign the Form_Component lookup fields in the cloned form data.
         Map<Id, Id> formCompsMap;
         if (fi.Form__c != fiNew.Form__c) formCompsMap = buildFormComponentMap(fi.Form__c, fiNew.Form__c);
-        List<Form_Data__c> fds = getFormDataForFormInstanceAllFields(fiId);
+        List<Form_Data__c> fds = getFormData(fiId);
         List<Form_Data__c> fdsNew = new List<Form_Data__c> ();
         // Clone form data records unless form data's component has NoFormDataClone checked.
         for (Form_Data__c fd : fds) {
@@ -529,12 +240,12 @@ public class FormInstanceController {
         Map<Id, Form_Component__c> compsA = new Map<Id, Form_Component__c> ([
             SELECT Id, Name
             FROM Form_Component__c
-            WHERE Form_Item__r.Form_Section__r.Form__c = : formAId
+            WHERE Form__c = : formAId
         ]);
         Map<Id, Form_Component__c> compsB = new Map<Id, Form_Component__c> ([
             SELECT Id, Name
             FROM Form_Component__c
-            WHERE Form_Item__r.Form_Section__r.Form__c = : formBId
+            WHERE Form__c = : formBId
         ]);
         Map<String, Id> compNamesMapB = new Map<String, Id> ();
         for (Form_Component__c c : compsB.values()) compNamesMapB.put(c.Name, c.Id);
@@ -547,7 +258,7 @@ public class FormInstanceController {
     // If so, do a diff of the form data under each fi and enter the results in the current fi.
     public static String computeDiffResults (Id fiId) {
         String result;
-        Form_Instance__c fi = getFormInstanceAllFields(fiId);
+        Form_Instance__c fi = getFormInstance(fiId);
         if (fi.Pre_populated_from__c != null) {
             Set<String> diffResults = formDataDiff(fi.Pre_populated_from__c, fiId);
             result = diffResults.size() > 0 ? String.join(new List<String>(diffResults), '; ') : null;
@@ -565,8 +276,8 @@ public class FormInstanceController {
     // NOTE: indexed data currently not being handled.  Should check whether index matches, etc.
     public static Set<String> formDataDiff(Id priorFIId, Id currentFIId) {
         Set<String> result = new Set<String>();
-        Form_Data__c[] fdsPrior = getFormDataForFormInstance(priorFIId), 
-            fdsCurr = getFormDataForFormInstance(currentFIId);
+        Form_Data__c[] fdsPrior = getFormData(priorFIId), 
+            fdsCurr = getFormData(currentFIId);
         // Map of prior form data by component id.
         Map<String, Form_Data__c> fdsPriorByCompName = new Map<String, Form_Data__c> ();
         for (Form_Data__c fd : fdsPrior) fdsPriorByCompName.put(fd.Form_Component__r.Name, fd);
@@ -607,16 +318,15 @@ public class FormInstanceController {
         // The names of objects whose reminder/overdue templates are currently supported.
         // In each case, the obj name is also the name of the lookup field in Form Instance.
         List<String> supportedObjNames = new List<String> {
-            'Proposal__c', 'Grantee_Report__c', 'Payment__c', 'Payment_Method__c', 'Profile__c',
-            'Advisor__c', 'Advisor_Term__c', 'Advisor_Payment__c', 'Endorsement__c', 'Assessment__c'
+            'Proposal__c', 'Milestone__c', 'Payment__c', 'Payment_Method__c', 'Profile__c',
+            'Advisor__c', 'Advisor_Term__c', 'Advisor_Payment__c', 'Assessment__c'
         };
         // Fetch non-submitted form instances with date due and a linked form with instructions for when to send reminders/overdues.
         Map<Id, Form_Instance__c> fis = new Map<Id, Form_Instance__c> ([
             SELECT Id, Date_due__c, Date_submitted__c, Applicant__r.Name,
-            Proposal__c, Grantee_Report__c, Payment__c, Profile__c,
-            Profile__r.Account_black_listed__c, Proposal__r.Account_black_listed__c,
+            Proposal__c, Milestone__c, Payment__c, Profile__c,
             Proposal__r.Status_numeric__c, Profile__r.Status_numeric__c,
-            Grantee_Report__r.Reminder_overdue_number_of_days__c,
+            Milestone__r.Reminder_overdue_number_of_days__c,
             Form__r.Name, Form__r.Reminder_overdue_number_of_days__c,
             Form__r.Reminder_template__c, Form__r.Overdue_template__c,
             (SELECT Id FROM Payment_Methods__r ORDER BY CreatedDate)
@@ -687,10 +397,10 @@ public class FormInstanceController {
     public static Id reminderOverdueTemplateId (Form_Instance__c fi) {
         // Compute number of days overdue (negative if not overdue). 
         Integer numDays = fi.Date_due__c.daysBetween(Date.today());
-        // Look for that number of days in the comma-separated string of numbers in the form (or overridden by the grantee report record).
+        // Look for that number of days in the comma-separated string of numbers in the form (or overridden by the milestone record).
         // NOTE (9/22/17): Do we also need an override field in the proposal record?
-        String numsStr = fi.Grantee_Report__r.Reminder_overdue_number_of_days__c != null ?
-            fi.Grantee_Report__r.Reminder_overdue_number_of_days__c : 
+        String numsStr = fi.Milestone__r.Reminder_overdue_number_of_days__c != null ?
+            fi.Milestone__r.Reminder_overdue_number_of_days__c : 
         	fi.Form__r.Reminder_overdue_number_of_days__c;
         system.debug('reminderOverdueTemplateId: numDays = ' +numDays+ '; numsStr = ' +numsStr);
         // Each string comprising numsStr should be a positive number, a negative number, or a positive number with a '+' at the end, called a repeater.
@@ -765,7 +475,7 @@ public class FormInstanceController {
         
         public DataManager(Id fiId) {
             this.fiId = fiId;
-            this.fi = getFormInstanceAllFields(fiId);
+            this.fi = getFormInstance(fiId);
             // Get applicant or advisor term.
             system.debug('DataManager: fi.Applicant__c = ' +fi.Applicant__c+ '; fi.Advisor_Term__c = ' +fi.Advisor_Term__c);
             if (fi.Applicant__c != null) {
@@ -781,7 +491,7 @@ public class FormInstanceController {
                     WHERE Id = : fi.Advisor_Term__c
                 ];
             }
-            comps = getComponentsForForm(fi.Form__c);
+            comps = getComponentsm(fi.Form__c);
             // Map from component name to id.  NOTE: Trouble if multiple components in a form have the same name.
             compIds = new Map<String, Id> ();
             for (Form_Component__c c : comps) compIds.put(c.Name, c.Id);
@@ -793,7 +503,7 @@ public class FormInstanceController {
             ]);
             picklistPhraseValues = new Map<String, String> ();
             for (Form_Picklist_Phrase__c p : picklistPhrases) picklistPhraseValues.put(p.Name, p.Form_Phrase__r.Phrase_in_English__c);
-            fds = getFormDataForFormInstance(fi.Id);
+            fds = getFormData(fi.Id);
             // Lookup tables map component name to record, value and target Id.
             dataRecord = new Map<String, Form_Data__c> ();
             dataValue = new Map<String, String> ();
