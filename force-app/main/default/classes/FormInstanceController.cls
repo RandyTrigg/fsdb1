@@ -11,14 +11,14 @@ public class FormInstanceController {
         return (Form_Instance__c) Utilities.fetchRecord('Form_Instance__c', fiId, relatedFieldNames);
     }
     
-    // Fetch all local fields of the form instance's form data, plus a few specified related fields. 
+    // Fetch the form's form components, plus a few specified related fields. 
     @AuraEnabled
     public static Form_Component__c[] getComponents(Id formId) {
         String[] relatedFieldNames = new List<String>{
             'Form_Phrase__r.Phrase_in_English__c'
 			};
         String whereClause = 
-            ' WHERE Form_Component__c = \'' +formId+ '\'' +
+            ' WHERE Form__c = \'' +formId+ '\'' +
             ' ORDER BY Sort_number__c';
         return (List<Form_Component__c>) Utilities.fetchRecords('Form_Component__c', whereClause, relatedFieldNames);
     }
@@ -27,7 +27,7 @@ public class FormInstanceController {
     @AuraEnabled
     public static Form_Data__c[] getFormData(Id fiId) {
         String[] relatedFieldNames = new List<String>{
-            'Form_Component__r.Form_Item__c', 'Form_Component__r.Form_Item__r.Form_Section__c',
+            'Form_Component__r.Form__c', 'Form_Component__r.Form__r.Name',
             'Form_Component__r.Name', 'Form_Component__r.NoFormDataClone__c'
 			};
         String whereClause = 
@@ -46,10 +46,10 @@ public class FormInstanceController {
         for (Form_Component__c cmp : cmps) {
             if (cmp.Numbered__c) {
                 Id cId = cmp.Group_component__c;
-                while (icIdId != null) { // Increment the count of parent, grandparent, etc.
+                while (cId != null) { // Increment the count of parent, grandparent, etc.
                     Boolean hasCount = descendantCmpsCount.containsKey(cId);
                     descendantCmpsCount.put(cId, hasCount ? descendantCmpsCount.get(cId) + 1 : 1);
-                    cId = itemsMap.get(cId).Group_component__c;
+                    cId = cmpsMap.get(cId).Group_component__c;
                 }
             }
         }
@@ -64,11 +64,11 @@ public class FormInstanceController {
             // If numbering is off, leave it off until we bounce back to the level where it was turned off.
             if (!numbering && level <= priorLevel) numbering = true;
             // Turn numbering off if this item isn't numbered nor are any of its descendants.
-            if (!cmp.Numbered__c && !descendantItemsCount.containsKey(cmp.Id)) numbering = false;
+            if (!cmp.Numbered__c && !descendantCmpsCount.containsKey(cmp.Id)) numbering = false;
             if (numbering) { // The next cmp needs numbering.
                 // Increment the number at the (possibly new) level.
                 system.debug('buildCmpNumberMap: num = ' +num+ '; priorNum = ' +priorNum+ '; level = ' +level);
-                num = incItemNum(priorNum, level);
+                num = incCmpNum(priorNum, level);
                 // If cmp is supposed to be sub-numbered, then start it at the next level down.
                 if (cmp.Sub_numbered__c) {
                     level = level+1;
@@ -108,351 +108,10 @@ public class FormInstanceController {
         for (Integer i = 2; i < numArr.size(); i++) numArrResult.add(numArr[i-1]);
         return String.join(numArrResult, '.');
     }
-    
-    // Return text rendering of a list of components, possibly those in a table row.
-    private static String renderComponentsText (Form_Component__c[] components, Form_Data__c[] formData, Boolean inTable) {
-        String[] compTexts = new List<String>();
-        Map<Id, Form_Data__c> dataMap = new Map<Id, Form_Data__c>();
-        for (Form_Data__c fd : formData) dataMap.put(fd.Form_Component__c, fd);
-        for (Form_Component__c c : components) {
-            // First render sub-components recursively if any.
-            if (c.Form_Components__r.size() > 0) compTexts.add(renderComponentsText(c.Form_Components__r, formData, inTable));
-            if (dataMap.containsKey(c.Id)) compTexts.add(renderComponentText (c, dataMap.get(c.Id), inTable));
-        }
-        return String.join(compTexts, '<br/><br/>');
-    }
-
-    // Return text rendering of a single component.
-    private static String renderComponentText (Form_Component__c c, Form_Data__c fd, Boolean inTable) {
-        String[] compTexts = new List<String>();
-        // Only render component if it has data.
-        if (fd != null) {
-            // If we're in a table, then prefix the phrase with component name to help identify table column.
-            String formPhrase = c.Form_Phrase__r.Phrase_in_English__c;
-            String phrase = (inTable ? c.Name + ': ' : '') + (formPhrase != null ? formPhrase : ''); 
-            if (phrase.length() > 0) compTexts.add('<b>'+ phrase +'</b>');
-            // Render data, surrounding "||" with spaces to enable line breaks, and indenting with two spaces.
-            String txt = fd.Data_textarea__c != null ? fd.Data_textarea__c : fd.Data_text__c;
-            if (txt != null && txt.length() > 0) compTexts.add('&nbsp;&nbsp;' + txt.replace('||', ' || '));
-        }
-        return String.join (compTexts, '<br/>');
-    }
 
     /**********************************
      * For general use
      *********************************/
-    
-    // Clone the form instance, clearing Date Submitted, Date form closed, Number of errors. 
-    public static Form_Instance__c formInstanceClone(Id formInstanceId) {
-        Form_Instance__c fi = getFormInstance(formInstanceId);
-        Form_Instance__c fiNew = fi.clone(false, true);
-        // Clear Date Submitted to push status back to Pending, and insert new form instance.
-        fiNew.Date_submitted__c = null;
-        fiNew.Date_form_closed__c = null;
-        fiNew.Number_of_errors__c = null;
-        if(fiNew != null) insert fiNew;
-        return fiNew;            
-    }
-
-    // Clone all of the first form instance's linked form data records except those with components for which NoFormDataClone is checked.
-    // Link them to the new form instance, and use that form instance's profile and proposal Ids.
-    public static List<Form_Data__c> formDataClone(Id fiId, Id fiNewId) {
-        Form_Instance__c fi = getFormInstance(fiId);
-        Form_Instance__c fiNew = getFormInstance(fiNewId);
-    	// If the form instances are for different forms, then build a map to assign the Form_Component lookup fields in the cloned form data.
-        Map<Id, Id> formCompsMap;
-        if (fi.Form__c != fiNew.Form__c) formCompsMap = buildFormComponentMap(fi.Form__c, fiNew.Form__c);
-        List<Form_Data__c> fds = getFormData(fiId);
-        List<Form_Data__c> fdsNew = new List<Form_Data__c> ();
-        // Clone form data records unless form data's component has NoFormDataClone checked.
-        for (Form_Data__c fd : fds) {
-            if(!fd.Form_Component__r.NoFormDataClone__c) {
-                Form_Data__c fdNew = fd.clone(false, true);
-                fdNew.Form_Instance__c = fiNew.Id; // Wire up to new form instance.
-                fdNew.Profile__c = fiNew.Profile__c;
-                fdNew.Proposal__c = fiNew.Proposal__c;
-                if (formCompsMap != null) { // Rewire the form component link if there's an id mapping.
-                    Id formCompId = formCompsMap.get(fd.Form_Component__c);
-                    if (formCompId != null) { // Don't add this clone unless the form comp id mapping succeeded.
-                        fdNew.Form_Component__c = formCompId;
-                        fdsNew.add(fdNew);
-                    }
-                } else fdsNew.add(fdNew);
-            }
-        }
-        if(fdsNew.size() > 0) {
-            // If not under batch/future, then do inserts as batch process to keep triggered processes/flows out of current transaction.
-        	if (!System.isBatch() && !System.isFuture()) Database.executeBatch(new GenericInsertRecordsBatch (fdsNew), 5);
-            else insert fdsNew;
-            // Fill in the back pointer to the form instance that is the source of cloned form data.
-            if (fiNew.Pre_populated_from__c != fi.Id) {
-                system.debug('formDataClone, setting Pre_populated_from__c: fi.Id = ' +fi.Id);
-                fiNew.Pre_populated_from__c = fi.Id;
-                update fiNew;
-            }
-        }
-        return fdsNew;            
-    }
-    
-    // Relink the form instances and their form data records to a new applicant. 
-    // Normally used when merging applicant records. 
-    public static void formInstanceRelinkApplicant(List<Id> formInstanceIds, Id applicantId) {
-        Form_Instance__c[] fis = [SELECT Id FROM Form_Instance__c WHERE Id IN : formInstanceIds];
-        Form_Data__c[] fds = [SELECT Id FROM Form_Data__c WHERE Form_Instance__c IN : formInstanceIds];
-        for (Form_Data__c fd : fds) fd.Applicant__c = applicantId;
-        Form_Log_Entry__c[] fles = [SELECT Id FROM Form_Log_Entry__c WHERE Form_Instance__c IN : formInstanceIds];
-        for (Form_Log_Entry__c fle : fles) fle.Applicant__c = applicantId;
-        // Relink the parent form instances.
-        for (Form_Instance__c fi : fis) fi.Applicant__c = applicantId;
-        // Batch update the form data and form log entries and then update the parent form instances from the batch's finish method.
-        // First combine form data and form log entries into one list.
-        SObject[] toUpdate = new List<SObject> ();
-        toUpdate.addAll((List<SObject>) fds);
-        toUpdate.addAll((List<SObject>) fles);
-        if (toUpdate.size() > 0) Database.executeBatch(new GenericUpdateRecordsBatch(toUpdate, fis, 10), 50);
-    }
-
-    // Move the form instances and their form data records to a new form using the form components map. 
-    // Normally used to move all pending (non-submitted) form instances of an outdated form to a new form. 
-    public static void formInstanceMove(List<Id> formInstanceIds, Id formId, Map<Id, Id> formCompsMap) {
-        Form_Instance__c[] fis = [SELECT Id FROM Form_Instance__c WHERE Id IN : formInstanceIds];
-        Form_Data__c[] fds = [SELECT Form_Component__c FROM Form_Data__c WHERE Form_Instance__c IN : formInstanceIds];
-        List<Form_Data__c> fdsToUpdate = new List<Form_Data__c> ();
-        List<Form_Data__c> fdsToDelete = new List<Form_Data__c> ();
-        for (Form_Data__c fd : fds) {
-            // Rewire the form component link if there's a match in the target form, else delete the form data record.
-            Id formCompId = formCompsMap.get(fd.Form_Component__c);
-            if (formCompId != null) {
-                fd.Form_Component__c = formCompId;
-                fdsToUpdate.add(fd);
-            } else fdsToDelete.add(fd);
-        }
-        // Relink the parent form instances.
-        for (Form_Instance__c fi : fis) fi.Form__c = formId;
-        // Batch delete the form datas that need deleting.
-        Database.executeBatch(new DeleteRecordsBatch(fdsToDelete, false), 100);
-        // Batch update the form data and then update the parent form instances from the batch's finish method.
-        if (fis.size() > 0) Database.executeBatch(new GenericUpdateRecordsBatch(fdsToUpdate, fis, 10), 50);
-    }
-
-    // Return a mapping of component ids in the first form to matching component ids in the second form.
-    public static Map<Id, Id> buildFormComponentMap (Id formAId, Id formBId) {
-        Map<Id, Form_Component__c> compsA = new Map<Id, Form_Component__c> ([
-            SELECT Id, Name
-            FROM Form_Component__c
-            WHERE Form__c = : formAId
-        ]);
-        Map<Id, Form_Component__c> compsB = new Map<Id, Form_Component__c> ([
-            SELECT Id, Name
-            FROM Form_Component__c
-            WHERE Form__c = : formBId
-        ]);
-        Map<String, Id> compNamesMapB = new Map<String, Id> ();
-        for (Form_Component__c c : compsB.values()) compNamesMapB.put(c.Name, c.Id);
-        Map<Id, Id> resultMap = new Map<Id, Id>();
-        for (Form_Component__c c : compsA.values()) resultMap.put(c.Id, compNamesMapB.get(c.Name));
-        return resultMap;
-    }
-
-    // See if the form instance identifies another fi as "pre-populuated from".
-    // If so, do a diff of the form data under each fi and enter the results in the current fi.
-    public static String computeDiffResults (Id fiId) {
-        String result;
-        Form_Instance__c fi = getFormInstance(fiId);
-        if (fi.Pre_populated_from__c != null) {
-            Set<String> diffResults = formDataDiff(fi.Pre_populated_from__c, fiId);
-            result = diffResults.size() > 0 ? String.join(new List<String>(diffResults), '; ') : null;
-            if (fi.Diff_results__c != result) {
-                fi.Diff_results__c = result;
-                update fi;
-            }
-        }
-        return result;
-    }
-    
-    // Compare the form data under the two form instances.
-    // Return a set of component names whose values differ.
-    // NOTE: Assumes that current FI has form data records for a superset of the components of the prior FI.
-    // NOTE: indexed data currently not being handled.  Should check whether index matches, etc.
-    public static Set<String> formDataDiff(Id priorFIId, Id currentFIId) {
-        Set<String> result = new Set<String>();
-        Form_Data__c[] fdsPrior = getFormData(priorFIId), 
-            fdsCurr = getFormData(currentFIId);
-        // Map of prior form data by component id.
-        Map<String, Form_Data__c> fdsPriorByCompName = new Map<String, Form_Data__c> ();
-        for (Form_Data__c fd : fdsPrior) fdsPriorByCompName.put(fd.Form_Component__r.Name, fd);
-        // Gather components whose prior values don't match the current ones.
-        for (Form_Data__c fd : fdsCurr) {
-            Form_Data__c fdPrior = fdsPriorByCompName.get(fd.Form_Component__r.Name);
-            if (
-                fdPrior == null ||
-                (fdPrior.Data_text__c != null ? fdPrior.Data_text__c.trim() : null) != 
-                (fd.Data_text__c != null ? fd.Data_text__c.trim() : null) ||
-                (fdPrior.Data_textarea__c != null ? fdPrior.Data_textarea__c.trim() : null) != 
-                (fd.Data_textarea__c != null ? fd.Data_textarea__c.trim() : null)
-            ) result.add(fd.Form_Component__r.Name);
-        }
-        return result;
-    }
-    
-    // Re-open a submitted form instance, that is, clear Date Submitted and delete certain flagged form data records.
-    public static void reOpen(Id fiId) {
-        Form_Instance__c fi = [SELECT Id, Date_submitted__c FROM Form_Instance__c WHERE Id = : fiId];
-        // Do nothing if not submitted.
-        if (fi.Date_submitted__c != null) {
-            // Find linked form data records whose form components are suitably flagged.
-            Form_Data__c[] fdsToDelete = [
-                SELECT Id
-                FROM Form_Data__c
-                WHERE Form_Instance__c = : fiId
-                AND Form_Component__r.Clear_on_re_open__c = true
-            ];
-            fi.Date_submitted__c = null;
-            update fi;
-            if (fdsToDelete.size() > 0) delete fdsToDelete;
-        }
-    }
-
-    // Send email reminders/overdue notices for non-submitted form instances as directed by the form record.
-    public static void emailRemindersOverdues (Boolean testApplicantsOnlyFlg) {
-        // The names of objects whose reminder/overdue templates are currently supported.
-        // In each case, the obj name is also the name of the lookup field in Form Instance.
-        List<String> supportedObjNames = new List<String> {
-            'Proposal__c', 'Milestone__c', 'Payment__c', 'Payment_Method__c', 'Profile__c',
-            'Advisor__c', 'Advisor_Term__c', 'Advisor_Payment__c', 'Assessment__c'
-        };
-        // Fetch non-submitted form instances with date due and a linked form with instructions for when to send reminders/overdues.
-        Map<Id, Form_Instance__c> fis = new Map<Id, Form_Instance__c> ([
-            SELECT Id, Date_due__c, Date_submitted__c, Applicant__r.Name,
-            Proposal__c, Milestone__c, Payment__c, Profile__c,
-            Proposal__r.Status_numeric__c, Profile__r.Status_numeric__c,
-            Milestone__r.Reminder_overdue_number_of_days__c,
-            Form__r.Name, Form__r.Reminder_overdue_number_of_days__c,
-            Form__r.Reminder_template__c, Form__r.Overdue_template__c,
-            (SELECT Id FROM Payment_Methods__r ORDER BY CreatedDate)
-            FROM Form_Instance__c
-            WHERE Date_due__c <> null
-            AND Date_submitted__c = null
-            AND Status__c = 'Pending'
-            AND Date_auto_reminders_paused__c = null
-            AND Form__r.Reminder_overdue_number_of_days__c <> null
-            AND Profile__r.Account_black_listed__c <> true
-            AND Proposal__r.Account_black_listed__c <> true
-        ]);
-        Map<Id, Template__c> tmpls = new Map<Id, Template__c> ([
-            SELECT Id, Name, Active__c, Source_object__c, Allowed_statuses__c
-            FROM Template__c
-            ]);
-        // Mapping of object name to template id to ids of form instances that need reminder/overdue emails.
-        Map<String, Map<Id, Set<Id>>> recIds = new Map<String, Map<Id, Set<Id>>> ();
-        // Walk through form instances to find proposals that require reminders/overdue notices.
-        for (Form_Instance__c fi : fis.values()) {
-            // If in test mode, bail unless form instance's parent is a DONOTUSE applicant.
-            if (testApplicantsOnlyFlg && !fi.Applicant__r.Name.toLowerCase().contains('donotuse')) continue;
-            Id tmplId = reminderOverdueTemplateId(fi);
-            Template__c tmpl = tmplId != null ? tmpls.get(tmplId) : null;
-            system.debug('emailRemindersOverdues in loop: fi = ' +JSON.serialize(fi)+ '; tmplId = ' +tmplId);
-            if (tmpl != null) { 
-                // Skip if the template's source object is not supported for auto-reminders/overdues.
-                String objName = tmpl.Source_object__c;
-                if (!supportedObjNames.contains(objName)) continue;
-                // Compute id of record to which reminder letter will link.
-                Id recId;
-                if (objName == 'Payment_Method__c') { // Grab oldest child payment method
-                    recId = fi.Payment_Methods__r.size() > 0 ? fi.Payment_Methods__r[0].Id : null;
-                } else { // Use form instance's lookup field with same name as source object
-                    recId = (Id)fi.get(objName);
-                }
-                // This form instance gets a reminder/overdue letter if the record's status is allowed by the template, and the template is active.
-                if (recId != null && statusAllowed(fi, tmpl) && tmpl.Active__c) {
-                    if (!recIds.containsKey(objName)) recIds.put(objName, new Map<Id, Set<Id>>());
-                    if (!recIds.get(objName).containsKey(tmpl.Id)) recIds.get(objName).put(tmpl.Id, new Set<Id>());
-                    recIds.get(objName).get(tmpl.Id).add(recId);
-                }
-            }
-        }
-        system.debug('emailRemindersOverdues: recIds = ' +JSON.serialize(recIds));
-        // Walk through the gathered sets of record ids and build and email letter records.
-        for (String objName : recIds.keySet()) {
-            for (Id tmplId : recIds.get(objName).keySet()) {
-                Set<Id> ids = recIds.get(objName).get(tmplId);
-                Map < String, String > customParams = new Map < String, String >{'isEmail'=>'true','autoGeneratedEmail'=>'true'};
-                LetterController.buildAndEmailLetters(tmplId, ids, customParams);
-            }
-        }
-    }
-
-    // True if the status referred to by the form instance is allowed by the template.
-    public static Boolean statusAllowed (Form_Instance__c fi, Template__c t) {
-        String objName = t.Source_object__c;
-        // Maintain this related object name definition as more objects related to Form Instance  are supported.
-        String statusRelObjName = objName == 'Profile__c' ? 'Profile__r' : 'Proposal__r';
-        String statusFieldName = 'Status_numeric__c';
-        Decimal statusNumeric = (Decimal)fi.getSobject(statusRelObjName).get(statusFieldName);
-        Set<Decimal> allowedStatuses = Utilities.commaSepStringToDecimalSet(t.Allowed_statuses__c);
-        return allowedStatuses == null || statusNumeric == null || allowedStatuses.contains(statusNumeric.stripTrailingZeros());
-    }
-    
-    // Return non-null template id if the given form instance needs a reminder/overdue email.
-    public static Id reminderOverdueTemplateId (Form_Instance__c fi) {
-        // Compute number of days overdue (negative if not overdue). 
-        Integer numDays = fi.Date_due__c.daysBetween(Date.today());
-        // Look for that number of days in the comma-separated string of numbers in the form (or overridden by the milestone record).
-        // NOTE (9/22/17): Do we also need an override field in the proposal record?
-        String numsStr = fi.Milestone__r.Reminder_overdue_number_of_days__c != null ?
-            fi.Milestone__r.Reminder_overdue_number_of_days__c : 
-        	fi.Form__r.Reminder_overdue_number_of_days__c;
-        system.debug('reminderOverdueTemplateId: numDays = ' +numDays+ '; numsStr = ' +numsStr);
-        // Each string comprising numsStr should be a positive number, a negative number, or a positive number with a '+' at the end, called a repeater.
-        // If numDays equals one of the negative numbers, then send an overdue letter.
-        // If numDays equals one of the positive numbers, then send a reminder letter.
-        // Finally, send a reminder if there's a repeater such that numDays minus the last non-negative number before the repeater (or zero if none) is a multiple of the repeater.
-        Integer lastNonNegative = 0;
-        for (String numStr : numsStr.split(',')) {
-            String numStrTrim = numStr.trim();
-            Integer num = Utilities.isInteger(numStrTrim) ? Integer.valueOf(numStrTrim) : null;
-            if (num != null && num > 0) lastNonNegative = num; 
-            Integer numRepeater = numStrTrim.right(1) == '+' && Utilities.isInteger(numStrTrim.left(numStrTrim.length()-1)) ?
-                    Integer.valueOf(numStrTrim.left(numStrTrim.length()-1)) : null;
-            if ((num != null && numDays == num) ||
-                (numRepeater != null && numRepeater > 0 && numDays > 0 && Math.mod(numDays-lastNonNegative, numRepeater) == 0))
-                return numDays <= 0 ? fi.Form__r.Reminder_template__c : fi.Form__r.Overdue_template__c;
-        }
-        return null;
-    }
-    
-    // Withdraw props of inactive, unsubmitted, blank date-due form instances if their forms have non-blank inactivity threshold.
-    public static void withdrawPropsWithInactiveFormInstances () {
-        // Fetch candidate form instances, including most recent "Save" form log entries.
-        Form_Instance__c[] fis = [
-            SELECT Proposal__c, CreatedDate, Proposal__r.Date_request_withdrawn__c, Form__r.Inactivity_threshold_in_days__c,
-            (SELECT Id, CreatedDate FROM Form_Log_Entries__r WHERE Operation__c = 'Save' ORDER BY CreatedDate DESC)
-            FROM Form_Instance__c
-            WHERE Date_submitted__c = null
-            AND Date_due__c = null
-            AND Proposal__c <> null
-            AND Proposal__r.Status_numeric__c >= 1
-            AND Proposal__r.Status_numeric__c < 6
-            AND Form__r.Inactivity_threshold_in_days__c <> null
-        ];
-        system.debug('withdrawPropsWithInactiveFormInstances: fis = ' +JSON.serialize(fis));
-        Map<Id, Proposal__c> propsToUpdate = new Map<Id, Proposal__c> ();
-        Date today = Date.today();
-        for (Form_Instance__c fi : fis) {
-            // Compute the last date this form instance was saved (or created if it's never been saved).
-            Date lastSaved = fi.Form_Log_Entries__r.size() > 0 ? fi.Form_Log_Entries__r[0].CreatedDate.date() : fi.CreatedDate.date();
-            // Withdraw proposal if over threshold of inactivity.
-            if (lastSaved == null || lastSaved.daysBetween(today) > fi.Form__r.Inactivity_threshold_in_days__c) {
-                Proposal__c prop = fi.Proposal__r;
-                prop.Date_request_withdrawn__c = today;
-                prop.Request_withdrawn_reason__c = 'AUTOMATED: Lack of online form activity';
-                propsToUpdate.put(prop.Id, prop);
-            }
-        }
-        // Update via batch process.
-        system.debug('withdrawPropsWithInactiveFormInstances: propsToUpdate = ' +JSON.serialize(propsToUpdate));
-        if (propsToUpdate.size() > 0) Database.executeBatch(new GenericUpdateRecordsBatch(propsToUpdate.values()), 1);
-    }
 
      /**********************************
      * For use in Apex code processing form data
@@ -461,7 +120,7 @@ public class FormInstanceController {
     // Class that includes all form data associated with the given form instance
     public class DataManager {
         public Form_Instance__c fi;
-        public Applicant__c appl;
+        public Profile__c prof;
         public Advisor_Term__c advt;
         public Map<String, String> dataValue, dataValueText, dataValueTextArea, dataTargetId;
 
@@ -476,13 +135,13 @@ public class FormInstanceController {
         public DataManager(Id fiId) {
             this.fiId = fiId;
             this.fi = getFormInstance(fiId);
-            // Get applicant or advisor term.
-            system.debug('DataManager: fi.Applicant__c = ' +fi.Applicant__c+ '; fi.Advisor_Term__c = ' +fi.Advisor_Term__c);
-            if (fi.Applicant__c != null) {
-                appl = [
-                    SELECT Id, Account__c, Contact_email__c, Language__c
-                    FROM Applicant__c 
-                    WHERE Id = : fi.Applicant__c
+            // Get profile or advisor term.
+            system.debug('DataManager: fi.Profile__c = ' +fi.Profile__c+ '; fi.Advisor_Term__c = ' +fi.Advisor_Term__c);
+            if (fi.Profile__c != null) {
+                prof = [
+                    SELECT Id, Account__c, Community_contact_email__c, Language__c
+                    FROM Profile__c 
+                    WHERE Id = : fi.Profile__c
                 ];
             } else if (fi.Advisor_Term__c != null) {
                 advt = [
@@ -491,7 +150,7 @@ public class FormInstanceController {
                     WHERE Id = : fi.Advisor_Term__c
                 ];
             }
-            comps = getComponentsm(fi.Form__c);
+            comps = getComponents(fi.Form__c);
             // Map from component name to id.  NOTE: Trouble if multiple components in a form have the same name.
             compIds = new Map<String, Id> ();
             for (Form_Component__c c : comps) compIds.put(c.Name, c.Id);
@@ -534,17 +193,6 @@ public class FormInstanceController {
  
     public FormInstanceController(ApexPages.StandardSetController standardSetController) {
         this.standardSetController = standardSetController;
-    }
-       
-    public String formInstanceText { get; private set; } // Form instance text
-
-    // Build text for selected form instance.
-    public PageReference buildText() {
-        // Grab selected form instance id(s). 
-        // Currently (5/1/20) only handles a single selected form instance.
-        Id selId = (new List<Id> (getSelectedIds()))[0];
-        formInstanceText = renderFormInstanceText(selId);
-        return null;
     }
             
     public PageReference doCancel() {       

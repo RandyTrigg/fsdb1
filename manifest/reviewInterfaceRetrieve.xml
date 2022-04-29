@@ -7,6 +7,8 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>Form_Component__c.Hierarchical_level_num__c</members>
+        <members>Form_Component__c.Hierarchical_sort_num__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -16,8 +18,6 @@
         <name>Layout</name>
     </types>
     <types>
-        <members>FormInstanceController</members>
-        <members>FormInstanceControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>

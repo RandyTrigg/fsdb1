@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hierarchical_level_num__c</fullName>
+    <description>The hierarchical level of this form component - 0 if it has no parent group component, 1 if it is the child of a top-level group component, etc.</description>
+    <externalId>false</externalId>
+    <formula>/* Count number of &quot;.&quot;s in the hierarchical sort num. */
+LEN( Hierarchical_sort_num__c ) - LEN(SUBSTITUTE( Hierarchical_sort_num__c , &quot;.&quot;, &quot;&quot;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The hierarchical level of this form component - 0 if it has no parent group component, 1 if it is the child of a top-level group component, etc.</inlineHelpText>
+    <label>Hierarchical level num</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -42,6 +42,13 @@
         <members>Payment_Method__c.Advisor_Term__c</members>
         <members>Payment_Method__c.WU_id__c</members>
         <members>Template__c.Form_for_posted_letter__c</members>
+        <members>Form_Component__c.Numbered__c</members>
+        <members>Form_Component__c.Sub_numbered__c</members>
+        <members>Form_Component__c.Hierarchical_level_num__c</members>
+        <members>Form_Component__c.Hierarchical_sort_num__c</members>
+        <members>Profile__c.Community_contact__c</members>
+        <members>Profile__c.Community_contact_email__c</members>
+        <members>Profile__c.Community_contact_username__c</members>
         <name>CustomField</name>
     </types>
     <types>
