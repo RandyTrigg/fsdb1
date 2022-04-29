@@ -1,14 +1,15 @@
 import { LightningElement, track } from 'lwc';
 import doLogin from '@salesforce/apex/CommunityAuthController.doLogin';
+import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 
 
 export default class LoginComponent extends LightningElement {
-
 
     username;
     password;
     @track errorCheck;
     @track errorMessage;
+    bffLogo = logoResource;
 
     connectedCallback(){
 
