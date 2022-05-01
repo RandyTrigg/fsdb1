@@ -2,7 +2,7 @@ public without sharing class SyncController {
 
     /* -----------------
     Runs donations sync from GFW to FSDB in 2 parts:
-    Part 1: LauchSync fetches json from GFW and stashes in Sync Log Records
+    Part 1: LauchSync fetches json from GFW for FS Group and stashes in Sync Log Records
     Part 2: BuildRecs returns List<sObject> for upsert in calling code
 
     Par 1 and 2 main methods appear towards bottom; below variables and supporting methods.
@@ -24,25 +24,20 @@ public without sharing class SyncController {
     
     // Class variables set for building recs for upsert
     public Schema.SObjectField extIdFieldReference;
-
-    // Class variables for this FS SyncController instance.
     
     // Map of JSON records by DeveloperName of objectMapping (Account => accountsJSON, Contact => contactsJSON)
     Map<String, List<Object>> objNamesJSONMap = new Map<String, List<Object>>();
     
-    // TO DO: Resolve when gift credits are supported:
-    List<Object> gcsJSON = new List<Object>();
+    // Map of Ids by DeveloperName of objectMapping (Account => acctIds, etc.)
+    Map<String, Set<Id>> objNamesIdsMap = new Map<String, Set<Id>>();
 
-     // TO DO: Evaluate whether to keep all Set<Id> variables or maintain all in single Map
-    // Map<String, Set<Id>> objNameToIdsMap = new Map<String, Set<Id>>(); // E.g., Account => acctIds
+     // Id collections
     Set<Id> acctIds = new Set<Id>();
-    Set<Id> ctIds = new Set<Id>();
     Set<Id> giftIds = new Set<Id>();
     Set<Id> campIds = new Set<Id>();
     Set<Id> giftOppIds = new Set<Id>();  // OpportunityIds linked to gifts
     Set<Id> giftOppIdsToUpdate = new Set<Id>(); // Non-GiftOpportunities in FSDB with matching ExtOppIds to incoming GiftOpportunities
     Set<Id> oppIds = new Set<Id>(); // Unlinked 'floating' Opportunities with no gifts/transactions
-    Set<Id> recDonIds = new Set<Id>();
 
     Map<Id,Id> GiftIdToGiftOppId = new Map<Id, Id>();
     List<sObject> giftToOppsToDelete = new List<sObject>();
@@ -119,6 +114,7 @@ public without sharing class SyncController {
 
     public List<Object> doQuery(String queryStr) {
         // Perform query callout and return records
+        CalloutException e = new CalloutException();
         String jsonResults = doQueryCallout(queryStr);
         system.debug('Final results: ' + jsonResults);
         List<Object> records;
@@ -136,6 +132,10 @@ public without sharing class SyncController {
                     // String nextRecordsURL = (String) m.get('nextRecordsUrl');
                     System.debug('nextRecordsURL: ' + nextRecordsURL);
                     nextResults = doQueryNextBatchCallout(nextRecordsURL);
+                    if (nextResults.startsWith('Error:')) {
+                        e.setMessage('Failed callout: ' + nextResults);
+                        throw e;
+                    }
                     System.debug('nextResults: ' + nextResults);
                     qryResponse  = (queryReturnResponseWrapper)JSON.deserialize(nextResults, queryReturnResponseWrapper.class);
                     system.debug('Done response: ' + qryResponse.done);
@@ -145,7 +145,9 @@ public without sharing class SyncController {
                 } while (!done && !nextResults.startsWith('Error:'));
             }
         } else {
-            System.debug('error results: ' + jsonResults); // TO DO: Figure out how to handle error/throw exception.
+            System.debug('error results: ' + jsonResults);
+            e.setMessage('Failed callout: ' + jsonResults);
+            throw e;
         }
         return records;
     }
@@ -440,6 +442,7 @@ public without sharing class SyncController {
         // Rely on gift's account and opportunity from nested json: AQB__Gift__r={AQB__CreditedOpportunity__c=0065d00000wWBdeAAG...
         // (TO DO: Handle soft-credits in next iteration.)
         Map<String, Object> relGift;
+        Set<Id> recDonIds = new Set<Id>();
         System.debug('fsCOA: ' + fsCOA);
         String mdtObjName = 'Transaction_to_Payment';
         String whereClause = ' WHERE AQB__ChartofAccounts__r.Name LIKE \'' + fsCOA + '%\' AND AQB__Type__c != \'Soft credit\' AND (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
@@ -462,7 +465,8 @@ public without sharing class SyncController {
                     if (!GiftIdToGiftOppId.containsKey(giftId)) GiftIdToGiftOppId.put(giftId, oppId);
                 }
             }
-        }
+            if (recDonIds!=null && !recDonIds.isEmpty()) objNamesIdsMap.put('Recurring_Donations', recDonIds);
+        } 
         System.debug('giftOppIds: ' + giftOppIds);
         System.debug('GiftIdToGiftOppId: ' + GiftIdToGiftOppId);
         System.debug('campIds: ' + campIds);
@@ -470,18 +474,26 @@ public without sharing class SyncController {
     
     public void gatherGiftCredits() {
         // Retrieve gift credits and their linked accounts/contacts from giftIds.
-        // Contacts gathered via gift credits.
-        // TO DO: Only gather gift credits where Contact's Account not equal to gift's Account
+        // Gather gcIds where contact's Account not Account on gift
         // Rely on AQB_DonorAccount__c, not Credited Account; AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         if (!giftIds.isEmpty()) {
+            // Look up existing OpportunityContactRoles in FSDB with Account clashes
+            OpportunityContactRole[] exstRecs = Utilities.fetchRecords(
+                'OpportunityContactRole', 'WHERE HasAccountClash__c = TRUE', null);
+            List<String> ExistIdPairs = new List<String>();
+            for (OpportunityContactRole rec : exstRecs) {
+                ExistIdPairs.add(rec.GFWContactGiftIdsPair__c);
+            }
+            // Query GiftCredits in GFW
             String mdtObjName = 'GiftCredit_to_OppContactRole';
             String inIDsStr = Utilities.packageIdsForQuery(giftIds);
             String whereClause = ' WHERE AQB__GiftId__c IN ' + inIDsStr;
             List<Object> records = queryForRecords(mdtObjName, null, whereClause);
-            Map<String, Object> pAcct;
-            Map<Id, Id> extGiftContactIdMap = new Map<Id, Id>();
+            Map<String, Object> parentAcct;
+            Set<Id> ctIds = new Set<Id>();
+            Set<Id> gcIds = new Set<Id>();
             if (records != null && records.size()>0) {
-                // Stash gc record json and gather parent/related Ids
+                // Gather parent/related Ids
                 for (Object rec : records) {
                     Map<String, Object> gc = (Map<String, Object>)rec;
                     System.debug('>>> Gift Credits: ' + gc);
@@ -490,18 +502,23 @@ public without sharing class SyncController {
                         // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
                         ctIds.add((Id)gc.get('AQB__ContactId__c')); 
                         System.debug('GiftCredit contactIds: ' + ctIds);
-                        pAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
-                        if (pAcct != null) acctIds.add((Id)pAcct.get('AccountId'));
-                        // TO DO: Update this to be only gcs that we need to add. objNamesJSONMap.put(mdtObjName, records);
-                        // TO DO: If pAcct.get('AccountId') != AQB__DonorAccount__c, then add JSON?
-                        // Package GCs for OppContactRoles - GFWGiftExternalId on Opp and GFWContactExternalId.
+                        parentAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
+                        if (parentAcct != null) {
+                            acctIds.add((Id)parentAcct.get('AccountId'));
+                            String contactExtId = fsCOA + '_' + (String)gc.get('AQB__ContactId__c');
+                            String thisIdPair = contactExtId + (String)gc.get('AQB__GiftId__c');
+                            if (parentAcct.get('AccountId') != gc.get('AQB__DonorAccount__c') && !ExistIdPairs.contains(thisIdPair)) {
+                                gcIds.add((Id)gc.get('Id'));
+                            }
+                        }
                         // System.debug('giftid: ' + (Id)gc.get('AQB__GiftId__c') + '; contactId: ' + (Id)gc.get('AQB__ContactId__c'));
-                        extGiftContactIdMap.put((Id)gc.get('AQB__GiftId__c'), (Id)gc.get('AQB__ContactId__c'));   
                     }
                     // System.debug('AccountId: ' + (Id)gc.get('AQB__DonorAccount__c'));
                     // System.debug('ContactId: ' + (Id)gc.get('AQB__ContactId__c'));
-                    // System.debug('GC Contact Parent AccountId: ' + (Id)pAcct.get('AccountId'));
+                    // System.debug('GC Contact Parent AccountId: ' + (Id)parentAcct.get('AccountId'));
                 }
+                if (gcIds != null && !gcIds.isEmpty()) objNamesIdsMap.put(mdtObjName, gcIds);
+                if (ctIds != null && !ctIds.isEmpty()) objNamesIdsMap.put('Contact', ctIds);
             }
         }
     }
@@ -752,15 +769,11 @@ public without sharing class SyncController {
         Set<Id> idsToUpsert;
         List<Object> records;
 
-        // TO DO: Maybe establish as a class variable - evaluate afterwards. leave for now.
-        Map<String, Set<Id>> objNamesIdsMap = new Map<String, Set<Id>>{
-            'Account' => acctIds,
-            'Contact' => ctIds,
-            'Recurring_Donations' => recDonIds,
-            'Gift_to_Opportunity' => giftIds,
-            'Opportunity' => oppIds,
-            'Campaign' => campIds
-        };
+        // Add remaining Ids to ObjIds map
+        objNamesIdsMap.put('Account', acctIds);
+        objNamesIdsMap.put('Gift_to_Opportunity', giftIds);
+        objNamesIdsMap.put('Opportunity', oppIds);
+        objNamesIdsMap.put('Campaign', campIds);
 
         // Loop through active object mappings and retrieve json records by Id sets.
         for (GFW_Sync_Object_Mapping__mdt thisObj : mdts) {
