@@ -474,7 +474,7 @@ public without sharing class SyncController {
     
     public void gatherGiftCredits() {
         // Retrieve gift credits from giftIds and their accounts/contacts.
-        // Gather gcIds where contact's Account not Account on gift
+        // Gather gcIds for FSDB where contact's Account not same as gift OR if institutional donor.
         // Rely on AQB_DonorAccount__c, not Credited Account; AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         if (!giftIds.isEmpty()) {
             // Look up existing OpportunityContactRoles in FSDB with Account clashes
@@ -489,7 +489,6 @@ public without sharing class SyncController {
             String inIDsStr = Utilities.packageIdsForQuery(giftIds);
             String whereClause = ' WHERE AQB__GiftId__c IN ' + inIDsStr;
             List<Object> records = queryForRecords(mdtObjName, null, whereClause);
-            Map<String, Object> parentAcct;
             Set<Id> ctIds = new Set<Id>();
             Set<Id> gcIds = new Set<Id>();
             if (records != null && records.size()>0) {
@@ -502,12 +501,18 @@ public without sharing class SyncController {
                         // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
                         ctIds.add((Id)gc.get('AQB__ContactId__c')); 
                         System.debug('GiftCredit contactIds: ' + ctIds);
-                        parentAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
+                        Map<String, Object> parentAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
                         if (parentAcct != null) {
                             acctIds.add((Id)parentAcct.get('AccountId'));
                             String contactExtId = fsCOA + '_' + (String)gc.get('AQB__ContactId__c');
                             String thisIdPair = contactExtId + (String)gc.get('AQB__GiftId__c');
-                            if (parentAcct.get('AccountId') != gc.get('AQB__DonorAccount__c') && !ExistIdPairs.contains(thisIdPair)) {
+                            // Dig for gift account record type
+                            Map<String, Object> giftRel = (Map<String, Object>)gc.get('AQB__GiftId__r');
+                            Map<String,Object> giftAcct = (Map<String,Object>)giftRel.get('AQB__AccountId__r');
+                            Map<String,Object> recTypeMap = (Map<String,Object>)giftAcct.get('RecordType');
+                            String recType = (String)recTypeMap.get('DeveloperName');
+                            System.debug('Gift credits recTypeMap: ' + recTypeMap + '; recType: ' + recType);
+                            if ((parentAcct.get('AccountId') != gc.get('AQB__DonorAccount__c') || (recType != 'Household')) && !ExistIdPairs.contains(thisIdPair)) {
                                 gcIds.add((Id)gc.get('Id'));
                             }
                         }
