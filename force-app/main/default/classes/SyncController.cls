@@ -473,7 +473,7 @@ public without sharing class SyncController {
     }
     
     public void gatherGiftCredits() {
-        // Retrieve gift credits and their linked accounts/contacts from giftIds.
+        // Retrieve gift credits from giftIds and their accounts/contacts.
         // Gather gcIds where contact's Account not Account on gift
         // Rely on AQB_DonorAccount__c, not Credited Account; AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         if (!giftIds.isEmpty()) {
@@ -635,6 +635,9 @@ public without sharing class SyncController {
                 System.debug('gfwFieldName: ' + gfwFieldName);
                 if (fsdbFieldName == 'OwnerId') {
                     sObj.put(fsdbFieldName, slRec.Sync_Log__r.OwnerId);
+                } else if (fieldmapMDT.DefaultValue__c != null && fieldmapMDT.DefaultValue__c != '') {
+                    // Set field to default value in cmdt
+                    sObj.put(fsdbFieldName, fieldmapMDT.DefaultValue__c);
                 } else if (fsdbFieldName == fsdbExternalIdFieldName && objMap.PrefixExternalIds__c) {
                     // Prefixed External Id: Append prefix before setting.
                     // Note: Regular external Ids set the same as other fields. 
@@ -662,9 +665,6 @@ public without sharing class SyncController {
                     System.debug('FSDB Field Type for ' + fsdbFieldName + ': ' + fieldType);
                     System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' based on gfwFieldName ' + gfwFieldName + ' to this value: ' + gfwInfo.get(gfwFieldName));
                     sObj = populateFields(sObj, fieldType, fieldmapMDT, gfwInfo.get(gfwFieldName));
-                } else {
-                    // Set field to default value in cmdt
-                    sObj.put(fsdbFieldName, fieldmapMDT.DefaultValue__c);
                 }
             } // End for each FSDB field
             // Add link to Sync Log Record
