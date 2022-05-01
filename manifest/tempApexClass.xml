@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>AutocreatedConfigSelfReg1648769227976</members>
+		<members>SyncController</members>
+		<members>SyncControllerTest</members>
+		<members>Sync_BatchableUpsert</members>
+		<members>Sync_BatchableUpsertTest</members>
 		<name>ApexClass</name>
 	</types>
 	<version>53.0</version>
