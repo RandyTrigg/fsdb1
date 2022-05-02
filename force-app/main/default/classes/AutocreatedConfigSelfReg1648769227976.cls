@@ -51,7 +51,8 @@ global class AutocreatedConfigSelfReg1648769227976 implements Auth.ConfigurableS
 			insert prf;
 			System.debug('New profile: ' + prf.Id);
         } catch (Exception e) {
-            throw new GFW_Exception('AutocreatedConfigSelfReg.createUser', 'Could not create Profile record', e);
+            system.debug('Failure creating new profile: ' + e.getMessage());
+			throw new GFW_Exception('AutocreatedConfigSelfReg.createUser', 'Could not create Profile record', e);
         }
 
 		return u.id;
