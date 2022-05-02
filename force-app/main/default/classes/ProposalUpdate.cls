@@ -17,7 +17,8 @@ public with sharing class ProposalUpdate {
                 'GM_region__c',
                 'GM_applicant__c',
                 'First_grant__c',
-                'Latest_grant__c'
+                'Latest_grant__c',
+                'OwnerId'
             },
             'Payment_dependent_on_prior_grant__r' => new List<String>{
                 'Status_numeric__c'
@@ -315,10 +316,11 @@ public with sharing class ProposalUpdate {
         // Vars for other fields
         Id countryId, regionId, regionOverrideId, firstGrantId, latestGrantId;
         // Build interpreter for status calculations.
+        String FSGroup = Utilities.FSGroupNameFromUserId(a.OwnerId);
         Template__c t = [
             SELECT Id
             FROM Template__c
-            WHERE Name = 'Proposal status'
+            WHERE Name = 'Proposal status' AND FS_Group__c = :FSGroup;
         ];
         TemplateController.TemplateMacros tm = new TemplateController.TemplateMacros(
             t.Id

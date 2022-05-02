@@ -159,6 +159,16 @@ global class Utilities {
         return pSets.size() > 0 ? pSets[0].Id : null;
     }
 
+    // Return FS Group Name by UserId
+    public static String FSGroupNameFromUserId(Id UserOrOwnerId) {
+        String grpName;
+        GroupMember[] gms = [SELECT Id, UserOrGroupId, Groupid, Group.DeveloperName, Group.Type 
+        FROM GroupMember 
+        WHERE Group.DeveloperName LIKE 'FS_%' AND UserOrGroupId = UserOrOwnerId];
+        grpName = !gms.isEmpty() ? gms[0].Group.DeveloperName : '';
+        return grpName;
+    }
+
     /*******************
      * NUMBER
      *******************/
