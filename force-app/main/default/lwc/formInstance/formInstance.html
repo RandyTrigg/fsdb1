@@ -1,0 +1,15 @@
+<template>
+    <div if:true={dataLoaded}>
+        <lightning-formatted-rich-text data-id="intro" class="gfw-form-title" value={intro}></lightning-formatted-rich-text>
+        <template for:each={completeSections} for:item="section">
+            <div if:false={isMultiView} key={section.Id}>
+                <c-form-section section-data={section} form-instance-id={instanceId} is-editable={isEditable} language={language}></c-form-section>
+            </div>
+            <div if:true={isMultiView} key={section.Id}>
+                <lightning-accordion-section  class="gfw-form-title" key={section.Id} name="A" label={section.Form_Phrase_Title__r.Phrase_in_English__c}>
+                    <c-form-section section-data={section} form-instance-id={instanceId} is-editable={isEditable} language={language}></c-form-section>
+                </lightning-accordion-section>
+            </div>
+        </template>
+    </div>
+</template>

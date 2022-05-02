@@ -1,7 +1,39 @@
+import MailingPostalCode from '@salesforce/schema/Contact.MailingPostalCode';
 import { LightningElement } from 'lwc';
 
 export default class FormsUtilities extends LightningElement {}
 
+// Mapping from form phrase names to translations in given language
+function buildTransByName (translations, language) {
+    let transByName = new Object();
+    // Build map of maps by phrase name and by language
+    const nameLangMap = new Map();
+    for (let trans of translations) {
+        let pName = trans.Form_Phrase__r.Name;
+        if (!nameLangMap.get(pName)) nameLangMap.put(pName, new Map());
+        nameLangMap.get(pName).put(trans.Language__c, trans.Text__c);
+    }
+    for (let pName of nameLangMap) {
+        transByName[pName] = nameLangMap.get(pName).get(language) || nameLangMap.get(pName).get('English');
+    }
+    return transByName;
+}
+
+// Mapping from form phrase ids to translations in given language
+function buildTransById (translations, language) {
+    let transById = new Object();
+    // Build map of maps by phrase id and by language
+    const idLangMap = new Map();
+    for (let trans of translations) {
+        let pId = trans.Form_Phrase__c;
+        if (!idLangMap.get(pId)) idLangMap.put(pId, new Map());
+        idLangMap.get(pId).put(trans.Language__c, trans.Text__c);
+    }
+    for (let pId of idLangMap) {
+        transById[pId] = idLangMap.get(pId).get(language) || idLangMap.get(pId).get('English');
+    }
+    return transById;
+}
 
 // update item internals
 function updateItemType(item) {
@@ -162,5 +194,5 @@ function getCheckboxOrRadioOptions(picklistOptions, translationMap, useTranslati
 
 
 export {
-    updateItemType,getCheckboxOrRadioOptions,updateRecordInternals
+    buildTransByName, buildTransById, updateItemType,getCheckboxOrRadioOptions,updateRecordInternals
 };

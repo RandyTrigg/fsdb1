@@ -197,6 +197,7 @@
         <members>lookup</members>
         <members>formFieldViewer</members>
         <members>formFieldEditor</members>
+        <members>formInstance</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>

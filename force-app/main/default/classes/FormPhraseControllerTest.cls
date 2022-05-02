@@ -27,6 +27,9 @@ public class FormPhraseControllerTest {
         system.assertEquals('testing', transSpan.Text_in_English__c);
         comp = [SELECT Form_phrase_in_English__c FROM Form_Component__c WHERE Id = : comp.Id];
         system.assertEquals('testing', comp.Form_phrase_in_English__c);
+
+        String translations = FormPhraseController.getTranslations();
+        system.assert(translations.length() > 0);
     }
 
 }

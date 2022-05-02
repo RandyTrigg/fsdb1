@@ -7,7 +7,7 @@ public class FormInstanceController {
     // Fetch all local fields of a form instance record, plus a few specified related fields. 
     @AuraEnabled
     public static Form_Instance__c getFormInstance(Id fiId) {
-        String[] relatedFieldNames = new List<String>{'Profile__r.Name', 'Profile__r.Account__c'};
+        String[] relatedFieldNames = new List<String>{'Profile__r.Name', 'Profile__r.Account__c', 'Profile__r.Account__r.Name'};
         return (Form_Instance__c) Utilities.fetchRecord('Form_Instance__c', fiId, relatedFieldNames);
     }
     
@@ -19,7 +19,7 @@ public class FormInstanceController {
 			};
         String whereClause = 
             ' WHERE Form__c = \'' +formId+ '\'' +
-            ' ORDER BY Sort_number__c';
+            ' ORDER BY Hierarchical_sort_num__c';
         return (List<Form_Component__c>) Utilities.fetchRecords('Form_Component__c', whereClause, relatedFieldNames);
     }
     
@@ -179,6 +179,31 @@ public class FormInstanceController {
             system.debug('DataManager: dataValue = ' +JSON.serialize(dataValue));
         }    
     }
+
+    // Builds collection of form instance plus child form data, form plus child form components, and form picklists and form picklist phrases.
+    public class FormInstanceData {
+        public Form_Instance__c frmInst; // Includes child form data
+        public Form__c frm; // Includes child form components
+        public Form_Picklist__c[] frmPicklists; // Includes child form picklist phrases
+
+        public FormInstanceData (Id formInstanceId) {
+            // Get form instance and form data
+            String fdSubQuery = Utilities.buildChildSubQuery('Form_Data__c', 'Form_Data__r', null);
+            frmInst = (Form_Instance__c)Utilities.fetchRecord('Form_Instance__c', formInstanceId, new List<String>{fdSubQuery});
+            // Get form and form components
+            String fcSubQuery = Utilities.buildChildSubQuery('Form_Component__c', 'Form_Components__r', 'ORDER BY Hierarchical_sort_num__c');
+            frm = (Form__c)Utilities.fetchRecord('Form__c', frmInst.Form__c, new List<String>{fcSubQuery});
+            // Get ALL form picklists and child form picklist phrases
+            String fpSubQuery = Utilities.buildChildSubQuery('Form_Picklist_Phrase__c', 'Form_Picklist_Phrases__r', null);
+            frmPicklists = (List<Form_Picklist__c>)Utilities.fetchRecords('Form_Picklist__c', null, new List<String>{fpSubQuery});
+        }
+    }
+    
+    @AuraEnabled //Do not cache
+    public static String getFormInstanceData(String recordId) {
+        FormInstanceData data = new FormInstanceData(recordId);
+        return JSON.serialize(data);
+    }    
 
     /**********************************
      * For use in VisualForce pages

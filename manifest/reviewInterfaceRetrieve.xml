@@ -7,8 +7,6 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>Form_Component__c.Hierarchical_level_num__c</members>
-        <members>Form_Component__c.Hierarchical_sort_num__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -33,6 +31,7 @@
         <name>Flow</name>
     </types>
     <types>
+        <members>formInstance</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>

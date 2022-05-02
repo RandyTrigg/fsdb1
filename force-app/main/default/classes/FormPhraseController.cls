@@ -54,5 +54,20 @@ public class FormPhraseController {
         }
         if (compsToUpdate.size() > 0) update compsToUpdate;
     }
+
+    // Form phrase translations for LWC 
+    @AuraEnabled(cacheable=true)
+    public static string getTranslations(){
+        try {
+            Form_Phrase_Translation__c[] translations = [
+                SELECT Text__c, Text_in_English__c, Form_Phrase__c, Form_Phrase__r.Name, Language__c
+                FROM Form_Phrase_Translation__c
+                WHERE Form_Phrase__r.Active__c = true
+            ];
+            return JSON.serialize(translations);
+        } catch (Exception e) {
+            throw new GFW_Exception(e.getMessage());
+        }
+    }
     
 }

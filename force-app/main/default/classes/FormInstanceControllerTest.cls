@@ -35,6 +35,8 @@ public class FormInstanceControllerTest {
         FormInstanceController.buildCmpNumberMap(comps);
         
         FormInstanceController.DataManager dm = new FormInstanceController.DataManager(fiId);
+        String dataStr = FormInstanceController.getFormInstanceData(fiId);
+        system.assertNotEquals(null, dataStr);
     }
 
 }
