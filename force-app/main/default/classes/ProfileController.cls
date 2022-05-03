@@ -23,7 +23,7 @@ public with sharing class ProfileController {
             
             hasProposals = prf.Proposals__r != null ? true : false;
             hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
-
+            preferredLanguage = prf.Language__c != null ? prf.Language__c : 'English';
         }
     }
 

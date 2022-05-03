@@ -5,6 +5,5 @@
 // You can also execute the entire file by running the command:
 //     SFDX: Execute Anonymous Apex with Editor Contents
 
-string tempvar = 'Enter_your_name_here';
-System.debug('Hello World!');
-System.debug('My name is ' + tempvar);
+    List<Profile__c> runningProfile = new List<Profile__c>([SELECT ID FROM Profile__c WHERE Community_contact__c =:'123' LIMIT 1]);
+System.debug('RunningProfile: ' + runningProfile);

@@ -1,6 +1,6 @@
 import { LightningElement } from 'lwc';
 
-import loadProfileSummary from '@salesforce/apex/ProfileController.loadProfileSummary';
+import getProfileSummary from '@salesforce/apex/ProfileController.getProfileSummary';
 import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
 
@@ -22,7 +22,7 @@ export default class BffGrantsSiteHome extends LightningElement {
     
     async connectedCallback() {
         try {
-            this.profileSummary = JSON.parse(await loadProfileSummary());
+            this.profileSummary = JSON.parse(await getProfileSummary());
 
             if (this.advisorSummary.proposalReviewsAssigned.length<1) {
                  this.advisorSummary.proposalReviewsAssigned = null;
