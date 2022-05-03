@@ -320,7 +320,7 @@ public with sharing class ProposalUpdate {
         Template__c t = [
             SELECT Id
             FROM Template__c
-            WHERE Name = 'Proposal status' AND FS_Group__c = :FSGroup;
+            WHERE Name = 'Proposal status' AND FS_Group__c = :FSGroup
         ];
         TemplateController.TemplateMacros tm = new TemplateController.TemplateMacros(
             t.Id

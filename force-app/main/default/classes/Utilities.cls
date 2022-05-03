@@ -161,10 +161,10 @@ global class Utilities {
 
     // Return FS Group Name by UserId
     public static String FSGroupNameFromUserId(Id UserOrOwnerId) {
-        String grpName;
+        String roleId = [SELECT UserRoleId FROM User WHERE Id = :UserOrOwnerId].UserRoleId;
         GroupMember[] gms = [SELECT Id, UserOrGroupId, Groupid, Group.DeveloperName, Group.Type 
         FROM GroupMember 
-        WHERE Group.DeveloperName LIKE 'FS_%' AND UserOrGroupId = UserOrOwnerId];
+        WHERE Group.DeveloperName LIKE 'FS_%' AND UserOrGroupId = :UserOrOwnerId OR UserOrGroupId = :roleId];
         grpName = !gms.isEmpty() ? gms[0].Group.DeveloperName : '';
         return grpName;
     }
