@@ -5,6 +5,57 @@ public with sharing class ProfileController {
      * For use in Lightning components
      *********************************/
 
+    // Bundles profile information, including child proposals.
+    public class ProfileSummary {
+        
+        public Profile__c prf; // Includes child proposals
+        public Boolean hasForms = false;
+        public Boolean hasProposals = false;
+        public Boolean hasSubmittedPrf = false;
+        public Integer pendingAnnualProposals = 0;
+        public Integer pendingShortProposals = 0;
+        public String preferredLanguage;
+
+        public ProfileSummary (Id prfId) {
+
+            String prpSubQuery = Utilities.buildChildSubQuery('Proposal__c', 'Proposals__r', null);
+            prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, new List<String>{prpSubQuery});
+            
+            hasProposals = prf.Proposals__r != null ? true : false;
+            hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
+
+        }
+    }
+
+    //Only call when in the context of a Grants Experience Site User
+    private static String getRunningUserProfileId() {
+            Id userId = UserInfo.getUserId();
+            Id runningProfileId;
+            User u = [SELECT Id, FirstName, LastName, Email, ContactId FROM User WHERE Id=:userId];
+            List<Profile__c> runningProfile = new List<Profile__c>([SELECT ID FROM Profile__c WHERE Community_contact__c =:'123' LIMIT 1]);
+            if (runningProfile.isEmpty()) {
+                Profile__c newPrf = new Profile__c (
+                    Community_contact__c = ContactId
+                );
+                insert newPrf;
+                runningProfileId = newPrf.Id;
+            } else {
+                runningProfileId = runningProfile[0].Id;
+            }
+            return runningProfileId;
+    }
+
+    @AuraEnabled //Do not cache
+    public static String getProfileSummary() {
+        try {
+            ProfileSummary data = new ProfileSummary(getRunningUserProfileId());
+            return JSON.serialize(data);
+        } catch (Exception e) {
+            throw new GFW_Exception('ProfileController.getProfileSummary', e.getMessage(),e);
+        }
+    }
+
+
     @AuraEnabled
     public static Profile__c getProfile(Id profileId) {
         String objName = 'Profile__c';
