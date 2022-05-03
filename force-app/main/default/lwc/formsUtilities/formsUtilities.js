@@ -5,7 +5,7 @@ export default class FormsUtilities extends LightningElement {}
 
 // Mapping from form phrase names to translations in given language
 function buildTransByName (translations, language) {
-    let transByName = new Object();
+    let transByName = new Map();
     // Build map of maps by phrase name and by language
     const nameLangMap = new Map();
     for (let trans of translations) {
@@ -14,14 +14,14 @@ function buildTransByName (translations, language) {
         nameLangMap.get(pName).put(trans.Language__c, trans.Text__c);
     }
     for (let pName of nameLangMap) {
-        transByName[pName] = nameLangMap.get(pName).get(language) || nameLangMap.get(pName).get('English');
+        transByName.set(pName, nameLangMap.get(pName).get(language) || nameLangMap.get(pName).get('English'));
     }
     return transByName;
 }
 
 // Mapping from form phrase ids to translations in given language
 function buildTransById (translations, language) {
-    let transById = new Object();
+    let transById = new Map();
     // Build map of maps by phrase id and by language
     const idLangMap = new Map();
     for (let trans of translations) {
@@ -30,7 +30,7 @@ function buildTransById (translations, language) {
         idLangMap.get(pId).put(trans.Language__c, trans.Text__c);
     }
     for (let pId of idLangMap) {
-        transById[pId] = idLangMap.get(pId).get(language) || idLangMap.get(pId).get('English');
+        transById.set(pId, idLangMap.get(pId).get(language) || idLangMap.get(pId).get('English'));
     }
     return transById;
 }

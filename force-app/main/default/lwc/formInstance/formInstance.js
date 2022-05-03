@@ -1,30 +1,33 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
+import { CurrentPageReference } from 'lightning/navigation';
 
-import getFormTree from '@salesforce/apex/FormViewerController.getFormTree';
-import getDataForFormViewer from '@salesforce/apex/FormViewerController.getDataForFormViewer';
+import getFormInstanceData from '@salesforce/apex/FormInstanceController.getFormInstanceData';
+import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
+
+//??
 import getFieldReferenceData from '@salesforce/apex/FormViewerController.getFieldReferenceData';
 
-import { updateItemType, updateRecordInternals } from 'c/formsUtilities';
+import { buildTransByName, buildTransById } from 'c/formsUtilities';
 import { handleError } from 'c/lwcUtilities';
 
 export default class FormInstance extends LightningElement {
     //Will have the form instance ID from parent, query for:
-    @api instanceId;
-    @api isEditable = false;
-    @api isMultiView = false; // Determines whether we're in a single-form view or multi-form view.  Defaults to
+    @api recordId;
+    isEditable = false;
+    isMultiView = false; // Determines whether we're in a single-form view or multi-form view.
     dataLoaded = false;
     intro;
-    completeSections = [];
-    connectorList;
-    connectorIdsSet = new Set(); // a set of the ids for all items and components that are a source or target
-    @api useTranslations = false;
+    sections = [];
+    components = [];
+    useTranslations = false;
     picklistPhrasesMap;
-    language;
-
+    language = 'English';
+    transByName;
+    transById;
 
     //The form Instance with all its fields, the form and form data, form sections, form items, form components and form data.
     connectedCallback() {
-        if (this.instanceId) {
+        if (this.recordId) {
             this.loadData();
         }
     }
@@ -34,47 +37,40 @@ export default class FormInstance extends LightningElement {
             this.template.querySelector('[data-id="intro"]').classList.add('gfw-arabic-body');
         }
     }
+ 
+    // Get parameters from current URL (e.g. language)
+    @wire(CurrentPageReference)
+    getStateParameters(currentPageReference) {
+       if (currentPageReference) {
+          let urlStateParameters = currentPageReference.state;
+          this.language = urlStateParameters.language || null;
+       }
+    }
 
     async loadData() {
         console.log('loadData');
-        let [tree, data ] = await Promise.all ([
-            getFormTree ({ formInstanceId: this.instanceId }),
-            getDataForFormViewer ({ formInstanceId: this.instanceId })
+        let [data, translations ] = await Promise.all ([
+            getFormInstanceData ({ formInstanceId: this.recordId }),
+            getTranslations ()
         ]);
 
-        let formTree = JSON.parse(tree);
-        let formData = JSON.parse(data);
+        let fiInfo = JSON.parse(data);
+        translations = JSON.parse(translations);
+        this.transByName = buildTransByName(translations, language);
+        this.transById = buildTransById(translations, language);
 
-        console.log('formTree',formTree);
-
-        this.language = formTree.language;
-
-        let numberingMap = new Map(Object.entries(formTree.itemNumberingMap));
-        let translationMap = new Map(Object.entries(formTree.translations));
-
-        this.picklistPhrasesMap = new Map(Object.entries(formTree.formPicklistMap));       
-
-        // TODO: Likely want to only load these when in edit mode
-        this.connectorList = formTree.connectorList;
-        this.buildConnectorSet();
-
-        // put connectors into a map indexed by target, for data attaching further down
-        let connectorsByTargetMap = new Map();
-        for (let connector of this.connectorList) {
-            if (connector.Target_component__c) {
-                connectorsByTargetMap.set(connector.Target_component__c, connector);
-            } else if (connector.Target_item__c) {
-                connectorsByTargetMap.set(connector.Target_item__c, connector);
-            }
-        }
-        
-        //We need the data in a format we can get to
+        let formData = fiInfo.frmInst.Form_Data__r;
         let formDataMap = new Map();  //indexed my Form Component ID, value is an array of data for that component
         if (formData) {
-            for (let data of formData.data ) {
+            for (let data of formData ) {
                 formDataMap.set(data.Form_Component__c, data);
             }
         }
+        console.log('formDataMap',formDataMap);
+
+        let picklistPhrasesMap = new Map(Object.entries(fiInfo.frmPicklists));   
+
+        let numberingMap = new Map(Object.entries(formTree.itemNumberingMap));
 
         // fill in the section intro/titles with translations
         if (this.useTranslations) {

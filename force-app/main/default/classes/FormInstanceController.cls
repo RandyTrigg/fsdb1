@@ -200,8 +200,8 @@ public class FormInstanceController {
     }
     
     @AuraEnabled //Do not cache
-    public static String getFormInstanceData(String recordId) {
-        FormInstanceData data = new FormInstanceData(recordId);
+    public static String getFormInstanceData(String formInstanceId) {
+        FormInstanceData data = new FormInstanceData(formInstanceId);
         return JSON.serialize(data);
     }    
 
