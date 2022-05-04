@@ -92,7 +92,7 @@ function getCheckboxOrRadioOptions(picklistOptions, translationMap, useTranslati
 }
 
  //Unclear how much of this is needed:
- function updateRecordInternals(rec, picklistPhrasesMap, translationMap, useTranslations) {
+ function updateRecordInternals(rec, picklistPhrases, translationMap) {
     if (rec.Type__c=='text' || rec.Type__c=='text latin chars' || rec.Type__c=='select' ) {
         rec.isText = true;
         if (!rec.Character_limit__c) {
@@ -107,17 +107,8 @@ function getCheckboxOrRadioOptions(picklistOptions, translationMap, useTranslati
         rec.isRadio = true;
         // get options, and build radio component
         if (picklistPhrasesMap) {
-            let picklistOptions = picklistPhrasesMap.get(rec.Form_Picklist__r.Name);
+            let picklistOptions = picklistPhrases.get(rec.Form_Picklist__c).Form_Picklist_Phrase__r;
             rec.radioOptions = getCheckboxOrRadioOptions(picklistOptions, translationMap, useTranslations);
-        }
-        
-        //if no data, create blank data
-        if (!rec.data) {
-            rec.data = {};
-            rec.data.Data_textarea__c = '';
-            rec.data.Data_text__c = '';
-        } else if (!rec.data.Data_text__c) {
-            rec.data.Data_text__c = '';
         }
     } else if (rec.Type__c=='radio in-line') {
         rec.isInlineRadio = true;
@@ -125,7 +116,7 @@ function getCheckboxOrRadioOptions(picklistOptions, translationMap, useTranslati
         if (rec.Form_Picklist__r) {
             rec.isCheckboxGroup = true;
             if (picklistPhrasesMap) {
-                let picklistOptions = picklistPhrasesMap.get(rec.Form_Picklist__r.Name);
+                let picklistOptions = picklistPhrases.get(rec.Form_Picklist__c).Form_Picklist_Phrase__r;
                 rec.checkboxOptions = getCheckboxOrRadioOptions(picklistOptions);
             }
             
@@ -155,38 +146,6 @@ function getCheckboxOrRadioOptions(picklistOptions, translationMap, useTranslati
             }
             
         }
-        
-    } else if (rec.Type__c=='checkbox in-line') {
-        rec.inlineCheckbox = true; 
-    } else if (rec.Type__c=='checkbox 2-col') {
-        rec.isCol2Checkbox = true;
-    } else if (rec.Type__c=='checkbox 3-col') {
-        rec.isCol3Checkbox = true;
-    } else if (rec.Type__c=='checkbox 4-col') {
-        rec.isCol4Checkbox = true;
-    } else if (rec.Type__c=='number') {
-        rec.isNumber = true;
-    } else if (rec.Type__c=='currency') {
-        rec.isCurrency = true;
-    } else if (rec.Type__c=='percent') {
-        rec.isPercent = true;
-    } else if (rec.Type__c=='percent equals 100') {
-        rec.isPercent100 = true;
-    } else if (rec.Type__c=='date') {
-        rec.isDate = true;
-    } else if (rec.Type__c=='email' || rec.Type__c=='email non-applicant') {
-        rec.isEmail = true;
-    } else if (rec.Type__c=='phone') {
-        rec.isPhone = true;
-    } else if (rec.Type__c=='url') {
-        rec.isUrl = true;
-    } else if (rec.Type__c=='table heading') {
-        rec.isTableHeading = true;
-    } else if (rec.Type__c=='group') {
-        rec.isGroup = true;
-    } else if (rec.Type__c=='indicator') {
-        rec.isIndicator = true;
-    }
 
     return rec;
 }

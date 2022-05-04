@@ -7,19 +7,18 @@ import getTranslations from '@salesforce/apex/FormPhraseController.getTranslatio
 //??
 import getFieldReferenceData from '@salesforce/apex/FormViewerController.getFieldReferenceData';
 
-import { buildTransByName, buildTransById } from 'c/formsUtilities';
+import { buildTransByName, buildTransById, updateRecordInternals } from 'c/formsUtilities';
 import { handleError } from 'c/lwcUtilities';
 
 export default class FormInstance extends LightningElement {
     //Will have the form instance ID from parent, query for:
     @api recordId;
-    isEditable = false;
-    isMultiView = false; // Determines whether we're in a single-form view or multi-form view.
+    @api isEditable;
+    @api isMultiView; // Determines whether we're in a single-form view or multi-form view.
     dataLoaded = false;
     intro;
     sections = [];
     components = [];
-    useTranslations = false;
     picklistPhrasesMap;
     language = 'English';
     transByName;
@@ -53,6 +52,10 @@ export default class FormInstance extends LightningElement {
             getFormInstanceData ({ formInstanceId: this.recordId }),
             getTranslations ()
         ]);
+        // Default values of @api fields here in case they weren't set by caller. Or am I allowed to default in the @api field declaration?
+        // Note attempt to test for null/undefined - we don't want to override "false" values for boolean fields
+        if(this.isEditable === '') this.isEditable = true;
+        if(this.isMultiView === '') this.isMultiView = false;
 
         let fiInfo = JSON.parse(data);
         translations = JSON.parse(translations);
@@ -67,125 +70,40 @@ export default class FormInstance extends LightningElement {
             }
         }
         console.log('formDataMap',formDataMap);
+        let cmps = fiInfo.frm.Form_Components__r;
+        let cmpMap = new Map();
+        for (let cmp of cmps) cmpMap.set(cmp.Id, cmp);
 
         let picklistPhrasesMap = new Map(Object.entries(fiInfo.frmPicklists));   
+        let numberingMap = fiInfo.orderingMap;
+        let topLevelCmps = [];
 
-        let numberingMap = new Map(Object.entries(formTree.itemNumberingMap));
-
-        // fill in the section intro/titles with translations
-        if (this.useTranslations) {
-            let introTranslation = translationMap.get(formTree.introPhraseId);
-            if (introTranslation) {
-                this.intro = introTranslation.Text__c;
-            }
-            for (let sec of formTree.sections) {
-                if (sec.Form_Phrase_Intro__c) {
-                    let sectionIntroTranslation = translationMap.get(sec.Form_Phrase_Intro__c);
-                    if (sectionIntroTranslation) {
-                        sec.introText = sectionIntroTranslation.Text__c;
-                    }
-                }
-            }
-            for (let itm of formTree.items) {
-                if (itm.Form_Phrase__c && translationMap.has(itm.Form_Phrase__c)) {
-                    itm.translatedFormPhrase = translationMap.get(itm.Form_Phrase__c).Text__c;
-                } else if (itm.Form_Phrase__c) {
-                    itm.translatedFormPhrase = itm.Form_Phrase__r.Phrase_in_English__c;
-                }
-                
-            } 
-        } else {
-            this.intro = formTree.intro;
-            for (let itm of formTree.items) {
-                if (itm.Form_Phrase__c) {
-                    itm.translatedFormPhrase = itm.Form_Phrase__r.Phrase_in_English__c;
-                }
-            } 
+        // Process each form component
+        for (let cmp of cmps) {
+            cmp.formInstanceId = this.recordId;
+            // fill in the form components' phrase translations
+            // Note that any form component can have an intro phrase, not just section components
+            if (cmp.Form_Phrase__c) cmp.translatedFormPhrase = this.transById.get(cmp.Form_Phrase__c);
+            if (cmp.Form_Phrase_Intro__c) cmp.translatedIntro = this.transById.get(cmp.Form_Phrase_Intro__c);
+            // Use parent component link to gather lists of child components - note that child ordering should reflect hierarchical ordering of entire form
+            if (cmp.Group_Component__c) {
+                let parentCmp = cmpMap.get(cmp.Group_Component__c);
+                if (!parentCmp.childCmps) parentCmp.childCmps = [];
+                parentCmp.childCmps.push(cmp);
+            } else topLevelCmps.push(cmp);
+            // Fill in the numbering
+            cmp.displayNumber = numberingMap.get(cmp.Id);
+            // Fill in type - in future, might tweak/add types to support rendering
+            cmp.type = cmp.Type__c;
+            // Fill in form component's data, or build new data if none present
+            if (formDataMap.has(cmp.Id)) cmp.data = formDataMap.get(cmp.Id);
+            else cmp.data = this.getEmptyFormData(cmp);
+            // Other tweaks to cmp
+            updateRecordInternals(cmp, fiInfo.frmPicklists, this.transById);
         }
-
-        for (let sec of formTree.sections) {
-            //get data referenced if needed
-            //TODO: are there specific fields where this can be the case? Just section intro text?????
-            if (sec.Form_Phrase_Intro__r && sec.Form_Phrase_Intro__r.Phrase_in_English__c && sec.Form_Phrase_Intro__r.Phrase_in_English__c.includes("<<")) {
-                try {
-                    let fieldRef = await getFieldReferenceData({ formInstanceId: this.instanceId, fieldReference: sec.Form_Phrase_Intro__r.Phrase_in_English__c});
-                    sec.introText = fieldRef;
-                } catch (error) {
-                    handleError(error);
-                }
-                
-            } else if (sec.Form_Phrase_Intro__r && sec.Form_Phrase_Intro__r.Phrase_in_English__c) {
-                sec.introText = sec.Form_Phrase_Intro__r.Phrase_in_English__c;
-            }            
-        }
-
-        //Build a map of form Items indexed by section
-        let topLevelItems = [];
-        let childItems = new Map(); //Index is parent item, value is a list of child items
-
-        // TODO: Items and components that are targets of Component Connectors, need to have the data for the source component available, so that they can initially render in the correct state
-
-        for (let itm of formTree.items ) {
-            //fill in the numbering
-            itm.displayNumber = numberingMap.get(itm.Id);
-
-            // Add in source connector component data           
-            if (connectorsByTargetMap.has(itm.Id)) {
-                let sourceComponentConnector = connectorsByTargetMap.get(itm.Id);
-                itm.sourceConnectorData = formDataMap.get(sourceComponentConnector.Source_component__c);
-            }
-
-            // Update item type, connectors etc.c
-            itm = updateItemType(itm);
-            itm = this.updateItemWithConnectors(itm);
-            itm.formInstanceId = this.instanceId;
-
-            if (itm.Form_Components__r && itm.Form_Components__r.records) {
-                //attach each item's components with corresponding data
-                for (let cmp of itm.Form_Components__r.records) {
-                    if (formDataMap.has(cmp.Id)) {
-                        cmp.data = formDataMap.get(cmp.Id);
-                    } else {
-                        cmp.data = this.getEmptyFormData(cmp);
-                    }
-                    // Add translation if needed 
-                    if (this.useTranslations) {
-                        if (cmp.Form_Phrase__c && translationMap.has(cmp.Form_Phrase__c)) {
-                            cmp.translatedFormPhrase = translationMap.get(cmp.Form_Phrase__c).Text__c;
-                        } else if (cmp.Form_Phrase__c) {
-                            cmp.translatedFormPhrase = cmp.Form_Phrase__r.Phrase_in_English__c;
-                        }
-                    } else if (cmp.Form_Phrase__c) {
-                        cmp.translatedFormPhrase = cmp.Form_Phrase__r.Phrase_in_English__c;
-                    }
-                    
 
                     cmp = updateRecordInternals(cmp, this.picklistPhrasesMap, translationMap, this.useTranslations);
-                    //Add in connector records
-                    cmp = this.updateCmpWithConnectors(cmp);
-
-                    // Add in source connector component data
-                    if (connectorsByTargetMap.has(cmp.Id)) {
-                        let sourceComponentConnector = connectorsByTargetMap.get(cmp.Id);
-                        cmp.sourceConnectorData = formDataMap.get(sourceComponentConnector.Source_component__c);
-                    }
                     
-                }
-                
-            }
-
-            if (itm.Form_Item_Parent__c) {
-                //see if there is a list going yet of child itmes
-                if (childItems.get(itm.Form_Item_Parent__c)) {
-                    let children = childItems.get(itm.Form_Item_Parent__c);
-                    children.push(itm);
-                    childItems.set(itm.Form_Item_Parent__c, children);
-                } else {
-                    let children = [];
-                    children.push(itm);
-                    childItems.set(itm.Form_Item_Parent__c, children);
-                }
-            }
 
             //Add Ordering
             if (itm.Form_Components__r && itm.Form_Components__r.records) {
@@ -194,106 +112,7 @@ export default class FormInstance extends LightningElement {
                 });
             }
 
-            // If this Form Item has a type of table, we have special setup to do
-            if (itm.Type__c.includes("Table")) {
-                let numColumns = itm.Number_of_columns__c;
-
-                //create a list of the components that are not grouped
-                let nonGroupedCmps;
-                if (itm.Form_Components__r) {
-                    nonGroupedCmps = itm.Form_Components__r.records.filter(cmp => !cmp.Group_Component__c);
-                }  
-
-                itm.hasHeaderRow = this.hasHeaderRow(nonGroupedCmps, numColumns);
-
-                //now I need to append the components that correspond with the data, to their group
-                let groupedComponentsByParent = new Map(); //index is group component id, value is an array of components
-                if (itm.Form_Components__r) {
-                    for (let cmp of itm.Form_Components__r.records) {
-                        if (cmp.Group_Component__c) {
-                            //get the list if it exists
-                            if (groupedComponentsByParent.get(cmp.Group_Component__c)) {
-                                let groupedComponents = groupedComponentsByParent.get(cmp.Group_Component__c);
-                                groupedComponents.push(cmp);
-                                groupedComponentsByParent.set(cmp.Group_Component__c, groupedComponents);
-                            } else {
-                                let groupedComponents = [];
-                                groupedComponents.push(cmp);
-                                groupedComponentsByParent.set(cmp.Group_Component__c, groupedComponents);
-                            }
-                        }
-                    }
-                }
-
-                //now go back through all the components, pulling out the groups and putting them in the correct column, and filling in their child components
-
-                if (nonGroupedCmps) {
-                    nonGroupedCmps.forEach(function (cmp, index) {
-                        cmp.colNum = index % numColumns;
-                        cmp.rowNum = Math.floor(index / numColumns);
-                        if (cmp.Type__c=='group') {
-                            //attach child components of the group
-                            cmp.cellFields = groupedComponentsByParent.get(cmp.Id);
-                        }
-                    });
-                    
-                    
-                    
-                    itm.tableComponents = nonGroupedCmps;
-
-                }
-                
-
-            }
-        }
-
-        //Attach children
-        for (let itm of formTree.items) {
-            // see if it has children, if so append them
-            if (childItems.get(itm.Id)) {
-                itm.children = childItems.get(itm.Id);
-            } 
-        }
-
-        
-
-        //fill the array of top level items which now have their children appended
-        for (let itm of formTree.items) {
-            if (itm.Hierarchical_level_num__c===0) {
-                topLevelItems.push(itm);
-            } 
-        }
-
-        // need to put the items in the sections
-        let itemsBySection = new Map();  //key is section id, value is list of Items
-
-        for (let itm of topLevelItems) {
-            if (itemsBySection.get(itm.Form_Section__c)) {
-                let itemArray = itemsBySection.get(itm.Form_Section__c);
-                itemArray.push(itm);
-                itemsBySection.set(itm.Form_Section__c, itemArray);
-            } else {
-                let itemArray = [];
-                itemArray.push(itm);
-                itemsBySection.set(itm.Form_Section__c, itemArray);
-            }
-        }
-
-        for (let section of formTree.sections ) {
-            let itemArray = itemsBySection.get(section.Id);
-            section.items = itemArray;
-            section.formInstanceId = this.instanceId;
-            if (!section.Form_Phrase_Title__r) {
-                section.Form_Phrase_Title__r = {Phrase_in_English__c:""};
-            }
-        }
-
-        console.log('formTree');
-        console.log(formTree);
-        console.log('formData');
-        console.log(formData);
-
-        this.completeSections = formTree.sections;
+        this.components = cmps;
         this.dataLoaded = true;
 
     }
@@ -321,8 +140,8 @@ export default class FormInstance extends LightningElement {
         data.Data_text__c = null;
         data.Data_textarea__c = null;
         data.Form_Component__c = cmp.Id;
-        data.Form_Instance__c = this.instanceId;
-        data.Type__c = cmp.Type__c;
+        data.Form_Instance__c = this.recordId;
+        data.Type__c = cmp.Type__c; // Do we need to do this? If so, is it correct?
         return data;
     }
 
@@ -337,34 +156,6 @@ export default class FormInstance extends LightningElement {
             //Source is always a component
             this.connectorIdsSet.add(connector.Source_component__c);
         }
-    }
-
-    updateItemWithConnectors(item) {
-        if (this.connectorIdsSet.has(item.Id)) {  //check that this item has a relevant connector before looping through
-            item.isTargetConnectors = [];
-            for (let connector of this.connectorList) {
-                if (connector.Target_item__c==item.Id) {
-                    item.isTargetConnectors.push(connector);
-                }
-            }
-        }
-        return item;
-
-    }
-
-    updateCmpWithConnectors(cmp) {
-        if (this.connectorIdsSet.has(cmp.Id)) {  //check that this item has a relevant connector before looping through
-            cmp.isTargetConnectors = [];
-            cmp.isSourceConnectors = [];
-            for (let connector of this.connectorList) {
-                if (connector.Target_component__c===cmp.Id) {
-                    cmp.isTargetConnectors.push(connector);
-                } else if (connector.Source_component__c===cmp.Id) {
-                    cmp.isSourceConnectors.push(connector);
-                }
-            }
-        }
-        return cmp;
     }
 
     @api isValid() {

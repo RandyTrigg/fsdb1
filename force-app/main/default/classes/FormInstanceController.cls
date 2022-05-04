@@ -37,7 +37,6 @@ public class FormInstanceController {
     }
 
     // Return a mapping of form component id to its appropriate number string based on hierarchical sort order.
-    @AuraEnabled
     public static Map<Id, String> buildCmpNumberMap (Form_Component__c[] cmps) {
         Map<Id, Form_Component__c> cmpsMap = new Map<Id, Form_Component__c> (cmps);
         Map<Id, String> cmpsNumberMap = new Map<Id, String> ();
@@ -185,6 +184,7 @@ public class FormInstanceController {
         public Form_Instance__c frmInst; // Includes child form data
         public Form__c frm; // Includes child form components
         public Form_Picklist__c[] frmPicklists; // Includes child form picklist phrases
+        public Map<Id, String> orderingMap;
 
         public FormInstanceData (Id formInstanceId) {
             // Get form instance and form data
@@ -196,6 +196,8 @@ public class FormInstanceController {
             // Get ALL form picklists and child form picklist phrases
             String fpSubQuery = Utilities.buildChildSubQuery('Form_Picklist_Phrase__c', 'Form_Picklist_Phrases__r', null);
             frmPicklists = (List<Form_Picklist__c>)Utilities.fetchRecords('Form_Picklist__c', null, new List<String>{fpSubQuery});
+            // Form component numbering map
+            orderingMap = buildCmpNumberMap(frm.Form_Components__r);
         }
     }
     

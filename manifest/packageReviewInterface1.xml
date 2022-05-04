@@ -151,6 +151,7 @@
         <members>Application_Setting__mdt.Description__c</members>
         <members>Application_Setting__mdt.Integer_Value__c</members>
         <members>Application_Setting__mdt.String_Value__c</members>
+        <members>Form_Component__c.Form_Phrase_Intro__c</members>
         <name>CustomField</name>
     </types>
     <types>
