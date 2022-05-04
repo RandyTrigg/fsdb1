@@ -4,7 +4,9 @@
 Id usrId = '0058c000008TAQUAA4';
 
 // Look up public groups from custom metadatatype
-FS_Group_Settings__mdt[] fsGroups = [SELECT Public_Group_Name__c FROM FS_Group_Settings__mdt WHERE Active__c = true];
+FS_Group_Settings__mdt[] fsGroups = [SELECT Public_Group_Name__c 
+    FROM FS_Group_Settings__mdt 
+    WHERE Active__c = true];
 List<String> groupNames = new List<String>();
 for (FS_Group_Settings__mdt fsGrp : fsGroups) {
     groupNames.add(fsGrp.Public_Group_Name__c);
@@ -12,39 +14,53 @@ for (FS_Group_Settings__mdt fsGrp : fsGroups) {
 
 // Build map of UserGroupIds by FSGroup
 Set<String> extSet = new Set<String>();
-Map<String,Set<String>> fsUserGroupIdsMap = new Map<String,Set<String>>();
+String fsGroup;
+Map<String,Set<String>> fsGrpMemberIds = new Map<String,Set<String>>();
 for (GroupMember gm : [SELECT Id, UserOrGroupId, Group.DeveloperName FROM GroupMember WHERE Group.DeveloperName IN :groupNames]) {
-	System.debug('fsgroup: ' + gm.Group.DeveloperName + ' (' + gm.UserOrGroupId + ')');
-    if (fsUserGroupIdsMap.containsKey(gm.Group.DeveloperName) ) {
-		extSet = fsUserGroupIdsMap.get(gm.Group.DeveloperName);
-        System.debug('extSet: ' + extSet);
+	fsGroup = gm.Group.DeveloperName;
+    if (fsGrpMemberIds.containsKey(fsGroup) ) {
+		extSet = fsGrpMemberIds.get(fsGroup);
 	} else {
-		extSet.clear();
+		extSet = new Set<String>();
 	}
     extSet.add(gm.UserOrGroupId);
-    fsUserGroupIdsMap.put(gm.Group.DeveloperName, extSet);
-    System.debug('Map as it is being built: ' + fsUserGroupIdsMap);
+    fsGrpMemberIds.put(fsGroup, extSet);
 }
 
-System.debug('fsUserGroupIdsMap: ' + fsUserGroupIdsMap);
-for (String fsName : fsUserGroupIdsMap.keySet()) {
-    System.debug('fsName: ' + fsName + ' -- ' + fsUserGroupIdsMap.get(fsName));
+
+// No, this gets role. i'm missing something.
+for (Group gp : [SELECT Id, RelatedId, 
+    FROM Group WHERE DeveloperName IN :groupNames]) {
+        fsGroup = gp.DeveloperName;
+        if (fsGrpMemberIds.containsKey(fsGroup)) {
+            extSet = fsGrpMemberIds.get(fsGroup);
+        } else {
+            extSet = new Set<String>();
+        }
+        extSet.add(gp.RelatedId);
+        fsGrpMemberIds.put(fsGroup, extSet);
+}
+
+System.debug('fsGrpMemberIds: ' + fsGrpMemberIds);
+for (String fsName : fsGrpMemberIds.keySet()) {
+    System.debug('fsName: ' + fsName + ' -- ' + fsGrpMemberIds.get(fsName));
 }
 
 // Look up Groups where user's RoleId is in relatedId.
-Map<ID, Group> userGrps = new Map<ID, Group>([SELECT Id,Name,DeveloperName,RelatedId,Type FROM Group 
-WHERE RelatedId IN 
+Map<ID, Group> userGrps = new Map<ID, Group>([SELECT Id,Name,DeveloperName,RelatedId,Type 
+    FROM Group 
+    WHERE RelatedId IN 
      (SELECT UserRoleId FROM User WHERE Id = :usrId )]);
 Set<Id> thisUsrGrpIds = new Set<Id>(userGrps.keyset());
 thisUsrGrpIds.add(usrId);
 System.debug('thisUsrGrpIds: ' + thisUsrGrpIds);
 
 // Loop thru fsGroups and return fsGroup if any contain the User or Group Ids for this user.
-for (String thisFS : fsUserGroupIdsMap.keyset()) {
+for (String thisFS : fsGrpMemberIds.keyset()) {
     System.debug('thisFS: ' + thisFS);
     for (Id thisId : thisUsrGrpIds) {
         System.debug('thisId: ' + thisId);
-        if (fsUserGroupIdsMap.get(thisFS).contains(thisId)) {
+        if (fsGrpMemberIds.get(thisFS).contains(thisId)) {
             // return thisFSGroup
             System.debug('This is the FS Group: ' + thisFS);
         }
