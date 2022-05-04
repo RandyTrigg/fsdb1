@@ -1,3 +1,24 @@
 <template>
-    
+    <div>Logo</div>
+    <div>Language picker</div>
+    <div>logout</div>
+    <div if:true={dataLoaded}>
+        <br/>
+        <div class="slds-text-heading_medium slds-var-m-top_x-large"><strong><h1>{pageHeader}</h1></strong></div>
+        <!-- section--> <div class="slds-text-heading_small slds-var-m-bottom_medium">{pageSubheader}</div>
+        
+        <div>Language: {language}</div>
+
+        <div class="slds-grid slds-grid_align-spread slds-wrap slds-gutters">
+
+            <!-- <div if:true={profileSummary.hasProposals} class="slds-col slds-size_1-of-2 slds-m-bottom_x-large">
+                <c-items-summary-tile title={propTitle} item-type="Proposals"  icon="standard:service_report" subtitle={propSubtitle} object-name="Proposal__c" list={profileSummary.proposals}></c-items-summary-tile>
+            </div> -->
+            <div>button New application: Solidarity Fund</div>
+            <div>button New application: Sustain Fund</div>
+
+            <div>List Proposals</div>
+
+        </div>
+    </div>
 </template>

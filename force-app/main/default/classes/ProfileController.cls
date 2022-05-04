@@ -2,7 +2,7 @@ public with sharing class ProfileController {
     public static String notificationTemplateName = 'Request to submit Updated Profile';
 
     /**********************************
-     * For use in Lightning components
+     * For use in Grants Experience Site
      *********************************/
 
     // Bundles profile information, including child proposals.
@@ -14,7 +14,7 @@ public with sharing class ProfileController {
         public Boolean hasSubmittedPrf = false;
         public Integer pendingAnnualProposals = 0;
         public Integer pendingShortProposals = 0;
-        public String preferredLanguage;
+        public String language;
 
         public ProfileSummary (Id prfId) {
 
@@ -23,19 +23,19 @@ public with sharing class ProfileController {
             
             hasProposals = prf.Proposals__r != null ? true : false;
             hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
-            preferredLanguage = prf.Language__c != null ? prf.Language__c : 'English';
+            language = prf.Language__c != null ? prf.Language__c : 'English';
         }
     }
 
-    //Only call when in the context of a Grants Experience Site User
-    private static String getRunningUserProfileId() {
+    private static Id getRunningUserProfileId() {
             Id userId = UserInfo.getUserId();
             Id runningProfileId;
             User u = [SELECT Id, FirstName, LastName, Email, ContactId FROM User WHERE Id=:userId];
-            List<Profile__c> runningProfile = new List<Profile__c>([SELECT ID FROM Profile__c WHERE Community_contact__c =:'123' LIMIT 1]);
+            List<Profile__c> runningProfile = new List<Profile__c>(
+                [SELECT ID FROM Profile__c WHERE Community_contact__c =:u.ContactId LIMIT 1]);
             if (runningProfile.isEmpty()) {
                 Profile__c newPrf = new Profile__c (
-                    Community_contact__c = ContactId
+                    Community_contact__c = u.ContactId
                 );
                 insert newPrf;
                 runningProfileId = newPrf.Id;
@@ -47,14 +47,13 @@ public with sharing class ProfileController {
 
     @AuraEnabled //Do not cache
     public static String getProfileSummary() {
-        try {
-            ProfileSummary data = new ProfileSummary(getRunningUserProfileId());
-            return JSON.serialize(data);
-        } catch (Exception e) {
-            throw new GFW_Exception('ProfileController.getProfileSummary', e.getMessage(),e);
-        }
+        ProfileSummary data = new ProfileSummary(getRunningUserProfileId());
+        return JSON.serialize(data);
     }
 
+    /**********************************
+     * For use in Lightning components
+     *********************************/
 
     @AuraEnabled
     public static Profile__c getProfile(Id profileId) {
