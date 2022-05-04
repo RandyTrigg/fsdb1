@@ -1,7 +1,18 @@
 <template>
-    <div>Logo</div>
+
+    <div class="slds-grid slds-grid_align-center slds-gutters_x-large" lang={langTag}>
+        <div class="slds-col">
+            
+            <div class="logo-header">
+                <span class="slds-assistive-text">Black Feminist Fund Logo</span>
+                <img class="bff-logo-header" src={bffLogo}>
+            </div>
+            <h1><b class="main-heading">Welcome to the Black Feminist Fund Grants Site</b> </h1>
+ 
+
     <div>Language picker</div>
     <div>logout</div>
+    <div>navigation</div>
     <div if:true={dataLoaded}>
         <br/>
         <div class="slds-text-heading_medium slds-var-m-top_x-large"><strong><h1>{pageHeader}</h1></strong></div>
@@ -16,9 +27,17 @@
             </div> -->
             <div>button New application: Solidarity Fund</div>
             <div>button New application: Sustain Fund</div>
+            <div class="slds-col slds-var-p-top_small">
+                <button type="submit" class="slds-button" onclick={handleLogin}>Log In</button>
+            </div>
+
+            <a class="slds-button slds-button_brand" href="#">New application: Solidarity Fund</a>
 
             <div>List Proposals</div>
 
         </div>
+    </div>
+
+    </div>
     </div>
 </template>

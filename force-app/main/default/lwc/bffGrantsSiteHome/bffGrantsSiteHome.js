@@ -1,6 +1,8 @@
 import { LightningElement } from 'lwc';
 
 import getProfileSummary from '@salesforce/apex/ProfileController.getProfileSummary';
+import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
+import { NavigationMixin } from 'lightning/navigation';
 // import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
 // import { buildTransByName } from 'c/formsUtilities';
 
@@ -11,11 +13,14 @@ export default class BffGrantsSiteHome extends LightningElement {
     grantHeading;
     grantSubHeading;
     grantDescription;
+    bffLogo = logoResource;
 
     propTitle;
     formsTitle;
 
     profileSummary;
+    langMap;
+    langTag;
     language;
     dataLoaded = false;
     
@@ -31,11 +36,28 @@ export default class BffGrantsSiteHome extends LightningElement {
             this.grantDescription = 'bff_GrantsSiteLandingSustainFund'; // Bundle this into one phrase w/ formatting?
             this.language = this.profileSummary.language;
 
+            this.langMap.set('English', 'en');
+            this.langMap.set('Spanish', 'sp');
+            this.langMap.set('French', 'fr');
 
             this.dataLoaded = true;
         } catch (error) {
             // handleError(error);
         }
+
+    handleLanguage(){
+            this.langTag = langMap.get(this.language);
+        }
+
+        handleLogout(){
+            this[NavigationMixin.Navigate]({
+                type: 'comm__loginPage',
+                attributes: {
+                  actionName: 'logout'
+                }
+              });    
+        }
+        
         
     }
 

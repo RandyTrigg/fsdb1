@@ -20,7 +20,6 @@ public with sharing class ProfileController {
 
             String prpSubQuery = Utilities.buildChildSubQuery('Proposal__c', 'Proposals__r', null);
             prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, new List<String>{prpSubQuery});
-            
             hasProposals = prf.Proposals__r != null ? true : false;
             hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
             language = prf.Language__c != null ? prf.Language__c : 'English';
@@ -30,12 +29,13 @@ public with sharing class ProfileController {
     private static Id getRunningUserProfileId() {
             Id userId = UserInfo.getUserId();
             Id runningProfileId;
-            User u = [SELECT Id, FirstName, LastName, Email, ContactId FROM User WHERE Id=:userId];
+            User u = [SELECT Id, FirstName, LastName, Email, Username, ContactId FROM User WHERE Id=:userId];
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:u.ContactId LIMIT 1]);
             if (runningProfile.isEmpty()) {
                 Profile__c newPrf = new Profile__c (
-                    Community_contact__c = u.ContactId
+                    Community_contact__c = u.ContactId,
+                    Community_contact_username__c = u.Username
                 );
                 insert newPrf;
                 runningProfileId = newPrf.Id;
