@@ -1,7 +1,7 @@
 import { LightningElement, api, wire} from 'lwc';
 import { handleError } from 'c/lwcUtilities';
-import updateTextData from '@salesforce/apex/FormViewerController.updateTextData';
-import updateTextAreaData from '@salesforce/apex/FormViewerController.updateTextAreaData';
+import updateTextData from '@salesforce/apex/FormInstanceController.updateTextData';
+import updateTextAreaData from '@salesforce/apex/FormInstanceController.updateTextAreaData';
 
 export default class FormFieldEditor extends LightningElement {
     @api cmp;
@@ -114,7 +114,7 @@ export default class FormFieldEditor extends LightningElement {
         try {
             this.sendUpdatedTextValue(dataText);
 
-            //Notify parent section that data hs changed
+            //Notify parent that data has changed
             const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: dataText} });
             this.dispatchEvent(cmpUpdated);
 
@@ -129,7 +129,7 @@ export default class FormFieldEditor extends LightningElement {
             this.sendUpdatedTextValue(textValue);
             this.localCmp.data.Data_text__c = textValue;
 
-            //Switching to a model where Sections manage child component's visibility
+            // Parent components manage child component's visibility
             const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: textValue} });
             this.dispatchEvent(cmpUpdated);
 

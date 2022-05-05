@@ -37,6 +37,9 @@ public class FormInstanceControllerTest {
         FormInstanceController.DataManager dm = new FormInstanceController.DataManager(fiId);
         String dataStr = FormInstanceController.getFormInstanceData(fiId);
         system.assertNotEquals(null, dataStr);
+
+        FormInstanceController.updateTextData(fi.Id, comp.Id, 'abc');
+        FormInstanceController.updateTextAreaData(fi.Id, comp2.Id, 'def');
     }
 
 }

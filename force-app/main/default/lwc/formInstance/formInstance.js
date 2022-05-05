@@ -4,9 +4,6 @@ import { CurrentPageReference } from 'lightning/navigation';
 import getFormInstanceData from '@salesforce/apex/FormInstanceController.getFormInstanceData';
 import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
 
-//??
-import getFieldReferenceData from '@salesforce/apex/FormViewerController.getFieldReferenceData';
-
 import { buildTransByName, buildTransById, updateRecordInternals } from 'c/formsUtilities';
 import { handleError } from 'c/lwcUtilities';
 
@@ -19,10 +16,12 @@ export default class FormInstance extends LightningElement {
     intro;
     sections = [];
     components = [];
+    topLevelCmps = [];
     picklistPhrasesMap;
     language = 'English';
     transByName;
     transById;
+    frm = {};
 
     //The form Instance with all its fields, the form and form data, form sections, form items, form components and form data.
     connectedCallback() {
@@ -62,6 +61,9 @@ export default class FormInstance extends LightningElement {
         this.transByName = buildTransByName(translations, language);
         this.transById = buildTransById(translations, language);
 
+        this.frm.title = this.transById.get(fiInfo.frm.Form_Phrase_Title__c)
+        this.frm.intro = this.transById.get(fiInfo.frm.Form_Phrase_Intro__c)
+
         let formData = fiInfo.frmInst.Form_Data__r;
         let formDataMap = new Map();  //indexed my Form Component ID, value is an array of data for that component
         if (formData) {
@@ -76,14 +78,18 @@ export default class FormInstance extends LightningElement {
 
         let picklistPhrasesMap = new Map(Object.entries(fiInfo.frmPicklists));   
         let numberingMap = fiInfo.orderingMap;
-        let topLevelCmps = [];
 
         // Process each form component
         for (let cmp of cmps) {
             cmp.formInstanceId = this.recordId;
+            // Fill in the numbering
+            cmp.displayNumber = numberingMap.get(cmp.Id);
+            cmp.level = parseInt(cmp.Hierarchical_level_num__c);
             // fill in the form components' phrase translations
             // Note that any form component can have an intro phrase, not just section components
             if (cmp.Form_Phrase__c) cmp.translatedFormPhrase = this.transById.get(cmp.Form_Phrase__c);
+            // Attach question number if any
+            cmp.title = (cmp.displayNumber ? cmp.displayNumber + '. ' : '') + (cmp.translatedFormPhrase || '');
             if (cmp.Form_Phrase_Intro__c) cmp.translatedIntro = this.transById.get(cmp.Form_Phrase_Intro__c);
             // Use parent component link to gather lists of child components - note that child ordering should reflect hierarchical ordering of entire form
             if (cmp.Group_Component__c) {
@@ -91,47 +97,21 @@ export default class FormInstance extends LightningElement {
                 if (!parentCmp.childCmps) parentCmp.childCmps = [];
                 parentCmp.childCmps.push(cmp);
             } else topLevelCmps.push(cmp);
-            // Fill in the numbering
-            cmp.displayNumber = numberingMap.get(cmp.Id);
             // Fill in type - in future, might tweak/add types to support rendering
             cmp.type = cmp.Type__c;
+            if (cmp.type == 'section') {
+                this.sections.push(cmp);
+                if (this.isMultiView) cmp.accordion = true;
+            }
             // Fill in form component's data, or build new data if none present
             if (formDataMap.has(cmp.Id)) cmp.data = formDataMap.get(cmp.Id);
             else cmp.data = this.getEmptyFormData(cmp);
             // Other tweaks to cmp
+            cmp.isRequired = cmp.Required__c;
             updateRecordInternals(cmp, fiInfo.frmPicklists, this.transById);
         }
-
-                    cmp = updateRecordInternals(cmp, this.picklistPhrasesMap, translationMap, this.useTranslations);
-                    
-
-            //Add Ordering
-            if (itm.Form_Components__r && itm.Form_Components__r.records) {
-                itm.Form_Components__r.records.forEach(function (cmp, i) {
-                    cmp.level = parseInt(cmp.Hierarchical_level_num__c);
-                });
-            }
-
         this.components = cmps;
         this.dataLoaded = true;
-
-    }
-    
-
-    // Table has a header row only if all comps in the first row have type='table heading'.
-    hasHeaderRow(cmps, numColumns) {
-        if (numColumns && cmps && cmps.length>0) {
-            for (let i = 0; i< numColumns; i++) {
-                if (cmps[i].Type__c!= 'table heading') {
-                    return false;
-                } 
-    
-                return true;
-            }
-        } else {
-            return false;
-        }
-        
     }
 
     getEmptyFormData(cmp) {
@@ -145,28 +125,13 @@ export default class FormInstance extends LightningElement {
         return data;
     }
 
-    buildConnectorSet() {
-        for (let connector of this.connectorList) {
-            //target can be either an item, or a component
-            if (connector.Target_item__c) {
-                this.connectorIdsSet.add(connector.Target_item__c);
-            } else if (connector.Target_component__c) {
-                this.connectorIdsSet.add(connector.Target_component__c);
-            }
-            //Source is always a component
-            this.connectorIdsSet.add(connector.Source_component__c);
-        }
-    }
-
+    // Validity of form instance bubbled up from formComponent 
     @api isValid() {
         let allValid = true;
-        this.template.querySelectorAll('c-form-section').forEach(element => {
-            if (element.isValid()!=true) {
-                allValid = false;
-            }
+        this.template.querySelectorAll('c-form-component').forEach(element => {
+            if (element.isValid()!=true) allValid = false;
         });
         return allValid;
-    
     }
 
 }

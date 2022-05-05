@@ -1,0 +1,33 @@
+<template>
+    <!-- form component label/title except for singleton checkboxes -->
+    <div if:true={isVisible}>
+        <div if:false={cmp.isCheckbox} class="slds-var-m-top_medium">
+            <!-- Label and required asterisk -->
+            <div if:true={required}>
+                <label data-id="label" for={cmp.Id} class="gfw-label">
+                    <abbr class="slds-required" title="required">*</abbr>
+                    {cmp.title}
+                </label>
+            </div>
+            <div if:false={required}>
+                <label data-id="label" for={cmp.Id} class="gfw-label">
+                    {cmp.title}
+                </label>
+            </div>
+            <div data-id="intro" if:true={cmp.intro}>
+                <strong><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></strong>
+            </div>
+            <!-- simple component -->
+            <div if:false={cmp.childCmps}>
+                <c-form-field-editor cmp={cmp} is-required={cmp.isRequired} parent-hidden={isVisible}</c-form-field-editor>
+            </div>
+            <!-- group component -->
+            <div if:true={cmp.childCmps}>
+                <template for:each={cmp.childCmps} for:item="cmp">
+                    <c-form-component key={cmp.Id} cmp-data={cmp} form-instance-id={instanceId} is-editable={isEditable}</c-form-component>
+                </template>
+            </div>
+        </div>
+    </div>
+    
+</template>

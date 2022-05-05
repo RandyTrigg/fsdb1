@@ -205,7 +205,65 @@ public class FormInstanceController {
     public static String getFormInstanceData(String formInstanceId) {
         FormInstanceData data = new FormInstanceData(formInstanceId);
         return JSON.serialize(data);
-    }    
+    }
+
+    @AuraEnabled
+    public static void updateTextAreaData(String frmInstanceId, String componentId, String value){
+        try {
+            //Load existing form data record if it exists.
+            String whereClause = 'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'' +
+                    ' AND Form_Component__c=\'' +componentId+ '\'';
+            Form_Data__c[] existingFrmData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
+            Form_Data__c frmData = new Form_Data__c ();
+            if (existingFrmData.size()>0) frmData = existingFrmData[0];
+            else {
+                frmData.Form_Instance__c = frmInstanceId;
+                frmData.Form_Component__c = componentId;
+            }
+            //Set the value on either the new object, or existing
+            frmData.Data_textarea__c = value;
+            frmData.Type__c = 'textarea'; //this follows the existing pattern, but is it necessary?  Why isn't it a formula field?
+            upsert frmData;
+        } catch (Exception e) {
+            throw new GFW_Exception('FormInstanceController.updateTextAreaData', 'Could not update field value, please refresh and try again.', e);
+        }
+    }
+
+    @AuraEnabled
+    public static void updateTextData(String frmInstanceId, String componentId, String value){
+        try {
+            //Load the existing form data record if it exists.
+            String whereClause = 'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'' +
+                ' AND Form_Component__c=\'' +componentId+ '\'';
+            Form_Data__c[] existingFrmData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
+    
+            Form_Data__c frmData = new Form_Data__c ();
+            if (existingFrmData.size()>0) frmData = existingFrmData[0];
+            else {
+                frmData.Form_Instance__c = frmInstanceId;
+                frmData.Form_Component__c = componentId;
+            }
+            //Set the value on either the new object, or existing
+            frmData.Data_text__c = value;
+            frmData.Type__c = 'text'; //this follows the existing pattern, but is it necessary?  Why isn't it a formula field?
+            upsert frmData;
+        } catch (Exception e) {
+            throw new GFW_Exception('FormInstanceController.updateTextData', 'Could not update field value, please refresh and try again.', e);
+        }
+    }
+
+    @AuraEnabled
+    public static boolean submitForm(String formInstanceId){
+        try {
+            // TODO: do we want a data-level validation here or is the UI check enough?
+            Form_Instance__c fi = new Form_Instance__c(Id=formInstanceID);
+            fi.Date_submitted__c = Date.today();
+            update fi;
+            return true;           
+        } catch (Exception e) {
+            throw new GFW_Exception('FormInstanceController.submitForm', 'Could not submit form, please refresh and try again.', e);
+        }
+    }
 
     /**********************************
      * For use in VisualForce pages

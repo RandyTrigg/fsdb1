@@ -199,6 +199,7 @@
         <members>formFieldViewer</members>
         <members>formFieldEditor</members>
         <members>formInstance</members>
+        <members>formComponent</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
