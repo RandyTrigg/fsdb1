@@ -1,4 +1,60 @@
+Id usrId = '0058c000008TAQUAA4';
+/*
+	1. Set<Id> roleAndSubUserIds
+	2. Look up FS Administrator Role
+	3. Get all roles underneath that one
+	4. Get userids for everyone in those roles
+Is thisUserId contained in that list? Then belongs in that group.
+*/
+
+// Look up public groups from custom metadatatype
+FS_Group_Settings__mdt[] fsGroups = [SELECT Designated_Role_for_Ownership__c, Public_Group_Name__c 
+    FROM FS_Group_Settings__mdt 
+    WHERE Active__c = true];
+Map<String, String> groupRole = new Map<String, String>();
+for (FS_Group_Settings__mdt fsGrp : fsGroups) {
+    groupRole.put(fsGrp.Public_Group_Name__c, fsGrp.Designated_Role_for_Ownership__c);
+}
+
+// Map of UserIds for each FS Group
+Map<String, Set<Id>> grpUserIds = new Map<String,Set<Id>>();
+Map<String, Id> grpRoleId = new Map<String, Id>();
+Set<ID> userIds = new Set<ID>();
+
+for (String fsGroup : groupRole.keySet()) {
+    Id roleId = [SELECT Id FROM UserRole WHERE Name=:fsGroup][0].Id;
+    grpRoleId.put(fsGroup, roleId);
+    // Get users in designated role
+    Map<Id,User> users = new Map<Id, User>([SELECT Id, Name, UserRoleId FROM User where UserRoleId=:roleId]);
+    userIds.addAll(users.keySet());
+    grpUserIds.put(fsGroup, userIds);
+}
+system.debug('grpRoleId: ' + grpRoleId);
+system.debug('grpUserIds: ' + grpUserIds);
+
+// Bookmark:
+// get all of the roles underneath the user
+    Set<Id> allSubRoleIds = getAllSubRoleIds(new Set<ID>{userinfo.getuserroleid()});
+
+// get all of the ids for the users in those roles
+    Map<Id,User> subUsers = new Map<Id, User>([Select Id, Name From User where
+    UserRoleId IN :allSubRoleIds]);
+    
+    userIds.addAll(Subusers.keySet());
+
+// return the ids as a set so you can do what you want with them
+    return userIds;
+
+
+
+
+
+
+
 /*********
+// From https://help.salesforce.com/s/articleView?id=000336905&type=1
+// Used in sync sandbox but only returns single group - not effective.
+
 Id usrId = '0058c000008TAQUAA4';
 
 //Declaring a Set as we don't want Duplicate Group Ids
@@ -58,7 +114,7 @@ system.debug('########' + results);
 
 **********/
 
-
+/******** This one illustrates problem.
 // Look up FS Public Groups and build Map of UserOrGroupIds by FSGroupName
 Id usrId = '0058c000008TAQUAA4';
 
@@ -136,7 +192,7 @@ for (String thisFS : fsGrpMemberIds.keyset()) {
     }
 } 
 
-
+******/
 
 
 
