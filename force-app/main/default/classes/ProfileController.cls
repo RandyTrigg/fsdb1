@@ -16,7 +16,7 @@ public with sharing class ProfileController {
         public Integer pendingShortProposals = 0;
         public String language;
         public String prFormInstanceId;
-        private String prFormName = 'bffProfile';
+        private String prFormName = 'bff_Profile';
 
         public ProfileSummary (Id prfId) { 
 
@@ -34,7 +34,7 @@ public with sharing class ProfileController {
             language = prf.Language__c != null ? prf.Language__c : 'English';
 
             // Get or create new Profile form instance
-            if (prf.Form_Instances__r != null) {
+            if (prf.Form_Instances__r != null && prf.Form_Instances__r.size() > 0) {
                 prFormInstanceId = prf.Form_Instances__r[0].Id;
             } else {
                 Form__c prForm = [SELECT Id FROM Form__c WHERE Name = :prFormName];

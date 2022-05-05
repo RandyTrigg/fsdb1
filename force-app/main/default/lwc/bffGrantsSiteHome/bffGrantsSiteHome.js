@@ -18,6 +18,7 @@ export default class BffGrantsSiteHome extends LightningElement {
     bffLogo = logoResource;
     showMenu = false;
     hasSubmittedPrf;
+    prFormInstanceId;
 
     propTitle;
     formsTitle;
@@ -52,6 +53,7 @@ export default class BffGrantsSiteHome extends LightningElement {
             this.grantDescription = 'bff_GrantsSiteLandingSustainFund'; // Bundle this into one phrase w/ formatting?
             this.language = this.profileSummary.language;
             this.hasSubmittedPrf = this.profileSummary.hasSubmittedPrf;
+            this.prFormInstanceId = this.profileSummary.prFormInstanceId;
             
             /* This seems problematic - dataloaded is false.
             this.langMap.set('English', 'en');
@@ -66,6 +68,11 @@ export default class BffGrantsSiteHome extends LightningElement {
         }
     }
 
+    getdisableButton(){
+        return!(this.hasSubmittedPrf);
+    }
+    
+    
     setLangPickerDefault(){
         const langPicker = this.template.querySelector('[name="langPicker"]');
         langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);

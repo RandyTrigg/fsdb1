@@ -80,6 +80,21 @@
 
         <div>About grants blurb</div>
         <div>Language: {language}</div>
+        
+        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+            <div class="slds-col">   
+                <lightning-button
+                    variant="brand"
+                    label="New application"
+                    title="New application"
+                    onclick={handleNewSolApp}
+                    class="slds-m-left_small"
+                    disabled={disableButton}>
+                </lightning-button>
+            </div>
+        </div>
+
+
 
                 <div class="slds-col slds-var-p-top_small">
                     <button type="submit" class="app-button" onclick={handleNewSolApp}>New application: Solidarity Fund</button>
