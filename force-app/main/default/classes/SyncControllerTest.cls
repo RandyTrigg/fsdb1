@@ -56,7 +56,9 @@ public without sharing class SyncControllerTest {
 
         Sync_Log__c sLog = new Sync_Log__c(
             Type__c = 'GFW to FSDB',
-            Status__c = 'Launched'
+            Status__c = 'Launched',
+            OwnerId = u.Id,
+            FS_Group__c = fsGroups[0].GFW_COA_Name__c
         );
         insert sLog;
 
@@ -64,9 +66,7 @@ public without sharing class SyncControllerTest {
             RecordInfo__c = json,
             Sync_Log__c = sLog.Id,
             Status__c = 'Pending',
-            Type__c = 'Account',
-            FSGroupOwnerId__c = u.Id,
-            FS_Group__c = fsGroups[0].GFW_COA_Name__c
+            Type__c = 'Account'
         );
         insert slRec;
 
@@ -77,10 +77,12 @@ public without sharing class SyncControllerTest {
         Test.stopTest();
 
         system.debug('Here is the final list: ' + recs);
+        String fsCOA = [SELECT GFW_COA_Name__c
+        FROM FS_Group_Settings__mdt WHERE Active__c = TRUE LIMIT 1].GFW_COA_Name__c;
         for (sObject rec : recs) {
             Account acct = (Account)rec;
             system.assertEquals(acct.Name, 'Jane Doe');
-            system.assertEquals(acct.GFW_Account_ID__c, '0011Y00002LvEcKQAV');
+            system.assertEquals(fsCOA + '_0011Y00002LvEcKQAV', acct.GFW_Account_ID__c);
         }
     
     }

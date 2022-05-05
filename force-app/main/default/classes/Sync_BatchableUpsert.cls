@@ -39,7 +39,12 @@ public without sharing class Sync_BatchableUpsert implements Database.batchable<
         // Loop through results to update Sync Log Records.
         if (recs != null && recs.size() > 0) {
             slrLookupFieldName = objMap.SyncLogRecordLookupFieldName__c;
-            Database.UpsertResult[] upsResults = Database.upsert( recs, extIdFieldReference, false);
+            Database.UpsertResult[] upsResults;
+            if (mdtObjName == 'GiftCredit_to_OppContactRole') {
+                upsResults = Database.upsert( recs );
+            } else {
+                upsResults = Database.upsert( recs, extIdFieldReference, false);
+            }
             System.debug('upsResults: ' + upsResults);
             // Upsert results are in the same order as original list of records. 
             for(Integer index = 0, size = upsResults.size(); index < size; index++) {
@@ -50,7 +55,7 @@ public without sharing class Sync_BatchableUpsert implements Database.batchable<
                     resultMsg = upsResults[index].isCreated() ? 
                         (String)upsResults[index].getid() + ' was created' : 
                         (String)upsResults[index].getid() + ' was updated';
-                    slrecUpdate.put(slrLookupFieldName, upsResults[index].getid());
+                    if (mdtObjName != 'GiftCredit_to_OppContactRole') slrecUpdate.put(slrLookupFieldName, upsResults[index].getid());
                 } else {
                     status = 'Error';
                     resultMsg = String.join(upsResults[index].getErrors(), ';');

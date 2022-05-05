@@ -18,6 +18,7 @@ public without sharing class Sync_Queueable implements Queueable, Database.Allow
             scThisFS.fsCOA = thisFS.GFW_COA_Name__c;
             scThisFS.fsRole = thisFS.Designated_Role_for_Ownership__c;
             scThisFS.LaunchSync();
+            // EnqueueJob
             if (!Test.isRunningTest()) System.enqueueJob(new Sync_Queueable(fsGroups));
         } else {
             // Sync Phase 1 complete.
