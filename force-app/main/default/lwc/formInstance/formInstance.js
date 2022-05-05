@@ -25,6 +25,7 @@ export default class FormInstance extends LightningElement {
 
     //The form Instance with all its fields, the form and form data, form sections, form items, form components and form data.
     connectedCallback() {
+        console.log('connectedCallback: this.recordId = ' +this.recordid);
         if (this.recordId) {
             this.loadData();
         }
@@ -40,8 +41,8 @@ export default class FormInstance extends LightningElement {
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
        if (currentPageReference) {
-          let urlStateParameters = currentPageReference.state;
-          this.language = urlStateParameters.language || null;
+          //let urlStateParameters = currentPageReference.state;
+          //this.language = urlStateParameters.language || null;
        }
     }
 
@@ -58,8 +59,8 @@ export default class FormInstance extends LightningElement {
 
         let fiInfo = JSON.parse(data);
         translations = JSON.parse(translations);
-        this.transByName = buildTransByName(translations, language);
-        this.transById = buildTransById(translations, language);
+        this.transByName = buildTransByName(translations, this.language);
+        this.transById = buildTransById(translations, this.language);
 
         this.frm.title = this.transById.get(fiInfo.frm.Form_Phrase_Title__c)
         this.frm.intro = this.transById.get(fiInfo.frm.Form_Phrase_Intro__c)

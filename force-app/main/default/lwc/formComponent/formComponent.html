@@ -19,12 +19,12 @@
             </div>
             <!-- simple component -->
             <div if:false={cmp.childCmps}>
-                <c-form-field-editor cmp={cmp} is-required={cmp.isRequired} parent-hidden={isVisible}</c-form-field-editor>
+                <c-form-field-editor cmp={cmp} is-required={cmp.isRequired} parent-hidden={isVisible}></c-form-field-editor>
             </div>
             <!-- group component -->
             <div if:true={cmp.childCmps}>
                 <template for:each={cmp.childCmps} for:item="cmp">
-                    <c-form-component key={cmp.Id} cmp-data={cmp} form-instance-id={instanceId} is-editable={isEditable}</c-form-component>
+                    <c-form-component key={cmp.Id} cmp-data={cmp} form-instance-id={instanceId} is-editable={isEditable}></c-form-component>
                 </template>
             </div>
         </div>
