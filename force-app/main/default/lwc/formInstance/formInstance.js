@@ -13,11 +13,9 @@ export default class FormInstance extends LightningElement {
     @api isEditable;
     @api isMultiView; // Determines whether we're in a single-form view or multi-form view.
     dataLoaded = false;
-    intro;
     sections = [];
     components = [];
     topLevelCmps = [];
-    picklistPhrasesMap;
     language = 'English';
     transByName;
     transById;
@@ -62,6 +60,7 @@ export default class FormInstance extends LightningElement {
         this.transByName = buildTransByName(translations, this.language);
         this.transById = buildTransById(translations, this.language);
 
+        this.frm = fiInfo.frm;
         this.frm.title = this.transById.get(fiInfo.frm.Form_Phrase_Title__c)
         this.frm.intro = this.transById.get(fiInfo.frm.Form_Phrase_Intro__c)
 
@@ -77,7 +76,6 @@ export default class FormInstance extends LightningElement {
         let cmpMap = new Map();
         for (let cmp of cmps) cmpMap.set(cmp.Id, cmp);
 
-        let picklistPhrasesMap = new Map(Object.entries(fiInfo.frmPicklists));   
         let numberingMap = fiInfo.orderingMap;
 
         // Process each form component
@@ -105,8 +103,7 @@ export default class FormInstance extends LightningElement {
                 if (this.isMultiView) cmp.accordion = true;
             }
             // Fill in form component's data, or build new data if none present
-            if (formDataMap.has(cmp.Id)) cmp.data = formDataMap.get(cmp.Id);
-            else cmp.data = this.getEmptyFormData(cmp);
+            cmp.data = formDataMap.has(cmp.Id) ? formDataMap.get(cmp.Id) : this.getEmptyFormData(cmp);
             // Other tweaks to cmp
             cmp.isRequired = cmp.Required__c;
             updateRecordInternals(cmp, fiInfo.frmPicklists, this.transById);
