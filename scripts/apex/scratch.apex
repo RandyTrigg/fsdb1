@@ -1,7 +1,81 @@
+/*********
+Id usrId = '0058c000008TAQUAA4';
+
+//Declaring a Set as we don't want Duplicate Group Ids
+Set<Id> results = new Set<Id>();
+
+///Declaring a Map for Group with Role
+Map<Id,Id> grRoleMap = new Map<Id,Id>();
+
+//Populating the Map with RelatedID(i.e.UserRoledId) as Key
+for(Group gr : [select id,relatedid,name from Group])
+{
+	grRoleMap.put(gr.relatedId,gr.id);
+}
+
+//Groups directly associated to user
+Set<Id> groupwithUser = new Set<Id>();
+
+//Populating the Group with User with GroupId we are filtering only  for Group of Type Regular,Role and RoleAndSubordinates
+for(GroupMember  u :[select groupId from GroupMember where UserOrGroupId= :usrId and (Group.Type = 'Regular' OR Group.Type='Role' OR Group.Type='RoleAndSubordinates')])
+{
+	groupwithUser.add(u.groupId);
+}
+
+//Groups with Role
+for(User  u :[select UserRoleId from User where id= :usrId])
+{
+	//Checking if the current User Role is part of Map or not
+	if(grRoleMap.containsKey(u.UserRoleId))
+	{
+		results.add(grRoleMap.get(u.UserRoleId));
+	}
+}
+//Combining both the Set
+results.addAll(groupwithUser);
+
+//Traversing the whole list of Groups to check any other nested Group
+Map<Id,Id> grMap = new Map<Id,Id>();
+for(GroupMember gr : [select id,UserOrGroupId,Groupid from GroupMember where
+        (Group.Type = 'Regular' OR Group.Type='Role' OR Group.Type='RoleAndSubordinates')])
+{
+	grMap.put(gr.UserOrGroupId,gr.Groupid);
+}
+for(Id i :results)
+{
+	if(grMap.containsKey(i))
+	{
+		results.add(grMap.get(i));
+	}
+}
+
+for(Id i :results)
+{
+    system.debug('i: ' + i);
+}
+
+system.debug('########' + results);
+
+**********/
 
 
 // Look up FS Public Groups and build Map of UserOrGroupIds by FSGroupName
 Id usrId = '0058c000008TAQUAA4';
+
+
+system.debug('***All groups***');
+for(Group gr : [select id,relatedid,name, type from Group WHERE (Type = 'Regular' OR Type='Role' OR Type='RoleAndSubordinates')]) {
+    system.debug('Group: ' + gr.name + '; Type: ' + gr.Type + ' (' + gr.Id + ')');
+}
+
+system.debug('Group userorgroupids for this group: 00G8c000005iv31EAA');
+for (GroupMember gm : [SELECT Id, UserOrGroupId, Group.DeveloperName, Group.Id 
+    FROM GroupMember 
+    WHERE Group.Id = '00G8c000005iv31EAA']) {
+        system.debug('UserOrGroupId: ' + gm.UserOrGroupId);
+}
+
+
 
 // Look up public groups from custom metadatatype
 FS_Group_Settings__mdt[] fsGroups = [SELECT Public_Group_Name__c 
@@ -16,7 +90,8 @@ for (FS_Group_Settings__mdt fsGrp : fsGroups) {
 Set<String> extSet = new Set<String>();
 String fsGroup;
 Map<String,Set<String>> fsGrpMemberIds = new Map<String,Set<String>>();
-for (GroupMember gm : [SELECT Id, UserOrGroupId, Group.DeveloperName FROM GroupMember WHERE Group.DeveloperName IN :groupNames]) {
+for (GroupMember gm : [SELECT Id, UserOrGroupId, Group.DeveloperName FROM GroupMember 
+    WHERE Group.DeveloperName IN :groupNames]) {
 	fsGroup = gm.Group.DeveloperName;
     if (fsGrpMemberIds.containsKey(fsGroup) ) {
 		extSet = fsGrpMemberIds.get(fsGroup);
@@ -25,20 +100,6 @@ for (GroupMember gm : [SELECT Id, UserOrGroupId, Group.DeveloperName FROM GroupM
 	}
     extSet.add(gm.UserOrGroupId);
     fsGrpMemberIds.put(fsGroup, extSet);
-}
-
-
-// No, this gets role. i'm missing something.
-for (Group gp : [SELECT Id, RelatedId, 
-    FROM Group WHERE DeveloperName IN :groupNames]) {
-        fsGroup = gp.DeveloperName;
-        if (fsGrpMemberIds.containsKey(fsGroup)) {
-            extSet = fsGrpMemberIds.get(fsGroup);
-        } else {
-            extSet = new Set<String>();
-        }
-        extSet.add(gp.RelatedId);
-        fsGrpMemberIds.put(fsGroup, extSet);
 }
 
 System.debug('fsGrpMemberIds: ' + fsGrpMemberIds);
@@ -55,6 +116,14 @@ Set<Id> thisUsrGrpIds = new Set<Id>(userGrps.keyset());
 thisUsrGrpIds.add(usrId);
 System.debug('thisUsrGrpIds: ' + thisUsrGrpIds);
 
+// Plug UsrGrpIds in for other related groups.
+for (GroupMember gm : [SELECT Id, UserOrGroupId, Group.DeveloperName, Group.Id 
+    FROM GroupMember 
+    WHERE UserOrGroupId IN :thisUsrGrpIds]) {
+    System.debug('This is second group loop: ' + gm.Group.Id);
+    thisUsrGrpIds.add(gm.Group.Id);
+}
+
 // Loop thru fsGroups and return fsGroup if any contain the User or Group Ids for this user.
 for (String thisFS : fsGrpMemberIds.keyset()) {
     System.debug('thisFS: ' + thisFS);
@@ -65,7 +134,8 @@ for (String thisFS : fsGrpMemberIds.keyset()) {
             System.debug('This is the FS Group: ' + thisFS);
         }
     }
-}
+} 
+
 
 
 
