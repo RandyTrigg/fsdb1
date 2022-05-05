@@ -28,7 +28,7 @@ public with sharing class ProfileController {
                 ),
                 Utilities.buildChildSubQuery('Form_Instance__c', 'Form_Instances__r', null)
             };
-            prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, new List<String>{prfSubQuery});
+            prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, prfSubQuery);
             hasProposals = prf.Proposals__r != null ? true : false;
             hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
             language = prf.Language__c != null ? prf.Language__c : 'English';
