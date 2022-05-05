@@ -15,15 +15,39 @@ public with sharing class ProfileController {
         public Integer pendingAnnualProposals = 0;
         public Integer pendingShortProposals = 0;
         public String language;
+        public String prFormInstanceId;
+        private String prFormName = 'bffProfile';
 
-        public ProfileSummary (Id prfId) {
+        public ProfileSummary (Id prfId) { 
 
-            String prpSubQuery = Utilities.buildChildSubQuery('Proposal__c', 'Proposals__r', null);
-            prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, new List<String>{prpSubQuery});
+            List<String> prfSubQuery = new List<String>{
+                Utilities.buildChildSubQuery(
+                    'Proposal__c',
+                    'Proposals__r',
+                    null
+                ),
+                Utilities.buildChildSubQuery('Form_Instance__c', 'Form_Instances__r', null)
+            };
+            prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, new List<String>{prfSubQuery});
             hasProposals = prf.Proposals__r != null ? true : false;
             hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
             language = prf.Language__c != null ? prf.Language__c : 'English';
+
+            // Get or create new Profile form instance
+            if (prf.Form_Instances__r != null) {
+                prFormInstanceId = prf.Form_Instances__r[0].Id;
+            } else {
+                Form__c prForm = [SELECT Id FROM Form__c WHERE Name = :prFormName];
+                Form_Instance__c newPrfForm = new Form_Instance__c(
+                    Form__c = prForm.Id,
+                    Profile__c = prfId
+                );
+                insert newPrfForm;
+                prFormInstanceId = newPrfForm.Id;
+            }
+
         }
+
     }
 
     private static Id getRunningUserProfileId() {
