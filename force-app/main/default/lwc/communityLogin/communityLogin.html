@@ -1,0 +1,52 @@
+<template>
+    <div class="slds-grid slds-grid_align-center slds-gutters_x-large">
+        <div class="slds-col">
+            
+            <div class="logo-header">
+                <span class="slds-assistive-text">Black Feminist Fund Logo</span>
+                <img class="bff-logo-header" src={bffLogo}>
+            </div>
+
+            <lightning-card>
+                <div class="slds-card__body slds-card__body_inner"> <!-- Inner padding w/in card -->
+                
+                    <h1><b class="main-heading">Welcome to the Black Feminist Fund Grants Site</b> </h1>
+                    <span class="sub-heading">Please login below or click "Register" to sign up</span>    
+                
+                    <template if:true={errorCheck}>
+                        <div class="error slds-var-p-around_x-small slds-var-p-top_small" role="alert">
+                            <span>{errorMessage}</span>
+                        </div>
+                    </template>
+
+                    <br>
+                    <br>
+
+                    <div class="slds-form">             
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                                <label class="slds-form-element__label" for="inputUsername">Username</label> 
+                                <input type="text" id="inputUsername" data-id="inputUsername" class="slds-input input-element" onchange={handleUserNameChange} required/>
+                            </div>
+                        </div>      
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="inputPassword">Password</label>
+                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                                <input type="password" data-id="inputPassword" class="slds-input input-element" onchange={handlePasswordChange} required/>
+                            </div>
+                        </div>
+            
+                        <div class="slds-col slds-var-p-top_small">
+                            <button type="submit" class="login-button slds-button" onclick={handleLogin}>Log In</button>
+                        </div>
+            
+                        <div class="slds-col slds-var-p-top_small">
+                            <a href="/blackfeministfund/s/login/ForgotPassword" class="forgot-password-text">Forgot your password?</a>
+                            <a href="/CommunitiesSelfRegUi" class="register-text">Register</a>
+                        </div>
+                    </div> <!-- Close form div -->
+                </div> <!-- Close padding div-->
+            </lightning-card>
+        </div> <!-- Close col div -->
+    </div> <!-- Close grid div-->
+</template>

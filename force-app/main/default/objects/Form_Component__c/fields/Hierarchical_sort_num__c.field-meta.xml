@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hierarchical_sort_num__c</fullName>
+    <description>A sortable text string that represents the hierarchical position of this form component</description>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK( Group_Component__c ),
+RIGHT(&quot;0&quot; &amp; TEXT(Sort_number__c), 2),
+IF(ISBLANK( Group_Component__r.Group_Component__c ),
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Sort_number__c), 2),
+IF(ISBLANK( Group_Component__r.Group_Component__r.Group_Component__c ),
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Sort_number__c), 2),
+IF(ISBLANK( Group_Component__r.Group_Component__r.Group_Component__r.Group_Component__c),
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Group_Component__r.Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Sort_number__c), 2),
+IF(ISBLANK( Group_Component__r.Group_Component__r.Group_Component__r.Group_Component__r.Group_Component__c),
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Group_Component__r.Group_Component__r.Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Group_Component__r.Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Group_Component__r.Sort_number__c), 2) &amp; &quot;.&quot; &amp;
+RIGHT(&quot;0&quot; &amp; TEXT(Sort_number__c), 2),
+
+&quot;&quot;)))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>A sortable text string that represents the hierarchical position of this form component</inlineHelpText>
+    <label>Hierarchical sort num</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

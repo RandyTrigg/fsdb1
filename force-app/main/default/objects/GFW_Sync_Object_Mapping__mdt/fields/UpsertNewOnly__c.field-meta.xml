@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UpsertNewOnly__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked if the sync should only populate/seed new records and not update existing records.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Upsert New Only?</label>
+    <type>Checkbox</type>
+</CustomField>

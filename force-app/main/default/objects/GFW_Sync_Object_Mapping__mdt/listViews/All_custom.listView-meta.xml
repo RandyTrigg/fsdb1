@@ -5,6 +5,8 @@
     <columns>DeveloperName</columns>
     <columns>Active__c</columns>
     <columns>Sort_order__c</columns>
+    <columns>PrefixExternalIds__c</columns>
+    <columns>UpsertNewOnly__c</columns>
     <columns>FSDB_Object_Name__c</columns>
     <columns>GFW_Object_Name__c</columns>
     <columns>FSDB_External_Id_Field_API_Name__c</columns>

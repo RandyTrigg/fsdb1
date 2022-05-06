@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PrefixExternalIds__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked if External Ids are prefixed with COA (to ensure unique external Ids across FS groups).</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Prefix ExternalIds?</label>
+    <type>Checkbox</type>
+</CustomField>

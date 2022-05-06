@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_numbered__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If checked (and if Numbered is checked) then number this component at the level of its child components, e.g. &quot;3a&quot; rather than &quot;3&quot;.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If checked (and if Numbered is checked) then number this component at the level of its child components, e.g. &quot;3a&quot; rather than &quot;3&quot;.</inlineHelpText>
+    <label>Sub-numbered</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

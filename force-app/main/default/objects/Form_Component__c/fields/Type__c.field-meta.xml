@@ -12,41 +12,16 @@
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>text</fullName>
-                <default>false</default>
-                <label>text</label>
-            </value>
-            <value>
-                <fullName>text latin chars</fullName>
-                <default>false</default>
-                <label>text latin chars</label>
-            </value>
-            <value>
-                <fullName>textarea</fullName>
-                <default>false</default>
-                <label>textarea</label>
-            </value>
-            <value>
-                <fullName>textarea latin chars</fullName>
-                <default>false</default>
-                <label>textarea latin chars</label>
-            </value>
-            <value>
-                <fullName>radio</fullName>
-                <default>false</default>
-                <label>radio</label>
-            </value>
-            <value>
-                <fullName>radio in-line</fullName>
-                <default>false</default>
-                <label>radio in-line</label>
-            </value>
+            <sorted>true</sorted>
             <value>
                 <fullName>checkbox</fullName>
                 <default>false</default>
                 <label>checkbox</label>
+            </value>
+            <value>
+                <fullName>checkbox group</fullName>
+                <default>false</default>
+                <label>checkbox group</label>
             </value>
             <value>
                 <fullName>checkbox in-line</fullName>
@@ -54,44 +29,9 @@
                 <label>checkbox in-line</label>
             </value>
             <value>
-                <fullName>checkbox 2-col</fullName>
-                <default>false</default>
-                <label>checkbox 2-col</label>
-            </value>
-            <value>
-                <fullName>checkbox 3-col</fullName>
-                <default>false</default>
-                <label>checkbox 3-col</label>
-            </value>
-            <value>
-                <fullName>checkbox 4-col</fullName>
-                <default>false</default>
-                <label>checkbox 4-col</label>
-            </value>
-            <value>
-                <fullName>select</fullName>
-                <default>false</default>
-                <label>select</label>
-            </value>
-            <value>
-                <fullName>number</fullName>
-                <default>false</default>
-                <label>number</label>
-            </value>
-            <value>
                 <fullName>currency</fullName>
                 <default>false</default>
                 <label>currency</label>
-            </value>
-            <value>
-                <fullName>percent</fullName>
-                <default>false</default>
-                <label>percent</label>
-            </value>
-            <value>
-                <fullName>percent equals 100</fullName>
-                <default>false</default>
-                <label>percent equals 100</label>
             </value>
             <value>
                 <fullName>date</fullName>
@@ -104,26 +44,6 @@
                 <label>email</label>
             </value>
             <value>
-                <fullName>email non-applicant</fullName>
-                <default>false</default>
-                <label>email non-applicant</label>
-            </value>
-            <value>
-                <fullName>phone</fullName>
-                <default>false</default>
-                <label>phone</label>
-            </value>
-            <value>
-                <fullName>url</fullName>
-                <default>false</default>
-                <label>url</label>
-            </value>
-            <value>
-                <fullName>table heading</fullName>
-                <default>false</default>
-                <label>table heading</label>
-            </value>
-            <value>
                 <fullName>group</fullName>
                 <default>false</default>
                 <label>group</label>
@@ -132,6 +52,71 @@
                 <fullName>indicator</fullName>
                 <default>false</default>
                 <label>indicator</label>
+            </value>
+            <value>
+                <fullName>number</fullName>
+                <default>false</default>
+                <label>number</label>
+            </value>
+            <value>
+                <fullName>percent</fullName>
+                <default>false</default>
+                <label>percent</label>
+            </value>
+            <value>
+                <fullName>phone</fullName>
+                <default>false</default>
+                <label>phone</label>
+            </value>
+            <value>
+                <fullName>radio</fullName>
+                <default>false</default>
+                <label>radio</label>
+            </value>
+            <value>
+                <fullName>radio in-line</fullName>
+                <default>false</default>
+                <label>radio in-line</label>
+            </value>
+            <value>
+                <fullName>section</fullName>
+                <default>false</default>
+                <label>section</label>
+            </value>
+            <value>
+                <fullName>select</fullName>
+                <default>false</default>
+                <label>select</label>
+            </value>
+            <value>
+                <fullName>table dynamic</fullName>
+                <default>false</default>
+                <label>table dynamic</label>
+            </value>
+            <value>
+                <fullName>table static</fullName>
+                <default>false</default>
+                <label>table static</label>
+            </value>
+            <value>
+                <fullName>text</fullName>
+                <default>false</default>
+                <label>text</label>
+            </value>
+            <value>
+                <fullName>textarea</fullName>
+                <default>false</default>
+                <label>textarea</label>
+            </value>
+            <value>
+                <fullName>textarea latin chars</fullName>
+                <default>false</default>
+                <label>textarea latin chars</label>
+            </value>
+            <value>
+                <fullName>url</fullName>
+                <default>false</default>
+                <label>url</label>
             </value>
         </valueSetDefinition>
     </valueSet>

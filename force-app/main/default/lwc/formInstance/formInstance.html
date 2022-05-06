@@ -1,0 +1,31 @@
+<template>
+    <div if:true={dataLoaded}>
+        <!-- Form title-->
+        <lightning-formatted-rich-text data-id="frmTitle" class="gfw-form-title" value={frm.title}></lightning-formatted-rich-text>
+        <!-- Form intro if any-->
+        <div if:true={frm.intro}>
+            <lightning-formatted-rich-text data-id="frmIntro" class="gfw-form-title" value={frm.intro}></lightning-formatted-rich-text>
+        </div>
+        <!-- Form TOC if at least one section, with lightning-formatted-rich-text for each section name along with error info-->
+        <!-- NEED TO ADD ERROR INFO (as parenthetical?) -->
+        <div if:true={sections}>
+            <lightning-card>
+                <template for:each={sections} for:item="section">
+                    <lightning-formatted-rich-text key={section.Id} data-id="section.Id" class="gfw-form-title" value={section.title}></lightning-formatted-rich-text>
+                </template>
+            </lightning-card>
+        </div>
+        <!-- Loop through top level form components (without parent) putting out c-form-component tags-->
+        <!-- For components of type Section, wrap the c-form-component tag in lightning-accordion-section if isMultiView is true-->
+        <template for:each={topLevelCmps} for:item="cmp">
+            <div if:false={cmp.accordion} key={cmp.Id}>
+                <c-form-component cmp-data={cmp} form-instance-id={instanceId} is-editable={isEditable} language={language}></c-form-component>
+            </div>
+            <div if:true={cmp.accordion} key={cmp.Id}>
+                <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.Form_Phrase_Title__r.Phrase_in_English__c}>
+                    <c-form-component cmp-data={section} form-instance-id={instanceId} is-editable={isEditable} language={language}></c-form-component>
+                </lightning-accordion-section>
+            </div>
+        </template>
+    </div>
+</template>
