@@ -10,6 +10,9 @@ alias dxupdatecli='npm install --global sfdx-cli'
 
 alias dxlist='sfdx force:org:list'
 
+# Retrieve metadata using manifest
+# sfdx force:source:retrieve -x manifest/package.xml &> retrieve.log
+
 ###################
 # SCRATCH ORG: CREATE, PUSH CODE, ASSIGN PERM SET
 ###################
