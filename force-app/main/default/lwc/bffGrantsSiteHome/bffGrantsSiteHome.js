@@ -4,33 +4,32 @@ import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 import { NavigationMixin } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
-// import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
-// import { buildTransByName } from 'c/formsUtilities';
+import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
+import { buildTransByName } from 'c/formsUtilities';
 
 export default class BffGrantsSiteHome extends LightningElement {
     userId = Id;
+    bffLogo = logoResource;
+    showMenu = false;
     pageHeader;
     pageSubheader;
     prfButtonLabel;
     grantHeading;
     grantSubHeading;
     grantDescription;
-    bffLogo = logoResource;
-    showMenu = false;
+    
+    profileSummary;
     hasSubmittedPrf;
     prFormInstanceId;
-
     propTitle;
     formsTitle;
 
-    profileSummary;
     langMap;
     langTag;
     language;
     dataLoaded = false;
     message = "Please create a Profile";
     hoverMessage;
-    // options = ['English', 'Español', 'Français'];
     
     connectedCallback() {
         if (this.userId) {
@@ -40,7 +39,13 @@ export default class BffGrantsSiteHome extends LightningElement {
 
     async loadData() {
         try {
-            this.profileSummary = JSON.parse(await getProfileSummary());
+            console.log('loadData');
+            let [data, translations] = await PromiseRejectionEvent.all ([
+                getProfileSummary(),
+                getTranslations()
+            ]);
+            
+            this.profileSummary = JSON.parse(this.data);
             // Create Form Instance after creating Profile. Linked to Profile and bffProfile form.
             // Otherwise, look for FormInstance related to this Profile and bffProfile Form.
             // In either case, return with getProfileSummary.
