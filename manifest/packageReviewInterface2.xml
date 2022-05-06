@@ -1,7 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>reviewForm</members>
+        <members>internalReview</members>
+        <members>assessorReview</members>
+        <members>assessorSiteHeader</members>
+        <members>assessorSiteHome</members>
+        <members>assessmentsAssigned</members>
+        <members>lwcUtilities</members>
+        <members>invitesAssigned</members>
+        <members>assessmentsAssigned</members>
+        <members>lookup</members>
+        <members>formFieldViewer</members>
+        <members>formFieldEditor</members>
+        <members>formInstance</members>
+        <members>formComponent</members>
+        <members>formsUtilities</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Review</members>
+        <members>ReviewFormController</members>
+        <members>Assessment</members>
+        <members>AssessmentMilestoneTest</members>
+        <members>AssessmentProfileTest</members>
+        <members>AssessmentProposalTest</members>
+        <members>AssessorSiteController</members>
+        <members>AssessorSiteTest</members>
+        <members>InternalReview</members>
+        <members>InternalReviewTest</members>
+        <members>LookupSearchResult</members>
+        <members>LookupSearchResultTests</members>
+        <members>GFW_Exception</members>
+        <members>LWC_Exception</members>
+        <members>LWC_ExceptionData</members>
+        <members>AssessmentController</members>
+        <members>AssessmentControllerTest</members>
+        <members>AdvisorController</members>
+        <members>AdvisorControllerTest</members>
+        <members>AdvisorTermController</members>
+        <members>AdvisorTermControllerTest</members>
+        <members>AdvisorPaymentController</members>
+        <members>AdvisorPaymentControllerTest</members>
+        <members>AdvisorUpdateLookupsInvocable</members>
+        <members>AdvisorTermRemindersSchedule</members>
+        <members>AdvisorSummary</members>
+        <members>FormTagFormPhrasesInvocable</members>
+        <members>FormController</members>
+        <members>FormControllerTest</members>
+        <members>FormInstanceController</members>
+        <members>FormInstanceControllerTest</members>
+        <members>FormPhraseController</members>
+        <members>FormPhraseControllerTest</members>
+        <members>BuildTestProposals</members>
+        <members>LetterControllerTest</members>
+        <name>ApexClass</name>
     </types>
     <version>53.0</version>
 </Package>

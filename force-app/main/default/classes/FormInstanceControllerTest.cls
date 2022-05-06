@@ -10,10 +10,11 @@ public class FormInstanceControllerTest {
         insert new Form_Instance__c (Form__c = f.Id, Profile__c = prof.Id, Date_submitted__c = date.today());
         Form_Instance__c fi = [SELECT Id FROM Form_Instance__c LIMIT 1];
         Id fiId = fi.Id;
-        insert new Form_Component__c (Name = 'test comp1', Form__c = f.Id, Sort_number__c = 1, Clear_on_re_open__c = true);
+        insert new Form_Component__c (Name = 'test comp1', Type__c = 'group', Form__c = f.Id, Sort_number__c = 1, Clear_on_re_open__c = true);
         Form_Component__c comp = [SELECT Id FROM Form_Component__c LIMIT 1];
         insert new Form_Component__c (
             Name = 'test comp2', 
+            Type__c = 'text',
             Form__c = f.Id, 
             Sort_number__c = 2, 
             Group_Component__c = comp.Id
