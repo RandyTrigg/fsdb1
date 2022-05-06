@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>オンにすると、団体ハードクレジット (スキューでない) 夜間ジョブは、これらの団体の最近更新された支援を探し、再計算で選択される団体の数を制限します。これにより、カスタマイズ可能な積み上げ集計の夜間ジョブのパフォーマンスが向上します。</help>
+    <label></label>
+    <name>npsp__AccountHardCreditNonSkew_Incremental__c</name>
+</CustomFieldTranslation>

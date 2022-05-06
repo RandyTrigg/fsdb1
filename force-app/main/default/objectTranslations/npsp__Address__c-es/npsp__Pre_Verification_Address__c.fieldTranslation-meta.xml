@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Guarda la dirección como fue completada antes de la verificación con un servicio remoto, en caso de que alguna información se pierda en el proceso de verificación.</help>
+    <label></label>
+    <name>npsp__Pre_Verification_Address__c</name>
+</CustomFieldTranslation>

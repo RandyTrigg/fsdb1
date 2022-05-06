@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Es esta una renovación, una nueva membresía o una membresía de alguien que se fue y ahora retorna.</help>
+    <label></label>
+    <name>npe01__Membership_Origin__c</name>
+    <picklistValues>
+        <masterLabel>New</masterLabel>
+        <translation>Nueva</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reacquire</masterLabel>
+        <translation>Re-adquirida</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Renewal</masterLabel>
+        <translation>Renovación</translation>
+    </picklistValues>
+</CustomFieldTranslation>

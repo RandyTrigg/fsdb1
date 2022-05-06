@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Seleccionar este campo hará que los totales en oportunidades respeten el año fiscal, en vez del año calendario. Para configurar el AF, ir a Configuración -&gt; Perfil de la compañía -&gt; Año fiscal. Nota: NO funciona con una configuración personalizada de AF</help>
+    <label></label>
+    <name>npo02__Use_Fiscal_Year_for_Rollups__c</name>
+</CustomFieldTranslation>

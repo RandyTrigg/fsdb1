@@ -10,10 +10,26 @@
         </accountSettings>
         <label>BFF</label>
         <sharedTo>
-            <group>BFF</group>
+            <group>FS_BFF</group>
         </sharedTo>
         <sharedFrom>
-            <group>BFF</group>
+            <group>FS_BFF</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>VAL</fullName>
+        <accessLevel>Edit</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>Edit</caseAccessLevel>
+            <contactAccessLevel>Edit</contactAccessLevel>
+            <opportunityAccessLevel>Edit</opportunityAccessLevel>
+        </accountSettings>
+        <label>VAL</label>
+        <sharedTo>
+            <group>FS_VAL</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>FS_VAL</group>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>

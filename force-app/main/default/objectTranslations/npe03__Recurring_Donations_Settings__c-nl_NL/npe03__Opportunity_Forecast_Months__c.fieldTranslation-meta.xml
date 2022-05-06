@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Aantal maanden vanaf vandaag waard aan open opp wanneer er gebruik wordt gemaakt van terugkerende donaties. LET OP: Verminderen van deze waarde resulteert in het verwijderen van extra opp. Verhogen zal een batch proces starten om opp toe te voegen.</help>
+    <label></label>
+    <name>npe03__Opportunity_Forecast_Months__c</name>
+</CustomFieldTranslation>

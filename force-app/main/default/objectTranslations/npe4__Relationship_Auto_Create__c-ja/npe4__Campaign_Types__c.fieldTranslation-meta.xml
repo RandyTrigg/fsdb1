@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>このキャンペーンメンバーの自動作成の対象となるキャンペーン種別(個人の自動作成では空白になります)。</help>
+    <label></label>
+    <name>npe4__Campaign_Types__c</name>
+</CustomFieldTranslation>

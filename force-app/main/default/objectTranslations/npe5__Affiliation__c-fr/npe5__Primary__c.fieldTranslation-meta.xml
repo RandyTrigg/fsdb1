@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si coché, l’organisation de l’affiliation sera stockée sur l’enregistrement du contact.</help>
+    <label></label>
+    <name>npe5__Primary__c</name>
+</CustomFieldTranslation>

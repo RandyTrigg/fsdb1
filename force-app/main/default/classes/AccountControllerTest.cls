@@ -1,5 +1,5 @@
 @isTest
-public with sharing class AccountControllerTest {
+public class AccountControllerTest {
     static testMethod void AccountControllerTest1() {
         // Build new proposals and accounts
         BuildTestProposals.InitTestObjects(2, 2);

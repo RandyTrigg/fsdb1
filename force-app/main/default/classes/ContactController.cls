@@ -1,4 +1,4 @@
-public with sharing class ContactController {
+public class ContactController {
     /**********************************
      * For general use
      *********************************/

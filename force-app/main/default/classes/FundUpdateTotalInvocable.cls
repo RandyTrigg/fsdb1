@@ -1,4 +1,4 @@
-public with sharing class FundUpdateTotalInvocable {
+public class FundUpdateTotalInvocable {
     @InvocableMethod(
         label='Recalculate total available in fund records'
         description='Recalculate total available in fund records'

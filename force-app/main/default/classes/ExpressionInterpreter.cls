@@ -1,7 +1,7 @@
 /**
  * Builds instance of ExpressionLexer, computes prefix, and evaluates expression in given context.
  */
-public with sharing class ExpressionInterpreter {
+public class ExpressionInterpreter {
     public static List<String> symbols = new List<String>{
         ',',
         '(',
@@ -89,7 +89,7 @@ public with sharing class ExpressionInterpreter {
     }
 
     // Inner class holds lexer and the evaluate functionality.
-    public with sharing class InnerInterpreter {
+    public class InnerInterpreter {
         ExpressionInterpreter parent;
         ExpressionLexer lexer;
         private sObject context;

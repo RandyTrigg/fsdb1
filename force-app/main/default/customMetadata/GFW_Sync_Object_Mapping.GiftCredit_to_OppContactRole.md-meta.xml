@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Active__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>FSDB_External_Id_Field_API_Name__c</field>
@@ -19,11 +19,19 @@
         <value xsi:type="xsd:string">AQB__GiftCredit__c</value>
     </values>
     <values>
+        <field>PrefixExternalIds__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Sort_order__c</field>
         <value xsi:type="xsd:double">12.0</value>
     </values>
     <values>
         <field>SyncLogRecordLookupFieldName__c</field>
         <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>UpsertNewOnly__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
 </CustomMetadata>

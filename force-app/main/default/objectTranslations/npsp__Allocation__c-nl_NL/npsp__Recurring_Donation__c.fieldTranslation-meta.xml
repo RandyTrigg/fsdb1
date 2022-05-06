@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Optioneel toeschrijven van allocaties aan een terugkerende donatie. Alle nieuwe opportunities met deze terugkerende donatie schema zal automatisch toegewezen worden op dezelfde manier.</help>
+    <label></label>
+    <name>npsp__Recurring_Donation__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

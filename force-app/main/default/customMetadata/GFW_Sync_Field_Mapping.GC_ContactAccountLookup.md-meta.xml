@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>FSDB_Field_API_Name__c</field>
-        <value xsi:type="xsd:string">GFW_Account_ID__c</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>GFW_Field_API_Name__c</field>

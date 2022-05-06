@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>支払</value>
+    </caseValues>
+    <fieldSets>
+        <label></label>
+        <name>npsp__Payment_WizardFS</name>
+    </fieldSets>
+    <nameFieldLabel>支払番号</nameFieldLabel>
+    <webLinks>
+        <label></label>
+        <name>npe01__Schedule_Payments</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npe01__Writeoff_Payments</name>
+    </webLinks>
+</CustomObjectTranslation>

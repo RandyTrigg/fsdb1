@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Seleccionar si tiene la intención de gestionar el registro usted mismo. Tenga en cuenta que las actualizaciones del paquete no actualizará este registro.</help>
+    <label></label>
+    <name>npsp__User_Managed__c</name>
+</CustomFieldTranslation>

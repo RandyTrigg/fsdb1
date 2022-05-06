@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Toujours cumuler les statistiques de donateur sur le rôle de contact principal et le foyer correspondant, pour une opportunité, même si elle ne provient pas d’un individu (par exemple une entreprise, une fondation, etc.)</help>
+    <label></label>
+    <name>npo02__Always_Rollup_to_Primary_Contact__c</name>
+</CustomFieldTranslation>

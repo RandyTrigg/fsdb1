@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si este grant es una renovación de un grant previo, use este campo para relacionar este contacto con uno previo.</help>
+    <label></label>
+    <name>npsp__Previous_Grant_Opportunity__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

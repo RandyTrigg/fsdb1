@@ -13,9 +13,9 @@
         <valueSetDefinition>
             <sorted>true</sorted>
             <value>
-                <fullName>ACH</fullName>
+                <fullName>ACH/Wire</fullName>
                 <default>false</default>
-                <label>ACH</label>
+                <label>ACH/Wire</label>
             </value>
             <value>
                 <fullName>Cash</fullName>
@@ -33,9 +33,39 @@
                 <label>Credit Card</label>
             </value>
             <value>
+                <fullName>eCheck</fullName>
+                <default>false</default>
+                <label>eCheck</label>
+            </value>
+            <value>
+                <fullName>EventBrite</fullName>
+                <default>false</default>
+                <label>EventBrite</label>
+            </value>
+            <value>
+                <fullName>GFW Payroll</fullName>
+                <default>false</default>
+                <label>GFW Payroll</label>
+            </value>
+            <value>
+                <fullName>In-Kind</fullName>
+                <default>false</default>
+                <label>In-Kind</label>
+            </value>
+            <value>
+                <fullName>Other Payroll</fullName>
+                <default>false</default>
+                <label>Other Payroll</label>
+            </value>
+            <value>
                 <fullName>PayPal</fullName>
                 <default>false</default>
                 <label>PayPal</label>
+            </value>
+            <value>
+                <fullName>Personal Property</fullName>
+                <default>false</default>
+                <label>Personal Property</label>
             </value>
             <value>
                 <fullName>Pledge</fullName>
@@ -43,14 +73,24 @@
                 <label>Pledge</label>
             </value>
             <value>
+                <fullName>Real Property</fullName>
+                <default>false</default>
+                <label>Real Property</label>
+            </value>
+            <value>
                 <fullName>Securities</fullName>
                 <default>false</default>
                 <label>Securities</label>
             </value>
             <value>
-                <fullName>Wire</fullName>
+                <fullName>Square</fullName>
                 <default>false</default>
-                <label>Wire</label>
+                <label>Square</label>
+            </value>
+            <value>
+                <fullName>Third party</fullName>
+                <default>false</default>
+                <label>Third party</label>
             </value>
         </valueSetDefinition>
     </valueSet>

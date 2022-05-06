@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Ermittelt den Wert des Kontakts oder Accounts des Felds &quot;Ebene der letzten Mitgliedschaft&quot;</help>
+    <label></label>
+    <name>npe01__Member_Level__c</name>
+    <picklistValues>
+        <masterLabel>Bronze</masterLabel>
+        <translation>Bronze</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gold</masterLabel>
+        <translation>Gold</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Silver</masterLabel>
+        <translation>Silber</translation>
+    </picklistValues>
+</CustomFieldTranslation>

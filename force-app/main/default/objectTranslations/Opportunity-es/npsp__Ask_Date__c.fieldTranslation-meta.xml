@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>La fecha en la que se pidió al donante esta donación. Puede ser diferente a la fecha en que la recibió.</help>
+    <label></label>
+    <name>npsp__Ask_Date__c</name>
+</CustomFieldTranslation>

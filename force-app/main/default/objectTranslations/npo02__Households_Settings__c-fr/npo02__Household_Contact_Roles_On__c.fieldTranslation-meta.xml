@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Cocher ce champ pour créer des rôles de contacts automatiques pour les membres du foyer du contact principal</help>
+    <label></label>
+    <name>npo02__Household_Contact_Roles_On__c</name>
+</CustomFieldTranslation>

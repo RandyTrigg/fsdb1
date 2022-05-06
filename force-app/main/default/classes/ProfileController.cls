@@ -2,6 +2,80 @@ public with sharing class ProfileController {
     public static String notificationTemplateName = 'Request to submit Updated Profile';
 
     /**********************************
+     * For use in Grants Experience Site
+     *********************************/
+
+    // Bundles profile information, including child proposals.
+    public class ProfileSummary {
+        
+        public Profile__c prf; // Includes child proposals
+        public Boolean hasForms = false;
+        public Boolean hasProposals = false;
+        public Boolean hasSubmittedPrf = false;
+        public Integer pendingAnnualProposals = 0;
+        public Integer pendingShortProposals = 0;
+        public String language;
+        public String prFormInstanceId;
+        private String prFormName = 'bff_Profile';
+
+        public ProfileSummary (Id prfId) { 
+
+            List<String> prfSubQuery = new List<String>{
+                Utilities.buildChildSubQuery(
+                    'Proposal__c',
+                    'Proposals__r',
+                    null
+                ),
+                Utilities.buildChildSubQuery('Form_Instance__c', 'Form_Instances__r', null)
+            };
+            prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, prfSubQuery);
+            hasProposals = prf.Proposals__r != null ? true : false;
+            hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
+            language = prf.Language__c != null ? prf.Language__c : 'English';
+
+            // Get or create new Profile form instance
+            if (prf.Form_Instances__r != null && prf.Form_Instances__r.size() > 0) {
+                prFormInstanceId = prf.Form_Instances__r[0].Id;
+            } else {
+                Form__c prForm = [SELECT Id FROM Form__c WHERE Name = :prFormName];
+                Form_Instance__c newPrfForm = new Form_Instance__c(
+                    Form__c = prForm.Id,
+                    Profile__c = prfId
+                );
+                insert newPrfForm;
+                prFormInstanceId = newPrfForm.Id;
+            }
+
+        }
+
+    }
+
+    private static Id getRunningUserProfileId() {
+            Id userId = UserInfo.getUserId();
+            Id runningProfileId;
+            User u = [SELECT Id, FirstName, LastName, Email, Username, ContactId FROM User WHERE Id=:userId];
+            List<Profile__c> runningProfile = new List<Profile__c>(
+                [SELECT ID FROM Profile__c WHERE Community_contact__c =:u.ContactId LIMIT 1]);
+            if (runningProfile.isEmpty()) {
+                Profile__c newPrf = new Profile__c (
+                    Community_contact__c = u.ContactId,
+                    Community_contact_username__c = u.Username
+                );
+                insert newPrf;
+                runningProfileId = newPrf.Id;
+            } else {
+                runningProfileId = runningProfile[0].Id;
+            }
+            return runningProfileId;
+    }
+
+    @AuraEnabled //Do not cache
+    public static String getProfileSummary() {
+        ProfileSummary data = new ProfileSummary(getRunningUserProfileId());
+        return JSON.serialize(data);
+    }
+
+    /**********************************
      * For use in Lightning components
      *********************************/
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El campo que al completarse o modificarse activará el desencadenador para la creación de esta relación.</help>
+    <label></label>
+    <name>npe4__Field__c</name>
+</CustomFieldTranslation>

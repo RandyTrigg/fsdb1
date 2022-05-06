@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Permite calcular totales de op. cerradas basados en la fun. del contacto en la op. Se calculan solamente en el trabajo programado de la noche, y no en triggers. Pueden ser calculados manualmente usando la pestaña de Lote de totales de donaciones.</help>
+    <label></label>
+    <name>npo02__Enable_Soft_Credit_Rollups__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Nombre total d&apos;opportunités de versement payées pour ce don récurrent (lecture seule).</help>
+    <label>Nombre de versements payés</label>
+    <name>npe03__Total_Paid_Installments__c</name>
+</CustomFieldTranslation>

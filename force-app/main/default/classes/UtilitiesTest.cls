@@ -140,6 +140,8 @@ public class UtilitiesTest {
         Utilities.ExceptionAlertEmailToIM(null, 'test error');
         Utilities.pageReferenceForRecord(acct);
         Utilities.defaultLanguage();
+        mils = Utilities.emailsForAccounts(new Set<Id> {acct.Id, acct1.Id});
+
 
         Account acc = (Account)Utilities.newRecord('Account');
         Utilities.fetchRecord(

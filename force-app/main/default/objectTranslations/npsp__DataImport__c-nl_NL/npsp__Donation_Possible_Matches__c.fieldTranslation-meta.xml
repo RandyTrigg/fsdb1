@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Een kommagescheiden lijst met ID&apos;s voor de eerste 10 mogelijke Opportunity matches voor een Donatie.</help>
+    <label></label>
+    <name>npsp__Donation_Possible_Matches__c</name>
+</CustomFieldTranslation>

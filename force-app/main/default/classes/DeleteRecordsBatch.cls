@@ -1,7 +1,7 @@
 /* Generic way to delete a bunch of records of arbitrary type in a batch process. 
  * Call with either a list of records or a query.
  */
-global with sharing class DeleteRecordsBatch implements Database.Batchable<sObject>{
+global class DeleteRecordsBatch implements Database.Batchable<sObject>{
     private List<sObject> recs;
     private String query;
     private Boolean hardDelete;

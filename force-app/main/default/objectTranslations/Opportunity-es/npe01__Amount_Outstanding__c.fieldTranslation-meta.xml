@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Fórmula: El importe de esta oportunidad menos el Monto de pagos cancelados y el Monto de pagos recibidos.</help>
+    <label></label>
+    <name>npe01__Amount_Outstanding__c</name>
+</CustomFieldTranslation>

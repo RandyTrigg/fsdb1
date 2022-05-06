@@ -1,4 +1,4 @@
-public with sharing class ExpressionFunctions {
+public class ExpressionFunctions {
     // All function classes implement this interface, specifying the number of args (or -1 if any number is permitted), and
     // the function's implementation.
     public interface function {
@@ -54,7 +54,7 @@ public with sharing class ExpressionFunctions {
      * NOTE: Try to keep these alphabetized for easy lookup!
      */
 
-    public with sharing class BR_function implements function {
+    public class BR_function implements function {
         public Integer numArgs() {
             return 0;
         }
@@ -63,7 +63,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class CONCATENATE_function implements function {
+    public class CONCATENATE_function implements function {
         public Integer numArgs() {
             return -1;
         }
@@ -84,7 +84,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class CONTAINS_function implements function {
+    public class CONTAINS_function implements function {
         public Integer numArgs() {
             return 2;
         }
@@ -108,7 +108,7 @@ public with sharing class ExpressionFunctions {
     }
 
     // This one is not in SF's standard list of formula functions. Uses a function scarfed from stackexchange.
-    public with sharing class CURRENCY_function implements function {
+    public class CURRENCY_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -126,7 +126,7 @@ public with sharing class ExpressionFunctions {
     }
 
     // Convert decimal to text with commas after rounding, taking account of language.
-    public with sharing class CURRENCYROUND_function implements function {
+    public class CURRENCYROUND_function implements function {
         public Integer numArgs() {
             return 2;
         }
@@ -152,7 +152,7 @@ public with sharing class ExpressionFunctions {
     }
 
     // DATE takes three numeric args: year, month, day
-    public with sharing class DATE_function implements function {
+    public class DATE_function implements function {
         public Integer numArgs() {
             return 3;
         }
@@ -178,7 +178,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class DATEADDDAYS_function implements function {
+    public class DATEADDDAYS_function implements function {
         public Integer numArgs() {
             return 2;
         }
@@ -197,7 +197,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class DATEVALUE_function implements function {
+    public class DATEVALUE_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -226,7 +226,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class DAY_function implements function {
+    public class DAY_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -246,7 +246,7 @@ public with sharing class ExpressionFunctions {
     }
 
     // Follow rules of the Formula function FIND, including that string starts at position 1 rather than 0.
-    public with sharing class FIND_function implements function {
+    public class FIND_function implements function {
         public Integer numArgs() {
             return -1;
         }
@@ -280,7 +280,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class FLOOR_function implements function {
+    public class FLOOR_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -299,7 +299,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class FY_function implements function {
+    public class FY_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -321,7 +321,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class IF_function implements function {
+    public class IF_function implements function {
         public Integer numArgs() {
             return 3;
         }
@@ -342,7 +342,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class ISBLANK_function implements function {
+    public class ISBLANK_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -353,7 +353,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class LEFT_function implements function {
+    public class LEFT_function implements function {
         public Integer numArgs() {
             return 2;
         }
@@ -376,7 +376,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class LEN_function implements function {
+    public class LEN_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -395,7 +395,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class LOWER_function implements function {
+    public class LOWER_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -414,7 +414,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class MONTH_function implements function {
+    public class MONTH_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -433,7 +433,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class NOT_function implements function {
+    public class NOT_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -450,7 +450,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class PIECE_function implements function {
+    public class PIECE_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -470,7 +470,7 @@ public with sharing class ExpressionFunctions {
     }
 
     // Build return-separated list of names and contact info of the referral orgs linked to the given prop ID.
-    public with sharing class REFERRALS_function implements function {
+    public class REFERRALS_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -512,7 +512,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class RIGHT_function implements function {
+    public class RIGHT_function implements function {
         public Integer numArgs() {
             return 2;
         }
@@ -535,7 +535,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class ROUND_function implements function {
+    public class ROUND_function implements function {
         public Integer numArgs() {
             return 2;
         }
@@ -558,7 +558,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class SUBSTITUTE_function implements function {
+    public class SUBSTITUTE_function implements function {
         public Integer numArgs() {
             return 3;
         }
@@ -580,7 +580,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class TEXT_function implements function {
+    public class TEXT_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -589,7 +589,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class TODAY_function implements function {
+    public class TODAY_function implements function {
         public Integer numArgs() {
             return 0;
         }
@@ -599,7 +599,7 @@ public with sharing class ExpressionFunctions {
     }
 
     // First argument is language, second is date to translate.
-    public with sharing class TRANSLATEDATE_function implements function {
+    public class TRANSLATEDATE_function implements function {
         public Integer numArgs() {
             return 2;
         }
@@ -621,7 +621,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class TRANSLATEDATEMONTHYEAR_function implements function {
+    public class TRANSLATEDATEMONTHYEAR_function implements function {
         public Integer numArgs() {
             return 2;
         }
@@ -648,7 +648,7 @@ public with sharing class ExpressionFunctions {
     }
 
     // NOTE: This function removes newlines as well as spaces and tabs at front and end of the text string (unlike the TRIM formula function).
-    public with sharing class TRIM_function implements function {
+    public class TRIM_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -667,7 +667,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class VALUE_function implements function {
+    public class VALUE_function implements function {
         public Integer numArgs() {
             return 1;
         }
@@ -686,7 +686,7 @@ public with sharing class ExpressionFunctions {
         }
     }
 
-    public with sharing class YEAR_function implements function {
+    public class YEAR_function implements function {
         public Integer numArgs() {
             return 1;
         }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>集計元フィールドに対して実施される集計の種別（MIN：最小値、MAX：最大値、SUM：合計値、COUNT：個数）</help>
+    <label></label>
+    <name>npo02__Field_Action__c</name>
+</CustomFieldTranslation>

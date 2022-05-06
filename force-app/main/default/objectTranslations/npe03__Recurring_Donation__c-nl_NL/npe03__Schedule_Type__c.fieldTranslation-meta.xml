@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Of dit bedrag is gebruikt voor elk termijn (vermenigvuldig met), of dat het bedrag is opgedeeld tussen termijnen (delen door). Wordt alleen gebruikt met niet doorlopende terugkerende donaties.</help>
+    <label>Verouderd:Planningstype</label>
+    <name>npe03__Schedule_Type__c</name>
+    <picklistValues>
+        <masterLabel>Divide By</masterLabel>
+        <translation>Deel door</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multiply By</masterLabel>
+        <translation>Vermenigvuldigen met</translation>
+    </picklistValues>
+</CustomFieldTranslation>

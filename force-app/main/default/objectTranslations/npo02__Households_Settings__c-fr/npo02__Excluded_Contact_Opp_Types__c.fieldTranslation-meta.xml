@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Valeurs du champ de type d’opportunité à exclure des statistiques lors du cumul des opportunités d’un contact.</help>
+    <label></label>
+    <name>npo02__Excluded_Contact_Opp_Types__c</name>
+</CustomFieldTranslation>

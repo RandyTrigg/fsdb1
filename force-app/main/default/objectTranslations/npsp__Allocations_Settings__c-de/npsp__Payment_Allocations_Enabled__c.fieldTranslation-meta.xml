@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Gibt an, ob Zuordnungen auf Zahlungsebene festgelegt werden können. Lesen Sie die Dokumentation zu Zuordnungen auf Zahlungsebene, bevor Sie diese Einstellung ändern.</help>
+    <label></label>
+    <name>npsp__Payment_Allocations_Enabled__c</name>
+</CustomFieldTranslation>

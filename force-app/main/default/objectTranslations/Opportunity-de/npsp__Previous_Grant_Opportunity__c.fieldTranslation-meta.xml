@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Wenn diese Unterstützung eine Erneuerung einer früheren Unterstützung ist, können Sie dieses Feld verwenden, um diesen Datensatz mit dem früheren Datensatz zu verknüpfen.</help>
+    <label></label>
+    <name>npsp__Previous_Grant_Opportunity__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

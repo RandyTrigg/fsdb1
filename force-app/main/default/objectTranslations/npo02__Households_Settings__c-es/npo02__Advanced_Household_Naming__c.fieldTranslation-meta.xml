@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si seleccionado, el sistema proveerá automáticamente de nombres para el Nombre de la familia, Saludo informal y Saludo formal</help>
+    <label></label>
+    <name>npo02__Advanced_Household_Naming__c</name>
+</CustomFieldTranslation>

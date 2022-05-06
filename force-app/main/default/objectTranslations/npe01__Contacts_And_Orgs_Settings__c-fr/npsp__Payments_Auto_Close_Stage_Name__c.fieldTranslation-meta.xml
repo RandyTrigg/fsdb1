@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Choisit l’étape à laquelle une opportunité est transférée automatiquement lorsque le montant du paiement atteint le montant de l’opportunité. Sans étape choisie, les opportunités ne sont pas transférées automatiquement lorsque les paiements sont terminés.</help>
+    <label></label>
+    <name>npsp__Payments_Auto_Close_Stage_Name__c</name>
+</CustomFieldTranslation>

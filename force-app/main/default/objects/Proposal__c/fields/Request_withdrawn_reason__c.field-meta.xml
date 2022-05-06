@@ -25,9 +25,9 @@
                 <label>Our delay</label>
             </value>
             <value>
-                <fullName>No assessment</fullName>
+                <fullName>No endorsement</fullName>
                 <default>false</default>
-                <label>No assessment</label>
+                <label>No endorsement</label>
             </value>
             <value>
                 <fullName>Missed proposal submit deadline</fullName>

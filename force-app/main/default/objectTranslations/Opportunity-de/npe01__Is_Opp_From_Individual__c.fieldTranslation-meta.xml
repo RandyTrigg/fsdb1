@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Formel: Ob der zugehörige Account als Einzelperson definiert ist (SYSTEMIsIndividual__c)</help>
+    <label></label>
+    <name>npe01__Is_Opp_From_Individual__c</name>
+</CustomFieldTranslation>

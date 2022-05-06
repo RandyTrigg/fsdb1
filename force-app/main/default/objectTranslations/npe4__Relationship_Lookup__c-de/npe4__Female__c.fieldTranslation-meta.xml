@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Der verwendete Wert, wenn das Feld mit Angabe des Geschlechts mit den Werten in der benutzerdefinierten weiblichen Bezeichnung übereinstimmt oder in der Anrede des Kontakts das Geschlecht angegeben ist</help>
+    <label></label>
+    <name>npe4__Female__c</name>
+</CustomFieldTranslation>

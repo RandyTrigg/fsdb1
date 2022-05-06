@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>The ID of the Account Record Type to be used for One-to-One Accounts.  If none is selected, the Account will default to the user&apos;s default Account Record Type.</help>
+    <label></label>
+    <name>npe01__One_to_One_RecordTypeID__c</name>
+</CustomFieldTranslation>

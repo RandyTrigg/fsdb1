@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Markeert dubbele adressen als ongeldig, als de API meer dan één adres terugkoppelt. Indien niet geselecteerd, zal salesforce het eerste suggereerde adres als geldig adres te accepteren</help>
+    <label></label>
+    <name>npsp__Reject_Ambiguous_Addresses__c</name>
+</CustomFieldTranslation>

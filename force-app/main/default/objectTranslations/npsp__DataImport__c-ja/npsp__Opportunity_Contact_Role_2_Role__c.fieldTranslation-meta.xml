@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>支援個人の役割を作成するときに使用する必要のある役割。たとえば、「ソフトクレジット」と入力して、ソフトクレジットの支援個人の役割を作成します。</help>
+    <label></label>
+    <name>npsp__Opportunity_Contact_Role_2_Role__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Le champ personnalisé utilisé pour définir le genre d’un contact pour la détermination de relations réciproques</help>
+    <label></label>
+    <name>npe4__Gender_Field__c</name>
+</CustomFieldTranslation>

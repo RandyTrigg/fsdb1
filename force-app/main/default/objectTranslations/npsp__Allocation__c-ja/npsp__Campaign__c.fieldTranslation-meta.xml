@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>必要に応じて、キャンペーンを割り当ての対象とします。主キャンペーンソースとしてこのキャンペーンを使用して作成されたすべての新しい支援は、自動的に同じ方法で割り当てられます。</help>
+    <label></label>
+    <name>npsp__Campaign__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>このレベルが適用されるオブジェクト。</help>
+    <label></label>
+    <name>npsp__Target__c</name>
+    <picklistValues>
+        <masterLabel>Account</masterLabel>
+        <translation>団体</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Contact</masterLabel>
+        <translation>個人</translation>
+    </picklistValues>
+</CustomFieldTranslation>

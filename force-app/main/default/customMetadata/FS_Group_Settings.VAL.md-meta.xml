@@ -14,4 +14,8 @@
         <field>GFW_COA_Name__c</field>
         <value xsi:type="xsd:string">FS-VAL</value>
     </values>
+    <values>
+        <field>Public_Group_Name__c</field>
+        <value xsi:type="xsd:string">FS_VAL</value>
+    </values>
 </CustomMetadata>

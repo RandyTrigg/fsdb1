@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Détermine la valeur du contact ou compte du champ de dernier niveau d’adhésion.</help>
+    <label></label>
+    <name>npe01__Member_Level__c</name>
+    <picklistValues>
+        <masterLabel>Bronze</masterLabel>
+        <translation>Bronze</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gold</masterLabel>
+        <translation>Or</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Silver</masterLabel>
+        <translation>Argent</translation>
+    </picklistValues>
+</CustomFieldTranslation>

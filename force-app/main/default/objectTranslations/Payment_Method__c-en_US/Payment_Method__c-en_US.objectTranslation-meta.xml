@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Payment Method</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Payment Methods</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>FSAccountRecordType</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>NoUniqueIdChangeIfReadyToPay</name>
+    </validationRules>
+    <webLinks>
+        <label></label>
+        <name>New_letter</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>New_letters</name>
+    </webLinks>
+</CustomObjectTranslation>

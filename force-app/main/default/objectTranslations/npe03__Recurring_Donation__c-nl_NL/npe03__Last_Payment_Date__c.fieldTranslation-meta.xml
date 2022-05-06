@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>NPSP berekent deze waarde automatisch op basis van de laatste maal dat een termijn voor een Opportunity is aangeduid als betaald (alleen-lezen).</help>
+    <label>Datum van laatste donatie</label>
+    <name>npe03__Last_Payment_Date__c</name>
+</CustomFieldTranslation>

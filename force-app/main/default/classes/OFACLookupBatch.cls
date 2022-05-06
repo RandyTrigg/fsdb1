@@ -1,5 +1,5 @@
 // This batch class should always use batch size = 1, because there's a callout for each prop id.
-global with sharing class OFACLookupBatch implements Database.Batchable<Id>, Database.AllowsCallouts, Database.Stateful{
+global class OFACLookupBatch implements Database.Batchable<Id>, Database.AllowsCallouts, Database.Stateful{
     global final List<Id> propIds;
     global String resultingHits;
    

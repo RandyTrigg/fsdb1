@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>GAU Allocation</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>GAU Allocations</value>
+    </caseValues>
+    <fieldSets>
+        <label></label>
+        <name>npsp__ManageAllocationsAdditionalFields</name>
+    </fieldSets>
+    <nameFieldLabel>GAU Allocation Name</nameFieldLabel>
+    <startsWith>Vowel</startsWith>
+    <webLinks>
+        <label></label>
+        <name>npsp__Manage_Allocations</name>
+    </webLinks>
+</CustomObjectTranslation>

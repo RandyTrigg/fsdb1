@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Cantidad de donaciones recurrentes que fueron modificadas con éxito en el último lote.</help>
+    <label></label>
+    <name>npe03__Number_of_Successes__c</name>
+</CustomFieldTranslation>

@@ -1,4 +1,4 @@
-public with sharing class ProposalController {
+public class ProposalController {
     /**********************************
      * For use in Lightning components
      *********************************/
@@ -536,7 +536,7 @@ public with sharing class ProposalController {
         );
     }
 
-    public with sharing class buildSubmissionsException extends Exception {
+    public class buildSubmissionsException extends Exception {
     }
 
     // Build the menu of admissible correspondence templates for this object.
@@ -595,7 +595,7 @@ public with sharing class ProposalController {
             if (accId != null)
                 accIds.add(accId);
         }
-        Map<Id, List<String>> emails = Utilities.emailsForAccounts(
+        Map<Id, List<String>> emails = AccountController.emailsForAccounts(
             accIds
         );
         // Build new letters for selected records.

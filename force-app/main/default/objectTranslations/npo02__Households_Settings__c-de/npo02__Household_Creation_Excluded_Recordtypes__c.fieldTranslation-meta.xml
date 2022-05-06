@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Kontaktdatensatztypen, die bei der Erstellung des Haushalts ausgeschlossen werden  Bei Verwendung des Haushalt-Account-Modells wird diese Einstellung ignoriert.</help>
+    <label></label>
+    <name>npo02__Household_Creation_Excluded_Recordtypes__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Geeft aan of er mee dan één geldig adres werd gevonden bij een poging om het te valideren door middel van een externe dienst</help>
+    <label></label>
+    <name>npsp__Ambiguous__c</name>
+</CustomFieldTranslation>

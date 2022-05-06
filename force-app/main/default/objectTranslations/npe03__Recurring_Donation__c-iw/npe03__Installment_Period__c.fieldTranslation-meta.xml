@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>הגדרת תקופת התשלום עבור התרומות החוזרות שלך.  אזהרה: שינוי תקופת התשלום עבור תרומה חוזרת עם סיום פתוח עשוי לגרום למחיקה או יצירה מחדש של הזדמנויות פתוחות. ייתכן שנתונים משויכים לא יישמרו.</help>
+    <label></label>
+    <name>npe03__Installment_Period__c</name>
+    <picklistValues>
+        <masterLabel>1st and 15th</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Monthly</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Weekly</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Yearly</masterLabel>
+        <translation></translation>
+    </picklistValues>
+</CustomFieldTranslation>

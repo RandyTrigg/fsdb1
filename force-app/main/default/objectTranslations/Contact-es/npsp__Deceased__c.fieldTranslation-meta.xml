@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Cuando se encuentra seleccionado, se excluye al contacto de el nombre y saludos de la familia, correos electrónicos y llamados.</help>
+    <label></label>
+    <name>npsp__Deceased__c</name>
+</CustomFieldTranslation>

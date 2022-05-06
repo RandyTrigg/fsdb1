@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si seleccionado, cualquier dirección de US que el servicio señale como imposible de entregar será automáticamente borrado. (Usted podrá revisar la entrada invalida en el registro Direcciones).</help>
+    <label></label>
+    <name>npsp__Clear_Invalid_Addresses__c</name>
+</CustomFieldTranslation>

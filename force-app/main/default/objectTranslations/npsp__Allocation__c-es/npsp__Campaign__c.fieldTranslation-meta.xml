@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Opcionalmente atribuye asignaciones a una campaña. Todas las nuevas oportunidades creadas con esta campaña en el campo Origen de campaña principal serán automáticamente asignadas del mismo modo.</help>
+    <label></label>
+    <name>npsp__Campaign__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

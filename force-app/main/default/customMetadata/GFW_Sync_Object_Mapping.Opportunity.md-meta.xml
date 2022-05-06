@@ -19,11 +19,19 @@
         <value xsi:type="xsd:string">Opportunity</value>
     </values>
     <values>
+        <field>PrefixExternalIds__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Sort_order__c</field>
         <value xsi:type="xsd:double">7.0</value>
     </values>
     <values>
         <field>SyncLogRecordLookupFieldName__c</field>
         <value xsi:type="xsd:string">Opportunity__c</value>
+    </values>
+    <values>
+        <field>UpsertNewOnly__c</field>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
 </CustomMetadata>

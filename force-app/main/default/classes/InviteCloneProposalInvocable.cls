@@ -1,4 +1,4 @@
-public with sharing class InviteCloneProposalInvocable {
+public class InviteCloneProposalInvocable {
     @InvocableMethod(
         label='New proposal by copying an invite\'s prior proposal'
         description='New proposal by copying an invite\'s prior proposal'

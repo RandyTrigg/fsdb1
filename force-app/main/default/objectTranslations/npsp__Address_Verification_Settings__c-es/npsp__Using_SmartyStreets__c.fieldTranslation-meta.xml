@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Especifica si usted esta usando el servicio de verificación de SmartyStreet</help>
+    <label></label>
+    <name>npsp__Using_SmartyStreets__c</name>
+</CustomFieldTranslation>

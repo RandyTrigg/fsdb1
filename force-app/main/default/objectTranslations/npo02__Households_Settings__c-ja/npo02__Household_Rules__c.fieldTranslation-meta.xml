@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>世帯オブジェクトが自動的に作成される個人を指定します。1 対 1 または個人の団体モデルを使用している個人のみに使用できます。世帯団体モデルを使用している個人の場合は無視されます。</help>
+    <label></label>
+    <name>npo02__Household_Rules__c</name>
+</CustomFieldTranslation>

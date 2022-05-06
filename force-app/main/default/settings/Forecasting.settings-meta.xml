@@ -80,19 +80,10 @@
     </forecastingCategoryMappings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -259,6 +250,10 @@
         <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygR</field>
             <label>Amount per year</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
@@ -489,6 +484,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -569,6 +572,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -614,6 +621,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -671,6 +679,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -691,27 +701,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -884,6 +883,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -1112,6 +1115,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -1192,6 +1203,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -1238,6 +1253,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -1295,6 +1311,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -1315,27 +1333,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -1504,6 +1511,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -1732,6 +1743,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -1812,6 +1831,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -1857,6 +1880,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -1914,6 +1938,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -1934,27 +1960,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>true</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -2123,6 +2138,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -2351,6 +2370,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -2431,6 +2458,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -2476,6 +2507,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -2533,6 +2565,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -2553,27 +2587,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -2746,6 +2769,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -2974,6 +3001,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -3054,6 +3089,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -3100,6 +3139,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -3157,6 +3197,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -3177,27 +3219,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -3366,6 +3397,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -3594,6 +3629,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -3674,6 +3717,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -3719,6 +3766,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -3776,6 +3824,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -3796,27 +3846,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -3989,6 +4028,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -4217,6 +4260,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -4297,6 +4348,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -4343,6 +4398,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -4400,6 +4456,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -4420,27 +4478,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -4609,6 +4656,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -4837,6 +4888,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -4917,6 +4976,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -4962,6 +5025,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -5019,6 +5083,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -5039,27 +5105,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -5232,6 +5287,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -5460,6 +5519,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -5540,6 +5607,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -5586,6 +5657,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -5643,6 +5715,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -5663,27 +5737,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -5852,6 +5915,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -6080,6 +6147,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -6160,6 +6235,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -6205,6 +6284,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -6262,6 +6342,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -6282,27 +6364,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -6475,6 +6546,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -6703,6 +6778,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -6783,6 +6866,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -6829,6 +6916,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -6886,6 +6974,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -6906,27 +6996,16 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>false</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -7095,6 +7174,10 @@
             <label>Amount per year</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRd</field>
+            <label>Anonymous</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygS</field>
             <label>Areas Donors Could Fund</label>
         </opportunityListFieldsLabelMappings>
@@ -7323,6 +7406,14 @@
             <label>Number of years</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRe</field>
+            <label>Online gift</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKhqN</field>
+            <label>Opportunity Box Link</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000FAygj</field>
             <label>Owner clash with account</label>
         </opportunityListFieldsLabelMappings>
@@ -7403,6 +7494,10 @@
             <label>Stage: closed won or verbal comm.</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N8c00000aKDRf</field>
+            <label>Sync Log Record</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N8c00000HIXZB</field>
             <label>Tribute Type</label>
         </opportunityListFieldsLabelMappings>
@@ -7448,6 +7543,7 @@
             <field>00N8c00000FAygP</field>
             <field>00N8c00000FAygQ</field>
             <field>00N8c00000FAygR</field>
+            <field>00N8c00000aKDRd</field>
             <field>00N8c00000FAygS</field>
             <field>00N8c00000FAygT</field>
             <field>00N8c00000HIXPQ</field>
@@ -7505,6 +7601,8 @@
             <field>00N8c00000HIXZA</field>
             <field>00N8c00000HIXQU</field>
             <field>00N8c00000FAygi</field>
+            <field>00N8c00000aKDRe</field>
+            <field>00N8c00000aKhqN</field>
             <field>00N8c00000FAygj</field>
             <field>00N8c00000HIXQV</field>
             <field>00N8c00000HIXQT</field>
@@ -7525,10 +7623,20 @@
             <field>00N8c00000FAygn</field>
             <field>00N8c00000FAygo</field>
             <field>00N8c00000FAygp</field>
+            <field>00N8c00000aKDRf</field>
             <field>00N8c00000HIXZB</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
+    <globalAdjustmentsSettings>
+        <enableAdjustments>false</enableAdjustments>
+        <enableOwnerAdjustments>false</enableOwnerAdjustments>
+    </globalAdjustmentsSettings>
+    <globalForecastRangeSettings>
+        <beginning>0</beginning>
+        <displaying>6</displaying>
+        <periodType>Month</periodType>
+    </globalForecastRangeSettings>
+    <globalQuotasSettings>
+        <showQuotas>false</showQuotas>
+    </globalQuotasSettings>
 </ForecastingSettings>

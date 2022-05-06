@@ -1,5 +1,5 @@
 @isTest
-public with sharing class ProposalUpdateTest {
+public class ProposalUpdateTest {
     // Test simple statuses - part 1
     static testMethod void ProposalUpdateTest1a() {
         buildTemplateMacros();

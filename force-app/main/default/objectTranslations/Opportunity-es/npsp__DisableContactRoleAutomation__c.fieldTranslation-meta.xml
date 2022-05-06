@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Cuando se selecciona, deshabilita varios aspectos de la automatización de funciones de contacto de oportunidades de NPSP, dando como resultado datos potencialmente incorrectos o duplicados. Consulte la documentación del producto para obtener más detalles.</help>
+    <label></label>
+    <name>npsp__DisableContactRoleAutomation__c</name>
+</CustomFieldTranslation>

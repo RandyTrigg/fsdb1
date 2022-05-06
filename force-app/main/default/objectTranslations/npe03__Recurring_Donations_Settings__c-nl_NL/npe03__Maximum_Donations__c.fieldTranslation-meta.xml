@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Beperkt het totale aantal donaties gemaakt voor niet doorlopende terugkerende donaties. Standaard is 50. Grotere waarden kunnen resulteren in DML fouten.</help>
+    <label></label>
+    <name>npe03__Maximum_Donations__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Actieve standaard accounting units zijn beschikbaar bij allocaties. Inactieve standaard accounting units kunnen geen nieuwe allocaties hebben.</help>
+    <label></label>
+    <name>npsp__Active__c</name>
+</CustomFieldTranslation>

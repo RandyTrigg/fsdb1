@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>団体支援の積み上げ集計時に統計から除外する支援種別項目の値。</help>
+    <label></label>
+    <name>npo02__Excluded_Account_Opp_Types__c</name>
+</CustomFieldTranslation>

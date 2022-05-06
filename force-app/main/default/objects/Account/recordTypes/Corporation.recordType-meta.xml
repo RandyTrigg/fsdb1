@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Corporation</fullName>
-    <active>false</active>
+    <active>true</active>
     <compactLayoutAssignment>Compact_Account_Dev</compactLayoutAssignment>
     <description>Corporations organized for profit.</description>
     <label>Corporation</label>
@@ -81,6 +81,18 @@
         <picklist>Correspondence_language__c</picklist>
         <values>
             <fullName>English</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>French</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portuguese</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spanish</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -272,6 +284,18 @@
         <picklist>Template_language__c</picklist>
         <values>
             <fullName>English</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>French</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portuguese</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spanish</fullName>
             <default>false</default>
         </values>
     </picklistValues>

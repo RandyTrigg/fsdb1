@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Die alternative E-Mail-Adresse ist eine optionale vierte E-Mail-Adresse: Keine persönliche, bevorzugte oder Büro-E-Mail-Adresse</help>
+    <label></label>
+    <name>npe01__AlternateEmail__c</name>
+</CustomFieldTranslation>

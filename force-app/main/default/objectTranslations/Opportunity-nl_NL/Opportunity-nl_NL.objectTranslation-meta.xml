@@ -42,6 +42,11 @@
         <label>Lidmaatschap</label>
         <name>Membership</name>
     </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Pledge</name>
+    </recordTypes>
     <validationRules>
         <errorMessage></errorMessage>
         <name>Closed_Lost_to_Reasons_picklist</name>

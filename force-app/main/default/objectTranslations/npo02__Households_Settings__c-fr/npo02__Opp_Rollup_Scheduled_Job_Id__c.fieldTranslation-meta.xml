@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>ID pour la tâche de cumul d’opportunités actuellement planifiée</help>
+    <label></label>
+    <name>npo02__Opp_Rollup_Scheduled_Job_Id__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indique pour quels contacts des objets de foyer seront créés automatiquement.  Notez que ceci n’est utilisé que pour les contacts utilisant le modèle de compte autocréé ou d’individus,  et ignoré pour les contacts ayant le modèle de compte de foyer.</help>
+    <label></label>
+    <name>npo02__Household_Rules__c</name>
+</CustomFieldTranslation>

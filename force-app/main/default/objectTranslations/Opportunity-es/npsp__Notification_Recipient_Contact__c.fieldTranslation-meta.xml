@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El contacto existente de la persona que debe ser notificado por la donación.</help>
+    <label></label>
+    <name>npsp__Notification_Recipient_Contact__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

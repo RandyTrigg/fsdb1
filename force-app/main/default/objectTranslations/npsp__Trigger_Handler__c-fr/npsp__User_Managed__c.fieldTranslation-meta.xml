@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Cochez si vous comptez gérer l’enregistrement vous-même. Gardez à l’esprit que les mises à jour du package ne mettront pas à jour l’enregistrement.</help>
+    <label></label>
+    <name>npsp__User_Managed__c</name>
+</CustomFieldTranslation>

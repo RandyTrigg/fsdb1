@@ -1,5 +1,5 @@
 @isTest
-public with sharing class DeleteRecordsSchedulableTest {
+public class DeleteRecordsSchedulableTest {
     // Test the batch apex class.
     static testMethod void DeleteRecordsSchedulableTest1() {
         // Build records to delete.
@@ -47,7 +47,7 @@ public with sharing class DeleteRecordsSchedulableTest {
             Batch_size__c = 3
         ));
         // The schedule time isn't actually used; it just runs after Test.StopTest().
-        String CRON_EXP = '0 0 0 15 3 ?';
+        String CRON_EXP = '0 0 0 15 3 ? 2022';
         Test.StartTest();
         String jobId = System.schedule(
             'Delete records',

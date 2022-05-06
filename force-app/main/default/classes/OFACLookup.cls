@@ -1,6 +1,6 @@
 // Download information from the Treasury Department's OFAC/SDN list.
 // Enable lookups against that data.
-global with sharing class OFACLookup {
+global class OFACLookup {
     
     // Perform a search against the SDN database at OFAC.  Return null if not found, else the JSON of the matched entry.
     public static String searchSDN (String name) {

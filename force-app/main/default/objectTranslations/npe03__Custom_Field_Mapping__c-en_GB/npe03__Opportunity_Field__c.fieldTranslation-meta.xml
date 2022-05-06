@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>The Opportunity field to receive the value from the Recurring Donation field.  Note that these fields must have the same data type.</help>
+    <label></label>
+    <name>npe03__Opportunity_Field__c</name>
+</CustomFieldTranslation>

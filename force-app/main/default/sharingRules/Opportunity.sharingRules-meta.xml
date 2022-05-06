@@ -1,3 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata"/>
-
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>BFF</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>BFF</label>
+        <sharedTo>
+            <group>FS_BFF</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>FS_BFF</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>VAL</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>VAL</label>
+        <sharedTo>
+            <group>FS_VAL</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>FS_VAL</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

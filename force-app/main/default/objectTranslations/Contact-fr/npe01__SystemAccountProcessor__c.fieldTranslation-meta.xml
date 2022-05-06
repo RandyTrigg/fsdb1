@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indique le modèle qui définit la relation du compte : Individus (panier) ou autocréé</help>
+    <label></label>
+    <name>npe01__SystemAccountProcessor__c</name>
+    <picklistValues>
+        <masterLabel>Individual</masterLabel>
+        <translation>Individu</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>One-to-One</masterLabel>
+        <translation>Un-à-un</translation>
+    </picklistValues>
+</CustomFieldTranslation>

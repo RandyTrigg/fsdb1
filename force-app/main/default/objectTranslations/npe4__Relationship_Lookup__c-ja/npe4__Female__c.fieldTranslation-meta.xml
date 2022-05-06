@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>個人の性別項目が女性カスタム表示ラベルと一致する場合、または個人の敬称が性別を示す場合に使用される値。</help>
+    <label></label>
+    <name>npe4__Female__c</name>
+</CustomFieldTranslation>

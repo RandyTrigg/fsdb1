@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El ID del informe de la lista de envío de la familia usado para la campaña lista de envío sin duplicar de la familia. El informe debe ser de Campañas con contactos, donde miembro de campaña no incluye &quot;Duplicado&quot;</help>
+    <label></label>
+    <name>npo02__Household_Mailing_List_ID__c</name>
+</CustomFieldTranslation>

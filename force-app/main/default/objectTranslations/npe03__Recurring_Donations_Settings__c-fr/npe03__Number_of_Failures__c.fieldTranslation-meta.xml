@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Nombre de dons réguliers dont la mise à jour a échoué lors de la dernière opération par lot.</help>
+    <label></label>
+    <name>npe03__Number_of_Failures__c</name>
+</CustomFieldTranslation>

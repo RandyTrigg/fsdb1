@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Generar automáticamente el nombre de las oportunidades creadas en el lote utilizando valores en los campos.</help>
+    <label></label>
+    <name>npsp__Opportunity_Naming__c</name>
+</CustomFieldTranslation>

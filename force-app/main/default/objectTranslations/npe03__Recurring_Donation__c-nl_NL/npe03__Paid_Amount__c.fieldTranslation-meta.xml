@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Het totale betaalde bedrag voor deze terugkerende donatie. Wordt automatisch berekend als het totale bedrag aan termijnen van alle gesloten/gewonnen Opportunities (alleen-lezen).</help>
+    <label>Totaal betaald bedrag</label>
+    <name>npe03__Paid_Amount__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Contiene el ID de la cuenta contable general por defecto para la creación por defecto de asignaciones o para la asignación de montos no asignados.</help>
+    <label></label>
+    <name>npsp__Default__c</name>
+</CustomFieldTranslation>

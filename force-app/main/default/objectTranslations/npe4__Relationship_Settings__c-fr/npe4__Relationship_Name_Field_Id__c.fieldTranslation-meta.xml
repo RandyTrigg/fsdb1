@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Renseigner cette valeur permet de préremplir le champ lors de la création de nouvelles relations depuis le visualiseur de relations (voir la description pour plus d’informations)</help>
+    <label></label>
+    <name>npe4__Relationship_Name_Field_Id__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>「N 日間」の積み上げ集計の値を指定します。「N」は現在の日付から過去の日付までの日数です。この値のデフォルトは、過去 365 日間の積み上げ集計です。</help>
+    <label></label>
+    <name>npo02__Rollup_N_Day_Value__c</name>
+</CustomFieldTranslation>

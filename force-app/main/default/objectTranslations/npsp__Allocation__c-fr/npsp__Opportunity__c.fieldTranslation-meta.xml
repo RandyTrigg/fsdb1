@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Attribue les allocations à une opportunité. Toutes les opportunités à une étape fermée et gagnée seront cumulées à l’unité comptable générale de cette allocation.</help>
+    <label></label>
+    <name>npsp__Opportunity__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

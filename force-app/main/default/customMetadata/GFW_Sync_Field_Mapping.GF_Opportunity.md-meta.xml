@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>LookupRelTo_SyncObjectMapping__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Opportunity</value>
     </values>
     <values>
         <field>Notes__c</field>

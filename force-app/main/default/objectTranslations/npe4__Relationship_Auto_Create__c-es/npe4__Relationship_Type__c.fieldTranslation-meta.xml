@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El tipo de relación ha crearse entre el objeto base y el objeto de búsqueda. El objeto de búsqueda recibirá la relación reciproca, si hay una disponible.</help>
+    <label></label>
+    <name>npe4__Relationship_Type__c</name>
+</CustomFieldTranslation>

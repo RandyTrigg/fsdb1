@@ -1,5 +1,5 @@
 @isTest
-public with sharing class GenericUpdateRecordsBatchTest {
+public class GenericUpdateRecordsBatchTest {
     static testMethod void GenericUpdateRecordsBatchTest() {
         // Build new records
         insert new Account(Name = 'Test 1');

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Attributzuordnungen zu einer Opportunity Für alle Opportunities in einer geschlossenen oder gewonnenen Phase wird ein Rollup zu dieser allgemeinen Verrechnungseinheit der Zuordnung durchgeführt.</help>
+    <label></label>
+    <name>npsp__Opportunity__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

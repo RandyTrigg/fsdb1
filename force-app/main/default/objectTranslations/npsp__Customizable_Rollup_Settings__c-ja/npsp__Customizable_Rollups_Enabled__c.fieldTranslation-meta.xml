@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>このボックスをオンにすると、新しい NPSP のカスタマイズ可能な積み上げ集計エンジンが有効になります。</help>
+    <label></label>
+    <name>npsp__Customizable_Rollups_Enabled__c</name>
+</CustomFieldTranslation>

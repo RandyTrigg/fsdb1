@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>De string die paren verbindt in een naam. Bijvoorbeeld, John &amp; Jane, of John en Jane.</help>
+    <label></label>
+    <name>npsp__Name_Connector__c</name>
+</CustomFieldTranslation>

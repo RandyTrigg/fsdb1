@@ -15,5 +15,6 @@
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>Sync_Log__c</tabs>
-    <tabs>Sync_Log_Action__c</tabs>
+    <tabs>Sync_Log_Record__c</tabs>
+    <tabs>Commitment__c</tabs>
 </CustomApplication>

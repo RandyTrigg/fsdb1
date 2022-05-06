@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>個人支援の積み上げ集計時に統計から除外する支援レコードタイプの名前。</help>
+    <label></label>
+    <name>npo02__Excluded_Contact_Opp_Rectypes__c</name>
+</CustomFieldTranslation>

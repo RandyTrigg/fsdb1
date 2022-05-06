@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si coché et si les paiements sont actifs, un nouveau paiement ne sera pas créé automatiquement pour cette opportunité.</help>
+    <label></label>
+    <name>npe01__Do_Not_Automatically_Create_Payment__c</name>
+</CustomFieldTranslation>

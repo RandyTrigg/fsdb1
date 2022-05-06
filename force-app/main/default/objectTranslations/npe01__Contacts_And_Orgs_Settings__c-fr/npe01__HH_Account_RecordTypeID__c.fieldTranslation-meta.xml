@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>L’ID du type d’enregistrement de compte à utiliser pour les comptes de foyers. Si aucun n’est sélectionné, le compte utilisera le type d’enregistrement de compte par défaut de l’utilisateur.</help>
+    <label></label>
+    <name>npe01__HH_Account_RecordTypeID__c</name>
+</CustomFieldTranslation>

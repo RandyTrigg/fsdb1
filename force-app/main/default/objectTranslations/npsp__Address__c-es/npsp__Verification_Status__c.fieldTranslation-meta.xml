@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si la dirección requiere verificación, hacer click en el botón de Verificar Dirección. Consultar los documentos de ayuda en el Power of Us Hub para más información.</help>
+    <label></label>
+    <name>npsp__Verification_Status__c</name>
+</CustomFieldTranslation>

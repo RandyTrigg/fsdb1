@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>過去 N 日間の成立フェーズにある支援のすべての割り当て数の合計。N の値は設定で変更できます。</help>
+    <label></label>
+    <name>npsp__Total_Allocations_Last_N_Days__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Le nombre d’enregistrements traités en une fois lors du calcul des statistiques de donateurs.  La taille par défaut est 200.  Si les cumuls d’opportunités échouent à cause des limites du système, réduisez pour un nombre moins élevé.</help>
+    <label></label>
+    <name>npo02__Batch_Size__c</name>
+</CustomFieldTranslation>

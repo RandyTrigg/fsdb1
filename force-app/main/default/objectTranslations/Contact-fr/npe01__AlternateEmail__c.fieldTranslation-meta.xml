@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>L’e-mail secondaire est un quatrième e-mail optionnel : en plus du personnel, préféré ou professionnel.</help>
+    <label></label>
+    <name>npe01__AlternateEmail__c</name>
+</CustomFieldTranslation>

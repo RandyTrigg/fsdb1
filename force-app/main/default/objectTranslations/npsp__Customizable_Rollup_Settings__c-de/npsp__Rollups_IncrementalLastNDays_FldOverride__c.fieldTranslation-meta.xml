@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Nur zur Verw. beim Überschr. inkrem. Rollups. Überschr. d. Feld z. Filtern verbund. Opp., um festzul., welche Acc., Kontakte, allg. Verrechnungseinh. o. RDs während eines nächtl. gepl. Auftrags neu berechn. werden. Stand.-Einst.: SystemModStamp.</help>
+    <label></label>
+    <name>npsp__Rollups_IncrementalLastNDays_FldOverride__c</name>
+</CustomFieldTranslation>

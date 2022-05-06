@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>有効にすると、継続支援の金額、スケジュール、またはキャンペーン項目が更新されるたびに NPSP によって継続支援の変更ログレコードが作成されます。</help>
+    <label></label>
+    <name>npsp__EnableChangeLog__c</name>
+</CustomFieldTranslation>

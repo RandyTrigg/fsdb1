@@ -1,4 +1,4 @@
-public with sharing class PaymentMethodController {
+public class PaymentMethodController {
     private ApexPages.StandardController standardController;
     private ApexPages.StandardSetController standardSetController;
 
@@ -64,7 +64,7 @@ public with sharing class PaymentMethodController {
             if (pm.Proposal__c != null)
                 accIds.add(pm.Proposal__r.Account__c);
         }
-        Map<Id, List<String>> accEmails = Utilities.emailsForAccounts(
+        Map<Id, List<String>> accEmails = AccountController.emailsForAccounts(
             accIds
         );
         // Build new letters for selected records.

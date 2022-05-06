@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>La durée (en jours) de la période de grâce après l’expiration d’une adhésion (dernière date de fin) avant que le statut passe de « Période de grâce » à « Expiré ».  La valeur par défaut est 30 jours.</help>
+    <label></label>
+    <name>npo02__Membership_Grace_Period__c</name>
+</CustomFieldTranslation>

@@ -1,4 +1,4 @@
-public with sharing class PortfolioController {
+public class PortfolioController {
     /**********************************
      * For use in Lightning components
      *********************************/

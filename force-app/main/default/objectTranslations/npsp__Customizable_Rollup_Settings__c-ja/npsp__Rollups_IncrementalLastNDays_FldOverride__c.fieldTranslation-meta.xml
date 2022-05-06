@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>増分積み上げ集計上書きにしか使用しません。この値は関連支援を絞り込むために使用される項目を上書きし、どの団体、個人、GAU または RD が夜間のスケジュール済みジョブ時に再計算されるかを決定します。デフォルトは SystemModStamp です。</help>
+    <label></label>
+    <name>npsp__Rollups_IncrementalLastNDays_FldOverride__c</name>
+</CustomFieldTranslation>

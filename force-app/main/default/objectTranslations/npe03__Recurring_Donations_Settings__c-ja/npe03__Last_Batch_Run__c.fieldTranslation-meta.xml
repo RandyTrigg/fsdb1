@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>継続支援の前回の一括更新の日時。</help>
+    <label></label>
+    <name>npe03__Last_Batch_Run__c</name>
+</CustomFieldTranslation>

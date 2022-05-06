@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Ese es una configuración no expuesta para desactivar el código de nombramiento de familias y usar una versión asincrónica</help>
+    <label></label>
+    <name>npo02__Async_Household_Naming__c</name>
+</CustomFieldTranslation>

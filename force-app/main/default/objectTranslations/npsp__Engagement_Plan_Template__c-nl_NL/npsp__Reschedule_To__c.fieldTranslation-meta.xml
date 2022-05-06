@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Als taken met een Verloopdatum in het weekend staan gepland moeten ze dan gepland worden vrijdag voor of maandag na het weekend? Dit geld alleen als overslaan weekend staat geselecteerd.</help>
+    <label></label>
+    <name>npsp__Reschedule_To__c</name>
+    <picklistValues>
+        <masterLabel>Friday</masterLabel>
+        <translation>Vrijdag</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Monday</masterLabel>
+        <translation>Maandag</translation>
+    </picklistValues>
+</CustomFieldTranslation>

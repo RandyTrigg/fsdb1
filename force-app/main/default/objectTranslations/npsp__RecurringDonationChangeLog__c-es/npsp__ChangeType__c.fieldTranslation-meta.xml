@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El tipo de cambio (Actualización, Rebaja de categoría, etc.) que representa este registro de Registro de cambios.</help>
+    <label></label>
+    <name>npsp__ChangeType__c</name>
+    <picklistValues>
+        <masterLabel>Downgrade</masterLabel>
+        <translation>Rebaja de categoría</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Upgrade</masterLabel>
+        <translation>Actualización</translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>この値は、割賦商談が前回支払い済みとマークされた日に基づいて、NPSP により自動的に計算されます (参照のみ)。</help>
+    <label>前回の支援日</label>
+    <name>npe03__Last_Payment_Date__c</name>
+</CustomFieldTranslation>

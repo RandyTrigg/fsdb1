@@ -1,4 +1,4 @@
-public with sharing class PaymentMethodUniqueIdInvocable {
+public class PaymentMethodUniqueIdInvocable {
     @InvocableMethod(
         label='Update Unique id in payment method'
         description='Update Unique id in payment method'

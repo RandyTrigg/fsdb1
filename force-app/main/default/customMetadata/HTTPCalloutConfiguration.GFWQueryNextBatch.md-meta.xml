@@ -19,6 +19,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>HeaderParameters__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>IsCompressed__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -36,6 +40,10 @@
     </values>
     <values>
         <field>URLParametersLong__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>URLParameters__c</field>
         <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

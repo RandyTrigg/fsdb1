@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Elegir la etapa al cual debe pasar automáticamente la oportunidad cuando el monto total pagado es igual al importe de la oportunidad. Si no se selección una etapa, la oportunidad no se actualizará cuando se realicen todos los pagos.</help>
+    <label></label>
+    <name>npsp__Payments_Auto_Close_Stage_Name__c</name>
+</CustomFieldTranslation>

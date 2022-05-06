@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>NPSP checkt automatisch of aangepast fiscaal jaar aan staat, en schakelt Fiscaal Jaar instellingen uit als daar fouten inzitten. Deze instelling overschrijft de veiligheids-check voor gebruikers die per ongeluk aangepast fiscaal jaar hebben ingeschakeld</help>
+    <label></label>
+    <name>npo02__Force_Fiscal_Year__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Wenn dieser Wert eingetragen ist, kann das Feld vorab ausgefüllt werden, wenn neue Beziehungen über die Beziehungsanzeige erstellt werden (weitere Informationen in der Beschreibung)</help>
+    <label></label>
+    <name>npe4__Relationship_Name_Id_Field_Id__c</name>
+</CustomFieldTranslation>

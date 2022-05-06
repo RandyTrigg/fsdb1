@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Bepaalt welke Regel gevolgd moet worden bij het matchen van Contactpersonen met Data Import Records.</help>
+    <label></label>
+    <name>npsp__Contact_Matching_Rule__c</name>
+</CustomFieldTranslation>

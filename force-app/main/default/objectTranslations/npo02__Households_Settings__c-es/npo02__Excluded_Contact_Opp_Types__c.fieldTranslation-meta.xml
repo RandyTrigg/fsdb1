@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Valores de el campo Tipo en oportunidad que se excluyen de las estadísticas cuando se calculan los totales de oportunidades en contactos.</help>
+    <label></label>
+    <name>npo02__Excluded_Contact_Opp_Types__c</name>
+</CustomFieldTranslation>

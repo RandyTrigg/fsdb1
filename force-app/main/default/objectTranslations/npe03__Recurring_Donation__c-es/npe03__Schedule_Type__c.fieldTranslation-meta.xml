@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Especifica como se debe calcular el importe de las oportunidades recurrentes, basado en el campo Importe. Solo para donaciones recurrentes con duración fija.</help>
+    <label>Desusado:Tipo de programación</label>
+    <name>npe03__Schedule_Type__c</name>
+    <picklistValues>
+        <masterLabel>Divide By</masterLabel>
+        <translation>Dividir por</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multiply By</masterLabel>
+        <translation>Multiplicar por</translation>
+    </picklistValues>
+</CustomFieldTranslation>

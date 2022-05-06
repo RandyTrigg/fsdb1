@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>DESUSADO. Sustituido por los parámetros de notificación en el panel de configuración de Errores del sistema.</help>
+    <label></label>
+    <name>npe03__Error_Email_Notifications__c</name>
+</CustomFieldTranslation>

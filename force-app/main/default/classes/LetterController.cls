@@ -1,4 +1,4 @@
-public with sharing class LetterController {
+public class LetterController {
     public static Integer updateBatchSize = 5;
     public static Integer emailBatchSize = 5;
     public static Integer resetBatchSize = 5;
@@ -43,6 +43,7 @@ public with sharing class LetterController {
     public static Boolean resetLetters0(Set<Id> letIds, Boolean emailFlg) {
         if (letIds.size() == 0)
             return false;
+        // Special handling for endorsement letters, assumed to be in a batch with single template and belonging to a single endorse request.
         String templateName = [
             SELECT Template__r.Name
             FROM Letter__c
@@ -54,7 +55,7 @@ public with sharing class LetterController {
 
     // Recompute the text of the selected letters either sync or batch async depending on size of set.
     // If emailFlg is true, then go async regardless of size of set.
-    // However, if these are assessment letters, then always go sync to avoid race condition with updateassessments.
+    // However, if these are endorse request letters, then always go sync to avoid race condition with updateEndorsements.
     public static Boolean resetLetters1(Set<Id> letIds, Boolean emailFlg) {
         Boolean result = true;
         if (letIds.size() == 0)

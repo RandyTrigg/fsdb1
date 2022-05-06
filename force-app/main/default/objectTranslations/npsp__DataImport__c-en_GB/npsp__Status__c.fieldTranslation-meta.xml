@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>The status of the import for this record, for example, Imported or Failed.</help>
+    <label></label>
+    <name>npsp__Status__c</name>
+    <picklistValues>
+        <masterLabel>Failed</masterLabel>
+        <translation>Failed</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Imported</masterLabel>
+        <translation>Imported</translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Montant total payé pour ce don récurrent. Calculé automatiquement en tant que montant total de toutes les opportunités de versement fermées/gagnées (lecture seule).</help>
+    <label>Montant total payé</label>
+    <name>npe03__Paid_Amount__c</name>
+</CustomFieldTranslation>

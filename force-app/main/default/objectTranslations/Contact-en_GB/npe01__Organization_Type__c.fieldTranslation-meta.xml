@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Formula: In order of preference, the SYSTEM_AccountType field, the Account Type field, and &quot;Organisation&quot;.</help>
+    <label></label>
+    <name>npe01__Organization_Type__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Optionnel, affecte les allocations à une campagne. Toutes les nouvelles opportunités créées avec cette campagne comme source de campagne principale seront automatiquement allouées de la même manière.</help>
+    <label></label>
+    <name>npsp__Campaign__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

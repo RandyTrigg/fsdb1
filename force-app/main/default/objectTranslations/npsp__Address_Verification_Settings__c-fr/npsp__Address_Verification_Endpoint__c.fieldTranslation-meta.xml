@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>URL utilisée pour vérification d’adresse.</help>
+    <label></label>
+    <name>npsp__Address_Verification_Endpoint__c</name>
+</CustomFieldTranslation>

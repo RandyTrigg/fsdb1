@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si se selecciona, la cuenta en la afiliación se guardará en el contacto.</help>
+    <label></label>
+    <name>npe5__Primary__c</name>
+</CustomFieldTranslation>

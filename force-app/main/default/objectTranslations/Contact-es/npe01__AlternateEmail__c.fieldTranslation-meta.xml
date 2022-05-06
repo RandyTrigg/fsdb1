@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Correo electrónico alternativo es un correo opcional: No es el correo personal, elegido o laboral.</help>
+    <label></label>
+    <name>npe01__AlternateEmail__c</name>
+</CustomFieldTranslation>

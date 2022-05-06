@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Door dit te vakje te selecteren wordt het boekhoudjaar toegewezen in plaats van het kalander jaar. Om fiscale jaar in te stellen, ga naar setup &gt; bedrijfsprofiel &gt; fiscale jaar. OPMERKING: aangepast fiscale jaar instellingen worden niet ondersteund .</help>
+    <label></label>
+    <name>npsp__Use_Fiscal_Year_for_Rollups__c</name>
+</CustomFieldTranslation>
