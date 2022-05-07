@@ -114,6 +114,36 @@ export default class BffGrantsSiteHome extends LightningElement {
         });
     }
 
+    navigateToForm() {
+        // Navigate to form instance detail page
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: this.prFormInstanceId,
+                actionName: 'edit',
+                objectApiName: 'Form_Instance__c'
+            },
+            state: {
+                language: this.language
+            }
+        });
+    }
+
+    navigateToNewPage() {
+        // Navigate to form instance detail page
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'TestFormInstance__c'
+            },
+            state: {
+                recordId: this.prFormInstanceId,
+                language: this.language
+            }
+        });
+    }
+
+
     handleLogout(){
         this[NavigationMixin.Navigate]({
             type: 'comm__loginPage',

@@ -80,14 +80,28 @@
 
         <div>About grants blurb</div>
         <div>Language: {language}</div>
+        <div>Form instance Id: {prFormInstanceId}</div>
         
         <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
             <div class="slds-col">   
                 <lightning-button
                     variant="brand"
-                    label="New application"
+                    label="New form instance application"
                     title="New application"
-                    onclick={handleNewSolApp}
+                    onclick={navigateToForm}
+                    class="slds-m-left_small"
+                    disabled={disableButton}>
+                </lightning-button>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+            <div class="slds-col">   
+                <lightning-button
+                    variant="brand"
+                    label="New form instance new page application"
+                    title="New application"
+                    onclick={navigateToNewPage}
                     class="slds-m-left_small"
                     disabled={disableButton}>
                 </lightning-button>
