@@ -4,8 +4,8 @@ import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 import { NavigationMixin } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
-// import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
-// import { buildTransByName } from 'c/formsUtilities';
+import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
+import { buildTransByName } from 'c/formsUtilities';
 
 export default class BffGrantsSiteHome extends LightningElement {
     userId = Id;
@@ -27,10 +27,10 @@ export default class BffGrantsSiteHome extends LightningElement {
     langMap;
     langTag;
     language;
+    transByName;
     dataLoaded = false;
     message = "Please create a Profile";
     hoverMessage;
-    // options = ['English', 'Español', 'Français'];
     
     connectedCallback() {
         if (this.userId) {
@@ -40,28 +40,25 @@ export default class BffGrantsSiteHome extends LightningElement {
 
     async loadData() {
         try {
-            this.profileSummary = JSON.parse(await getProfileSummary());
-            // Create Form Instance after creating Profile. Linked to Profile and bffProfile form.
-            // Otherwise, look for FormInstance related to this Profile and bffProfile Form.
-            // In either case, return with getProfileSummary.
+            console.log('loadData');
+            // Retrieve/create Profile and Form Instance, along with translations
+            /* let [data, translations ] = await Promise.all ([
+                getProfileSummary(),
+                getTranslations()
+            ]);*/
 
-            this.pageHeader = 'bff_GrantsSiteLandingWelcome';
+            this.profileSummary = JSON.parse(await getProfileSummary());
+            this.language = this.profileSummary.language;
+            this.hasSubmittedPrf = this.profileSummary.hasSubmittedPrf;
+            this.prFormInstanceId = this.profileSummary.prFormInstanceId;
+            // this.transByName = buildTransByName(this.translations, this.language);
+            this.setLangPickerDefault();
+            // this.pageHeader = this.transByName['bff_GrantsSiteLandingWelcome'];
             this.pageSubheader = 'Page subheader';
             this.prfButtonLabel = 'bff_GrantsSiteLandingProfileButton';
             this.grantHeading = 'bff_GrantsSiteLandingTitle';
             this.grantSubHeading = 'bff_GrantsSiteLandingSubtitle';
             this.grantDescription = 'bff_GrantsSiteLandingSustainFund'; // Bundle this into one phrase w/ formatting?
-            this.language = this.profileSummary.language;
-            this.hasSubmittedPrf = this.profileSummary.hasSubmittedPrf;
-            this.prFormInstanceId = this.profileSummary.prFormInstanceId;
-            
-            /* This seems problematic - dataloaded is false.
-            this.langMap.set('English', 'en');
-            this.langMap.set('Español', 'sp');
-            this.langMap.set('Français', 'fr');
-            this.langTag = this.langMap.get(this.language);*/
-            this.setLangPickerDefault();
-
             this.dataLoaded = true;
         } catch (error) {
             handleError(error);
@@ -76,11 +73,17 @@ export default class BffGrantsSiteHome extends LightningElement {
     setLangPickerDefault(){
         const langPicker = this.template.querySelector('[name="langPicker"]');
         langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
+        /* const lMap = new Map();
+        lMap.put('English', 'en');
+        lMap.put('Spanish', 'sp');
+        lMap.put('French', 'fr');
+        this.langMap = lMap;
+        this.langTag = this.langMap.get(this.language); */
     }
 
     handleLanguagePicker(event){
         this.language = event.target.value;
-        // this.langTag = this.langMap.get(this.language);
+        // this.transByName = buildTransByName(this.translations, this.language);
     }
 
     get options() {
