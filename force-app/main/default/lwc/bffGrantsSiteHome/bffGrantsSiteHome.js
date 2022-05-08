@@ -1,29 +1,38 @@
 import { LightningElement } from 'lwc';
 import getProfileSummary from '@salesforce/apex/ProfileController.getProfileSummary';
 import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
+import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
 
-export default class BffGrantsSiteHome extends LightningElement {
+export default class BffGrantsSiteHome extends NavigationMixin(LightningElement) {
     userId = Id;
     pageHeader;
     pageSubheader;
+    logout;
+    support;
     prfButtonLabel;
     grantHeading;
     grantSubHeading;
     grantDescription;
+    sustainFundHeading;
+    sustainFundDetails;
+    solidarityFundHeading;
+    solidarityFundDetails;
     bffLogo = logoResource;
+    bffLogoWhiteText = logoResourceWhiteText;
     showMenu = false;
-    hasSubmittedPrf;
+    hasSubmittedPrf = true;
     prFormInstanceId;
 
     propTitle;
     formsTitle;
 
     profileSummary;
+    transInfo;
     langMap;
     langTag;
     language;
@@ -42,23 +51,18 @@ export default class BffGrantsSiteHome extends LightningElement {
         try {
             console.log('loadData');
             // Retrieve/create Profile and Form Instance, along with translations
-            /* let [data, translations ] = await Promise.all ([
+            let [data, translations ] = await Promise.all ([
                 getProfileSummary(),
                 getTranslations()
-            ]);*/
-
-            this.profileSummary = JSON.parse(await getProfileSummary());
+            ]);
+            this.profileSummary = JSON.parse(data);
             this.language = this.profileSummary.language;
             this.hasSubmittedPrf = this.profileSummary.hasSubmittedPrf;
             this.prFormInstanceId = this.profileSummary.prFormInstanceId;
-            // this.transByName = buildTransByName(this.translations, this.language);
+            this.transInfo = JSON.parse(translations);
+            this.transByName = buildTransByName(this.transInfo, this.language);
             this.setLangPickerDefault();
-            // this.pageHeader = this.transByName['bff_GrantsSiteLandingWelcome'];
-            this.pageSubheader = 'Page subheader';
-            this.prfButtonLabel = 'bff_GrantsSiteLandingProfileButton';
-            this.grantHeading = 'bff_GrantsSiteLandingTitle';
-            this.grantSubHeading = 'bff_GrantsSiteLandingSubtitle';
-            this.grantDescription = 'bff_GrantsSiteLandingSustainFund'; // Bundle this into one phrase w/ formatting?
+            this.translatePage();
             this.dataLoaded = true;
         } catch (error) {
             handleError(error);
@@ -73,17 +77,18 @@ export default class BffGrantsSiteHome extends LightningElement {
     setLangPickerDefault(){
         const langPicker = this.template.querySelector('[name="langPicker"]');
         langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
-        /* const lMap = new Map();
-        lMap.put('English', 'en');
-        lMap.put('Spanish', 'sp');
-        lMap.put('French', 'fr');
+        const lMap = new Map();
+        lMap.set('English', 'en');
+        lMap.set('Spanish', 'sp');
+        lMap.set('French', 'fr');
         this.langMap = lMap;
-        this.langTag = this.langMap.get(this.language); */
+        this.langTag = this.langMap.get(this.language);
     }
 
     handleLanguagePicker(event){
         this.language = event.target.value;
-        // this.transByName = buildTransByName(this.translations, this.language);
+        this.transByName = buildTransByName(this.transInfo, this.language);
+        this.translatePage();
     }
 
     get options() {
@@ -94,9 +99,21 @@ export default class BffGrantsSiteHome extends LightningElement {
                  { label: 'Português', value: 'Portuguese' }
                ];
     }
-     
-    editProfile() {
-        // Navigate to page with FormInstanceId for Profile
+
+    translatePage(){
+        this.pageHeader = this.transByName.get('bff_GrantsSiteLandingWelcome');
+        this.pageSubheader = this.transByName.get('bff_GrantsSiteLandingWelcomeSubheading');
+        this.prfButtonLabel = this.transByName.get('bff_GrantsSiteLandingProfileButton');
+        this.grantHeading = this.transByName.get('bff_GrantsSiteLandingTitle');
+        this.grantSubHeading = this.transByName.get('bff_GrantsSiteLandingSubtitle');
+        this.grantDescription = this.transByName.get('bff_GrantsSiteLandingFundDetails');
+        this.sustainFundHeading = this.transByName.get('bff_GrantsSiteLandingSustainFund');
+        this.sustainFundDetails = this.transByName.get('bff_GrantsSiteLandingSustainFundDetails');
+        this.solidarityFundHeading = this.transByName.get('bff_GrantsSiteLandingSolidarityFund');
+        this.solidarityFundDetails = this.transByName.get('bff_GrantsSiteLandingSolidarityFundDetails');
+        this.logout = this.transByName.get('Logout');
+        this.support = this.transByName.get('Support');
+        
     }
     
     handleNewSolApp(event) {
@@ -137,7 +154,7 @@ export default class BffGrantsSiteHome extends LightningElement {
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
-                name: 'TestFormInstance__c'
+                name: 'FormInstance__c'
             },
             state: {
                 recordId: this.prFormInstanceId,

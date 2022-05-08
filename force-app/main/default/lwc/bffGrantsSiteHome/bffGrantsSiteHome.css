@@ -23,7 +23,7 @@
     --sds-c-button-color-background: #ffffff;
 }
 
-.logo-header {
+.logo-home-page {
     height: 200px;
     width: 400px;
 }
@@ -49,6 +49,13 @@
 	position: absolute;
 	white-space: nowrap;
 	width: 1px;
+}
+
+.bff-button-brand {
+	--slds-c-button-brand-color-background: rgb(46, 17, 54);
+    --slds-c-button-brand-color-background-hover: rgb(46, 17, 54);
+    --slds-c-button-brand-color-border: rgb(46, 17, 54);
+    --slds-c-button-brand-color-border-hover: rgb(46, 17, 54);
 }
 
 .app-button {
