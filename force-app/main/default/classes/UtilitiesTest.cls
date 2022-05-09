@@ -138,6 +138,7 @@ public class UtilitiesTest {
         dec = Utilities.maxDecimal(3.1, null);
         ls = Utilities.currentUserPermissionSetNames();
         s = Utilities.currentUserProfileName();
+        s = Utilities.FSGroupOfUser(UserInfo.getUserId());
         Utilities.ExceptionAlertEmailToIM(null, 'test error');
         Utilities.pageReferenceForRecord(acct);
         Utilities.defaultLanguage();

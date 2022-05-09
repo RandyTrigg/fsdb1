@@ -1182,7 +1182,7 @@ global class Utilities {
         }
         Set<ID> roleIds;
         Id roleId;
-        String grpName;
+        String grpName = '';
         for (String fsGroup : groupRole.keySet()) {
             roleIds = new Set<Id>();
             roleId = [SELECT Id, DeveloperName FROM UserRole WHERE DeveloperName=:groupRole.get(fsGroup)][0].Id;
@@ -1197,6 +1197,7 @@ global class Utilities {
         return grpName;
     }
 
+    // Retrieve all roleids under hierarchy of passed in roleId
     private static Set<ID> getAllSubRoleIds(Set<ID> roleIds) {
         // Source: https://blog.jeffdouglas.com/2011/02/15/find-my-salesforce-users-by-role-hierarchy/
         Set<ID> currentRoleIds = new Set<ID>();

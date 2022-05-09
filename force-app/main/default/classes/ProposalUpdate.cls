@@ -316,7 +316,7 @@ public with sharing class ProposalUpdate {
         // Vars for other fields
         Id countryId, regionId, regionOverrideId, firstGrantId, latestGrantId;
         // Build interpreter for status calculations.
-        String FSGroup = Utilities.FSGroupNameFromUserId(a.OwnerId);
+        String FSGroup = Utilities.FSGroupOfUser(a.OwnerId);
         Template__c t = [
             SELECT Id
             FROM Template__c

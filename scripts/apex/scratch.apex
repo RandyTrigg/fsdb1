@@ -12,7 +12,26 @@ Is thisUserId contained in that list? Then belongs in that group.
     FROM FS_Group_Settings__mdt 
     WHERE Active__c = true]); */
 
-Id usrId = '0058c000008TAQPAA4';
+// Look up record.
+// See if OwnerId field is a valid field on this object. If so, we're good - pass that in as usrId.
+// Otherwise, figure out master/detail relationship: https://salesforce.stackexchange.com/questions/73405/how-to-identify-relationship-type-lookup-master-detail-from-the-field-api-na
+// Get that relationship name and OwnerId. Deal with that recursively since master may be more than one level up.
+
+
+// Decimal status = (Decimal) getValue(rec, statusFieldName);
+
+system.debug('this userid: ' + userInfo.getUserId());
+String FSGroup = FSGroupOfUser(userInfo.getUserId());
+system.debug('fsgroup: ' + FSGroup);
+Template__c t = [SELECT Id
+            FROM Template__c
+            WHERE Name = 'Proposal status' AND FS_Group__c =:FSGroup
+        ];
+system.debug('template: ' + t);
+
+
+private static string FSGroupOfUser(Id usrId) {
+    // usrId = '0058c000008TAQPAA4';
 Id usrRoleId = [SELECT Id, UserRoleId FROM User WHERE Id=:usrId][0].UserRoleId;
 
 // Check that usrRoleId isn't null
@@ -27,7 +46,7 @@ for (FS_Group_Settings__mdt fsGrp : fsGroups) {
 // Retrieve all related roleIds for FS Group
 Set<ID> roleIds;
 Id roleId;
-String grpName;
+String grpName = '';
 for (String fsGroup : groupRole.keySet()) {
     roleIds = new Set<Id>();
     roleId = [SELECT Id, DeveloperName FROM UserRole WHERE DeveloperName=:groupRole.get(fsGroup)][0].Id;
@@ -37,9 +56,12 @@ for (String fsGroup : groupRole.keySet()) {
     if (allSubRoleIds.size()>0) {
         roleIds.addAll(allSubRoleIds);
     }
-    if ( roleIds.contains(usrRoleId) ) System.debug('fsGroup: ' + fsGroup); // grpName = fsGroup;
+    if ( roleIds.contains(usrRoleId) ) grpName = fsGroup;
 }
-// return grpName;
+    return grpName;
+
+}
+
 
 
 private static Set<ID> getAllSubRoleIds(Set<ID> roleIds) {
