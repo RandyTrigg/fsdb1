@@ -8,6 +8,10 @@
         <label><!-- Proposal Review --></label>
         <name>Proposal_Review</name>
     </customTabs>
+    <customTabs>
+        <label><!-- formInstanceTEST --></label>
+        <name>formInstanceTEST</name>
+    </customTabs>
     <flowDefinitions>
         <flows/>
         <fullName>Form_Phrase_Translation_updated_after_save</fullName>

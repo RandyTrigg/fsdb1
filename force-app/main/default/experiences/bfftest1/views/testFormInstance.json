@@ -1,0 +1,59 @@
+{
+  "appPageId" : "096001b9-ecfe-4dac-ac87-54995fac471f",
+  "componentName" : "community_layout:sldsFlexibleLayout",
+  "id" : "12121cf8-958f-432d-b3ae-4d97d035b515",
+  "label" : "TestFormInstance",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "backgroundImageConfig" : "",
+        "backgroundImageOverlay" : "rgba(0,0,0,0)",
+        "sectionConfig" : "{\"UUID\":\"ab12a7e6-b66b-4884-aa58-579bdb20ce19\",\"columns\":[{\"UUID\":\"693048cc-4c8a-4ac3-b473-9cc01c88c9a9\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}"
+      },
+      "componentName" : "community_layout:section",
+      "id" : "ab12a7e6-b66b-4884-aa58-579bdb20ce19",
+      "regions" : [ {
+        "components" : [ {
+          "componentAttributes" : { },
+          "componentName" : "c:formInstance",
+          "id" : "c49e9628-0f1a-4850-8c0f-23058c31f274",
+          "renderPriority" : "NEUTRAL",
+          "renditionMap" : { },
+          "type" : "component"
+        } ],
+        "id" : "693048cc-4c8a-4ac3-b473-9cc01c88c9a9",
+        "regionLabel" : "Column 1",
+        "regionName" : "col1",
+        "renditionMap" : { },
+        "type" : "region"
+      } ],
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "scopedBrandingSetId" : null,
+      "type" : "component"
+    } ],
+    "id" : "6090b70c-4cda-49cf-b29a-a0d68d401866",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "pageTitle" : "TestFormInstance",
+        "recordId" : "{!recordId}"
+      },
+      "componentName" : "community_builder:seoAssistant",
+      "id" : "6fa619ea-d4d7-42f6-84de-616482bd4709",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5cba67cb-73c7-4ee6-bef2-b9ad13843b3d",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-testforminstance"
+}

@@ -10,12 +10,15 @@ function buildTransByName (translations, language) {
     const nameLangMap = new Map();
     for (let trans of translations) {
         let pName = trans.Form_Phrase__r.Name;
-        if (!nameLangMap.get(pName)) nameLangMap.put(pName, new Map());
-        nameLangMap.get(pName).put(trans.Language__c, trans.Text__c);
+        //console.log('buildTransByName: pName = ' +pName);
+        if (!nameLangMap.has(pName)) nameLangMap.set(pName, new Map());
+        nameLangMap.get(pName).set(trans.Language__c, trans.Text__c);
+        //console.log(nameLangMap.get(pName));
     }
-    for (let pName of nameLangMap) {
-        transByName.set(pName, nameLangMap.get(pName).get(language) || nameLangMap.get(pName).get('English'));
+    for (const [pName, langMap] of nameLangMap) {
+        transByName.set(pName, langMap.get(language) || langMap.get('English'));
     }
+    //console.log(transByName);
     return transByName;
 }
 
@@ -26,11 +29,11 @@ function buildTransById (translations, language) {
     const idLangMap = new Map();
     for (let trans of translations) {
         let pId = trans.Form_Phrase__c;
-        if (!idLangMap.get(pId)) idLangMap.put(pId, new Map());
-        idLangMap.get(pId).put(trans.Language__c, trans.Text__c);
+        if (!idLangMap.has(pId)) idLangMap.set(pId, new Map());
+        idLangMap.get(pId).set(trans.Language__c, trans.Text__c);
     }
-    for (let pId of idLangMap) {
-        transById.set(pId, idLangMap.get(pId).get(language) || idLangMap.get(pId).get('English'));
+    for (const [pId, langMap] of idLangMap) {
+        transById.set(pId, langMap.get(language) || langMap.get('English'));
     }
     return transById;
 }
@@ -73,6 +76,7 @@ function buildTransById (translations, language) {
         if (rec.data && rec.data.Data_text__c == 'true') rec.checked = true;
         else rec.checked = false;        
     }
+    console.log('updateRecordInternals: rec', rec);
     return rec;
 }
 
