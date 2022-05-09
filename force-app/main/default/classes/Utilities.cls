@@ -159,16 +159,6 @@ global class Utilities {
         return pSets.size() > 0 ? pSets[0].Id : null;
     }
 
-    // Return FS Group Name by UserId
-    public static String FSGroupNameFromUserId(Id UserOrOwnerId) {
-        String roleId = [SELECT UserRoleId FROM User WHERE Id = :UserOrOwnerId].UserRoleId;
-        GroupMember[] gms = [SELECT Id, UserOrGroupId, Groupid, Group.DeveloperName, Group.Type 
-        FROM GroupMember 
-        WHERE Group.DeveloperName LIKE 'FS_%' AND UserOrGroupId = :UserOrOwnerId OR UserOrGroupId = :roleId];
-        grpName = !gms.isEmpty() ? gms[0].Group.DeveloperName : '';
-        return grpName;
-    }
-
     /*******************
      * NUMBER
      *******************/
@@ -1178,6 +1168,47 @@ global class Utilities {
         Id profileId = UserInfo.getProfileId();
         return [SELECT Name FROM Profile WHERE Id = :profileId].Name;
     }
+
+    // Return public group name of FS Group to which user belongs
+    public static String FSGroupOfUser(Id usrId) {
+        // Check user's role against those in each FS Group 
+        Id usrRoleId = [SELECT Id, UserRoleId FROM User WHERE Id=:usrId][0].UserRoleId;
+        Map<String, String> groupRole = new Map<String, String>();
+        FS_Group_Settings__mdt[] fsGroups = [SELECT Id, Designated_Role_for_Ownership__c, Public_Group_Name__c 
+            FROM FS_Group_Settings__mdt 
+            WHERE Active__c = true];
+        for (FS_Group_Settings__mdt fsGrp : fsGroups) {
+            groupRole.put(fsGrp.Public_Group_Name__c, fsGrp.Designated_Role_for_Ownership__c);
+        }
+        Set<ID> roleIds;
+        Id roleId;
+        String grpName;
+        for (String fsGroup : groupRole.keySet()) {
+            roleIds = new Set<Id>();
+            roleId = [SELECT Id, DeveloperName FROM UserRole WHERE DeveloperName=:groupRole.get(fsGroup)][0].Id;
+            roleIds.add(roleId);
+            // Get all subordinate roles underneath
+            Set<Id> allSubRoleIds = getAllSubRoleIds(roleIds);
+            if (allSubRoleIds.size()>0) {
+                roleIds.addAll(allSubRoleIds);
+            }
+            if ( roleIds.contains(usrRoleId) ) grpName = fsGroup;
+        }
+        return grpName;
+    }
+
+    private static Set<ID> getAllSubRoleIds(Set<ID> roleIds) {
+        // Source: https://blog.jeffdouglas.com/2011/02/15/find-my-salesforce-users-by-role-hierarchy/
+        Set<ID> currentRoleIds = new Set<ID>();
+        // Get all roles under passed roles
+        for(UserRole userRole :[select Id from UserRole where ParentRoleId 
+          IN :roleIds AND ParentRoleID != null])
+        currentRoleIds.add(userRole.Id);
+        // Fetch subroles recursively until we reach bottom (no more roles below)
+        if(currentRoleIds.size() > 0)
+          currentRoleIds.addAll(getAllSubRoleIds(currentRoleIds));
+        return currentRoleIds;
+      }
 
     // Return new page reference for given record.
     public static PageReference pageReferenceForRecord(sObject rec) {

@@ -1,5 +1,5 @@
-Id usrId = '0058c000008TAQUAA4';
 /*
+https://blog.jeffdouglas.com/2011/02/15/find-my-salesforce-users-by-role-hierarchy/
 	1. Set<Id> roleAndSubUserIds
 	2. Look up FS Administrator Role
 	3. Get all roles underneath that one
@@ -8,7 +8,15 @@ Is thisUserId contained in that list? Then belongs in that group.
 */
 
 // Look up public groups from custom metadatatype
-FS_Group_Settings__mdt[] fsGroups = [SELECT Designated_Role_for_Ownership__c, Public_Group_Name__c 
+/* Map<Id, FS_Group_Settings__mdt> fsGrpMap = new Map<Id, FS_Group_Settings__mdt>(SELECT Id, Designated_Role_for_Ownership__c, Public_Group_Name__c 
+    FROM FS_Group_Settings__mdt 
+    WHERE Active__c = true]); */
+
+Id usrId = '0058c000008TAQPAA4';
+Id usrRoleId = [SELECT Id, UserRoleId FROM User WHERE Id=:usrId][0].UserRoleId;
+
+// Check that usrRoleId isn't null
+FS_Group_Settings__mdt[] fsGroups = [SELECT Id, Designated_Role_for_Ownership__c, Public_Group_Name__c 
     FROM FS_Group_Settings__mdt 
     WHERE Active__c = true];
 Map<String, String> groupRole = new Map<String, String>();
@@ -16,36 +24,40 @@ for (FS_Group_Settings__mdt fsGrp : fsGroups) {
     groupRole.put(fsGrp.Public_Group_Name__c, fsGrp.Designated_Role_for_Ownership__c);
 }
 
-// Map of UserIds for each FS Group
-Map<String, Set<Id>> grpUserIds = new Map<String,Set<Id>>();
-Map<String, Id> grpRoleId = new Map<String, Id>();
-Set<ID> userIds = new Set<ID>();
-
+// Retrieve all related roleIds for FS Group
+Set<ID> roleIds;
+Id roleId;
+String grpName;
 for (String fsGroup : groupRole.keySet()) {
-    Id roleId = [SELECT Id FROM UserRole WHERE Name=:fsGroup][0].Id;
-    grpRoleId.put(fsGroup, roleId);
-    // Get users in designated role
-    Map<Id,User> users = new Map<Id, User>([SELECT Id, Name, UserRoleId FROM User where UserRoleId=:roleId]);
-    userIds.addAll(users.keySet());
-    grpUserIds.put(fsGroup, userIds);
+    roleIds = new Set<Id>();
+    roleId = [SELECT Id, DeveloperName FROM UserRole WHERE DeveloperName=:groupRole.get(fsGroup)][0].Id;
+    roleIds.add(roleId);
+    // Get all subordinate roles underneath
+    Set<Id> allSubRoleIds = getAllSubRoleIds(roleIds);
+    if (allSubRoleIds.size()>0) {
+        roleIds.addAll(allSubRoleIds);
+    }
+    if ( roleIds.contains(usrRoleId) ) System.debug('fsGroup: ' + fsGroup); // grpName = fsGroup;
 }
-system.debug('grpRoleId: ' + grpRoleId);
-system.debug('grpUserIds: ' + grpUserIds);
+// return grpName;
 
-// Bookmark:
-// get all of the roles underneath the user
-    Set<Id> allSubRoleIds = getAllSubRoleIds(new Set<ID>{userinfo.getuserroleid()});
 
-// get all of the ids for the users in those roles
-    Map<Id,User> subUsers = new Map<Id, User>([Select Id, Name From User where
-    UserRoleId IN :allSubRoleIds]);
+private static Set<ID> getAllSubRoleIds(Set<ID> roleIds) {
+  	
+    Set<ID> currentRoleIds = new Set<ID>();
     
-    userIds.addAll(Subusers.keySet());
+    // get all of the roles underneath the passed roles
+    for(UserRole userRole :[select Id from UserRole where ParentRoleId 
+      IN :roleIds AND ParentRoleID != null])
+    currentRoleIds.add(userRole.Id);
+    
+    // go fetch some more rolls!
+    if(currentRoleIds.size() > 0)
+      currentRoleIds.addAll(getAllSubRoleIds(currentRoleIds));
 
-// return the ids as a set so you can do what you want with them
-    return userIds;
-
-
+    return currentRoleIds;
+    
+  }
 
 
 
