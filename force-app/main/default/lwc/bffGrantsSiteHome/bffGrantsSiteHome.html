@@ -50,7 +50,7 @@
 
     <!-- TOAST BANNER -->
     <div if:false={hasSubmittedPrf}>
-        <c-lwc-toast-banner message={message}></c-lwc-toast-banner>           
+        <c-lwc-toast-banner message={bannerProfile}></c-lwc-toast-banner>           
     </div>
 
     <!-- Logo -->
@@ -111,19 +111,21 @@
                         </li>
                     </ul>
                 </div>
-            
+                <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                    <p>{grantEligibility}</p>
+                </div>
             </div>
         </div>
 
-        <div>Language: {language}</div>
+        <!-- <div>Language: {language}</div>
         <div>Lang tag: {langTag}</div>
-        <div>Form instance Id: {prFormInstanceId}</div>
+        <div>Form instance Id: {prFormInstanceId}</div>-->
         
         <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
             <div class="slds-col">   
                 <lightning-button
                     variant="brand"
-                    label="Navigate to standard record page"
+                    label={newAppSustainFund}
                     title="New application"
                     onclick={navigateToForm}
                     class="slds-m-left_small bff-button-brand"
@@ -137,7 +139,7 @@
             <div class="slds-col">   
                 <lightning-button
                     variant="brand"
-                    label="Navigate to new page form instance"
+                    label={newAppSolidarityFund}
                     title="New application"
                     onclick={navigateToNewPage}
                     class="slds-m-left_small bff-button-brand"

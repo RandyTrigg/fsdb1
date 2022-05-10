@@ -22,6 +22,9 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     sustainFundDetails;
     solidarityFundHeading;
     solidarityFundDetails;
+    grantEligibility;
+    newAppSustainFund;
+    newAppSolidarityFund;
     bffLogo = logoResource;
     bffLogoWhiteText = logoResourceWhiteText;
     showMenu = false;
@@ -38,7 +41,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     language;
     transByName;
     dataLoaded = false;
-    message = "Please create a Profile";
+    bannerProfile;
     hoverMessage;
     
     connectedCallback() {
@@ -111,9 +114,13 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         this.sustainFundDetails = this.transByName.get('bff_GrantsSiteLandingSustainFundDetails');
         this.solidarityFundHeading = this.transByName.get('bff_GrantsSiteLandingSolidarityFund');
         this.solidarityFundDetails = this.transByName.get('bff_GrantsSiteLandingSolidarityFundDetails');
+        this.grantEligibility = this.transByName.get('bff_GrantsSiteLandingEligibility');
         this.logout = this.transByName.get('Logout');
         this.support = this.transByName.get('Support');
-        
+        this.bannerProfile = this.transByName.get('BannerProfile');
+        let newApp = this.transByName.get('NewApplication');
+        this.newAppSustainFund = newApp + ': ' + this.transByName.get('bff_SustainFund');
+        this.newAppSolidarityFund = newApp + ': ' + this.transByName.get('bff_SolidarityFund');
     }
     
     handleNewSolApp(event) {

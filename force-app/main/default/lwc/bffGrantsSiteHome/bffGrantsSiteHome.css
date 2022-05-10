@@ -56,6 +56,7 @@
     --slds-c-button-brand-color-background-hover: rgb(46, 17, 54);
     --slds-c-button-brand-color-border: rgb(46, 17, 54);
     --slds-c-button-brand-color-border-hover: rgb(46, 17, 54);
+    --slds-c-button-brand-text-color: rgb(249, 248, 250);
 }
 
 .app-button {
