@@ -277,7 +277,8 @@ public class UtilitiesTest {
 
     // Test task creation method.
     static testMethod void UtilitiesTest4() {
-        User u = [SELECT Id FROM User WHERE IsActive = true LIMIT 1];
+        // User u = [SELECT Id FROM User WHERE IsActive = true LIMIT 1];
+        Utilities.assignPermissionSetToCurrentUser();
         insert new Account(Name = 'test account 1');
         Account acc = [SELECT Id FROM Account LIMIT 1];
         insert new Task_Spec_Group__c(
@@ -287,7 +288,7 @@ public class UtilitiesTest {
         Task_Spec_Group__c tsg = [SELECT Id FROM Task_Spec_Group__c LIMIT 1];
         insert new Task_Spec__c(
             Task_Spec_Group__c = tsg.Id,
-            Assigned_to__c = u.Id,
+            Assigned_to__c = UserInfo.getUserId(),
             Subject__c = 'sss',
             Type__c = 'Report',
             Comments__c = 'ccc',
@@ -296,8 +297,8 @@ public class UtilitiesTest {
         Task_Spec__c ts = [SELECT Id FROM Task_Spec__c LIMIT 1];
 
         test.startTest();
-        Utilities.instantiateTaskSpecs(acc.Id, tsg.Id, u.Id, null);
-        Utilities.instantiateTaskSpec(acc.Id, ts.Id, u.Id, null);
+        Utilities.instantiateTaskSpecs(acc.Id, tsg.Id, UserInfo.getUserId(), null);
+        Utilities.instantiateTaskSpec(acc.Id, ts.Id, UserInfo.getUserId(), null);
         test.stopTest();
         Task t = [SELECT Id, WhatId, OwnerId, ActivityDate FROM Task LIMIT 1];
         System.assertNotEquals(t, null);
