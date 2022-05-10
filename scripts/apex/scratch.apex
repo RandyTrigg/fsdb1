@@ -1,3 +1,27 @@
+        // Check user's role for FS Group 
+        Id usrId = '0058c000008TAQPAA4';
+        Id usrRoleId = [SELECT Id, UserRoleId FROM User WHERE Id=:usrId][0].UserRoleId;
+        Map<String, String> groupRole = new Map<String, String>();
+        FS_Group_Settings__mdt[] fsGroups = [SELECT Id, Designated_Role_for_Ownership__c, Public_Group_Name__c 
+            FROM FS_Group_Settings__mdt 
+            WHERE Active__c = true];
+        for (FS_Group_Settings__mdt fsGrp : fsGroups) {
+            groupRole.put(fsGrp.Designated_Role_for_Ownership__c, fsGrp.Public_Group_Name__c);
+        }
+        Map<Id, UserRole> usrRoles = new Map<Id, UserRole>([
+            SELECT Id, DeveloperName, ParentRoleId 
+            FROM UserRole]);
+        // Check this role to see if it's FS Group Role
+        // if (groupRole.containsKey(usrRoles.get(usrRoleId).DeveloperName)) return groupRole.get(usrRoles.get(usrRoleId).DeveloperName);
+        UserRole thisRole = new UserRole();
+        thisRole = usrRoles.get(usrRoleId);
+        while (thisRole != null) {
+            if (groupRole.containsKey(thisRole.DeveloperName)) system.debug('fsgroup: ' + groupRole.get(thisRole.DeveloperName));
+            thisRole = usrRoles.get(thisRole.ParentRoleId);
+        }
+        // return null;
+        system.debug('returning nothing');
+
 /*
 https://blog.jeffdouglas.com/2011/02/15/find-my-salesforce-users-by-role-hierarchy/
 	1. Set<Id> roleAndSubUserIds
@@ -18,8 +42,8 @@ Is thisUserId contained in that list? Then belongs in that group.
 // Get that relationship name and OwnerId. Deal with that recursively since master may be more than one level up.
 
 
-// Decimal status = (Decimal) getValue(rec, statusFieldName);
-
+// for later Decimal status = (Decimal) getValue(rec, statusFieldName);
+/*** Subrole method
 system.debug('this userid: ' + userInfo.getUserId());
 String FSGroup = FSGroupOfUser(userInfo.getUserId());
 system.debug('fsgroup: ' + FSGroup);
@@ -81,7 +105,7 @@ private static Set<ID> getAllSubRoleIds(Set<ID> roleIds) {
     
   }
 
-
+****/
 
 
 
