@@ -91,7 +91,6 @@ public class UtilitiesTest {
         List<selectOption> lsOpt;
         i = Utilities.recordIdFromName('Account', 'test_acct_1');
         i = Utilities.getPermSetId();
-        s = Utilities.FSGroupNameFromUserId(UserInfo.getUserId());
         x = Utilities.getRandomInt(0, 100);
         s = Utilities.generateRandomString(5);
         sd = Utilities.commaSepStringToDecimalSet('1.3, 2');

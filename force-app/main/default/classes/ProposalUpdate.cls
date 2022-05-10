@@ -316,11 +316,11 @@ public with sharing class ProposalUpdate {
         // Vars for other fields
         Id countryId, regionId, regionOverrideId, firstGrantId, latestGrantId;
         // Build interpreter for status calculations.
-        String FSGroup = Utilities.FSGroupOfUser(a.OwnerId);
+        String fsGroup = Utilities.FSGroupOfUser(a.OwnerId);
         Template__c t = [
             SELECT Id
             FROM Template__c
-            WHERE Name = 'Proposal status' AND FS_Group__c = :FSGroup
+            WHERE Name = 'Proposal status' AND FS_Group__c = :fsGroup
         ];
         TemplateController.TemplateMacros tm = new TemplateController.TemplateMacros(
             t.Id
@@ -372,9 +372,9 @@ public with sharing class ProposalUpdate {
         ) {
             // Lookup the default custom reqs record for the prop's app type from custom metadata type.
             Grant_type__mdt[] grantTypeMetadata = [
-                SELECT Label, Default_custom_reqs_name__c
+                SELECT Label, Default_custom_reqs_name__c, FS_Group__r.Public_Group_Name__c
                 FROM Grant_type__mdt
-                WHERE Label = :p.Grant_type__c
+                WHERE Label = :p.Grant_type__c AND FS_Group__r.Public_Group_Name__c=:fsGroup
             ];
             String customReqsName = grantTypeMetadata.size() > 0
                 ? grantTypeMetadata[0].Default_custom_reqs_name__c
@@ -383,7 +383,7 @@ public with sharing class ProposalUpdate {
                 Custom_Reqs__c[] customReqs = [
                     SELECT Id
                     FROM Custom_Reqs__c
-                    WHERE Name = :customReqsName
+                    WHERE Name = :customReqsName AND FS_Group__c=:fsGroup
                 ];
                 if (customReqs.size() > 0)
                     newCustomReqsId = customReqs[0].Id;

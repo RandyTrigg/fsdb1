@@ -1190,7 +1190,7 @@ global class Utilities {
             if (groupRole.containsKey(thisRole.DeveloperName)) return groupRole.get(thisRole.DeveloperName);
             thisRole = usrRoles.get(thisRole.ParentRoleId);
         }
-        return null;
+        return '';
     }
 
     // Return new page reference for given record.
