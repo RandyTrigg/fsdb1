@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Bei Aktivierung werden die Haushalt-Namen sowie informelle und formelle Anreden automatisch bereitgestellt.</help>
+    <label></label>
+    <name>npo02__Advanced_Household_Naming__c</name>
+</CustomFieldTranslation>

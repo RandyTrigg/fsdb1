@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Gibt an, für welche Kontakte autom. Haushalt-Objekte erstellt werden. Diese Opt. wird nur für Kontakte verwendet, die das Eins-zu-Eins- oder Einzelperson-Acc.-Modell verwenden.  Für Kontakte mit dem Haushalt-Account-Modell wird diese Einstell. ignoriert.</help>
+    <label></label>
+    <name>npo02__Household_Rules__c</name>
+</CustomFieldTranslation>

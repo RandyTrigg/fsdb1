@@ -1,5 +1,5 @@
 @isTest
-public with sharing class MilestoneControllerTest {
+public class MilestoneControllerTest {
     /**********************************
      * Test the component-related methods
      * *******************************/
@@ -230,7 +230,7 @@ public with sharing class MilestoneControllerTest {
         system.assertEquals(lMap.size(), mMap.size());
         // Gather email addresses for contacts under the accounts.
         Map<Id, Account> aMap = new Map<Id, Account>([SELECT Id FROM Account]);
-        Map<Id, List<String>> emailMap = Utilities.emailsForAccounts(
+        Map<Id, List<String>> emailMap = AccountController.emailsForAccounts(
             aMap.keySet()
         );
         // The emails stored on the letter need to agree with the account's emails.

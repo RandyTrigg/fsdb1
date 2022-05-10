@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Le statut automatique d’un membre de campagne pour des opportunités ouvertes ou fermées perdues ayant un contact principal et une source de campagne principale associée. Si laissé vide, Salesforce utilise le premier statut « Sans réponse ».</help>
+    <label></label>
+    <name>npsp__Campaign_Member_Non_Responded_Status__c</name>
+</CustomFieldTranslation>

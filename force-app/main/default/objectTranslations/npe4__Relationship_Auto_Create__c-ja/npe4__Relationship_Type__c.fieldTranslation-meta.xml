@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>ベースオブジェクトと参照オブジェクト間で作成されるリレーション種別。参照オブジェクトには相互関係が割り当てられます (使用可能な場合)。</help>
+    <label></label>
+    <name>npe4__Relationship_Type__c</name>
+</CustomFieldTranslation>

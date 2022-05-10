@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Le contact principal pour cette opportunité. Le rôle de contact principal est synchronisé avec ce champ. Pour les dons individuels, ceci indique l’attribution pour cette opportunité.</help>
+    <label></label>
+    <name>npsp__Primary_Contact__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

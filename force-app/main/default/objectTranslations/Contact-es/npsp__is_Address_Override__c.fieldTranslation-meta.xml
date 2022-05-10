@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si seleccionado, la dirección en el campo Dirección actual en el contacto sobrescribe la dirección por defecto o la dirección de la temporada de la familia.</help>
+    <label></label>
+    <name>npsp__is_Address_Override__c</name>
+</CustomFieldTranslation>

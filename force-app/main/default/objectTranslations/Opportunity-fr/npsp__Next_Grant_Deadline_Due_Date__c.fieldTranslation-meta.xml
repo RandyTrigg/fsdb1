@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>NPSP met à jour ce champ automatiquement en fonction de l’enregistrement de prochaine échéance de subvention.</help>
+    <label></label>
+    <name>npsp__Next_Grant_Deadline_Due_Date__c</name>
+</CustomFieldTranslation>

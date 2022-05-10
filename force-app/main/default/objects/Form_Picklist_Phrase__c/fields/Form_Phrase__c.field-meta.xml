@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Form_Phrase__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The phrase linked to this picklist phrase</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The phrase linked to this picklist phrase</inlineHelpText>
+    <label>Form Phrase</label>
+    <referenceTo>Form_Phrase__c</referenceTo>
+    <relationshipLabel>Form Picklist Phrases</relationshipLabel>
+    <relationshipName>Form_Picklist_Phrases</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

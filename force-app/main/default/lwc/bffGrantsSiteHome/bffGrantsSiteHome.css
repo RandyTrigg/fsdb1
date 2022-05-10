@@ -1,0 +1,93 @@
+.bff-header-container {
+    height: 100px;
+}
+
+.bff-global-header {
+	background: rgb(46, 17, 54);
+    height: 100px;
+}
+
+.bff-logo-header {
+	height: 100px;
+}
+
+.gfw-menu-item {
+    display: inline-flex;
+}
+
+.gfw-pointer{
+    cursor: pointer;
+}
+
+:host {
+    --sds-c-button-color-background: #ffffff;
+}
+
+.logo-home-page {
+    height: 200px;
+    width: 400px;
+}
+
+.bff-logo-center {
+	height: inherit;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+
+.topmargin {
+    margin-top: 3rem;
+}
+
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.bff-button-brand {
+	--slds-c-button-brand-color-background: rgb(46, 17, 54);
+    --slds-c-button-brand-color-background-hover: rgb(46, 17, 54);
+    --slds-c-button-brand-color-border: rgb(46, 17, 54);
+    --slds-c-button-brand-color-border-hover: rgb(46, 17, 54);
+}
+
+.app-button {
+
+    background-color: #2c11c6e2;   
+    color: rgb(255, 255, 255);
+    text-align: center;
+    width: 100%;
+    display: block;
+    padding: 0.5rem;
+    font-size: 16px;
+    font-family: Arial;
+}
+
+.main-heading {
+
+    font-size: 20px;
+}
+
+.sub-heading {
+
+    font-size: 14px;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.error {
+
+    text-align: center;
+    word-break: break-word;
+    max-width: 20rem;
+    color: #ff9e9e;
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Crée automatiquement un membre de campagne lorsqu’une opportunité ayant un contact principal avec une source de campagne principale associée est créée ou mise à jour avec une étape fermée gagnée.</help>
+    <label></label>
+    <name>npsp__Automatic_Campaign_Member_Management__c</name>
+</CustomFieldTranslation>

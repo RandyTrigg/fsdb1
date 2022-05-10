@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Kies de fase die een Opportunity moet worden wanneer het totale betalingsbedrag is gelijk aan het Opportunity bedrag. Als er geen fase is geselecteerd, dan zullen opportunities niet automatisch worden overgezet wanneer de betalingen compleet zijn.</help>
+    <label></label>
+    <name>npsp__Payments_Auto_Close_Stage_Name__c</name>
+</CustomFieldTranslation>

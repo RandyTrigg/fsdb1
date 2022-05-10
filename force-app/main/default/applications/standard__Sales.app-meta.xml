@@ -16,5 +16,6 @@
     <tabs>standard-Product2</tabs>
     <tabs>standard-Forecasting3</tabs>
     <tabs>Sync_Log__c</tabs>
-    <tabs>Sync_Log_Action__c</tabs>
+    <tabs>Sync_Log_Record__c</tabs>
+    <tabs>Commitment__c</tabs>
 </CustomApplication>

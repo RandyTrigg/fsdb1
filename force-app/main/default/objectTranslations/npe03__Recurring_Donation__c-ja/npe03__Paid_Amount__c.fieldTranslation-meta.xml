@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>この継続支援の支払総額。すべての完了/成立商談の合計金額が自動的に計算されます (参照のみ)。</help>
+    <label>合計支払金額</label>
+    <name>npe03__Paid_Amount__c</name>
+</CustomFieldTranslation>

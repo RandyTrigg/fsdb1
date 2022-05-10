@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Contiene números únicos que a veces son asignados por la organización que asigna el grant.</help>
+    <label></label>
+    <name>npsp__Grant_Contract_Number__c</name>
+</CustomFieldTranslation>

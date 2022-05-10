@@ -407,6 +407,18 @@
         <fields>UPDATEDBY_USER</fields>
         <relatedList>Form__c.Form_Phrase_ack_for_prior_form__c</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Required__c</fields>
+        <fields>Sort_number__c</fields>
+        <fields>Type__c</fields>
+        <fields>Form_Phrase__c</fields>
+        <fields>Form_Phrase_help__c</fields>
+        <fields>Form_Picklist__c</fields>
+        <fields>CREATEDBY_USER</fields>
+        <fields>UPDATEDBY_USER</fields>
+        <relatedList>Form_Component__c.Form_Phrase_Intro__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

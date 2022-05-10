@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>固定期間の継続支援で作成される支援の合計数を制限します。デフォルトは 50 です。これより大きい値を設定すると、DML エラーになる可能性があります。</help>
+    <label></label>
+    <name>npe03__Maximum_Donations__c</name>
+</CustomFieldTranslation>

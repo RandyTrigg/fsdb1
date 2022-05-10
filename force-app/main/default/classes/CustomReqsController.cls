@@ -1,4 +1,4 @@
-public with sharing class CustomReqsController {
+public class CustomReqsController {
     private String recordId;
     private ApexPages.StandardController standardController;
 

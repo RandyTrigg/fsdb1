@@ -2,9 +2,9 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>All</fullName>
     <columns>NAME</columns>
-    <columns>Form_name__c</columns>
     <columns>Required__c</columns>
     <columns>Sort_number__c</columns>
+    <columns>Hierarchical_sort_num__c</columns>
     <columns>Type__c</columns>
     <columns>Form_Picklist__c</columns>
     <columns>Form_Phrase__c</columns>

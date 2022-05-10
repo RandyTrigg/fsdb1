@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>標準バージョンの代わりに非同期バージョンを使用するように世帯命名規則を切り替えるための非公開設定。</help>
+    <label></label>
+    <name>npo02__Async_Household_Naming__c</name>
+</CustomFieldTranslation>

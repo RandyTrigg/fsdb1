@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>NPSP によってカスタム会計年度が存在するかが自動的に確認され、存在する場合はエラーを回避するためにカスタム会計年度設定を無効にします。この設定は、誤ってカスタム会計年度を有効にしているユーザの安全性チェックを上書きします。</help>
+    <label></label>
+    <name>npo02__Force_Fiscal_Year__c</name>
+</CustomFieldTranslation>

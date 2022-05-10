@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Das Datum, an dem die Informationen über zugewiesene Geschenke zuletzt aktualisiert wurden</help>
+    <label></label>
+    <name>npsp__Matching_Gift_Info_Updated__c</name>
+</CustomFieldTranslation>

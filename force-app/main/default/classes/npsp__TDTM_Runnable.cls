@@ -16,6 +16,7 @@ global class DmlWrapper {
     global List<SObject> objectsToInsert;
     global List<SObject> objectsToUndelete;
     global List<SObject> objectsToUpdate;
+    global List<npsp.ErrorRecord> objectsWithError;
     global DmlWrapper() {
 
     }

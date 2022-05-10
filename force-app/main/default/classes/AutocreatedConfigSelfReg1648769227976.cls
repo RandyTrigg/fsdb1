@@ -11,6 +11,7 @@ global class AutocreatedConfigSelfReg1648769227976 implements Auth.ConfigurableS
 	// Password can be null
 	// Return null or throw an exception to fail creation
 	global Id createUser(Id accountId, Id profileId, Map<SObjectField, String> registrationAttributes, String password) {
+		// profileId = [SELECT Id, Name from Profile WHERE Name = 'Basic Community Login User' LIMIT 1].Id;
 		User u = new User();
 		u.ProfileId = profileId;
 		for (SObjectField field : registrationAttributes.keySet()) {
@@ -33,6 +34,27 @@ global class AutocreatedConfigSelfReg1648769227976 implements Auth.ConfigurableS
 		u.timeZoneSidKey = UserInfo.getTimezone().getID();
 		insert u;
 		System.setPassword(u.Id, password);
+
+		// Assign to permission set
+		Id thisPermSetId = [SELECT Id, Name from PermissionSet WHERE Name = 'Community_BFF' LIMIT 1].Id;
+		PermissionSetAssignment psa = new PermissionSetAssignment(
+			PermissionSetId = thisPermSetId, 
+			AssigneeId = u.Id);
+		insert psa;
+
+		// Create Profile
+		try {
+			Profile__c prf = new Profile__c (
+				Community_contact_username__c = u.Username,
+				Community_contact__c = u.contactId
+			);
+			insert prf;
+			System.debug('New profile: ' + prf.Id);
+        } catch (Exception e) {
+            system.debug('Failure creating new profile: ' + e.getMessage());
+			throw new GFW_Exception('AutocreatedConfigSelfReg.createUser', 'Could not create Profile record', e);
+        }
+
 		return u.id;
 	}
 

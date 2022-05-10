@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Führen Sie bei einer Opportunity immer einen Rollup der Spenderstatistik zur Hauptansprechpartnerrolle und dem entsprechenden Haushalt durch, auch wenn die Opportunity nicht von einer Einzelperson (d. h. von einer Firma, Stiftung usw.) stammt.</help>
+    <label></label>
+    <name>npo02__Always_Rollup_to_Primary_Contact__c</name>
+</CustomFieldTranslation>

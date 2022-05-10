@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>LDV 団体のみ対象。SFDO ガイダンス併用。たくさんの個人が登録された組織団体の積み上げ集計バッチジョブでのクエリタイムアウトを防ぐために、この設定は各バッチで処理される個人の最大数を指定します。</help>
+    <label></label>
+    <name>npsp__ChunkSize_Contact_HardCredit__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El valor total de los pagos marcados como recibidos para esta oportunidad.</help>
+    <label></label>
+    <name>npe01__Payments_Made__c</name>
+</CustomFieldTranslation>

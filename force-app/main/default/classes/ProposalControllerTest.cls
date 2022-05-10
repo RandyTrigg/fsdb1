@@ -1,5 +1,5 @@
 @isTest
-public with sharing class ProposalControllerTest {
+public class ProposalControllerTest {
     /**********************************
      * Test the component-related methods
      * *******************************/
@@ -190,7 +190,7 @@ public with sharing class ProposalControllerTest {
                     )
             ]
         );
-        Map<Id, List<String>> emailMap = Utilities.emailsForAccounts(
+        Map<Id, List<String>> emailMap = AccountController.emailsForAccounts(
             aMap.keySet()
         );
         // The emails stored on the letter need to agree with the account's emails.

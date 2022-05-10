@@ -1,5 +1,5 @@
 @isTest
-global with sharing class OFACLookupMock implements HttpCalloutMock {
+global class OFACLookupMock implements HttpCalloutMock {
     
     // Response body from an API that pulls down entire SDN list, which we're no longer using.
     /*

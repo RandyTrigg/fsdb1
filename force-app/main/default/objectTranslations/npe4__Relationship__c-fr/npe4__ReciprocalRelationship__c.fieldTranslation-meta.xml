@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Champ système qui relie les deux côtés d’une relation.  Ce champ ne doit pas être modifié directement.  La relation réciproque aura le type opposé de cette relation, s’il existe.</help>
+    <label></label>
+    <name>npe4__ReciprocalRelationship__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

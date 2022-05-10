@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Ist dies die Standardadresse, die für den Haushalt und dessen Kontakte verwendet werden soll?</help>
+    <label></label>
+    <name>npsp__Default_Address__c</name>
+</CustomFieldTranslation>

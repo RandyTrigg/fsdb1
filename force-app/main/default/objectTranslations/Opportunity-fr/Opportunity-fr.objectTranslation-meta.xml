@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldSets>
+        <label></label>
+        <name>npsp__BDE_Entry_FS_v2</name>
+    </fieldSets>
+    <fieldSets>
+        <label></label>
+        <name>npsp__BDE_List_FS_v2</name>
+    </fieldSets>
+    <quickActions>
+        <label></label>
+        <name>New_Deliverable</name>
+    </quickActions>
+    <recordTypes>
+        <description>Don reçu</description>
+        <label>Don</label>
+        <name>Donation</name>
+    </recordTypes>
+    <recordTypes>
+        <description>Subvention reçue</description>
+        <label>Subvention</label>
+        <name>Grant</name>
+    </recordTypes>
+    <recordTypes>
+        <description>Biens ou services reçus en nature</description>
+        <label>Don en nature</label>
+        <name>InKindGift</name>
+    </recordTypes>
+    <recordTypes>
+        <description>Don important d’un donateur important</description>
+        <label>Don important</label>
+        <name>MajorGift</name>
+    </recordTypes>
+    <recordTypes>
+        <description>Don jumelé de l’employeur du donateur ou d&apos;une autre organisation</description>
+        <label>Don jumelé</label>
+        <name>MatchingGift</name>
+    </recordTypes>
+    <recordTypes>
+        <description>Un type d’enregistrement d’adhésion</description>
+        <label>Adhésion</label>
+        <name>Membership</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Pledge</name>
+    </recordTypes>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Closed_Lost_to_Reasons_picklist</name>
+    </validationRules>
+    <webLinks>
+        <label></label>
+        <name>RFC_Tasks_TESTING</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Restricted_Fund_Checklist</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npe01__Add_Matching_Donation</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npe01__Matching_Donation</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npe01__New_Contact_Donation</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npe01__New_Organization_Donation</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npsp__Email_Acknowledgment</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npsp__Email_Acknowledgments</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npsp__Find_Matched_Gifts</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npsp__Manage_Soft_Credits</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>npsp__Refresh_Name</name>
+    </webLinks>
+</CustomObjectTranslation>

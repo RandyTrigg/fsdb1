@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Prozentsatz der Opportunity, der dieser allgemeinen Verrechnungseinheit zugeordnet werden soll Durch die Bearbeitung eines Opportunity-Betrags einer prozentualen Zuordnung wird der Zuordnungsbetrag geändert.</help>
+    <label></label>
+    <name>npsp__Percent__c</name>
+</CustomFieldTranslation>

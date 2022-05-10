@@ -1,4 +1,4 @@
-global with sharing class MilestoneEmailLetterInvocable {
+global class MilestoneEmailLetterInvocable {
     @InvocableMethod(
         label='Build/email milestone letter'
         description='Build a new milestone letter of given template, and email it.'
@@ -18,7 +18,7 @@ global with sharing class MilestoneEmailLetterInvocable {
         );
     }
 
-    global with sharing class EmailLetterRequest {
+    global class EmailLetterRequest {
         @InvocableVariable(required=true)
         public Id mId;
         @InvocableVariable(required=true)

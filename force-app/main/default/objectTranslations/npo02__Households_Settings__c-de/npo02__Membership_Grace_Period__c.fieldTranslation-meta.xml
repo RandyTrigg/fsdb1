@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Der Kulanzzeitraum (in Tagen) nach Ablauf der Mitgliedschaft (letztes Enddatum), bevor der Status von &quot;Kulanzzeitraum&quot; in &quot;Abgelaufen&quot; geändert wird  Standardmäßig auf 30 Tage festgelegt</help>
+    <label></label>
+    <name>npo02__Membership_Grace_Period__c</name>
+</CustomFieldTranslation>

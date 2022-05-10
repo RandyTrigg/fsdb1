@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Lorsque le champ « Attribué à » d’une tâche de plan d’engagement est laissé vide, à qui la tâche doit-elle être attribuée ?</help>
+    <label></label>
+    <name>npsp__Default_Assignee__c</name>
+    <picklistValues>
+        <masterLabel>Owner of Object for Engagement Plan</masterLabel>
+        <translation>Détenteur de l’objet pour le plan d’engagement</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>User Creating Engagement Plan</masterLabel>
+        <translation>Utilisateur créant le plan d’engagement</translation>
+    </picklistValues>
+</CustomFieldTranslation>

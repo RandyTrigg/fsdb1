@@ -1,4 +1,4 @@
-public with sharing class MilestoneController {
+public class MilestoneController {
     /**********************************
      * For use in Lightning components
      *********************************/
@@ -200,7 +200,7 @@ public with sharing class MilestoneController {
             if (accId != null)
                 accIds.add(accId);
         }
-        Map<Id, List<String>> emails = Utilities.emailsForAccounts(
+        Map<Id, List<String>> emails = AccountController.emailsForAccounts(
             accIds
         );
         // Build new letters for selected records.

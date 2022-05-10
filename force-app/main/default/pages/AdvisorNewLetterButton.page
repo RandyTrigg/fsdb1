@@ -1,5 +1,5 @@
 <apex:page standardController="Advisor__c" extensions="AdvisorController" lightningStylesheets="true">
-    <apex:form>
+    <apex:form >
        <apex:pageBlock title="New letter">
            <apex:pageMessages />
             <apex:pageBlockButtons >

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>この積み上げ集計を行う際の元データとなる項目</help>
+    <label></label>
+    <name>npo02__Source_Field__c</name>
+</CustomFieldTranslation>

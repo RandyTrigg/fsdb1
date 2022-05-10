@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help></help>
+    <label></label>
+    <name>Quality_of_report_ranking__c</name>
+    <picklistValues>
+        <masterLabel>Clear and strong (3)</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Poor quality (1)</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Some outcomes but unclear (2)</masterLabel>
+        <translation></translation>
+    </picklistValues>
+</CustomFieldTranslation>

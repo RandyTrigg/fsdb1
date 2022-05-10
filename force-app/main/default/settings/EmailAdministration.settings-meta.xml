@@ -2,7 +2,7 @@
 <EmailAdministrationSettings xmlns="http://soap.sforce.com/2006/04/metadata">
     <enableComplianceBcc>false</enableComplianceBcc>
     <enableEmailConsentManagement>false</enableEmailConsentManagement>
-    <enableEmailSenderIdCompliance>false</enableEmailSenderIdCompliance>
+    <enableEmailSenderIdCompliance>true</enableEmailSenderIdCompliance>
     <enableEmailSpfCompliance>true</enableEmailSpfCompliance>
     <enableEmailToSalesforce>false</enableEmailToSalesforce>
     <enableEmailTrackingIPBlocklist>false</enableEmailTrackingIPBlocklist>

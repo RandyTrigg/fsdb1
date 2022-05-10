@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Tipos de registro de los contactos excluidos de la creación de familias. Esta configuración es ignorada si se esta utilizando el modelo de cuentas Familia.</help>
+    <label></label>
+    <name>npo02__Household_Creation_Excluded_Recordtypes__c</name>
+</CustomFieldTranslation>

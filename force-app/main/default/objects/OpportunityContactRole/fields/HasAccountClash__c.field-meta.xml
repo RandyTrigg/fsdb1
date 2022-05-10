@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HasAccountClash__c</fullName>
+    <description>True if Opportunity Account not equal to Contact&apos;s parent Account.</description>
+    <externalId>false</externalId>
+    <formula>Opportunity.AccountId &lt;&gt; Contact.AccountId || 
+Opportunity.Account.RecordType.DeveloperName &lt;&gt; &apos;HH_Account&apos;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>HasAccountClash</label>
+    <type>Checkbox</type>
+</CustomField>

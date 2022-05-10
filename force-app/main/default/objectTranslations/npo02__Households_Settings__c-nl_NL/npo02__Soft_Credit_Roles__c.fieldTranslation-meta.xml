@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Lijst van Opportunity Contactpersoon Rollen rollen op te nemen in  soft credit rollups.</help>
+    <label></label>
+    <name>npo02__Soft_Credit_Roles__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Anzahl der Monate ab heute zur Erstellung offener Opport., wenn unbefristete wiederkehrende Spenden verwendet werden. WARNUNG: Bei Wertverkleinerung werden weitere Opport. gelöscht. Bei Werterhöhung wird ein Batchvorgang zum Hinzuf. von Opport. gestartet.</help>
+    <label></label>
+    <name>npe03__Opportunity_Forecast_Months__c</name>
+</CustomFieldTranslation>

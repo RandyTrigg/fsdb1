@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Beim NPSP wird autom. geprüft, ob benutzerdef. Geschäftsjahre vorhanden sind. Zur Fehlervermeid. werden gefundene Geschäftsjahreinst. deakt. So wird die Sicherheitsprüfung für Benutzer aufgehoben, die versehentlich benutzerdef. Geschäftsjahre akt. haben.</help>
+    <label></label>
+    <name>npo02__Force_Fiscal_Year__c</name>
+</CustomFieldTranslation>

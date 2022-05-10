@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Este campo esta seleccionado si es el contacto principal en la cuenta. El contacto principal puede editarse en la cuenta.</help>
+    <label></label>
+    <name>npsp__Primary_Contact__c</name>
+</CustomFieldTranslation>

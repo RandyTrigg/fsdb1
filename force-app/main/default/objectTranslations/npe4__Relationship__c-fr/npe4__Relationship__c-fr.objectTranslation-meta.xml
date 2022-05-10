@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Relation</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Relations</value>
+    </caseValues>
+    <gender>Feminine</gender>
+    <nameFieldLabel>Numéro de relation</nameFieldLabel>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>npe4__Related_Contact_Do_Not_Change</name>
+    </validationRules>
+</CustomObjectTranslation>

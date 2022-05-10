@@ -5,10 +5,21 @@
         <accessLevel>All</accessLevel>
         <label>BFF</label>
         <sharedTo>
-            <group>BFF</group>
+            <group>FS_BFF</group>
         </sharedTo>
         <sharedFrom>
-            <group>BFF</group>
+            <group>FS_BFF</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>VAL</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>VAL</label>
+        <sharedTo>
+            <group>FS_VAL</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>FS_VAL</group>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>

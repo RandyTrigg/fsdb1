@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Ordre dans lequel ce module doit être exécuté, aide à maintenir les dépendances dans les modules et les données.</help>
+    <label></label>
+    <name>npsp__Load_Order__c</name>
+</CustomFieldTranslation>

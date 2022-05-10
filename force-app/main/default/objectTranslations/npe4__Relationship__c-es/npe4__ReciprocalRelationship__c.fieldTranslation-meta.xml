@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Campo del sistema que une a las dos partes de esta relación. Este campo no debe ser modificado directamente. La Relación recíproca tendrá el tipo opuesto de esta relación, si esta disponible.</help>
+    <label></label>
+    <name>npe4__ReciprocalRelationship__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Namen der Opportunity-Datensatztypen, die beim Rollup von Account-Opportunities von Statistiken ausgeschlossen werden sollen</help>
+    <label></label>
+    <name>npo02__Excluded_Account_Opp_Rectypes__c</name>
+</CustomFieldTranslation>

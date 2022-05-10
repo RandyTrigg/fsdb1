@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>הסדר שבו יש להפעיל מודול זה, מסייע לשמירה על יחסי תלות במודולים ובנתונים.</help>
+    <label></label>
+    <name>npsp__Load_Order__c</name>
+</CustomFieldTranslation>

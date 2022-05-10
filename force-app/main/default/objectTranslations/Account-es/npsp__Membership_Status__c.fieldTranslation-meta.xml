@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Fórmula: Actual, Vencido o en período de gracia. Período de gracia por defecto se establece en la configuración del NPSP.</help>
+    <label></label>
+    <name>npsp__Membership_Status__c</name>
+</CustomFieldTranslation>

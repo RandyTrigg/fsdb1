@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Optionnel, affecte les allocations à un don régulier. Toutes les nouvelles opportunités créées avec le calendrier de ce don régulier seront automatiquement allouées de la même manière.</help>
+    <label></label>
+    <name>npsp__Recurring_Donation__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

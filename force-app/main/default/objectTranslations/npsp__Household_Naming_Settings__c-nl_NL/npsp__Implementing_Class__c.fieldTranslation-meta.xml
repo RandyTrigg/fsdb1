@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>De naam van de klasse die HH_INaming interface implementeert voor het benoemen van Huishoudens.</help>
+    <label></label>
+    <name>npsp__Implementing_Class__c</name>
+</CustomFieldTranslation>

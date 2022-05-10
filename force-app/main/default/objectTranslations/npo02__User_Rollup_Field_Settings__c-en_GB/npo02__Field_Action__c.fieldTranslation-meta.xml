@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>The rollup action (MIN, MAX, SUM, COUNT) to be performed on the source field</help>
+    <label></label>
+    <name>npo02__Field_Action__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Nombre del tipo de registro de oportunidad excluidos de las estadísticas cuando se calculan los totales de oportunidades en contactos.</help>
+    <label></label>
+    <name>npo02__Excluded_Contact_Opp_Rectypes__c</name>
+</CustomFieldTranslation>

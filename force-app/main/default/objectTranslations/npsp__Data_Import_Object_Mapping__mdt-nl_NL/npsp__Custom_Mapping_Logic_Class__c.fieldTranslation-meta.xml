@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Als aangepaste Apex-logica moet worden gebruikt voor het toewijzen van de velden toe voor dit object, moet dit veld worden ingevuld met de naam van een klasse (inclusief naamruimte, indien benodigd), die de klasse BDI_ObjectMappingLogic uitbreidt en de methode populateObject overschrijft.</help>
+    <label></label>
+    <name>npsp__Custom_Mapping_Logic_Class__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indien aangevinkt zullen alle toekomstige maandelijkse en kwartaal Donatie Termijnen op de laatste dag van de maand gezet worden, ongeacht de datum in het  &quot;Volgende Donatiedatum&quot; veld. Dit geldt alleen voor maandelijks of per kwartaal.</help>
+    <label>Verouderd:Altijd laatste dag van maand gebruiken</label>
+    <name>npsp__Always_Use_Last_Day_Of_Month__c</name>
+</CustomFieldTranslation>

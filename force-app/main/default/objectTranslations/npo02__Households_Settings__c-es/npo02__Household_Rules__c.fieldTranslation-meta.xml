@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Especifica a que contactos se les creará automáticamente un objeto familias. Notar que esto solo se utilizará para contactos que tengan el modelo de cuenta Uno-a-Uno o Individual. Esto se ignorará para contactos con el modelo de cuenta Familias.</help>
+    <label></label>
+    <name>npo02__Household_Rules__c</name>
+</CustomFieldTranslation>

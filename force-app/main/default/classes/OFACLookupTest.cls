@@ -1,5 +1,5 @@
 @isTest
-public with sharing class OFACLookupTest {
+public class OFACLookupTest {
     static testMethod void OFACLookupTest() {
         // Set mock callout class and build custom settings.
         Test.setMock(HttpCalloutMock.class, new OFACLookupMock());

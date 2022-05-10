@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Durch Akt. von Standardzuordnungen wird für jede Opport. ein Zuordnungsobjekt erstellt. Dadurch wird die Berichterstellung zu Zuordnungen zu einer standardmäßigen allgemeinen Verrechnungseinheit aktiviert, doch es wird auch mehr Datenspeicherplatz belegt.</help>
+    <label></label>
+    <name>npsp__Default_Allocations_Enabled__c</name>
+</CustomFieldTranslation>

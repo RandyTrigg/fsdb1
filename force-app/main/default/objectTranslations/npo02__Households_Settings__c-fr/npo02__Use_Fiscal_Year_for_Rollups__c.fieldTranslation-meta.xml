@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Totaux de cumul d’opp. respectant les années fiscales, non les années civiles. Pour définir les infos d’année fiscale, accéder à Configuration-&gt;Profil d’entreprise-&gt;Année fiscale  REMARQUE : params d’année fiscale personnalisés NON pris en charge.</help>
+    <label></label>
+    <name>npo02__Use_Fiscal_Year_for_Rollups__c</name>
+</CustomFieldTranslation>

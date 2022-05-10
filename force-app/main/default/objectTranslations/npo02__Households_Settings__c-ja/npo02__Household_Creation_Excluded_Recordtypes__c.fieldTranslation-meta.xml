@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>世帯の作成から除外する個人レコードタイプ。この設定は、世帯団体モデルを使用している場合は無視されます。</help>
+    <label></label>
+    <name>npo02__Household_Creation_Excluded_Recordtypes__c</name>
+</CustomFieldTranslation>

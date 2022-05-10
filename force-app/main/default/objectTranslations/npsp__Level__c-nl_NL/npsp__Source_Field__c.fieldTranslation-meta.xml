@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Het doel object veld (developer naam) die het bedrag en tijdspanne waar dit Niveau op gebaseerd is definieert</help>
+    <label></label>
+    <name>npsp__Source_Field__c</name>
+</CustomFieldTranslation>

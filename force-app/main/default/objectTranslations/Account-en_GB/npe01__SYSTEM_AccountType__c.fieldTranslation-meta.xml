@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indicates which Account Model this account is for: Household Account, One-to-One, or Individual (bucket).</help>
+    <label></label>
+    <name>npe01__SYSTEM_AccountType__c</name>
+</CustomFieldTranslation>

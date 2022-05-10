@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Systemfeld, das die beiden Seiten der Beziehung miteinander verbindet  Das Feld sollte nicht direkt bearbeitet werden.  Die wechselseitige Beziehung hat den entgegengesetzten Typ dieser Beziehung, falls verfügbar.</help>
+    <label></label>
+    <name>npe4__ReciprocalRelationship__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

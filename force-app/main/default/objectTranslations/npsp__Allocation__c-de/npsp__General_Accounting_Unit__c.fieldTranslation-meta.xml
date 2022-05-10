@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Die allgemeine Verrechnungseinheit, der diese Zuordnung zugewiesen werden soll Für neue Zuordnungen sind nur allgemeine Verrechnungseinheiten verfügbar, die als aktiv gekennzeichnet sind.</help>
+    <label></label>
+    <lookupFilter>
+        <errorMessage></errorMessage>
+        <informationalMessage></informationalMessage>
+    </lookupFilter>
+    <name>npsp__General_Accounting_Unit__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

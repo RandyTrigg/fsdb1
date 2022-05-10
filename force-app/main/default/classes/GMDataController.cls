@@ -1,4 +1,4 @@
-public with sharing class GMDataController {
+public class GMDataController {
     /**********************************
      * For use in Lightning components
      *********************************/
@@ -420,7 +420,7 @@ public with sharing class GMDataController {
                     )
             ]
         );
-        Map<Id, List<String>> emails = Utilities.emailsForAccounts(
+        Map<Id, List<String>> emails = AccountController.emailsForAccounts(
             aMap.keySet()
         );
         // Build new letters for selected records.

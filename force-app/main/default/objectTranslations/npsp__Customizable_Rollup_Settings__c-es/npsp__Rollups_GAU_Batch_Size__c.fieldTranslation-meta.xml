@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Número de registros por lote para procesar cuando se vuelven a calcular totalizaciones de donantes en el objeto Cuenta contable general.</help>
+    <label></label>
+    <name>npsp__Rollups_GAU_Batch_Size__c</name>
+</CustomFieldTranslation>

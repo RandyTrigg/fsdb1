@@ -19,11 +19,19 @@
         <value xsi:type="xsd:string">AQB__LLChartofAccounts__c</value>
     </values>
     <values>
+        <field>PrefixExternalIds__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Sort_order__c</field>
         <value xsi:type="xsd:double">3.0</value>
     </values>
     <values>
         <field>SyncLogRecordLookupFieldName__c</field>
         <value xsi:type="xsd:string">Chart_of_Accounts__c</value>
+    </values>
+    <values>
+        <field>UpsertNewOnly__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
 </CustomMetadata>

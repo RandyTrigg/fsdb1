@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Gibt an, ob der Betrag für die einzelnen Raten verwendet (multipliziert) wird oder ob er durch die Raten geteilt (dividiert) wird  Wird nur für befristete wiederkehrende Spenden verwendet</help>
+    <label>Ersetzt:Zeitplantyp</label>
+    <name>npe03__Schedule_Type__c</name>
+    <picklistValues>
+        <masterLabel>Divide By</masterLabel>
+        <translation>Teilen durch</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multiply By</masterLabel>
+        <translation>Multiplizieren mit</translation>
+    </picklistValues>
+</CustomFieldTranslation>

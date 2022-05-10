@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Doe rollup van de donateur statistieken altijd met de primaire contact rol, en het bijbehorende huishouden, op een opportunity, zelfs als die niet van een individu komt</help>
+    <label></label>
+    <name>npo02__Always_Rollup_to_Primary_Contact__c</name>
+</CustomFieldTranslation>

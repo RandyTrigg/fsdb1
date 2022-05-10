@@ -33,7 +33,9 @@ public without sharing class Sync_BatchableUpsertTest {
 
         Sync_Log__c sLog = new Sync_Log__c(
             Type__c = 'GFW to FSDB',
-            Status__c = 'Launched'
+            Status__c = 'Launched',
+            OwnerId = u.Id,
+            FS_Group__c = fsGroups[0].GFW_COA_Name__c
         );
         insert sLog;
 
@@ -41,9 +43,7 @@ public without sharing class Sync_BatchableUpsertTest {
             RecordInfo__c = json,
             Sync_Log__c = sLog.Id,
             Status__c = 'Pending',
-            Type__c = 'Account',
-            FSGroupOwnerId__c = u.Id,
-            FS_Group__c = fsGroups[0].GFW_COA_Name__c
+            Type__c = 'Account'
         );
         insert slRec;
     }
@@ -60,13 +60,14 @@ public without sharing class Sync_BatchableUpsertTest {
 
         Test.stopTest();
 
-        List<Sync_Log_Record__c> logRecs = [SELECT Id, Name FROM Sync_Log_Record__c WHERE Status__c = 'Success' AND Type__c = 'Account'];
+        List<Sync_Log_Record__c> logRecs = [SELECT Id, Name, Sync_Log__r.FS_Group__c FROM Sync_Log_Record__c WHERE Status__c = 'Success' AND Type__c = 'Account'];
+        String fsCOA = logRecs[0].Sync_Log__r.FS_Group__c;
         system.assertEquals(logRecs.size(), 1);
         List<Account> accts = [SELECT Id, Name, GFW_Account_ID__c, RecordType.Name FROM Account];
         system.debug('acct name: ' + accts[0].Name);
         system.assertEquals(logRecs.size(), accts.size());
         system.assertEquals('Household Account', accts[0].RecordType.Name);
-        system.assertEquals('0011Y00002LvEcKQAV', accts[0].GFW_Account_ID__c);
+        system.assertEquals(fsCOA + '_0011Y00002LvEcKQAV', accts[0].GFW_Account_ID__c);
 
     }
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Ceci est coché si l’utilisateur est le contact principal sur son compte.  Le contact principal peut être modifié sur le compte.</help>
+    <label></label>
+    <name>npsp__Primary_Contact__c</name>
+</CustomFieldTranslation>

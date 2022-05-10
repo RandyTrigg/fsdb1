@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>スキューモードでない積み上げ集計バッチジョブで許可する、団体または個人の関連支援の最大数。関連支援数がこれを上回る団体または個人は、常にスキューモードで積み上げ集計されます。</help>
+    <label></label>
+    <name>npsp__Rollups_Limit_on_Attached_Opps_for_Skew__c</name>
+</CustomFieldTranslation>

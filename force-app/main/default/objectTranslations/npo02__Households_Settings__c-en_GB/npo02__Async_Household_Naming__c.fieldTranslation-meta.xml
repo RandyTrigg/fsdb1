@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>This is a non-exposed setting to toggle household naming code to use an asynchronous version instead of the standard version.</help>
+    <label></label>
+    <name>npo02__Async_Household_Naming__c</name>
+</CustomFieldTranslation>

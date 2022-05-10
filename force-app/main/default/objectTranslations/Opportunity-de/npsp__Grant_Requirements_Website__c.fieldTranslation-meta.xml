@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Ein URL, der auf die Unterstützungsanforderungen auf der Website des Geldgebers verweist</help>
+    <label></label>
+    <name>npsp__Grant_Requirements_Website__c</name>
+</CustomFieldTranslation>

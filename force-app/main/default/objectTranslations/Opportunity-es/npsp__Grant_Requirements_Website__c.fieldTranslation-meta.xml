@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>URL que lleva a los requerimientos del grant en la página de quien provee el grant.</help>
+    <label></label>
+    <name>npsp__Grant_Requirements_Website__c</name>
+</CustomFieldTranslation>

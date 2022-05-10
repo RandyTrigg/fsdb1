@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El NPSP automáticamente busca años fiscales (AF) personalizados, y deshabilita la configuración del AF si se encuentra para evitar errores. Esta configuración sobrescribe esta búsqueda para usuarios que hayan accidentalmente habilitado AF personalizado.</help>
+    <label></label>
+    <name>npo02__Force_Fiscal_Year__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El número de trabajos programados de Apex activados a considerar cuando se programa un nuevo trabajo.</help>
+    <label></label>
+    <name>npo02__Schedule_Job_Limit__c</name>
+</CustomFieldTranslation>

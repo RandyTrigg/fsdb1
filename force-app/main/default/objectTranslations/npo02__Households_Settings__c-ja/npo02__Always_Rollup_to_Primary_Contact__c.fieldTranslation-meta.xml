@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>支援が個人によるものでない (会社や財団などからの) 場合でも、常に支援者の統計情報を支援の主個人の役割、および対応する世帯に積み上げ集計します。</help>
+    <label></label>
+    <name>npo02__Always_Rollup_to_Primary_Contact__c</name>
+</CustomFieldTranslation>

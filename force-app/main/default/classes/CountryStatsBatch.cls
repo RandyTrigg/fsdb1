@@ -1,4 +1,4 @@
-global with sharing class CountryStatsBatch implements Database.Batchable<sObject>{
+global class CountryStatsBatch implements Database.Batchable<sObject>{
     global final String query;
    
     global CountryStatsBatch(String q){

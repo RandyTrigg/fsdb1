@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Numéro de téléphone du bureau d’administration des dons jumelés.</help>
+    <label></label>
+    <name>npsp__Matching_Gift_Phone__c</name>
+</CustomFieldTranslation>

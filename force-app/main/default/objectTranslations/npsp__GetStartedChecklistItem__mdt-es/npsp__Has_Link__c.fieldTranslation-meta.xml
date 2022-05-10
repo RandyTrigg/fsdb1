@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indica si el elemento tiene un vínculo para mostrar.</help>
+    <label></label>
+    <name>npsp__Has_Link__c</name>
+</CustomFieldTranslation>

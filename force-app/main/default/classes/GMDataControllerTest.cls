@@ -1,5 +1,5 @@
 @isTest
-public with sharing class GMDataControllerTest {
+public class GMDataControllerTest {
     /**********************************
      * Test the component-related methods
      * *******************************/
@@ -195,7 +195,7 @@ public with sharing class GMDataControllerTest {
         */
 
         Test.StartTest();
-        String cronExp = '0 0 0 15 3 ?';
+        String cronExp = '0 0 0 15 3 ? 2022';
         System.schedule(
             'GMDataUpdateSchedule',
             cronExp,

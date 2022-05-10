@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Beschränkt die Anzahl der Spenden, die für befristete wiederkehrende Spenden erstellt werden Der Standardwert ist 50.  Höhere Werte verursachen möglicherweise DML-Fehler.</help>
+    <label></label>
+    <name>npe03__Maximum_Donations__c</name>
+</CustomFieldTranslation>

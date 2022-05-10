@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El Id. de Salesforce de la CCG que hay que utilizar para la segunda asignación de CCG.</help>
+    <label></label>
+    <name>npsp__GAU_Allocation_2_GAU__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

@@ -1,0 +1,74 @@
+<template>
+    <div class="slds-form-element slds-form-element_readonly">
+        <div if:true={cmp.data}>
+            <div if:true={cmp.isText} class="slds-form-element__control">
+                <div class="slds-form-element__static">
+                    <lightning-formatted-rich-text 
+                        value={cmp.data.Data_text__c}></lightning-formatted-rich-text>
+                </div>
+            </div>
+            <div if:true={cmp.isTextArea} class="slds-form-element__control">
+                <div class="slds-form-element__static">
+                    <lightning-formatted-rich-text 
+                        value={cmp.data.Data_textarea__c}>
+                    </lightning-formatted-rich-text>
+                </div>
+            </div>
+            <div if:true={cmp.isRadio} class="slds-form-element__control">
+                <lightning-radio-group
+                    disabled=true
+                    options={cmp.radioOptions}
+                    value={cmp.data.Data_text__c}>
+                </lightning-radio-group>
+            </div>
+            <div if:true={cmp.isTableCellPart} class="slds-form-element__control">
+                <div class="slds-form-element__static">{cmp.data.Data_textarea__c}</div>
+            </div>
+            <div if:true={cmp.isCheckboxGroup} class="slds-form-element__control">
+                <lightning-checkbox-group 
+                    name="Checkbox Group"
+                    disabled=true
+                    options={cmp.checkboxOptions}
+                    value={cmp.data.Data_text__c}>
+                </lightning-checkbox-group>
+            </div>
+            <div if:true={cmp.isCheckbox} class="slds-form-element__control">
+                <span>
+                    <lightning-input 
+                        style="float:left;"
+                        type="checkbox" 
+                        checked={cmp.checked} 
+                        disabled>
+                    </lightning-input>
+                    <lightning-formatted-rich-text 
+                        class="slds-var-m-top_small gfw-label" 
+                        value={cmp.Form_phrase_in_English__c}>
+                    </lightning-formatted-rich-text>
+                </span>
+            </div>
+            <div if:true={cmp.isNumber} class="slds-form-element__control">
+                <div class="slds-form-element__static">
+                    <lightning-formatted-number 
+                        value={cmp.data.Data_numeric__c}>
+                    </lightning-formatted-number>
+                </div>
+            </div>
+            <div if:true={cmp.isCurrency} class="slds-form-element__control">
+                <div class="slds-form-element__static">
+                    <lightning-formatted-number 
+                        format-style="currency" 
+                        value={cmp.data.Data_numeric__c}>
+                    </lightning-formatted-number>
+                </div>
+            </div>
+            <div if:true={cmp.isPercent} class="slds-form-element__control">
+                <div class="slds-form-element__static">
+                    <lightning-formatted-number 
+                        format-style="percent" 
+                        value={cmp.data.Data_numeric__c}>
+                    </lightning-formatted-number>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

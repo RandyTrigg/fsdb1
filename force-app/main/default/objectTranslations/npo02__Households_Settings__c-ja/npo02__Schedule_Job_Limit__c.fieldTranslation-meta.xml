@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>新しいジョブをスケジュールするときに確認される有効なスケジュール済み Apex ジョブの数。</help>
+    <label></label>
+    <name>npo02__Schedule_Job_Limit__c</name>
+</CustomFieldTranslation>

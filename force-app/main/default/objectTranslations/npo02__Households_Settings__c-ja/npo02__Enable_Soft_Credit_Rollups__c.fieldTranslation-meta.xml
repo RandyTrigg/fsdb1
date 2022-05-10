@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>支援個人の役割に基づいて、完了した支援の合計を積み上げ集計できるようにします。ソフトクレジット積み上げ集計は、夜間一括処理ジョブでのみ実行され、トリガでは実行されません。[支援の積み上げ集計のバッチ] タブを使用して手動で実行できます。</help>
+    <label></label>
+    <name>npo02__Enable_Soft_Credit_Rollups__c</name>
+</CustomFieldTranslation>

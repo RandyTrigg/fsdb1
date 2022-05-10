@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Advisor</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Advisors</value>
+    </caseValues>
+    <layouts>
+        <layout>Advisor Layout</layout>
+        <sections>
+            <label></label>
+            <section>Advisor Online Community specs (if this advisor is online)</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Archived Fields</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Bio</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Comments (Additional Notes)</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Current Assessor term</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Social Movement Involvement</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Thematic Areas of Expertise</section>
+        </sections>
+    </layouts>
+    <startsWith>Vowel</startsWith>
+</CustomObjectTranslation>

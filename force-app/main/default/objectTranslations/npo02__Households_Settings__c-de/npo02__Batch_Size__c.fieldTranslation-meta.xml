@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Die Anzahl der Datensätze, die beim Berechnen der Spenderstatistik gleichzeitig verarbeitet werden.  Die Standardgröße ist 200.  Verringern Sie die Anzahl, wenn die Opportunity-Rollups aufgrund von Systembeschränkungen fehlschlagen.</help>
+    <label></label>
+    <name>npo02__Batch_Size__c</name>
+</CustomFieldTranslation>

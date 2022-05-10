@@ -2,7 +2,7 @@ public without sharing class SyncController {
 
     /* -----------------
     Runs donations sync from GFW to FSDB in 2 parts:
-    Part 1: LauchSync fetches json from GFW and stashes in Sync Log Records
+    Part 1: LauchSync fetches json from GFW for FS Group and stashes in Sync Log Records
     Part 2: BuildRecs returns List<sObject> for upsert in calling code
 
     Par 1 and 2 main methods appear towards bottom; below variables and supporting methods.
@@ -16,7 +16,7 @@ public without sharing class SyncController {
      *******************/
 
     // Class variables set upon instantiation for sync launch
-    public String fsCOA;
+    public String fsCOA; // Note: For buildRecsForUpsert, set based on sync logs
     public String fsRole;
     public Datetime startDateTime;
     public Id syncLogId;
@@ -24,26 +24,21 @@ public without sharing class SyncController {
     
     // Class variables set for building recs for upsert
     public Schema.SObjectField extIdFieldReference;
+    
+    // Map of JSON records by DeveloperName of objectMapping (Account => accountsJSON, Contact => contactsJSON)
+    Map<String, List<Object>> objNamesJSONMap = new Map<String, List<Object>>();
+    
+    // Map of Ids by DeveloperName of objectMapping (Account => acctIds, etc.)
+    Map<String, Set<Id>> objNamesIdsMap = new Map<String, Set<Id>>();
 
-    // Class variables for this FS SyncController instance.
+     // Id collections
     Set<Id> acctIds = new Set<Id>();
-    Set<Id> ctIds = new Set<Id>();
     Set<Id> giftIds = new Set<Id>();
     Set<Id> campIds = new Set<Id>();
     Set<Id> giftOppIds = new Set<Id>();  // OpportunityIds linked to gifts
     Set<Id> giftOppIdsToUpdate = new Set<Id>(); // Non-GiftOpportunities in FSDB with matching ExtOppIds to incoming GiftOpportunities
-    Set<Id> oppIds = new Set<Id>(); // Unlinked Opportunities
-    Set<Id> recDonIds = new Set<Id>();
-    List<Object> coasJSON = new List<Object>();
-    List<Object> acctsJSON = new List<Object>();
-    List<Object> ctsJSON = new List<Object>();
-    List<Object> rdsJSON = new List<Object>();
-    List<Object> giftsJSON = new List<Object>();
-    List<Object> giftOppsJSON = new List<Object>();
-    List<Object> campsJSON = new List<Object>();
-    List<Object> transactionsJSON = new List<Object>();
-    List<Object> gcsJSON = new List<Object>();
-    List<Object> oppsJSON = new List<Object>(); // 'Floating' opportunities with no transactions
+    Set<Id> oppIds = new Set<Id>(); // Unlinked 'floating' Opportunities with no gifts/transactions
+
     Map<Id,Id> GiftIdToGiftOppId = new Map<Id, Id>();
     List<sObject> giftToOppsToDelete = new List<sObject>();
     Map<String, Schema.SObjectField> fieldMapFSDB;
@@ -119,6 +114,7 @@ public without sharing class SyncController {
 
     public List<Object> doQuery(String queryStr) {
         // Perform query callout and return records
+        CalloutException e = new CalloutException();
         String jsonResults = doQueryCallout(queryStr);
         system.debug('Final results: ' + jsonResults);
         List<Object> records;
@@ -136,6 +132,10 @@ public without sharing class SyncController {
                     // String nextRecordsURL = (String) m.get('nextRecordsUrl');
                     System.debug('nextRecordsURL: ' + nextRecordsURL);
                     nextResults = doQueryNextBatchCallout(nextRecordsURL);
+                    if (nextResults.startsWith('Error:')) {
+                        e.setMessage('Failed callout: ' + nextResults);
+                        throw e;
+                    }
                     System.debug('nextResults: ' + nextResults);
                     qryResponse  = (queryReturnResponseWrapper)JSON.deserialize(nextResults, queryReturnResponseWrapper.class);
                     system.debug('Done response: ' + qryResponse.done);
@@ -145,7 +145,9 @@ public without sharing class SyncController {
                 } while (!done && !nextResults.startsWith('Error:'));
             }
         } else {
-            System.debug('error results: ' + jsonResults); // Figure out how to handle error/throw exception.
+            System.debug('error results: ' + jsonResults);
+            e.setMessage('Failed callout: ' + jsonResults);
+            throw e;
         }
         return records;
     }
@@ -163,11 +165,12 @@ public without sharing class SyncController {
     }
 
     public void setObjMappingsList() {
-        // Retrieve all object mappings
+        // Retrieve all active object mappings
+        String whereClause = 'WHERE Active__c = true ORDER BY Sort_order__c';
         String objName = 'GFW_Sync_Object_Mapping__mdt';
         mdts = Utilities.fetchRecords(
             objName,
-            null,
+            whereClause,
             null);
         System.debug('mdts: ' + mdts);
     }
@@ -204,7 +207,8 @@ public without sharing class SyncController {
             'GFW_Sync_Object_Mapping__r.FSDB_External_Id_Field_API_Name__c', 
             'GFW_Sync_Object_Mapping__r.FSDB_Object_Name__c', 
             'GFW_Sync_Object_Mapping__r.GFW_Object_Name__c',
-            'LookupRelTo_SyncObjectMapping__r.FSDB_External_Id_Field_API_Name__c'};
+            'LookupRelTo_SyncObjectMapping__r.FSDB_External_Id_Field_API_Name__c',
+            'LookupRelTo_SyncObjectMapping__r.PrefixExternalIds__c'};
         Map<String,GFW_Sync_Field_Mapping__mdt> gfwFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         Map<String,GFW_Sync_Field_Mapping__mdt> fsdbFieldMap = new Map<String,GFW_Sync_Field_Mapping__mdt>();
         String orderByClause = 'ORDER BY GFW_Sync_Object_Mapping__c';
@@ -294,11 +298,23 @@ public without sharing class SyncController {
         // Build set of Ids for records not already in FSDB to insert
         Set<Id> idsToQuery = new Set<Id>();
         System.debug('idsGathered: ' + idsGathered);
+        String inIDsStr;
         if (!idsGathered.isEmpty()) {
             GFW_Sync_Object_Mapping__mdt objMDT = getObjectMapping(mdtObjName);
             String gfwObjName = objMDT.GFW_Object_Name__c;
             String fsdbObjName = objMDT.FSDB_Object_Name__c;
-            String inIDsStr = Utilities.packageIdsForQuery(idsGathered);
+            Boolean hasPrefExtId = objMDT.PrefixExternalIds__c;
+            if (hasPrefExtId) {
+                // This object has prefixed External Ids. Append Prefix to Ids for internal querying.
+                String inList = '(';
+                for (Id thisId : idsGathered) {
+                    inList = inList + '\'' + fsCOA + '_' + thisId + '\',';
+                }
+                inIDsStr = inList.removeEnd(',') + ')';
+                System.debug('Inside recIdsToInsert w/ prefixed ext Id for ' + gfwObjName + ': ' + inIdsStr);
+            } else {
+                inIDsStr = Utilities.packageIdsForQuery(idsGathered);
+            }
             String extIdFieldName = externalIdFieldName(mdtObjName);
             System.debug('external id fieldname for ' + mdtObjName + ': ' + extIdFieldName);
             String whereClause = 'WHERE ' + externalIdFieldName(mdtObjName) + ' IN ' + inIDsStr; 
@@ -308,7 +324,10 @@ public without sharing class SyncController {
             if (exstRecs!=null && !exstRecs.IsEmpty()) {
                 // Remove existing ids from list
                 for (sObject extRec : exstRecs) {
-                    idsGathered.remove((Id)extRec.get(extIdFieldName));
+                    // Remove prefix if it exists
+                    String extIdStr = String.valueOf(extRec.get(extIdFieldName));
+                    System.debug('Removing extId: ' + (String)extIdStr.remove(fsCOA + '_'));
+                    idsGathered.remove((Id)extIdStr.remove(fsCOA + '_'));
                 }
             }
             idsToQuery.addAll(idsGathered);
@@ -351,7 +370,9 @@ public without sharing class SyncController {
         Sync_Log__c sLog = new Sync_Log__c(
             Type__c = 'GFW to FSDB',
             DateTime_Start__c = startDateTime,
-            Status__c = 'Launched'
+            Status__c = 'Launched',
+            OwnerId = fsOwnerId,
+            FS_Group__c = fsCOA
         );
         insert sLog;
         syncLogId = sLog.Id;
@@ -403,12 +424,13 @@ public without sharing class SyncController {
     }
 
     public List<sObject> retrievePendingLogRecs(String mdtObjName) {
-        List<sObject> objList = new List<sObject>(Utilities.fetchRecords(
+        String[] relFieldNames = new String[]{'Sync_Log__r.OwnerId', 'Sync_Log__r.FS_Group__c'};
+        List<sObject> logRecObjs = new List<sObject>(Utilities.fetchRecords(
             'Sync_Log_Record__c',
             'WHERE Type__c = \'' + mdtObjName + '\' AND Status__c = \'Pending\'',
-            null
+            relFieldNames
         ));
-        return objList;
+        return logRecObjs;
     }
 
     /*******************
@@ -420,12 +442,13 @@ public without sharing class SyncController {
         // Rely on gift's account and opportunity from nested json: AQB__Gift__r={AQB__CreditedOpportunity__c=0065d00000wWBdeAAG...
         // (TO DO: Handle soft-credits in next iteration.)
         Map<String, Object> relGift;
+        Set<Id> recDonIds = new Set<Id>();
         System.debug('fsCOA: ' + fsCOA);
         String mdtObjName = 'Transaction_to_Payment';
         String whereClause = ' WHERE AQB__ChartofAccounts__r.Name LIKE \'' + fsCOA + '%\' AND AQB__Type__c != \'Soft credit\' AND (AQB__Method__c!=\'Pledge\' or AQB__Balance__c>0)';
         List<Object> records = queryForRecords(mdtObjName, null, whereClause);
         if (records != null && records.size()>0) {
-            transactionsJSON = records;
+            objNamesJSONMap.put(mdtObjName, records);
             for (Object rec : records) {
                 Map<String, Object> t = (Map<String, Object>) rec;
                 System.debug('>>> Transactions: ' + t);
@@ -442,26 +465,34 @@ public without sharing class SyncController {
                     if (!GiftIdToGiftOppId.containsKey(giftId)) GiftIdToGiftOppId.put(giftId, oppId);
                 }
             }
-        }
+            if (recDonIds!=null && !recDonIds.isEmpty()) objNamesIdsMap.put('Recurring_Donations', recDonIds);
+        } 
         System.debug('giftOppIds: ' + giftOppIds);
         System.debug('GiftIdToGiftOppId: ' + GiftIdToGiftOppId);
         System.debug('campIds: ' + campIds);
     }
     
     public void gatherGiftCredits() {
-        // Retrieve gift credits and their linked accounts/contacts from giftIds.
-        // TO DO: Only gather gift credits where Contact's Account not equal to gift's Account
+        // Retrieve gift credits from giftIds and their accounts/contacts.
+        // Gather gcIds for FSDB where contact's Account not same as gift OR if institutional donor.
         // Rely on AQB_DonorAccount__c, not Credited Account; AQB__ContactId__c, not AQB__ContactCredited__c (deprecated master/detail).
         if (!giftIds.isEmpty()) {
+            // Look up existing OpportunityContactRoles in FSDB with Account clashes
+            OpportunityContactRole[] exstRecs = Utilities.fetchRecords(
+                'OpportunityContactRole', 'WHERE HasAccountClash__c = TRUE', null);
+            List<String> ExistIdPairs = new List<String>();
+            for (OpportunityContactRole rec : exstRecs) {
+                ExistIdPairs.add(rec.GFWContactGiftIdsPair__c);
+            }
+            // Query GiftCredits in GFW
             String mdtObjName = 'GiftCredit_to_OppContactRole';
             String inIDsStr = Utilities.packageIdsForQuery(giftIds);
             String whereClause = ' WHERE AQB__GiftId__c IN ' + inIDsStr;
             List<Object> records = queryForRecords(mdtObjName, null, whereClause);
-            Map<String, Object> pAcct;
-            Map<Id, Id> extGiftContactIdMap = new Map<Id, Id>();
+            Set<Id> ctIds = new Set<Id>();
+            Set<Id> gcIds = new Set<Id>();
             if (records != null && records.size()>0) {
-                // Stash gc record json and gather parent/related Ids
-                gcsJSON.add(records);
+                // Gather parent/related Ids
                 for (Object rec : records) {
                     Map<String, Object> gc = (Map<String, Object>)rec;
                     System.debug('>>> Gift Credits: ' + gc);
@@ -470,16 +501,29 @@ public without sharing class SyncController {
                         // Retrieve contact's parent account from nested json: AQB__ContactId__r={AccountId=0011Y00003HzuHRQAZ, attributes={type=Contact...
                         ctIds.add((Id)gc.get('AQB__ContactId__c')); 
                         System.debug('GiftCredit contactIds: ' + ctIds);
-                        pAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
-                        if (pAcct != null) acctIds.add((Id)pAcct.get('AccountId'));
-                        // Package GCs for OppContactRoles - GFWGiftExternalId on Opp and GFWContactExternalId.
+                        Map<String, Object> parentAcct = (gc.get('AQB__ContactId__r') != null) ? (Map<String, Object>)gc.get('AQB__ContactId__r') : null;
+                        if (parentAcct != null) {
+                            acctIds.add((Id)parentAcct.get('AccountId'));
+                            String contactExtId = fsCOA + '_' + (String)gc.get('AQB__ContactId__c');
+                            String thisIdPair = contactExtId + (String)gc.get('AQB__GiftId__c');
+                            // Dig for gift account record type
+                            Map<String, Object> giftRel = (Map<String, Object>)gc.get('AQB__GiftId__r');
+                            Map<String,Object> giftAcct = (Map<String,Object>)giftRel.get('AQB__AccountId__r');
+                            Map<String,Object> recTypeMap = (Map<String,Object>)giftAcct.get('RecordType');
+                            String recType = (String)recTypeMap.get('DeveloperName');
+                            System.debug('Gift credits recTypeMap: ' + recTypeMap + '; recType: ' + recType);
+                            if ((parentAcct.get('AccountId') != gc.get('AQB__DonorAccount__c') || (recType != 'Household')) && !ExistIdPairs.contains(thisIdPair)) {
+                                gcIds.add((Id)gc.get('Id'));
+                            }
+                        }
                         // System.debug('giftid: ' + (Id)gc.get('AQB__GiftId__c') + '; contactId: ' + (Id)gc.get('AQB__ContactId__c'));
-                        extGiftContactIdMap.put((Id)gc.get('AQB__GiftId__c'), (Id)gc.get('AQB__ContactId__c'));   
                     }
                     // System.debug('AccountId: ' + (Id)gc.get('AQB__DonorAccount__c'));
                     // System.debug('ContactId: ' + (Id)gc.get('AQB__ContactId__c'));
-                    // System.debug('GC Contact Parent AccountId: ' + (Id)pAcct.get('AccountId'));
+                    // System.debug('GC Contact Parent AccountId: ' + (Id)parentAcct.get('AccountId'));
                 }
+                if (gcIds != null && !gcIds.isEmpty()) objNamesIdsMap.put(mdtObjName, gcIds);
+                if (ctIds != null && !ctIds.isEmpty()) objNamesIdsMap.put('Contact', ctIds);
             }
         }
     }
@@ -499,10 +543,11 @@ public without sharing class SyncController {
             System.debug('Inside gatherGiftOpportunities. giftOppIdsToUpdate: ' + giftOppIdsToUpdate);
             if (!giftOppIdsToUpdate.isEmpty()) {
                 // Retrieve json records for setting ext gift ids in these Opportunities.
+                // Add json to Map (GiftOpportunity => GiftOpportunityJSON)
                 String mdtObjName = 'GiftOpportunity';
                 String inIDsStrToUpdate = Utilities.packageIdsForQuery(giftOppIdsToUpdate);
                 String whereClauseQuery = ' WHERE AQB__CreditedOpportunity__c IN ' + inIDsStrToUpdate;
-                giftOppsJSON = queryForRecords(mdtObjName, null, whereClauseQuery);
+                objNamesJSONMap.put(mdtObjName, queryForRecords(mdtObjName, null, whereClauseQuery));
                 // Retrieve existing FSDB Opps that match those ext gift ids to delete
                 for (Id extGiftId : GiftIdToGiftOppId.keyset()) {
                     System.debug('Inside gatherGiftOpportunities - GiftIdToGiftOppId map loop: ' + extGiftId);
@@ -514,8 +559,8 @@ public without sharing class SyncController {
                     String whereQuery = 'WHERE GFW_Gift_ID__c IN ' + idsToQuery;
                     giftToOppsToDelete = Utilities.fetchRecords('Opportunity', whereQuery, null);
                 }
+                System.debug('gatherGiftOpportunities json: ' + objNamesJSONMap.get(mdtObjName));
             }
-            System.debug('gatherGiftOpportunities giftOppsJSON: ' + giftOppsJSON);
         }
     }
 
@@ -541,8 +586,9 @@ public without sharing class SyncController {
     public void gatherCOAs() {
         String mdtObjName = 'ChartofAccounts';
         String whereClause = ' WHERE Name LIKE \'' + fsCOA + '\'';
-        coasJSON = queryForRecords(mdtObjName, null, whereClause);
-        System.debug('COA: ' + fsCOA + '; coasJSON: ' + coasJSON);
+        // Add json records to Map (ChartofAccounts => COA Json)
+        objNamesJSONMap.put(mdtObjName, queryForRecords(mdtObjName, null, whereClause));
+        System.debug('COA: ' + fsCOA + '; coasJSON: ' + objNamesJSONMap.get(mdtObjName));
     }
 
     /*******************
@@ -559,21 +605,20 @@ public without sharing class SyncController {
         String fsdbObjName = objMap.FSDB_Object_Name__c;
         recTypeMapDevNameId = Utilities.recTypeMapForObject(fsdbObjName);
         fieldMapFSDB = Utilities.fieldMapForObject(fsdbObjName);
-        
-        // Set public class variable to field reference for external id (required for upsert operation)
-        String fsdbExternalIdFieldName = objMap.FSDB_External_Id_Field_API_Name__c;
-        extIdFieldReference = fieldMapFSDB.get(fsdbExternalIdFieldName); 
-        
-        // Declare method variables
         String fieldType, gfwFieldName;
         List<sObject> objs = new List<sObject>();
 
+        // Set public class variable to field reference for external id (required for upsert operation)
+        String fsdbExternalIdFieldName = externalIdFieldName(mdtObjName); // objMap.FSDB_External_Id_Field_API_Name__c;
+        extIdFieldReference = fieldMapFSDB.get(fsdbExternalIdFieldName);
+
         // Retrieve Sync Log Records for json
-        List<sObject> objList = new List<sObject>(retrievePendingLogRecs(mdtObjName));
+        List<sObject> logRecObjs = new List<sObject>(retrievePendingLogRecs(mdtObjName));
 
         // Loop through Sync Log records to retrieve and deserialize json; create new records
-        for (sObject obj : objList) {
+        for (sObject obj : logRecObjs) {
             Sync_Log_Record__c slRec = (Sync_Log_Record__c)obj;
+            fsCOA = slRec.Sync_Log__r.FS_Group__c;
 
             System.debug('Record info: ' + slRec.RecordInfo__c);
             // Cast json as map of fieldname(string) to fieldvalue(object)
@@ -594,7 +639,14 @@ public without sharing class SyncController {
                 gfwFieldName = fieldmapMDT.GFW_Field_API_Name__c;
                 System.debug('gfwFieldName: ' + gfwFieldName);
                 if (fsdbFieldName == 'OwnerId') {
-                    sObj.put(fsdbFieldName, slRec.FSGroupOwnerId__c);
+                    sObj.put(fsdbFieldName, slRec.Sync_Log__r.OwnerId);
+                } else if (fieldmapMDT.DefaultValue__c != null && fieldmapMDT.DefaultValue__c != '') {
+                    // Set field to default value in cmdt
+                    sObj.put(fsdbFieldName, fieldmapMDT.DefaultValue__c);
+                } else if (fsdbFieldName == fsdbExternalIdFieldName && objMap.PrefixExternalIds__c) {
+                    // Prefixed External Id: Append prefix before setting.
+                    // Note: Regular external Ids set the same as other fields. 
+                    sObj.put(fsdbFieldName, fsCOA + '_' + gfwInfo.get(gfwFieldName));
                 } else if (gfwFieldName.contains('.')) {
                     // Special handling required for related fields (e.g., AQB__CreditedOpportunity__r.Box_Link__c).
 		            Map<String, Object> innerMap = new Map<String, Object>(gfwInfo);
@@ -618,9 +670,6 @@ public without sharing class SyncController {
                     System.debug('FSDB Field Type for ' + fsdbFieldName + ': ' + fieldType);
                     System.debug('Set this field in FSDB: ' + fieldmapMDT.FSDB_Field_API_Name__c + ' based on gfwFieldName ' + gfwFieldName + ' to this value: ' + gfwInfo.get(gfwFieldName));
                     sObj = populateFields(sObj, fieldType, fieldmapMDT, gfwInfo.get(gfwFieldName));
-                } else {
-                    // Set field to default value in cmdt - TO DO: Cast type?
-                    sObj.put(fsdbFieldName, fieldmapMDT.DefaultValue__c);
                 }
             } // End for each FSDB field
             // Add link to Sync Log Record
@@ -678,8 +727,11 @@ public without sharing class SyncController {
                 String extIdFieldNameByMDT = fieldmapMDT.LookupRelTo_SyncObjectMapping__c != null ? 
                     fieldmapMDT.LookupRelTo_SyncObjectMapping__r.FSDB_External_Id_Field_API_Name__c : 
                     externalIdFieldName(refObjName);
-                System.debug('external id field name: ' + extIdFieldNameByMDT + 'value: ' + (Id)gfwValue);
-                refSObj.put(extIdFieldNameByMDT, (Id)gfwValue);
+                // Append prefix on external Id of related record if needed.
+                Boolean needsPref = fieldmapMDT.LookupRelTo_SyncObjectMapping__r.PrefixExternalIds__c;
+                String extId = (needsPref ? fsCOA + '_' : '') + (String)gfwValue;
+                refSObj.put(extIdFieldNameByMDT, extId);
+                System.debug('external id field name: ' + extIdFieldNameByMDT + 'value: ' + extId);
                 relName =  String.valueof(fieldMapFSDB.get(fsdbFieldName).getDescribe().getRelationshipName());
                 // Set relationship (e.g., LookupRelationship__r) to refSObj (sObject reference)
                 sObj.putSObject(relName, refSObj);
@@ -714,62 +766,42 @@ public without sharing class SyncController {
         // Retrieve children records and parent Ids
         gatherCOAs();
         gatherTransactions();
-        gatherGiftCredits();
+        gatherGiftCredits(); 
         gatherGiftOpportunities();
         gatherOpportunities();
 
         // Gather json records for each set of Ids.
         Set<Id> idsToUpsert;
         List<Object> records;
-        Map<String, Set<Id>> objNamesIdsMap = new Map<String, Set<Id>>{
-            'Account' => acctIds,
-            'Contact' => ctIds,
-            'Recurring_Donations' => recDonIds,
-            'Gift_to_Opportunity' => giftIds,
-            'Opportunity' => oppIds
-            // 'Campaign' => campIds
-        };
-        for (String thisObjName : objNamesIdsMap.keyset()) {
-            // For Contacts, Accounts, floating Opportunities, only upsert those not already in fsdb.
-            idsToUpsert = thisObjName == 'Contact' || thisObjName == 'Account' || thisObjName == 'Opportunity' ? recIdsToInsert(thisObjName, objNamesIdsMap.get(thisObjName)) : objNamesIdsMap.get(thisObjName);
-            System.debug('thisObjName: ' + thisObjName + '; idsToUpsert: ' + idsToUpsert);
-            if (!idsToUpsert.IsEmpty()) {
-                records = queryForRecords(thisObjName, idsToUpsert, null);
-                System.debug('Launch sync: ' + thisObjName + ' records to create: ' + records);
-                switch on thisObjName {
-                    when 'Account' {
-                        acctsJSON = records;
-                    } when 'Contact' {
-                        ctsJSON = records;
-                    } when 'Recurring_Donations' {
-                        rdsJSON = records;
-                    } when 'Gift_to_Opportunity' {
-                        giftsJSON = records;
-                    } when 'Opportunity' {
-                        oppsJSON = records;
-                    } when 'Campaign' {
-                        campsJSON = records;
-                    }
+
+        // Add remaining Ids to ObjIds map
+        objNamesIdsMap.put('Account', acctIds);
+        objNamesIdsMap.put('Gift_to_Opportunity', giftIds);
+        objNamesIdsMap.put('Opportunity', oppIds);
+        objNamesIdsMap.put('Campaign', campIds);
+
+        // Loop through active object mappings and retrieve json records by Id sets.
+        for (GFW_Sync_Object_Mapping__mdt thisObj : mdts) {
+            String thisObjName = thisObj.DeveloperName;
+            if ( objNamesIdsMap.containsKey(thisObjName) ) {
+                // UpsertNewOnly: Only upsert records not already in fsdb. (Contacts, Accounts, floating Opportunities.)
+                idsToUpsert = thisObj.UpsertNewOnly__c ? recIdsToInsert(thisObjName, objNamesIdsMap.get(thisObjName)) : objNamesIdsMap.get(thisObjName);
+                System.debug('thisObjName: ' + thisObjName + '; idsToUpsert: ' + idsToUpsert);
+                if (!idsToUpsert.IsEmpty() && idsToUpsert != null) {
+                    records = queryForRecords(thisObjName, idsToUpsert, null);
+                    System.debug('Launch sync: ' + thisObjName + ' records to create: ' + records);
+                    objNamesJSONMap.put(thisObjName, records);
                 }
             }
         }
 
+        // Create Sync Log and Sync Log Records for this FS Group
         // Note: DML operations must be done after all callouts.
         newSyncLog();
-        Map<String, List<Object>> objNamesJSONMap = new Map<String, List<Object>>{
-            'Account' => acctsJSON,
-            'Contact' => ctsJSON,
-            'ChartofAccounts' => coasJSON,
-            'Recurring_Donations' => rdsJSON,
-            // 'Campaign' => campsJSON,
-            'GiftOpportunity' => giftOppsJSON,
-            'Gift_to_Opportunity' => giftsJSON,
-            'Opportunity' => oppsJSON,
-            'Transaction_to_Payment' => transactionsJSON
-        };
         for (String objName : objNamesJSONMap.keySet()) {
             logRecords(objName, objNamesJSONMap.get(objName));
         }
+
         // Delete any GiftToOpportunities newly linked to existing floating Opportunities.
         deleteAndLog('Gift_to_Opportunity', giftToOppsToDelete); 
     }

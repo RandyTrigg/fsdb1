@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>FS_BFF</fullName>
+        <default>false</default>
+        <label>FS_BFF</label>
+    </customValue>
+    <customValue>
+        <fullName>FS_VAL</fullName>
+        <default>false</default>
+        <label>FS_VAL</label>
+    </customValue>
+    <description>Names of FS Groups that align with DeveloperName of FS-related Public Groups.</description>
+    <masterLabel>FS Group</masterLabel>
+    <sorted>true</sorted>
+</GlobalValueSet>

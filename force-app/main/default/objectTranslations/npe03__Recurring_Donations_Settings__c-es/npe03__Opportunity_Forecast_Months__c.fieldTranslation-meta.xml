@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Cantidad de meses desde hoy que deben tener op. abiertas creadas cuando se usa don. recurrentes con final abierto. ATENCIÓN: Disminuir este valor resulta en la eliminación de op. que están de más. Aumentar este valor ejecutará un lote para agregar op.</help>
+    <label></label>
+    <name>npe03__Opportunity_Forecast_Months__c</name>
+</CustomFieldTranslation>

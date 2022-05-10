@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si coché, le lien vers l’adresse actuelle du contact remplace l’adresse par défaut ou l’adresse saisonnière du foyer.</help>
+    <label></label>
+    <name>npsp__is_Address_Override__c</name>
+</CustomFieldTranslation>

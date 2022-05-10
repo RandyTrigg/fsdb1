@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indien aangevinkt, alle opportunities voor terugkerende donaties zal de campagne op de terugkerende donatie gebruiken. Anders, heeft alleen de eerste opportunity een campagne.</help>
+    <label></label>
+    <name>npe03__Add_Campaign_to_All_Opportunites__c</name>
+</CustomFieldTranslation>

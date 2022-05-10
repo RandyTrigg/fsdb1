@@ -2,7 +2,7 @@
  * field names, and numeric and string constants. Skip comments and white space.
  * Look up field names and replace with their values.
  */
-public with sharing class ExpressionLexer {
+public class ExpressionLexer {
     public enum TokenType {
         NUMBER_TOKEN,
         STRING_TOKEN,
@@ -42,7 +42,7 @@ public with sharing class ExpressionLexer {
     };
     private static String fieldNameChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._';
 
-    public with sharing class Stack {
+    public class Stack {
         Object[] items = new List<Object>();
         public Integer size() {
             return items.size();
@@ -59,7 +59,7 @@ public with sharing class ExpressionLexer {
     }
 
     // A token is represented by a value, a type, an index into the input string, and the number of args (in the case of an operator).
-    public with sharing class Token {
+    public class Token {
         public Object value;
         public TokenType type;
         public Integer index;

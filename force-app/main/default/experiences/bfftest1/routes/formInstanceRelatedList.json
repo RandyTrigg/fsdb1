@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "adc70cd1-1df7-4535-a025-6f240857fbbf",
+  "appPageId" : "096001b9-ecfe-4dac-ac87-54995fac471f",
+  "configurationTags" : [ ],
+  "id" : "1e0fd5ab-c913-4203-8ed0-6274846350e6",
+  "label" : "Form Instance Related List",
+  "objectApiName" : "Form_Instance__c",
+  "routeType" : "relatedlist-a24",
+  "type" : "route",
+  "urlPrefix" : "form-instance"
+}

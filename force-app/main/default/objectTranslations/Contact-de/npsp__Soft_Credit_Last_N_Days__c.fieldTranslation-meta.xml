@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Der Gesamtbetrag des weichen Kredits, der in den letzten Tagen abgeschlossen wurde, wie in den Haushalt-Einstellungen definiert</help>
+    <label></label>
+    <name>npsp__Soft_Credit_Last_N_Days__c</name>
+</CustomFieldTranslation>

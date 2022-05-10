@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_FS_Groups</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Active__c</columns>
+    <columns>Designated_Role_for_Ownership__c</columns>
+    <columns>GFW_COA_Name__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All FS Groups</label>
+    <language>en_US</language>
+    <sharedTo>
+        <role>FS_Administrator</role>
+    </sharedTo>
+</ListView>

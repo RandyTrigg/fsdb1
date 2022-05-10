@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Totaal aantal allocaties van opportunities in een gesloten en gewonnen fase van Vorig Jaar.</help>
+    <label></label>
+    <name>npsp__Number_of_Allocations_Last_Year__c</name>
+</CustomFieldTranslation>

@@ -21,6 +21,10 @@ key2:value2
 key3:value3</value>
     </values>
     <values>
+        <field>HeaderParameters__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>IsCompressed__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -40,5 +44,9 @@ key3:value3</value>
         <field>URLParametersLong__c</field>
         <value xsi:type="xsd:string">key1:
 key2:value2</value>
+    </values>
+    <values>
+        <field>URLParameters__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

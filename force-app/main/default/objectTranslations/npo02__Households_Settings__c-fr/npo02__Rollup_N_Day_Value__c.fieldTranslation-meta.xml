@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Fournit une valeur pour les cumuls sur N jours, où N est le nombre de jours passés jusqu’à aujourd’hui.  Cette valeur cumule sur les derniers 365 jours par défaut.</help>
+    <label></label>
+    <name>npo02__Rollup_N_Day_Value__c</name>
+</CustomFieldTranslation>

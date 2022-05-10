@@ -1,4 +1,4 @@
-public with sharing class FundController {
+public class FundController {
     /**********************************
      * For general use
      *********************************/

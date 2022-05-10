@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Formel: Der Betrag dieser Opportunity minus des Betrags der Zahlungsabschreibung und des empfangenen Zahlungsbetrags</help>
+    <label></label>
+    <name>npe01__Amount_Outstanding__c</name>
+</CustomFieldTranslation>

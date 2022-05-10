@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>המספר הכולל של תשלומים ששולמו במסגרת תרומה חוזרת עם סיום פתוח.</help>
+    <label></label>
+    <name>npe03__Total_Paid_Installments__c</name>
+</CustomFieldTranslation>

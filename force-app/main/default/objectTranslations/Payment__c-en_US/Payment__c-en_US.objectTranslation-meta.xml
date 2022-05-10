@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Payment</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Payments</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>AmountPaidBLANK</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>DatePaidAccountingBLANK</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>DateReturnedAmountReturned</name>
+    </validationRules>
+    <webLinks>
+        <label></label>
+        <name>New_letter</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>New_letters</name>
+    </webLinks>
+</CustomObjectTranslation>

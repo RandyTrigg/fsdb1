@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <caseType>Nominative</caseType>
+        <plural>false</plural>
+        <value>Änderungsprotokoll für wiederkehrende Spenden</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Nominative</caseType>
+        <plural>true</plural>
+        <value>Änderungsprotokolle für wiederkehrende Spenden</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Accusative</caseType>
+        <plural>false</plural>
+        <value>Änderungsprotokoll für wiederkehrende Spenden</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Accusative</caseType>
+        <plural>true</plural>
+        <value>Änderungsprotokolle für wiederkehrende Spenden</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Genitive</caseType>
+        <plural>false</plural>
+        <value>Änderungsprotokolls für wiederkehrende Spenden</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Genitive</caseType>
+        <plural>true</plural>
+        <value>Änderungsprotokolle für wiederkehrende Spenden</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Dative</caseType>
+        <plural>false</plural>
+        <value>Änderungsprotokoll für wiederkehrende Spenden</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Dative</caseType>
+        <plural>true</plural>
+        <value>Änderungsprotokollen für wiederkehrende Spenden</value>
+    </caseValues>
+    <gender>Neuter</gender>
+    <nameFieldLabel>Nummer im Änderungsprotokoll für wiederk</nameFieldLabel>
+</CustomObjectTranslation>

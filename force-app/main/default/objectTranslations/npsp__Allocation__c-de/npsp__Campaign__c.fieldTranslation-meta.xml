@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Weist optional Zuordnungen einer Kampagne zu. Alle neuen Opportunities, die mit dieser Kampagne als Primärkampagnenquelle erstellt wurden, werden automatisch auf dieselbe Weise zugeordnet.</help>
+    <label></label>
+    <name>npsp__Campaign__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>NO LONGER USED - Indicates which model drives Account relationship behavior: Individual (Bucket) or One-to-One</help>
+    <label></label>
+    <name>npe01__SystemAccountProcessor__c</name>
+    <picklistValues>
+        <masterLabel>Individual</masterLabel>
+        <translation>Individual</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>One-to-One</masterLabel>
+        <translation>One-to-One</translation>
+    </picklistValues>
+</CustomFieldTranslation>

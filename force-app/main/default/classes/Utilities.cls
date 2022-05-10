@@ -1,4 +1,4 @@
-global class Utilities {
+global inherited sharing class Utilities {
     // Miscellaneous utility constants and methods
 
     public static String EmailAddressIM = 'im@globalfundforwomen.org';
@@ -420,6 +420,11 @@ global class Utilities {
             ' failures.'
         );
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+    }
+
+    // Return emails for given accounts.  Dish off to code in AccountController.
+    public static Map<Id, List<String>> emailsForAccounts(Set<Id> aIds) {
+        return AccountController.emailsForAccounts(aids); 
     }
 
     /*******************

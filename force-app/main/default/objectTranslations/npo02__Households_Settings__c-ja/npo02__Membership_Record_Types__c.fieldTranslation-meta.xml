@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>他の支援レコードタイプから個別に積み上げ集計する、「会員」などの支援レコードタイプの名前。</help>
+    <label></label>
+    <name>npo02__Membership_Record_Types__c</name>
+</CustomFieldTranslation>

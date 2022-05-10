@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>このボックスをオンにすると、団体と個人のハードクレジットおよびソフトクレジット積み上げ集計が、既存の関連支援または支援個人の役割レコードを含む個人レコードおよび団体レコードだけを処理しないようになります。</help>
+    <label></label>
+    <name>npsp__Disable_Related_Records_Filter__c</name>
+</CustomFieldTranslation>

@@ -38,7 +38,7 @@
                 <field>Review_Form__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Advisor__c</field>
             </layoutItems>
             <layoutItems>

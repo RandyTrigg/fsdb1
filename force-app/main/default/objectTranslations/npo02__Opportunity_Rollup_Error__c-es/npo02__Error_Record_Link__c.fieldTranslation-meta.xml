@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>URL al registro en el cual ocurrió el error.</help>
+    <label></label>
+    <name>npo02__Error_Record_Link__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Permet le cumul des totaux d’opp. fermées selon les rôles des contacts. Les cumuls de crédits de groupe ne se produisent que dans la tâche nocturne, pas sur les déclencheurs. Ils peuvent être exécutés manuellement dans l’onglet de cumul de dons par lot.</help>
+    <label></label>
+    <name>npo02__Enable_Soft_Credit_Rollups__c</name>
+</CustomFieldTranslation>

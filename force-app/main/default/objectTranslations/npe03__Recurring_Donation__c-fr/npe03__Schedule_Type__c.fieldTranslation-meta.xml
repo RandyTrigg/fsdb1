@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Indique si le montant est utilisé pour chaque versement (Multiplié par) ou réparti entre les versements (Divisé entre)  Uniquement utilisé avec des dons réguliers avec date de fin.</help>
+    <label>Déprécié:Critère</label>
+    <name>npe03__Schedule_Type__c</name>
+    <picklistValues>
+        <masterLabel>Divide By</masterLabel>
+        <translation>Diviser par</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multiply By</masterLabel>
+        <translation>Multiplier par</translation>
+    </picklistValues>
+</CustomFieldTranslation>

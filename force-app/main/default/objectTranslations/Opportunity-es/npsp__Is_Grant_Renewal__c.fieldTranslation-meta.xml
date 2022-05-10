@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si seleccionado, indica que este grant es una renovación de un gran anterior.</help>
+    <label></label>
+    <name>npsp__Is_Grant_Renewal__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Type d’enregistrement d’opportunité utilisé lorsque des opportunités de dons réguliers sont créées.</help>
+    <label></label>
+    <name>npe03__Record_Type__c</name>
+</CustomFieldTranslation>

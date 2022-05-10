@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>If payments are active, and if checked, a new payment will not be automatically created for this Opportunity.</help>
+    <label></label>
+    <name>npe01__Do_Not_Automatically_Create_Payment__c</name>
+</CustomFieldTranslation>

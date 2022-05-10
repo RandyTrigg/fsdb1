@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Un champ facultatif d&apos;ID unique à utiliser pour la correspondance de comptes d&apos;organisation</help>
+    <label></label>
+    <name>npsp__Account_Custom_Unique_ID__c</name>
+</CustomFieldTranslation>

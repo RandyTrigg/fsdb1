@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <caseType>Nominative</caseType>
+        <plural>false</plural>
+        <value>Allgemeine Verrechnungseinheit</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Nominative</caseType>
+        <plural>true</plural>
+        <value>Allgemeinen Verrechnungseinheiten</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Accusative</caseType>
+        <plural>false</plural>
+        <value>Allgemeine Verrechnungseinheit</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Accusative</caseType>
+        <plural>true</plural>
+        <value>Allgemeinen Verrechnungseinheiten</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Genitive</caseType>
+        <plural>false</plural>
+        <value>Allgemeinen Verrechnungseinheit</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Genitive</caseType>
+        <plural>true</plural>
+        <value>Allgemeinen Verrechnungseinheiten</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Dative</caseType>
+        <plural>false</plural>
+        <value>Allgemeinen Verrechnungseinheit</value>
+    </caseValues>
+    <caseValues>
+        <caseType>Dative</caseType>
+        <plural>true</plural>
+        <value>Allgemeinen Verrechnungseinheiten</value>
+    </caseValues>
+    <gender>Feminine</gender>
+    <nameFieldLabel>Name des Verwendungszwecks</nameFieldLabel>
+    <webLinks>
+        <label></label>
+        <name>npsp__Recalculate_Rollups</name>
+    </webLinks>
+</CustomObjectTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Beschreibt die Finanzierungsbereiche der Unterstützung Sie können hier einen beliebigen Eintrag vornehmen. Sie könnten beispielsweise den Namen des Programms eingeben, auf den sich die Unterstützung bezieht.</help>
+    <label></label>
+    <name>npsp__Grant_Program_Area_s__c</name>
+</CustomFieldTranslation>

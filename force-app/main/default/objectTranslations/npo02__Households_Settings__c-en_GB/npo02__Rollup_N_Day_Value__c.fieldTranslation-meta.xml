@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Provide a value for &apos;N day&apos; rollups, where &apos;N&apos; is the number of days from today into the past.  This value defaults to rollup over the past 365 days.</help>
+    <label></label>
+    <name>npo02__Rollup_N_Day_Value__c</name>
+</CustomFieldTranslation>

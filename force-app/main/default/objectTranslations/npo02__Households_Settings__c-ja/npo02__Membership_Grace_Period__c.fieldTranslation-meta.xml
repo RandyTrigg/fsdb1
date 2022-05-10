@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>会員の期限が切れた (期限最終日) 後に状況が「猶予期間」から「期限切れ」に移行するまでの猶予期間 (日数)。デフォルトは 30 日です。</help>
+    <label></label>
+    <name>npo02__Membership_Grace_Period__c</name>
+</CustomFieldTranslation>

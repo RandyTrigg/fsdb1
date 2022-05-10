@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Si coché, toute adresse de compte aux États-Unis marquée non livrable par le service sera automatiquement effacée. (Vous pouvez examiner la valeur invalide dans l’enregistrement d’adresse.)</help>
+    <label></label>
+    <name>npsp__Clear_Invalid_Addresses__c</name>
+</CustomFieldTranslation>

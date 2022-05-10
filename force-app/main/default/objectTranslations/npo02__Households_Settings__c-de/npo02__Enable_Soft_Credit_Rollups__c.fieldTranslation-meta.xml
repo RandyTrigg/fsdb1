@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Ermöglicht Rollup v. geschl. Opport.-Gesamtwerten auf Basis d. Opport.-Kontaktrollen. Rollups v. weichen Krediten werden während nächtl. Batchaufträge durchgef., nicht aufgrund v. Auslösern. Sie sind über &quot;Batch zum Rollup von Spenden&quot; manuell ausführbar.</help>
+    <label></label>
+    <name>npo02__Enable_Soft_Credit_Rollups__c</name>
+</CustomFieldTranslation>

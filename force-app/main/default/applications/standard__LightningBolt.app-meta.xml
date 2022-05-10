@@ -7,6 +7,7 @@
     <navType>Standard</navType>
     <tabs>standard-LightningBoltHome</tabs>
     <tabs>Sync_Log__c</tabs>
-    <tabs>Sync_Log_Action__c</tabs>
+    <tabs>Sync_Log_Record__c</tabs>
+    <tabs>Commitment__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

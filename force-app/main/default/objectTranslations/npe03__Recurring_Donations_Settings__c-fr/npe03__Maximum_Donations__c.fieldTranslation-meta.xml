@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Restreint le nombre total de dons créés pour les dons réguliers avec date de fin. La valeur par défaut est de 50.  Des valeurs plus élevées peuvent provoquer des erreurs DML.</help>
+    <label></label>
+    <name>npe03__Maximum_Donations__c</name>
+</CustomFieldTranslation>

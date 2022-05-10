@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Wanneer ingeschakeld, Veranderingen aan één contact of bedrijfs adres veld update het huidige adres, in plaats van een nieuwe adres aan te maken</help>
+    <label></label>
+    <name>npsp__Simple_Address_Change_Treated_as_Update__c</name>
+</CustomFieldTranslation>

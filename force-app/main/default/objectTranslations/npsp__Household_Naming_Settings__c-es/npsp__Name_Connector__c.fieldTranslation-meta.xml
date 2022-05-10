@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>La palabra a usar como conector en un nombre. Por ejemplo, Juan y María, o Juan &amp; María.</help>
+    <label></label>
+    <name>npsp__Name_Connector__c</name>
+</CustomFieldTranslation>

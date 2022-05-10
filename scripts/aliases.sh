@@ -10,6 +10,9 @@ alias dxupdatecli='npm install --global sfdx-cli'
 
 alias dxlist='sfdx force:org:list'
 
+# Retrieve metadata using manifest
+# sfdx force:source:retrieve -x manifest/package.xml &> retrieve.log
+
 ###################
 # SCRATCH ORG: CREATE, PUSH CODE, ASSIGN PERM SET
 ###################
@@ -278,6 +281,17 @@ executeApex () {
 # git pull
 # git checkout <name of original branch>
 # git merge <name of new branch to merge> 
+
+# Create a new branch:
+# git checkout -b <branch name>
+# Then push branch to github:
+# git push -u origin <branch name> 
+
+# After merge to main at github, bring local branch up to date:
+# git checkout main // switch to main branch
+# git remote update // pull down "knowledge" of changes at remote branch
+# git status
+# git pull origin main // pull down and incorporate changes locally on main branch
 
 ###################
 # PACKAGE TIPS 

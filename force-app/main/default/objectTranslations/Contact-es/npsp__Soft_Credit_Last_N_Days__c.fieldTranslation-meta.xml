@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Monto total de crédito blando, ganado en los últimos N días. N se define en la configuración del NPSP.</help>
+    <label></label>
+    <name>npsp__Soft_Credit_Last_N_Days__c</name>
+</CustomFieldTranslation>

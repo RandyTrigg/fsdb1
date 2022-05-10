@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El porcentaje atribuido a la segunda asignación de CCG. Debe utilizar Asignación avanzada de importación de datos para asignar a este campo.</help>
+    <label></label>
+    <name>npsp__GAU_Allocation_2_Percent__c</name>
+</CustomFieldTranslation>

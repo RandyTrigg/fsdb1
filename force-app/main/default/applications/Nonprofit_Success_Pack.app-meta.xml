@@ -25,7 +25,8 @@
     <tabs>standard-Dashboard</tabs>
     <tabs>npsp__NPSP_Settings</tabs>
     <tabs>Sync_Log__c</tabs>
-    <tabs>Sync_Log_Action__c</tabs>
+    <tabs>Sync_Log_Record__c</tabs>
+    <tabs>Commitment__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Nonprofit_Success_Pack_UtilityBar</utilityBar>
 </CustomApplication>

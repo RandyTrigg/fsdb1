@@ -1,0 +1,175 @@
+<template>
+    <div lang={langTag}>
+
+        <!-- HEADER -->
+        <header class="slds-global-header_container bff-header-container">
+            <div class="slds-global-header slds-grid bff-global-header slds-grid_align-spread">
+                <div class="slds-global-header__item">
+                    <img class="bff-logo-header" src={bffLogoWhiteText} alt="Black Feminist Fund Logo"> <!-- Make this a link if we navigate home -->
+                </div>
+                <div class="slds-global-header__item">
+                    <lightning-button-menu 
+                        alternative-text="Show menu" 
+                        icon-name="utility:settings" 
+                        variant="border-inverse"
+                        menu-alignment="auto"
+                        onselect={handleMenuSelect}>
+                            <lightning-menu-item 
+                                value="GetHelp" 
+                                label={support} 
+                                href="mailto:#####@blackfeministfund.org?Subject=Question about Grants Site" 
+                                target="_blank">
+                            </lightning-menu-item>
+                            <lightning-menu-item 
+                                value="Logout" 
+                                label={logout}
+                                onclick={handleLogout}>
+                            </lightning-menu-item>
+                    </lightning-button-menu>
+                </div>
+            </div>
+        </header>
+
+        <!-- Language Picker -->
+        <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
+            <div class="slds-col">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                            <select class="slds-select" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
+                                <template for:each={options} for:item="option">
+                                    <option key={option.value} value={option.value}>{option.label}</option>
+                                </template>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- TOAST BANNER -->
+    <div if:false={hasSubmittedPrf}>
+        <c-lwc-toast-banner message={message}></c-lwc-toast-banner>           
+    </div>
+
+    <!-- Logo -->
+    <div class="slds-grid slds-grid_align-center slds-gutters_large">
+        <div class="slds-col">
+            <div class="logo-home-page">
+                <span class="slds-assistive-text">Black Feminist Fund Logo</span>
+                <img class="bff-logo-center" src={bffLogo}>
+            </div>
+        </div>
+    </div>
+
+    <div if:true={dataLoaded}>
+        <div class="slds-grid slds-gutters_large">
+            <div class="slds-col">
+                <div class="slds-text-heading_large slds-var-m-top_x-large"><h1>{pageHeader}</h1></div>
+                <section aria-label="Intro">
+                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">{pageSubheader}</div>
+                </section>
+            </div>
+        </div>
+        <!-- <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+            <div class="slds-col">   
+                <button 
+                class="slds-button slds-button_brand" 
+                onclick={navigateToForm}>{prfButtonLabel}</button>
+            </div> 
+        </div> -->
+
+        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+            <div class="slds-col">   
+                <lightning-button
+                    variant="brand"
+                    label={prfButtonLabel}
+                    title={prfButtonLabel}
+                    onclick={navigateToForm}
+                    class="slds-m-left_small bff-button-brand"
+                    disabled={disableButton}>
+                </lightning-button>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-gutters_xx-large">
+            <div class="slds-col">
+                <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small"><h2>{grantHeading}</h2></div>
+                <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                    <p>{grantSubHeading}</p>
+                </div>
+                <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                    <ul class="slds-list_dotted">
+                        <li class="slds-var-m-bottom_medium">
+                            <strong>{sustainFundHeading}</strong>
+                            &nbsp;{sustainFundDetails}
+                        </li>
+                        <li class="slds-var-m-bottom_medium">
+                            <strong>{solidarityFundHeading}</strong>
+                            &nbsp;{solidarityFundDetails}
+                        </li>
+                    </ul>
+                </div>
+            
+            </div>
+        </div>
+
+        <div>Language: {language}</div>
+        <div>Lang tag: {langTag}</div>
+        <div>Form instance Id: {prFormInstanceId}</div>
+        
+        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+            <div class="slds-col">   
+                <lightning-button
+                    variant="brand"
+                    label="Navigate to standard record page"
+                    title="New application"
+                    onclick={navigateToForm}
+                    class="slds-m-left_small bff-button-brand"
+                    disabled={disableButton}>
+                </lightning-button>
+            </div>
+        </div>
+        <br/>
+
+        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+            <div class="slds-col">   
+                <lightning-button
+                    variant="brand"
+                    label="Navigate to new page form instance"
+                    title="New application"
+                    onclick={navigateToNewPage}
+                    class="slds-m-left_small bff-button-brand"
+                    disabled={disableButton}>
+                </lightning-button>
+            </div>
+        </div>
+
+
+                <!-- <div class="slds-col slds-var-p-top_small">
+                    <lightning-button variant="brand" label="New application: Sustain Fund" title={hoverMessage} onclick={handleNewSolApp} class="slds-m-left_x-small"></lightning-button>
+                </div> -->
+
+                <!-- <a class="slds-button slds-button_brand" href="#">New application: Solidarity Fund</a>-->
+
+                <div>List Proposals</div>
+                <!-- <div if:true={profileSummary.hasProposals} class="slds-col slds-size_1-of-2 slds-m-bottom_x-large">
+                    <c-items-summary-tile title={propTitle} item-type="Proposals"  icon="standard:service_report" subtitle={propSubtitle} object-name="Proposal__c" list={profileSummary.proposals}></c-items-summary-tile>
+                </div> -->
+
+                <!-- From assessmentsAssigned -->
+                <!-- <div if:true={mutableRecords}>
+                    <lightning-datatable
+                        key-field="id"
+                        data={mutableRecords}
+                        columns={columns}
+                        onrowaction={handleRowAction}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </div>  -->
+
+    </div> <!-- Close dataloaded div -->
+
+    </div> <!-- Close lang tag -->
+</template>

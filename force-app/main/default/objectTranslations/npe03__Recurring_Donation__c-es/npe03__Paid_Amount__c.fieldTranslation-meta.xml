@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>El importe total pagado en esta donación recurrente. Se calcula automáticamente como el importe total de todas las oportunidades de cuotas Cerradas/Ganadas.</help>
+    <label>Importe total pagado</label>
+    <name>npe03__Paid_Amount__c</name>
+</CustomFieldTranslation>

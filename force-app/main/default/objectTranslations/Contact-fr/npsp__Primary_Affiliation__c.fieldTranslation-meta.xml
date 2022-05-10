@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Utilisé pour référencer le compte de l’enregistrement d’affiliation d’organisation marqué comme principal.</help>
+    <label></label>
+    <name>npsp__Primary_Affiliation__c</name>
+    <relationshipLabel></relationshipLabel>
+</CustomFieldTranslation>

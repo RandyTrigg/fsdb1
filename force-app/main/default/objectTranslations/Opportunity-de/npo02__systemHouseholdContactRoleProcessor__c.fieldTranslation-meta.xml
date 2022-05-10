@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Steuert, ob Haushalt-Kontaktrollen für Opportunities erstellt werden. ERSETZT. Ersetzt durch benutzerdefinierte Einstellungen.</help>
+    <label></label>
+    <name>npo02__systemHouseholdContactRoleProcessor__c</name>
+    <picklistValues>
+        <masterLabel>All Opportunities</masterLabel>
+        <translation>Alle Opportunities</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Opportunities</masterLabel>
+        <translation>Keine Opportunities</translation>
+    </picklistValues>
+</CustomFieldTranslation>

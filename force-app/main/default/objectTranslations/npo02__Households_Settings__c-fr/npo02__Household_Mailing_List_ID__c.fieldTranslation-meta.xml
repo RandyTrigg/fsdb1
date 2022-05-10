@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>L’ID du rapport sur la liste de publipostage de foyer utilisé pour les campagnes de publipostage dédupliquées par foyer.  Le rapport doit contenir les campagnes avec des contacts dont le statut de membre ne contient pas « Duplicate »</help>
+    <label></label>
+    <name>npo02__Household_Mailing_List_ID__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Formule : Si le type d’adresse principale est Professionnel, l’adresse postale.  Si le type d’adresse secondaire est Professionnel, l’autre adresse.</help>
+    <label></label>
+    <name>npe01__Work_Address__c</name>
+</CustomFieldTranslation>

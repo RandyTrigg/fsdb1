@@ -73,6 +73,11 @@
         <label></label>
         <name>Contact_GM</name>
     </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Contact_GM_Advisor</name>
+    </recordTypes>
     <validationRules>
         <errorMessage></errorMessage>
         <name>Contact_Preferred_Email</name>

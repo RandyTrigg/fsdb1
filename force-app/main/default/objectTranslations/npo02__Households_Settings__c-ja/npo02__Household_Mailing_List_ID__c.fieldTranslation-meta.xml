@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>世帯の重複が排除されたキャンペーン郵送先名簿で使用される世帯郵送先名簿レポートのレポート ID。[メンバーの状況] に「重複」が含まれていない、個人が関連するキャンペーンのレポートにする必要があります。</help>
+    <label></label>
+    <name>npo02__Household_Mailing_List_ID__c</name>
+</CustomFieldTranslation>

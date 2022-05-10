@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Niveau</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Niveaus</value>
+    </caseValues>
+    <fieldSets>
+        <label></label>
+        <name>npsp__LevelEdit</name>
+    </fieldSets>
+    <gender>Neuter</gender>
+    <nameFieldLabel>Niveaunaam</nameFieldLabel>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>npsp__Target_Required</name>
+    </validationRules>
+</CustomObjectTranslation>

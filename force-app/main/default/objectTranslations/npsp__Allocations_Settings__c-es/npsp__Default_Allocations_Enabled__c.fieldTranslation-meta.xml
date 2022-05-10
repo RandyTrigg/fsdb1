@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Habilita Asignaciones por defecto crea un registro de asignación por cada oportunidad. Esto habilita crear informes de asignaciones a la cuenta contable general por defecto, pero utiliza más espacio.</help>
+    <label></label>
+    <name>npsp__Default_Allocations_Enabled__c</name>
+</CustomFieldTranslation>

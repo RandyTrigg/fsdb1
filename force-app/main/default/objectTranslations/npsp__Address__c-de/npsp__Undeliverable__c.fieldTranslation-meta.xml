@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Gibt an, dass keine Zustellung an diese Adresse möglich ist.</help>
+    <label></label>
+    <name>npsp__Undeliverable__c</name>
+</CustomFieldTranslation>

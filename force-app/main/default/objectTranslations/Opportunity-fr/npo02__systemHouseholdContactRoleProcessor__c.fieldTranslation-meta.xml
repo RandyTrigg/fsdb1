@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Contrôle si les rôles de contact de foyer sont créés pour les opportunités. DÉPRÉCIÉ. Remplacé par les paramètres personnalisés.</help>
+    <label></label>
+    <name>npo02__systemHouseholdContactRoleProcessor__c</name>
+    <picklistValues>
+        <masterLabel>All Opportunities</masterLabel>
+        <translation>Toutes les opportunités</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Opportunities</masterLabel>
+        <translation>Aucune opportunité</translation>
+    </picklistValues>
+</CustomFieldTranslation>

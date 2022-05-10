@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>オンの場合、システムによって自動的に世帯名、公式の挨拶、および非公式の挨拶の名前が指定されます。</help>
+    <label></label>
+    <name>npo02__Advanced_Household_Naming__c</name>
+</CustomFieldTranslation>

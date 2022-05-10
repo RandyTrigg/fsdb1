@@ -1,4 +1,4 @@
-public with sharing class OpportunityController {
+public class OpportunityController {
     /**********************************
      * For use in Lightning components
      *********************************/

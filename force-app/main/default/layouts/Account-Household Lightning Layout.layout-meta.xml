@@ -2,7 +2,8 @@
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <customButtons>npsp__Manage_Household</customButtons>
     <customButtons>npsp__Recalculate_Rollups</customButtons>
-    <excludeButtons>DataDotComAccountInsights</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
+    <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
     <excludeButtons>IncludeOffline</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
@@ -293,6 +294,11 @@
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>npsp__NewContact</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>4</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>AccountAddToCampaign</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>5</sortOrder>
@@ -326,11 +332,6 @@
             <actionName>FeedItem.TextPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>11</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>npsp__NewContact</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>4</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>
@@ -380,13 +381,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>npe03__Date_Established__c</fields>
-        <fields>npe03__Last_Payment_Date__c</fields>
-        <fields>npe03__Next_Payment_Date__c</fields>
-        <fields>npe03__Installment_Amount__c</fields>
-        <fields>npe03__Total__c</fields>
-        <fields>npe03__Total_Paid_Installments__c</fields>
-        <relatedList>npe03__Recurring_Donation__c.npe03__Organization__c</relatedList>
+        <relatedList>Commitment__c.Account__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
@@ -442,7 +437,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1I000004CCU6</masterLabel>
+        <masterLabel>00h8c00000duGD0</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

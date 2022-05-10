@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Lot d&apos;importation de données NPSP</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Lots d&apos;importation de données NPSP</value>
+    </caseValues>
+    <fieldSets>
+        <label></label>
+        <name>npsp__BatchGiftEntryTabColumns</name>
+    </fieldSets>
+    <gender>Masculine</gender>
+    <nameFieldLabel>Nom du lot</nameFieldLabel>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label></label>
+        <name>npsp__Process_Batch</name>
+    </webLinks>
+</CustomObjectTranslation>

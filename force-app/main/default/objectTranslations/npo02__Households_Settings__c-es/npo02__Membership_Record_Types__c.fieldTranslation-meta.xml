@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Nombre del tipo de registro de oportunidades, como Membresía, que se quiere que sumen a totales diferentes de otros tipos de registro de oportunidad.</help>
+    <label></label>
+    <name>npo02__Membership_Record_Types__c</name>
+</CustomFieldTranslation>

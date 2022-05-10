@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Das Datum des Unterstützungsbeginns gemäß dem Dokument oder Vertrag, das die unterstützende Organisation gesendet hat</help>
+    <label></label>
+    <name>npsp__Grant_Contract_Date__c</name>
+</CustomFieldTranslation>

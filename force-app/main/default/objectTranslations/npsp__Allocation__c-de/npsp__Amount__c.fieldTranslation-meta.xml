@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Betrag der Opportunity, der dieser allgemeinen Verrechnungseinheit zugeordnet werden soll Lassen Sie das Feld bei prozentualen Zuordnungen leer.</help>
+    <label></label>
+    <name>npsp__Amount__c</name>
+</CustomFieldTranslation>

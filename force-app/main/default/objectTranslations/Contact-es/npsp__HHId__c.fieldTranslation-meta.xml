@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Contiene el ID de la familia, ya sea que se usen cuentas o el objeto familias.</help>
+    <label></label>
+    <name>npsp__HHId__c</name>
+</CustomFieldTranslation>

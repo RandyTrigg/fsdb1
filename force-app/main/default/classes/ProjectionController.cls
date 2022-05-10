@@ -1,4 +1,4 @@
-public with sharing class ProjectionController {
+public class ProjectionController {
     /**********************************
      * For general use
      *********************************/

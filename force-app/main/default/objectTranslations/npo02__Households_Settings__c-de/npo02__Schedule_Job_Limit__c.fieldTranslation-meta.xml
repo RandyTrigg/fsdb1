@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Die Anzahl der aktiven geplanten Apex-Aufträge, die bei Erstellung neuer Aufträge beachtet werden müssen</help>
+    <label></label>
+    <name>npo02__Schedule_Job_Limit__c</name>
+</CustomFieldTranslation>

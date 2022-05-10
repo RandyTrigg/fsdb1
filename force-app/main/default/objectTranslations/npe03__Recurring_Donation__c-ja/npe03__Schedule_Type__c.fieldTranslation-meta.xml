@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>金額が毎回使用される額 (乗算) であるか、回数で分割される額 (除算) であるか。固定期間の継続支援でのみ使用されます。</help>
+    <label>廃止:スケジュールタイプ</label>
+    <name>npe03__Schedule_Type__c</name>
+    <picklistValues>
+        <masterLabel>Divide By</masterLabel>
+        <translation>分割</translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multiply By</masterLabel>
+        <translation>加算</translation>
+    </picklistValues>
+</CustomFieldTranslation>

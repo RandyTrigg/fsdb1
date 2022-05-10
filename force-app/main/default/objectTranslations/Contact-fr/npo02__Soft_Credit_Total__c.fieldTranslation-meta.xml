@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>Montant total en crédits de groupe sur la durée de vie de ce contact. Défini dans l’onglet de configuration de foyer.</help>
+    <label></label>
+    <name>npo02__Soft_Credit_Total__c</name>
+</CustomFieldTranslation>
