@@ -29,10 +29,19 @@
                 </lightning-textarea>
                 <div class="slds-text-color_weak counter">{currentLength}/{localCmp.Character_limit__c}</div>
             </div>
+            <div if:true={localCmp.isSelect}>
+                <lightning-combobox
+                    variant="label-hidden"
+                    options={localCmp.options}
+                    value={localCmp.data.Data_text__c}
+                    required={isRequired}
+                    onchange={handleSelectChange}>
+                </lightning-combobox>
+            </div>
             <div if:true={localCmp.isRadio}>
                 <lightning-radio-group
                     variant="label-hidden"
-                    options={localCmp.radioOptions}
+                    options={localCmp.options}
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
                     onchange={handleRadioChange}>
@@ -41,7 +50,7 @@
             <div if:true={localCmp.isInlineRadio}>
                 <lightning-radio-group
                     id={localCmp.Id}
-                    options={localCmp.radioOptions}
+                    options={localCmp.options}
                     variant="label-hidden"
                     required={isRequired}
                     value={localCmp.data.Data_text__c}
@@ -53,7 +62,7 @@
                     name="Checkbox Group"
                     variant="label-hidden"
                     disabled=true
-                    options={localCmp.checkboxOptions}
+                    options={localCmp.options}
                     required={isRequired}
                     value={localCmp.data.Data_text__c}>
                 </lightning-checkbox-group>

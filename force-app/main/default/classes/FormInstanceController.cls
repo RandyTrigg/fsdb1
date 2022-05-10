@@ -79,6 +79,7 @@ public class FormInstanceController {
             } else num = null;
             if (num != null) cmpsNumberMap.put(cmp.Id, cmpNumDisplay(num));
         }
+        system.debug('buildCmpNumberMap: cmpsNumberMap.size() = ' +cmpsNumberMap.size());
         return cmpsNumberMap;
     }
     

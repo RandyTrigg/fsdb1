@@ -2,12 +2,32 @@ import { LightningElement, api } from 'lwc';
 
 export default class FormComponent extends LightningElement {
 
-    @api cmpData;
+    @api cmp;
     @api formInstanceId;
     @api isEditable;
     @api language;
+    isVisible = false; // Will need to be dynamically computed once new connector framework is in place
+    parentHidden = false; // Will need to be dynamically computed once new connector framework is in place
 
-    //allows parent to check if this section is valid (all child components have a value if required)
+    connectedCallback() {
+        /*
+        setTimeout(() => {
+            alert(this.cmp.title);
+            alert('isRequired = ' +this.cmp.isRequired);
+            alert('isCheckbox = ' +this.cmp.isCheckbox);
+            alert('Ic = ' +this.cmp.Id);
+            alert('intro = ' +this.cmp.intro);
+            alert('childCmps = ' +this.cmp.childCmps);
+        }, 5);
+        */
+        this.isVisible = true;
+        console.log('connectedCallback: this.cmp', this.cmp);
+        console.log('connectedCallback: this.formInstanceId', this.formInstanceId);
+        console.log('connectedCallback: this.isEditable', this.isEditable);
+        console.log('connectedCallback: this.language', this.language);
+    }
+
+    //allows parent to check if this component is valid (all child components have a value if required)
     @api isValid() {
         let allValid = true;
         this.template.querySelectorAll('c-form-component').forEach(element => {
