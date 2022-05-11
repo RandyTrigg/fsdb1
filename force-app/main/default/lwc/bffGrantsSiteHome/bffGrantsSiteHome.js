@@ -43,6 +43,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     dataLoaded = false;
     bannerProfile;
     hoverMessage;
+    disableButton;
     
     connectedCallback() {
         if (this.userId) {
@@ -156,7 +157,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         });
     }
 
-    navigateToNewPage() {
+    navigateToProfileForm() {
         // Navigate to form instance detail page
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
