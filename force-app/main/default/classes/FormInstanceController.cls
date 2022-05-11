@@ -116,69 +116,6 @@ public class FormInstanceController {
      /**********************************
      * For use in Apex code processing form data
      *********************************/
-    
-    // Class that includes all form data associated with the given form instance
-    public class DataManager {
-        public Form_Instance__c fi;
-        public Profile__c prof;
-        public Advisor_Term__c advt;
-        public Map<String, String> dataValue, dataValueText, dataValueTextArea, dataTargetId;
-
-        private Id fiId;
-        private List<Form_Component__c> comps;
-        private Map<String, Id> compIds;
-        private List<Form_Picklist_Phrase__c> picklistPhrases;
-        private Map<String, String> picklistPhraseValues;
-        private List<Form_Data__c> fds;
-        private Map<String, Form_Data__c> dataRecord;
-        
-        public DataManager(Id fiId) {
-            this.fiId = fiId;
-            this.fi = getFormInstance(fiId);
-            // Get profile or advisor term.
-            system.debug('DataManager: fi.Profile__c = ' +fi.Profile__c+ '; fi.Advisor_Term__c = ' +fi.Advisor_Term__c);
-            if (fi.Profile__c != null) {
-                prof = [
-                    SELECT Id, Account__c, Community_contact_email__c, Language__c
-                    FROM Profile__c 
-                    WHERE Id = : fi.Profile__c
-                ];
-            } else if (fi.Advisor_Term__c != null) {
-                advt = [
-                    SELECT Id, Advisor__c, Advisor__r.Community_contact_email__c, Advisor__r.Language__c
-                    FROM Advisor_Term__c 
-                    WHERE Id = : fi.Advisor_Term__c
-                ];
-            }
-            comps = getComponents(fi.Form__c);
-            // Map from component name to id.  NOTE: Trouble if multiple components in a form have the same name.
-            compIds = new Map<String, Id> ();
-            for (Form_Component__c c : comps) compIds.put(c.Name, c.Id);
-            // Get picklist phrases for those components, and build lookup table from picklist option phrase names to their English translations.
-            picklistPhrases = new List<Form_Picklist_Phrase__c> ([
-                SELECT Name, Form_Phrase__r.Phrase_in_English__c
-                FROM Form_Picklist_Phrase__c
-                WHERE Form_Picklist__c IN (SELECT Form_Picklist__c FROM Form_Component__c WHERE Id IN : compIds.values())
-            ]);
-            picklistPhraseValues = new Map<String, String> ();
-            for (Form_Picklist_Phrase__c p : picklistPhrases) picklistPhraseValues.put(p.Name, p.Form_Phrase__r.Phrase_in_English__c);
-            fds = getFormData(fi.Id);
-            // Lookup tables map component name to record, value and target Id.
-            dataRecord = new Map<String, Form_Data__c> ();
-            dataValue = new Map<String, String> ();
-            dataValueText = new Map<String, String> ();
-            dataValueTextArea = new Map<String, String> ();
-            dataTargetId = new Map<String, String> ();
-            for (Form_Data__c fd : fds) {
-                dataRecord.put(fd.Form_Component__r.Name, fd);
-                dataValueText.put(fd.Form_Component__r.Name, fd.Data_text__c);
-                dataValueTextArea.put(fd.Form_Component__r.Name, fd.Data_textarea__c);
-                dataValue.put(fd.Form_Component__r.Name, fd.Data_text__c == null ? fd.Data_textarea__c : fd.Data_text__c);
-                dataTargetId.put(fd.Form_Component__r.Name, fd.Target_Id__c);
-            }
-            system.debug('DataManager: dataValue = ' +JSON.serialize(dataValue));
-        }    
-    }
 
     // Builds collection of form instance plus child form data, form plus child form components, and form picklists and form picklist phrases.
     public class FormInstanceData {
@@ -186,6 +123,7 @@ public class FormInstanceController {
         public Form__c frm; // Includes child form components
         public Form_Picklist__c[] frmPicklists; // Includes child form picklist phrases
         public Map<Id, String> orderingMap;
+        public List<String> countryNames = new List<String>();
 
         public FormInstanceData (Id formInstanceId) {
             // Get form instance and form data
@@ -195,8 +133,11 @@ public class FormInstanceController {
             String fcSubQuery = Utilities.buildChildSubQuery('Form_Component__c', 'Form_Components__r', 'ORDER BY Hierarchical_sort_num__c');
             frm = (Form__c)Utilities.fetchRecord('Form__c', frmInst.Form__c, new List<String>{fcSubQuery});
             // Get ALL form picklists and child form picklist phrases
-            String fpSubQuery = Utilities.buildChildSubQuery('Form_Picklist_Phrase__c', 'Form_Picklist_Phrases__r', null);
+            String fpSubQuery = Utilities.buildChildSubQuery('Form_Picklist_Phrase__c', 'Form_Picklist_Phrases__r', 'ORDER BY Sort_number__c');
             frmPicklists = (List<Form_Picklist__c>)Utilities.fetchRecords('Form_Picklist__c', null, new List<String>{fpSubQuery});
+            Country__c[] countries = [SELECT Name FROM Country__c ORDER BY Name];
+            for (Country__c c : countries) countryNames.add(c.Name);
+
             // Form component numbering map
             orderingMap = buildCmpNumberMap(frm.Form_Components__r);
         }

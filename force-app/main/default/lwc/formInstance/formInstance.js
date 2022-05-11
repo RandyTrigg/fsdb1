@@ -9,9 +9,9 @@ import { handleError } from 'c/lwcUtilities';
 
 export default class FormInstance extends LightningElement {
     //Will have the form instance ID from parent, query for:
-    recordId = 'a248c0000007z9iAAA'; // Hard-wiring in desperation...
+    //recordId = 'a248c0000007z9iAAA'; // Hard-wiring in desperation...
     //@api recordId; 
-    //recordId; 
+    recordId; 
     isEditable = true;
     isMultiView = false; // Determines whether we're in a single-form view or multi-form view.
     dataLoaded = false;
@@ -92,6 +92,10 @@ export default class FormInstance extends LightningElement {
         console.log('fiInfo.orderingMap',fiInfo.orderingMap);
         const numberingMap = new Map(Object.entries(fiInfo.orderingMap));
 
+        console.log('fiInfo.countryNames', fiInfo.countryNames);
+        let picklistMap = new Map();
+        for (let picklist of fiInfo.frmPicklists) picklistMap.set(picklist.Id, picklist);
+
         // Process each form component
         let topCmps = [];
         for (let cmp of cmps) {
@@ -121,7 +125,8 @@ export default class FormInstance extends LightningElement {
             cmp.data = formDataMap.has(cmp.Id) ? formDataMap.get(cmp.Id) : this.getEmptyFormData(cmp);
             // Other tweaks to cmp
             cmp.isRequired = cmp.Required__c;
-            updateRecordInternals(cmp, fiInfo.frmPicklists, this.transById);
+            // Tweak form components that link to picklists
+            updateRecordInternals(cmp, picklistMap, this.transById, fiInfo.countryNames);
             console.log('cmp', cmp);
         }
         console.log('topCmps', topCmps);
