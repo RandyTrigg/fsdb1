@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>SyncController</members>
-		<members>SyncControllerTest</members>
-		<members>Sync_BatchableUpsert</members>
-		<members>Sync_BatchableUpsertTest</members>
+		<members>ProposalUpdate</members>
+		<members>Utilities</members>
+		<members>UtilitiesTest</members>
 		<name>ApexClass</name>
 	</types>
 	<version>53.0</version>

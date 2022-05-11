@@ -1,15 +1,11 @@
-ApexLog[] logs = [SELECT Id FROM ApexLog];
+/* ApexLog[] logs = [SELECT Id FROM ApexLog];
 system.debug(logs.size());
-/*
-        insert new Account(
-            Name = 'test_acct_1',
-            RecordTypeId = Utilities.getRecTypeId('Account', 'HH_Account')
-        );
-        Account acct1 = [
-            SELECT Id, Name
-            FROM Account
-            WHERE Name = 'test_acct_1'
-            LIMIT 1
-        ];
-        system.debug(acct1);
 */
+system.debug('this userid: ' + userInfo.getUserId());
+String FSGroup = Utilities.FSGroupOfUser(userInfo.getUserId());
+system.debug('fsgroup: ' + FSGroup);
+Template__c t = [SELECT Id
+            FROM Template__c
+            WHERE Name = 'Proposal status' AND FS_Group__c =:FSGroup
+        ];
+system.debug('template: ' + t);
