@@ -1176,20 +1176,26 @@ global inherited sharing class Utilities {
 
     // Return public group name of FS Group to which user belongs
     public static String FSGroupOfUser(Id usrId) {
-        // Go upstream in hierarchy from user's role to identify FS Group, if any.
-        Id usrRoleId = [SELECT Id, UserRoleId FROM User WHERE Id=:usrId][0].UserRoleId;
+        // If Customer Community user, retrieve FS Group by SF Profile and custom metadata type records.
+        // Else, go upstream in hierarchy from user's role to identify FS Group, if any.
+        FS_Group_Settings__mdt[] fsGroups = [SELECT Id, DeveloperName, Designated_Role_for_Ownership__c, Public_Group_Name__c 
+        FROM FS_Group_Settings__mdt 
+        WHERE Active__c = true];
+        User usr = [SELECT Id, Profile.Name, Profile.UserLicense.Name, UserRoleId FROM User WHERE Id=:usrId];
+        Boolean isCommunityUsr = (usr.Profile.UserLicense.Name == 'Customer Community Login');
         Map<String, String> groupRole = new Map<String, String>();
-        FS_Group_Settings__mdt[] fsGroups = [SELECT Id, Designated_Role_for_Ownership__c, Public_Group_Name__c 
-            FROM FS_Group_Settings__mdt 
-            WHERE Active__c = true];
         for (FS_Group_Settings__mdt fsGrp : fsGroups) {
-            groupRole.put(fsGrp.Designated_Role_for_Ownership__c, fsGrp.Public_Group_Name__c);
+            if (isCommunityUsr && usr.Profile.Name.contains(fsGrp.DeveloperName)) {
+                return fsGrp.Public_Group_Name__c;
+            } else {
+                groupRole.put(fsGrp.Designated_Role_for_Ownership__c, fsGrp.Public_Group_Name__c);
+            }
         }
         Map<Id, UserRole> usrRoles = new Map<Id, UserRole>([
             SELECT Id, DeveloperName, ParentRoleId 
             FROM UserRole]);
         UserRole thisRole = new UserRole();
-        thisRole = usrRoles.get(usrRoleId);
+        thisRole = usrRoles.get(usr.UserRoleId);
         // Cycle through parent roles to find relevant FS Group
         while (thisRole != null) {
             if (groupRole.containsKey(thisRole.DeveloperName)) return groupRole.get(thisRole.DeveloperName);
