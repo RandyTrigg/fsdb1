@@ -1187,8 +1187,9 @@ global inherited sharing class Utilities {
         for (FS_Group_Settings__mdt fsGrp : fsGroups) {
             if (isCommunityUsr && usr.Profile.Name.contains(fsGrp.DeveloperName)) {
                 return fsGrp.Public_Group_Name__c;
+            } else {
+                groupRole.put(fsGrp.Designated_Role_for_Ownership__c, fsGrp.Public_Group_Name__c);
             }
-            groupRole.put(fsGrp.Designated_Role_for_Ownership__c, fsGrp.Public_Group_Name__c);
         }
         Map<Id, UserRole> usrRoles = new Map<Id, UserRole>([
             SELECT Id, DeveloperName, ParentRoleId 
