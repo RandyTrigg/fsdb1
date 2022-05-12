@@ -35,12 +35,11 @@ public class FormInstanceControllerTest {
         List<Form_Component__c> comps = FormInstanceController.getComponents(f.Id);
         FormInstanceController.buildCmpNumberMap(comps);
         
-        FormInstanceController.DataManager dm = new FormInstanceController.DataManager(fiId);
         String dataStr = FormInstanceController.getFormInstanceData(fiId);
         system.assertNotEquals(null, dataStr);
 
-        FormInstanceController.updateTextData(fi.Id, comp.Id, 'abc');
-        FormInstanceController.updateTextAreaData(fi.Id, comp2.Id, 'def');
+        FormInstanceController.updateFormData(fi.Id, comp.Id, 'abc', false);
+        FormInstanceController.updateFormData(fi.Id, comp2.Id, 'def', true);
     }
 
 }

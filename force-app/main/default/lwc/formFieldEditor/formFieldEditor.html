@@ -8,7 +8,7 @@
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
                     placeholder="type text here..." 
-                    onblur={handleTextInputchange}
+                    onblur={handleInputChange}
                     onkeyup={checkValidity}
                     max-length={localCmp.Character_limit__c}
                     label={localCmp.translatedFormPhrase}>
@@ -25,37 +25,46 @@
                     onkeyup={updateTextArea}
                     required={isRequired}
                     placeholder="type text area here..." 
-                    onblur={handleTextAreachange}>
+                    onblur={handleInputChange}>
                 </lightning-textarea>
                 <div class="slds-text-color_weak counter">{currentLength}/{localCmp.Character_limit__c}</div>
+            </div>
+            <div if:true={localCmp.isSelect}>
+                <lightning-combobox
+                    variant="label-hidden"
+                    options={localCmp.options}
+                    value={localCmp.data.Data_text__c}
+                    required={isRequired}
+                    onchange={handleInputChange}>
+                </lightning-combobox>
             </div>
             <div if:true={localCmp.isRadio}>
                 <lightning-radio-group
                     variant="label-hidden"
-                    options={localCmp.radioOptions}
+                    options={localCmp.options}
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
-                    onchange={handleRadioChange}>
+                    onchange={handleInputChange}>
                 </lightning-radio-group>
             </div>
             <div if:true={localCmp.isInlineRadio}>
                 <lightning-radio-group
                     id={localCmp.Id}
-                    options={localCmp.radioOptions}
+                    options={localCmp.options}
                     variant="label-hidden"
                     required={isRequired}
                     value={localCmp.data.Data_text__c}
-                    onchange={handleRadioChange}>
+                    onchange={handleInputChange}>
                 </lightning-radio-group>
             </div>
             <div if:true={localCmp.isCheckboxGroup} class="slds-form-element__control">
                 <lightning-checkbox-group 
                     name="Checkbox Group"
                     variant="label-hidden"
-                    disabled=true
-                    options={localCmp.checkboxOptions}
+                    options={localCmp.options}
                     required={isRequired}
-                    value={localCmp.data.Data_text__c}>
+                    value={localCmp.data.Data_text__c}
+                    onchange={handleInputChange}>
                 </lightning-checkbox-group>
             </div>
             <div if:true={localCmp.isCheckbox} class="slds-form-element__control">
@@ -66,27 +75,66 @@
                         variant="label-hidden"
                         checked={localCmp.checked} 
                         required={isRequired}
-                        disabled>
+                        onchange={handleInputChange}>
                     </lightning-input>
                     <lightning-formatted-rich-text class="slds-var-m-top_small" value={localCmp.translatedFormPhrase}></lightning-formatted-rich-text>
                 </span>
             </div>
+            <div if:true={localCmp.isPhone} class="slds-form-element__control">
+                <lightning-input 
+                    type="tel"
+                    variant="label-hidden"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}>
+                </lightning-input>
+            </div>
+            <div if:true={localCmp.isEmail} class="slds-form-element__control">
+                <lightning-input 
+                    type="email"
+                    variant="label-hidden"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}>
+                </lightning-input>
+            </div>
+            <div if:true={localCmp.isURL} class="slds-form-element__control">
+                <lightning-input 
+                    type="url"
+                    variant="label-hidden"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}>
+                </lightning-input>
+            </div>
             <div if:true={localCmp.isNumber} class="slds-form-element__control">
-                <div class="slds-form-element__static">
-                    <lightning-formatted-number 
-                        value={localCmp.data.Data_numeric__c}>
-                    </lightning-formatted-number>
-                </div>
+                <lightning-input 
+                    type="number"
+                    variant="label-hidden"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}>
+                </lightning-input>
             </div>
             <div if:true={localCmp.isCurrency} class="slds-form-element__control">
-                <div class="slds-form-element__static">
-                    <lightning-formatted-number format-style="currency" value={localCmp.data.Data_numeric__c}></lightning-formatted-number>
-                </div>
+                <lightning-input 
+                    type="number"
+                    variant="label-hidden"
+                    formatter="currency"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}>
+                </lightning-input>
             </div>
             <div if:true={localCmp.isPercent} class="slds-form-element__control">
-                <div class="slds-form-element__static">
-                    <lightning-formatted-number format-style="percent" value={localCmp.data.Data_numeric__c}></lightning-formatted-number>
-                </div>
+                <lightning-input 
+                    type="number"
+                    variant="label-hidden"
+                    formatter="percent"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}>
+                </lightning-input>
             </div>
         </div>
     </div>
