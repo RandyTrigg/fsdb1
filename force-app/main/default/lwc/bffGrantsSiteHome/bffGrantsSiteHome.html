@@ -17,7 +17,7 @@
                             <lightning-menu-item 
                                 value="GetHelp" 
                                 label={support} 
-                                href="mailto:#####@blackfeministfund.org?Subject=Question about Grants Site" 
+                                href="mailto:BFFgrant-helpdesk@blackfeministfund.org?Subject=Question about Grants Site" 
                                 target="_blank">
                             </lightning-menu-item>
                             <lightning-menu-item 
@@ -53,7 +53,7 @@
         <c-lwc-toast-banner message={bannerProfile}></c-lwc-toast-banner>           
     </div>
 
-    <!-- Logo -->
+    <!-- LOGO -->
     <div class="slds-grid slds-grid_align-center slds-gutters_large">
         <div class="slds-col">
             <div class="logo-home-page">
@@ -63,6 +63,7 @@
         </div>
     </div>
 
+    <!-- WELCOME -->
     <div if:true={dataLoaded}>
         <div class="slds-grid slds-grid_align-center slds-gutters_large">
             <div class="slds-col">
@@ -73,19 +74,21 @@
             </div>
         </div>
 
+        <!-- PROFILE BUTTON -->
         <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
             <div class="slds-col">
                 <lightning-button
                     variant="brand"
                     label={prfButtonLabel}
                     title={prfButtonLabel}
-                    onclick={navigateToProfileForm}
-                    class="slds-m-left_small bff-button-brand"
+                    onclick={handleNewProfile}
+                    class="slds-var-m-left_small bff-button-brand"
                     >
                 </lightning-button>
             </div>
         </div>
 
+        <!-- GRANT DESCRIPTION -->
         <div class="slds-grid slds-gutters_xx-large">
             <div class="slds-col">
                 <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small"><h2>{grantHeading}</h2></div>
@@ -113,7 +116,10 @@
         <!-- <div>Language: {language}</div>
         <div>Lang tag: {langTag}</div>
         <div>Form instance Id: {prFormInstanceId}</div>-->
+        <!-- <div>AppFormInstanceId: {appFormInstanceId}</div>-->
+        <div>ProfileId: {prfId}</div>
         
+        <!-- APPLICATION BUTTONS -->
         <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
             <div class="slds-col">   
                 <lightning-button
@@ -121,7 +127,7 @@
                     label={newAppSustainFund}
                     title={newAppSustainFund}
                     onclick={handleNewAppSustain}
-                    class="slds-m-left_small bff-button-brand"
+                    class="slds-var-m-left_small bff-button-brand"
                     disabled={disableButton}>
                 </lightning-button>
             </div>
@@ -135,7 +141,7 @@
                     label={newAppSolidarityFund}
                     title={newAppSolidarityFund}
                     onclick={handleNewAppSolidarity}
-                    class="slds-m-left_small bff-button-brand"
+                    class="slds-var-m-left_small bff-button-brand"
                     disabled={disableButton}
                     >
                 </lightning-button>

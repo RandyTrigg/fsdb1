@@ -6,9 +6,9 @@ public with sharing class ProfileController {
      *********************************/
 
     // Bundles profile information, including child proposals.
-    public class ProfileSummary {
-        
+    public with sharing class ProfileSummary {
         public Profile__c prf; // Includes child proposals
+        public Id prId;
         public Boolean hasForms = false;
         public Boolean hasProposals = false;
         public List<Proposal__c> prpList = new List<Proposal__c>();
@@ -21,7 +21,6 @@ public with sharing class ProfileController {
         private String prFormName = 'bff_Profile';
 
         public ProfileSummary (Id prfId) { 
-
             List<String> prfSubQuery = new List<String>{
                 Utilities.buildChildSubQuery(
                     'Proposal__c',
@@ -35,15 +34,16 @@ public with sharing class ProfileController {
                 )
             };
             prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, prfSubQuery);
+            prId = prfId;
             hasProposals = (prf.Proposals__r != null && prf.Proposals__r.size() > 0) ? true : false;
             prpList = prf.Proposals__r;
-            formInstList = prf.Form_Instance__r;
+            formInstList = prf.Form_Instances__r;
             language = prf.Language__c != null ? prf.Language__c : 'English';
 
             // Retrieve Profile Form Instance
             for ( Form_Instance__c formInst : formInstList) {
                 if (formInst.Form_name__c == prFormName) {
-                    prFormInstance = formInst.Id;
+                    prFormInstanceId = formInst.Id;
                     hasSubmittedPrf = formInst.Date_submitted__c != null ? true : false;
                 }
             }
@@ -88,6 +88,8 @@ public with sharing class ProfileController {
     @AuraEnabled //Do not cache
     public static Id createProposal(Id prfId, String grantType) {
         Profile__c prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, null);        
+        system.debug('PrfId: ' + prfId);
+        system.debug('Account: ' + prf.Account__c);
         Proposal__c newProp = new Proposal__c (
                 Account__c = prf.Account__c,
                 Profile__c = prfId,

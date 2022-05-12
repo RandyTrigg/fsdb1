@@ -5,6 +5,7 @@ import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
+import { showUIError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
@@ -43,6 +44,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
 
     // Profile data
     profileSummary;
+    prfId;
     hasSubmittedPrf = true;
     prFormInstanceId;
     dataLoaded = false;
@@ -51,8 +53,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     hasProposals;
     prpList;
     prpItemsData;
-    // pendingItemsData;
-    // submittedItemsData;
     columns;
     hasPendingSolidarity;
     hasPendingSustain;
@@ -62,6 +62,9 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     hasRecentSubmittedSustain;
     grantType;
     appFormInstanceId;
+
+    // Form Instance List
+    formInstList;
 
     
     connectedCallback() {
@@ -80,17 +83,17 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             ]);
             this.profileSummary = JSON.parse(data);
             this.language = this.profileSummary.language;
-            this.hasSubmittedPrf = this.profileSummary.hasSubmittedPrf;
-            this.prFormInstanceId = this.profileSummary.prFormInstanceId;
             this.transInfo = JSON.parse(translations);
             this.transByName = buildTransByName(this.transInfo, this.language);
             this.setLangPickerDefault();
             this.translatePage();
+            this.hasSubmittedPrf = this.profileSummary.hasSubmittedPrf;
+            this.prFormInstanceId = this.profileSummary.prFormInstanceId;
+            this.prfId = this.profileSummary.prfId;
             this.prpList = this.profileSummary.prpList;
+            this.formInstList = this.profileSummary.formInstList;
             this.hasProposals = this.profileSummary.hasProposals;
-            this.prpItemsData = this.updateList(this.prpList);
-            // this.pendingItemsData = parsedList.pending;
-            // this.submittedItemsData = parsedList.submitted;
+            this.prpItemsData = this.processPrpList(this.prpList);
             this.dataLoaded = true;
         } catch (error) {
             handleError(error);
@@ -162,31 +165,50 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
           });
     }
 
-    navigateHome() {
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                name: 'Home'
-            }
-        });
+    handleNewProfile() {
+        this.navigateToFormInstance(this.prFormInstanceId);
     }
 
-    navigateToForm() {
-        // Navigate to form instance detail page
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: this.prFormInstanceId,
-                actionName: 'edit',
-                objectApiName: 'Form_Instance__c'
-            },
-            state: {
-                language: this.language
-            }
-        });
+    handleNewAppSustain(event) {
+        if (hasPendingSustain) {
+            // Toast message: pending message
+            // let error = new Object();
+            // error.title = 'You have a sustain grant application in progress';
+            // json serialize
+            // showUIError(error);
+        } else if (hasRecentSubmittedSolidarity) {
+            // Toast message: submitted message
+        } else {
+            // Create Proposal with grant type and Form Instance linked to Proposal
+            this.grantType = 'BFF-Sustain';
+            this.createProposalWithFormInstanceAndNavigate(this.grantType);
+        }
     }
 
-    navigateToProfileForm() {
+    handleNewAppSolidarity(event) {
+        this.grantType = 'BFF-Solidarity';
+        this.createProposalWithFormInstanceAndNavigate(this.grantType);
+        /* if (hasPendingSolidarity) {
+            // Toast message: pending message
+        } else if (hasRecentSubmittedSolidarity) {
+            // Toast message: submitted message
+        } else {
+            // Create Proposal with grant type and Form Instance linked to Proposal
+            this.grantType = 'BFF-Solidarity';
+            this.createProposalWithFormInstanceAndNavigate(this.grantType);
+        }*/
+    }
+
+    async createProposalWithFormInstanceAndNavigate(grantType) {
+        try {
+            this.appFormInstanceId = await createProposal( { prfId: this.prfId, grantType: this.grantType } );
+            this.navigateToFormInstance(this.appFormInstanceId);
+        } catch (error) {
+            handleError(error);
+        }
+    }
+
+    navigateToFormInstance(formInstId) {
         // Navigate to form instance detail page
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
@@ -194,47 +216,23 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
                 name: 'FormInstance__c'
             },
             state: {
-                recordId: this.prFormInstanceId,
+                recordId: formInstId,
                 language: this.language
             }
         });
     }
 
-    handleNewAppSolidarity(event) {
-        if (hasPendingSolidarity) {
-            // Toast message: pending message
-        } else if (hasRecentSubmittedSolidarity) {
-            // Toast message: submitted message
-        } else {
-            // Create Proposal with grant type and Form Instance linked to Proposal
-            // await
-            this.grantType = 'BFF-Solidarity';
+
+    /***** Process FormInstances and Proposals for Proposal Table *****/
+    processFormInstList(itemsList) {
+        for (let itm of itemsList) {
+            if (itm.Proposal__c!=null) {
+
+            }
         }
     }
 
-    handleNewAppSustain(event) {
-        if (hasPendingSolidarity) {
-            // Toast message: pending message
-        } else if (hasRecentSubmittedSolidarity) {
-            // Toast message: submitted message
-        }
-    }
-
-    async createProposalWithFormInstance(grantType) {
-        try {
-            this.appFormInstanceId = await createProposal( { prfId: this.profileSummary.prf.Id, grantType: this.grantType } );
-        } catch (error) {
-            handleError(error);
-        }
-    }
-
-    handleRowAction() {
-
-    }
-
-
-    /***** Handle Proposals *****/
-    updateList(itemsList) {
+    processPrpList(itemsList) {
         let returnList = [];
         for (let itm of itemsList) {
             if (itm.Grant_type__c=='BFF-Solidarity') {
@@ -292,5 +290,37 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         ];
         return returnList;
     }
+
+    handleRowAction() {
+
+    }
+
+/* Navigation home - not needed in home page itself
+    navigateHome() {
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Home'
+            }
+        });
+    }
+*/
+
+    /* Navigation to standard record page; not in use.
+    navigateToForm() {
+        // Navigate to form instance detail page
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: this.prFormInstanceId,
+                actionName: 'edit',
+                objectApiName: 'Form_Instance__c'
+            },
+            state: {
+                language: this.language
+            }
+        });
+    } 
+    */
 
 }
