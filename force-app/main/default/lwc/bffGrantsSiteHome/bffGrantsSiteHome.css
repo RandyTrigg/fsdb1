@@ -93,3 +93,8 @@
     max-width: 20rem;
     color: #ff9e9e;
 }
+
+.gfw-item-list {
+    overflow-y: scroll;
+    max-height: 300px;
+}

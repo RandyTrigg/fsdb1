@@ -64,7 +64,7 @@
     </div>
 
     <div if:true={dataLoaded}>
-        <div class="slds-grid slds-gutters_large">
+        <div class="slds-grid slds-grid_align-center slds-gutters_large">
             <div class="slds-col">
                 <div class="slds-text-heading_large slds-var-m-top_x-large"><h1>{pageHeader}</h1></div>
                 <section aria-label="Intro">
@@ -72,23 +72,16 @@
                 </section>
             </div>
         </div>
-        <!-- <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
-            <div class="slds-col">   
-                <button 
-                class="slds-button slds-button_brand" 
-                onclick={navigateToForm}>{prfButtonLabel}</button>
-            </div> 
-        </div> -->
 
         <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
-            <div class="slds-col">   
+            <div class="slds-col">
                 <lightning-button
                     variant="brand"
                     label={prfButtonLabel}
                     title={prfButtonLabel}
                     onclick={navigateToProfileForm}
                     class="slds-m-left_small bff-button-brand"
-                    disabled={disableButton}>
+                    >
                 </lightning-button>
             </div>
         </div>
@@ -126,8 +119,8 @@
                 <lightning-button
                     variant="brand"
                     label={newAppSustainFund}
-                    title="New application"
-                    onclick={navigateToForm}
+                    title={newAppSustainFund}
+                    onclick={handleNewAppSustain}
                     class="slds-m-left_small bff-button-brand"
                     disabled={disableButton}>
                 </lightning-button>
@@ -135,41 +128,42 @@
         </div>
         <br/>
 
-        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large slds-var-m-bottom_x-large">
             <div class="slds-col">   
                 <lightning-button
                     variant="brand"
                     label={newAppSolidarityFund}
-                    title="New application"
-                    onclick={navigateToProfileForm}
+                    title={newAppSolidarityFund}
+                    onclick={handleNewAppSolidarity}
                     class="slds-m-left_small bff-button-brand"
-                    disabled={disableButton}>
+                    disabled={disableButton}
+                    >
                 </lightning-button>
             </div>
         </div>
 
+        <!-- PROPOSALS -->
+        <div if:true={hasProposals}>
+        <div class="slds-grid slds-gutters_xx-large slds-var-m-bottom_xx-large">
+            <div class="slds-col">
+                <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small"><h2>Grant Applications</h2></div>
+                    <div class="gfw-item-list">
+                        <lightning-datatable 
+                            key-field="id" 
+                            hide-checkbox-column=true
+                            data={prpItemsData}
+                            columns={columns}
+                            onrowaction={handleRowAction}
+                            class="slds-max-medium-table_stacked"
+                            sorted-by=statusSortBy
+                            sorted-direction={sortedDirection}
+                        >
+                        </lightning-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <!-- <div class="slds-col slds-var-p-top_small">
-                    <lightning-button variant="brand" label="New application: Sustain Fund" title={hoverMessage} onclick={handleNewSolApp} class="slds-m-left_x-small"></lightning-button>
-                </div> -->
-
-                <!-- <a class="slds-button slds-button_brand" href="#">New application: Solidarity Fund</a>-->
-
-                <div>List Proposals</div>
-                <!-- <div if:true={profileSummary.hasProposals} class="slds-col slds-size_1-of-2 slds-m-bottom_x-large">
-                    <c-items-summary-tile title={propTitle} item-type="Proposals"  icon="standard:service_report" subtitle={propSubtitle} object-name="Proposal__c" list={profileSummary.proposals}></c-items-summary-tile>
-                </div> -->
-
-                <!-- From assessmentsAssigned -->
-                <!-- <div if:true={mutableRecords}>
-                    <lightning-datatable
-                        key-field="id"
-                        data={mutableRecords}
-                        columns={columns}
-                        onrowaction={handleRowAction}
-                        hide-checkbox-column>
-                    </lightning-datatable>
-                </div>  -->
 
     </div> <!-- Close dataloaded div -->
 

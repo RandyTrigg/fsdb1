@@ -11,6 +11,7 @@ public with sharing class ProfileController {
         public Profile__c prf; // Includes child proposals
         public Boolean hasForms = false;
         public Boolean hasProposals = false;
+        public List<Proposal__c> prpList = new List<Proposal__c>();
         public Boolean hasSubmittedPrf = false;
         public Integer pendingAnnualProposals = 0;
         public Integer pendingShortProposals = 0;
@@ -29,11 +30,12 @@ public with sharing class ProfileController {
                 Utilities.buildChildSubQuery('Form_Instance__c', 'Form_Instances__r', null)
             };
             prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, prfSubQuery);
-            hasProposals = prf.Proposals__r != null ? true : false;
+            hasProposals = (prf.Proposals__r != null && prf.Proposals__r.size() > 0) ? true : false;
+            prpList = prf.Proposals__r;
             hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
             language = prf.Language__c != null ? prf.Language__c : 'English';
 
-            // Get or create new Profile form instance
+            // Get or create new Profile Form Instance
             if (prf.Form_Instances__r != null && prf.Form_Instances__r.size() > 0) {
                 prFormInstanceId = prf.Form_Instances__r[0].Id;
             } else {
@@ -45,9 +47,7 @@ public with sharing class ProfileController {
                 insert newPrfForm;
                 prFormInstanceId = newPrfForm.Id;
             }
-
         }
-
     }
 
     private static Id getRunningUserProfileId() {
@@ -73,6 +73,31 @@ public with sharing class ProfileController {
     public static String getProfileSummary() {
         ProfileSummary data = new ProfileSummary(getRunningUserProfileId());
         return JSON.serialize(data);
+    }
+
+    @AuraEnabled //Do not cache
+    public static Id createProposal(Id prfId, String grantType) {
+        Profile__c prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, null);        
+        Proposal__c newProp = new Proposal__c (
+                Account__c = prf.Account__c,
+                Profile__c = prfId,
+                Grant_type__c = grantType
+            );
+            insert newProp;
+        // Look up custom req's form
+        Id formId = [
+            SELECT Custom_Reqs__r.Form_proposal_Application__c 
+            FROM Proposal__c 
+            WHERE Id=:newProp.Id
+            ][0].Custom_Reqs__r.Form_proposal_Application__c;
+        // Create new Form Instance
+        Form_Instance__c newFormInstance = new Form_Instance__c (
+            Form__c = formId,
+            Profile__c = prfId,
+            Proposal__c = newProp.Id
+        );
+        insert newFormInstance;
+        return newFormInstance.Id;
     }
 
     /**********************************
