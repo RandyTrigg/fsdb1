@@ -1,0 +1,34 @@
+{
+  "appPageId" : "a8765ed7-f037-4bf4-a505-a43cb5ce61fb",
+  "componentName" : "community_layout:sldsFlexibleLayout",
+  "id" : "45451f0f-3741-463c-8aa1-2d24c0fade74",
+  "label" : "Form Instance List",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "backgroundImageConfig" : "",
+        "backgroundImageOverlay" : "rgba(0,0,0,0)",
+        "sectionConfig" : "{\"UUID\":\"0192df4b-24e2-4b84-a534-2cbfbebd8ae6\",\"columns\":[{\"UUID\":\"52f168d3-8cd1-4cc2-ac4f-15d3e28d19b8\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}"
+      },
+      "componentName" : "community_layout:section",
+      "id" : "0192df4b-24e2-4b84-a534-2cbfbebd8ae6",
+      "regions" : [ {
+        "id" : "52f168d3-8cd1-4cc2-ac4f-15d3e28d19b8",
+        "regionLabel" : "Column 1",
+        "regionName" : "col1",
+        "renditionMap" : { },
+        "type" : "region"
+      } ],
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "scopedBrandingSetId" : null,
+      "type" : "component"
+    } ],
+    "id" : "966785d7-f215-4180-b1a9-83e04b08cd9d",
+    "regionName" : "content",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "list-a24"
+}

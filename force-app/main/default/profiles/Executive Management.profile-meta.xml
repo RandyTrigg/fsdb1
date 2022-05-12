@@ -4188,6 +4188,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Custom_Reqs__c.Form_proposal_Application__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Custom_Reqs__c.GM_ExternalID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5565,6 +5570,11 @@
         <editable>true</editable>
         <field>GM_Data__c.Young_women__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Grant_type__mdt.FS_Group__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -14281,6 +14291,10 @@
     <tabVisibilities>
         <tab>Sync_Log__c</tab>
         <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>formInstanceTEST</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>npsp__Grant_Deadline__c</tab>
