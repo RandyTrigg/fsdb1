@@ -12,6 +12,7 @@ public with sharing class ProfileController {
         public Boolean hasForms = false;
         public Boolean hasProposals = false;
         public List<Proposal__c> prpList = new List<Proposal__c>();
+        public List<Form_Instance__c> formInstList = new List<Form_Instance__c>();
         public Boolean hasSubmittedPrf = false;
         public Integer pendingAnnualProposals = 0;
         public Integer pendingShortProposals = 0;
@@ -27,18 +28,27 @@ public with sharing class ProfileController {
                     'Proposals__r',
                     null
                 ),
-                Utilities.buildChildSubQuery('Form_Instance__c', 'Form_Instances__r', null)
+                Utilities.buildChildSubQuery(
+                    'Form_Instance__c', 
+                    'Form_Instances__r', 
+                    null
+                )
             };
             prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, prfSubQuery);
             hasProposals = (prf.Proposals__r != null && prf.Proposals__r.size() > 0) ? true : false;
             prpList = prf.Proposals__r;
-            hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
+            formInstList = prf.Form_Instance__r;
             language = prf.Language__c != null ? prf.Language__c : 'English';
 
-            // Get or create new Profile Form Instance
-            if (prf.Form_Instances__r != null && prf.Form_Instances__r.size() > 0) {
-                prFormInstanceId = prf.Form_Instances__r[0].Id;
-            } else {
+            // Retrieve Profile Form Instance
+            for ( Form_Instance__c formInst : formInstList) {
+                if (formInst.Form_name__c == prFormName) {
+                    prFormInstance = formInst.Id;
+                    hasSubmittedPrf = formInst.Date_submitted__c != null ? true : false;
+                }
+            }
+            // If no Profile Form Instance, create new
+            if (!hasSubmittedPrf) {
                 Form__c prForm = [SELECT Id FROM Form__c WHERE Name = :prFormName];
                 Form_Instance__c newPrfForm = new Form_Instance__c(
                     Form__c = prForm.Id,
