@@ -1,6 +1,6 @@
 import { LightningElement, api, wire} from 'lwc';
 import { handleError } from 'c/lwcUtilities';
-import updateFormData from '@salesforce/apex/FormInstanceController.updateFormData';
+import updateFormData from '@salesforce/apex/SiteController.updateFormData';
 
 export default class FormFieldEditor extends LightningElement {
     @api cmp;

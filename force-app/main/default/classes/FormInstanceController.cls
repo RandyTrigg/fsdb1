@@ -1,4 +1,4 @@
-public with sharing class FormInstanceController {
+public inherited sharing class FormInstanceController {
 
     /**********************************
      * For use in Lightning components
@@ -109,16 +109,12 @@ public with sharing class FormInstanceController {
         return String.join(numArrResult, '.');
     }
 
-    /**********************************
-     * For general use
-     *********************************/
-
      /**********************************
      * For use in Apex code processing form data
      *********************************/
 
     // Builds collection of form instance plus child form data, form plus child form components, and form picklists and form picklist phrases.
-    public with sharing class FormInstanceData {
+    public inherited sharing class FormInstanceData {
         public Form_Instance__c frmInst; // Includes child form data
         public Form__c frm; // Includes child form components
         public Form_Picklist__c[] frmPicklists; // Includes child form picklist phrases
@@ -144,16 +140,9 @@ public with sharing class FormInstanceController {
             orderingMap = buildCmpNumberMap(frm.Form_Components__r);
         }
     }
-    
-    @AuraEnabled //Do not cache
-    public static String getFormInstanceData(String formInstanceId) {
-        FormInstanceData data = new FormInstanceData(formInstanceId);
-        return JSON.serialize(data);
-    }
 
     // Update form data if existing, else build new one.
     // NOTE 5/11/2022: we're no longer updating the form data's Type__c field. When dust settles, delete that field?
-    @AuraEnabled
     public static void updateFormData(String frmInstanceId, String componentId, String value, Boolean isTextarea){
         try {
             //Load existing form data record if it exists.
@@ -169,12 +158,9 @@ public with sharing class FormInstanceController {
                 frmData.Form_Component__c = componentId;
             }
             system.debug('updateFormData: frmData = ' +frmData);
-            Set the value on either the new object, or existing
-            if (isTextarea) {
-                frmData.Data_textarea__c = value;
-            } else {
-                frmData.Data_text__c = value;
-            }
+            //Set the value on either the new object, or existing
+            if (isTextarea) frmData.Data_textarea__c = value;
+            else frmData.Data_text__c = value;
             //frmData.Data_text__c = value;
             system.debug('updateFormData: frmData = ' +frmData);
             upsert frmData;
@@ -183,7 +169,6 @@ public with sharing class FormInstanceController {
         }
     }
 
-    @AuraEnabled
     public static boolean submitForm(String formInstanceId){
         try {
             // TODO: do we want a data-level validation here or is the UI check enough?
