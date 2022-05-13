@@ -40,7 +40,8 @@ function buildTransById (translations, language) {
 
  // Handle checkboxes and radios
  function updateRecordInternals(rec, picklistPhrasesMap, translationMap, countryNames) {
-     console.log('updateRecordInternals... (1)');
+    console.log('updateRecordInternals... (1)');
+    rec.isTextArea = false;
     if (rec.Type__c=='text' || rec.Type__c=='text latin chars' ) {
         rec.isText = true;
         if (!rec.Character_limit__c) {

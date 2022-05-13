@@ -1,4 +1,4 @@
-public class FormInstanceController {
+public inherited sharing class FormInstanceController {
 
     /**********************************
      * For use in Lightning components
@@ -109,16 +109,12 @@ public class FormInstanceController {
         return String.join(numArrResult, '.');
     }
 
-    /**********************************
-     * For general use
-     *********************************/
-
      /**********************************
      * For use in Apex code processing form data
      *********************************/
 
     // Builds collection of form instance plus child form data, form plus child form components, and form picklists and form picklist phrases.
-    public class FormInstanceData {
+    public inherited sharing class FormInstanceData {
         public Form_Instance__c frmInst; // Includes child form data
         public Form__c frm; // Includes child form components
         public Form_Picklist__c[] frmPicklists; // Includes child form picklist phrases
@@ -136,47 +132,46 @@ public class FormInstanceController {
             String fpSubQuery = Utilities.buildChildSubQuery('Form_Picklist_Phrase__c', 'Form_Picklist_Phrases__r', 'ORDER BY Sort_number__c');
             frmPicklists = (List<Form_Picklist__c>)Utilities.fetchRecords('Form_Picklist__c', null, new List<String>{fpSubQuery});
             // Fetch countries, filtering for current user's FS group
-            //String fsGroupName = Utilities.xxx...
-            Country__c[] countries = [SELECT Name FROM Country__c ORDER BY Name];
+            String fsGroupName = Utilities.fsGroupNameByUser(UserInfo.getUserId());
+            Country__c[] countries = [SELECT Name FROM Country__c WHERE Region__r.FS_Group__c = :fsGroupName ORDER BY Name];
             for (Country__c c : countries) countryNames.add(c.Name);
 
             // Form component numbering map
             orderingMap = buildCmpNumberMap(frm.Form_Components__r);
         }
     }
-    
-    @AuraEnabled //Do not cache
-    public static String getFormInstanceData(String formInstanceId) {
-        FormInstanceData data = new FormInstanceData(formInstanceId);
-        return JSON.serialize(data);
-    }
 
     // Update form data if existing, else build new one.
     // NOTE 5/11/2022: we're no longer updating the form data's Type__c field. When dust settles, delete that field?
-    @AuraEnabled
     public static void updateFormData(String frmInstanceId, String componentId, String value, Boolean isTextarea){
         try {
             //Load existing form data record if it exists.
+            system.debug('updateFormData: value = ' +value+ '; isTextarea = ' +isTextarea);
             String whereClause = 'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'' +
                     ' AND Form_Component__c=\'' +componentId+ '\'';
             Form_Data__c[] existingFrmData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
-            system.debug('updateFormData: existingFrmData' +existingFrmData);
+            system.debug('updateFormData: existingFrmData = ' +existingFrmData);
             Form_Data__c frmData = new Form_Data__c ();
             if (existingFrmData.size()>0) frmData = existingFrmData[0];
             else {
                 frmData.Form_Instance__c = frmInstanceId;
                 frmData.Form_Component__c = componentId;
+                Id defOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(UserInfo.getUserId());
+                system.debug('updateFormData: defOwnerId = ' +defOwnerId);
+                if (defOwnerId != null) frmData.OwnerId = defOwnerId;
             }
+            system.debug('updateFormData: frmData = ' +frmData);
             //Set the value on either the new object, or existing
             if (isTextarea) frmData.Data_textarea__c = value;
             else frmData.Data_text__c = value;
+            //frmData.Data_text__c = value;
+            system.debug('updateFormData: frmData = ' +frmData);
             upsert frmData;
         } catch (Exception e) {
             throw new GFW_Exception('FormInstanceController.updateFormData', 'Could not update field value, please refresh and try again.', e);
         }
     }
 
-    @AuraEnabled
     public static boolean submitForm(String formInstanceId){
         try {
             // TODO: do we want a data-level validation here or is the UI check enough?
@@ -187,36 +182,6 @@ public class FormInstanceController {
         } catch (Exception e) {
             throw new GFW_Exception('FormInstanceController.submitForm', 'Could not submit form, please refresh and try again.', e);
         }
-    }
-
-    /**********************************
-     * For use in VisualForce pages
-     *********************************/
-    
-    private ApexPages.StandardController standardController;
-    private ApexPages.StandardSetController standardSetController;
- 
-    public FormInstanceController(ApexPages.StandardController standardController) {
-        this.standardController = standardController;
-    }
- 
-    public FormInstanceController(ApexPages.StandardSetController standardSetController) {
-        this.standardSetController = standardSetController;
-    }
-            
-    public PageReference doCancel() {       
-        return (standardSetController != null) ? standardSetController.cancel() : standardController.cancel();   
-    }
-    
-    private Set<Id> getSelectedIds() {
-        Set<Id> selIds;
-        if (standardSetController != null) {
-            Map<Id, Form_Instance__c> selMap = new Map<Id, Form_Instance__c> ((List<Form_Instance__c>) standardSetController.getSelected());
-            selIds = selMap.keySet();
-        } else {
-            selIds = new Set<Id> {standardController.getId()};
-        }
-        return selIds;
     }
     
 }

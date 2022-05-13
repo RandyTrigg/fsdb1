@@ -1,8 +1,9 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 
-import getFormInstanceData from '@salesforce/apex/FormInstanceController.getFormInstanceData';
 import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
+import getFormInstanceData from '@salesforce/apex/SiteController.getFormInstanceData';
+import submitForm from '@salesforce/apex/SiteController.submitForm';
 
 import { buildTransByName, buildTransById, updateRecordInternals } from 'c/formsUtilities';
 import { handleError } from 'c/lwcUtilities';
