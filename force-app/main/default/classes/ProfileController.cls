@@ -1,4 +1,4 @@
-public with sharing class ProfileController {
+public without sharing class ProfileController {
     public static String notificationTemplateName = 'Request to submit Updated Profile';
 
     /**********************************
@@ -6,7 +6,7 @@ public with sharing class ProfileController {
      *********************************/
 
     // Bundles profile information, including child proposals.
-    public with sharing class ProfileSummary {
+    public without sharing class ProfileSummary {
         public Profile__c prf; // Includes child proposals
         public Id prId;
         public Boolean hasForms = false;
@@ -70,6 +70,7 @@ public with sharing class ProfileController {
                 Profile__c newPrf = new Profile__c (
                     Community_contact__c = u.ContactId,
                     Community_contact_username__c = u.Username
+                    // Account__c = u.Contact.AccountId
                 );
                 insert newPrf;
                 runningProfileId = newPrf.Id;
