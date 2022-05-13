@@ -1174,21 +1174,42 @@ global inherited sharing class Utilities {
         return [SELECT Name FROM Profile WHERE Id = :profileId].Name;
     }
 
-    // Return public group name of FS Group to which user belongs
-    public static String FSGroupOfUser(Id usrId) {
+    // Return default record owner Id for FSGroup of given user.
+    public static Id fsDefaultRecordOwnerIdByUser(Id usrId) {
+        FS_Group_Settings__mdt fsGroup = fsGroupOfUser(usrId);
+        Id ownerId;
+        if (fsGroup!=null) {
+            ownerId = [SELECT Id, UserRoleId, UserRole.DeveloperName 
+                FROM User
+                WHERE UserRole.DeveloperName =:fsGroup.Designated_Role_for_Ownership__c][0].Id;
+        }
+        return ownerId;
+    }
+
+    // Return public group name of FSGroup for given user.
+    public static String fsGroupNameByUser(Id usrId) {
+        FS_Group_Settings__mdt fsGroup = fsGroupOfUser(usrId);
+        if (fsGroup!=null) return fsGroup.Public_Group_Name__c;
+        return '';
+    }
+
+    // Return public group name of FS Group for given user.
+    public static FS_Group_Settings__mdt fsGroupOfUser(Id usrId) {
         // If Customer Community user, retrieve FS Group by SF Profile and custom metadata type records.
         // Else, go upstream in hierarchy from user's role to identify FS Group, if any.
-        FS_Group_Settings__mdt[] fsGroups = [SELECT Id, DeveloperName, Designated_Role_for_Ownership__c, Public_Group_Name__c 
-        FROM FS_Group_Settings__mdt 
-        WHERE Active__c = true];
+        FS_Group_Settings__mdt[] fsGroups = fetchRecords(
+            'FS_Group_Settings__mdt',
+            'WHERE Active__c = true',
+            null
+        );
         User usr = [SELECT Id, Profile.Name, Profile.UserLicense.Name, UserRoleId FROM User WHERE Id=:usrId];
         Boolean isCommunityUsr = (usr.Profile.UserLicense.Name == 'Customer Community Login');
-        Map<String, String> groupRole = new Map<String, String>();
+        Map<String, FS_Group_Settings__mdt> groupRole = new Map<String, FS_Group_Settings__mdt>();
         for (FS_Group_Settings__mdt fsGrp : fsGroups) {
             if (isCommunityUsr && usr.Profile.Name.contains(fsGrp.DeveloperName)) {
-                return fsGrp.Public_Group_Name__c;
+                return fsGrp;
             } else {
-                groupRole.put(fsGrp.Designated_Role_for_Ownership__c, fsGrp.Public_Group_Name__c);
+                groupRole.put(fsGrp.Designated_Role_for_Ownership__c, fsGrp);
             }
         }
         Map<Id, UserRole> usrRoles = new Map<Id, UserRole>([
@@ -1201,7 +1222,7 @@ global inherited sharing class Utilities {
             if (groupRole.containsKey(thisRole.DeveloperName)) return groupRole.get(thisRole.DeveloperName);
             thisRole = usrRoles.get(thisRole.ParentRoleId);
         }
-        return '';
+        return null;
     }
 
     // Return new page reference for given record.
