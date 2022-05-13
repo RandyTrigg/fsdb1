@@ -61,16 +61,17 @@ public without sharing class ProfileController {
     }
 
     private static Id getRunningUserProfileId() {
+        try {
             Id userId = UserInfo.getUserId();
             Id runningProfileId;
-            User u = [SELECT Id, FirstName, LastName, Email, Username, ContactId FROM User WHERE Id=:userId];
+            User u = [SELECT Id, FirstName, LastName, Email, Username, ContactId, Contact.AccountId FROM User WHERE Id=:userId];
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:u.ContactId LIMIT 1]);
             if (runningProfile.isEmpty()) {
                 Profile__c newPrf = new Profile__c (
                     Community_contact__c = u.ContactId,
-                    Community_contact_username__c = u.Username
-                    // Account__c = u.Contact.AccountId
+                    Community_contact_username__c = u.Username,
+                    Account__c = u.Contact.AccountId
                 );
                 insert newPrf;
                 runningProfileId = newPrf.Id;
@@ -78,6 +79,9 @@ public without sharing class ProfileController {
                 runningProfileId = runningProfile[0].Id;
             }
             return runningProfileId;
+        } catch (Exception e) {
+            throw new GFW_Exception('ProfileController.getRunningUserProfileId', 'Could not load Profile Record', e);
+        }
     }
 
     @AuraEnabled //Do not cache
@@ -88,29 +92,43 @@ public without sharing class ProfileController {
 
     @AuraEnabled //Do not cache
     public static Id createProposal(Id prfId, String grantType) {
-        Profile__c prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, null);        
-        system.debug('PrfId: ' + prfId);
-        system.debug('Account: ' + prf.Account__c);
-        Proposal__c newProp = new Proposal__c (
-                Account__c = prf.Account__c,
+        try{
+            Profile__c prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, null);        
+            system.debug('PrfId: ' + prfId);
+            system.debug('Account: ' + prf.Account__c);
+            Proposal__c newProp = new Proposal__c (
+                    Account__c = prf.Account__c,
+                    Profile__c = prfId,
+                    Grant_type__c = grantType
+                );
+                insert newProp;
+            // Look up custom req's form
+            // String fsGroup = Utilities.
+            /* Grant_type__mdt[] grantTypeMetadata = [
+                SELECT Label, Default_custom_reqs_name__c, FS_Group__r.Public_Group_Name__c
+                FROM Grant_type__mdt
+                WHERE Label = :p.Grant_type__c AND FS_Group__r.Public_Group_Name__c=:fsGroup
+            ];*/
+
+
+
+
+            Id formId = [
+                SELECT Custom_Reqs__r.Form_proposal_Application__c 
+                FROM Proposal__c 
+                WHERE Id=:newProp.Id
+                ][0].Custom_Reqs__r.Form_proposal_Application__c;
+            // Create new Form Instance
+            Form_Instance__c newFormInstance = new Form_Instance__c (
+                Form__c = formId,
                 Profile__c = prfId,
-                Grant_type__c = grantType
+                Proposal__c = newProp.Id
             );
-            insert newProp;
-        // Look up custom req's form
-        Id formId = [
-            SELECT Custom_Reqs__r.Form_proposal_Application__c 
-            FROM Proposal__c 
-            WHERE Id=:newProp.Id
-            ][0].Custom_Reqs__r.Form_proposal_Application__c;
-        // Create new Form Instance
-        Form_Instance__c newFormInstance = new Form_Instance__c (
-            Form__c = formId,
-            Profile__c = prfId,
-            Proposal__c = newProp.Id
-        );
-        insert newFormInstance;
-        return newFormInstance.Id;
+            insert newFormInstance;
+            return newFormInstance.Id;
+        } catch(Exception e) {
+            throw new GFW_Exception('ProfileController.createProposal', 'Could not load Proposal Record', e);
+        }
     }
 
     /**********************************

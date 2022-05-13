@@ -14,6 +14,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     userId = Id;
 
     // Logos and text on page
+    debug;
     bffLogo = logoResource;
     bffLogoWhiteText = logoResourceWhiteText;
     pageHeader;
@@ -89,7 +90,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             this.translatePage();
             this.hasSubmittedPrf = this.profileSummary.hasSubmittedPrf;
             this.prFormInstanceId = this.profileSummary.prFormInstanceId;
-            this.prfId = this.profileSummary.prfId;
+            this.prfId = this.profileSummary.prId;
             this.prpList = this.profileSummary.prpList;
             this.formInstList = this.profileSummary.formInstList;
             this.hasProposals = this.profileSummary.hasProposals;
@@ -170,14 +171,28 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     }
 
     handleNewAppSustain(event) {
+        let appError = {
+            title: 'Invalid action',
+            variant: 'warning',
+            mode: 'dismissible',
+            userMessage: 'You have an open grant application'
+        };
+        console.log(appError);
+        showUIError(appError);
+        /* error.title = 'Invalid action';
+        error.variant = 'warning';
+        error.mode = 'dismissible';*/
         if (hasPendingSustain) {
             // Toast message: pending message
-            // let error = new Object();
-            // error.title = 'You have a sustain grant application in progress';
-            // json serialize
-            // showUIError(error);
+            // error.userMessage = 'You have a Sustain Fund grant application in progress';
+            this.debug = 'Pending sustain';
+            console.log('error: ' + appError.title);
+            showUIError(appError);
         } else if (hasRecentSubmittedSolidarity) {
-            // Toast message: submitted message
+            // error.userMessage = 'You have already submitted a Sustain Fund grant application';
+            this.debug = 'Submitted sustain';
+            console.log('error: ' + appError.title);
+            showUIError(appError);
         } else {
             // Create Proposal with grant type and Form Instance linked to Proposal
             this.grantType = 'BFF-Sustain';

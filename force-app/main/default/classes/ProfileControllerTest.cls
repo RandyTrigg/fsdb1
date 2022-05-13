@@ -121,7 +121,7 @@ public class ProfileControllerTest {
 
         Test.StartTest();
         // Schedule test of profile clone.  Check results after test.stopTest().
-        String cronExp = '0 0 0 15 3 ? 2022';
+        String cronExp = '0 0 0 15 3 ? 2050';
         String jobId = System.schedule(
             'ScheduleApexClassTest',
             cronExp,
@@ -194,4 +194,117 @@ public class ProfileControllerTest {
         }
         insert pas;
     }
+
+    /**********************************
+     * Test the Grants Experience methods
+     * *******************************/
+    
+    static testMethod void ProfileControllerExperience() {
+        /* Set up records */
+        Id profileId = [Select Id From Profile Where Name ='System Administrator'].Id;
+        Id roleId = [SELECT Id FROM UserRole WHERE DeveloperName = 'BFF_Administrator'].Id;
+        User uAdmin = createUser(roleId,profileId,'Syst','Admin');
+        insert uAdmin;
+        System.runAs( uAdmin ){
+            // Create community user
+            Account acc = createAccount('Test Account');
+            insert acc;
+            Contact con = createContact('test','Contact','test@gmail.com',acc.Id);
+            insert con;
+            Id ccProfileId = [Select Id From Profile Where Name ='Customer Community Login User'].Id;
+            User cmtyUser = prepareUser('', ccProfileId, 'Testfirstname', 'Testlastname');
+            cmtyUser.ContactId = con.Id;
+            // cmtyUser.Account = acc.Id;
+            insert cmtyUser;
+
+        Form__c prForm = new Form__c(
+            Name = 'bff_Profile',
+            Active__c = true,
+            Type__c = 'Profile'
+        );
+        insert prForm;
+        Form__c appForm = new Form__c(
+            Name = 'testForm',
+            Active__c = true,
+            Type__c = 'Application'
+        );
+        insert appForm;
+        Custom_Reqs__c cReq = new Custom_Reqs__c(
+            Name = 'Solidarity',
+            Form_proposal_Application__c = appForm.Id,
+            FS_Group__c = 'FS_BFF',
+            Active__c = true
+        );
+        insert cReq;
+
+
+        Test.StartTest();
+        System.runAs( cmtyUser ){
+            String data = ProfileController.getProfileSummary();
+            List<Profile__c> runningProfile = new List<Profile__c>(
+                [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
+            Id prId = runningProfile[0].Id;
+            Id formInstId = ProfileController.createProposal(prId, 'BFF-Solidarity');
+        }
+        Test.StopTest();
+        List<Profile__c> runningProfile = new List<Profile__c>(
+                [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
+        Id prId = runningProfile[0].Id;
+        List<Form_Instance__c> formInsts = new List<Form_Instance__c>([
+            SELECT Id FROM Form_Instance__c]);
+
+        system.assertNotEquals(null, prId);
+        system.assertEquals(2, formInsts.size());
+
+        }
+    }
+
+
+
+    // Init Test Objects
+    // Source: https://sfdcpanther.com/how-to-create-community-user-in-test-class/
+    static User createUser(String roleId, String profId, String firstName, String lastName){
+        User tempUser = prepareUser(roleId, profId, firstName, lastName);
+        return tempUser;
+    }
+
+    static User prepareUser(String roleId, String profId, String firstName, String lastName) {  
+        String orgId = UserInfo.getOrganizationId();  
+        String dateString =   
+        String.valueof(Datetime.now()).replace(' ','').replace(':','').replace('-','');  
+        Integer randomInt = Integer.valueOf(math.rint(math.random()*1000000));  
+        String uniqueName = orgId + dateString + randomInt;  
+        User tempUser = new User(  
+            FirstName = firstName,  
+            LastName = lastName,  
+            email = uniqueName + '@sfdc' + orgId + '.org',  
+            Username = uniqueName + '@sfdc' + orgId + '.org',  
+            EmailEncodingKey = 'ISO-8859-1',  
+            Alias = uniqueName.substring(18, 23),  
+            TimeZoneSidKey = 'America/Los_Angeles',  
+            LocaleSidKey = 'en_US',  
+            LanguageLocaleKey = 'en_US',  
+            ProfileId = profId
+        );    
+        if( String.isBlank(roleId) == false ){
+            tempUser.UserRoleId = roleId;
+        }
+        return tempUser;  
+    }
+
+    static Account createAccount(String Name){
+        Account portalAccount = new Account(name = Name );
+        return portalAccount;
+    }
+
+    static Contact createContact(String firstName, String lastName, String email, String accountId){
+        Contact portalContact = new contact(
+            FirstName = firstName, 
+            LastName = lastName, 
+            Email = email, 
+            AccountId = accountId
+        );
+        return portalContact;
+    }
+
 }
