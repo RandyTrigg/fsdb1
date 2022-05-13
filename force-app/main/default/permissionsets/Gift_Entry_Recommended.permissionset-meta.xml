@@ -3825,6 +3825,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Custom_Reqs__c.Form_proposal_Application__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Custom_Reqs__c.GM_ExternalID__c</field>
         <readable>false</readable>
     </fieldPermissions>

@@ -1,4 +1,4 @@
-public class FormInstanceController {
+public inherited sharing class FormInstanceController {
 
     /**********************************
      * For use in Lightning components
@@ -79,6 +79,7 @@ public class FormInstanceController {
             } else num = null;
             if (num != null) cmpsNumberMap.put(cmp.Id, cmpNumDisplay(num));
         }
+        system.debug('buildCmpNumberMap: cmpsNumberMap.size() = ' +cmpsNumberMap.size());
         return cmpsNumberMap;
     }
     
@@ -108,83 +109,17 @@ public class FormInstanceController {
         return String.join(numArrResult, '.');
     }
 
-    /**********************************
-     * For general use
-     *********************************/
-
      /**********************************
      * For use in Apex code processing form data
      *********************************/
-    
-    // Class that includes all form data associated with the given form instance
-    public class DataManager {
-        public Form_Instance__c fi;
-        public Profile__c prof;
-        public Advisor_Term__c advt;
-        public Map<String, String> dataValue, dataValueText, dataValueTextArea, dataTargetId;
-
-        private Id fiId;
-        private List<Form_Component__c> comps;
-        private Map<String, Id> compIds;
-        private List<Form_Picklist_Phrase__c> picklistPhrases;
-        private Map<String, String> picklistPhraseValues;
-        private List<Form_Data__c> fds;
-        private Map<String, Form_Data__c> dataRecord;
-        
-        public DataManager(Id fiId) {
-            this.fiId = fiId;
-            this.fi = getFormInstance(fiId);
-            // Get profile or advisor term.
-            system.debug('DataManager: fi.Profile__c = ' +fi.Profile__c+ '; fi.Advisor_Term__c = ' +fi.Advisor_Term__c);
-            if (fi.Profile__c != null) {
-                prof = [
-                    SELECT Id, Account__c, Community_contact_email__c, Language__c
-                    FROM Profile__c 
-                    WHERE Id = : fi.Profile__c
-                ];
-            } else if (fi.Advisor_Term__c != null) {
-                advt = [
-                    SELECT Id, Advisor__c, Advisor__r.Community_contact_email__c, Advisor__r.Language__c
-                    FROM Advisor_Term__c 
-                    WHERE Id = : fi.Advisor_Term__c
-                ];
-            }
-            comps = getComponents(fi.Form__c);
-            // Map from component name to id.  NOTE: Trouble if multiple components in a form have the same name.
-            compIds = new Map<String, Id> ();
-            for (Form_Component__c c : comps) compIds.put(c.Name, c.Id);
-            // Get picklist phrases for those components, and build lookup table from picklist option phrase names to their English translations.
-            picklistPhrases = new List<Form_Picklist_Phrase__c> ([
-                SELECT Name, Form_Phrase__r.Phrase_in_English__c
-                FROM Form_Picklist_Phrase__c
-                WHERE Form_Picklist__c IN (SELECT Form_Picklist__c FROM Form_Component__c WHERE Id IN : compIds.values())
-            ]);
-            picklistPhraseValues = new Map<String, String> ();
-            for (Form_Picklist_Phrase__c p : picklistPhrases) picklistPhraseValues.put(p.Name, p.Form_Phrase__r.Phrase_in_English__c);
-            fds = getFormData(fi.Id);
-            // Lookup tables map component name to record, value and target Id.
-            dataRecord = new Map<String, Form_Data__c> ();
-            dataValue = new Map<String, String> ();
-            dataValueText = new Map<String, String> ();
-            dataValueTextArea = new Map<String, String> ();
-            dataTargetId = new Map<String, String> ();
-            for (Form_Data__c fd : fds) {
-                dataRecord.put(fd.Form_Component__r.Name, fd);
-                dataValueText.put(fd.Form_Component__r.Name, fd.Data_text__c);
-                dataValueTextArea.put(fd.Form_Component__r.Name, fd.Data_textarea__c);
-                dataValue.put(fd.Form_Component__r.Name, fd.Data_text__c == null ? fd.Data_textarea__c : fd.Data_text__c);
-                dataTargetId.put(fd.Form_Component__r.Name, fd.Target_Id__c);
-            }
-            system.debug('DataManager: dataValue = ' +JSON.serialize(dataValue));
-        }    
-    }
 
     // Builds collection of form instance plus child form data, form plus child form components, and form picklists and form picklist phrases.
-    public class FormInstanceData {
+    public inherited sharing class FormInstanceData {
         public Form_Instance__c frmInst; // Includes child form data
         public Form__c frm; // Includes child form components
         public Form_Picklist__c[] frmPicklists; // Includes child form picklist phrases
         public Map<Id, String> orderingMap;
+        public List<String> countryNames = new List<String>();
 
         public FormInstanceData (Id formInstanceId) {
             // Get form instance and form data
@@ -194,65 +129,49 @@ public class FormInstanceController {
             String fcSubQuery = Utilities.buildChildSubQuery('Form_Component__c', 'Form_Components__r', 'ORDER BY Hierarchical_sort_num__c');
             frm = (Form__c)Utilities.fetchRecord('Form__c', frmInst.Form__c, new List<String>{fcSubQuery});
             // Get ALL form picklists and child form picklist phrases
-            String fpSubQuery = Utilities.buildChildSubQuery('Form_Picklist_Phrase__c', 'Form_Picklist_Phrases__r', null);
+            String fpSubQuery = Utilities.buildChildSubQuery('Form_Picklist_Phrase__c', 'Form_Picklist_Phrases__r', 'ORDER BY Sort_number__c');
             frmPicklists = (List<Form_Picklist__c>)Utilities.fetchRecords('Form_Picklist__c', null, new List<String>{fpSubQuery});
+            // Fetch countries, filtering for current user's FS group
+            String fsGroupName = Utilities.fsGroupNameByUser(UserInfo.getUserId());
+            Country__c[] countries = [SELECT Name FROM Country__c WHERE Region__r.FS_Group__c = :fsGroupName ORDER BY Name];
+            for (Country__c c : countries) countryNames.add(c.Name);
+
             // Form component numbering map
             orderingMap = buildCmpNumberMap(frm.Form_Components__r);
         }
     }
-    
-    @AuraEnabled //Do not cache
-    public static String getFormInstanceData(String formInstanceId) {
-        FormInstanceData data = new FormInstanceData(formInstanceId);
-        return JSON.serialize(data);
-    }
 
-    @AuraEnabled
-    public static void updateTextAreaData(String frmInstanceId, String componentId, String value){
+    // Update form data if existing, else build new one.
+    // NOTE 5/11/2022: we're no longer updating the form data's Type__c field. When dust settles, delete that field?
+    public static void updateFormData(String frmInstanceId, String componentId, String value, Boolean isTextarea){
         try {
             //Load existing form data record if it exists.
+            system.debug('updateFormData: value = ' +value+ '; isTextarea = ' +isTextarea);
             String whereClause = 'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'' +
                     ' AND Form_Component__c=\'' +componentId+ '\'';
             Form_Data__c[] existingFrmData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
+            system.debug('updateFormData: existingFrmData = ' +existingFrmData);
             Form_Data__c frmData = new Form_Data__c ();
             if (existingFrmData.size()>0) frmData = existingFrmData[0];
             else {
                 frmData.Form_Instance__c = frmInstanceId;
                 frmData.Form_Component__c = componentId;
+                Id defOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(UserInfo.getUserId());
+                system.debug('updateFormData: defOwnerId = ' +defOwnerId);
+                if (defOwnerId != null) frmData.OwnerId = defOwnerId;
             }
+            system.debug('updateFormData: frmData = ' +frmData);
             //Set the value on either the new object, or existing
-            frmData.Data_textarea__c = value;
-            frmData.Type__c = 'textarea'; //this follows the existing pattern, but is it necessary?  Why isn't it a formula field?
+            if (isTextarea) frmData.Data_textarea__c = value;
+            else frmData.Data_text__c = value;
+            //frmData.Data_text__c = value;
+            system.debug('updateFormData: frmData = ' +frmData);
             upsert frmData;
         } catch (Exception e) {
-            throw new GFW_Exception('FormInstanceController.updateTextAreaData', 'Could not update field value, please refresh and try again.', e);
+            throw new GFW_Exception('FormInstanceController.updateFormData', 'Could not update field value, please refresh and try again.', e);
         }
     }
 
-    @AuraEnabled
-    public static void updateTextData(String frmInstanceId, String componentId, String value){
-        try {
-            //Load the existing form data record if it exists.
-            String whereClause = 'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'' +
-                ' AND Form_Component__c=\'' +componentId+ '\'';
-            Form_Data__c[] existingFrmData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
-    
-            Form_Data__c frmData = new Form_Data__c ();
-            if (existingFrmData.size()>0) frmData = existingFrmData[0];
-            else {
-                frmData.Form_Instance__c = frmInstanceId;
-                frmData.Form_Component__c = componentId;
-            }
-            //Set the value on either the new object, or existing
-            frmData.Data_text__c = value;
-            frmData.Type__c = 'text'; //this follows the existing pattern, but is it necessary?  Why isn't it a formula field?
-            upsert frmData;
-        } catch (Exception e) {
-            throw new GFW_Exception('FormInstanceController.updateTextData', 'Could not update field value, please refresh and try again.', e);
-        }
-    }
-
-    @AuraEnabled
     public static boolean submitForm(String formInstanceId){
         try {
             // TODO: do we want a data-level validation here or is the UI check enough?
@@ -263,36 +182,6 @@ public class FormInstanceController {
         } catch (Exception e) {
             throw new GFW_Exception('FormInstanceController.submitForm', 'Could not submit form, please refresh and try again.', e);
         }
-    }
-
-    /**********************************
-     * For use in VisualForce pages
-     *********************************/
-    
-    private ApexPages.StandardController standardController;
-    private ApexPages.StandardSetController standardSetController;
- 
-    public FormInstanceController(ApexPages.StandardController standardController) {
-        this.standardController = standardController;
-    }
- 
-    public FormInstanceController(ApexPages.StandardSetController standardSetController) {
-        this.standardSetController = standardSetController;
-    }
-            
-    public PageReference doCancel() {       
-        return (standardSetController != null) ? standardSetController.cancel() : standardController.cancel();   
-    }
-    
-    private Set<Id> getSelectedIds() {
-        Set<Id> selIds;
-        if (standardSetController != null) {
-            Map<Id, Form_Instance__c> selMap = new Map<Id, Form_Instance__c> ((List<Form_Instance__c>) standardSetController.getSelected());
-            selIds = selMap.keySet();
-        } else {
-            selIds = new Set<Id> {standardController.getId()};
-        }
-        return selIds;
     }
     
 }

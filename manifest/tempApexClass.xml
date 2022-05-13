@@ -3,6 +3,9 @@
 	<types>
 		<members>ProfileController</members>
 		<members>ProfileControllerTest</members>
+		<members>ProposalUpdate</members>
+		<members>Utilities</members>
+		<members>UtilitiesTest</members>
 		<name>ApexClass</name>
 	</types>
 	<version>53.0</version>

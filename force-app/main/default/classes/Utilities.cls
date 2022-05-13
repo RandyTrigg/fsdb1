@@ -1174,6 +1174,57 @@ global inherited sharing class Utilities {
         return [SELECT Name FROM Profile WHERE Id = :profileId].Name;
     }
 
+    // Return default record owner Id for FSGroup of given user.
+    public static Id fsDefaultRecordOwnerIdByUser(Id usrId) {
+        FS_Group_Settings__mdt fsGroup = fsGroupOfUser(usrId);
+        Id ownerId;
+        if (fsGroup!=null) {
+            ownerId = [SELECT Id, UserRoleId, UserRole.DeveloperName 
+                FROM User
+                WHERE UserRole.DeveloperName =:fsGroup.Designated_Role_for_Ownership__c][0].Id;
+        }
+        return ownerId;
+    }
+
+    // Return public group name of FSGroup for given user.
+    public static String fsGroupNameByUser(Id usrId) {
+        FS_Group_Settings__mdt fsGroup = fsGroupOfUser(usrId);
+        if (fsGroup!=null) return fsGroup.Public_Group_Name__c;
+        return '';
+    }
+
+    // Return public group name of FS Group for given user.
+    public static FS_Group_Settings__mdt fsGroupOfUser(Id usrId) {
+        // If Customer Community user, retrieve FS Group by SF Profile and custom metadata type records.
+        // Else, go upstream in hierarchy from user's role to identify FS Group, if any.
+        FS_Group_Settings__mdt[] fsGroups = fetchRecords(
+            'FS_Group_Settings__mdt',
+            'WHERE Active__c = true',
+            null
+        );
+        User usr = [SELECT Id, Profile.Name, Profile.UserLicense.Name, UserRoleId FROM User WHERE Id=:usrId];
+        Boolean isCommunityUsr = (usr.Profile.UserLicense.Name == 'Customer Community Login');
+        Map<String, FS_Group_Settings__mdt> groupRole = new Map<String, FS_Group_Settings__mdt>();
+        for (FS_Group_Settings__mdt fsGrp : fsGroups) {
+            if (isCommunityUsr && usr.Profile.Name.contains(fsGrp.DeveloperName)) {
+                return fsGrp;
+            } else {
+                groupRole.put(fsGrp.Designated_Role_for_Ownership__c, fsGrp);
+            }
+        }
+        Map<Id, UserRole> usrRoles = new Map<Id, UserRole>([
+            SELECT Id, DeveloperName, ParentRoleId 
+            FROM UserRole]);
+        UserRole thisRole = new UserRole();
+        thisRole = usrRoles.get(usr.UserRoleId);
+        // Cycle through parent roles to find relevant FS Group
+        while (thisRole != null) {
+            if (groupRole.containsKey(thisRole.DeveloperName)) return groupRole.get(thisRole.DeveloperName);
+            thisRole = usrRoles.get(thisRole.ParentRoleId);
+        }
+        return null;
+    }
+
     // Return new page reference for given record.
     public static PageReference pageReferenceForRecord(sObject rec) {
         PageReference pr = new ApexPages.StandardController(rec).view();

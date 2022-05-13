@@ -22,12 +22,6 @@ public class FormInstanceControllerTest {
         Form_Component__c comp2 = [SELECT Id FROM Form_Component__c WHERE Name = 'test comp2' LIMIT 1];
         insert new Form_Data__c (Form_Instance__c = fi.Id, Form_Component__c = comp.Id, Data_text__c = 'test form data');
         Form_Data__c fd = [SELECT Id FROM Form_Data__c LIMIT 1];
-
-        // Build new standard set controller and select the new form instance(s).
-        List<Form_Instance__c> fiList = new List<Form_Instance__c> {fi};
-        ApexPages.StandardSetController ssc = new ApexPages.StandardSetController(fiList);
-        ssc.setSelected(fiList);
-        FormInstanceController fic = new FormInstanceController (ssc);
         
         Test.StartTest();
         FormInstanceController.getFormInstance(fi.Id);
@@ -35,12 +29,13 @@ public class FormInstanceControllerTest {
         List<Form_Component__c> comps = FormInstanceController.getComponents(f.Id);
         FormInstanceController.buildCmpNumberMap(comps);
         
-        FormInstanceController.DataManager dm = new FormInstanceController.DataManager(fiId);
-        String dataStr = FormInstanceController.getFormInstanceData(fiId);
+        String dataStr = SiteController.getFormInstanceData(fiId);
         system.assertNotEquals(null, dataStr);
 
-        FormInstanceController.updateTextData(fi.Id, comp.Id, 'abc');
-        FormInstanceController.updateTextAreaData(fi.Id, comp2.Id, 'def');
+        SiteController.updateFormData(fi.Id, comp.Id, 'abc', false);
+        SiteController.updateFormData(fi.Id, comp2.Id, 'def', true);
+
+        SiteController.submitForm(fi.Id);
     }
 
 }

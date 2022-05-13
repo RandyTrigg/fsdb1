@@ -1,7 +1,6 @@
 import { LightningElement, api, wire} from 'lwc';
 import { handleError } from 'c/lwcUtilities';
-import updateTextData from '@salesforce/apex/FormInstanceController.updateTextData';
-import updateTextAreaData from '@salesforce/apex/FormInstanceController.updateTextAreaData';
+import updateFormData from '@salesforce/apex/SiteController.updateFormData';
 
 export default class FormFieldEditor extends LightningElement {
     @api cmp;
@@ -112,7 +111,7 @@ export default class FormFieldEditor extends LightningElement {
         let dataText = event.target.value;
         this.localCmp.data.Data_text__c = dataText;
         try {
-            this.sendUpdatedTextValue(dataText);
+            this.sendUpdatedValue(dataText);
 
             //Notify parent that data has changed
             const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: dataText} });
@@ -126,7 +125,7 @@ export default class FormFieldEditor extends LightningElement {
     handleRadioChange(event) {
         try {
             let textValue = event.target.value;
-            this.sendUpdatedTextValue(textValue);
+            this.sendUpdatedValue(textValue);
             this.localCmp.data.Data_text__c = textValue;
 
             // Parent components manage child component's visibility
@@ -137,10 +136,6 @@ export default class FormFieldEditor extends LightningElement {
             handleError(error);
         }
         
-    }
-
-    async sendUpdatedTextValue(textData) {
-        await updateTextData({frmInstanceId:this.localCmp.data.Form_Instance__c, componentId:this.localCmp.data.Form_Component__c, value:textData});
     }
 
     updateTextArea(event) {
@@ -177,8 +172,30 @@ export default class FormFieldEditor extends LightningElement {
         });
         this.dispatchEvent(fieldEditorReady);
     }
+ 
+    // Single change handler for all types of input fields
+    handleInputChange(event) {
+        let val = event.target.value;
+        // NOTE: Need to massage dataText in certain cases including checkbox group (separators between selections) and single checkbox (true/false versus blank).
+        let dataText = val;
+        if (this.localCmp.isTextArea) this.localCmp.data.Data_textarea__c = dataText;
+        else this.localCmp.data.Data_text__c = dataText;
+        try {
+            this.sendUpdatedValue(dataText);
 
+            //Notify parent that data has changed
+            const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: dataText} });
+            this.dispatchEvent(cmpUpdated);
 
+        } catch(error) {
+            handleError(error);
+        }
+    }
+
+    // Upsert the form data record via apex
+    async sendUpdatedValue(textData) {
+        await updateFormData({frmInstanceId:this.localCmp.data.Form_Instance__c, componentId:this.localCmp.data.Form_Component__c, value:textData, isTextarea:this.localCmp.isTextArea});
+    }
 
 
     

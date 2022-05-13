@@ -1,30 +1,37 @@
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 
-import getFormInstanceData from '@salesforce/apex/FormInstanceController.getFormInstanceData';
 import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
+import getFormInstanceData from '@salesforce/apex/SiteController.getFormInstanceData';
+import submitForm from '@salesforce/apex/SiteController.submitForm';
 
 import { buildTransByName, buildTransById, updateRecordInternals } from 'c/formsUtilities';
 import { handleError } from 'c/lwcUtilities';
 
 export default class FormInstance extends LightningElement {
     //Will have the form instance ID from parent, query for:
-    @api recordId;
-    @api isEditable;
-    @api isMultiView; // Determines whether we're in a single-form view or multi-form view.
+    //recordId = 'a248c0000007z9iAAA'; // Hard-wiring in desperation...
+    //@api recordId; 
+    recordId; 
+    isEditable = true;
+    isMultiView = false; // Determines whether we're in a single-form view or multi-form view.
     dataLoaded = false;
-    sections = [];
-    components = [];
+    hasSections;
+    @track sections = [];
+    @track components = [];
     topLevelCmps = [];
-    language = 'English';
+    @api language = 'English';
     transByName;
     transById;
-    frm = {};
+    @track frm = {};
 
-    //The form Instance with all its fields, the form and form data, form sections, form items, form components and form data.
+    
     connectedCallback() {
-        console.log('connectedCallback: this.recordId = ' +this.recordid);
+        console.log('connectedCallback: this.recordId', this.recordid);
+        //if (!this.recordId) this.recordId = 'a248c0000007z9iAAA';
         if (this.recordId) {
+            console.log('connectedCallback: this.recordId', this.recordid);
+            console.log('connectedCallback: this.language', this.language);
             this.loadData();
         }
     }
@@ -38,22 +45,23 @@ export default class FormInstance extends LightningElement {
     // Get parameters from current URL (e.g. language)
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
+        console.log('wire currentPageReference', currentPageReference);
        if (currentPageReference) {
-          //let urlStateParameters = currentPageReference.state;
-          //this.language = urlStateParameters.language || null;
+          let urlStateParameters = currentPageReference.state;
+          console.log('wire CurrentPageReference: urlStateParameters', urlStateParameters);
+          this.language = urlStateParameters.language || 'English';
+          if(!this.recordId) this.recordId = urlStateParameters.recordId || null;
+          console.log('wire CurrentPageReference: this.recordId', this.recordId);
        }
     }
 
     async loadData() {
         console.log('loadData');
+        console.log('loadData', this.recordId);
         let [data, translations ] = await Promise.all ([
             getFormInstanceData ({ formInstanceId: this.recordId }),
             getTranslations ()
         ]);
-        // Default values of @api fields here in case they weren't set by caller. Or am I allowed to default in the @api field declaration?
-        // Note attempt to test for null/undefined - we don't want to override "false" values for boolean fields
-        if(this.isEditable === '') this.isEditable = true;
-        if(this.isMultiView === '') this.isMultiView = false;
 
         let fiInfo = JSON.parse(data);
         translations = JSON.parse(translations);
@@ -64,21 +72,33 @@ export default class FormInstance extends LightningElement {
         this.frm.title = this.transById.get(fiInfo.frm.Form_Phrase_Title__c)
         this.frm.intro = this.transById.get(fiInfo.frm.Form_Phrase_Intro__c)
 
-        let formData = fiInfo.frmInst.Form_Data__r;
+        let formDataInfo = fiInfo.frmInst.Form_Data__r;
+        let formData;
         let formDataMap = new Map();  //indexed my Form Component ID, value is an array of data for that component
-        if (formData) {
-            for (let data of formData ) {
-                formDataMap.set(data.Form_Component__c, data);
-            }
+        if (formDataInfo) {
+            formData = formDataInfo.records;
+            for (let data of formData ) formDataMap.set(data.Form_Component__c, data);
         }
         console.log('formDataMap',formDataMap);
-        let cmps = fiInfo.frm.Form_Components__r;
-        let cmpMap = new Map();
-        for (let cmp of cmps) cmpMap.set(cmp.Id, cmp);
 
-        let numberingMap = fiInfo.orderingMap;
+        let cmpsInfo = fiInfo.frm.Form_Components__r;
+        let cmps;
+        let cmpMap = new Map();
+        if (cmpsInfo) {
+            cmps = cmpsInfo.records;
+            for (let cmp of cmps) cmpMap.set(cmp.Id, cmp);
+        }
+        console.log('cmpMap',cmpMap);
+
+        console.log('fiInfo.orderingMap',fiInfo.orderingMap);
+        const numberingMap = new Map(Object.entries(fiInfo.orderingMap));
+
+        console.log('fiInfo.countryNames', fiInfo.countryNames);
+        let picklistMap = new Map();
+        for (let picklist of fiInfo.frmPicklists) picklistMap.set(picklist.Id, picklist);
 
         // Process each form component
+        let topCmps = [];
         for (let cmp of cmps) {
             cmp.formInstanceId = this.recordId;
             // Fill in the numbering
@@ -95,7 +115,7 @@ export default class FormInstance extends LightningElement {
                 let parentCmp = cmpMap.get(cmp.Group_Component__c);
                 if (!parentCmp.childCmps) parentCmp.childCmps = [];
                 parentCmp.childCmps.push(cmp);
-            } else topLevelCmps.push(cmp);
+            } else topCmps.push(cmp);
             // Fill in type - in future, might tweak/add types to support rendering
             cmp.type = cmp.Type__c;
             if (cmp.type == 'section') {
@@ -106,8 +126,13 @@ export default class FormInstance extends LightningElement {
             cmp.data = formDataMap.has(cmp.Id) ? formDataMap.get(cmp.Id) : this.getEmptyFormData(cmp);
             // Other tweaks to cmp
             cmp.isRequired = cmp.Required__c;
-            updateRecordInternals(cmp, fiInfo.frmPicklists, this.transById);
+            // Tweak form components that link to picklists
+            updateRecordInternals(cmp, picklistMap, this.transById, fiInfo.countryNames);
+            console.log('cmp', cmp);
         }
+        console.log('topCmps', topCmps);
+        this.topLevelCmps = topCmps;
+        this.hasSections = this.sections.length > 0;
         this.components = cmps;
         this.dataLoaded = true;
     }
