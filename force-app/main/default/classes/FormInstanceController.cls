@@ -132,7 +132,7 @@ public inherited sharing class FormInstanceController {
             String fpSubQuery = Utilities.buildChildSubQuery('Form_Picklist_Phrase__c', 'Form_Picklist_Phrases__r', 'ORDER BY Sort_number__c');
             frmPicklists = (List<Form_Picklist__c>)Utilities.fetchRecords('Form_Picklist__c', null, new List<String>{fpSubQuery});
             // Fetch countries, filtering for current user's FS group
-            String fsGroupName = Utilities.FSGroupOfUser(UserInfo.getUserId());
+            String fsGroupName = Utilities.fsGroupNameByUser(UserInfo.getUserId());
             Country__c[] countries = [SELECT Name FROM Country__c WHERE Region__r.FS_Group__c = :fsGroupName ORDER BY Name];
             for (Country__c c : countries) countryNames.add(c.Name);
 
@@ -156,6 +156,9 @@ public inherited sharing class FormInstanceController {
             else {
                 frmData.Form_Instance__c = frmInstanceId;
                 frmData.Form_Component__c = componentId;
+                Id defOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(UserInfo.getUserId());
+                system.debug('updateFormData: defOwnerId = ' +defOwnerId);
+                if (defOwnerId != null) frmData.OwnerId = defOwnerId;
             }
             system.debug('updateFormData: frmData = ' +frmData);
             //Set the value on either the new object, or existing
