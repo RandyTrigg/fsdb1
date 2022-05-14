@@ -35,6 +35,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     showMenu = false;
     bannerProfile;
     hoverMessage;
+    errMsg;
 
     // Translations
     transInfo;
@@ -55,12 +56,12 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     prpList;
     prpItemsData;
     columns;
-    hasPendingSolidarity;
-    hasPendingSustain;
+    hasPendingSolidarity = false;
+    hasPendingSustain = false;
     recentSolidarityCriteria = 182; // days equivalent to 6 months
     recentSustainCriteria = 730; // days equivalent to 2 years - setting this to be conservative
-    hasRecentSubmittedSolidarity;
-    hasRecentSubmittedSustain;
+    hasRecentSubmittedSolidarity = false;
+    hasRecentSubmittedSustain = false;
     grantType;
     appFormInstanceId;
 
@@ -171,58 +172,59 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     }
 
     handleNewAppSustain(event) {
-        let appError = {
-            title: 'Invalid action',
-            variant: 'warning',
-            mode: 'dismissible',
-            userMessage: 'You have an open grant application'
-        };
-        console.log(appError);
-        showUIError(appError);
-        /* error.title = 'Invalid action';
-        error.variant = 'warning';
-        error.mode = 'dismissible';*/
-        if (hasPendingSustain) {
-            // Toast message: pending message
-            // error.userMessage = 'You have a Sustain Fund grant application in progress';
+        if (this.hasPendingSustain) {
+            this.errMsg = 'You have a Sustain Fund grant application in progress';
             this.debug = 'Pending sustain';
-            console.log('error: ' + appError.title);
-            showUIError(appError);
-        } else if (hasRecentSubmittedSolidarity) {
-            // error.userMessage = 'You have already submitted a Sustain Fund grant application';
-            this.debug = 'Submitted sustain';
-            console.log('error: ' + appError.title);
-            showUIError(appError);
+            this.displayAppError();
+        } else if (this.hasRecentSubmittedSolidarity) {
+            this.errMsg = 'You have already submitted a Sustain Fund grant application';
+            this.displayAppError();
         } else {
             // Create Proposal with grant type and Form Instance linked to Proposal
+            // Prep error message in case of issue.
+            this.errMsg = 'A system error occurred: ID' + event.target.dataset.name + '. Please contact support.';
             this.grantType = 'BFF-Sustain';
             this.createProposalWithFormInstanceAndNavigate(this.grantType);
         }
     }
 
     handleNewAppSolidarity(event) {
-        this.grantType = 'BFF-Solidarity';
-        this.createProposalWithFormInstanceAndNavigate(this.grantType);
-        /* if (hasPendingSolidarity) {
+        if (this.hasPendingSolidarity) {
             // Toast message: pending message
-        } else if (hasRecentSubmittedSolidarity) {
+            this.errMsg = 'You have a Solidarity Fund grant application in progress';
+            this.displayAppError();
+        } else if (this.hasRecentSubmittedSolidarity) {
             // Toast message: submitted message
+            this.errMsg = 'You have already submitted a Solidarity Fund grant application';
+            this.displayAppError();
         } else {
             // Create Proposal with grant type and Form Instance linked to Proposal
+            // Prep error message in case of issue.
+            this.errMsg = 'A system error occurred: ID' + event.target.dataset.name + '. Please contact support.';
             this.grantType = 'BFF-Solidarity';
             this.createProposalWithFormInstanceAndNavigate(this.grantType);
-        }*/
+        }
+    }
+
+    displayAppError() {
+        let appError = {
+            title: 'Invalid action',
+            variant: 'warning',
+            mode: 'dismissible',
+            userMessage: this.errMsg
+        };
+        showUIError(appError);
     }
 
     async createProposalWithFormInstanceAndNavigate(grantType) {
         try {
             this.appFormInstanceId = await formInstIdOfNewProposal( { prfId: this.prfId, grantType: this.grantType } );
-            /* if (!this.appFormInstanceId) {
-                // put up toast message with error.
+            if (!this.appFormInstanceId) {
+                // Put up error.
+                this.displayAppError();
             } else {
                 this.navigateToFormInstance(this.appFormInstanceId);
-            } */
-            this.navigateToFormInstance(this.appFormInstanceId);
+            }
         } catch (error) {
             handleError(error);
         }
@@ -308,6 +310,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             { label: 'Date Created', fieldName: 'dateCreated', type: 'date', hideDefaultActions: true, sortable: false,},
             { label: 'Date Submitted', fieldName: 'dateReceived', type: 'date', hideDefaultActions: true, sortable: false,},
         ];
+        this.debug = 'Pending sustain?' + this.hasPendingSustain;
         return returnList;
     }
 
