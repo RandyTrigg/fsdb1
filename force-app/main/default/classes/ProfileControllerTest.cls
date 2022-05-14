@@ -217,46 +217,47 @@ public class ProfileControllerTest {
             // cmtyUser.Account = acc.Id;
             insert cmtyUser;
 
-        Form__c prForm = new Form__c(
-            Name = 'bff_Profile',
-            Active__c = true,
-            Type__c = 'Profile'
-        );
-        insert prForm;
-        Form__c appForm = new Form__c(
-            Name = 'testForm',
-            Active__c = true,
-            Type__c = 'Application'
-        );
-        insert appForm;
-        Custom_Reqs__c cReq = new Custom_Reqs__c(
-            Name = 'Solidarity',
-            Form_proposal_Application__c = appForm.Id,
-            FS_Group__c = 'FS_BFF',
-            Active__c = true
-        );
-        insert cReq;
+            Form__c prForm = new Form__c(
+                Name = 'bff_Profile',
+                Active__c = true,
+                Type__c = 'Profile'
+            );
+            insert prForm;
+            Form__c appForm = new Form__c(
+                Name = 'testForm',
+                Active__c = true,
+                Type__c = 'Application'
+            );
+            insert appForm;
+            Custom_Reqs__c cReq = new Custom_Reqs__c(
+                Name = 'Solidarity',
+                Form_proposal_Application__c = appForm.Id,
+                FS_Group__c = 'FS_BFF',
+                Active__c = true
+            );
+            insert cReq;
 
 
-        Test.StartTest();
-        System.runAs( cmtyUser ){
-            String data = ProfileController.getProfileSummary();
+            Test.StartTest();
+            System.runAs( cmtyUser ){
+                String data = ProfileController.getProfileSummary();
+            }
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
             Id prId = runningProfile[0].Id;
             Id formInstId = ProfileController.createProposal(prId, 'BFF-Solidarity');
-        }
-        Test.StopTest();
-        List<Profile__c> runningProfile = new List<Profile__c>(
-                [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
-        Id prId = runningProfile[0].Id;
-        List<Form_Instance__c> formInsts = new List<Form_Instance__c>([
-            SELECT Id FROM Form_Instance__c]);
 
-        system.assertNotEquals(null, prId);
-        system.assertEquals(2, formInsts.size());
+            Test.StopTest();
+            /* List<Profile__c> runningProfile = new List<Profile__c>(
+                    [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
+            Id prId = runningProfile[0].Id; */
+            List<Form_Instance__c> formInsts = new List<Form_Instance__c>([
+                SELECT Id FROM Form_Instance__c]);
 
-        }
+            system.assertNotEquals(null, prId);
+            system.assertEquals(2, formInsts.size());
+
+            }
     }
 
 

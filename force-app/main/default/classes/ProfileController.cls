@@ -1,4 +1,4 @@
-public without sharing class ProfileController {
+public inherited sharing class ProfileController {
     public static String notificationTemplateName = 'Request to submit Updated Profile';
 
     /**********************************
@@ -33,13 +33,12 @@ public without sharing class ProfileController {
                     null
                 )
             };
-            prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, prfSubQuery);
             prId = prfId;
+            prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, prfSubQuery);
             hasProposals = (prf.Proposals__r != null && prf.Proposals__r.size() > 0) ? true : false;
             prpList = prf.Proposals__r;
             formInstList = prf.Form_Instances__r;
             language = prf.Language__c != null ? prf.Language__c : 'English';
-
             // Retrieve Profile Form Instance
             for ( Form_Instance__c formInst : formInstList) {
                 if (formInst.Form_name__c == prFormName) {
@@ -48,7 +47,7 @@ public without sharing class ProfileController {
                 }
             }
             // If no Profile Form Instance, create new
-            if (!hasSubmittedPrf) {
+            if (prFormInstanceId == null || prFormInstanceId == '') {
                 Form__c prForm = [SELECT Id FROM Form__c WHERE Name = :prFormName];
                 Form_Instance__c newPrfForm = new Form_Instance__c(
                     Form__c = prForm.Id,
@@ -93,6 +92,8 @@ public without sharing class ProfileController {
     @AuraEnabled //Do not cache
     public static Id createProposal(Id prfId, String grantType) {
         try{
+            String formId;
+            String formInstId;
             Profile__c prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, null);        
             system.debug('PrfId: ' + prfId);
             system.debug('Account: ' + prf.Account__c);
@@ -102,30 +103,36 @@ public without sharing class ProfileController {
                     Grant_type__c = grantType
                 );
                 insert newProp;
-            // Look up custom req's form
-            // String fsGroup = Utilities.
-            /* Grant_type__mdt[] grantTypeMetadata = [
+            // Lookup custom reqs record for the grant type from custom metadata type.
+            String fsGroup = Utilities.fsGroupNameByUser(UserInfo.getUserId());
+            Grant_type__mdt[] grantTypeMetadata = [
                 SELECT Label, Default_custom_reqs_name__c, FS_Group__r.Public_Group_Name__c
                 FROM Grant_type__mdt
-                WHERE Label = :p.Grant_type__c AND FS_Group__r.Public_Group_Name__c=:fsGroup
-            ];*/
-
-
-
-
-            Id formId = [
-                SELECT Custom_Reqs__r.Form_proposal_Application__c 
-                FROM Proposal__c 
-                WHERE Id=:newProp.Id
-                ][0].Custom_Reqs__r.Form_proposal_Application__c;
-            // Create new Form Instance
-            Form_Instance__c newFormInstance = new Form_Instance__c (
-                Form__c = formId,
-                Profile__c = prfId,
-                Proposal__c = newProp.Id
-            );
-            insert newFormInstance;
-            return newFormInstance.Id;
+                WHERE Label = :grantType AND FS_Group__r.Public_Group_Name__c=:fsGroup
+            ];
+            String customReqsName = grantTypeMetadata.size() > 0
+                ? grantTypeMetadata[0].Default_custom_reqs_name__c
+                : null;
+            if (customReqsName != null) {
+                Custom_Reqs__c[] customReqs = [
+                    SELECT Id, Form_proposal_Application__c
+                    FROM Custom_Reqs__c
+                    WHERE Name = :customReqsName AND FS_Group__c=:fsGroup
+                ];
+                if (customReqs.size() > 0)
+                    formId = customReqs[0].Form_proposal_Application__c;
+            }
+            if (formId!=null) {
+                // Create new Form Instance
+                Form_Instance__c newFormInstance = new Form_Instance__c (
+                    Form__c = formId,
+                    Profile__c = prfId,
+                    Proposal__c = newProp.Id
+                );
+                insert newFormInstance;
+                formInstId = newFormInstance.Id;
+            }
+            return formInstId;
         } catch(Exception e) {
             throw new GFW_Exception('ProfileController.createProposal', 'Could not load Proposal Record', e);
         }
