@@ -35,14 +35,23 @@ function showUIError(error) {
     console.dir(error)
     // let errorObj = JSON.parse(error);
     // console.dir(errorObj)
-    dispatchEvent(
+    try { 
+        dispatchEvent(
+            new ShowToastEvent({
+                title: error.title,
+                message: error.userMessage,
+                variant: error.variant,
+                mode: error.mode
+            })
+        )  
+    } catch(parseError) {
         new ShowToastEvent({
-            title: error.title,
-            message: error.userMessage,
-            variant: error.variant,
-            mode: error.mode
+            title: 'Unknown Error',
+            message: error.message,
+            variant: 'error',
+            mode: 'sticky'
         })
-    )
+    }                   
 }
 
 export {

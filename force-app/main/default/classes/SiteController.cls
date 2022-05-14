@@ -4,6 +4,19 @@ public without sharing class SiteController {
     * Invoked from community-related LWCs
     *********************************/
 
+    // Fetch Profile-related information, including proposals and form instances.
+    @AuraEnabled //Do not cache
+    public static String getProfileSummary() {
+        ProfileController.ProfileSummary data = new ProfileController.ProfileSummary(ProfileController.getRunningUserProfileId());
+        return JSON.serialize(data);
+    }
+
+    // Create new proposal of given type and return its application form instance id.
+    @AuraEnabled //Do not cache
+    public static String formInstIdOfNewProposal(Id prfId, String grantType) {
+        return ProfileController.createProposal(prfId, grantType);
+    }
+
     // Fetch data related to a form instance including form, form data, form components, ...
     @AuraEnabled //Do not cache
     public static String getFormInstanceData(String formInstanceId) {

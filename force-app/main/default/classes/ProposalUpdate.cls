@@ -1,4 +1,4 @@
-public with sharing class ProposalUpdate {
+public inherited sharing class ProposalUpdate {
     public static String GMAdminEmail = 'GMadmin@globalfundforwomen.org';
 
     /**********************************
@@ -317,6 +317,8 @@ public with sharing class ProposalUpdate {
         Id countryId, regionId, regionOverrideId, firstGrantId, latestGrantId;
         // Build interpreter for status calculations.
         String fsGroup = Utilities.fsGroupNameByUser(a.OwnerId);
+        System.debug('account ownerId: ' + a.OwnerId);
+        System.debug('fsGroup: ' + fsGroup);
         Template__c t = [
             SELECT Id
             FROM Template__c

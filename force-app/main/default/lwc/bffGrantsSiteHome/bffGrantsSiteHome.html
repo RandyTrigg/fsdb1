@@ -17,7 +17,7 @@
                             <lightning-menu-item 
                                 value="GetHelp" 
                                 label={support} 
-                                href="mailto:#####@blackfeministfund.org?Subject=Question about Grants Site" 
+                                href="mailto:BFFgrant-helpdesk@blackfeministfund.org?Subject=Question about Grants Site" 
                                 target="_blank">
                             </lightning-menu-item>
                             <lightning-menu-item 
@@ -50,10 +50,10 @@
 
     <!-- TOAST BANNER -->
     <div if:false={hasSubmittedPrf}>
-        <c-lwc-toast-banner message={message}></c-lwc-toast-banner>           
+        <c-lwc-toast-banner message={bannerProfile}></c-lwc-toast-banner>           
     </div>
 
-    <!-- Logo -->
+    <!-- LOGO -->
     <div class="slds-grid slds-grid_align-center slds-gutters_large">
         <div class="slds-col">
             <div class="logo-home-page">
@@ -63,8 +63,9 @@
         </div>
     </div>
 
+    <!-- WELCOME -->
     <div if:true={dataLoaded}>
-        <div class="slds-grid slds-gutters_large">
+        <div class="slds-grid slds-grid_align-center slds-gutters_large">
             <div class="slds-col">
                 <div class="slds-text-heading_large slds-var-m-top_x-large"><h1>{pageHeader}</h1></div>
                 <section aria-label="Intro">
@@ -72,27 +73,22 @@
                 </section>
             </div>
         </div>
-        <!-- <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
-            <div class="slds-col">   
-                <button 
-                class="slds-button slds-button_brand" 
-                onclick={navigateToForm}>{prfButtonLabel}</button>
-            </div> 
-        </div> -->
 
+        <!-- PROFILE BUTTON -->
         <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
-            <div class="slds-col">   
+            <div class="slds-col">
                 <lightning-button
                     variant="brand"
                     label={prfButtonLabel}
                     title={prfButtonLabel}
-                    onclick={navigateToForm}
-                    class="slds-m-left_small bff-button-brand"
-                    disabled={disableButton}>
+                    onclick={handleNewProfile}
+                    class="slds-var-m-left_small bff-button-brand"
+                    >
                 </lightning-button>
             </div>
         </div>
 
+        <!-- GRANT DESCRIPTION -->
         <div class="slds-grid slds-gutters_xx-large">
             <div class="slds-col">
                 <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small"><h2>{grantHeading}</h2></div>
@@ -111,63 +107,70 @@
                         </li>
                     </ul>
                 </div>
-            
+                <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                    <p>{grantEligibility}</p>
+                </div>
             </div>
         </div>
 
-        <div>Language: {language}</div>
+        <div>debug: {debug}</div>
+        <!-- <div>Language: {language}</div>
         <div>Lang tag: {langTag}</div>
-        <div>Form instance Id: {prFormInstanceId}</div>
+        <div>Form instance Id: {prFormInstanceId}</div>-->
+        <!-- <div>AppFormInstanceId: {appFormInstanceId}</div>-->
+        <!-- <div>ProfileId: {prfId}</div>-->
         
+        <!-- APPLICATION BUTTONS -->
         <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
             <div class="slds-col">   
                 <lightning-button
                     variant="brand"
-                    label="Navigate to standard record page"
-                    title="New application"
-                    onclick={navigateToForm}
-                    class="slds-m-left_small bff-button-brand"
+                    label={newAppSustainFund}
+                    title={newAppSustainFund}
+                    onclick={handleNewAppSustain}
+                    class="slds-var-m-left_small bff-button-brand"
                     disabled={disableButton}>
                 </lightning-button>
             </div>
         </div>
         <br/>
 
-        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large slds-var-m-bottom_x-large">
             <div class="slds-col">   
                 <lightning-button
                     variant="brand"
-                    label="Navigate to new page form instance"
-                    title="New application"
-                    onclick={navigateToNewPage}
-                    class="slds-m-left_small bff-button-brand"
-                    disabled={disableButton}>
+                    label={newAppSolidarityFund}
+                    title={newAppSolidarityFund}
+                    onclick={handleNewAppSolidarity}
+                    class="slds-var-m-left_small bff-button-brand"
+                    disabled={disableButton}
+                    >
                 </lightning-button>
             </div>
         </div>
 
+        <!-- PROPOSALS -->
+        <div if:true={hasProposals}>
+        <div class="slds-grid slds-gutters_xx-large slds-var-m-bottom_xx-large">
+            <div class="slds-col">
+                <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small"><h2>Grant Applications</h2></div>
+                    <div class="gfw-item-list">
+                        <lightning-datatable 
+                            key-field="id" 
+                            hide-checkbox-column=true
+                            data={prpItemsData}
+                            columns={columns}
+                            onrowaction={handleRowAction}
+                            class="slds-max-medium-table_stacked"
+                            sorted-by=statusSortBy
+                            sorted-direction={sortedDirection}
+                        >
+                        </lightning-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <!-- <div class="slds-col slds-var-p-top_small">
-                    <lightning-button variant="brand" label="New application: Sustain Fund" title={hoverMessage} onclick={handleNewSolApp} class="slds-m-left_x-small"></lightning-button>
-                </div> -->
-
-                <!-- <a class="slds-button slds-button_brand" href="#">New application: Solidarity Fund</a>-->
-
-                <div>List Proposals</div>
-                <!-- <div if:true={profileSummary.hasProposals} class="slds-col slds-size_1-of-2 slds-m-bottom_x-large">
-                    <c-items-summary-tile title={propTitle} item-type="Proposals"  icon="standard:service_report" subtitle={propSubtitle} object-name="Proposal__c" list={profileSummary.proposals}></c-items-summary-tile>
-                </div> -->
-
-                <!-- From assessmentsAssigned -->
-                <!-- <div if:true={mutableRecords}>
-                    <lightning-datatable
-                        key-field="id"
-                        data={mutableRecords}
-                        columns={columns}
-                        onrowaction={handleRowAction}
-                        hide-checkbox-column>
-                    </lightning-datatable>
-                </div>  -->
 
     </div> <!-- Close dataloaded div -->
 
