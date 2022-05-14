@@ -1,16 +1,18 @@
-public with sharing class ProfileController {
+public inherited sharing class ProfileController {
     public static String notificationTemplateName = 'Request to submit Updated Profile';
 
     /**********************************
      * For use in Grants Experience Site
      *********************************/
 
-    // Bundles profile information, including child proposals.
-    public class ProfileSummary {
-        
-        public Profile__c prf; // Includes child proposals
+    // Fetches profile information, including child proposals and form instances.
+    public without sharing class ProfileSummary {
+        public Profile__c prf;
+        public Id prId;
         public Boolean hasForms = false;
         public Boolean hasProposals = false;
+        public List<Proposal__c> prpList = new List<Proposal__c>();
+        public List<Form_Instance__c> formInstList = new List<Form_Instance__c>();
         public Boolean hasSubmittedPrf = false;
         public Integer pendingAnnualProposals = 0;
         public Integer pendingShortProposals = 0;
@@ -19,24 +21,33 @@ public with sharing class ProfileController {
         private String prFormName = 'bff_Profile';
 
         public ProfileSummary (Id prfId) { 
-
             List<String> prfSubQuery = new List<String>{
                 Utilities.buildChildSubQuery(
                     'Proposal__c',
                     'Proposals__r',
                     null
                 ),
-                Utilities.buildChildSubQuery('Form_Instance__c', 'Form_Instances__r', null)
+                Utilities.buildChildSubQuery(
+                    'Form_Instance__c', 
+                    'Form_Instances__r', 
+                    null
+                )
             };
+            prId = prfId;
             prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, prfSubQuery);
-            hasProposals = prf.Proposals__r != null ? true : false;
-            hasSubmittedPrf = prf.Date_submitted__c != null ? true : false;
+            hasProposals = (prf.Proposals__r != null && prf.Proposals__r.size() > 0) ? true : false;
+            prpList = prf.Proposals__r;
+            formInstList = prf.Form_Instances__r;
             language = prf.Language__c != null ? prf.Language__c : 'English';
-
-            // Get or create new Profile form instance
-            if (prf.Form_Instances__r != null && prf.Form_Instances__r.size() > 0) {
-                prFormInstanceId = prf.Form_Instances__r[0].Id;
-            } else {
+            // Retrieve Profile Form Instance
+            for ( Form_Instance__c formInst : formInstList) {
+                if (formInst.Form_name__c == prFormName) {
+                    prFormInstanceId = formInst.Id;
+                    hasSubmittedPrf = formInst.Date_submitted__c != null ? true : false;
+                }
+            }
+            // If no Profile Form Instance, create new
+            if (prFormInstanceId == null || prFormInstanceId == '') {
                 Form__c prForm = [SELECT Id FROM Form__c WHERE Name = :prFormName];
                 Form_Instance__c newPrfForm = new Form_Instance__c(
                     Form__c = prForm.Id,
@@ -45,21 +56,21 @@ public with sharing class ProfileController {
                 insert newPrfForm;
                 prFormInstanceId = newPrfForm.Id;
             }
-
         }
-
     }
 
-    private static Id getRunningUserProfileId() {
+    public static Id getRunningUserProfileId() {
+        try {
             Id userId = UserInfo.getUserId();
             Id runningProfileId;
-            User u = [SELECT Id, FirstName, LastName, Email, Username, ContactId FROM User WHERE Id=:userId];
+            User u = [SELECT Id, FirstName, LastName, Email, Username, ContactId, Contact.AccountId FROM User WHERE Id=:userId];
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:u.ContactId LIMIT 1]);
             if (runningProfile.isEmpty()) {
                 Profile__c newPrf = new Profile__c (
                     Community_contact__c = u.ContactId,
-                    Community_contact_username__c = u.Username
+                    Community_contact_username__c = u.Username,
+                    Account__c = u.Contact.AccountId
                 );
                 insert newPrf;
                 runningProfileId = newPrf.Id;
@@ -67,12 +78,58 @@ public with sharing class ProfileController {
                 runningProfileId = runningProfile[0].Id;
             }
             return runningProfileId;
+        } catch (Exception e) {
+            throw new GFW_Exception('ProfileController.getRunningUserProfileId', 'Could not load Profile Record', e);
+        }
     }
 
-    @AuraEnabled //Do not cache
-    public static String getProfileSummary() {
-        ProfileSummary data = new ProfileSummary(getRunningUserProfileId());
-        return JSON.serialize(data);
+    // Creates proposal and returns its application form instance id
+    public static String createProposal(Id prfId, String grantType) {
+        try{
+            String formId;
+            String formInstId;
+            Profile__c prf = (Profile__c)Utilities.fetchRecord('Profile__c', prfId, null);        
+            system.debug('PrfId: ' + prfId);
+            system.debug('Account: ' + prf.Account__c);
+            Proposal__c newProp = new Proposal__c (
+                    Account__c = prf.Account__c,
+                    Profile__c = prfId,
+                    Grant_type__c = grantType
+                );
+                insert newProp;
+            // Lookup custom reqs record for the grant type from custom metadata type.
+            String fsGroup = Utilities.fsGroupNameByUser(UserInfo.getUserId());
+            Grant_type__mdt[] grantTypeMetadata = [
+                SELECT Label, Default_custom_reqs_name__c, FS_Group__r.Public_Group_Name__c
+                FROM Grant_type__mdt
+                WHERE Label = :grantType AND FS_Group__r.Public_Group_Name__c=:fsGroup
+            ];
+            String customReqsName = grantTypeMetadata.size() > 0
+                ? grantTypeMetadata[0].Default_custom_reqs_name__c
+                : null;
+            if (customReqsName != null) {
+                Custom_Reqs__c[] customReqs = [
+                    SELECT Id, Form_proposal_Application__c
+                    FROM Custom_Reqs__c
+                    WHERE Name = :customReqsName AND FS_Group__c=:fsGroup
+                ];
+                if (customReqs.size() > 0)
+                    formId = customReqs[0].Form_proposal_Application__c;
+            }
+            if (formId!=null) {
+                // Create new Form Instance
+                Form_Instance__c newFormInstance = new Form_Instance__c (
+                    Form__c = formId,
+                    Profile__c = prfId,
+                    Proposal__c = newProp.Id
+                );
+                insert newFormInstance;
+                formInstId = newFormInstance.Id;
+            }
+            return formInstId;
+        } catch(Exception e) {
+            throw new GFW_Exception('ProfileController.createProposal', 'Could not load Proposal Record', e);
+        }
     }
 
     /**********************************
