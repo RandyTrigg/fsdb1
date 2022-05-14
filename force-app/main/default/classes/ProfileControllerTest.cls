@@ -238,9 +238,11 @@ public class ProfileControllerTest {
             insert cReq;
 
             Test.StartTest();
+            
+            String prFormInstId;
             System.runAs( cmtyUser ){
                 ProfileController.ProfileSummary pSummary = new ProfileController.ProfileSummary(ProfileController.getRunningUserProfileId());
-                String prFormInstId = pSummary.prId;
+                prFormInstId = pSummary.prId;
             }
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);

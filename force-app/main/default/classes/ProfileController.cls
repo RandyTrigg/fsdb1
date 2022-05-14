@@ -59,7 +59,7 @@ public inherited sharing class ProfileController {
         }
     }
 
-    private static Id getRunningUserProfileId() {
+    public static Id getRunningUserProfileId() {
         try {
             Id userId = UserInfo.getUserId();
             Id runningProfileId;
