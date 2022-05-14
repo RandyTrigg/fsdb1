@@ -1,7 +1,9 @@
 <template>
     <div if:true={dataLoaded}>
         <!-- Form title-->
-        <lightning-formatted-rich-text data-id="frmTitle" class="gfw-form-title" value={frm.title}></lightning-formatted-rich-text>
+        <h1>
+            <lightning-formatted-rich-text data-id="frmTitle" class="gfw-form-title" value={frm.title}></lightning-formatted-rich-text>
+        </h1>
         <!-- Form intro if any-->
         <div if:true={frm.intro}>
             <lightning-formatted-rich-text data-id="frmIntro" class="gfw-form-title" value={frm.intro}></lightning-formatted-rich-text>
@@ -10,9 +12,13 @@
         <!-- NEED TO ADD ERROR INFO (as parenthetical?) -->
         <div if:true={hasSections}>
             <lightning-card>
-                <template for:each={sections} for:item="section">
-                    <lightning-formatted-rich-text key={section.Id} data-id="section.Id" class="gfw-form-title" value={section.title}></lightning-formatted-rich-text>
-                </template>
+                <ul class="slds-list_dotted">
+                    <template for:each={sections} for:item="section">
+                        <li key={section.Id}>
+                            <lightning-formatted-rich-text data-id="section.Id" class="gfw-form-title" value={section.title}></lightning-formatted-rich-text>
+                        </li>
+                    </template>
+                </ul>
             </lightning-card>
         </div>
         <!-- Loop through top level form components (without parent) putting out c-form-component tags-->

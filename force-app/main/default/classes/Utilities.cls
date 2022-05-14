@@ -1181,7 +1181,8 @@ global inherited sharing class Utilities {
         if (fsGroup!=null) {
             ownerId = [SELECT Id, UserRoleId, UserRole.DeveloperName 
                 FROM User
-                WHERE UserRole.DeveloperName =:fsGroup.Designated_Role_for_Ownership__c][0].Id;
+                WHERE UserRole.DeveloperName =:fsGroup.Designated_Role_for_Ownership__c
+                AND IsActive = true][0].Id;
         }
         return ownerId;
     }

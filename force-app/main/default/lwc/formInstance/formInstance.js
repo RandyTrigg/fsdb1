@@ -24,6 +24,7 @@ export default class FormInstance extends LightningElement {
     transByName;
     transById;
     @track frm = {};
+    submitLabel = 'Submit';
 
     
     connectedCallback() {
