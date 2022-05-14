@@ -5,9 +5,9 @@ public inherited sharing class ProfileController {
      * For use in Grants Experience Site
      *********************************/
 
-    // Bundles profile information, including child proposals.
+    // Fetches profile information, including child proposals and form instances.
     public without sharing class ProfileSummary {
-        public Profile__c prf; // Includes child proposals
+        public Profile__c prf;
         public Id prId;
         public Boolean hasForms = false;
         public Boolean hasProposals = false;
@@ -83,14 +83,8 @@ public inherited sharing class ProfileController {
         }
     }
 
-    @AuraEnabled //Do not cache
-    public static String getProfileSummary() {
-        ProfileSummary data = new ProfileSummary(getRunningUserProfileId());
-        return JSON.serialize(data);
-    }
-
-    @AuraEnabled //Do not cache
-    public static Id createProposal(Id prfId, String grantType) {
+    // Creates proposal and returns its application form instance id
+    public static String createProposal(Id prfId, String grantType) {
         try{
             String formId;
             String formInstId;

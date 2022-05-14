@@ -237,27 +237,25 @@ public class ProfileControllerTest {
             );
             insert cReq;
 
-
             Test.StartTest();
             System.runAs( cmtyUser ){
-                String data = ProfileController.getProfileSummary();
+                ProfileController.ProfileSummary pSummary = new ProfileController.ProfileSummary(ProfileController.getRunningUserProfileId());
+                String prFormInstId = pSummary.prId;
             }
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
             Id prId = runningProfile[0].Id;
             Id formInstId = ProfileController.createProposal(prId, 'BFF-Solidarity');
-
             Test.StopTest();
-            /* List<Profile__c> runningProfile = new List<Profile__c>(
-                    [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
-            Id prId = runningProfile[0].Id; */
+
             List<Form_Instance__c> formInsts = new List<Form_Instance__c>([
                 SELECT Id FROM Form_Instance__c]);
-
+            
+            system.assertNotEquals(null, prFormInstId);
             system.assertNotEquals(null, prId);
             system.assertEquals(2, formInsts.size());
 
-            }
+        }
     }
 
 

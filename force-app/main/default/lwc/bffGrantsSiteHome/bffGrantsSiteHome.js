@@ -1,6 +1,6 @@
 import { LightningElement } from 'lwc';
-import getProfileSummary from '@salesforce/apex/ProfileController.getProfileSummary';
-import createProposal from '@salesforce/apex/ProfileController.createProposal';
+import getProfileSummary from '@salesforce/apex/SiteController.getProfileSummary';
+import formInstIdOfNewProposal from '@salesforce/apex/SiteController.formInstIdOfNewProposal';
 import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
@@ -216,7 +216,12 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
 
     async createProposalWithFormInstanceAndNavigate(grantType) {
         try {
-            this.appFormInstanceId = await createProposal( { prfId: this.prfId, grantType: this.grantType } );
+            this.appFormInstanceId = await formInstIdOfNewProposal( { prfId: this.prfId, grantType: this.grantType } );
+            /* if (!this.appFormInstanceId) {
+                // put up toast message with error.
+            } else {
+                this.navigateToFormInstance(this.appFormInstanceId);
+            } */
             this.navigateToFormInstance(this.appFormInstanceId);
         } catch (error) {
             handleError(error);
