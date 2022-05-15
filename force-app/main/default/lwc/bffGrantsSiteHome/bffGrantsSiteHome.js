@@ -34,7 +34,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     newAppSolidarityFund;
     showMenu = false;
     bannerProfile;
-    hoverMessage;
     errMsg;
 
     // Translations
@@ -56,6 +55,8 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     prpList;
     prpItemsData;
     columns;
+    viewColumns;
+    editColumns;
     hasPendingSolidarity = false;
     hasPendingSustain = false;
     recentSolidarityCriteria = 182; // days equivalent to 6 months
@@ -64,8 +65,8 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     hasRecentSubmittedSustain = false;
     grantType;
     appFormInstanceId;
-
-    // Form Instance List
+    appNames = ['bff_SustainApplication', 'bff_SolidarityApplication'];
+    prpFormInst;
     formInstList;
 
     
@@ -96,6 +97,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             this.formInstList = this.profileSummary.formInstList;
             this.hasProposals = this.profileSummary.hasProposals;
             this.prpItemsData = this.processPrpList(this.prpList);
+            this.processFormInstList(this.formInstList);
             this.dataLoaded = true;
         } catch (error) {
             handleError(error);
@@ -247,15 +249,35 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
 
     /***** Process FormInstances and Proposals for Proposal Table *****/
     processFormInstList(itemsList) {
+        let mapIds = new Map();
         for (let itm of itemsList) {
-            if (itm.Proposal__c!=null) {
-
+            if (itm.Proposal__c!=null && this.appNames.includes(itm.Form_name__c)) {
+                mapIds.set(itm.Proposal__c, itm.Id);
             }
         }
+        this.prpFormInst = mapIds;
     }
 
     processPrpList(itemsList) {
         let returnList = [];
+        let viewButton = {type: 'button-icon', initialWidth: 80, 
+            typeAttributes: {  
+                iconName: "utility:preview", 
+                name: "Go To Item",  
+                variant: 'bare',
+                alternativeText: "Go To Item and View",       
+                disabled: false
+            }
+        };
+        let editButton = {type: 'button-icon', initialWidth: 80, 
+            typeAttributes: {  
+                iconName: "utility:edit", 
+                name: "Go To Item",  
+                variant: 'bare',
+                alternativeText: "Go to Item and Edit",     
+                disabled: false
+                }
+        };
         for (let itm of itemsList) {
             if (itm.Grant_type__c=='BFF-Solidarity') {
                 itm.grantType = this.transByName.get('bff_SolidarityFund');
@@ -266,6 +288,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             itm.dateReceived = itm.Date_received__c;
             itm.dateCreated = itm.CreatedDate;
             itm.status = itm.Status_external__c; // this.TransByName.get(itm.Status_external__c);
+            itm.rowIcon = itm.Status_external__c == 'Pending' ? "utility:edit" : "utility:preview";
             switch (itm.Status_external__c) {
                 case 'Pending':
                     itm.statusSortBy = 0;
@@ -304,18 +327,30 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             }
         }
         this.columns = [
+            { label: 'Action', type: 'button-icon', initialWidth: 75, typeAttributes: 
+                {iconName: { fieldName: 'rowIcon' }, title: 'Go to Item', variant: 'bare', alternativeText: 'Go to Item' } },
             { label: 'Number', fieldName: 'proposalName', hideDefaultActions: true, sortable: false,},
             { label: 'Status', fieldName: 'status', hideDefaultActions: true, sortable: false,},
             { label: 'Type', fieldName: 'grantType', hideDefaultActions: true, sortable: false,},
             { label: 'Date Created', fieldName: 'dateCreated', type: 'date', hideDefaultActions: true, sortable: false,},
             { label: 'Date Submitted', fieldName: 'dateReceived', type: 'date', hideDefaultActions: true, sortable: false,},
         ];
+
         this.debug = 'Pending sustain?' + this.hasPendingSustain;
         return returnList;
     }
 
-    handleRowAction() {
+    handleRowAction(event) {
+        // Look up app Form Instance Id for Proposal
+        const row = event.detail.row;
 
+        // this.errMsg = 'Error: ' + JSON.stringify(row);
+        this.errMsg = 'Error: ' + row.Id;
+        this.appFormInstanceId = this.prpFormInst.get(row.Id);
+        // this.errMsg = 'Error: ' + this.appFormInstanceId;
+        // Another state variable for View / Edit?
+        this.displayAppError();
+        this.navigateToFormInstance(this.appFormInstanceId);
     }
 
 /* Navigation home - not needed in home page itself
