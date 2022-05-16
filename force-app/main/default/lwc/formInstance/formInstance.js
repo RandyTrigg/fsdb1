@@ -16,6 +16,7 @@ export default class FormInstance extends LightningElement {
     isEditable = true;
     isMultiView = false; // Determines whether we're in a single-form view or multi-form view.
     dataLoaded = false;
+    showSpinner = true;
     hasSections;
     @track sections = [];
     @track components = [];
@@ -24,6 +25,8 @@ export default class FormInstance extends LightningElement {
     transByName;
     transById;
     @track frm = {};
+    submitLabel = 'Submit';
+    submitDisabled = false;
 
     
     connectedCallback() {
@@ -135,6 +138,7 @@ export default class FormInstance extends LightningElement {
         this.hasSections = this.sections.length > 0;
         this.components = cmps;
         this.dataLoaded = true;
+        this.showSpinner = false;
     }
 
     getEmptyFormData(cmp) {

@@ -11,7 +11,7 @@ export default class FormComponent extends LightningElement {
 
     connectedCallback() {
         this.isVisible = true;
-        // console.log('connectedCallback: this.cmp', this.cmp);
+        //console.log('formComponent connectedCallback: this.cmp', this.cmp);
         // console.log('connectedCallback: this.formInstanceId', this.formInstanceId);
         // console.log('connectedCallback: this.isEditable', this.isEditable);
         // console.log('connectedCallback: this.language', this.language);

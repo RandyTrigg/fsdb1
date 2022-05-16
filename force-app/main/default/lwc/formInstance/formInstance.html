@@ -1,31 +1,51 @@
 <template>
-    <div if:true={dataLoaded}>
-        <!-- Form title-->
-        <lightning-formatted-rich-text data-id="frmTitle" class="gfw-form-title" value={frm.title}></lightning-formatted-rich-text>
-        <!-- Form intro if any-->
-        <div if:true={frm.intro}>
-            <lightning-formatted-rich-text data-id="frmIntro" class="gfw-form-title" value={frm.intro}></lightning-formatted-rich-text>
+    <div class="gfw-container">
+        <div if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
         </div>
-        <!-- Form TOC if at least one section, with lightning-formatted-rich-text for each section name along with error info-->
-        <!-- NEED TO ADD ERROR INFO (as parenthetical?) -->
-        <div if:true={hasSections}>
-            <lightning-card>
-                <template for:each={sections} for:item="section">
-                    <lightning-formatted-rich-text key={section.Id} data-id="section.Id" class="gfw-form-title" value={section.title}></lightning-formatted-rich-text>
-                </template>
+        <div data-id="enclosingDiv" class="slds-grid slds-grid_align-center">
+            <lightning-card class="slds-col">
+                <div class="slds-var-p-horizontal_medium">
+                    <div if:true={dataLoaded}>
+                        <!-- Form title-->
+                        <h1>
+                            <p class="gfw-title gfw-form-title" data-id="frmTitle" slot="title">{frm.title}</p>
+                        </h1>
+                        <!-- Form intro if any-->
+                        <div if:true={frm.intro}>
+                            <lightning-formatted-rich-text data-id="frmIntro" class="gfw-form-title" value={frm.intro}></lightning-formatted-rich-text>
+                        </div>
+                        <!-- Form TOC if at least one section, with lightning-formatted-rich-text for each section name along with error info-->
+                        <!-- NEED TO ADD ERROR INFO (as parenthetical? badge?) -->
+                        <div if:true={hasSections}>
+                            <lightning-card>
+                                <ul class="slds-list_dotted">
+                                    <template for:each={sections} for:item="section">
+                                        <li key={section.Id}>
+                                            <lightning-formatted-rich-text data-id="section.Id" class="gfw-form-title" value={section.title}></lightning-formatted-rich-text>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </lightning-card>
+                        </div>
+                        <!-- Loop through top level form components (without parent) putting out c-form-component tags-->
+                        <!-- For components of type Section, wrap the c-form-component tag in lightning-accordion-section if isMultiView is true-->
+                        <template for:each={topLevelCmps} for:item="cmp">
+                            <div if:false={cmp.accordion} key={cmp.Id}>
+                                <c-form-component cmp={cmp} form-instance-id={recordId} is-editable={isEditable} language={language}></c-form-component>
+                            </div>
+                            <div if:true={cmp.accordion} key={cmp.Id}>
+                                <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.Form_Phrase_Title__r.Phrase_in_English__c}>
+                                    <c-form-component cmp={cmp} form-instance-id={recordId} is-editable={isEditable} language={language}></c-form-component>
+                                </lightning-accordion-section>
+                            </div>
+                        </template>
+                        <div class="slds-card__footer slds-align_absolute-center" slot="footer">
+                            <lightning-button variant="brand" label={submitLabel} title="Submit" onclick={handleSubmit} disabled={submitDisabled}></lightning-button>
+                        </div>
+                    </div>
+                </div>
             </lightning-card>
         </div>
-        <!-- Loop through top level form components (without parent) putting out c-form-component tags-->
-        <!-- For components of type Section, wrap the c-form-component tag in lightning-accordion-section if isMultiView is true-->
-        <template for:each={topLevelCmps} for:item="cmp">
-            <div if:false={cmp.accordion} key={cmp.Id}>
-                <c-form-component cmp={cmp} form-instance-id={recordId} is-editable={isEditable} language={language}></c-form-component>
-            </div>
-            <div if:true={cmp.accordion} key={cmp.Id}>
-                <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.Form_Phrase_Title__r.Phrase_in_English__c}>
-                    <c-form-component cmp={cmp} form-instance-id={recordId} is-editable={isEditable} language={language}></c-form-component>
-                </lightning-accordion-section>
-            </div>
-        </template>
     </div>
 </template>

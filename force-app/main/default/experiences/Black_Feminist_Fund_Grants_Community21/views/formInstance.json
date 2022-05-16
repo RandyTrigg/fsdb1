@@ -1,0 +1,67 @@
+{
+  "appPageId" : "3c9a60a6-5ec1-481f-9927-22ec6ff55ca0",
+  "componentName" : "siteforce:dynamicLayout",
+  "id" : "3c587ae5-3983-4b96-a780-3b052735fe73",
+  "label" : "Form Instance",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "background" : "background: rgba(0,0,0,0)",
+        "backgroundOverlay" : "rgba(0,0,0,0.5)",
+        "contentAreaWidth" : 100,
+        "sectionConfig" : {
+          "UUID" : "3e89ced9-9eca-4c94-8816-4b314f9fc024",
+          "columns" : [ {
+            "UUID" : "35d80ebd-6366-44cb-af18-d4c335b8fd50",
+            "columnKey" : "1",
+            "columnName" : "Column 1",
+            "columnWidth" : "12",
+            "seedComponents" : [ ]
+          } ]
+        },
+        "sectionHeight" : 300
+      },
+      "componentName" : "forceCommunity:section",
+      "id" : "3e89ced9-9eca-4c94-8816-4b314f9fc024",
+      "regions" : [ {
+        "components" : [ {
+          "componentAttributes" : { },
+          "componentName" : "c:formInstance",
+          "id" : "23cf48b4-20f1-42a0-98b4-a2c0e26da303",
+          "renderPriority" : "NEUTRAL",
+          "renditionMap" : { },
+          "type" : "component"
+        } ],
+        "id" : "35d80ebd-6366-44cb-af18-d4c335b8fd50",
+        "regionLabel" : "Column 1",
+        "regionName" : "1",
+        "renditionMap" : { },
+        "type" : "region"
+      } ],
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "f52eefd0-ed92-46dc-aaca-3e0d36adb1fc",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Form Instance"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "ec26b63b-0f56-4f3c-818c-228942c72e76",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "de0b160d-8889-4b56-96cc-50f3a986cf8e",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-form-instance"
+}

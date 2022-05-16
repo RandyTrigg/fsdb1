@@ -8,7 +8,7 @@ export default class FormFieldEditor extends LightningElement {
     @api formInstanceId;
     @api isRequired;
     subscription = null;
-    isVisible = false;
+    isVisible = true;
     initialRenderDone = false;
     @api parentHidden = false;
     currentLength;
@@ -17,16 +17,13 @@ export default class FormFieldEditor extends LightningElement {
     async connectedCallback() {
         if (this.cmp) {
             this.localCmp = JSON.parse(JSON.stringify(this.cmp));
+            console.log('formFieldEditor connectedCallback: this.localCmp', this.localCmp);
+            //console.log('formFieldEditor connectedCallback: this.parentHidden', this.parentHidden);
+            //console.log('formFieldEditor connectedCallback: this.isVisible', this.isVisible);
             if (this.localCmp.isText && this.localCmp.data.Data_text__c) {
                 this.currentLength = this.localCmp.data.Data_text__c.length;
             } else if (this.localCmp.isTextArea && this.localCmp.data.Data_textarea__c) {
                 this.currentLength = this.localCmp.data.Data_textarea__c.length;
-            }
-            if (this.localCmp.isTargetConnectors && this.localCmp.isTargetConnectors.length>0 && this.localCmp.sourceConnectorData && this.localCmp.sourceConnectorData.Data_text__c) {
-                // this.subscribeToMessageChannel(); //Only subscribe to the message channel if this item is a target for a connector
-                this.checkForVisibility(this.localCmp.sourceConnectorData.Data_text__c);
-            } else {
-                this.checkForVisibility(null);
             }
         }
     }
@@ -106,57 +103,6 @@ export default class FormFieldEditor extends LightningElement {
         
         
     }
- 
-    handleTextInputchange(event) {
-        let dataText = event.target.value;
-        this.localCmp.data.Data_text__c = dataText;
-        try {
-            this.sendUpdatedValue(dataText);
-
-            //Notify parent that data has changed
-            const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: dataText} });
-            this.dispatchEvent(cmpUpdated);
-
-        } catch(error) {
-            handleError(error);
-        }
-    }
-
-    handleRadioChange(event) {
-        try {
-            let textValue = event.target.value;
-            this.sendUpdatedValue(textValue);
-            this.localCmp.data.Data_text__c = textValue;
-
-            // Parent components manage child component's visibility
-            const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: textValue} });
-            this.dispatchEvent(cmpUpdated);
-
-        } catch(error) {
-            handleError(error);
-        }
-        
-    }
-
-    updateTextArea(event) {
-        let dataText = event.target.value;
-        this.localCmp.data.Data_textarea__c = dataText;
-        this.currentLength = event.target.value.length;
-    }
-
-    async handleTextAreachange(event) {
-
-        try {
-            await updateTextAreaData({frmInstanceId:this.localCmp.data.Form_Instance__c, componentId:this.localCmp.data.Form_Component__c, value: this.localCmp.data.Data_textarea__c});
-            
-            //Switching to a model where Sections manage child component's visibility
-            const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: this.localCmp.data.Data_textarea__c} });
-            this.dispatchEvent(cmpUpdated);
-
-        } catch(error) {
-            handleError(error);
-        }
-    }
 
     renderedCallback() {
         if (!this.initialRenderDone) {
@@ -176,10 +122,18 @@ export default class FormFieldEditor extends LightningElement {
     // Single change handler for all types of input fields
     handleInputChange(event) {
         let val = event.target.value;
-        // NOTE: Need to massage dataText in certain cases including checkbox group (separators between selections) and single checkbox (true/false versus blank).
+        console.log('handleInputChange: this.localCmp', this.localCmp);
+        console.log('handleInputChange: val', val);
+        // Massage value in certain cases including checkbox group (separators between selections) and single checkbox (true/false versus blank).
+        if (this.localCmp.isCheckboxGroup) {
+            if (val.length > 0) val = val.join('|');
+            else val = null;
+        }
+        if (this.localCmp.isCheckbox) val = event.target.checked;
         let dataText = val;
         if (this.localCmp.isTextArea) this.localCmp.data.Data_textarea__c = dataText;
         else this.localCmp.data.Data_text__c = dataText;
+        if (this.localCmp.isText || this.localCmp.isTextArea) this.currentLength = dataText.length;
         try {
             this.sendUpdatedValue(dataText);
 

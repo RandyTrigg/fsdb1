@@ -54,6 +54,11 @@
                 <label>indicator</label>
             </value>
             <value>
+                <fullName>label</fullName>
+                <default>false</default>
+                <label>label</label>
+            </value>
+            <value>
                 <fullName>number</fullName>
                 <default>false</default>
                 <label>number</label>

@@ -40,7 +40,7 @@ function buildTransById (translations, language) {
 
  // Handle checkboxes and radios
  function updateRecordInternals(rec, picklistPhrasesMap, translationMap, countryNames) {
-    console.log('updateRecordInternals... (1)');
+    //console.log('updateRecordInternals... (1)');
     rec.isTextArea = false;
     if (rec.Type__c=='text' || rec.Type__c=='text latin chars' ) {
         rec.isText = true;
@@ -70,22 +70,25 @@ function buildTransById (translations, language) {
         //single option checkbox
         rec.isCheckbox = true;
         if (rec.data && rec.data.Data_text__c == 'true') rec.checked = true;
-        else rec.checked = false;        
+        else rec.checked = false;   
+        console.log('formsUtilities updateRecordInternals: checkbox', rec);     
     } else if (rec.Type__c == 'phone') {
         rec.isPhone = true;
     } else if (rec.Type__c == 'email') {
         rec.isEmail = true;
     } else if (rec.Type__c == 'url') {
         rec.isURL = true;
+    } else if (rec.Type__c == 'label') {
+        rec.isLabel = true;
     }
 
-    console.log('updateRecordInternals: rec', rec);
+    //console.log('updateRecordInternals: rec', rec);
     return rec;
 }
 
 function getOptions(rec, picklistPhrasesMap, translationMap, countryNames) {
     let options = [];
-    console.log('getOptions: picklistPhrasesMap', picklistPhrasesMap);
+    //console.log('getOptions: picklistPhrasesMap', picklistPhrasesMap);
     if (picklistPhrasesMap) {
         let picklistOptions = picklistPhrasesMap.get(rec.Form_Picklist__c);
         // build options
@@ -101,7 +104,7 @@ function getOptions(rec, picklistPhrasesMap, translationMap, countryNames) {
             }
         }
     }
-    console.log('getOptions: options', options);
+    //console.log('getOptions: options', options);
     return options;
 }
 
