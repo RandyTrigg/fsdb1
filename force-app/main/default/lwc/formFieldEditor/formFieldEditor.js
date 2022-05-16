@@ -8,7 +8,7 @@ export default class FormFieldEditor extends LightningElement {
     @api formInstanceId;
     @api isRequired;
     subscription = null;
-    isVisible = false;
+    isVisible = true;
     initialRenderDone = false;
     @api parentHidden = false;
     currentLength;
@@ -17,6 +17,9 @@ export default class FormFieldEditor extends LightningElement {
     async connectedCallback() {
         if (this.cmp) {
             this.localCmp = JSON.parse(JSON.stringify(this.cmp));
+            console.log('formFieldEditor connectedCallback: this.localCmp', this.localCmp);
+            //console.log('formFieldEditor connectedCallback: this.parentHidden', this.parentHidden);
+            //console.log('formFieldEditor connectedCallback: this.isVisible', this.isVisible);
             if (this.localCmp.isText && this.localCmp.data.Data_text__c) {
                 this.currentLength = this.localCmp.data.Data_text__c.length;
             } else if (this.localCmp.isTextArea && this.localCmp.data.Data_textarea__c) {
@@ -101,12 +104,6 @@ export default class FormFieldEditor extends LightningElement {
         
     }
 
-    updateTextArea(event) {
-        let dataText = event.target.value;
-        this.localCmp.data.Data_textarea__c = dataText;
-        this.currentLength = event.target.value.length;
-    }
-
     renderedCallback() {
         if (!this.initialRenderDone) {
             this.initialRenderDone = true;
@@ -132,6 +129,7 @@ export default class FormFieldEditor extends LightningElement {
             if (val.length > 0) val = val.join('|');
             else val = null;
         }
+        if (this.localCmp.isCheckbox) val = event.target.checked;
         let dataText = val;
         if (this.localCmp.isTextArea) this.localCmp.data.Data_textarea__c = dataText;
         else this.localCmp.data.Data_text__c = dataText;

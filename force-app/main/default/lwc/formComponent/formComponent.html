@@ -21,16 +21,16 @@
             <div data-id="intro" if:true={cmp.intro}>
                 <strong><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></strong>
             </div>
-            <!-- simple component -->
-            <div if:false={cmp.childCmps}>
-                <c-form-field-editor cmp={cmp} is-required={cmp.isRequired} form-instance-id={formInstanceId} parent-hidden={parentHidden}></c-form-field-editor>
-            </div>
-            <!-- group component -->
-            <div if:true={cmp.childCmps}>
-                <template for:each={cmp.childCmps} for:item="childCmp">
-                    <c-form-component key={childCmp.Id} cmp={childCmp} language={language} form-instance-id={formInstanceId} is-editable={isEditable}></c-form-component>
-                </template>
-            </div>
+        </div>
+        <!-- simple component -->
+        <div if:false={cmp.childCmps}>
+            <c-form-field-editor cmp={cmp} is-required={cmp.isRequired} form-instance-id={formInstanceId} parent-hidden={parentHidden}></c-form-field-editor>
+        </div>
+        <!-- group component -->
+        <div if:true={cmp.childCmps}>
+            <template for:each={cmp.childCmps} for:item="childCmp">
+                <c-form-component key={childCmp.Id} cmp={childCmp} language={language} form-instance-id={formInstanceId} is-editable={isEditable}></c-form-component>
+            </template>
         </div>
     </div>
     

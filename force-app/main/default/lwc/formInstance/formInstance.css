@@ -5,3 +5,20 @@
 .gfw-arabic-body {
     font-size: 125%;
 }
+
+.rtl {
+    direction:rtl;
+}
+
+.gfw-arabic-body {
+    font-size: 125%;
+}
+
+.gfw-container {
+    width:fit-content;
+    overflow-wrap:normal;
+}
+
+.gfw-title {
+    white-space: normal;
+}
