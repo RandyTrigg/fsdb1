@@ -2,35 +2,9 @@
     <div lang={langTag}>
 
         <!-- HEADER -->
-        <header class="slds-global-header_container bff-header-container">
-            <div class="slds-global-header slds-grid bff-global-header slds-grid_align-spread">
-                <div class="slds-global-header__item">
-                    <img class="bff-logo-header" src={bffLogoWhiteText} alt="Black Feminist Fund Logo"> <!-- Make this a link if we navigate home -->
-                </div>
-                <div class="slds-global-header__item">
-                    <lightning-button-menu 
-                        alternative-text="Show menu" 
-                        icon-name="utility:settings" 
-                        variant="border-inverse"
-                        menu-alignment="auto"
-                        onselect={handleMenuSelect}>
-                            <lightning-menu-item 
-                                value="GetHelp" 
-                                label={support} 
-                                href="mailto:BFFgrant-helpdesk@blackfeministfund.org?Subject=Question about Grants Site" 
-                                target="_blank">
-                            </lightning-menu-item>
-                            <lightning-menu-item 
-                                value="Logout" 
-                                label={logout}
-                                onclick={handleLogout}>
-                            </lightning-menu-item>
-                    </lightning-button-menu>
-                </div>
-            </div>
-        </header>
+        <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
 
-        <!-- Language Picker -->
+        <!-- LANGUAGE PICKER -->
         <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
             <div class="slds-col">
                 <div class="slds-form-element">
