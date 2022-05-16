@@ -253,6 +253,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         for (let itm of itemsList) {
             if (itm.Proposal__c!=null && this.appNames.includes(itm.Form_name__c)) {
                 mapIds.set(itm.Proposal__c, itm.Id);
+                console.log('mapIds - PropId: ' + itm.Proposal__c + '; FormInstId: ' + itm.Id);
             }
         }
         this.prpFormInst = mapIds;
@@ -260,24 +261,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
 
     processPrpList(itemsList) {
         let returnList = [];
-        let viewButton = {type: 'button-icon', initialWidth: 80, 
-            typeAttributes: {  
-                iconName: "utility:preview", 
-                name: "Go To Item",  
-                variant: 'bare',
-                alternativeText: "Go To Item and View",       
-                disabled: false
-            }
-        };
-        let editButton = {type: 'button-icon', initialWidth: 80, 
-            typeAttributes: {  
-                iconName: "utility:edit", 
-                name: "Go To Item",  
-                variant: 'bare',
-                alternativeText: "Go to Item and Edit",     
-                disabled: false
-                }
-        };
         for (let itm of itemsList) {
             if (itm.Grant_type__c=='BFF-Solidarity') {
                 itm.grantType = this.transByName.get('bff_SolidarityFund');
@@ -335,7 +318,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             { label: 'Date Created', fieldName: 'dateCreated', type: 'date', hideDefaultActions: true, sortable: false,},
             { label: 'Date Submitted', fieldName: 'dateReceived', type: 'date', hideDefaultActions: true, sortable: false,},
         ];
-
         this.debug = 'Pending sustain?' + this.hasPendingSustain;
         return returnList;
     }
@@ -343,13 +325,8 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     handleRowAction(event) {
         // Look up app Form Instance Id for Proposal
         const row = event.detail.row;
-
-        // this.errMsg = 'Error: ' + JSON.stringify(row);
-        this.errMsg = 'Error: ' + row.Id;
+        // this.errMsg = 'Error: ' + row.Id;
         this.appFormInstanceId = this.prpFormInst.get(row.Id);
-        // this.errMsg = 'Error: ' + this.appFormInstanceId;
-        // Another state variable for View / Edit?
-        this.displayAppError();
         this.navigateToFormInstance(this.appFormInstanceId);
     }
 
