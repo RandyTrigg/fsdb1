@@ -1,4 +1,4 @@
-public class ProposalController {
+public with sharing class ProposalController {
     /**********************************
      * For use in Lightning components
      *********************************/
