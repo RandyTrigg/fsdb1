@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <div>debug: {debug}</div>
+        <!-- <div>debug: {debug}</div> -->
         <!-- <div>Language: {language}</div>
         <div>Lang tag: {langTag}</div>
         <div>Form instance Id: {prFormInstanceId}</div>-->
@@ -125,6 +125,7 @@
             <div class="slds-col">   
                 <lightning-button
                     variant="brand"
+                    data-name="SustainFundButton"
                     label={newAppSustainFund}
                     title={newAppSustainFund}
                     onclick={handleNewAppSustain}
@@ -139,6 +140,7 @@
             <div class="slds-col">   
                 <lightning-button
                     variant="brand"
+                    data-name="SolidarityFundButton"
                     label={newAppSolidarityFund}
                     title={newAppSolidarityFund}
                     onclick={handleNewAppSolidarity}

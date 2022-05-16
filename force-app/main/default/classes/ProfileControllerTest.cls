@@ -211,7 +211,7 @@ public class ProfileControllerTest {
             insert acc;
             Contact con = createContact('test','Contact','test@gmail.com',acc.Id);
             insert con;
-            Id ccProfileId = [Select Id From Profile Where Name ='Customer Community Login User'].Id;
+            Id ccProfileId = [Select Id From Profile Where Name ='BFF Basic Community Login User'].Id;
             User cmtyUser = prepareUser('', ccProfileId, 'Testfirstname', 'Testlastname');
             cmtyUser.ContactId = con.Id;
             // cmtyUser.Account = acc.Id;
@@ -238,11 +238,11 @@ public class ProfileControllerTest {
             insert cReq;
 
             Test.StartTest();
-            
-            String prFormInstId;
+            // Run as community user to make sure logic works.
+            // Invoke SiteController rather than ProfileController to ensure we have required permission.
+            String data;
             System.runAs( cmtyUser ){
-                ProfileController.ProfileSummary pSummary = new ProfileController.ProfileSummary(ProfileController.getRunningUserProfileId());
-                prFormInstId = pSummary.prId;
+                data = SiteController.getProfileSummary();
             }
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
@@ -253,14 +253,12 @@ public class ProfileControllerTest {
             List<Form_Instance__c> formInsts = new List<Form_Instance__c>([
                 SELECT Id FROM Form_Instance__c]);
             
-            system.assertNotEquals(null, prFormInstId);
+            system.assertNotEquals(null, data);
             system.assertNotEquals(null, prId);
             system.assertEquals(2, formInsts.size());
 
         }
     }
-
-
 
     // Init Test Objects
     // Source: https://sfdcpanther.com/how-to-create-community-user-in-test-class/
