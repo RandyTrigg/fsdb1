@@ -7,6 +7,7 @@
                     type="text" 
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
+                    read-only={isReadOnly}
                     placeholder="type text here..." 
                     onblur={handleInputChange}
                     onkeyup={checkValidity}
@@ -24,6 +25,7 @@
                     message-when-too-long="Too many characters entered"
                     onkeyup={updateTextArea}
                     required={isRequired}
+                    read-only={isReadOnly}
                     placeholder="type text area here..." 
                     onblur={handleInputChange}>
                 </lightning-textarea>
@@ -35,6 +37,7 @@
                     options={localCmp.options}
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
+                    read-only={isReadOnly}
                     onchange={handleInputChange}>
                 </lightning-combobox>
             </div>
@@ -44,6 +47,7 @@
                     options={localCmp.options}
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
+                    disabled={isReadOnly}
                     onchange={handleInputChange}>
                 </lightning-radio-group>
             </div>
@@ -53,6 +57,7 @@
                     options={localCmp.options}
                     variant="label-hidden"
                     required={isRequired}
+                    disabled={isReadOnly}
                     value={localCmp.data.Data_text__c}
                     onchange={handleInputChange}>
                 </lightning-radio-group>
@@ -63,6 +68,7 @@
                     variant="label-hidden"
                     options={localCmp.options}
                     required={isRequired}
+                    disabled={isReadOnly}
                     value={localCmp.data.Data_text__c}
                     onchange={handleInputChange}>
                 </lightning-checkbox-group>
@@ -75,6 +81,7 @@
                         variant="label-hidden"
                         checked={localCmp.checked} 
                         required={isRequired}
+                        disabled={isReadOnly}
                         onchange={handleInputChange}>
                     </lightning-input>
                     <lightning-formatted-rich-text class="slds-var-m-top_small" value={localCmp.translatedFormPhrase}></lightning-formatted-rich-text>
@@ -86,7 +93,8 @@
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
-                    required={isRequired}>
+                    required={isRequired}
+                    read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <div if:true={localCmp.isEmail} class="slds-form-element__control">
@@ -95,7 +103,8 @@
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
-                    required={isRequired}>
+                    required={isRequired}
+                    read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <div if:true={localCmp.isURL} class="slds-form-element__control">
@@ -104,7 +113,8 @@
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
-                    required={isRequired}>
+                    required={isRequired}
+                    read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <div if:true={localCmp.isNumber} class="slds-form-element__control">
@@ -113,7 +123,8 @@
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
-                    required={isRequired}>
+                    required={isRequired}
+                    read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <div if:true={localCmp.isCurrency} class="slds-form-element__control">
@@ -123,7 +134,8 @@
                     formatter="currency"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
-                    required={isRequired}>
+                    required={isRequired}
+                    read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <div if:true={localCmp.isPercent} class="slds-form-element__control">
@@ -133,7 +145,8 @@
                     formatter="percent"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
-                    required={isRequired}>
+                    required={isRequired}
+                    read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <!-- No mark-up for localCmp.isLabel, because parent formComponent has already put out the label -->
