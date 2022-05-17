@@ -1,5 +1,6 @@
 import { LightningElement, api, track, wire } from 'lwc';
-import { CurrentPageReference } from 'lightning/navigation';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent'
+import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 
 import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
 import getFormInstanceData from '@salesforce/apex/SiteController.getFormInstanceData';
@@ -8,12 +9,13 @@ import submitForm from '@salesforce/apex/SiteController.submitForm';
 import { buildTransByName, buildTransById, updateRecordInternals } from 'c/formsUtilities';
 import { handleError } from 'c/lwcUtilities';
 
-export default class FormInstance extends LightningElement {
+export default class FormInstance extends NavigationMixin ( LightningElement ) {
     //Will have the form instance ID from parent, query for:
     //recordId = 'a248c0000007z9iAAA'; // Hard-wiring in desperation...
     //@api recordId; 
     recordId; 
     isEditable = true;
+    isReadOnly;
     isMultiView = false; // Determines whether we're in a single-form view or multi-form view.
     dataLoaded = false;
     showSpinner = true;
@@ -26,7 +28,7 @@ export default class FormInstance extends LightningElement {
     transById;
     @track frm = {};
     submitLabel = 'Submit';
-    submitDisabled = false;
+    submitDisabled = true;
 
     
     connectedCallback() {
@@ -74,6 +76,13 @@ export default class FormInstance extends LightningElement {
         this.frm = fiInfo.frm;
         this.frm.title = this.transById.get(fiInfo.frm.Form_Phrase_Title__c)
         this.frm.intro = this.transById.get(fiInfo.frm.Form_Phrase_Intro__c)
+
+        // Handle case when form instance has been submitted
+        if (fiInfo.frmInst.Date_submitted__c) {
+            this.submitLabel = 'Submitted';
+            this.submitDisabled = true;
+            this.isEditable = false;
+        }
 
         let formDataInfo = fiInfo.frmInst.Form_Data__r;
         let formData;
@@ -137,7 +146,9 @@ export default class FormInstance extends LightningElement {
         this.topLevelCmps = topCmps;
         this.hasSections = this.sections.length > 0;
         this.components = cmps;
+        this.isReadOnly = !this.isEditable;
         this.dataLoaded = true;
+        this.showSpinner = false;
     }
 
     getEmptyFormData(cmp) {
@@ -151,13 +162,55 @@ export default class FormInstance extends LightningElement {
         return data;
     }
 
+    // formFieldEditor notification of data change
+    handleDataChange(event) {
+        let cmpId = event.detail.cmpId;
+        let newData = event.detail.dataText;
+        console.log('formInstance handleDataChange: cmpId/newData', cmpId, newData);
+        // Write @api function in formComponent to determine whether components dependent on the changed field need to be hidden/shown.
+        // ...
+        this.handleReady();
+    }
+
+    handleReady() {
+        console.log('formInstance handleReady (before): this.isEditable = ' +this.isEditable+ '; this.submitDisabled = ' +this.submitDisabled);
+        if (this.isEditable && this.isValid()) {
+            this.submitDisabled = false;
+            this.dataLoaded = true;
+        } else {
+            this.submitDisabled = true;
+            this.dataLoaded = true;
+        }
+        console.log('formInstance handleReady (after): this.isEditable = ' +this.isEditable+ '; this.submitDisabled = ' +this.submitDisabled);
+        this.showSpinner = false;
+    }
+
     // Validity of form instance bubbled up from formComponent 
     @api isValid() {
         let allValid = true;
         this.template.querySelectorAll('c-form-component').forEach(element => {
             if (element.isValid()!=true) allValid = false;
         });
+        console.log('formInstance isValid: allValid = ' +allValid);
         return allValid;
+    }
+
+    async handleSubmit() {
+        try {
+            let submitted = await submitForm({formInstanceId:this.recordId});
+            if (submitted) {
+                dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Form Submitted',
+                        message: 'Thank you for completing this form. Navigating to home page...',
+                        variant: 'success'
+                    })
+                )
+                this[NavigationMixin.Navigate]({type: 'comm__namedPage', attributes: {name: 'Home'}});
+            }
+        } catch (error) {
+            handleError(error);
+        }
     }
 
 }

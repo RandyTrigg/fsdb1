@@ -1,7 +1,7 @@
 <template>
     <div class="gfw-container">
         <div if:true={showSpinner}>
-            <!-- <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner> -->
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
         </div>
         <div data-id="enclosingDiv" class="slds-grid slds-grid_align-center">
             <lightning-card class="slds-col">
@@ -32,11 +32,15 @@
                         <!-- For components of type Section, wrap the c-form-component tag in lightning-accordion-section if isMultiView is true-->
                         <template for:each={topLevelCmps} for:item="cmp">
                             <div if:false={cmp.accordion} key={cmp.Id}>
-                                <c-form-component cmp={cmp} form-instance-id={recordId} is-editable={isEditable} language={language}></c-form-component>
+                                <c-form-component 
+                                    cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange}>
+                                </c-form-component>
                             </div>
                             <div if:true={cmp.accordion} key={cmp.Id}>
                                 <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.Form_Phrase_Title__r.Phrase_in_English__c}>
-                                    <c-form-component cmp={cmp} form-instance-id={recordId} is-editable={isEditable} language={language}></c-form-component>
+                                    <c-form-component 
+                                        cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange}>
+                                    </c-form-component>
                                 </lightning-accordion-section>
                             </div>
                         </template>
