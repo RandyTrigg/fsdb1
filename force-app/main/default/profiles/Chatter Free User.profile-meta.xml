@@ -304,6 +304,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SiteController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SiteLoginController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -4140,6 +4144,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Custom_Reqs__c.Description__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Custom_Reqs__c.FS_Group__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9255,6 +9264,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Referral_Org__c.Short_name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Region__c.FS_Group__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -1,0 +1,62 @@
+{
+  "appPageId" : "29091276-f7f8-4043-a243-49ba3f2f574e",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "00613b02-0e97-4a67-af35-35247aee6aa8",
+  "label" : "Login",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "salesforceIdentity:communityLogo2",
+      "id" : "2a6c0ad6-1096-4c7c-b449-1736b15290ad",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "richTextValue" : "<p lang=\"en\"><strong>Welcome to the Black Feminist Fund Grants Site</strong></p>\n<p lang=\"pt\"><strong>Bem-vindas ao site de subsídios online do Fundo Feminista Negra</strong></p>\n<p lang=\"sp\"><strong>Bienvenida al sitio de subvenciones online del Fondo Feminista Negra</strong></p>\n<p lang=\"fr\"><strong>Bienvenue sur le site de subventions en ligne du Fonds Féministe Noire</strong></p>"
+      },
+      "componentName" : "forceCommunity:htmlBlock",
+      "id" : "5ec51cb8-15f5-47a1-99d3-be30ac4b2859",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "forgotPasswordLabel" : "Forgot your password?",
+        "forgotPasswordUrl" : "/ForgotPassword",
+        "loginButtonLabel" : "Log in",
+        "passwordLabel" : "Password",
+        "selfRegisterLabel" : "Sign up",
+        "selfRegisterUrl" : "/SelfRegister",
+        "startUrl" : "",
+        "usernameLabel" : "Username"
+      },
+      "componentName" : "salesforceIdentity:loginForm2",
+      "id" : "52e3eb15-6550-42dc-9364-0c7efca9a9b8",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "ab6545fb-fe60-4a69-8f22-c65864cb77a6",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Login"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "7d1475e2-6906-404e-9c05-b6e9dc8f2b05",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "35e86a89-9491-4aa8-8b5b-0f7c455c3d3c",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Login",
+  "type" : "view",
+  "viewType" : "login-home"
+}

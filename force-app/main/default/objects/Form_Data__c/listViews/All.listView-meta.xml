@@ -8,17 +8,10 @@
     <columns>Type__c</columns>
     <columns>Data_text__c</columns>
     <columns>Data_textarea__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
     <columns>CREATEDBY_USER</columns>
     <columns>UPDATEDBY_USER</columns>
+    <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>Profile__c</field>
-        <operation>notEqual</operation>
-    </filters>
-    <filters>
-        <field>Search_terms__c</field>
-        <operation>contains</operation>
-        <value>AG</value>
-    </filters>
     <label>All</label>
 </ListView>

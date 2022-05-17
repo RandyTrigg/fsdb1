@@ -48,13 +48,19 @@ public inherited sharing class ProfileController {
             }
             // If no Profile Form Instance, create new
             if (prFormInstanceId == null || prFormInstanceId == '') {
+                Id fsOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(UserInfo.getUserId());
                 Form__c prForm = [SELECT Id FROM Form__c WHERE Name = :prFormName];
-                Form_Instance__c newPrfForm = new Form_Instance__c(
-                    Form__c = prForm.Id,
-                    Profile__c = prfId
-                );
-                insert newPrfForm;
-                prFormInstanceId = newPrfForm.Id;
+                try {
+                    Form_Instance__c newPrfForm = new Form_Instance__c(
+                        Form__c = prForm.Id,
+                        Profile__c = prfId,
+                        OwnerId = fsOwnerId
+                    );
+                    insert newPrfForm;
+                    prFormInstanceId = newPrfForm.Id;
+                } catch(Exception e) {
+                    throw new GFW_Exception('ProfileController.ProfileSummary', 'Could not load Profile Info form', e);
+                }
             }
         }
     }
@@ -67,10 +73,12 @@ public inherited sharing class ProfileController {
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:u.ContactId LIMIT 1]);
             if (runningProfile.isEmpty()) {
+                Id fsOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(userId);
                 Profile__c newPrf = new Profile__c (
                     Community_contact__c = u.ContactId,
                     Community_contact_username__c = u.Username,
-                    Account__c = u.Contact.AccountId
+                    Account__c = u.Contact.AccountId,
+                    OwnerId = fsOwnerId
                 );
                 insert newPrf;
                 runningProfileId = newPrf.Id;
@@ -118,10 +126,12 @@ public inherited sharing class ProfileController {
             }
             if (formId!=null) {
                 // Create new Form Instance
+                Id fsOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(UserInfo.getUserId());
                 Form_Instance__c newFormInstance = new Form_Instance__c (
                     Form__c = formId,
                     Profile__c = prfId,
-                    Proposal__c = newProp.Id
+                    Proposal__c = newProp.Id,
+                    OwnerId = fsOwnerId
                 );
                 insert newFormInstance;
                 formInstId = newFormInstance.Id;

@@ -3825,6 +3825,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Custom_Reqs__c.FS_Group__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Custom_Reqs__c.Form_proposal_Application__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -8771,6 +8776,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Referral_Org__c.Short_name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Region__c.FS_Group__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
