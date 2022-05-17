@@ -29,6 +29,8 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     @track frm = {};
     submitLabel = 'Submit';
     submitDisabled = true;
+    logout;
+    support;
 
     
     connectedCallback() {
@@ -72,6 +74,9 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         translations = JSON.parse(translations);
         this.transByName = buildTransByName(translations, this.language);
         this.transById = buildTransById(translations, this.language);
+
+        this.logout = this.transByName.get('Logout');
+        this.support = this.transByName.get('Support');
 
         this.frm = fiInfo.frm;
         this.frm.title = this.transById.get(fiInfo.frm.Form_Phrase_Title__c)
