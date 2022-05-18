@@ -29,7 +29,12 @@
                     placeholder="type text area here..." 
                     onblur={handleInputChange}>
                 </lightning-textarea>
-                <div class="slds-text-color_weak counter">{currentLength}/{localCmp.Character_limit__c}</div>
+                <div if:true={localCmp.Character_limit__c}>
+                    <div class="slds-text-color_weak counter">{numChars}/{localCmp.Character_limit__c}</div>
+                </div>
+                <div if:true={localCmp.Word_limit__c}>
+                    <div class="slds-text-color_weak counter">{numWords}/{localCmp.Word_limit__c}</div>
+                </div>
             </div>
             <div if:true={localCmp.isSelect}>
                 <lightning-combobox
@@ -100,6 +105,16 @@
             <div if:true={localCmp.isEmail} class="slds-form-element__control">
                 <lightning-input 
                     type="email"
+                    variant="label-hidden"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}
+                    read-only={isReadOnly}>
+                </lightning-input>
+            </div>
+            <div if:true={localCmp.isDate} class="slds-form-element__control">
+                <lightning-input 
+                    type="date"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}

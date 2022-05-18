@@ -18,9 +18,9 @@
                     {cmp.title}
                 </label>
             </div>
-            <div data-id="intro" if:true={cmp.intro}>
-                <strong><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></strong>
-            </div>
+        </div>
+        <div data-id="intro" if:true={cmp.translatedIntro}>
+            <strong><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></strong>
         </div>
         <!-- simple component -->
         <div if:false={cmp.childCmps}>

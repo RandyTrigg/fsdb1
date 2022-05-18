@@ -31,6 +31,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     submitDisabled = true;
     logout;
     support;
+    numErrors;
 
     
     connectedCallback() {
@@ -125,7 +126,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             // Note that any form component can have an intro phrase, not just section components
             if (cmp.Form_Phrase__c) cmp.translatedFormPhrase = this.transById.get(cmp.Form_Phrase__c);
             // Attach question number if any
-            cmp.title = (cmp.displayNumber ? cmp.displayNumber + '. ' : '') + (cmp.translatedFormPhrase || '');
+            cmp.title = ((cmp.displayNumber && cmp.Numbered__c) ? cmp.displayNumber + '. ' : '') + (cmp.translatedFormPhrase || '');
             if (cmp.Form_Phrase_Intro__c) cmp.translatedIntro = this.transById.get(cmp.Form_Phrase_Intro__c);
             // Use parent component link to gather lists of child components - note that child ordering should reflect hierarchical ordering of entire form
             if (cmp.Group_Component__c) {
@@ -178,7 +179,8 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     }
 
     handleReady() {
-        console.log('formInstance handleReady (before): this.isEditable = ' +this.isEditable+ '; this.submitDisabled = ' +this.submitDisabled);
+        //console.log('formInstance handleReady (before): this.isEditable = ' +this.isEditable+ '; this.submitDisabled = ' +this.submitDisabled+ '; this.numErrors = ' +this.numErrors);
+        this.numErrors = this.countErrors();
         if (this.isEditable && this.isValid()) {
             this.submitDisabled = false;
             this.dataLoaded = true;
@@ -186,8 +188,16 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             this.submitDisabled = true;
             this.dataLoaded = true;
         }
-        console.log('formInstance handleReady (after): this.isEditable = ' +this.isEditable+ '; this.submitDisabled = ' +this.submitDisabled);
+        console.log('formInstance handleReady (after): this.isEditable = ' +this.isEditable+ '; this.submitDisabled = ' +this.submitDisabled+ '; this.numErrors = ' +this.numErrors);
         this.showSpinner = false;
+    }
+
+    @api countErrors() {
+        const countChildCmpsErrs = [...this.template.querySelectorAll('c-form-component')]
+            .reduce((countSoFar, formCmp) => {
+                return countSoFar + formCmp.countErrors();
+            }, 0);
+        return countChildCmpsErrs;
     }
 
     // Validity of form instance bubbled up from formComponent 

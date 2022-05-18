@@ -12,7 +12,8 @@ export default class FormFieldEditor extends LightningElement {
     subscription = null;
     isVisible = true;
     initialRenderDone = false;
-    currentLength;
+    numChars;
+    numWords;
    
 
     async connectedCallback() {
@@ -22,11 +23,23 @@ export default class FormFieldEditor extends LightningElement {
             //console.log('formFieldEditor connectedCallback: this.parentHidden', this.parentHidden);
             //console.log('formFieldEditor connectedCallback: this.isVisible', this.isVisible);
             if (this.localCmp.isText && this.localCmp.data.Data_text__c) {
-                this.currentLength = this.localCmp.data.Data_text__c.length;
+                this.numChars = this.localCmp.data.Data_text__c.length;
+                this.numWords = this.countWords(this.localCmp.data.Data_text__c);
             } else if (this.localCmp.isTextArea && this.localCmp.data.Data_textarea__c) {
-                this.currentLength = this.localCmp.data.Data_textarea__c.length;
+                this.numChars = this.localCmp.data.Data_textarea__c.length;
+                this.numWords = this.countWords(this.localCmp.data.Data_textarea__c);
             }
         }
+    }
+ 
+    // Count words in a text string. From http://jsfiddle.net/deepumohanp/jZeKu/
+    countWords(txt) {
+        return txt ? txt.trim().replace(/\s+/gi, ' ').split(' ').length : 0;
+    }
+
+    // Count number of errors - aggregated with parents/ancestors for total number of errors
+    @api countErrors() {
+        return this.isValid() ? 0 : 1;
     }
 
     //allows parent to check if this field is valid (if required, has a value)
@@ -56,7 +69,12 @@ export default class FormFieldEditor extends LightningElement {
                     return validSoFar && inputCmp.checkValidity();
                 }, true);
 
-            if (allLightningInputsValid && allTextAreasValid && allRadioGroupsValid && allCheckboxGroupsValid) {
+            const allComboxesValid = [...this.template.querySelectorAll('lightning-combobox ')]
+                .reduce((validSoFar, inputCmp) => {
+                    return validSoFar && inputCmp.checkValidity();
+                }, true);
+
+            if (allLightningInputsValid && allTextAreasValid && allRadioGroupsValid && allCheckboxGroupsValid && allComboxesValid) {
                 return true;
             } else {
                 return false;

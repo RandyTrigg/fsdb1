@@ -76,6 +76,8 @@ function buildTransById (translations, language) {
         rec.isPhone = true;
     } else if (rec.Type__c == 'email') {
         rec.isEmail = true;
+    } else if (rec.Type__c == 'date') {
+        rec.isDate = true;
     } else if (rec.Type__c == 'url') {
         rec.isURL = true;
     } else if (rec.Type__c == 'label') {
