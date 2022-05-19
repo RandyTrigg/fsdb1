@@ -9,11 +9,12 @@ export default class FormFieldEditor extends LightningElement {
     @api isRequired;
     @api parentHidden = false;
     @api isReadOnly;
+    @api transByNameObj;
     subscription = null;
     isVisible = true;
     initialRenderDone = false;
-    numChars;
-    numWords;
+    numChars; // Running # of characters in text/textarea field
+    numWords; // Running # of words in text/textarea field
    
 
     async connectedCallback() {
@@ -39,6 +40,8 @@ export default class FormFieldEditor extends LightningElement {
 
     // Count number of errors - aggregated with parents/ancestors for total number of errors
     @api countErrors() {
+        // Look for custom errors before checking validity
+        this.handleCustomErrors();
         return this.isValid() ? 0 : 1;
     }
 
@@ -58,6 +61,7 @@ export default class FormFieldEditor extends LightningElement {
                 .reduce((validSoFar, inputCmp) => {
                     return validSoFar && inputCmp.checkValidity();
                 }, true);
+            //console.log('formFieldEditor isValid: allTextAreasValid', allTextAreasValid);
 
             const allRadioGroupsValid = [...this.template.querySelectorAll('lightning-radio-group')]
                 .reduce((validSoFar, inputCmp) => {
@@ -152,7 +156,9 @@ export default class FormFieldEditor extends LightningElement {
         let dataText = val;
         if (this.localCmp.isTextArea) this.localCmp.data.Data_textarea__c = dataText;
         else this.localCmp.data.Data_text__c = dataText;
-        if (this.localCmp.isText || this.localCmp.isTextArea) this.currentLength = dataText.length;
+        // Find and mark up custom errors 
+        let element = this.handleCustomErrors();
+        if (element) element.reportValidity();
         try {
             this.sendUpdatedValue(dataText);
 
@@ -165,6 +171,25 @@ export default class FormFieldEditor extends LightningElement {
             handleError(error);
         }
     }
+
+    // Check whether there are custom errors for this component; if so, set validity on the affected element.
+    // Return the relevant element, if any.
+    handleCustomErrors() {
+        let c = this.localCmp;
+        let message = '';
+        let element;
+        // Look for custom errors in appropriate elements
+        if (c.isTextArea && c.Word_limit__c) {
+            element = this.template.querySelector(`[data-id="textArea"]`);
+            if (this.numWords > c.Word_limit__c) message = this.transByNameObj.TooManyWords;
+        } else if (c.isCheckboxGroup && c.Checkbox_limit__c) {
+            element = this.template.querySelector(`[data-id="checkboxGroup"]`);
+            if (element.value.length > c.Checkbox_limit__c) message = this.transByNameObj.TooManyOptionsSel;
+        }
+        console.log('checkCmpValue message = ', message);
+        if (element) element.setCustomValidity(message);
+        return element;
+    } 
 
     // Upsert the form data record via apex
     async sendUpdatedValue(textData) {

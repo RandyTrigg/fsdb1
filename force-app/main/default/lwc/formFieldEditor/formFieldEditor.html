@@ -3,6 +3,7 @@
         <div if:true={isVisible}>
             <div if:true={localCmp.isText}>
                 <lightning-input 
+                    data-id="text"
                     variant="label-hidden"
                     type="text" 
                     value={localCmp.data.Data_text__c}
@@ -19,6 +20,7 @@
             <div if:true={localCmp.isTextArea}>
                 <lightning-textarea 
                     id={localCmp.Id}
+                    data-id="textArea"
                     variant="label-hidden"
                     value={localCmp.data.Data_textarea__c}
                     max-length={localCmp.Character_limit__c}
@@ -38,6 +40,7 @@
             </div>
             <div if:true={localCmp.isSelect}>
                 <lightning-combobox
+                    data-id="select"
                     variant="label-hidden"
                     options={localCmp.options}
                     value={localCmp.data.Data_text__c}
@@ -48,6 +51,7 @@
             </div>
             <div if:true={localCmp.isRadio}>
                 <lightning-radio-group
+                    data-id="radio"
                     variant="label-hidden"
                     options={localCmp.options}
                     value={localCmp.data.Data_text__c}
@@ -59,6 +63,7 @@
             <div if:true={localCmp.isInlineRadio}>
                 <lightning-radio-group
                     id={localCmp.Id}
+                    data-id="inlineRadio"
                     options={localCmp.options}
                     variant="label-hidden"
                     required={isRequired}
@@ -69,6 +74,7 @@
             </div>
             <div if:true={localCmp.isCheckboxGroup} class="slds-form-element__control">
                 <lightning-checkbox-group 
+                    data-id="checkboxGroup"
                     name="Checkbox Group"
                     variant="label-hidden"
                     options={localCmp.options}
@@ -80,7 +86,8 @@
             </div>
             <div if:true={localCmp.isCheckbox} class="slds-form-element__control">
                 <span>
-                    <lightning-input 
+                    <lightning-input
+                        data-id="checkbox"
                         style="float:left;"
                         type="checkbox" 
                         variant="label-hidden"
@@ -93,7 +100,8 @@
                 </span>
             </div>
             <div if:true={localCmp.isPhone} class="slds-form-element__control">
-                <lightning-input 
+                <lightning-input
+                    data-id="phone"
                     type="tel"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
@@ -103,7 +111,8 @@
                 </lightning-input>
             </div>
             <div if:true={localCmp.isEmail} class="slds-form-element__control">
-                <lightning-input 
+                <lightning-input
+                    data-id="email"
                     type="email"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
@@ -114,6 +123,7 @@
             </div>
             <div if:true={localCmp.isDate} class="slds-form-element__control">
                 <lightning-input 
+                    data-id="date"
                     type="date"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
@@ -124,6 +134,7 @@
             </div>
             <div if:true={localCmp.isURL} class="slds-form-element__control">
                 <lightning-input 
+                    data-id="url"
                     type="url"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
@@ -134,6 +145,7 @@
             </div>
             <div if:true={localCmp.isNumber} class="slds-form-element__control">
                 <lightning-input 
+                    data-id="number"
                     type="number"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
@@ -144,6 +156,7 @@
             </div>
             <div if:true={localCmp.isCurrency} class="slds-form-element__control">
                 <lightning-input 
+                    data-id="currency"
                     type="number"
                     variant="label-hidden"
                     formatter="currency"
@@ -155,6 +168,7 @@
             </div>
             <div if:true={localCmp.isPercent} class="slds-form-element__control">
                 <lightning-input 
+                    data-id="percent"
                     type="number"
                     variant="label-hidden"
                     formatter="percent"

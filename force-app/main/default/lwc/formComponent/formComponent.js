@@ -6,6 +6,7 @@ export default class FormComponent extends LightningElement {
     @api formInstanceId;
     @api language;
     @api isReadOnly;
+    @api transByNameObj;
     isVisible = false; // Will need to be dynamically computed once new connector framework is in place
     parentHidden = false; // Will need to be dynamically computed once new connector framework is in place
 
