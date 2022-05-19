@@ -6,87 +6,94 @@
 
         <!-- LANGUAGE PICKER -->
         <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
-            <div class="slds-col">
-                <div class="slds-form-element">
-                    <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
-                    <div class="slds-form-element__control">
-                        <div class="slds-select_container">
-                            <select class="slds-select" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
-                                <template for:each={options} for:item="option">
-                                    <option key={option.value} value={option.value}>{option.label}</option>
-                                </template>
-                            </select>
-                        </div>
-                    </div>
+            <div class="slds-col slds-form-element">
+                <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
+                <div class="slds-form-element__control slds-select_container">
+                    <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
+                        <template for:each={options} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
                 </div>
             </div>
         </div>
 
     <!-- TOAST BANNER -->
     <div if:false={hasSubmittedPrf}>
-        <c-lwc-toast-banner message={bannerProfile}></c-lwc-toast-banner>           
+        <c-lwc-toast-banner message={transByNameObj.BannerProfile}></c-lwc-toast-banner>           
     </div>
 
     <!-- LOGO -->
     <div class="slds-grid slds-grid_align-center slds-gutters_large">
-        <div class="slds-col">
-            <div class="logo-home-page">
-                <span class="slds-assistive-text">Black Feminist Fund Logo</span>
-                <img class="bff-logo-center" src={bffLogo}>
-            </div>
+        <div class="slds-col logo-home-page">
+            <span class="slds-assistive-text">Black Feminist Fund Logo</span>
+            <img class="bff-logo-center" src={bffLogo}>
         </div>
     </div>
 
     <!-- WELCOME -->
     <div if:true={dataLoaded}>
         <div class="slds-grid slds-grid_align-center slds-gutters_large">
-            <div class="slds-col">
-                <div class="slds-text-heading_large slds-var-m-top_x-large"><h1>{pageHeader}</h1></div>
-                <section aria-label="Intro">
-                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">{pageSubheader}</div>
-                </section>
+            <div class="slds-col slds-var-m-bottom_medium">
+                <div class="slds-text-heading_large"><h1>{transByNameObj.bff_GrantsSiteLandingWelcome}</h1></div>
+                <!-- <section aria-label="Intro">
+                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">{transByNameObj.bff_GrantsSiteLandingWelcomeSubheading}</div>
+                </section>-->
             </div>
         </div>
 
+        <!-- GRANT DESCRIPTION (collapsed once Profile submitted) -->
+        <lightning-accordion 
+            allow-multiple-sections-open 
+            class="grant-info-section slds-grid_align-center" 
+            active-section-name={expandGrants}
+        >
+            <lightning-accordion-section 
+                class="slds-text-heading_medium slds-var-m-bottom_medium" 
+                name="Grants"
+                onsectiontoggle={handleSectionToggle}
+                label={accordLabel}
+            >
+
+            <div class="slds-grid slds-gutters_xx-large">
+                <div class="slds-col">
+                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                        <h2>{transByNameObj.bff_GrantsSiteLandingSubtitle}</h2>
+                    </div>
+                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                        <ul class="slds-list_dotted">
+                            <li class="slds-var-m-bottom_medium">
+                                <strong>{transByNameObj.bff_GrantsSiteLandingSustainFund}</strong>
+                                &nbsp;{transByNameObj.bff_GrantsSiteLandingSustainFundDetails}
+                            </li>
+                            <li class="slds-var-m-bottom_medium">
+                                <strong>{transByNameObj.bff_GrantsSiteLandingSolidarityFund}</strong>
+                                &nbsp;{transByNameObj.bff_GrantsSiteLandingSolidarityFundDetails}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                        <p>{transByNameObj.bff_GrantsSiteLandingEligibility}</p>
+                    </div>
+                    </div>
+                </div>
+            </lightning-accordion-section>
+        </lightning-accordion>
+
+
         <!-- PROFILE BUTTON -->
-        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+        <div class="slds-grid slds-grid_align-center slds-gutters_xx-large slds-var-m-bottom_medium">
             <div class="slds-col">
                 <lightning-button
                     variant="brand"
-                    label={prfButtonLabel}
-                    title={prfButtonLabel}
+                    label={transByNameObj.bff_GrantsSiteLandingProfileButton}
+                    title={transByNameObj.bff_GrantsSiteLandingProfileButton}
                     onclick={handleNewProfile}
                     class="slds-var-m-left_small bff-button-brand"
                     >
                 </lightning-button>
             </div>
         </div>
-
-        <!-- GRANT DESCRIPTION -->
-        <div class="slds-grid slds-gutters_xx-large">
-            <div class="slds-col">
-                <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small"><h2>{grantHeading}</h2></div>
-                <div class="slds-text-heading_medium slds-var-m-bottom_medium">
-                    <p>{grantSubHeading}</p>
-                </div>
-                <div class="slds-text-heading_medium slds-var-m-bottom_medium">
-                    <ul class="slds-list_dotted">
-                        <li class="slds-var-m-bottom_medium">
-                            <strong>{sustainFundHeading}</strong>
-                            &nbsp;{sustainFundDetails}
-                        </li>
-                        <li class="slds-var-m-bottom_medium">
-                            <strong>{solidarityFundHeading}</strong>
-                            &nbsp;{solidarityFundDetails}
-                        </li>
-                    </ul>
-                </div>
-                <div class="slds-text-heading_medium slds-var-m-bottom_medium">
-                    <p>{grantEligibility}</p>
-                </div>
-            </div>
-        </div>
-
         <!-- <div>debug: {debug}</div> -->
         <!-- <div>Language: {language}</div>
         <div>Lang tag: {langTag}</div>
@@ -129,15 +136,18 @@
         <div if:true={hasProposals}>
         <div class="slds-grid slds-gutters_xx-large slds-var-m-bottom_xx-large">
             <div class="slds-col">
-                <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small"><h2>Grant Applications</h2></div>
+                <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small">
+                    <h2 id="table-descr">{transByNameObj.GrantApplications}</h2>
+                </div>
                     <div class="gfw-item-list">
                         <lightning-datatable 
+                            aria-labelledby="table-descr"
                             key-field="id" 
                             hide-checkbox-column=true
                             data={prpItemsData}
                             columns={columns}
                             onrowaction={handleRowAction}
-                            class="slds-max-medium-table_stacked"
+                            class="slds-max-medium-table_stacked enlarge"
                             sorted-by=statusSortBy
                             sorted-direction={sortedDirection}
                         >
@@ -146,9 +156,15 @@
                 </div>
             </div>
         </div>
-
-
     </div> <!-- Close dataloaded div -->
 
+    <!-- FOOTER -->
+    <footer>
+        <div if:true={dataLoaded}>
+            <lightning-formatted-rich-text
+                value={transByNameObj.PortalAccessibility}>
+            </lightning-formatted-rich-text>
+        </div>
+    </footer>
     </div> <!-- Close lang tag -->
 </template>
