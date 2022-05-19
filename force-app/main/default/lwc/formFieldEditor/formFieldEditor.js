@@ -171,7 +171,11 @@ export default class FormFieldEditor extends LightningElement {
         await updateFormData({frmInstanceId:this.localCmp.data.Form_Instance__c, componentId:this.localCmp.data.Form_Component__c, value:textData, isTextarea:this.localCmp.isTextArea});
     }
 
-
-    
+    // Handler for in progress changes (onKeyUp) in text fields
+    updateTextArea(event) {
+        let val = event.target.value;
+        this.numChars = val.length;
+        this.numWords = this.countWords(val);
+    }
 
 }

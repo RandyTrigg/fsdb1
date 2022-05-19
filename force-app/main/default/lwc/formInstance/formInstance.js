@@ -24,9 +24,9 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     @track components = [];
     topLevelCmps = [];
     @api language = 'English';
-    transByName;
-    transById;
+    transByNameObj;
     @track frm = {};
+    @track fi = {};
     submitLabel = 'Submit';
     submitDisabled = true;
     logout;
@@ -73,18 +73,20 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
 
         let fiInfo = JSON.parse(data);
         translations = JSON.parse(translations);
-        this.transByName = buildTransByName(translations, this.language);
-        this.transById = buildTransById(translations, this.language);
+        let transById = buildTransById(translations, this.language);
+        let transByName = buildTransByName(translations, this.language);
+        this.transByNameObj = Object.fromEntries(transByName);
 
-        this.logout = this.transByName.get('Logout');
-        this.support = this.transByName.get('Support');
+        this.logout = transByName.get('Logout');
+        this.support = transByName.get('Support');
 
+        this.fi = fiInfo.frmInst;
         this.frm = fiInfo.frm;
-        this.frm.title = this.transById.get(fiInfo.frm.Form_Phrase_Title__c)
-        this.frm.intro = this.transById.get(fiInfo.frm.Form_Phrase_Intro__c)
+        this.frm.title = transById.get(fiInfo.frm.Form_Phrase_Title__c)
+        this.frm.intro = transById.get(fiInfo.frm.Form_Phrase_Intro__c)
 
         // Handle case when form instance has been submitted
-        if (fiInfo.frmInst.Date_submitted__c) {
+        if (fiInfo.frmInst.Date_submitted__c && !this.frm.Resubmittable__c) {
             this.submitLabel = 'Submitted';
             this.submitDisabled = true;
             this.isEditable = false;
@@ -124,10 +126,10 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             cmp.level = parseInt(cmp.Hierarchical_level_num__c);
             // fill in the form components' phrase translations
             // Note that any form component can have an intro phrase, not just section components
-            if (cmp.Form_Phrase__c) cmp.translatedFormPhrase = this.transById.get(cmp.Form_Phrase__c);
+            if (cmp.Form_Phrase__c) cmp.translatedFormPhrase = transById.get(cmp.Form_Phrase__c);
             // Attach question number if any
             cmp.title = ((cmp.displayNumber && cmp.Numbered__c) ? cmp.displayNumber + '. ' : '') + (cmp.translatedFormPhrase || '');
-            if (cmp.Form_Phrase_Intro__c) cmp.translatedIntro = this.transById.get(cmp.Form_Phrase_Intro__c);
+            if (cmp.Form_Phrase_Intro__c) cmp.translatedIntro = transById.get(cmp.Form_Phrase_Intro__c);
             // Use parent component link to gather lists of child components - note that child ordering should reflect hierarchical ordering of entire form
             if (cmp.Group_Component__c) {
                 let parentCmp = cmpMap.get(cmp.Group_Component__c);
@@ -137,6 +139,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             // Fill in type - in future, might tweak/add types to support rendering
             cmp.type = cmp.Type__c;
             if (cmp.type == 'section') {
+                cmp.isSection = true;
                 this.sections.push(cmp);
                 if (this.isMultiView) cmp.accordion = true;
             }
@@ -145,7 +148,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             // Other tweaks to cmp
             cmp.isRequired = cmp.Required__c;
             // Tweak form components that link to picklists
-            updateRecordInternals(cmp, picklistMap, this.transById, fiInfo.countryNames);
+            updateRecordInternals(cmp, picklistMap, transById, fiInfo.countryNames);
             console.log('cmp', cmp);
         }
         console.log('topCmps', topCmps);

@@ -12,9 +12,13 @@
                     <div if:true={dataLoaded}>
                         <!-- Form title-->
                         <h1 class="slds-text-heading_medium" data-id="frmTitle" slot="title">{frm.title}</h1>
+                        <!-- Date submitted if any-->
+                        <div if:true={fi.Date_submitted__c}>
+                            <span class="gfw-form-title">{transByNameObj.Submitted}: {fi.Date_submitted__c}</span>
+                        </div>
                         <!-- Error count if any-->
                         <div if:true={numErrors}>
-                            <lightning-formatted-rich-text data-id="numErrors" class="gfw-form-title" value={numErrors}></lightning-formatted-rich-text>
+                            <span class="gfw-form-title">{transByNameObj.Errors}: {numErrors}</span>
                         </div>
                         <!-- Form intro if any-->
                         <div if:true={frm.intro}>

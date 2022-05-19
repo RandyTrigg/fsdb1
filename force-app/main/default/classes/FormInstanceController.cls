@@ -40,17 +40,25 @@ public inherited sharing class FormInstanceController {
     public static Map<Id, String> buildCmpNumberMap (Form_Component__c[] cmps) {
         Map<Id, Form_Component__c> cmpsMap = new Map<Id, Form_Component__c> (cmps);
         Map<Id, String> cmpsNumberMap = new Map<Id, String> ();
-        // Build mapping of id to count of its descendant form components.
+        // Build mapping of id to count of its numbered descendant form components.
         Map<Id, Integer> descendantCmpsCount = new Map<Id, Integer> ();
         for (Form_Component__c cmp : cmps) {
             if (cmp.Numbered__c) {
                 Id cId = cmp.Group_component__c;
-                while (cId != null) { // Increment the count of parent, grandparent, etc.
+                while (cId != null) { // Walk up the hierarchy to parent, grandparent, etc.
                     Boolean hasCount = descendantCmpsCount.containsKey(cId);
                     descendantCmpsCount.put(cId, hasCount ? descendantCmpsCount.get(cId) + 1 : 1);
                     cId = cmpsMap.get(cId).Group_component__c;
                 }
             }
+        }
+        // Track which components need to trim away their top numbering level, e.g. 4.3 (or 4c) becomes 3, namely,
+        // top level unnumbered components and all their descendants. 
+        Set<Id> trimTopLevelNumbering = new Set<Id>();
+        for (Form_Component__c cmp : cmps) {
+            Id parentId = cmp.Group_component__c;
+            if (parentId == null && cmp.Hierarchical_level_num__c == 0 && !cmp.Numbered__c) trimTopLevelNumbering.add(cmp.Id); 
+            else if (parentId != null && trimTopLevelNumbering.contains(parentId)) trimTopLevelNumbering.add(cmp.Id);
         }
         // Build mapping of id to form component number based on hierarchical position.
         Integer level;
@@ -62,8 +70,9 @@ public inherited sharing class FormInstanceController {
             level = Integer.valueOf(cmp.Hierarchical_level_num__c);
             // If numbering is off, leave it off until we bounce back to the level where it was turned off.
             if (!numbering && level <= priorLevel) numbering = true;
-            // Turn numbering off if this item isn't numbered nor are any of its descendants.
+            // Turn numbering off if this component isn't numbered nor are any of its descendants.
             if (!cmp.Numbered__c && !descendantCmpsCount.containsKey(cmp.Id)) numbering = false;
+            else if (cmp.Numbered__c) numbering = true;
             if (numbering) { // The next cmp needs numbering.
                 // Increment the number at the (possibly new) level.
                 system.debug('buildCmpNumberMap: num = ' +num+ '; priorNum = ' +priorNum+ '; level = ' +level);
@@ -77,7 +86,7 @@ public inherited sharing class FormInstanceController {
                 priorLevel = level;
                 priorNum = num;
             } else num = null;
-            if (num != null) cmpsNumberMap.put(cmp.Id, cmpNumDisplay(num));
+            if (num != null) cmpsNumberMap.put(cmp.Id, cmpNumDisplay(num, trimTopLevelNumbering.contains(cmp.Id)));
         }
         system.debug('buildCmpNumberMap: cmpsNumberMap.size() = ' +cmpsNumberMap.size());
         return cmpsNumberMap;
@@ -99,7 +108,11 @@ public inherited sharing class FormInstanceController {
     }
 
     // Reformat a cmp number for display in cmp labels.  For example, 1.3.2 becomes 1c.2.
-    private static String cmpNumDisplay (String numStr) {
+    // If trimTopLevel is true, then first remove the 0th level of numbering (1.3.2 becomes 3.2).
+    private static String cmpNumDisplay (String numStr, Boolean trimTopLevel) {
+        Integer firstDotPosition = numStr.indexOf('.');
+        // Drop the leftmost level of numbering if we're trimming top level.
+        if (trimTopLevel && firstDotPosition > 0) numStr = numStr.right(numStr.length()-firstDotPosition-1);
         String[] numArr = numStr.split('\\.');
         if (numArr.size() <= 1) return numStr;
         String prefix = numArr[0] + String.fromCharArray(new List<Integer> {'a'.charAt(0) + Integer.valueOf(numArr[1]) - 1});
