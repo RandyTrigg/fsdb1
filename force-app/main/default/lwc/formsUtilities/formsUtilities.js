@@ -84,6 +84,8 @@ function buildTransById (translations, language) {
         rec.isCurrency = true;
     } else if (rec.Type__c == 'label') {
         rec.isLabel = true;
+    } else if (rec.Type__c == 'file upload') {
+        rec.isFileUpload = true;
     }
 
     //console.log('updateRecordInternals: rec', rec);

@@ -15,6 +15,7 @@ export default class FormFieldEditor extends LightningElement {
     initialRenderDone = false;
     numChars; // Running # of characters in text/textarea field
     numWords; // Running # of words in text/textarea field
+    acceptedFileFormats = ['.pdf', '.png', '.jpg', '.jpeg'];
    
 
     async connectedCallback() {
@@ -201,6 +202,20 @@ export default class FormFieldEditor extends LightningElement {
         let val = event.target.value;
         this.numChars = val.length;
         this.numWords = this.countWords(val);
+    }
+
+    // Handler for file upload
+    handleUploadFinished(event) {
+        // Get the list of uploaded files
+        const uploadedFiles = event.detail.files;
+        alert('No. of files uploaded : ' + uploadedFiles.length);
+        dispatchEvent(
+            new ShowToastEvent({
+                title: 'File(s) uploaded',
+                message: 'No. of files uploaded: ' + uploadedFiles.length,
+                variant: 'success'
+            })
+        );
     }
 
 }

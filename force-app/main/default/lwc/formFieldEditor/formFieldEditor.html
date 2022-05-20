@@ -178,6 +178,16 @@
                     read-only={isReadOnly}>
                 </lightning-input>
             </div>
+            <div if:true={localCmp.isFileUpload} class="slds-form-element__control">
+                <lightning-file-upload 
+                    data-id="fileUpload"
+                    name="FileUploader"
+                    accept={acceptedFileFormats}
+                    record-id={formInstanceId}
+                    onuploadfinished={handleUploadFinished}
+                    required={isRequired}>
+                </lightning-file-upload>
+            </div>
             <!-- No mark-up for localCmp.isLabel, because parent formComponent has already put out the label -->
         </div>
     </div>
