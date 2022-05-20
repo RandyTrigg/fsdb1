@@ -80,8 +80,12 @@ function buildTransById (translations, language) {
         rec.isDate = true;
     } else if (rec.Type__c == 'url') {
         rec.isURL = true;
+    } else if (rec.Type__c == 'number') {
+        rec.isNumber = true;
     } else if (rec.Type__c == 'currency') {
         rec.isCurrency = true;
+    } else if (rec.Type__c == 'percent') {
+        rec.isPercent = true;
     } else if (rec.Type__c == 'label') {
         rec.isLabel = true;
     } else if (rec.Type__c == 'file upload') {
@@ -105,7 +109,7 @@ function getOptions(rec, picklistPhrasesMap, translationMap, countryNames) {
             for (let opt of optionsArray) options.push({'label': opt, 'value': opt});
         } else if (picklistOptions && picklistOptions.Type__c=='Numeric range' && picklistOptions.Range_start__c && picklistOptions.Range_end__c) {
             for (let i = picklistOptions.Range_start__c; i <= picklistOptions.Range_end__c; i++) {
-                options.push({'label': i, 'value': i});
+                options.push({'label': i.toString(), 'value': i.toString()});
             }
             console.log('getOptions: range options', options);
         } else if (picklistOptions && picklistOptions.Type__c=='Phrases' && picklistOptions.Form_Picklist_Phrases__r) {

@@ -430,6 +430,12 @@ global inherited sharing class Utilities {
     /*******************
      * METADATA-BASED METHODS
      *******************/
+    
+    // Delete record by Id
+    @AuraEnabled
+    public static void deleteRecordById(Id id){
+        delete id.getSobjectType().newSObject(id);
+    }
 
     // Build a new record with the type passed in as an argument at run time.
     public static sObject newRecord(String typeName) {
@@ -507,6 +513,7 @@ global inherited sharing class Utilities {
     }
 
     // Return records for given object using given where clause.  Fetch all local fields plus any given related ones.
+    @AuraEnabled
     public static sObject[] fetchRecords(
         String objName,
         String whereClause,

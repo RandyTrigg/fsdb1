@@ -15,7 +15,6 @@ export default class FormFieldEditor extends LightningElement {
     initialRenderDone = false;
     numChars; // Running # of characters in text/textarea field
     numWords; // Running # of words in text/textarea field
-    acceptedFileFormats = ['.pdf', '.png', '.jpg', '.jpeg'];
    
 
     async connectedCallback() {
@@ -176,7 +175,7 @@ export default class FormFieldEditor extends LightningElement {
     // Check whether there are custom errors for this component; if so, set validity on the affected element.
     // Return the relevant element, if any.
     handleCustomErrors() {
-        let c = this.localCmp;
+        const c = this.localCmp;
         let message = '';
         let element;
         // Look for custom errors in appropriate elements
@@ -185,9 +184,12 @@ export default class FormFieldEditor extends LightningElement {
             if (this.numWords > c.Word_limit__c) message = this.transByNameObj.TooManyWords;
         } else if (c.isCheckboxGroup && c.Checkbox_limit__c) {
             element = this.template.querySelector(`[data-id="checkboxGroup"]`);
-            if (element.value.length > c.Checkbox_limit__c) message = this.transByNameObj.TooManyOptionsSel;
+            let val = element.value;
+            // Note that checkbox group element's value is a vertical bar-separated string at load time, versus an array of selected options after first change. 
+            let arr = Array.isArray(val) ? val : val.split('|');
+            if (arr.length > c.Checkbox_limit__c) message = this.transByNameObj.TooManyOptionsSel;
         }
-        console.log('checkCmpValue message = ', message);
+        //console.log('checkCmpValue message = ', message);
         if (element) element.setCustomValidity(message);
         return element;
     } 
@@ -202,20 +204,6 @@ export default class FormFieldEditor extends LightningElement {
         let val = event.target.value;
         this.numChars = val.length;
         this.numWords = this.countWords(val);
-    }
-
-    // Handler for file upload
-    handleUploadFinished(event) {
-        // Get the list of uploaded files
-        const uploadedFiles = event.detail.files;
-        alert('No. of files uploaded : ' + uploadedFiles.length);
-        dispatchEvent(
-            new ShowToastEvent({
-                title: 'File(s) uploaded',
-                message: 'No. of files uploaded: ' + uploadedFiles.length,
-                variant: 'success'
-            })
-        );
     }
 
 }

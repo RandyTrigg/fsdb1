@@ -171,7 +171,7 @@
                     data-id="percent"
                     type="number"
                     variant="label-hidden"
-                    formatter="percent"
+                    formatter="percent-fixed"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
@@ -179,14 +179,10 @@
                 </lightning-input>
             </div>
             <div if:true={localCmp.isFileUpload} class="slds-form-element__control">
-                <lightning-file-upload 
-                    data-id="fileUpload"
-                    name="FileUploader"
-                    accept={acceptedFileFormats}
-                    record-id={formInstanceId}
-                    onuploadfinished={handleUploadFinished}
-                    required={isRequired}>
-                </lightning-file-upload>
+                <c-file-manager 
+                    max-num-files="4"
+                    record-id={formInstanceId}>
+                </c-file-manager>
             </div>
             <!-- No mark-up for localCmp.isLabel, because parent formComponent has already put out the label -->
         </div>
