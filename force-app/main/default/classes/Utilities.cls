@@ -434,6 +434,7 @@ global inherited sharing class Utilities {
     // Delete record by Id
     @AuraEnabled
     public static void deleteRecordById(Id id){
+        system.debug('Utilities.deleteRecordById id = ' +id);
         delete id.getSobjectType().newSObject(id);
     }
 

@@ -9,10 +9,18 @@
     </lightning-file-upload>
     <!-- files list -->
     <div if:true={files}>
-        <template for:each={files} for:item="file">
-            <lightning-pill label={file.name} variant="plain" key={file.documentId} name={file.documentId} onremove={handleRemove}>
-                <lightning-icon icon-name="standard:file" alternative-text="File"></lightning-icon>
-            </lightning-pill>
-        </template>
+        <ul
+            class="slds-var-p-top_x-small"
+            role="group"
+            aria-label="Uploaded files:"
+        >
+            <template for:each={files} for:item="file">
+                <li key={file.documentId}>
+                    <lightning-pill label={file.name} variant="plain" name={file.documentId} onremove={handleRemove}>
+                        <lightning-icon icon-name="standard:file" alternative-text="File"></lightning-icon>
+                    </lightning-pill>
+                </li>
+            </template>
+        </ul>
     </div>
 </template>

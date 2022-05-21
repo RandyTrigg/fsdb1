@@ -8,7 +8,8 @@ import fetchRecords from'@salesforce/apex/Utilities.fetchRecords';
 export default class FileManager extends LightningElement {
     @api recordId;
     @api maxNumFiles;
-    @track files = []; // List of pairs of file name and doc id
+    @api transByNameObj;
+    @track files; // List of pairs of file name and doc id
     disabled;
     acceptedFileFormats = ['.pdf', '.png', '.jpg', '.jpeg'];
     showSpinner = true;
@@ -20,15 +21,18 @@ export default class FileManager extends LightningElement {
     // Fetch info for files linked to given record
     async loadInfo () {
         const whereClause = 'WHERE LinkedEntityId = \'' +this.recordId+ '\'';
-        const relFieldNames = ['ContentDocument.title'];
+        const relFieldNames = ['ContentDocument.Title'];
         this.showSpinner = true;
         let linkedFiles = await fetchRecords({objName: 'ContentDocumentLink', whereClause: whereClause, relatedFieldNames: relFieldNames});
         this.showSpinner = false;
-        console.log('loadInfo: linkedFiles => ', linkedFiles);
+        console.log('fileManager loadInfo: linkedFiles => ', linkedFiles);
+        let fInfo = Array();
         for (let f of linkedFiles) {
-            this.files.push({name: f.ContentDocument.title, documentId: f.ContentDocumentId});
+            fInfo.push({name: f.ContentDocument.Title, documentId: f.ContentDocumentId});
         }
-        this.disabled = this.files.length >= this.maxNumFiles;
+        console.log('fileManager loadInfo: fInfo => ', fInfo);
+        this.files = fInfo;
+        this.disabled = fInfo.length >= this.maxNumFiles;
     }
 
     // Handler for file upload
@@ -40,8 +44,7 @@ export default class FileManager extends LightningElement {
         this.disabled = this.files.length >= this.maxNumFiles;
         dispatchEvent(
             new ShowToastEvent({
-                title: 'File(s) uploaded',
-                message: 'File uploaded: ' +fName,
+                title: this.transByNameObj.FileUploaded +': '+ fName,
                 variant: 'success'
             })
         );
@@ -49,8 +52,8 @@ export default class FileManager extends LightningElement {
 
     // Handler for file delete
     handleRemove (event) {
-        let documentId = event.name; // Name attribute of lightning-pill contains document id, not file name
-        console.log('handleRemove documentId = ', documentId);
+        let documentId = event.currentTarget.name; // Name attribute of lightning-pill contains document id, not file name
+        console.log('fileManager handleRemove documentId = ', documentId);
         // Put up modal confirm to ensure they want to delete the file
         //...
         this.deleteFile(documentId);
@@ -58,8 +61,14 @@ export default class FileManager extends LightningElement {
 
     async deleteFile (documentId) {
         this.showSpinner = true;
-        await deleteRecordById({Id: documentId});
+        await deleteRecordById({id: documentId});
         this.showSpinner = false;
+        dispatchEvent(
+            new ShowToastEvent({
+                title: this.transByNameObj.FileDeleted,
+                variant: 'success'
+            })
+        );
         // Pull down list of linked files again. 
         this.loadInfo();
     }

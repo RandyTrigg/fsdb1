@@ -181,7 +181,8 @@
             <div if:true={localCmp.isFileUpload} class="slds-form-element__control">
                 <c-file-manager 
                     max-num-files="4"
-                    record-id={formInstanceId}>
+                    record-id={formInstanceId}
+                    trans-by-name-obj={transByNameObj}>
                 </c-file-manager>
             </div>
             <!-- No mark-up for localCmp.isLabel, because parent formComponent has already put out the label -->
