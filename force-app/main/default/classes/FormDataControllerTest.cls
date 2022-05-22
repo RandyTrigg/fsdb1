@@ -36,41 +36,42 @@ public class FormDataControllerTest {
         );
         Form_Component__c comp1 = [SELECT Id FROM Form_Component__c WHERE Name = 'test component 1' LIMIT 1];
         insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = comp1.Id, Data_text__c = 'French');
-        // Update country field in Account.
+        insert new Form_Component__c (
+            Name = 'test component 2', 
+            Form__c = f.Id, 
+            Sort_number__c = 1, 
+            Target_object_name__c = 'Profile__c', 
+            Target_field_name__c = 'Org_name_submitted__c'
+        );
+        Form_Component__c comp2 = [SELECT Id FROM Form_Component__c WHERE Name = 'test component 2' LIMIT 1];
+        insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = comp2.Id, Data_text__c = 'group name');
+        // Update country field in Profile.
         insert new Form_Component__c (
             Name = 'test component 3', 
             Form__c = f.Id, 
             Sort_number__c = 1, 
-            Target_object_name__c = 'Account', 
-            Target_field_name__c = 'GM_country__c',
+            Target_object_name__c = 'Profile__c', 
+            Target_field_name__c = 'Country__c',
             Form_Picklist__c = plist.Id
         );
         Form_Component__c comp3 = [SELECT Id FROM Form_Component__c WHERE Name = 'test component 3' LIMIT 1];
         insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = comp3.Id, Data_text__c = 'Côte d\'Ivoire');
+        // Update checkbox field in Profile.
+        insert new Form_Component__c (
+            Name = 'test component 4', 
+            Form__c = f.Id, 
+            Sort_number__c = 1, 
+            Target_object_name__c = 'Profile__c', 
+            Target_field_name__c = 'Keep_confidential__c'
+        );
+        Form_Component__c comp4 = [SELECT Id FROM Form_Component__c WHERE Name = 'test component 4' LIMIT 1];
+        insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = comp4.Id, Data_text__c = 'Yes');
         // Update classification joins in Profile.
         insert new Form_Component__c (
             Name = 'Populations', 
             Form__c = f.Id, 
             Sort_number__c = 1
         );
-        Form_Component__c compPop = [SELECT Id FROM Form_Component__c WHERE Name = 'Populations' LIMIT 1];
-        insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = compPop.Id, Data_text__c = 'Girls||YoungWomen');
-        // Update geo field in profile.
-        insert new Form_Component__c (
-            Name = 'TargetGeographicArea', 
-            Form__c = f.Id, 
-            Sort_number__c = 1
-        );
-        Form_Component__c compGeo = [SELECT Id FROM Form_Component__c WHERE Name = 'TargetGeographicArea' LIMIT 1];
-        insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = compGeo.Id, Data_text__c = 'District');
-        // Update org type field in profile.
-        insert new Form_Component__c (
-            Name = 'OrgTypeSelect', 
-            Form__c = f.Id, 
-            Sort_number__c = 1
-        );
-        Form_Component__c compOrgType = [SELECT Id FROM Form_Component__c WHERE Name = 'OrgTypeSelect' LIMIT 1];
-        insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = compOrgType.Id, Data_text__c = 'OrgTypeGrassroots');
         
         Test.StartTest();
         FormDataUpdateTargetsInvocable.UpdateTargetFields(new List<Id> {fi1.Id});
@@ -80,14 +81,11 @@ public class FormDataControllerTest {
         Test.StopTest();
         
         // Check that target fields were updated.
-        appl = [SELECT Id, Keep_confidential__c, Group_name__c, Country__c FROM Applicant__c LIMIT 1];
-        System.assert(appl.Keep_confidential__c);
-        System.assertEquals('group name', appl.Group_name__c);
-        System.assertEquals(c.Id, appl.Country__c);
-        prof = [SELECT Id, Rank_ZV__c, Organization_type__c, Geo_target_area_District__c FROM Profile__c LIMIT 1];
-        System.assertEquals(1, prof.Rank_ZV__c);
-        System.assertEquals('Grassroots', prof.Organization_type__c);
-        System.assertEquals(true, prof.Geo_target_area_District__c);
+        prof = [SELECT Id, Keep_confidential__c, Org_name_submitted__c, Country__c, Language__c FROM Profile__c LIMIT 1];
+        System.assert(prof.Keep_confidential__c);
+        System.assertEquals('French', prof.Language__c);
+        System.assertEquals('group name', prof.Org_name_submitted__c);
+        System.assertEquals(c.Id, prof.Country__c);
     }
 
     // Test field targeting to gmdata
@@ -97,7 +95,7 @@ public class FormDataControllerTest {
         BuildTestProposals.InitTestObjects(1, 1);
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Proposal__c prop = [SELECT Id FROM Proposal__c LIMIT 1];
-        insert new Milestone__c (Proposal__c = prop.Id, Which_yearly__c = 1, Type__c = 'Yearly');
+        insert new Milestone__c (Proposal__c = prop.Id, Type__c = 'Report');
         Milestone__c milestone = [SELECT Id FROM Milestone__c LIMIT 1];
         // First gm data is in the "new" style: proposal links TO the gm data
         insert new GM_Data__c ();
@@ -106,16 +104,10 @@ public class FormDataControllerTest {
         update prop;
         
         Test.StartTest();
-        // Second gm data is in the "old" style: grantee report links FROM the gm data 
-        insert new GM_Data__c (Proposal__c = prop.Id, Milestone__c = milestone.Id, Account__c = acc.Id);
-        GM_Data__c gmData2 = [SELECT Id FROM GM_Data__c WHERE Milestone__c = : milestone.Id LIMIT 1];
-        
         insert new Form__c (Name = 'test form', Type__c = 'Admin');
         Form__c f = [SELECT Id FROM Form__c LIMIT 1];
         insert new Form_Instance__c (Form__c = f.Id, Proposal__c = prop.Id, Milestone__c = null);
         Form_Instance__c fi1 = [SELECT Id FROM Form_Instance__c WHERE Proposal__c = : prop.Id LIMIT 1];
-        insert new Form_Instance__c (Form__c = f.Id, Proposal__c = prop.Id, Milestone__c = milestone.Id);
-        Form_Instance__c fi2 = [SELECT Id FROM Form_Instance__c WHERE Milestone__c = : milestone.Id LIMIT 1];
                 
         // Update a currency field in GM Data.
         insert new Form_Component__c (
@@ -124,11 +116,10 @@ public class FormDataControllerTest {
             Form__c = f.Id, 
             Sort_number__c = 1, 
             Target_object_name__c = 'GM_Data__c', 
-            Target_field_name__c = 'Average_grant_size__c'
+            Target_field_name__c = 'Total_income_recent_completed_FY__c'
         );
         Form_Component__c comp1 = [SELECT Id FROM Form_Component__c LIMIT 1];
         insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = comp1.Id, Proposal__c = prop.Id, Data_text__c = '500.00');
-        insert new Form_Data__c (Form_Instance__c = fi2.Id, Form_Component__c = comp1.Id, Proposal__c = prop.Id, Data_text__c = '1000.00');
 
         insert new Form_Component__c (
             Name = 'test component 2', 
@@ -139,16 +130,13 @@ public class FormDataControllerTest {
             Target_field_name__c = 'Fraction_of_grant_to_Operations__c'
         );
         Form_Component__c comp2 = [SELECT Id FROM Form_Component__c WHERE Name = 'test component 2' LIMIT 1];
-        insert new Form_Data__c (Form_Instance__c = fi2.Id, Form_Component__c = comp2.Id, Proposal__c = prop.Id, Data_text__c = '.1');
+        insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = comp2.Id, Proposal__c = prop.Id, Data_text__c = '.1');
         
-        FormDataUpdateTargetsInvocable.UpdateTargetFields(new List<Id> {fi1.Id, fi2.Id});
+        FormDataUpdateTargetsInvocable.UpdateTargetFields(new List<Id> {fi1.Id});
         Test.StopTest();
         
-        gmData1 = [SELECT Id, Average_grant_size__c, Fraction_of_grant_to_Operations__c FROM GM_Data__c WHERE Id = : gmData1.Id];
-        System.assertEquals(500.00, gmData1.Average_grant_size__c);
-        gmData2 = [SELECT Id, Average_grant_size__c, Fraction_of_grant_to_Operations__c FROM GM_Data__c WHERE Milestone__c = : milestone.Id LIMIT 1];
-        System.assertEquals(1000.00, gmData2.Average_grant_size__c);
-        System.assertEquals(.1, gmData2.Fraction_of_grant_to_Operations__c);
+        gmData1 = [SELECT Id, Total_income_recent_completed_FY__c, Fraction_of_grant_to_Operations__c FROM GM_Data__c WHERE Id = : gmData1.Id];
+        System.assertEquals(500.00, gmData1.Total_income_recent_completed_FY__c);
     }
 
     // Test field targeting for indicator components
@@ -157,12 +145,12 @@ public class FormDataControllerTest {
         BuildTestProposals.InitTestObjects(1, 1);
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Proposal__c prop = [SELECT Id FROM Proposal__c LIMIT 1];
-        insert new Milestone__c (Proposal__c = prop.Id, Which_yearly__c = 1, Type__c = 'Yearly');
+        insert new Milestone__c (Proposal__c = prop.Id, Type__c = 'Report');
         Milestone__c milestone = [SELECT Id FROM Milestone__c LIMIT 1];
         
         Test.StartTest();
-        insert new GM_Data__c (Proposal__c = prop.Id, Milestone__c = milestone.Id, Account__c = acc.Id, Average_grant_size__c = 1000);
-        GM_Data__c gmData1 = [SELECT Id FROM GM_Data__c WHERE Milestone__c = : milestone.Id LIMIT 1];
+        insert new GM_Data__c (Proposal__c = prop.Id, Account__c = acc.Id, Total_income_recent_completed_FY__c = 1000);
+        GM_Data__c gmData1 = [SELECT Id FROM GM_Data__c WHERE Total_income_recent_completed_FY__c = 1000 LIMIT 1];
         
         insert new Form__c (Name = 'test form', Type__c = 'Admin');
         Form__c f = [SELECT Id FROM Form__c LIMIT 1];
@@ -170,9 +158,9 @@ public class FormDataControllerTest {
         Form_Instance__c fi = [SELECT Id FROM Form_Instance__c WHERE Proposal__c = : prop.Id LIMIT 1];
                 
         // Build indicators and indicator form components.
-        insert new Indicator__c (Name = 'test indicator 1', Requires_comment__c = true, GM_Data_field_name__c = 'Contrib_Grassroots_base__c');
+        insert new Indicator__c (Name = 'test indicator 1', Requires_comment__c = true);
         Indicator__c i1 = [SELECT Id FROM Indicator__c WHERE Name = 'test indicator 1' LIMIT 1];
-        insert new Indicator__c (Name = 'test indicator 2', Requires_number__c = true, GM_Data_field_name__c = 'Contrib_Grassroots_base__c');
+        insert new Indicator__c (Name = 'test indicator 2', Requires_number__c = true);
         Indicator__c i2 = [SELECT Id FROM Indicator__c WHERE Name = 'test indicator 2' LIMIT 1];
         insert new Form_Component__c (
             Name = 'test component 1', 
@@ -202,9 +190,6 @@ public class FormDataControllerTest {
         Indicator_Assign__c[] ias = [SELECT Id, Quantity__c, Comment__c FROM Indicator_Assign__c];
         System.assertEquals(1, ias.size());
         System.assertEquals('testing 1 2 3', ias[0].Comment__c);
-        // GM data's checkbox corresponding to indicator should be checked
-        gmData1 = [SELECT Id, Contrib_Grassroots_base__c FROM GM_Data__c WHERE Id = : gmData1.Id];
-        System.assert(gmData1.Contrib_Grassroots_base__c);
         // Update that one and insert a new one
         fd1.Data_textarea__c = 'testing 1 2 3 4';
         update fd1;
@@ -228,17 +213,15 @@ public class FormDataControllerTest {
         BuildTestProposals.InitTestObjects(1, 1);
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Proposal__c prop = [SELECT Id FROM Proposal__c LIMIT 1];
-        insert new Milestone__c (Proposal__c = prop.Id, Which_yearly__c = 1, Type__c = 'Yearly');
+        insert new Milestone__c (Proposal__c = prop.Id, Type__c = 'Report');
         Milestone__c milestone = [SELECT Id FROM Milestone__c LIMIT 1];
         
         Test.StartTest();
-        insert new GM_Data__c (Proposal__c = prop.Id, Milestone__c = milestone.Id, Account__c = acc.Id, Average_grant_size__c = 1000);
-        GM_Data__c gmData2 = [SELECT Id FROM GM_Data__c WHERE Milestone__c = : milestone.Id LIMIT 1];
+        insert new GM_Data__c (Proposal__c = prop.Id, Account__c = acc.Id, Total_income_recent_completed_FY__c = 1000);
+        GM_Data__c gmData2 = [SELECT Id FROM GM_Data__c WHERE Proposal__c = :prop.Id LIMIT 1];
         
         insert new Form__c (Name = 'test form', Type__c = 'Admin');
         Form__c f = [SELECT Id FROM Form__c LIMIT 1];
-        insert new Form_Section__c (Name = 'test form section', Form__c = f.Id, Sort_number__c = 1);
-        Form_Section__c sec = [SELECT Id FROM Form_Section__c LIMIT 1];
         insert new Form_Instance__c (Form__c = f.Id, Proposal__c = prop.Id, Milestone__c = milestone.Id, GM_Data__c = gmData2.Id);
         Form_Instance__c fi = [SELECT Id FROM Form_Instance__c WHERE Proposal__c = : prop.Id LIMIT 1];
                 
@@ -249,7 +232,7 @@ public class FormDataControllerTest {
             Form__c = f.Id, 
             Sort_number__c = 1, 
             Prefill_object_name__c = 'GM_Data__c', 
-            Prefill_field_name__c = 'Average_grant_size__c'
+            Prefill_field_name__c = 'Total_income_recent_completed_FY__c'
         );
         Form_Component__c comp1 = [SELECT Id FROM Form_Component__c WHERE Name = 'test component 1' LIMIT 1];
 

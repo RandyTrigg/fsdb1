@@ -56,8 +56,8 @@ function buildTransById (translations, language) {
         rec.isSelect = true;
         rec.options = getOptions(rec, picklistPhrasesMap, translationMap, countryNames);
     } else if ((rec.Type__c=='radio' || rec.Type__c=='radio in-line') && rec.Form_Picklist__c) { //TODO: are all checkboxes single-select
-        rec.isRadio = true;
         if (rec.Type__c=='radio in-line') rec.isInlineRadio = true;
+        else rec.isRadio = true;
         rec.options = getOptions(rec, picklistPhrasesMap, translationMap, countryNames);
     } else if (rec.Type__c=='checkbox group' && rec.Form_Picklist__c) {
         rec.isCheckboxGroup = true;
