@@ -24,8 +24,8 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     showMenu = false;
     errMsg;
     expandGrants = "Grants";
-
     showReadMore = false;
+    readMoreTag;
     accordLabel;
 
     // Translations
@@ -56,11 +56,15 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     recentSustainCriteria = 730; // days equivalent to 2 years - setting this to be conservative
     hasRecentSubmittedSolidarity = false;
     hasRecentSubmittedSustain = false;
+    isRecentGroup = false;
     grantType;
     appFormInstanceId;
     appNames = ['bff_SustainApplication', 'bff_SolidarityApplication'];
     prpFormInst;
+    formInstIdSubmitted;
     formInstList;
+    currentDate = new Date();
+    dateEstablished = new Date();
 
     
     connectedCallback() {
@@ -82,8 +86,9 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             this.transInfo = JSON.parse(translations);
             // Proposals table
             this.hasSubmittedPrf = this.profileSummary.hasSubmittedPrf;
+            this.dateEstablished = this.profileSummary.prf.Date_org_founded__c;
+            console.log('dateEstablished', this.dateEstablished);
             if (this.hasSubmittedPrf) this.expandGrants = '';
-            this.showReadMore = this.expandGrants == 'Grants' ? false : true;
             this.setLangPickerDefault();
             this.translatePage();
             this.dataLoaded = true;
@@ -100,18 +105,22 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         let newApp = this.transByName.get('NewApplication');
         this.newAppSustainFund = newApp + ': ' + this.transByName.get('bff_SustainFund');
         this.newAppSolidarityFund = newApp + ': ' + this.transByName.get('bff_SolidarityFund');
-        let readMoreTag = this.showReadMore ? ' (' + this.transByNameObj.ReadMore + ')' : '';
-        this.accordLabel = this.transByNameObj.bff_GrantsSiteLandingTitle + readMoreTag;
-    
+        this.showReadMore = this.expandGrants == 'Grants' ? false : true;
+        this.readMoreTag = this.showReadMore ? ' (' + this.transByNameObj.ReadMore + ')' : '';
+        this.accordLabel = this.transByNameObj.bff_GrantsSiteLandingTitle + this.readMoreTag;
         this.prFormInstanceId = this.profileSummary.prFormInstanceId;
         this.prfId = this.profileSummary.prId;
         this.prpList = this.profileSummary.prpList;
         this.formInstList = this.profileSummary.formInstList;
         this.hasProposals = this.profileSummary.hasProposals;
-        this.prpItemsData = this.processPrpList(this.prpList);
         this.processFormInstList(this.formInstList);
-    
-    
+        this.prpItemsData = this.processPrpList(this.prpList);
+    }
+
+    addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
     }
     
     setLangPickerDefault(){
@@ -145,18 +154,13 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
 
     handleSectionToggle(event) {
         console.log('showReadMore before', this.showReadMore);
+        console.log('expandGrants', this.expandGrants);
         this.expandGrants = this.expandGrants == 'Grants' ? '' : 'Grants';
         this.showReadMore = this.expandGrants == 'Grants' ? false : true;
-        let readMoreTag = this.showReadMore ? ' (' + this.transByNameObj.ReadMore + ')' : '';
-        this.accordLabel = this.transByNameObj.bff_GrantsSiteLandingTitle + readMoreTag;
-        console.log('showReadMore after: ', this.showReadMore);
+        this.readMoreTag = this.showReadMore ? ' (' + this.transByNameObj.ReadMore + ')' : '';
+        this.accordLabel = this.transByNameObj.bff_GrantsSiteLandingTitle + this.readMoreTag;
+        console.log('showReadMore after', this.showReadMore);
     }
-
-    /*
-    handleReadMore(event) {
-        this.expandGrants = 'Grants';
-        // this.showReadMore = false;
-    } */
     
     /***** Navigation and button handling *****/ 
     
@@ -178,12 +182,17 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     }
 
     handleNewAppSustain(event) {
+        console.log('dateestablished comparison', this.dateEstablished && (this.addDays(this.dateEstablished, 365) > this.currentDate));
         if (this.hasPendingSustain) {
             this.errMsg = 'You have a Sustain Fund grant application in progress';
             this.debug = 'Pending sustain';
             this.displayAppError();
-        } else if (this.hasRecentSubmittedSolidarity) {
+        } else if (this.hasRecentSubmittedSustain) {
             this.errMsg = 'You have already submitted a Sustain Fund grant application';
+            this.displayAppError();
+        } else if (this.dateEstablished && (this.addDays(this.dateEstablished, 365) > this.currentDate)) {
+            console.log('dateestablished comparison', this.dateEstablished && (this.dateEstablished > this.currentDate - 365));
+            this.errMsg = 'Your group is not eligible for a Sustain grant';
             this.displayAppError();
         } else {
             // Create Proposal with grant type and Form Instance linked to Proposal
@@ -254,17 +263,28 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     /***** Process FormInstances and Proposals for Proposal Table *****/
     processFormInstList(itemsList) {
         let mapIds = new Map();
+        let mapSubmitted = new Map();
+        let isSubmitted = false;
         for (let itm of itemsList) {
             if (itm.Proposal__c!=null && this.appNames.includes(itm.Form_name__c)) {
+                // Build map of PropId to FormInstanceId;
                 mapIds.set(itm.Proposal__c, itm.Id);
+                // Build map of FormInstanceId to boolean IsSubmitted
+                isSubmitted = (itm.Date_submitted__c) ? isSubmitted = true : false;
+                mapSubmitted.set(itm.Id, isSubmitted);
                 console.log('PropId ', itm.Proposal__c);
             }
         }
         this.prpFormInst = mapIds;
+        this.formInstIdSubmitted = mapSubmitted;
     }
 
     processPrpList(itemsList) {
         let returnList = [];
+        let isSubmitted = false;
+        let dateSubmitted = new Date();
+        console.log('processPrpList');
+        console.log('current date', this.currentDate);
         for (let itm of itemsList) {
             if (itm.Grant_type__c=='BFF-Solidarity') {
                 itm.grantType = this.transByName.get('bff_SolidarityFund');
@@ -274,14 +294,20 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             itm.proposalName = itm.Name;
             itm.dateReceived = itm.Date_received__c;
             itm.dateCreated = itm.CreatedDate;
-            // let statusForTrans = itm.Status_external__c;
-            // itm.status = this.transByNameObj.statusForTrans; // itm.Status_external__c; // this.TransByName.get(itm.Status_external__c);
-            itm.rowIcon = itm.Status_external__c == 'Pending' ? "utility:edit" : "utility:preview";
+            // Let form instance dictate whether a proposal has been submitted.
+            let formInstId = this.prpFormInst.get(itm.Id);
+            isSubmitted = this.formInstIdSubmitted.get(formInstId);
+            itm.rowIcon = isSubmitted ? "utility:preview" : "utility:edit";
+            if (!isSubmitted) {
+                itm.statusSortBy = 0;
+                itm.status = this.transByNameObj.Pending;
+            }
+            
             switch (itm.Status_external__c) {
-                case 'Pending':
+                /* case 'Pending':
                     itm.statusSortBy = 0;
                     itm.status = this.transByNameObj.Pending;
-                    break;
+                    break; */
                 case 'Submitted':
                     itm.statusSortBy = 1;
                     itm.status = this.transByNameObj.Submitted;
@@ -303,7 +329,35 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
                     itm.status = this.transByNameObj.Declined;
                     break;
             }
+            if (!itm.status) {
+                // Set empty status to Submitted
+                // (in case Prop status is pending but form instance has been submitted)
+                itm.statusSortBy = 1;
+                itm.status = this.transByNameObj.Submitted;
+            }
             returnList.push(itm);
+
+            // Relies on form instance submission for toast messages
+            if (isSubmitted) {
+                // Still relying on Prop date rec'd
+                dateSubmitted = itm.Date_received__c;
+                console.log('dateSubmitted', dateSubmitted);
+                if (itm.Grant_type__c=='BFF-Solidarity') {
+                    console.log('addedDays', this.addDays(dateSubmitted, this.recentSolidarityCriteria));
+                    console.log('comparison', this.addDays(dateSubmitted, this.recentSolidarityCriteria) > this.currentDate);
+                    if (this.addDays(dateSubmitted, this.recentSolidarityCriteria) > this.currentDate) {
+                        this.hasRecentSubmittedSolidarity = true;
+                    }
+                } else if (itm.Grant_type__c=='BFF-Sustain') {
+                    this.hasRecentSubmittedSustain = true;
+                }
+            } else if (itm.Grant_type__c=='BFF-Solidarity') {
+                this.hasPendingSolidarity = true;
+            } else if (itm.Grant_type__c=='BFF-Sustain') {
+                this.hasPendingSustain = true;
+            }
+            
+            /* Relies on Prop status for toast messages
             if (itm.Status_external__c==='Pending') {
                 if (itm.Grant_type__c=='BFF-Solidarity') {
                     this.hasPendingSolidarity = true;
@@ -312,13 +366,13 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
                 } 
             } else if (itm.Status_external__c==='Submitted') {
                 if (itm.Grant_type__c=='BFF-Solidarity'
-                /* figure out how to parse this: 
-                && Sum(itm.dateReceived, this.recentSolidarityCriteria) > today() */) {
+                ) {
                     this.hasRecentSubmittedSolidarity = true;
                 } else if (itm.Grant_type__c=='BFF-Sustain') {
                     this.hasRecentSubmittedSustain = true;
                 } 
             }
+            */
         }
         this.columns = [
             { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
