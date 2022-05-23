@@ -7,10 +7,11 @@ export default class FormFieldEditor extends LightningElement {
     localCmp = {}; //need a copy of the passed in proxy to keep values updated in-memory
     @api formInstanceId;
     @api isRequired;
+    @api parentHidden = false;
+    @api isReadOnly;
     subscription = null;
     isVisible = true;
     initialRenderDone = false;
-    @api parentHidden = false;
     currentLength;
    
 
@@ -138,6 +139,7 @@ export default class FormFieldEditor extends LightningElement {
             this.sendUpdatedValue(dataText);
 
             //Notify parent that data has changed
+            console.log('formFieldEditor handleInputChange dispatch cmpChange event', this.localCmp.Id, dataText);
             const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: dataText} });
             this.dispatchEvent(cmpUpdated);
 

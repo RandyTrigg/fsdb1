@@ -4,8 +4,8 @@ export default class FormComponent extends LightningElement {
 
     @api cmp;
     @api formInstanceId;
-    @api isEditable;
     @api language;
+    @api isReadOnly;
     isVisible = false; // Will need to be dynamically computed once new connector framework is in place
     parentHidden = false; // Will need to be dynamically computed once new connector framework is in place
 
@@ -17,13 +17,17 @@ export default class FormComponent extends LightningElement {
         // console.log('connectedCallback: this.language', this.language);
     }
 
-    //allows parent to check if this component is valid (all child components have a value if required)
+    // Allows parent to check if this component is valid (all child components and child form field are valid)
     @api isValid() {
-        let allValid = true;
-        this.template.querySelectorAll('c-form-component').forEach(element => {
-            if (element.isValid()!=true) allValid = false;
-        });
-        return allValid;
+        const childCmpsValid = [...this.template.querySelectorAll('c-form-component')]
+            .reduce((validSoFar, formCmp) => {
+                return validSoFar && formCmp.isValid();
+            }, true);
+        const formFieldValid = [...this.template.querySelectorAll('c-form-field-editor')]
+            .reduce((validSoFar, formField) => {
+                return validSoFar && formField.isValid();
+            }, true);
+        return (childCmpsValid && formFieldValid);
     }
 
     handleCmpChange(event) {
