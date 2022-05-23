@@ -128,7 +128,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
         const lMap = new Map();
         lMap.set('English', 'en');
-        lMap.set('Spanish', 'sp');
+        lMap.set('Spanish', 'es');
         lMap.set('French', 'fr');
         this.langMap = lMap;
         this.langTag = this.langMap.get(this.language);
@@ -153,13 +153,10 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     }
 
     handleSectionToggle(event) {
-        console.log('showReadMore before', this.showReadMore);
-        console.log('expandGrants', this.expandGrants);
-        this.expandGrants = this.expandGrants == 'Grants' ? '' : 'Grants';
-        this.showReadMore = this.expandGrants == 'Grants' ? false : true;
+        const openSection = event.detail.openSections;
+        this.showReadMore = openSection.length === 0 ? true : false;
         this.readMoreTag = this.showReadMore ? ' (' + this.transByNameObj.ReadMore + ')' : '';
         this.accordLabel = this.transByNameObj.bff_GrantsSiteLandingTitle + this.readMoreTag;
-        console.log('showReadMore after', this.showReadMore);
     }
     
     /***** Navigation and button handling *****/ 
@@ -184,20 +181,20 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     handleNewAppSustain(event) {
         console.log('dateestablished comparison', this.dateEstablished && (this.addDays(this.dateEstablished, 365) > this.currentDate));
         if (this.hasPendingSustain) {
-            this.errMsg = 'You have a Sustain Fund grant application in progress';
+            this.errMsg = this.transByNameObj.SustainAppInProgress; // 'You have a Sustain Fund grant application in progress';
             this.debug = 'Pending sustain';
             this.displayAppError();
         } else if (this.hasRecentSubmittedSustain) {
-            this.errMsg = 'You have already submitted a Sustain Fund grant application';
+            this.errMsg = this.transByNameObj.SustainSubmitted; // 'You have already submitted a Sustain Fund grant application';
             this.displayAppError();
         } else if (this.dateEstablished && (this.addDays(this.dateEstablished, 365) > this.currentDate)) {
             console.log('dateestablished comparison', this.dateEstablished && (this.dateEstablished > this.currentDate - 365));
-            this.errMsg = 'Your group is not eligible for a Sustain grant';
+            this.errMsg = this.transByNameObj.SustainIneligible; // 'Your group is not eligible for a Sustain grant';
             this.displayAppError();
         } else {
             // Create Proposal with grant type and Form Instance linked to Proposal
             // Prep error message in case of issue.
-            this.errMsg = 'A system error occurred: ID' + event.target.dataset.name + '. Please contact support.';
+            this.errMsg = this.transByNameObj.SystemErrorMsg + ' (Id: ' + event.target.dataset.name + ')';
             this.grantType = 'BFF-Sustain';
             this.createProposalWithFormInstanceAndNavigate(this.grantType);
         }
@@ -206,16 +203,16 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     handleNewAppSolidarity(event) {
         if (this.hasPendingSolidarity) {
             // Toast message: pending message
-            this.errMsg = 'You have a Solidarity Fund grant application in progress';
+            this.errMsg = this.transByNameObj.SolidarityAppInProgress; //'You have a Solidarity Fund grant application in progress';
             this.displayAppError();
         } else if (this.hasRecentSubmittedSolidarity) {
             // Toast message: submitted message
-            this.errMsg = 'You have already submitted a Solidarity Fund grant application';
+            this.errMsg = this.transByNameObj.SolidaritySubmitted; // You have already submitted a Solidarity grant application.
             this.displayAppError();
         } else {
             // Create Proposal with grant type and Form Instance linked to Proposal
             // Prep error message in case of issue.
-            this.errMsg = 'A system error occurred: ID' + event.target.dataset.name + '. Please contact support.';
+            this.errMsg = this.transByNameObj.SystemErrorMsg + ' (Id: ' + event.target.dataset.name + ')';;
             this.grantType = 'BFF-Solidarity';
             this.createProposalWithFormInstanceAndNavigate(this.grantType);
         }
@@ -223,7 +220,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
 
     displayAppError() {
         let appError = {
-            title: 'Invalid action',
+            title: this.transByNameObj.InvalidAction,
             variant: 'warning',
             mode: 'dismissible',
             userMessage: this.errMsg
@@ -298,6 +295,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             let formInstId = this.prpFormInst.get(itm.Id);
             isSubmitted = this.formInstIdSubmitted.get(formInstId);
             itm.rowIcon = isSubmitted ? "utility:preview" : "utility:edit";
+            itm.rowAction = isSubmitted ? this.transByNameObj.View : this.transByNameObj.Edit;
             if (!isSubmitted) {
                 itm.statusSortBy = 0;
                 itm.status = this.transByNameObj.Pending;
@@ -376,7 +374,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         }
         this.columns = [
             { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
-                {iconName: { fieldName: 'rowIcon' }, title: 'Go to application', variant: 'bare', alternativeText: 'Go to application' } },
+                {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
             { label: this.transByNameObj.Number, initialWidth: 125, fieldName: 'proposalName', hideDefaultActions: true, sortable: false,},
             { label: this.transByNameObj.Status, initialWidth: 125, fieldName: 'status', hideDefaultActions: true, sortable: false,},
             { label: this.transByNameObj.Type, fieldName: 'grantType', hideDefaultActions: true, sortable: false,},
