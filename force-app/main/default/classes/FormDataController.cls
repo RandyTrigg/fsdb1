@@ -7,17 +7,18 @@ public class FormDataController {
         sObject[] toDelete = new List<sObject>();
         // Fetch form instance and its non-disabled form data.
         Form_Instance__c fi = [
-            SELECT Id, Name, Profile__c, Proposal__c, Milestone__c, Assessment__c,
+            SELECT Id, Name, Profile__c, Proposal__c, Milestone__c, Assessment__c, OwnerId,
             (SELECT Data_text__c, Data_textarea__c, Disabled__c,
              Form_Component__c, Form_Component__r.Name, Form_Component__r.Type__c, Form_Component__r.Indicator__c, 
              Form_Component__r.Target_field_name__c, Form_Component__r.Target_object_name__c,
-             Form_Component__r.Form_Picklist__r.Name
+             Form_Component__r.Form_Picklist__r.Name, Form_Component__r.Form_Picklist__r.Type__c
              FROM Form_Data__r
              WHERE Disabled__c = false
             )
             FROM Form_Instance__c
             WHERE Id = : formInstanceId
         ];
+        String fsGroupName = Utilities.fsGroupNameByUser(fi.OwnerId);
         Form_Data__c[] fds = fi.Form_Data__r;
         Id profId = fi.Profile__c;
         Id propId = fi.Proposal__c;
@@ -146,10 +147,10 @@ public class FormDataController {
                             updateFieldIfValueChanged(target, fName, fdText != null ? Decimal.valueOf(fdText) : null, toUpdate);
                         else if (fType.toLowerCase() == 'textarea') 
                             updateFieldIfValueChanged(target, fName, fdTextArea != null ? fdTextArea : fdText, toUpdate);
-                        else if (fd.Form_Component__r.Form_Picklist__r.Name == 'Countries') {
+                        else if (fd.Form_Component__r.Form_Picklist__r.Type__c == 'Countries') {
                             // Special handling for countries picklist - look up id of selected country.
                             system.debug('updateTargetField, countries picklist: fdText = ' +fdText);
-                            Country__c c = [SELECT Id FROM Country__c WHERE Name = : fdText LIMIT 1];
+                            Country__c c = [SELECT Id FROM Country__c WHERE Name = : fdText AND Region__r.FS_Group__c = :fsGroupName LIMIT 1];
                             updateFieldIfValueChanged(target, fName, c != null ? c.Id : null, toUpdate);
                         }
                         else updateFieldIfValueChanged(target, fName, 
@@ -251,6 +252,7 @@ public class FormDataController {
             Id recId = oName == 'GM_Data__c' ? gmDataId : (Id)fi.get(oName);
             objNameToRecordId.put(oName, recId);
             objNameToRecord.put(oName, Utilities.fetchRecord(oName, recId, null));
+            system.debug('prefillFormInstance: objNameToRecord = ' +objNameToRecord);
             objNameToFieldMap.put(oName, schemaMap.get(oName).getDescribe().fields.getMap());
         }
         // Step through prefilling form components, building form data records as we go.

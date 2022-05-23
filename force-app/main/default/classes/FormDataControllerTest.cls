@@ -12,7 +12,7 @@ public class FormDataControllerTest {
         insert new Profile__c (Account__c = acc.Id, Organization_type__c = 'LocalNetwork');
         Profile__c prof = [SELECT Id FROM Profile__c LIMIT 1];
         
-        insert new Form_Picklist__c (Name = 'Countries');
+        insert new Form_Picklist__c (Name = 'Countries', Type__c = 'Countries');
         Form_Picklist__c plist = [SELECT Id FROM Form_Picklist__c LIMIT 1];
         insert new Form__c (Name = 'test form', Type__c = 'Admin');
         Form__c f = [SELECT Id FROM Form__c LIMIT 1];
@@ -219,22 +219,23 @@ public class FormDataControllerTest {
         Milestone__c milestone = [SELECT Id FROM Milestone__c LIMIT 1];
         
         Test.StartTest();
-        insert new GM_Data__c (Proposal__c = prop.Id, Account__c = acc.Id, Total_income_recent_completed_FY__c = 1000);
-        GM_Data__c gmData2 = [SELECT Id FROM GM_Data__c WHERE Proposal__c = :prop.Id LIMIT 1];
+        insert new GM_Data__c (Proposal__c = prop.Id, Account__c = acc.Id, Total_direct_beneficiaries__c = 1000);
+        GM_Data__c gmData2 = [SELECT Id, Total_direct_beneficiaries__c FROM GM_Data__c WHERE Proposal__c = :prop.Id LIMIT 1];
+        system.debug('FormDataControllerTest4 gmData2 = ' +gmData2);
         
         insert new Form__c (Name = 'test form', Type__c = 'Admin');
         Form__c f = [SELECT Id FROM Form__c LIMIT 1];
         insert new Form_Instance__c (Form__c = f.Id, Proposal__c = prop.Id, Milestone__c = milestone.Id, GM_Data__c = gmData2.Id);
         Form_Instance__c fi = [SELECT Id FROM Form_Instance__c WHERE Proposal__c = : prop.Id LIMIT 1];
                 
-        // Prefill from a currency field in GM Data.
+        // Prefill from a field in Milestone.
         insert new Form_Component__c (
             Name = 'test component 1', 
-            Type__c = 'currency', 
+            Type__c = 'text', 
             Form__c = f.Id, 
             Sort_number__c = 1, 
-            Prefill_object_name__c = 'GM_Data__c', 
-            Prefill_field_name__c = 'Total_income_recent_completed_FY__c'
+            Prefill_object_name__c = 'Milestone__c', 
+            Prefill_field_name__c = 'Type__c'
         );
         Form_Component__c comp1 = [SELECT Id FROM Form_Component__c WHERE Name = 'test component 1' LIMIT 1];
 
@@ -268,11 +269,11 @@ public class FormDataControllerTest {
         Test.StopTest();
         
         Form_Data__c fd3 = [SELECT Id, Data_text__c, Data_textarea__c FROM Form_Data__c WHERE Form_Component__c = : comp3.Id LIMIT 1];
-        System.assertEquals(String.valueOf(System.today()), fd3.Data_text__c);
+        System.assertEquals(System.today(), Date.valueOf(fd3.Data_text__c));
         Form_Data__c fd2 = [SELECT Id, Data_text__c, Data_textarea__c FROM Form_Data__c WHERE Form_Component__c = : comp2.Id LIMIT 1];
         System.assertEquals(null, fd2.Data_text__c);
         Form_Data__c fd1 = [SELECT Id, Data_text__c, Data_textarea__c FROM Form_Data__c WHERE Form_Component__c = : comp1.Id LIMIT 1];
-        System.assertEquals('1000.00', fd1.Data_text__c);
+        System.assertEquals('Report', fd1.Data_text__c);
     }
 
 }
