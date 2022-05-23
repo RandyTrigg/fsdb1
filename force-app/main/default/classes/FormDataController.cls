@@ -275,6 +275,7 @@ public class FormDataController {
                         Proposal__c = propId
                     );
                     toInsert.add(fd);
+                    system.debug('prefillFormInstance in loop: fd = ' +fd);
                     // Set data text or data textarea field appropriately.
                     // If form component type is textarea then stash value in Data Textarea.
                     if (fcType.contains('textarea')) {
