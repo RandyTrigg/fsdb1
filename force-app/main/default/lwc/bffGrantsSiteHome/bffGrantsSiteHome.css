@@ -10,7 +10,11 @@
 }
 
 .topmargin {
-    margin-top: 3rem;
+    margin-top: 4rem;
+}
+
+.language-font {
+    font-size: 18px;
 }
 
 .visually-hidden {
@@ -33,17 +37,6 @@
     --slds-c-button-brand-text-color-hover: rgb(249, 248, 250);
 }
 
-.app-button {
-    background-color: #2c11c6e2;   
-    color: rgb(255, 255, 255);
-    text-align: center;
-    width: 100%;
-    display: block;
-    padding: 0.5rem;
-    font-size: 16px;
-    font-family: Arial;
-}
-
 .main-heading {
     font-size: 20px;
 }
@@ -59,6 +52,14 @@
 .gfw-item-list {
     overflow-y: scroll;
     max-height: 300px;
+}
+
+.enlarge {
+    zoom: 110%;
+}
+
+.grant-info-section {
+    --slds-c-accordion-heading-font-size: 1.5rem;
 }
 
 .gfw-menu-item {

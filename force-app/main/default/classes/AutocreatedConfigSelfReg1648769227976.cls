@@ -34,27 +34,6 @@ global class AutocreatedConfigSelfReg1648769227976 implements Auth.ConfigurableS
 		u.timeZoneSidKey = UserInfo.getTimezone().getID();
 		insert u;
 		System.setPassword(u.Id, password);
-
-		// Assign to permission set
-		Id thisPermSetId = [SELECT Id, Name from PermissionSet WHERE Name = 'Community_BFF' LIMIT 1].Id;
-		PermissionSetAssignment psa = new PermissionSetAssignment(
-			PermissionSetId = thisPermSetId, 
-			AssigneeId = u.Id);
-		insert psa;
-
-		// Create Profile
-		try {
-			Profile__c prf = new Profile__c (
-				Community_contact_username__c = u.Username,
-				Community_contact__c = u.contactId
-			);
-			insert prf;
-			System.debug('New profile: ' + prf.Id);
-        } catch (Exception e) {
-            system.debug('Failure creating new profile: ' + e.getMessage());
-			throw new GFW_Exception('AutocreatedConfigSelfReg.createUser', 'Could not create Profile record', e);
-        }
-
 		return u.id;
 	}
 
@@ -112,7 +91,7 @@ global class AutocreatedConfigSelfReg1648769227976 implements Auth.ConfigurableS
 			u.LastName = generateLastName();
 		}
 		if (String.isBlank(u.Username)) {
-			u.Username = 'prf-' + u.Email; // CUSTOMIZED
+			u.Username = 'bff-' + u.Email; // CUSTOMIZED
 		}
 		if (String.isBlank(u.Email)) {
 			u.Email = generateEmail();
