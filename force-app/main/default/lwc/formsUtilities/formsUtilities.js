@@ -56,8 +56,8 @@ function buildTransById (translations, language) {
         rec.isSelect = true;
         rec.options = getOptions(rec, picklistPhrasesMap, translationMap, countryNames);
     } else if ((rec.Type__c=='radio' || rec.Type__c=='radio in-line') && rec.Form_Picklist__c) { //TODO: are all checkboxes single-select
-        rec.isRadio = true;
         if (rec.Type__c=='radio in-line') rec.isInlineRadio = true;
+        else rec.isRadio = true;
         rec.options = getOptions(rec, picklistPhrasesMap, translationMap, countryNames);
     } else if (rec.Type__c=='checkbox group' && rec.Form_Picklist__c) {
         rec.isCheckboxGroup = true;
@@ -76,10 +76,20 @@ function buildTransById (translations, language) {
         rec.isPhone = true;
     } else if (rec.Type__c == 'email') {
         rec.isEmail = true;
+    } else if (rec.Type__c == 'date') {
+        rec.isDate = true;
     } else if (rec.Type__c == 'url') {
         rec.isURL = true;
+    } else if (rec.Type__c == 'number') {
+        rec.isNumber = true;
+    } else if (rec.Type__c == 'currency') {
+        rec.isCurrency = true;
+    } else if (rec.Type__c == 'percent') {
+        rec.isPercent = true;
     } else if (rec.Type__c == 'label') {
         rec.isLabel = true;
+    } else if (rec.Type__c == 'file upload') {
+        rec.isFileUpload = true;
     }
 
     //console.log('updateRecordInternals: rec', rec);
@@ -97,6 +107,11 @@ function getOptions(rec, picklistPhrasesMap, translationMap, countryNames) {
         } else if (picklistOptions && picklistOptions.Type__c=='Constants' && picklistOptions.Constant_values__c) {
             let optionsArray = picklistOptions.Constant_values__c.split('\r\n');
             for (let opt of optionsArray) options.push({'label': opt, 'value': opt});
+        } else if (picklistOptions && picklistOptions.Type__c=='Numeric range' && picklistOptions.Range_start__c && picklistOptions.Range_end__c) {
+            for (let i = picklistOptions.Range_start__c; i <= picklistOptions.Range_end__c; i++) {
+                options.push({'label': i.toString(), 'value': i.toString()});
+            }
+            console.log('getOptions: range options', options);
         } else if (picklistOptions && picklistOptions.Type__c=='Phrases' && picklistOptions.Form_Picklist_Phrases__r) {
             for (let opt of picklistOptions.Form_Picklist_Phrases__r.records) {
                 let translatedPhrase = translationMap.get(opt.Form_Phrase__c);

@@ -2,3 +2,8 @@
     font-style: italic;
     font-size: x-small;
 }
+
+/*Inline Radio Buttons*/
+.radio-combo-inline {
+    display: inline-block !important;
+}

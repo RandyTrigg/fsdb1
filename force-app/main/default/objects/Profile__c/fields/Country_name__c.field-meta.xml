@@ -4,7 +4,9 @@
     <deprecated>false</deprecated>
     <description>The country of this profile&apos;s account if any</description>
     <externalId>false</externalId>
-    <formula>IF( NOT(ISBLANK( Account__c )), Account__r.GM_country__r.Name, null)</formula>
+    <formula>IF( NOT(ISBLANK( Account__r.GM_country__c)), Account__r.GM_country__r.Name, 
+ IF ( NOT(ISBLANK(Country__c)),   Country__r.Name , NULL )
+)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>The country of this profile&apos;s account if any</inlineHelpText>
     <label>Country name</label>

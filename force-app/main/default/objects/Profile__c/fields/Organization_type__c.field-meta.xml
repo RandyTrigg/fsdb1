@@ -55,6 +55,26 @@
                 <default>false</default>
                 <label>Grassroots</label>
             </value>
+            <value>
+                <fullName>CommunityBasedRural</fullName>
+                <default>false</default>
+                <label>CommunityBasedRural</label>
+            </value>
+            <value>
+                <fullName>CommunityBasedUrban</fullName>
+                <default>false</default>
+                <label>CommunityBasedUrban</label>
+            </value>
+            <value>
+                <fullName>National</fullName>
+                <default>false</default>
+                <label>National</label>
+            </value>
+            <value>
+                <fullName>GlobalTransnationalTranslocal</fullName>
+                <default>false</default>
+                <label>GlobalTransnationalTranslocal</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

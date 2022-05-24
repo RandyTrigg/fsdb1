@@ -1,0 +1,27 @@
+<template>
+    <lightning-file-upload 
+        id={cmpId}
+        data-id="fileUpload"
+        name="FileUploader"
+        accept={acceptedFileFormats}
+        record-id={recordId}
+        onuploadfinished={handleUploadFinished}
+        disabled={disabled}>
+    </lightning-file-upload>
+    <!-- files list -->
+    <div if:true={files}>
+        <ul
+            class="slds-var-p-top_x-small"
+            role="group"
+            aria-label="Uploaded files:"
+        >
+            <template for:each={files} for:item="file">
+                <li key={file.documentId}>
+                    <lightning-pill label={file.name} variant="plain" name={file.documentId} onremove={handleRemove}>
+                        <lightning-icon icon-name="standard:file" alternative-text="File"></lightning-icon>
+                    </lightning-pill>
+                </li>
+            </template>
+        </ul>
+    </div>
+</template>

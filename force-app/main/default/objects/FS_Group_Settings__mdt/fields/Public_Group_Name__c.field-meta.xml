@@ -4,6 +4,7 @@
     <description>DeveloperName of Public Group for this FS group</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>DeveloperName of Public Group for this FS group</inlineHelpText>
     <label>Public Group Name</label>
     <length>255</length>
     <required>false</required>

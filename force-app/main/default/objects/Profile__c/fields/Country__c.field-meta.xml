@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Country__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Group&apos;s country</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Group&apos;s country</inlineHelpText>
+    <label>Country</label>
+    <referenceTo>Country__c</referenceTo>
+    <relationshipLabel>Profiles</relationshipLabel>
+    <relationshipName>Profiles</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

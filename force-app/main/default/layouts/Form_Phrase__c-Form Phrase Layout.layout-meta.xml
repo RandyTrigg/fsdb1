@@ -168,6 +168,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Form__c</fields>
         <fields>Sort_number__c</fields>
         <fields>Type__c</fields>
         <fields>UPDATEDBY_USER</fields>
@@ -178,6 +179,13 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Form_Component__c.Form_Phrase_help__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Form_Picklist__c</fields>
+        <fields>UPDATEDBY_USER</fields>
+        <fields>LAST_UPDATE</fields>
+        <relatedList>Form_Picklist_Phrase__c.Form_Phrase__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
@@ -425,7 +433,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hi000000QkmK2</masterLabel>
+        <masterLabel>00h8c00000k7ZqY</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

@@ -1,5 +1,8 @@
-<template>
-    <div class="gfw-container">
+<template>   
+     
+    <!-- HEADER -->
+    <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
+    <div class="gfw-container topmargin"> 
         <div if:true={showSpinner}>
             <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
         </div>
@@ -8,9 +11,15 @@
                 <div class="slds-var-p-horizontal_medium">
                     <div if:true={dataLoaded}>
                         <!-- Form title-->
-                        <h1>
-                            <p class="gfw-title gfw-form-title" data-id="frmTitle" slot="title">{frm.title}</p>
-                        </h1>
+                        <h1 class="slds-text-heading_medium" data-id="frmTitle" slot="title">{frm.title}</h1>
+                        <!-- Date submitted if any-->
+                        <div if:true={fi.Date_submitted__c}>
+                            <span class="gfw-form-title">{transByNameObj.Submitted}: {fi.Date_submitted__c}</span>
+                        </div>
+                        <!-- Error count if any-->
+                        <div if:true={numErrors}>
+                            <span class="gfw-form-title">{transByNameObj.Errors}: {numErrors}</span>
+                        </div>
                         <!-- Form intro if any-->
                         <div if:true={frm.intro}>
                             <lightning-formatted-rich-text data-id="frmIntro" class="gfw-form-title" value={frm.intro}></lightning-formatted-rich-text>
@@ -33,19 +42,19 @@
                         <template for:each={topLevelCmps} for:item="cmp">
                             <div if:false={cmp.accordion} key={cmp.Id}>
                                 <c-form-component 
-                                    cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange}>
+                                    cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
                                 </c-form-component>
                             </div>
                             <div if:true={cmp.accordion} key={cmp.Id}>
                                 <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.Form_Phrase_Title__r.Phrase_in_English__c}>
                                     <c-form-component 
-                                        cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange}>
+                                        cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
                                     </c-form-component>
                                 </lightning-accordion-section>
                             </div>
                         </template>
                         <div class="slds-card__footer slds-align_absolute-center" slot="footer">
-                            <lightning-button variant="brand" label={submitLabel} title="Submit" onclick={handleSubmit} disabled={submitDisabled}></lightning-button>
+                            <lightning-button class="bff-button-brand" variant="brand" label={submitLabel} title="Submit" onclick={handleSubmit} disabled={submitDisabled}></lightning-button>
                         </div>
                     </div>
                 </div>
