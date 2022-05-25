@@ -4,7 +4,7 @@
     <deprecated>false</deprecated>
     <description>Name of account if this profile is linked to an account</description>
     <externalId>false</externalId>
-    <formula>IF(NOT(ISBLANK( Account__c )), Account__r.Name, null)</formula>
+    <formula>IF(NOT(ISBLANK( Org_name_submitted__c )), Org_name_submitted__c, Account__r.Name)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Name of account if this profile is linked to an account</inlineHelpText>
     <label>Org name</label>

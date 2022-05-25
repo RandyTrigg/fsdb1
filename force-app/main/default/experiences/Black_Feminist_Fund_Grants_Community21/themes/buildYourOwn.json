@@ -31,7 +31,7 @@
     "type" : "view"
   }, {
     "componentAttributes" : {
-      "fixedPageWidth" : 1440,
+      "fixedPageWidth" : 1348,
       "isPageWidthFixed" : true
     },
     "componentName" : "siteforce:starterBody",

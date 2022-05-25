@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_ineligible_affiliations__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Not affiliated with political party, government, religious institution.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Not affiliated with political party, government, religious institution.</inlineHelpText>
+    <label>No ineligible affiliations</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

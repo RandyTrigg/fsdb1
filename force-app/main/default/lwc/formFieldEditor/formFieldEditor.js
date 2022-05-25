@@ -9,10 +9,12 @@ export default class FormFieldEditor extends LightningElement {
     @api isRequired;
     @api parentHidden = false;
     @api isReadOnly;
+    @api transByNameObj;
     subscription = null;
     isVisible = true;
     initialRenderDone = false;
-    currentLength;
+    numChars; // Running # of characters in text/textarea field
+    numWords; // Running # of words in text/textarea field
    
 
     async connectedCallback() {
@@ -22,11 +24,25 @@ export default class FormFieldEditor extends LightningElement {
             //console.log('formFieldEditor connectedCallback: this.parentHidden', this.parentHidden);
             //console.log('formFieldEditor connectedCallback: this.isVisible', this.isVisible);
             if (this.localCmp.isText && this.localCmp.data.Data_text__c) {
-                this.currentLength = this.localCmp.data.Data_text__c.length;
+                this.numChars = this.localCmp.data.Data_text__c.length;
+                this.numWords = this.countWords(this.localCmp.data.Data_text__c);
             } else if (this.localCmp.isTextArea && this.localCmp.data.Data_textarea__c) {
-                this.currentLength = this.localCmp.data.Data_textarea__c.length;
+                this.numChars = this.localCmp.data.Data_textarea__c.length;
+                this.numWords = this.countWords(this.localCmp.data.Data_textarea__c);
             }
         }
+    }
+ 
+    // Count words in a text string. From http://jsfiddle.net/deepumohanp/jZeKu/
+    countWords(txt) {
+        return txt ? txt.trim().replace(/\s+/gi, ' ').split(' ').length : 0;
+    }
+
+    // Count number of errors - aggregated with parents/ancestors for total number of errors
+    @api countErrors() {
+        // Look for custom errors before checking validity
+        this.handleCustomErrors();
+        return this.isValid() ? 0 : 1;
     }
 
     //allows parent to check if this field is valid (if required, has a value)
@@ -45,6 +61,7 @@ export default class FormFieldEditor extends LightningElement {
                 .reduce((validSoFar, inputCmp) => {
                     return validSoFar && inputCmp.checkValidity();
                 }, true);
+            //console.log('formFieldEditor isValid: allTextAreasValid', allTextAreasValid);
 
             const allRadioGroupsValid = [...this.template.querySelectorAll('lightning-radio-group')]
                 .reduce((validSoFar, inputCmp) => {
@@ -56,7 +73,12 @@ export default class FormFieldEditor extends LightningElement {
                     return validSoFar && inputCmp.checkValidity();
                 }, true);
 
-            if (allLightningInputsValid && allTextAreasValid && allRadioGroupsValid && allCheckboxGroupsValid) {
+            const allComboxesValid = [...this.template.querySelectorAll('lightning-combobox ')]
+                .reduce((validSoFar, inputCmp) => {
+                    return validSoFar && inputCmp.checkValidity();
+                }, true);
+
+            if (allLightningInputsValid && allTextAreasValid && allRadioGroupsValid && allCheckboxGroupsValid && allComboxesValid) {
                 return true;
             } else {
                 return false;
@@ -134,7 +156,9 @@ export default class FormFieldEditor extends LightningElement {
         let dataText = val;
         if (this.localCmp.isTextArea) this.localCmp.data.Data_textarea__c = dataText;
         else this.localCmp.data.Data_text__c = dataText;
-        if (this.localCmp.isText || this.localCmp.isTextArea) this.currentLength = dataText.length;
+        // Find and mark up custom errors 
+        let element = this.handleCustomErrors();
+        if (element) element.reportValidity();
         try {
             this.sendUpdatedValue(dataText);
 
@@ -148,12 +172,38 @@ export default class FormFieldEditor extends LightningElement {
         }
     }
 
+    // Check whether there are custom errors for this component; if so, set validity on the affected element.
+    // Return the relevant element, if any.
+    handleCustomErrors() {
+        const c = this.localCmp;
+        let message = '';
+        let element;
+        // Look for custom errors in appropriate elements
+        if (c.isTextArea && c.Word_limit__c) {
+            element = this.template.querySelector(`[data-id="textArea"]`);
+            if (this.numWords > c.Word_limit__c) message = this.transByNameObj.TooManyWords;
+        } else if (c.isCheckboxGroup && c.Checkbox_limit__c) {
+            element = this.template.querySelector(`[data-id="checkboxGroup"]`);
+            let val = element.value;
+            // Note that checkbox group element's value is a vertical bar-separated string at load time, versus an array of selected options after first change. 
+            let arr = Array.isArray(val) ? val : val.split('|');
+            if (arr.length > c.Checkbox_limit__c) message = this.transByNameObj.TooManyOptionsSel;
+        }
+        //console.log('checkCmpValue message = ', message);
+        if (element) element.setCustomValidity(message);
+        return element;
+    } 
+
     // Upsert the form data record via apex
     async sendUpdatedValue(textData) {
         await updateFormData({frmInstanceId:this.localCmp.data.Form_Instance__c, componentId:this.localCmp.data.Form_Component__c, value:textData, isTextarea:this.localCmp.isTextArea});
     }
 
-
-    
+    // Handler for in progress changes (onKeyUp) in text fields
+    updateTextArea(event) {
+        let val = event.target.value;
+        this.numChars = val.length;
+        this.numWords = this.countWords(val);
+    }
 
 }

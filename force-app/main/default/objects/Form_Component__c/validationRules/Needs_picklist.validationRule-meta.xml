@@ -6,6 +6,7 @@
     <errorConditionFormula>AND(
  ISBLANK( Form_Picklist__c ),
  OR(
+   ISPICKVAL(Type__c, &quot;checkbox group&quot;),
    ISPICKVAL(Type__c, &quot;select&quot;), 
    ISPICKVAL(Type__c, &quot;radio&quot;), 
    ISPICKVAL(Type__c, &quot;radio in-line&quot;)

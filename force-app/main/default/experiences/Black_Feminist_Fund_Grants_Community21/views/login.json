@@ -13,7 +13,7 @@
       "type" : "component"
     }, {
       "componentAttributes" : {
-        "richTextValue" : "<p lang=\"en\"><strong>Welcome to the Black Feminist Fund Grants Site</strong></p>\n<p lang=\"pt\"><strong>Bem-vindas ao site de subsídios online do Fundo Feminista Negra</strong></p>\n<p lang=\"sp\"><strong>Bienvenida al sitio de subvenciones online del Fondo Feminista Negra</strong></p>\n<p lang=\"fr\"><strong>Bienvenue sur le site de subventions en ligne du Fonds Féministe Noire</strong></p>"
+        "richTextValue" : "<p lang=\"en\"><strong>Welcome to the Black Feminist Fund Grants Site</strong></p>\n<p lang=\"pt\"><strong>Bem-vindas ao site de subsídios online do Fundo Feminista Negra</strong></p>\n<p lang=\"es\"><strong>Bienvenida al sitio de subvenciones online del Fondo Feminista Negra</strong></p>\n<p lang=\"fr\"><strong>Bienvenue sur le site de subventions en ligne du Fonds Féministe Noire</strong></p>"
       },
       "componentName" : "forceCommunity:htmlBlock",
       "id" : "5ec51cb8-15f5-47a1-99d3-be30ac4b2859",
@@ -36,6 +36,15 @@
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "employeeLoginLinkLabel" : "Are you an employee? Login here"
+      },
+      "componentName" : "salesforceIdentity:employeeLoginLink2",
+      "id" : "b921666b-e19c-4eb6-bfa8-9af3cd08a614",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
     } ],
     "id" : "ab6545fb-fe60-4a69-8f22-c65864cb77a6",
     "regionName" : "content",
@@ -45,7 +54,7 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Login"
+        "title" : "Login | Black Feminist Fund: Grants Community"
       },
       "componentName" : "forceCommunity:seoAssistant",
       "id" : "7d1475e2-6906-404e-9c05-b6e9dc8f2b05",

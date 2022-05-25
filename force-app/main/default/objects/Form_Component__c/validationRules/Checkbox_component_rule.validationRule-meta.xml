@@ -2,12 +2,12 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Checkbox_component_rule</fullName>
     <active>true</active>
-    <description>A component that is of type checkbox must have either a non-blank phrase or a non-blank picklist.</description>
+    <description>A component of checkbox type must have either a non-blank phrase or a non-blank picklist.</description>
     <errorConditionFormula>AND(
- ISPICKVAL(Type__c, &quot;checkbox&quot;),
+ ISPICKVAL(Type__c, &quot;checkbox&quot;) || ISPICKVAL (Type__c, &quot;checkbox group&quot;),
  ISBLANK( Form_Phrase__c ), 
  ISBLANK( Form_Picklist__c ),
  NOT (Hidden__c)
 )</errorConditionFormula>
-    <errorMessage>A component that is of type checkbox must have either a non-blank phrase or a non-blank picklist.</errorMessage>
+    <errorMessage>A component of checkbox type must have either a non-blank phrase or a non-blank picklist.</errorMessage>
 </ValidationRule>

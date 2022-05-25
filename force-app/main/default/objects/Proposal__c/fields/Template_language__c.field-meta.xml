@@ -2,11 +2,15 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Template_language__c</fullName>
     <deprecated>false</deprecated>
-    <description>Template language from this proposal&apos;s account record</description>
+    <description>Template language from this proposal&apos;s account record or, in the case of a shared community account, from its profile record.</description>
     <externalId>false</externalId>
-    <formula>TEXT(Account__r.Correspondence_language__c)</formula>
+    <formula>IF ( 
+ NOT(ISBLANK(TEXT(Account__r.Correspondence_language__c))),
+ TEXT(Account__r.Correspondence_language__c),
+ TEXT(Profile__r.Language__c)
+)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>Template language from this proposal&apos;s account record</inlineHelpText>
+    <inlineHelpText>Template language from this proposal&apos;s account record or, in the case of a shared community account, from its profile record.</inlineHelpText>
     <label>Template language</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

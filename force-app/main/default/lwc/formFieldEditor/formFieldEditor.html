@@ -3,12 +3,15 @@
         <div if:true={isVisible}>
             <div if:true={localCmp.isText}>
                 <lightning-input 
+                    id={localCmp.Id}
+                    data-id="text"
                     variant="label-hidden"
                     type="text" 
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     read-only={isReadOnly}
-                    placeholder="type text here..." 
+                    placeholder={transByNameObj.TypeTextHere} 
                     onblur={handleInputChange}
                     onkeyup={checkValidity}
                     max-length={localCmp.Character_limit__c}
@@ -19,34 +22,48 @@
             <div if:true={localCmp.isTextArea}>
                 <lightning-textarea 
                     id={localCmp.Id}
+                    data-id="textArea"
                     variant="label-hidden"
                     value={localCmp.data.Data_textarea__c}
                     max-length={localCmp.Character_limit__c}
-                    message-when-too-long="Too many characters entered"
+                    message-when-too-long={transByNameObj.TooManyCharsEntered}
                     onkeyup={updateTextArea}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     read-only={isReadOnly}
-                    placeholder="type text area here..." 
+                    placeholder={transByNameObj.TypeTextHere} 
                     onblur={handleInputChange}>
                 </lightning-textarea>
-                <div class="slds-text-color_weak counter">{currentLength}/{localCmp.Character_limit__c}</div>
+                <div if:true={localCmp.Character_limit__c}>
+                    <div class="slds-text-color_weak counter">{numChars}/{localCmp.Character_limit__c}</div>
+                </div>
+                <div if:true={localCmp.Word_limit__c}>
+                    <div class="slds-text-color_weak counter">{numWords}/{localCmp.Word_limit__c}</div>
+                </div>
             </div>
             <div if:true={localCmp.isSelect}>
                 <lightning-combobox
+                    id={localCmp.Id}
+                    data-id="select"
                     variant="label-hidden"
                     options={localCmp.options}
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     read-only={isReadOnly}
+                    placeholder={transByNameObj.SelectOption} 
                     onchange={handleInputChange}>
                 </lightning-combobox>
             </div>
             <div if:true={localCmp.isRadio}>
                 <lightning-radio-group
+                    id={localCmp.Id}
+                    data-id="radio"
                     variant="label-hidden"
                     options={localCmp.options}
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     disabled={isReadOnly}
                     onchange={handleInputChange}>
                 </lightning-radio-group>
@@ -54,9 +71,12 @@
             <div if:true={localCmp.isInlineRadio}>
                 <lightning-radio-group
                     id={localCmp.Id}
+                    data-id="inlineRadio"
+                    class="radio-combo-inline"
                     options={localCmp.options}
                     variant="label-hidden"
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     disabled={isReadOnly}
                     value={localCmp.data.Data_text__c}
                     onchange={handleInputChange}>
@@ -64,10 +84,13 @@
             </div>
             <div if:true={localCmp.isCheckboxGroup} class="slds-form-element__control">
                 <lightning-checkbox-group 
+                    id={localCmp.Id}
+                    data-id="checkboxGroup"
                     name="Checkbox Group"
                     variant="label-hidden"
                     options={localCmp.options}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     disabled={isReadOnly}
                     value={localCmp.data.Data_text__c}
                     onchange={handleInputChange}>
@@ -75,12 +98,15 @@
             </div>
             <div if:true={localCmp.isCheckbox} class="slds-form-element__control">
                 <span>
-                    <lightning-input 
+                    <lightning-input
+                        id={localCmp.Id}
+                        data-id="checkbox"
                         style="float:left;"
                         type="checkbox" 
                         variant="label-hidden"
                         checked={localCmp.checked} 
                         required={isRequired}
+                        message-when-value-missing={transByNameObj.CompleteField}
                         disabled={isReadOnly}
                         onchange={handleInputChange}>
                     </lightning-input>
@@ -88,18 +114,49 @@
                 </span>
             </div>
             <div if:true={localCmp.isPhone} class="slds-form-element__control">
-                <lightning-input 
+                <lightning-input
+                    id={localCmp.Id}
+                    data-id="phone"
                     type="tel"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <div if:true={localCmp.isEmail} class="slds-form-element__control">
-                <lightning-input 
+                <lightning-input
+                    id={localCmp.Id}
+                    data-id="email"
                     type="email"
+                    variant="label-hidden"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
+                    read-only={isReadOnly}>
+                </lightning-input>
+            </div>
+            <div if:true={localCmp.isDate} class="slds-form-element__control">
+                <lightning-input 
+                    id={localCmp.Id}
+                    data-id="date"
+                    type="date"
+                    variant="label-hidden"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
+                    read-only={isReadOnly}>
+                </lightning-input>
+            </div>
+            <div if:true={localCmp.isDate} class="slds-form-element__control">
+                <lightning-input 
+                    id={localCmp.Id}
+                    data-id="date"
+                    type="date"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
@@ -109,45 +166,65 @@
             </div>
             <div if:true={localCmp.isURL} class="slds-form-element__control">
                 <lightning-input 
+                    id={localCmp.Id}
+                    data-id="url"
                     type="url"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <div if:true={localCmp.isNumber} class="slds-form-element__control">
                 <lightning-input 
+                    id={localCmp.Id}
+                    data-id="number"
                     type="number"
                     variant="label-hidden"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <div if:true={localCmp.isCurrency} class="slds-form-element__control">
                 <lightning-input 
+                    id={localCmp.Id}
+                    data-id="currency"
                     type="number"
                     variant="label-hidden"
                     formatter="currency"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     read-only={isReadOnly}>
                 </lightning-input>
             </div>
             <div if:true={localCmp.isPercent} class="slds-form-element__control">
                 <lightning-input 
+                    id={localCmp.Id}
+                    data-id="percent"
                     type="number"
                     variant="label-hidden"
-                    formatter="percent"
+                    formatter="percent-fixed"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
+                    message-when-value-missing={transByNameObj.CompleteField}
                     read-only={isReadOnly}>
                 </lightning-input>
+            </div>
+            <div if:true={localCmp.isFileUpload} class="slds-form-element__control">
+                <c-file-manager 
+                    cmp-id={localCmp.Id}
+                    max-num-files="4"
+                    record-id={formInstanceId}
+                    trans-by-name-obj={transByNameObj}>
+                </c-file-manager>
             </div>
             <!-- No mark-up for localCmp.isLabel, because parent formComponent has already put out the label -->
         </div>

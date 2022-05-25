@@ -221,6 +221,11 @@
             <field>Form_Phrase_Intro__c</field>
             <table>Form_Component__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Description__c</field>
+            <table>Form_Component__c</table>
+        </columns>
         <masterLabel>Form Components</masterLabel>
     </sections>
 </ReportType>

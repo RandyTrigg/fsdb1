@@ -187,6 +187,8 @@ public class UtilitiesTest {
         s = Utilities.fieldValueFromRecordId(JSON.serialize(param));
         system.debug('UtilitiesTest1 fieldValueFromRecordId result = ' + s);
         Utilities.updateIfFieldChanged(ct, 'LastName', 'test123');
+        // Test record deletion
+        Utilities.deleteRecordById(ct1.Id);
         test.stopTest();
     }
 

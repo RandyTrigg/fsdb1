@@ -11,8 +11,24 @@
         <value xsi:type="xsd:string">BFF_Administrator</value>
     </values>
     <values>
+        <field>From_email_address__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>GFW_COA_Name__c</field>
         <value xsi:type="xsd:string">FS-BFF</value>
+    </values>
+    <values>
+        <field>Grants_Community_Account_Name__c</field>
+        <value xsi:type="xsd:string">BFF Community Users Account</value>
+    </values>
+    <values>
+        <field>Grants_Community_User_Profile_Name__c</field>
+        <value xsi:type="xsd:string">BFF Basic Community Login User</value>
+    </values>
+    <values>
+        <field>Permission_Set_Name__c</field>
+        <value xsi:type="xsd:string">Community_BFF</value>
     </values>
     <values>
         <field>Public_Group_Name__c</field>

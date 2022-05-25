@@ -40,17 +40,25 @@ public inherited sharing class FormInstanceController {
     public static Map<Id, String> buildCmpNumberMap (Form_Component__c[] cmps) {
         Map<Id, Form_Component__c> cmpsMap = new Map<Id, Form_Component__c> (cmps);
         Map<Id, String> cmpsNumberMap = new Map<Id, String> ();
-        // Build mapping of id to count of its descendant form components.
+        // Build mapping of id to count of its numbered descendant form components.
         Map<Id, Integer> descendantCmpsCount = new Map<Id, Integer> ();
         for (Form_Component__c cmp : cmps) {
             if (cmp.Numbered__c) {
                 Id cId = cmp.Group_component__c;
-                while (cId != null) { // Increment the count of parent, grandparent, etc.
+                while (cId != null) { // Walk up the hierarchy to parent, grandparent, etc.
                     Boolean hasCount = descendantCmpsCount.containsKey(cId);
                     descendantCmpsCount.put(cId, hasCount ? descendantCmpsCount.get(cId) + 1 : 1);
                     cId = cmpsMap.get(cId).Group_component__c;
                 }
             }
+        }
+        // Track which components need to trim away their top numbering level, e.g. 4.3 (or 4c) becomes 3, namely,
+        // top level unnumbered components and all their descendants. 
+        Set<Id> trimTopLevelNumbering = new Set<Id>();
+        for (Form_Component__c cmp : cmps) {
+            Id parentId = cmp.Group_component__c;
+            if (parentId == null && cmp.Hierarchical_level_num__c == 0 && !cmp.Numbered__c) trimTopLevelNumbering.add(cmp.Id); 
+            else if (parentId != null && trimTopLevelNumbering.contains(parentId)) trimTopLevelNumbering.add(cmp.Id);
         }
         // Build mapping of id to form component number based on hierarchical position.
         Integer level;
@@ -62,8 +70,9 @@ public inherited sharing class FormInstanceController {
             level = Integer.valueOf(cmp.Hierarchical_level_num__c);
             // If numbering is off, leave it off until we bounce back to the level where it was turned off.
             if (!numbering && level <= priorLevel) numbering = true;
-            // Turn numbering off if this item isn't numbered nor are any of its descendants.
+            // Turn numbering off if this component isn't numbered nor are any of its descendants.
             if (!cmp.Numbered__c && !descendantCmpsCount.containsKey(cmp.Id)) numbering = false;
+            else if (cmp.Numbered__c) numbering = true;
             if (numbering) { // The next cmp needs numbering.
                 // Increment the number at the (possibly new) level.
                 system.debug('buildCmpNumberMap: num = ' +num+ '; priorNum = ' +priorNum+ '; level = ' +level);
@@ -77,7 +86,7 @@ public inherited sharing class FormInstanceController {
                 priorLevel = level;
                 priorNum = num;
             } else num = null;
-            if (num != null) cmpsNumberMap.put(cmp.Id, cmpNumDisplay(num));
+            if (num != null) cmpsNumberMap.put(cmp.Id, cmpNumDisplay(num, trimTopLevelNumbering.contains(cmp.Id)));
         }
         system.debug('buildCmpNumberMap: cmpsNumberMap.size() = ' +cmpsNumberMap.size());
         return cmpsNumberMap;
@@ -99,7 +108,11 @@ public inherited sharing class FormInstanceController {
     }
 
     // Reformat a cmp number for display in cmp labels.  For example, 1.3.2 becomes 1c.2.
-    private static String cmpNumDisplay (String numStr) {
+    // If trimTopLevel is true, then first remove the 0th level of numbering (1.3.2 becomes 3.2).
+    private static String cmpNumDisplay (String numStr, Boolean trimTopLevel) {
+        Integer firstDotPosition = numStr.indexOf('.');
+        // Drop the leftmost level of numbering if we're trimming top level.
+        if (trimTopLevel && firstDotPosition > 0) numStr = numStr.right(numStr.length()-firstDotPosition-1);
         String[] numArr = numStr.split('\\.');
         if (numArr.size() <= 1) return numStr;
         String prefix = numArr[0] + String.fromCharArray(new List<Integer> {'a'.charAt(0) + Integer.valueOf(numArr[1]) - 1});
@@ -177,11 +190,103 @@ public inherited sharing class FormInstanceController {
             // TODO: do we want a data-level validation here or is the UI check enough?
             Form_Instance__c fi = new Form_Instance__c(Id=formInstanceID);
             fi.Date_submitted__c = Date.today();
-            update fi;
-            return true;           
+            update fi;       
         } catch (Exception e) {
             throw new GFW_Exception('FormInstanceController.submitForm', 'Could not submit form, please refresh and try again.', e);
         }
+        return sendAckEmail(formInstanceId);
+    }
+
+    // Send ack email following submit of a form instance
+    public static boolean sendAckEmail(String formInstanceId) {
+        // Names of email form components in profile forms that should be included in correspondence with group
+        Set<String> emailFormComponentNames = new Set<String> {'GroupEmail', 'PrimaryEmail', 'SecondaryEmail'};
+        Form_Instance__c fi = [
+            SELECT Form__c, Form__r.Form_Phrase_ack_email_subject__c, Form__r.Form_Phrase_ack_email_body__c, Form__r.Type__c, 
+            OwnerId, Profile__r.Community_contact_email__c, Profile__r.Language__c, Profile__r.Profile_emails__c,
+            Proposal__r.Name,
+            (SELECT Form_Component__r.Name, Data_text__c FROM Form_Data__r)
+            FROM Form_Instance__c
+            WHERE Id = :formInstanceId
+        ];
+        // Only proceed if the form has non-blank ack subject/body form phrases
+        Id subjectPhraseId = fi.Form__r.Form_Phrase_ack_email_subject__c;
+        Id bodyPhraseId = fi.Form__r.Form_Phrase_ack_email_body__c;
+        if (subjectPhraseId != null && bodyPhraseId != null) {
+            // For profile form instances, look up emails and language in form data. Else, find them in fields in linked profile record.
+            String language, emailsStr;
+            if (fi.Form__r.Type__c != 'Profile') {
+                language = fi.Profile__r.Language__c;
+                emailsStr = fi.Profile__r.Profile_emails__c;
+            } else { // Profile form
+                Set<String> emails = new Set<String>();
+                for (Form_Data__c fd : fi.Form_Data__r) {
+                    if (fd.Form_Component__r.Name == 'PreferredLanguage') language = fd.Data_text__c;
+                    if (emailFormComponentNames.contains(fd.Form_Component__r.Name) && fd.Data_text__c != null) emails.add(fd.Data_text__c);
+                }
+                // Include community contact email
+                if (fi.Profile__r.Community_contact_email__c != null) emails.add(fi.Profile__r.Community_contact_email__c);
+                emailsStr = String.join(new List<String> (emails), ',');
+            }
+            // Default language to English
+            if (language == null) language = 'English';
+            // Fetch body and subject phrase translations
+            Set<Id> phraseIds = new Set<Id> {subjectPhraseId, bodyPhraseId};
+            Form_Phrase_Translation__c[] translations = [
+                SELECT Text__c, Language__c, Form_Phrase__c
+                FROM Form_Phrase_Translation__c
+                WHERE Form_Phrase__c IN : phraseIds
+            ];
+            String subjectInEnglish, subjectInLang, bodyInEnglish, bodyInLang;
+            Map<String, String> bodyTransByLanguage = new Map<String, String>();
+            Map<String, String> subjTransByLanguage = new Map<String, String>();
+            for (Form_Phrase_Translation__c trans : translations) {
+                if (trans.Form_Phrase__c == subjectPhraseId) {
+                    if (trans.Language__c == language) subjectInLang = trans.Text__c;
+                    if (trans.Language__c == 'English') subjectInEnglish = trans.Text__c;
+                }
+                if (trans.Form_Phrase__c == bodyPhraseId) {
+                    if (trans.Language__c == language) bodyInLang = trans.Text__c;
+                    if (trans.Language__c == 'English') bodyInEnglish = trans.Text__c;
+                }
+            }
+            String subject = subjectInLang != null ? subjectInLang : subjectInEnglish;
+            // Include prop # (if any) in email subject
+            if (fi.Proposal__r.Name != null) subject = fi.Proposal__r.Name +': '+ subject;
+            String body = bodyInLang != null ? bodyInLang : bodyInEnglish;
+            // Get from address for ack email
+            FS_Group_Settings__mdt fsGroup = Utilities.fsGroupOfUser(fi.OwnerId);
+            String fromEmail = fsGroup != null ? fsGroup.From_email_address__c : null;
+            // Alert im@ if fi owner not in a group
+            if (fromEmail == null) {
+                Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+                mail.setToAddresses(new List<String>{ Utilities.EmailAddressIM });
+                mail.setReplyTo(Utilities.EmailAddressIM);
+                mail.setSenderDisplayName('FSDB Community form instance submit error');
+                mail.setSubject('FSDB error: Form instance owner\'s FS group blank or blank \'from\' email');
+                mail.setPlainTextBody('Form Instance id: ' +formInstanceId);
+                Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+                return false;
+            }
+            List < OrgWideEmailAddress > owea = [SELECT ID FROM OrgWideEmailAddress WHERE Address =:fromEmail]; 
+            Id fromEmailId = owea.size() > 0 ? owea[0].Id : null;
+            // Send email
+            if (emailsStr != null && subject != null && body != null && fromEmailId != null) {
+                system.debug('sendAckEmail: emailsStr = ' +emailsStr+ '; subject = ' +subject+ '; body = ' +body);
+                Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+                mail.setOrgWideEmailAddressId(fromEmailId);
+                mail.setCharset('utf-8');
+                mail.setReplyTo(fromEmail);
+                mail.setToAddresses(emailsStr.split(','));
+                mail.setSubject(subject);
+                mail.setHtmlBody(body);
+                system.debug('sendAckEmail: mail: ');
+                system.debug(mail);
+                Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+                return true;
+            }
+        } 
+        return false;
     }
     
 }

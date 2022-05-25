@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resubmittable__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked if form instances may be edited (and resubmitted) after they&apos;ve been submitted</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Checked if form instances may be edited (and resubmitted) after they&apos;ve been submitted</inlineHelpText>
+    <label>Resubmittable</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
