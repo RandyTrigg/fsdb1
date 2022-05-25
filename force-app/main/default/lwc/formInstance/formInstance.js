@@ -84,6 +84,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         this.frm = fiInfo.frm;
         this.frm.title = transById.get(fiInfo.frm.Form_Phrase_Title__c)
         this.frm.intro = transById.get(fiInfo.frm.Form_Phrase_Intro__c)
+        this.frm.footer = transById.get(fiInfo.frm.Form_Phrase_Footer__c)
 
         // Handle case when form instance has been submitted
         if (fiInfo.frmInst.Date_submitted__c && !this.frm.Resubmittable__c) {
@@ -219,8 +220,8 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             if (submitted) {
                 dispatchEvent(
                     new ShowToastEvent({
-                        title: 'Form Submitted',
-                        message: 'Thank you for completing this form. Navigating to home page...',
+                        title: this.transByNameObj.FormSubmitted,
+                        message: this.transByNameObj.FormSubmittedMsg,
                         variant: 'success'
                     })
                 )

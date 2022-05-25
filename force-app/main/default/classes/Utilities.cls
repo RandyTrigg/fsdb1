@@ -406,10 +406,7 @@ global inherited sharing class Utilities {
     // Send an email to IM following an exception
     public static void BatchErrorEmail(String jobName, AsyncApexJob a) {
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        String[] toAddresses = new List<String>{
-            a.CreatedBy.Email,
-            EmailAddressIM
-        };
+        String[] toAddresses = new List<String>{EmailAddressIM};
         mail.setToAddresses(toAddresses);
         mail.setSubject('Salesforce ' + jobName + ' ' + a.Status);
         mail.setPlainTextBody(

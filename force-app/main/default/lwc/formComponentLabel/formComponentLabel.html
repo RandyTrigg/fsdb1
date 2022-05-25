@@ -1,13 +1,13 @@
 <template>
     <!-- Label and required asterisk -->
     <div if:true={cmp.isRequired}>
-        <label data-id="label" for={cmp.Id} class="gfw-label">
+        <label data-id="label" for={cmp.Id}>
             <abbr class="slds-required" title="required">*</abbr>
             {cmp.title}
         </label>
     </div>
     <div if:false={cmp.isRequired}>
-        <label data-id="label" for={cmp.Id} class="gfw-label">
+        <label data-id="label" for={cmp.Id}>
             {cmp.title}
         </label>
     </div>

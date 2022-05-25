@@ -9,6 +9,7 @@ export default class FileManager extends LightningElement {
     @api recordId;
     @api maxNumFiles;
     @api transByNameObj;
+    @api cmpId;
     @track files; // List of pairs of file name and doc id
     disabled;
     acceptedFileFormats = ['.pdf', '.png', '.jpg', '.jpeg'];

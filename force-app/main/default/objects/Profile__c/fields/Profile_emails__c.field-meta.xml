@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Profile_emails__c</fullName>
+    <description>Contains all emails in Profile for the group</description>
+    <externalId>false</externalId>
+    <formula>SUBSTITUTE(
+ IF ( NOT (ISBLANK(Community_contact_email__c)), Community_contact_email__c &amp; &apos;,&apos;, &apos;&apos;) &amp;
+ IF ( NOT (ISBLANK(Org_email__c)) &amp;&amp; (Org_email__c &lt;&gt; Community_contact_email__c), Org_email__c &amp; &apos;,&apos;, &apos;&apos;) &amp;
+ IF ( 
+  NOT (ISBLANK( Contact1_email__c)) &amp;&amp; 
+  NOT (CONTAINS(Community_contact_email__c &amp; &apos; &apos; &amp; Org_email__c, Contact1_email__c)),
+  Contact1_email__c &amp; &apos;,&apos;, &apos;&apos;) &amp;
+ IF ( 
+  NOT (ISBLANK( Contact2_email__c)) &amp;&amp; 
+  NOT (CONTAINS(Community_contact_email__c &amp; &apos; &apos; &amp; Org_email__c &amp; &apos; &apos; &amp; Contact1_email__c, Contact2_email__c)), 
+  Contact2_email__c &amp; &apos;,&apos;, &apos;&apos;) &amp;
+ &apos;||&apos;, &apos;,||&apos;, &apos;&apos;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Contains all emails in Profile for the group</inlineHelpText>
+    <label>Profile emails</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
