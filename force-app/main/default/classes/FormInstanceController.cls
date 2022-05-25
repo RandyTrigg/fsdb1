@@ -204,6 +204,7 @@ public inherited sharing class FormInstanceController {
         Form_Instance__c fi = [
             SELECT Form__c, Form__r.Form_Phrase_ack_email_subject__c, Form__r.Form_Phrase_ack_email_body__c, Form__r.Type__c, 
             OwnerId, Profile__r.Community_contact_email__c, Profile__r.Language__c, Profile__r.Profile_emails__c,
+            Proposal__r.Name,
             (SELECT Form_Component__r.Name, Data_text__c FROM Form_Data__r)
             FROM Form_Instance__c
             WHERE Id = :formInstanceId
@@ -250,6 +251,8 @@ public inherited sharing class FormInstanceController {
                 }
             }
             String subject = subjectInLang != null ? subjectInLang : subjectInEnglish;
+            // Include prop # (if any) in email subject
+            if (fi.Proposal__r.Name != null) subject = fi.Proposal__r.Name +': '+ subject;
             String body = bodyInLang != null ? bodyInLang : bodyInEnglish;
             // Get from address for ack email
             FS_Group_Settings__mdt fsGroup = Utilities.fsGroupOfUser(fi.OwnerId);
