@@ -406,10 +406,7 @@ global inherited sharing class Utilities {
     // Send an email to IM following an exception
     public static void BatchErrorEmail(String jobName, AsyncApexJob a) {
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        String[] toAddresses = new List<String>{
-            a.CreatedBy.Email,
-            EmailAddressIM
-        };
+        String[] toAddresses = new List<String>{EmailAddressIM};
         mail.setToAddresses(toAddresses);
         mail.setSubject('Salesforce ' + jobName + ' ' + a.Status);
         mail.setPlainTextBody(
@@ -430,6 +427,13 @@ global inherited sharing class Utilities {
     /*******************
      * METADATA-BASED METHODS
      *******************/
+    
+    // Delete record by Id
+    @AuraEnabled
+    public static void deleteRecordById(Id id){
+        system.debug('Utilities.deleteRecordById id = ' +id);
+        delete id.getSobjectType().newSObject(id);
+    }
 
     // Build a new record with the type passed in as an argument at run time.
     public static sObject newRecord(String typeName) {
@@ -507,6 +511,7 @@ global inherited sharing class Utilities {
     }
 
     // Return records for given object using given where clause.  Fetch all local fields plus any given related ones.
+    @AuraEnabled
     public static sObject[] fetchRecords(
         String objName,
         String whereClause,

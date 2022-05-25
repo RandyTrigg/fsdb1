@@ -41,6 +41,8 @@
         <members>Payment_Method__c.Advisor_Term__c</members>
         <members>Payment_Method__c.WU_id__c</members>
         <members>Template__c.Form_for_posted_letter__c</members>
+        <members>Profile__c.Keep_confidential__c</members>
+        <members>Profile__c.Country__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -123,6 +125,11 @@
         <members>FormTagFormPhrasesInvocable</members>
         <members>FormController</members>
         <members>FormControllerTest</members>
+        <members>FormDataController</members>
+        <members>FormDataControllerTest</members>
+        <members>FormDataUpdateTargetsBatch</members>
+        <members>FormDataUpdateTargetsInvocable</members>
+        <members>FormDataPrefillFormInstanceInvocable</members>
         <members>BuildTestProposals</members>
         <members>LetterControllerTest</members>
         <members>Utilities</members>

@@ -3,9 +3,18 @@ public class FormInstanceControllerTest {
     
     static testmethod void FormInstanceControllerTest1 () {
         // Build new records
-        insert new Profile__c ();
+        insert new Profile__c (Contact1_email__c = 'abc@def.com');
         Profile__c prof = [SELECT Id FROM Profile__c LIMIT 1];
-        insert new Form__c (Name = 'Profile_Initial', Type__c = 'Profile');
+        insert new Form_Phrase__c (Name = 'testPhrase');
+        Form_Phrase__c fp = [SELECT Id FROM Form_Phrase__c LIMIT 1];
+        insert new Form_Phrase_Translation__c (Form_Phrase__c = fp.Id, Text__c = 'testing...');
+        Form_Phrase_Translation__c fpt = [SELECT Id FROM Form_Phrase_Translation__c LIMIT 1];
+        insert new Form__c (
+            Name = 'Profile_Initial', 
+            Type__c = 'Profile', 
+            Form_Phrase_ack_email_subject__c = fp.Id,
+            Form_Phrase_ack_email_body__c = fp.Id
+            );
         Form__c f = [SELECT Id FROM Form__c LIMIT 1];
         insert new Form_Instance__c (Form__c = f.Id, Profile__c = prof.Id, Date_submitted__c = date.today());
         Form_Instance__c fi = [SELECT Id FROM Form_Instance__c LIMIT 1];
@@ -36,6 +45,7 @@ public class FormInstanceControllerTest {
         SiteController.updateFormData(fi.Id, comp2.Id, 'def', true);
 
         SiteController.submitForm(fi.Id);
+        Test.stopTest();
     }
 
 }
