@@ -44,6 +44,11 @@
                 <label>email</label>
             </value>
             <value>
+                <fullName>file upload</fullName>
+                <default>false</default>
+                <label>file upload</label>
+            </value>
+            <value>
                 <fullName>group</fullName>
                 <default>false</default>
                 <label>group</label>

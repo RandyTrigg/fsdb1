@@ -152,6 +152,18 @@
                     read-only={isReadOnly}>
                 </lightning-input>
             </div>
+            <div if:true={localCmp.isDate} class="slds-form-element__control">
+                <lightning-input 
+                    id={localCmp.Id}
+                    data-id="date"
+                    type="date"
+                    variant="label-hidden"
+                    value={localCmp.data.Data_text__c}
+                    onblur={handleInputChange}
+                    required={isRequired}
+                    read-only={isReadOnly}>
+                </lightning-input>
+            </div>
             <div if:true={localCmp.isURL} class="slds-form-element__control">
                 <lightning-input 
                     id={localCmp.Id}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_focus_alignment__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Org set up to specifically promote the rights of Black feminists, women and/or girls and/or trans people and/or intersex people and this is the primary focus for all our activities</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Org set up to specifically promote the rights of Black feminists, women and/or girls and/or trans people and/or intersex people and this is the primary focus for all our activities</inlineHelpText>
+    <label>Primary focus alignment</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

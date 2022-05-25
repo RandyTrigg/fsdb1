@@ -6,9 +6,11 @@
     <externalId>false</externalId>
     <formula>IF (AND (NOT (ISBLANK (Account__c)), NOT (ISBLANK (Account__r.Date_org_founded__c))), 
   Account__r.Date_org_founded__c,
-  IF (OR (ISBLANK ( Date_founded_month__c ) , ISBLANK ( Date_founded_year__c )),
-    NULL,
-    DATE (Date_founded_year__c , Date_founded_month__c, 1)
+  IF (NOT (ISBLANK (Date_org_founded_submitted__c)), Date_org_founded_submitted__c,
+    IF (OR (ISBLANK (Date_founded_month__c) , ISBLANK (Date_founded_year__c)),
+      NULL,
+      DATE (Date_founded_year__c , Date_founded_month__c, 1)
+    )
   )
 )</formula>
     <inlineHelpText>Founding date of the organization, from the linked account if any, else from the submitted profile</inlineHelpText>

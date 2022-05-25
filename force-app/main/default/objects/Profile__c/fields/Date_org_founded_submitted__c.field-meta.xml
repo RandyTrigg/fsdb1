@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_org_founded_submitted__c</fullName>
+    <description>Founding date of the organization from the submitted profile</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Founding date of the organization from the submitted profile</inlineHelpText>
+    <label>Date org founded submitted</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

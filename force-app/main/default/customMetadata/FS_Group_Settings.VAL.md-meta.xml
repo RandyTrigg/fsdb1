@@ -11,8 +11,24 @@
         <value xsi:type="xsd:string">VAL_Administrator</value>
     </values>
     <values>
+        <field>From_email_address__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>GFW_COA_Name__c</field>
         <value xsi:type="xsd:string">FS-VAL</value>
+    </values>
+    <values>
+        <field>Grants_Community_Account_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Grants_Community_User_Profile_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Permission_Set_Name__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Public_Group_Name__c</field>
