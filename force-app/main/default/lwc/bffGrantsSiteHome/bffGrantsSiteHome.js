@@ -234,7 +234,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         let appError = {
             title: this.transByNameObj.InvalidAction,
             variant: 'warning',
-            mode: 'dismissible',
+            mode: 'sticky',
             userMessage: this.errMsg
         };
         showUIError(appError);

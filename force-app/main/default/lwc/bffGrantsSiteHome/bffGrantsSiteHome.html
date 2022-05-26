@@ -47,49 +47,55 @@
             </div>
         </div>
 
+        <div class="visually-hidden">
+            <h2>{transByNameObj.bff_GrantsSiteLandingTitle}</h2>
+            <p>{transByNameObj.bff_GrantsSiteLandingSubtitle}</p>
+            <p>{transByNameObj.bff_GrantsSiteLandingSustainFund} {transByNameObj.bff_GrantsSiteLandingSustainFundDetails}</p>
+            <p>{transByNameObj.bff_GrantsSiteLandingSolidarityFund} {transByNameObj.bff_GrantsSiteLandingSolidarityFundDetails}</p>
+            <p>{transByNameObj.bff_GrantsSiteLandingEligibility}</p>
+        </div>
+
         <!-- GRANT DESCRIPTION (collapsed once Profile submitted) -->
-        <h2 aria-describedby="GrantsSection">
-        <lightning-accordion 
-            allow-multiple-sections-open 
-            class="grant-info-section slds-grid_align-center" 
-            onsectiontoggle={handleSectionToggle}
-            active-section-name={expandGrants}
-        >
-            <lightning-accordion-section 
-                id="GrantsSection"
-                class="slds-text-heading_medium slds-var-m-bottom_medium" 
-                name="Grants"
-                label={accordLabel}
+        <div aria-hidden="true">
+            <lightning-accordion 
+                allow-multiple-sections-open 
+                class="grant-info-section slds-grid_align-center" 
+                onsectiontoggle={handleSectionToggle}
+                active-section-name={expandGrants}
             >
-                <div class="slds-grid slds-gutters_xx-large">
-                    <div class="slds-col">
-                        <div class="slds-text-heading_medium slds-var-m-bottom_medium">
-                            <strong>{transByNameObj.bff_GrantsSiteLandingSubtitle}</strong>
-                        </div>
-                        <div class="slds-text-heading_medium slds-var-m-bottom_medium">
-                            <ul class="slds-list_dotted">
-                                <li class="slds-var-m-bottom_medium">
-                                    <strong>{transByNameObj.bff_GrantsSiteLandingSustainFund}</strong>
-                                    &nbsp;{transByNameObj.bff_GrantsSiteLandingSustainFundDetails}
-                                </li>
-                                <li class="slds-var-m-bottom_medium">
-                                    <strong>{transByNameObj.bff_GrantsSiteLandingSolidarityFund}</strong>
-                                    &nbsp;{transByNameObj.bff_GrantsSiteLandingSolidarityFundDetails}
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="slds-text-heading_medium slds-var-m-bottom_medium">
-                            <p>{transByNameObj.bff_GrantsSiteLandingEligibility}</p>
+                <lightning-accordion-section 
+                    id="GrantsSection"
+                    class="slds-text-heading_medium slds-var-m-bottom_medium" 
+                    name="Grants"
+                    label={accordLabel}
+                >
+                    <div class="slds-grid slds-gutters_xx-large">
+                        <div class="slds-col">
+                            <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                                <strong>{transByNameObj.bff_GrantsSiteLandingSubtitle}</strong>
+                            </div>
+                            <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                                <ul class="slds-list_dotted">
+                                    <li class="slds-var-m-bottom_medium">
+                                        <strong>{transByNameObj.bff_GrantsSiteLandingSustainFund}</strong>
+                                        &nbsp;{transByNameObj.bff_GrantsSiteLandingSustainFundDetails}
+                                    </li>
+                                    <li class="slds-var-m-bottom_medium">
+                                        <strong>{transByNameObj.bff_GrantsSiteLandingSolidarityFund}</strong>
+                                        &nbsp;{transByNameObj.bff_GrantsSiteLandingSolidarityFundDetails}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                                <p>{transByNameObj.bff_GrantsSiteLandingEligibility}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </lightning-accordion-section>
-        </lightning-accordion>
-        </h2>
-
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </div>
 
         <!-- PROFILE BUTTON -->
-        <!-- <nav aria-labelledby="buttonLabel">-->
             <h2 id="buttonLabel" class="visually-hidden">Profile and Application buttons</h2>
             
             <div class="slds-grid slds-grid_align-center slds-gutters_xx-large slds-var-m-bottom_medium">
@@ -141,7 +147,6 @@
                     </lightning-button>
                 </div>
             </div>
-        <!-- </nav> -->
 
         <!-- PROPOSALS -->
         <div if:true={hasProposals}>

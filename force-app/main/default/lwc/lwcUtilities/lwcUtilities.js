@@ -12,7 +12,7 @@ function handleError(error) {
                 title: errorObj.title,
                 message: errorObj.userMessage,
                 variant: errorObj.variant,
-                mode: errorObj.mode
+                mode: 'sticky'
             })
         )
     } catch (parseError) {
@@ -41,7 +41,7 @@ function showUIError(error) {
                 title: error.title,
                 message: error.userMessage,
                 variant: error.variant,
-                mode: error.mode
+                mode: 'sticky'
             })
         )  
     } catch(parseError) {
