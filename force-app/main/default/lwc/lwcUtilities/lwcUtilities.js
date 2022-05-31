@@ -12,7 +12,7 @@ function handleError(error) {
                 title: errorObj.title,
                 message: errorObj.userMessage,
                 variant: errorObj.variant,
-                mode: errorObj.mode
+                mode: 'sticky'
             })
         )
     } catch (parseError) {
@@ -40,8 +40,8 @@ function showUIError(error) {
             new ShowToastEvent({
                 title: error.title,
                 message: error.userMessage,
-                variant: error.variant,
-                mode: error.mode
+                variant: 'error',
+                mode: 'sticky'
             })
         )  
     } catch(parseError) {
@@ -54,6 +54,14 @@ function showUIError(error) {
     }                   
 }
 
+function buildError (title, message, variant) {
+    let newErr = new Object();
+    newErr.title = title;
+    newErr.userMessage = message;
+    newErr.variant = variant;
+    return newErr;
+}
+
 export {
-    handleError,showUIError
+    handleError,showUIError, buildError
 };

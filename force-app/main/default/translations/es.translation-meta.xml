@@ -128,6 +128,15 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Form data with related info --></description>
+        <label><!-- Form data with related info --></label>
+        <name>Form_data_with_related_info</name>
+        <sections>
+            <label><!-- Form Data --></label>
+            <name>Form Data</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Opportunities w/Contacts w/Affiliations (custom) --></description>
         <label><!-- Opportunities w/Contacts w/Affiliations (custom) --></label>
         <name>Opportunities_with_Contacts_with_Affiliations</name>
@@ -146,6 +155,15 @@
         <sections>
             <label><!-- Organization Affiliations --></label>
             <name>Organization Affiliations</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Proposals with related info unlocked --></description>
+        <label><!-- Proposals with related info unlocked --></label>
+        <name>Proposals_with_related_info_unlocked</name>
+        <sections>
+            <label><!-- Proposals --></label>
+            <name>Proposals</name>
         </sections>
     </reportTypes>
     <reportTypes>

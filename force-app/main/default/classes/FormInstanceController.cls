@@ -125,6 +125,35 @@ public inherited sharing class FormInstanceController {
      /**********************************
      * For use in Apex code processing form data
      *********************************/
+    
+    // Return a list of form instances to be displayed in form viewer for the given record (normally a profile, proposal, or milestone).
+    public static List<Form_Instance__c> getFormInstances(Id id) {
+        List<Form_Instance__c> fis = new List<Form_Instance__c>();
+        String objName = Utilities.objectNameFromRecordId(id);
+        Id profId, propId;
+        // Grab parent ids
+        if (objName == 'Milestone__c') {
+            Milestone__c m = [SELECT Proposal__c, Proposal__r.Profile__c FROM Milestone__c WHERE Id =: id];
+            profId = m.Proposal__r.Profile__c;
+            propId = m.Proposal__c;
+        } else if (objName == 'Proposal__c') {
+            Proposal__c prop = [SELECT Id, Profile__c FROM Proposal__c WHERE Id =: id];
+            profId = prop.Profile__c;
+            propId = prop.Id;            
+        } else if (objName == 'Profile__c') {
+            profId = id;
+        } else throw new GFW_Exception ('Unexpected object in getFormInstances: ' +objName);
+        fis = [
+            SELECT Id, Form__r.Form_Phrase_Title__r.Phrase_in_English__c, Date_submitted__c, Form__r.Sort_number__c, Language__c
+            FROM Form_Instance__c
+            WHERE Date_submitted__c != null
+            AND (Profile__c = : profId OR Proposal__c = : propId)
+            //AND Form__r.Type__c in:formTypes
+            ORDER BY Proposal__r.Date_received__c DESC, Form__r.Sort_number__c
+        ];
+        system.debug('getFormInstances: fis = ' +fis);
+        return fis;
+    }
 
     // Builds collection of form instance plus child form data, form plus child form components, and form picklists and form picklist phrases.
     public inherited sharing class FormInstanceData {
@@ -156,7 +185,7 @@ public inherited sharing class FormInstanceController {
 
     // Update form data if existing, else build new one.
     // NOTE 5/11/2022: we're no longer updating the form data's Type__c field. When dust settles, delete that field?
-    public static void updateFormData(String frmInstanceId, String componentId, String value, Boolean isTextarea){
+    public static Boolean updateFormData(String frmInstanceId, String componentId, String value, Boolean isTextarea){
         try {
             //Load existing form data record if it exists.
             system.debug('updateFormData: value = ' +value+ '; isTextarea = ' +isTextarea);
@@ -180,8 +209,9 @@ public inherited sharing class FormInstanceController {
             //frmData.Data_text__c = value;
             system.debug('updateFormData: frmData = ' +frmData);
             upsert frmData;
+            return true;
         } catch (Exception e) {
-            throw new GFW_Exception('FormInstanceController.updateFormData', 'Could not update field value, please refresh and try again.', e);
+            return false;
         }
     }
 

@@ -182,14 +182,7 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Date_submitted__c</field>
-            <operator>GreaterThan</operator>
-            <value>
-                <dateValue>1900-01-01</dateValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Date_submitted__c</field>
+            <field>LastModifiedDate</field>
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>

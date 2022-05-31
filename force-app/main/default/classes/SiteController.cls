@@ -17,6 +17,12 @@ public without sharing class SiteController {
         return ProfileController.createProposal(prfId, grantType);
     }
 
+    // Return a list of form instances to be displayed in form viewer for the given record (normally a profile, proposal, or milestone).
+    @AuraEnabled //Do not cache
+    public static List<Form_Instance__c> getFormInstances(Id id) {
+        return FormInstanceController.getFormInstances(id);
+    }
+
     // Fetch data related to a form instance including form, form data, form components, ...
     @AuraEnabled //Do not cache
     public static String getFormInstanceData(String formInstanceId) {
@@ -26,8 +32,8 @@ public without sharing class SiteController {
 
     // Update form data record if existing, else build new one.
     @AuraEnabled
-    public static void updateFormData(String frmInstanceId, String componentId, String value, Boolean isTextarea){
-        FormInstanceController.updateFormData(frmInstanceId, componentId, value, isTextarea);
+    public static Boolean updateFormData(String frmInstanceId, String componentId, String value, Boolean isTextarea){
+        return FormInstanceController.updateFormData(frmInstanceId, componentId, value, isTextarea);
     }
 
     // Submit a form instance

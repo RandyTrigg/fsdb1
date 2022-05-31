@@ -13,7 +13,7 @@
       "type" : "component"
     }, {
       "componentAttributes" : {
-        "richTextValue" : "<p lang=\"en\"><strong>Welcome to the Black Feminist Fund Grants Site</strong></p>\n<p lang=\"pt\"><strong>Bem-vindas ao site de subsídios online do Fundo Feminista Negra</strong></p>\n<p lang=\"es\"><strong>Bienvenida al sitio de subvenciones online del Fondo Feminista Negra</strong></p>\n<p lang=\"fr\"><strong>Bienvenue sur le site de subventions en ligne du Fonds Féministe Noire</strong></p>"
+        "richTextValue" : "<div align=\"center\">\n\t<div lang=\"en\"><p><strong>Welcome to the Black Feminist Fund Grants Site</strong></p>\n    \t<p>Log in or 'Sign up' to create an account.</p>\n    </div>\n    \t<br>\n\t<div lang=\"es\"><strong>Bienvenida al sitio de subvenciones online del Fondo Feminista Negra</strong>\n        <p>Inicie la sesión o 'Sign up' para crear una cuenta.</p>\n    </div>\n        <br>\n    <div lang=\"pt\"><strong>Bem-vindas ao site de subsídios online do Fundo Feminista Negra</strong>\n        <p>Faça o login ou 'Sign up' para criar uma conta.</p>\n    </div>\n        <br>\n    <div lang=\"fr\"><strong>Bienvenue sur le site de subventions en ligne du Fonds Féministe Noire</strong>\n        <p>Connectez-vous ou 'Sign up' pour créer un compte.</p>\n    </div>\n</div>"
       },
       "componentName" : "forceCommunity:htmlBlock",
       "id" : "5ec51cb8-15f5-47a1-99d3-be30ac4b2859",
@@ -38,10 +38,10 @@
       "type" : "component"
     }, {
       "componentAttributes" : {
-        "employeeLoginLinkLabel" : "Are you an employee? Login here"
+        "richTextValue" : "<i>\n    <small>\n    \t<p lang=\"en\">Passwords must be 8 characters or more and contain at least one letter and one number. </p>\n    \t<p lang=\"es\">Las contraseñas deben tener 8 caracteres o más y contener al menos una letra y un número.</p>\n        <p lang=\"pt\">As senhas devem ter 8 caracteres ou mais e conter pelo menos uma letra e um número.</p>\n        <p lang=\"fr\">Les mots de passe doivent comporter 8 caractères ou plus et contenir au moins une lettre et un chiffre.</p>\n    </small>\n</i>"
       },
-      "componentName" : "salesforceIdentity:employeeLoginLink2",
-      "id" : "b921666b-e19c-4eb6-bfa8-9af3cd08a614",
+      "componentName" : "forceCommunity:htmlBlock",
+      "id" : "4b2d9b86-6acd-492f-a323-cb77d231ebbc",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"

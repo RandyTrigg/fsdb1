@@ -5071,6 +5071,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Form__c.Form_Phrase_Footer__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Form__c.Form_Phrase_Intro__c</field>
         <readable>false</readable>
