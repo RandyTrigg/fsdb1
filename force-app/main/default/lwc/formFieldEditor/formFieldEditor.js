@@ -1,5 +1,5 @@
 import { LightningElement, api, wire} from 'lwc';
-import { handleError } from 'c/lwcUtilities';
+import { handleError, buildError, showUIError } from 'c/lwcUtilities';
 import updateFormData from '@salesforce/apex/SiteController.updateFormData';
 
 export default class FormFieldEditor extends LightningElement {
@@ -20,7 +20,7 @@ export default class FormFieldEditor extends LightningElement {
     async connectedCallback() {
         if (this.cmp) {
             this.localCmp = JSON.parse(JSON.stringify(this.cmp));
-            console.log('formFieldEditor connectedCallback: this.localCmp', this.localCmp);
+            //console.log('formFieldEditor connectedCallback: this.localCmp', this.localCmp);
             //console.log('formFieldEditor connectedCallback: this.parentHidden', this.parentHidden);
             //console.log('formFieldEditor connectedCallback: this.isVisible', this.isVisible);
             if (this.localCmp.isText && this.localCmp.data.Data_text__c) {
@@ -47,7 +47,6 @@ export default class FormFieldEditor extends LightningElement {
 
     //allows parent to check if this field is valid (if required, has a value)
     @api isValid() {
-        
         //if this is hidden, it is automatically valid.
         if (this.hidden || this.parentHidden) {
             return true;
@@ -56,42 +55,50 @@ export default class FormFieldEditor extends LightningElement {
                 .reduce((validSoFar, inputCmp) => {
                     return validSoFar && inputCmp.checkValidity();
                 }, true);
-            
             const allTextAreasValid = [...this.template.querySelectorAll('lightning-textarea')]
                 .reduce((validSoFar, inputCmp) => {
                     return validSoFar && inputCmp.checkValidity();
                 }, true);
             //console.log('formFieldEditor isValid: allTextAreasValid', allTextAreasValid);
-
             const allRadioGroupsValid = [...this.template.querySelectorAll('lightning-radio-group')]
                 .reduce((validSoFar, inputCmp) => {
                     return validSoFar && inputCmp.checkValidity();
                 }, true);
-
             const allCheckboxGroupsValid = [...this.template.querySelectorAll('lightning-checkbox-group ')]
                 .reduce((validSoFar, inputCmp) => {
                     return validSoFar && inputCmp.checkValidity();
                 }, true);
-
             const allComboxesValid = [...this.template.querySelectorAll('lightning-combobox ')]
                 .reduce((validSoFar, inputCmp) => {
                     return validSoFar && inputCmp.checkValidity();
                 }, true);
-
             if (allLightningInputsValid && allTextAreasValid && allRadioGroupsValid && allCheckboxGroupsValid && allComboxesValid) {
                 return true;
             } else {
                 return false;
-                
             }
         }
+    }
 
-        
+    @api highlightErrors() {
+        if (this.hidden || this.parentHidden) {
+            return;
+        } else {
+            [...this.template.querySelectorAll('lightning-input')]
+                .forEach((inputCmp) => {inputCmp.reportValidity();});
+            [...this.template.querySelectorAll('lightning-textarea')]
+                .forEach((inputCmp) => {inputCmp.reportValidity();});
+            [...this.template.querySelectorAll('lightning-radio-group')]
+                .forEach((inputCmp) => {inputCmp.reportValidity();});
+            [...this.template.querySelectorAll('lightning-checkbox-group')]
+                .forEach((inputCmp) => {inputCmp.reportValidity();});
+            [...this.template.querySelectorAll('lightning-combobox')]
+                .forEach((inputCmp) => {inputCmp.reportValidity();});
+        }
     }
 
     checkForVisibility(value) {
         let tempVisiblity = false; //assume hidden, unless the data in the source component matches.  Use a temp variable so we don't hide the item while we're reassessing on a data change.
-
         if (this.localCmp.isTargetConnectors && this.localCmp.isTargetConnectors.length>0) {
             for (let connector of this.localCmp.isTargetConnectors) {
                 if (connector.Form_Phrase__r.Name == value) {
@@ -145,8 +152,8 @@ export default class FormFieldEditor extends LightningElement {
     // Single change handler for all types of input fields
     handleInputChange(event) {
         let val = event.target.value;
-        console.log('handleInputChange: this.localCmp', this.localCmp);
-        console.log('handleInputChange: val', val);
+        //console.log('handleInputChange: this.localCmp', this.localCmp);
+        //console.log('handleInputChange: val', val);
         // Massage value in certain cases including checkbox group (separators between selections) and single checkbox (true/false versus blank).
         if (this.localCmp.isCheckboxGroup) {
             if (val.length > 0) val = val.join('|');
@@ -161,12 +168,10 @@ export default class FormFieldEditor extends LightningElement {
         if (element) element.reportValidity();
         try {
             this.sendUpdatedValue(dataText);
-
             //Notify parent that data has changed
-            console.log('formFieldEditor handleInputChange dispatch cmpChange event', this.localCmp.Id, dataText);
+            //console.log('formFieldEditor handleInputChange dispatch cmpChange event', this.localCmp.Id, dataText);
             const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: dataText} });
             this.dispatchEvent(cmpUpdated);
-
         } catch(error) {
             handleError(error);
         }
@@ -182,21 +187,38 @@ export default class FormFieldEditor extends LightningElement {
         if (c.isTextArea && c.Word_limit__c) {
             element = this.template.querySelector(`[data-id="textArea"]`);
             if (this.numWords > c.Word_limit__c) message = this.transByNameObj.TooManyWords;
-        } else if (c.isCheckboxGroup && c.Checkbox_limit__c) {
+        } else if (c.isCheckboxGroup && (c.Checkbox_limit__c || c.Checkbox_minimum__c)) {
             element = this.template.querySelector(`[data-id="checkboxGroup"]`);
             let val = element.value;
             // Note that checkbox group element's value is a vertical bar-separated string at load time, versus an array of selected options after first change. 
-            let arr = Array.isArray(val) ? val : val.split('|');
-            if (arr.length > c.Checkbox_limit__c) message = this.transByNameObj.TooManyOptionsSel;
+            let arr = Array.isArray(val) ? val 
+                : (typeof val) == 'string' ? val.split('|') 
+                : new Array();
+            console.log('handleCustomErrors: arr', arr);
+            if (c.Checkbox_limit__c && (arr.length > c.Checkbox_limit__c)) message = this.transByNameObj.TooManyOptionsSel;
+            else if (c.Checkbox_minimum__c && (arr.length < c.Checkbox_minimum__c)) message = this.transByNameObj.TooFewOptionsSel;
+            console.log('handleCustomErrors: c.Checkbox_limit__c = ' +c.Checkbox_limit__c+ '; c.Checkbox_minimum__c = ' +c.Checkbox_minimum__c+ '; message = ' +message);
         }
-        //console.log('checkCmpValue message = ', message);
+        //console.log('handleCustomErrors message = ', message);
         if (element) element.setCustomValidity(message);
         return element;
     } 
 
     // Upsert the form data record via apex
-    async sendUpdatedValue(textData) {
-        await updateFormData({frmInstanceId:this.localCmp.data.Form_Instance__c, componentId:this.localCmp.data.Form_Component__c, value:textData, isTextarea:this.localCmp.isTextArea});
+    async sendUpdatedValue(textData) { 
+        try {
+            let result = await updateFormData({
+                frmInstanceId:this.localCmp.data.Form_Instance__c, 
+                componentId:this.localCmp.data.Form_Component__c, 
+                value:textData, 
+                isTextarea:this.localCmp.isTextArea
+            });
+            if (!result) showUIError(buildError('Auto-save unsuccessful', 'Data in a field could not be saved - please contact your administrator'));
+        } catch (error) {
+            console.log('sendUpdatedValue catch with recordId = ' +this.formInstanceId+ ' with error', error);
+            showUIError(buildError('Auto-save unsuccessful', 'Data in a field could not be saved - please contact your administrator', 'error'));
+            handleError(error);
+        }
     }
 
     // Handler for in progress changes (onKeyUp) in text fields

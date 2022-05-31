@@ -45,6 +45,8 @@ public class FormInstanceControllerTest {
         SiteController.updateFormData(fi.Id, comp2.Id, 'def', true);
 
         SiteController.submitForm(fi.Id);
+
+        SiteController.getFormInstances(prof.Id);
         Test.stopTest();
     }
 

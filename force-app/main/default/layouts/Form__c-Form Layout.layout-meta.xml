@@ -72,6 +72,10 @@
                 <behavior>Edit</behavior>
                 <field>Form_Phrase_ack_for_prior_form__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Form_Phrase_Footer__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

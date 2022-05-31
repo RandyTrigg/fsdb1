@@ -30,6 +30,17 @@ export default class FormComponent extends LightningElement {
         return (countChildCmpsErrs + countFormFieldErrs);
     }
 
+    @api highlightErrors() {
+        [...this.template.querySelectorAll('c-form-component')]
+            .forEach((formCmp) => {
+                formCmp.highlightErrors();
+            });
+        [...this.template.querySelectorAll('c-form-field-editor')]
+            .forEach((formField) => {
+                formField.highlightErrors();
+            });
+    }
+
     // Allows parent to check if this component is valid (all child components and child form field are valid)
     @api isValid() {
         const childCmpsValid = [...this.template.querySelectorAll('c-form-component')]

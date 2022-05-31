@@ -6,6 +6,7 @@
                     id={localCmp.Id}
                     data-id="text"
                     variant="label-hidden"
+                    label={localCmp.title}
                     type="text" 
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
@@ -14,8 +15,7 @@
                     placeholder={transByNameObj.TypeTextHere} 
                     onblur={handleInputChange}
                     onkeyup={checkValidity}
-                    max-length={localCmp.Character_limit__c}
-                    label={localCmp.translatedFormPhrase}>
+                    max-length={localCmp.Character_limit__c}>
                 </lightning-input>
             </div>
            
@@ -24,6 +24,7 @@
                     id={localCmp.Id}
                     data-id="textArea"
                     variant="label-hidden"
+                    label={localCmp.title}
                     value={localCmp.data.Data_textarea__c}
                     max-length={localCmp.Character_limit__c}
                     message-when-too-long={transByNameObj.TooManyCharsEntered}
@@ -46,6 +47,7 @@
                     id={localCmp.Id}
                     data-id="select"
                     variant="label-hidden"
+                    label={localCmp.title}
                     options={localCmp.options}
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
@@ -60,6 +62,7 @@
                     id={localCmp.Id}
                     data-id="radio"
                     variant="label-hidden"
+                    label={localCmp.title}
                     options={localCmp.options}
                     value={localCmp.data.Data_text__c}
                     required={isRequired}
@@ -75,6 +78,7 @@
                     class="radio-combo-inline"
                     options={localCmp.options}
                     variant="label-hidden"
+                    label={localCmp.title}
                     required={isRequired}
                     message-when-value-missing={transByNameObj.CompleteField}
                     disabled={isReadOnly}
@@ -88,6 +92,7 @@
                     data-id="checkboxGroup"
                     name="Checkbox Group"
                     variant="label-hidden"
+                    label={localCmp.title}
                     options={localCmp.options}
                     required={isRequired}
                     message-when-value-missing={transByNameObj.CompleteField}
@@ -104,6 +109,7 @@
                         style="float:left;"
                         type="checkbox" 
                         variant="label-hidden"
+                        label={localCmp.title}
                         checked={localCmp.checked} 
                         required={isRequired}
                         message-when-value-missing={transByNameObj.CompleteField}
@@ -119,6 +125,7 @@
                     data-id="phone"
                     type="tel"
                     variant="label-hidden"
+                    label={localCmp.title}
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
@@ -132,6 +139,7 @@
                     data-id="email"
                     type="email"
                     variant="label-hidden"
+                    label={localCmp.title}
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
@@ -145,22 +153,11 @@
                     data-id="date"
                     type="date"
                     variant="label-hidden"
+                    label={localCmp.title}
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
                     message-when-value-missing={transByNameObj.CompleteField}
-                    read-only={isReadOnly}>
-                </lightning-input>
-            </div>
-            <div if:true={localCmp.isDate} class="slds-form-element__control">
-                <lightning-input 
-                    id={localCmp.Id}
-                    data-id="date"
-                    type="date"
-                    variant="label-hidden"
-                    value={localCmp.data.Data_text__c}
-                    onblur={handleInputChange}
-                    required={isRequired}
                     read-only={isReadOnly}>
                 </lightning-input>
             </div>
@@ -170,6 +167,7 @@
                     data-id="url"
                     type="url"
                     variant="label-hidden"
+                    label={localCmp.title}
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
@@ -183,6 +181,7 @@
                     data-id="number"
                     type="number"
                     variant="label-hidden"
+                    label={localCmp.title}
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
                     required={isRequired}
@@ -196,6 +195,7 @@
                     data-id="currency"
                     type="number"
                     variant="label-hidden"
+                    label={localCmp.title}
                     formatter="currency"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
@@ -210,6 +210,7 @@
                     data-id="percent"
                     type="number"
                     variant="label-hidden"
+                    label={localCmp.title}
                     formatter="percent-fixed"
                     value={localCmp.data.Data_text__c}
                     onblur={handleInputChange}
