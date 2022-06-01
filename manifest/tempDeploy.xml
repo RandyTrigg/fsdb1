@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>FormDataController</members>
-        <members>FormDataControllerTest</members>
-        <members>FormDataUpdateTargetsBatch</members>
-        <members>FormDataUpdateTargetsInvocable</members>
-        <members>FormDataPrefillFormInstanceInvocable</members>
+        <members>FormInstanceController</members>
+        <members>FormInstanceControllerTest</members>
+        <members>SiteController</members>
         <name>ApexClass</name>
     </types>
     <types>

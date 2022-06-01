@@ -1,68 +1,94 @@
 <template>   
      
     <!-- HEADER -->
-    <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
-    <div class="gfw-container topmargin"> 
+    <div if:false={isNonEditable} class="bottommargin">
+        <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
+    </div>
+    <div class="gfw-container "> 
         <div if:true={showSpinner}>
             <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
         </div>
-        <div data-id="enclosingDiv" class="slds-grid slds-grid_align-center">
-            <lightning-card class="slds-col">
-                <div class="slds-var-p-horizontal_medium">
-                    <div if:true={dataLoaded}>
-                        <!-- Form title-->
-                        <h1 class="slds-text-heading_medium" data-id="frmTitle" slot="title">{frm.title}</h1>
-                        <!-- Date submitted if any-->
-                        <div if:true={fi.Date_submitted__c}>
-                            <span class="gfw-form-title">{transByNameObj.Submitted}: {fi.Date_submitted__c}</span>
-                        </div>
-                        <!-- Error count if any-->
-                        <div if:true={numErrors}>
-                            <span class="gfw-form-title">{transByNameObj.Errors}: {numErrors}</span>
-                        </div>
-                        <!-- Form intro if any-->
-                        <div if:true={frm.intro}>
-                            <lightning-formatted-rich-text data-id="frmIntro" class="gfw-form-title" value={frm.intro}></lightning-formatted-rich-text>
-                        </div>
-                        <!-- Form TOC if at least one section, with lightning-formatted-rich-text for each section name along with error info-->
-                        <!-- NEED TO ADD ERROR INFO (as parenthetical? badge?) -->
-                        <div if:true={hasSections}>
-                            <lightning-card>
-                                <ul class="slds-list_dotted">
-                                    <template for:each={sections} for:item="section">
-                                        <li key={section.Id}>
-                                            <lightning-formatted-rich-text data-id="section.Id" class="gfw-form-title" value={section.title}></lightning-formatted-rich-text>
-                                        </li>
-                                    </template>
-                                </ul>
-                            </lightning-card>
-                        </div>
-                        <!-- Loop through top level form components (without parent) putting out c-form-component tags-->
-                        <!-- For components of type Section, wrap the c-form-component tag in lightning-accordion-section if isMultiView is true-->
-                        <template for:each={topLevelCmps} for:item="cmp">
-                            <div if:false={cmp.accordion} key={cmp.Id}>
-                                <c-form-component 
-                                    cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
-                                </c-form-component>
+        <main> <!-- For accessibility to distinguish the main section from header and footer -->
+            <div data-id="enclosingDiv" class="slds-grid slds-grid_align-center">
+                <lightning-card class="slds-col">
+                    <div class="slds-var-p-horizontal_medium">
+                        <div if:true={dataLoaded}>
+                            <div if:false={isNonEditable}>
+                                <!-- Form title-->
+                                <h1 class="slds-text-heading_medium" data-id="frmTitle" slot="title">{frm.title}</h1>
+                                <!-- Date submitted if any-->
+                                <div if:true={fi.Date_submitted__c}>
+                                    <span class="gfw-form-title">{transByNameObj.Submitted}: {fi.Date_submitted__c}</span>
+                                </div>
+                                <!-- Error count if any-->
+                                <div if:true={numErrors}>
+                                    <span class="gfw-form-title">{transByNameObj.Errors}: {numErrors}</span>
+                                </div>
+                                <!-- Form intro if any-->
+                                <div if:true={frm.intro}>
+                                    <lightning-formatted-rich-text data-id="frmIntro" class="gfw-form-title" value={frm.intro}></lightning-formatted-rich-text>
+                                </div>
+                                <!-- Form TOC if at least one section, with lightning-formatted-rich-text for each section name along with error info-->
+                                <!-- NEED TO ADD ERROR INFO (as parenthetical? badge?) -->
+                                <div if:true={hasSections}>
+                                    <lightning-card>
+                                        <ul class="slds-list_dotted">
+                                            <template for:each={sections} for:item="section">
+                                                <li key={section.Id}>
+                                                    <lightning-formatted-rich-text data-id="section.Id" class="gfw-form-title" value={section.title}></lightning-formatted-rich-text>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </lightning-card>
+                                </div>
                             </div>
-                            <div if:true={cmp.accordion} key={cmp.Id}>
-                                <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.Form_Phrase_Title__r.Phrase_in_English__c}>
-                                    <c-form-component 
+                            <!-- Loop through top level form components (without parent) putting out c-form-component tags-->
+                            <!-- For components of type Section, wrap the c-form-component tag in lightning-accordion-section if isMultiView is true-->
+                            <div if:false={isMultiView}>
+                                <template for:each={topLevelCmps} for:item="cmp">
+                                    <c-form-component key={cmp.Id}
                                         cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
                                     </c-form-component>
-                                </lightning-accordion-section>
+                                </template>
                             </div>
-                        </template>
-                        <!-- Form footer if any-->
-                        <div if:true={frm.footer} class="slds-align_absolute-center slds-p-top_medium">
-                            <lightning-formatted-rich-text data-id="frmFooter" class="gfw-form-title" value={frm.footer}></lightning-formatted-rich-text>
-                        </div>
-                        <div class="slds-card__footer slds-align_absolute-center" slot="footer">
-                            <lightning-button class="bff-button-brand" variant="brand" label={submitLabel} title="Submit" onclick={handleSubmit} disabled={submitDisabled}></lightning-button>
+                            <div if:true={isMultiView}>
+                                <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+                                    <template for:each={topLevelCmps} for:item="cmp">
+                                        <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.title}>
+                                            <c-form-component 
+                                                cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
+                                            </c-form-component>
+                                        </lightning-accordion-section>
+                                    </template>
+                                </lightning-accordion>
+                            </div>
+            
+                            <div if:false={isNonEditable}>
+                                <div class="slds-docked-form-footer slds-var-m-top_large">
+                                    <!-- Form footer if any-->
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_12-of-12">
+                                            <div if:true={frm.footer} class="slds-align_absolute-center slds-var-p-bottom_x-small">
+                                                <lightning-formatted-rich-text data-id="frmFooter" class="gfw-form-title" value={frm.footer}></lightning-formatted-rich-text>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
+                                            <lightning-button 
+                                                label={transByNameObj.HighlightErrors}
+                                                title={transByNameObj.HighlightErrors}
+                                                onclick={highlightErrors} >
+                                            </lightning-button>
+                                            <lightning-helptext class="slds-var-m-right_medium" content={transByNameObj.HighlightErrorsExplanation}></lightning-helptext>
+                                            <lightning-button class="bff-button-brand" variant="brand" label={submitLabel} title="Submit" onclick={handleSubmit} disabled={submitDisabled}></lightning-button>
+                                            <!--<lightning-helptext content={submitHelptext}></lightning-helptext>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </lightning-card>
-        </div>
+                </lightning-card>
+            </div>
+        </main>
     </div>
 </template>

@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <isExposed>true</isExposed>
     <targets>
-        <!-- <target>lightning__RecordPage</target> -->
-        <target>lightning__AppPage</target>
         <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
         <target>lightningCommunity__Page</target>
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage">
             <property name="isNonEditable" type="Boolean" label="Not editable" description="Should be 'true' for View Form tabs and left sides of review interfaces"/>
-            <property name="isReadOnly" type="Boolean" label="DO NOT USE and DO NOT SET!" description="Salesforce isn't allowing removal of this property from LWC config"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

@@ -1,0 +1,13 @@
+<template>
+    <lightning-card>
+        <div if:true={dataLoaded}>
+            <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+                <template for:each={formInstances} for:item="fi">
+                    <lightning-accordion-section key={fi.Id}  class="gfw-form-title" name="A" label={fi.title} >
+                        <c-form-instance record-id={fi.Id} is-non-editable={isNonEditable} is-multi-view="true"></c-form-instance>
+                    </lightning-accordion-section>
+                </template>
+            </lightning-accordion>
+        </div>
+    </lightning-card>
+</template>
