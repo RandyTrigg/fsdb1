@@ -8,10 +8,7 @@
             <lightning-spinner alternative-text={transByNameObj.Loading} size="medium"></lightning-spinner>
         </div>
 
-        <!-- TOAST BANNER -->
-        <div if:false={hasSubmittedPrf}>
-            <c-lwc-toast-banner message={transByNameObj.BannerProfile}></c-lwc-toast-banner>           
-        </div>
+
 
         <main>
             <!-- LANGUAGE PICKER -->
@@ -26,6 +23,11 @@
                         </select>
                     </div>
                 </div>
+            </div>
+
+            <!-- TOAST BANNER -->
+            <div if:false={hasSubmittedPrf}>
+                <c-lwc-toast-banner message={transByNameObj.BannerProfile}></c-lwc-toast-banner>           
             </div>
 
             <!-- LOGO -->
