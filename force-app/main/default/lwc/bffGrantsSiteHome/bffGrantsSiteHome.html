@@ -5,7 +5,12 @@
         <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
 
         <div class="slds-align_absolute-center spinnerSize" if:true={showSpinner}>
-            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            <lightning-spinner alternative-text={transByNameObj.Loading} size="medium"></lightning-spinner>
+        </div>
+
+        <!-- TOAST BANNER -->
+        <div if:false={hasSubmittedPrf}>
+            <c-lwc-toast-banner message={transByNameObj.BannerProfile}></c-lwc-toast-banner>           
         </div>
 
         <main>
@@ -22,11 +27,6 @@
                 </div>
             </div>
         </div>
-
-    <!-- TOAST BANNER -->
-    <div if:false={hasSubmittedPrf}>
-        <c-lwc-toast-banner message={transByNameObj.BannerProfile}></c-lwc-toast-banner>           
-    </div>
 
     <!-- LOGO -->
     <div class="slds-grid slds-grid_align-center slds-gutters_large">
