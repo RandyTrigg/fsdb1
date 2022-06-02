@@ -5,7 +5,8 @@ export default class FormComponent extends LightningElement {
     @api cmp;
     @api formInstanceId;
     @api language;
-    @api isReadOnly;
+    @api isNonEditable = false; // External flag set once by caller or in app config
+    @api isReadOnly; // Internal flag set and unset during processing at community
     @api transByNameObj;
     isVisible = false; // Will need to be dynamically computed once new connector framework is in place
     parentHidden = false; // Will need to be dynamically computed once new connector framework is in place
@@ -16,6 +17,10 @@ export default class FormComponent extends LightningElement {
         // console.log('connectedCallback: this.formInstanceId', this.formInstanceId);
         // console.log('connectedCallback: this.isEditable', this.isEditable);
         // console.log('connectedCallback: this.language', this.language);
+        if (this.cmp) {
+            console.log('formComponent connectedCallback: this.isNonEditable = ' +this.isNonEditable);
+            //console.log('formComponent connectedCallback: this.cmp.Type__c = ' +this.cmp.Type__c+ '; this.cmp.isTextAnyFormat = ' +this.cmp.isTextAnyFormat);
+        }
     }
 
     @api countErrors() {

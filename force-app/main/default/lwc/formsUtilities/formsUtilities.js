@@ -42,8 +42,10 @@ function buildTransById (translations, language) {
  function updateRecordInternals(rec, picklistPhrasesMap, translationMap, countryNames) {
     //console.log('updateRecordInternals... (1)');
     rec.isTextArea = false;
+    rec.isTextAnyFormat = false;
     if (rec.Type__c=='text' || rec.Type__c=='text latin chars' ) {
         rec.isText = true;
+        rec.isTextAnyFormat = true;
         if (!rec.Character_limit__c) {
             rec.Character_limit__c = 255; //default max chars in salesforce Form Data Data_text__c
         }
@@ -54,6 +56,7 @@ function buildTransById (translations, language) {
         }
     } else if (rec.Type__c=='select' && rec.Form_Picklist__c) { 
         rec.isSelect = true;
+        rec.isTextAnyFormat = true;
         rec.options = getOptions(rec, picklistPhrasesMap, translationMap, countryNames);
     } else if ((rec.Type__c=='radio' || rec.Type__c=='radio in-line') && rec.Form_Picklist__c) { //TODO: are all checkboxes single-select
         if (rec.Type__c=='radio in-line') rec.isInlineRadio = true;
@@ -74,12 +77,16 @@ function buildTransById (translations, language) {
         console.log('formsUtilities updateRecordInternals: checkbox', rec);     
     } else if (rec.Type__c == 'phone') {
         rec.isPhone = true;
+        rec.isTextAnyFormat = true;
     } else if (rec.Type__c == 'email') {
         rec.isEmail = true;
+        rec.isTextAnyFormat = true;
     } else if (rec.Type__c == 'date') {
         rec.isDate = true;
+        rec.isTextAnyFormat = true;
     } else if (rec.Type__c == 'url') {
         rec.isURL = true;
+        rec.isTextAnyFormat = true;
     } else if (rec.Type__c == 'number') {
         rec.isNumber = true;
     } else if (rec.Type__c == 'currency') {

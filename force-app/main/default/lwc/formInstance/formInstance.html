@@ -47,7 +47,7 @@
                             <div if:false={isMultiView}>
                                 <template for:each={topLevelCmps} for:item="cmp">
                                     <c-form-component key={cmp.Id}
-                                        cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
+                                        cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} is-non-editable={isNonEditable} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
                                     </c-form-component>
                                 </template>
                             </div>
@@ -56,7 +56,7 @@
                                     <template for:each={topLevelCmps} for:item="cmp">
                                         <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.title}>
                                             <c-form-component 
-                                                cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
+                                                cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} is-non-editable={isNonEditable} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
                                             </c-form-component>
                                         </lightning-accordion-section>
                                     </template>

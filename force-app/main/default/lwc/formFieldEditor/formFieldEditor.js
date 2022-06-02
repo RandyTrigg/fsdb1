@@ -183,7 +183,7 @@ export default class FormFieldEditor extends LightningElement {
         const c = this.localCmp;
         let message = '';
         let element;
-        // Look for custom errors in appropriate elements
+        // Look for custom errors in specific elements
         if (c.isTextArea && c.Word_limit__c) {
             element = this.template.querySelector(`[data-id="textArea"]`);
             if (this.numWords > c.Word_limit__c) message = this.transByNameObj.TooManyWords;
@@ -198,6 +198,11 @@ export default class FormFieldEditor extends LightningElement {
             if (c.Checkbox_limit__c && (arr.length > c.Checkbox_limit__c)) message = this.transByNameObj.TooManyOptionsSel;
             else if (c.Checkbox_minimum__c && (arr.length < c.Checkbox_minimum__c)) message = this.transByNameObj.TooFewOptionsSel;
             console.log('handleCustomErrors: c.Checkbox_limit__c = ' +c.Checkbox_limit__c+ '; c.Checkbox_minimum__c = ' +c.Checkbox_minimum__c+ '; message = ' +message);
+        } else if (c.isEmail) {
+            element = this.template.querySelector(`[data-id="email"]`);
+            let val = element.value;
+            const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (val && !val.match(emailRegex)) message = this.transByNameObj.InvalidEmail;
         }
         //console.log('handleCustomErrors message = ', message);
         if (element) element.setCustomValidity(message);

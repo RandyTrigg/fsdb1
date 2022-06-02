@@ -12,7 +12,14 @@
                 </h2>
             </div>
             <div if:false={cmp.isSection}>
-                <c-form-component-label cmp={cmp}></c-form-component-label>
+                <!-- Non-section group component -->
+                <div if:true={cmp.childCmps} role="group" aria-label={cmp.title}>
+                    <c-form-component-label cmp={cmp}></c-form-component-label>
+                </div>
+                <!-- Non-group component -->
+                <div if:false={cmp.childCmps} aria-label={cmp.title}>
+                    <c-form-component-label cmp={cmp}></c-form-component-label>
+                </div>
             </div>
         </div>
         <div data-id="intro" if:true={cmp.translatedIntro}>
@@ -20,9 +27,16 @@
         </div>
         <!-- simple component -->
         <div if:false={cmp.childCmps}>
-            <c-form-field-editor 
-                cmp={cmp} is-required={cmp.isRequired} form-instance-id={formInstanceId} parent-hidden={parentHidden} is-read-only={isReadOnly} trans-by-name-obj={transByNameObj}>
-            </c-form-field-editor>
+            <div if:false={isNonEditable}>
+                <c-form-field-editor 
+                    cmp={cmp} is-required={cmp.isRequired} form-instance-id={formInstanceId} parent-hidden={parentHidden} is-read-only={isReadOnly} trans-by-name-obj={transByNameObj}>
+                </c-form-field-editor>
+            </div>
+            <div if:true={isNonEditable}>
+                <c-form-field-viewer 
+                    cmp={cmp}>
+                </c-form-field-viewer>
+            </div>
         </div>
         <!-- group component -->
         <div if:true={cmp.childCmps}>
