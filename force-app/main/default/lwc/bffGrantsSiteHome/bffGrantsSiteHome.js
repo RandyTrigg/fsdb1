@@ -7,7 +7,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
 import { showUIError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
-import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
+import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
 
 export default class BffGrantsSiteHome extends NavigationMixin(LightningElement) {
