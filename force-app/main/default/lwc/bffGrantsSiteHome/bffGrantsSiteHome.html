@@ -4,15 +4,15 @@
         <!-- HEADER -->
         <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
 
+        <!-- SPINNER -->
         <div class="slds-align_absolute-center spinnerSize" if:true={showSpinner}>
-            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            <lightning-spinner alternative-text={loading} size="medium"></lightning-spinner>
         </div>
 
-        <main>
         <!-- LANGUAGE PICKER -->
         <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
             <div class="slds-col slds-form-element">
-                <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
+                <label class="slds-form-element__label visually-hidden" for="langPicker">{languageSelector}</label>
                 <div class="slds-form-element__control slds-select_container">
                     <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
                         <template for:each={options} for:item="option">
@@ -23,158 +23,160 @@
             </div>
         </div>
 
-    <!-- TOAST BANNER -->
-    <div if:false={hasSubmittedPrf}>
-        <c-lwc-toast-banner message={transByNameObj.BannerProfile}></c-lwc-toast-banner>           
-    </div>
-
-    <!-- LOGO -->
-    <div class="slds-grid slds-grid_align-center slds-gutters_large">
-        <div class="slds-col logo-home-page">
-            <!-- <span class="slds-assistive-text">Black Feminist Fund Logo</span>-->
-            <img class="bff-logo-center" src={bffLogo} alt="Black Feminist Fund Logo">
-        </div>
-    </div>
-
-    <!-- WELCOME -->
-    <div if:true={dataLoaded}>
-        <div class="slds-grid slds-grid_align-center slds-gutters_large">
-            <div class="slds-col slds-var-m-bottom_medium">
-                <div class="slds-text-heading_large"><h1>{transByNameObj.bff_GrantsSiteLandingWelcome}</h1></div>
-                <!-- <section aria-label="Intro">
-                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">{transByNameObj.bff_GrantsSiteLandingWelcomeSubheading}</div>
-                </section>-->
+        <!-- MAIN SECTION helpful for accessibility to distinguish the main page from header and footer -->
+        <main>
+            <!-- TOAST BANNER -->
+            <div if:false={hasSubmittedPrf}>
+                <c-lwc-toast-banner message={transByNameObj.BannerProfile}></c-lwc-toast-banner>           
             </div>
-        </div>
 
-        <div class="visually-hidden">
-            <h2>{transByNameObj.bff_GrantsSiteLandingTitle}</h2>
-            <p>{transByNameObj.bff_GrantsSiteLandingSubtitle}</p>
-            <p>{transByNameObj.bff_GrantsSiteLandingSustainFund} {transByNameObj.bff_GrantsSiteLandingSustainFundDetails}</p>
-            <p>{transByNameObj.bff_GrantsSiteLandingSolidarityFund} {transByNameObj.bff_GrantsSiteLandingSolidarityFundDetails}</p>
-            <p>{transByNameObj.bff_GrantsSiteLandingEligibility}</p>
-        </div>
+            <!-- LOGO -->
+            <div class="slds-grid slds-grid_align-center slds-gutters_large">
+                <div class="slds-col logo-home-page">
+                    <img class="bff-logo-center" src={bffLogo} alt={bffLogoAltText}>
+                </div>
+            </div>
 
-        <!-- GRANT DESCRIPTION (collapsed once Profile submitted) -->
-        <div aria-hidden="true">
-            <lightning-accordion 
-                allow-multiple-sections-open 
-                class="grant-info-section slds-grid_align-center" 
-                onsectiontoggle={handleSectionToggle}
-                active-section-name={expandGrants}
-            >
-                <lightning-accordion-section 
-                    id="GrantsSection"
-                    class="slds-text-heading_medium slds-var-m-bottom_medium" 
-                    name="Grants"
-                    label={accordLabel}
-                >
-                    <div class="slds-grid slds-gutters_xx-large">
-                        <div class="slds-col">
-                            <div class="slds-text-heading_medium slds-var-m-bottom_medium">
-                                <strong>{transByNameObj.bff_GrantsSiteLandingSubtitle}</strong>
+            <!-- WAIT FOR DATA TO LOAD -->
+            <div if:true={dataLoaded}>
+            
+                <!-- WELCOME -->
+                <div class="slds-grid slds-grid_align-center slds-gutters_large">
+                    <div class="slds-col slds-var-m-bottom_medium">
+                        <div class="slds-text-heading_large"><h1>{transByNameObj.bff_GrantsSiteLandingWelcome}</h1></div>
+                        <!-- <section aria-label="Intro">
+                            <div class="slds-text-heading_medium slds-var-m-bottom_medium">{transByNameObj.bff_GrantsSiteLandingWelcomeSubheading}</div>
+                        </section>-->
+                    </div>
+                </div>
+
+                <div class="visually-hidden">
+                    <h2>{transByNameObj.bff_GrantsSiteLandingTitle}</h2>
+                    <p>{transByNameObj.bff_GrantsSiteLandingSubtitle}</p>
+                    <p>{transByNameObj.bff_GrantsSiteLandingSustainFund} {transByNameObj.bff_GrantsSiteLandingSustainFundDetails}</p>
+                    <p>{transByNameObj.bff_GrantsSiteLandingSolidarityFund} {transByNameObj.bff_GrantsSiteLandingSolidarityFundDetails}</p>
+                    <p>{transByNameObj.bff_GrantsSiteLandingEligibility}</p>
+                </div>
+
+                <!-- GRANT DESCRIPTION (collapsed once Profile submitted) -->
+                <div aria-hidden="true">
+                    <lightning-accordion 
+                        allow-multiple-sections-open 
+                        class="grant-info-section slds-grid_align-center" 
+                        onsectiontoggle={handleSectionToggle}
+                        active-section-name={expandGrants}
+                    >
+                        <lightning-accordion-section 
+                            id="GrantsSection"
+                            class="slds-text-heading_medium slds-var-m-bottom_medium" 
+                            name="Grants"
+                            label={accordLabel}
+                        >
+                            <div class="slds-grid slds-gutters_xx-large">
+                                <div class="slds-col">
+                                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                                        <strong>{transByNameObj.bff_GrantsSiteLandingSubtitle}</strong>
+                                    </div>
+                                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                                        <ul class="slds-list_dotted">
+                                            <li class="slds-var-m-bottom_medium">
+                                                <strong>{transByNameObj.bff_GrantsSiteLandingSustainFund}</strong>
+                                                &nbsp;{transByNameObj.bff_GrantsSiteLandingSustainFundDetails}
+                                            </li>
+                                            <li class="slds-var-m-bottom_medium">
+                                                <strong>{transByNameObj.bff_GrantsSiteLandingSolidarityFund}</strong>
+                                                &nbsp;{transByNameObj.bff_GrantsSiteLandingSolidarityFundDetails}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="slds-text-heading_medium slds-var-m-bottom_medium">
+                                        <p>{transByNameObj.bff_GrantsSiteLandingEligibility}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="slds-text-heading_medium slds-var-m-bottom_medium">
-                                <ul class="slds-list_dotted">
-                                    <li class="slds-var-m-bottom_medium">
-                                        <strong>{transByNameObj.bff_GrantsSiteLandingSustainFund}</strong>
-                                        &nbsp;{transByNameObj.bff_GrantsSiteLandingSustainFundDetails}
-                                    </li>
-                                    <li class="slds-var-m-bottom_medium">
-                                        <strong>{transByNameObj.bff_GrantsSiteLandingSolidarityFund}</strong>
-                                        &nbsp;{transByNameObj.bff_GrantsSiteLandingSolidarityFundDetails}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="slds-text-heading_medium slds-var-m-bottom_medium">
-                                <p>{transByNameObj.bff_GrantsSiteLandingEligibility}</p>
-                            </div>
+                        </lightning-accordion-section>
+                    </lightning-accordion>
+                </div>  
+
+                <!-- PROFILE BUTTON -->
+                <h2 id="buttonLabel" class="visually-hidden">Profile and Application buttons</h2>
+                
+                <div class="slds-grid slds-grid_align-center slds-gutters_xx-large slds-var-m-bottom_medium">
+                    <div class="slds-col">
+                        <lightning-button
+                            variant="brand"
+                            label={transByNameObj.bff_GrantsSiteLandingProfileButton}
+                            title={transByNameObj.bff_GrantsSiteLandingProfileButton}
+                            onclick={handleNewProfile}
+                            class="slds-var-m-left_small bff-button-brand"
+                            >
+                        </lightning-button>
+                    </div>
+                </div>
+                <!-- <div>debug: {debug}</div> -->
+                <!-- <div>Language: {language}</div>
+                <div>Lang tag: {langTag}</div>
+                <div>Form instance Id: {prFormInstanceId}</div>-->
+                <!-- <div>AppFormInstanceId: {appFormInstanceId}</div>-->
+                <!-- <div>ProfileId: {prfId}</div>-->
+                
+                <!-- APPLICATION BUTTONS -->
+                <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
+                    <div class="slds-col">   
+                        <lightning-button
+                            variant="brand"
+                            data-name="SustainFundButton"
+                            label={newAppSustainFund}
+                            title={newAppSustainFund}
+                            onclick={handleNewAppSustain}
+                            class="slds-var-m-left_small bff-button-brand"
+                            disabled={disableButton}>
+                        </lightning-button>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="slds-grid slds-grid_align-center slds-gutters_xx-large slds-var-m-bottom_x-large">
+                    <div class="slds-col">   
+                        <lightning-button
+                            variant="brand"
+                            data-name="SolidarityFundButton"
+                            label={newAppSolidarityFund}
+                            title={newAppSolidarityFund}
+                            onclick={handleNewAppSolidarity}
+                            class="slds-var-m-left_small bff-button-brand"
+                            disabled={disableButton}
+                            >
+                        </lightning-button>
+                    </div>
+                </div>
+            <!-- </nav> -->
+
+            <!-- PROPOSALS -->
+            <div if:true={hasProposals}>
+            <div class="slds-grid slds-gutters_xx-large slds-var-m-bottom_xx-large">
+                <div class="slds-col">
+                    <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small">
+                        <h2 id="table-descr">{transByNameObj.GrantApplications}</h2>
+                    </div>
+                        <div class="gfw-item-list">
+                            <lightning-datatable 
+                                aria-labelledby="table-descr"
+                                key-field="id" 
+                                hide-checkbox-column=true
+                                data={prpItemsData}
+                                columns={columns}
+                                onrowaction={handleRowAction}
+                                class="slds-max-medium-table_stacked enlarge"
+                                sorted-by=statusSortBy
+                                sorted-direction={sortedDirection}
+                            >
+                            </lightning-datatable>
                         </div>
                     </div>
-                </lightning-accordion-section>
-            </lightning-accordion>
-        </div>
-
-        <!-- PROFILE BUTTON -->
-        <!-- <nav aria-labelledby="buttonLabel">-->
-            <h2 id="buttonLabel" class="visually-hidden">Profile and Application buttons</h2>
-            
-            <div class="slds-grid slds-grid_align-center slds-gutters_xx-large slds-var-m-bottom_medium">
-                <div class="slds-col">
-                    <lightning-button
-                        variant="brand"
-                        label={transByNameObj.bff_GrantsSiteLandingProfileButton}
-                        title={transByNameObj.bff_GrantsSiteLandingProfileButton}
-                        onclick={handleNewProfile}
-                        class="slds-var-m-left_small bff-button-brand"
-                        >
-                    </lightning-button>
                 </div>
             </div>
-            <!-- <div>debug: {debug}</div> -->
-            <!-- <div>Language: {language}</div>
-            <div>Lang tag: {langTag}</div>
-            <div>Form instance Id: {prFormInstanceId}</div>-->
-            <!-- <div>AppFormInstanceId: {appFormInstanceId}</div>-->
-            <!-- <div>ProfileId: {prfId}</div>-->
-            
-            <!-- APPLICATION BUTTONS -->
-            <div class="slds-grid slds-grid_align-center slds-gutters_xx-large">
-                <div class="slds-col">   
-                    <lightning-button
-                        variant="brand"
-                        data-name="SustainFundButton"
-                        label={newAppSustainFund}
-                        title={newAppSustainFund}
-                        onclick={handleNewAppSustain}
-                        class="slds-var-m-left_small bff-button-brand"
-                        disabled={disableButton}>
-                    </lightning-button>
-                </div>
-            </div>
-            <br/>
-
-            <div class="slds-grid slds-grid_align-center slds-gutters_xx-large slds-var-m-bottom_x-large">
-                <div class="slds-col">   
-                    <lightning-button
-                        variant="brand"
-                        data-name="SolidarityFundButton"
-                        label={newAppSolidarityFund}
-                        title={newAppSolidarityFund}
-                        onclick={handleNewAppSolidarity}
-                        class="slds-var-m-left_small bff-button-brand"
-                        disabled={disableButton}
-                        >
-                    </lightning-button>
-                </div>
-            </div>
-        <!-- </nav> -->
-
-        <!-- PROPOSALS -->
-        <div if:true={hasProposals}>
-        <div class="slds-grid slds-gutters_xx-large slds-var-m-bottom_xx-large">
-            <div class="slds-col">
-                <div class="slds-text-heading_medium slds-var-m-top_large slds-var-m-bottom_small">
-                    <h2 id="table-descr">{transByNameObj.GrantApplications}</h2>
-                </div>
-                    <div class="gfw-item-list">
-                        <lightning-datatable 
-                            aria-labelledby="table-descr"
-                            key-field="id" 
-                            hide-checkbox-column=true
-                            data={prpItemsData}
-                            columns={columns}
-                            onrowaction={handleRowAction}
-                            class="slds-max-medium-table_stacked enlarge"
-                            sorted-by=statusSortBy
-                            sorted-direction={sortedDirection}
-                        >
-                        </lightning-datatable>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> <!-- Close dataloaded div -->
+        </div> <!-- Close dataloaded div-->
     </main>
 
     <!-- FOOTER -->
@@ -185,5 +187,7 @@
             </lightning-formatted-rich-text>
         </div>
     </footer>
+
+
     </div> <!-- Close lang tag -->
 </template>
