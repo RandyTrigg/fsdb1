@@ -19,8 +19,9 @@ public without sharing class SiteController {
 
     // Return a list of form instances to be displayed in form viewer for the given record (normally a profile, proposal, or milestone).
     @AuraEnabled //Do not cache
-    public static List<Form_Instance__c> getFormInstances(Id id) {
-        return FormInstanceController.getFormInstances(id);
+    public static String getFormInstances(Id id) {
+        List<Form_Instance__c> fis = FormInstanceController.getFormInstances(id);
+        return JSON.serialize(fis);
     }
 
     // Fetch data related to a form instance including form, form data, form components, ...
@@ -40,5 +41,11 @@ public without sharing class SiteController {
     @AuraEnabled
     public static boolean submitForm(String formInstanceId){
         return FormInstanceController.submitForm(formInstanceID);
+    }
+
+    // Get form phrase translations
+    @AuraEnabled(cacheable=true)
+    public static String getTranslations(){
+        return FormPhraseController.getTranslations();
     }
 }

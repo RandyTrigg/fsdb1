@@ -2,7 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 
-import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
+import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import getFormInstanceData from '@salesforce/apex/SiteController.getFormInstanceData';
 import submitForm from '@salesforce/apex/SiteController.submitForm';
 
@@ -143,7 +143,6 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             if (cmp.type == 'section') {
                 cmp.isSection = true;
                 this.sections.push(cmp);
-                if (this.isMultiView) cmp.accordion = true;
             }
             // Fill in form component's data, or build new data if none present
             cmp.data = formDataMap.has(cmp.Id) ? formDataMap.get(cmp.Id) : this.getEmptyFormData(cmp);
