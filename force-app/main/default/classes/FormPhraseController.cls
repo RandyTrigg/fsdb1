@@ -1,4 +1,4 @@
-public class FormPhraseController {
+public inherited sharing class FormPhraseController {
 
     /**********************************
     * For general use

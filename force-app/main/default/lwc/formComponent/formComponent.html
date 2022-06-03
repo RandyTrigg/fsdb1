@@ -42,7 +42,7 @@
         <div if:true={cmp.childCmps}>
             <template for:each={cmp.childCmps} for:item="childCmp">
                 <c-form-component 
-                    key={childCmp.Id} cmp={childCmp} language={language} form-instance-id={formInstanceId} is-read-only={isReadOnly} trans-by-name-obj={transByNameObj}>
+                    key={childCmp.Id} cmp={childCmp} language={language} form-instance-id={formInstanceId} is-read-only={isReadOnly} is-non-editable={isNonEditable} trans-by-name-obj={transByNameObj}>
                 </c-form-component>
             </template>
         </div>

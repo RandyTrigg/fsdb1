@@ -2,7 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 
-import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
+import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import getFormInstanceData from '@salesforce/apex/SiteController.getFormInstanceData';
 import submitForm from '@salesforce/apex/SiteController.submitForm';
 

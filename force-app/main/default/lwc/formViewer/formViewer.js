@@ -6,7 +6,7 @@ import getFormInstances from '@salesforce/apex/SiteController.getFormInstances';
 
 export default class formViewer extends LightningElement {
     @api recordId;
-    @api isNonEditable;
+    isNonEditable = true;
     formInstances = [];
     dataLoaded = false;
 

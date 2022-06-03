@@ -42,4 +42,10 @@ public without sharing class SiteController {
     public static boolean submitForm(String formInstanceId){
         return FormInstanceController.submitForm(formInstanceID);
     }
+
+    // Get form phrase translations
+    @AuraEnabled(cacheable=true)
+    public static String getTranslations(){
+        return FormPhraseController.getTranslations();
+    }
 }

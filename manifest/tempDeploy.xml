@@ -3,6 +3,10 @@
     <types>
         <members>FormInstanceController</members>
         <members>FormInstanceControllerTest</members>
+        <members>FormPhraseController</members>
+        <members>FormPhraseControllerTest</members>
+        <members>ProfileController</members>
+        <members>ProfileControllerTest</members>
         <members>SiteController</members>
         <name>ApexClass</name>
     </types>

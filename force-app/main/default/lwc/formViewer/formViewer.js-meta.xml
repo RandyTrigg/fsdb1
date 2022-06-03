@@ -7,9 +7,4 @@
         <target>lightning__AppPage</target>
         <target>lightningCommunity__Page</target>
     </targets>
-    <targetConfigs>
-        <targetConfig targets="lightning__RecordPage">
-            <property name="isNonEditable" type="Boolean" label="Not editable" description="Should be 'true' for View Form tabs and left sides of review interfaces"/>
-        </targetConfig>
-    </targetConfigs>
 </LightningComponentBundle>
