@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>From_email_address__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">bffgrant-helpdesk@blackfeministfund.org</value>
     </values>
     <values>
         <field>GFW_COA_Name__c</field>

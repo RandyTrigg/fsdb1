@@ -27,6 +27,8 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     showReadMore = false;
     readMoreTag;
     accordLabel;
+    showSpinner = true;
+    propInProcess = false;
 
     // Translations
     transInfo;
@@ -87,11 +89,15 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             // Proposals table
             this.hasSubmittedPrf = this.profileSummary.hasSubmittedPrf;
             this.dateEstablished = this.profileSummary.prf.Date_org_founded__c;
+            if (this.hasSubmittedPrf && (!this.dateEstablished)) {
+                return this.reloadData();
+            }
             console.log('dateEstablished', this.dateEstablished);
             if (this.hasSubmittedPrf) this.expandGrants = '';
             this.setLangPickerDefault();
             this.translatePage();
             this.dataLoaded = true;
+            this.showSpinner = false;
         } catch (error) {
             handleError(error);
         }
@@ -122,6 +128,10 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         result.setDate(result.getDate() + days);
         return result;
     }
+
+    reloadData() {
+        this.loadData();
+    }
     
     setLangPickerDefault(){
         const langPicker = this.template.querySelector('[name="langPicker"]');
@@ -149,7 +159,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     }
 
     get disableButton(){
-        return!(this.hasSubmittedPrf);
+        return (!this.hasSubmittedPrf || this.propInProcess);
     }
 
     handleSectionToggle(event) {
@@ -194,6 +204,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         } else {
             // Create Proposal with grant type and Form Instance linked to Proposal
             // Prep error message in case of issue.
+            this.propInProcess = true;
             this.errMsg = this.transByNameObj.SystemErrorMsg + ' (Id: ' + event.target.dataset.name + ')';
             this.grantType = 'BFF-Sustain';
             this.createProposalWithFormInstanceAndNavigate(this.grantType);
@@ -212,6 +223,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         } else {
             // Create Proposal with grant type and Form Instance linked to Proposal
             // Prep error message in case of issue.
+            this.propInProcess = true;
             this.errMsg = this.transByNameObj.SystemErrorMsg + ' (Id: ' + event.target.dataset.name + ')';;
             this.grantType = 'BFF-Solidarity';
             this.createProposalWithFormInstanceAndNavigate(this.grantType);
