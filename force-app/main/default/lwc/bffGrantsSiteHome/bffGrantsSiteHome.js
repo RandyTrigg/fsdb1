@@ -7,18 +7,21 @@ import { NavigationMixin } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
 import { showUIError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
-import getTranslations from '@salesforce/apex/FormPhraseController.getTranslations';
+import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
 
 export default class BffGrantsSiteHome extends NavigationMixin(LightningElement) {
     userId = Id;
 
-    // Logos and text on page
+    // Logos and text on page that needs to get loaded first 
     debug;
     bffLogo = logoResource;
     bffLogoWhiteText = logoResourceWhiteText;
     logout; // When logout & support translated in markup, page throws a null error on 'options.' Maybe because they are being passed as attributes?
     support;
+    languageSelector;
+    loading;
+    bffLogoAltText;
     newAppSustainFund;
     newAppSolidarityFund;
     showMenu = false;
@@ -94,8 +97,8 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             }
             console.log('dateEstablished', this.dateEstablished);
             if (this.hasSubmittedPrf) this.expandGrants = '';
-            this.setLangPickerDefault();
             this.translatePage();
+            this.setLangPickerDefault();
             this.dataLoaded = true;
             this.showSpinner = false;
         } catch (error) {
@@ -108,6 +111,9 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         this.transByNameObj = Object.fromEntries(this.transByName);
         this.logout = this.transByName.get('Logout');
         this.support = this.transByName.get('Support');
+        this.loading = this.transByName.get('Loading');
+        this.bffLogoAltText = this.transByName.get('BFFLogo');
+        this.languageSelector = this.transByName.get('LanguageSelector');
         let newApp = this.transByName.get('NewApplication');
         this.newAppSustainFund = newApp + ': ' + this.transByName.get('bff_SustainFund');
         this.newAppSolidarityFund = newApp + ': ' + this.transByName.get('bff_SolidarityFund');
@@ -140,6 +146,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         lMap.set('English', 'en');
         lMap.set('Spanish', 'es');
         lMap.set('French', 'fr');
+        lMap.set('Portuguese', 'pt');
         this.langMap = lMap;
         this.langTag = this.langMap.get(this.language);
     }
