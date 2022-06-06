@@ -14,19 +14,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Official_LEGACY</fullName>
+                <fullName>Official</fullName>
                 <default>false</default>
-                <label>Official (LEGACY)</label>
-            </value>
-            <value>
-                <fullName>Informal_LEGACY</fullName>
-                <default>false</default>
-                <label>Informal (LEGACY)</label>
-            </value>
-            <value>
-                <fullName>Reference_LEGACY</fullName>
-                <default>false</default>
-                <label>Reference (LEGACY)</label>
+                <label>Official</label>
             </value>
         </valueSetDefinition>
     </valueSet>

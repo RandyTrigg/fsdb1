@@ -1656,6 +1656,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Advisor__c.Accessibility_needs__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Advisor__c.Account__c</field>
         <readable>false</readable>
@@ -8341,6 +8346,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Profile__c.Org_Eligibility__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Profile__c.Org_age_in_years__c</field>
         <readable>true</readable>
@@ -9036,6 +9046,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Proposal__c.FS_Group__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Proposal__c.FY_awarded__c</field>
         <readable>true</readable>
@@ -9223,6 +9238,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Proposal__c.Org_age_at_award_years__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Proposal__c.Org_name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10293,6 +10313,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Template_piece__c.Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.FS_Group_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -14288,6 +14313,11 @@
         <default>false</default>
         <recordType>Account.HH_Account</recordType>
         <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Account.Household_GM_Advisor</recordType>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>

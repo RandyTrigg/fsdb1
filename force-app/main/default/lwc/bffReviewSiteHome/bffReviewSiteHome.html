@@ -1,0 +1,28 @@
+<template>
+    <div lang={langTag}>
+
+        <!-- HEADER -->
+        <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
+
+        <!-- SPINNER -->
+        <div class="slds-align_absolute-center spinnerSize" if:true={showSpinner}>
+            <lightning-spinner alternative-text={loading} size="medium"></lightning-spinner>
+        </div>
+
+        <!-- LANGUAGE PICKER -->
+        <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
+            <div class="slds-col slds-form-element">
+                <label class="slds-form-element__label visually-hidden" for="langPicker">{languageSelector}</label>
+                <div class="slds-form-element__control slds-select_container">
+                    <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
+                        <template for:each={options} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+    
+    </div> <!-- Close lang tag -->
+</template>

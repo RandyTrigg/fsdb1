@@ -16,7 +16,13 @@ public with sharing class InternalReview extends Review{
         System.debug('objName: '+objName);
 
         if (objName=='Proposal__c') {
-            Proposal__c prop = [SELECT ID, Account__r.Name, Account__c, Status__c, Status_external__c, Date_declined__c, Date_awarded__c, Date_received__c, App_type__c FROM Proposal__c WHERE ID=:recordId];
+            Proposal__c prop = [
+                SELECT ID, Account__r.Name, Account__c, Status__c, Status_external__c, 
+                Date_declined__c, Date_awarded__c, Date_received__c, App_type__c, Grant_type__c, 
+                Profile__r.Name, Profile__r.Id 
+                FROM Proposal__c 
+                WHERE ID=:recordId
+            ];
             this.type = 'Proposal';
             this.accountId = prop.Account__c;
             this.accountName = prop.Account__r.Name;
@@ -32,7 +38,13 @@ public with sharing class InternalReview extends Review{
             loadProposal(recordId);
             
         } else if (objName=='Milestone__c') {
-            Milestone__c milestone = [SELECT ID, Name, Type__c, Date_submitted__c, Proposal__c, Proposal__r.Grant_type__c, Proposal__r.App_type__c, Proposal__r.Account__c, Proposal__r.Account__r.Name, Milestone_Spec__r.Review_Form__c FROM Milestone__c WHERE ID=:recordId];
+            Milestone__c milestone = [
+                SELECT ID, Name, Type__c, Date_submitted__c, Proposal__c, 
+                Proposal__r.Grant_type__c, Proposal__r.App_type__c, Proposal__r.Account__c, Proposal__r.Account__r.Name, 
+                Proposal__r.Profile__r.Name, Proposal__r.Profile__r.Id, Milestone_Spec__r.Review_Form__c 
+                FROM Milestone__c 
+                WHERE ID=:recordId
+            ];
             this.type = 'Milestone';
             this.accountId = milestone.Proposal__r.Account__c;
             this.accountName = milestone.Proposal__r.Account__r.Name;
@@ -46,7 +58,7 @@ public with sharing class InternalReview extends Review{
             System.debug('this.reviewFormId: '+this.reviewFormId);
             
         } else if (objName=='Profile__c') {
-            Profile__c prof = [SELECT ID, Account__c, Account__r.Name, Status__c, Status_external__c, Date_submitted__c, Date_declined__c, Date_review_completed__c FROM Profile__c WHERE ID=:recordId];
+            Profile__c prof = [SELECT ID, Name, Account__c, Account__r.Name, Status__c, Status_external__c, Date_submitted__c, Date_declined__c, Date_review_completed__c FROM Profile__c WHERE ID=:recordId];
             List < Review_Form__c > profileReviewForm;
             try {
                 profileReviewForm = [SELECT ID, Name FROM Review_Form__c WHERE Name='Profile' LIMIT 1];
@@ -127,7 +139,7 @@ public with sharing class InternalReview extends Review{
         System.debug('rfMap: '+rfMap);
 
         // Try first to find a review form for the proposal's app type, else use standard.
-        String baseFormName = 'Proposal' + this.proposalAppType;
+        String baseFormName = 'Proposal' + this.proposalGrantType;
         System.debug('baseFormName: '+baseFormName);
         Id baseFormId;
         if (rfMap.containsKey(baseFormName)) {

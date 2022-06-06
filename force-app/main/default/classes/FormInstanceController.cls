@@ -132,25 +132,30 @@ public inherited sharing class FormInstanceController {
         String objName = Utilities.objectNameFromRecordId(id);
         Id profId, propId;
         // Grab parent ids
-        if (objName == 'Milestone__c') {
-            Milestone__c m = [SELECT Proposal__c, Proposal__r.Profile__c FROM Milestone__c WHERE Id =: id];
-            profId = m.Proposal__r.Profile__c;
-            propId = m.Proposal__c;
+        if (objName == 'Profile__c') {
+            profId = id;
         } else if (objName == 'Proposal__c') {
             Proposal__c prop = [SELECT Id, Profile__c FROM Proposal__c WHERE Id =: id];
             profId = prop.Profile__c;
             propId = prop.Id;            
-        } else if (objName == 'Profile__c') {
-            profId = id;
+        } else if (objName == 'Milestone__c') {
+            Milestone__c m = [SELECT Proposal__c, Proposal__r.Profile__c FROM Milestone__c WHERE Id =: id];
+            profId = m.Proposal__r.Profile__c;
+            propId = m.Proposal__c;
         } else throw new GFW_Exception ('Unexpected object in getFormInstances: ' +objName);
-        fis = [
-            SELECT Id, Form__r.Form_Phrase_Title__r.Phrase_in_English__c, Date_submitted__c, Form__r.Sort_number__c, Language__c
+        // Pull all form instances for the profile 
+        List<Form_Instance__c> profFIs = [
+            SELECT Id, Proposal__c, Form__r.Form_Phrase_Title__r.Phrase_in_English__c, Date_submitted__c, Form__r.Sort_number__c, Language__c
             FROM Form_Instance__c
             WHERE Date_submitted__c != null
-            AND (Profile__c = : profId OR Proposal__c = : propId)
+            AND Profile__c = : profId
             //AND Form__r.Type__c in:formTypes
-            ORDER BY Proposal__r.Date_received__c DESC, Form__r.Sort_number__c
+            ORDER BY Proposal__r.Name, Form__r.Sort_number__c
         ];
+        // Gather the appropriate form instances (include all FIs for profile review)
+        for (Form_Instance__c fi : profFIs) {
+            if (fi.Proposal__c == null || fi.Proposal__c == propId) fis.add(fi);
+        }
         system.debug('getFormInstances: fis = ' +fis);
         return fis;
     }

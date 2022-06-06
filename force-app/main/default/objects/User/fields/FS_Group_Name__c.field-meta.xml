@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FS_Group_Name__c</fullName>
+    <description>Name of FS group to which this user belongs, if any.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Name of FS group to which this user belongs, if any.</inlineHelpText>
+    <label>FS Group Name</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>FS_Group</valueSetName>
+    </valueSet>
+</CustomField>

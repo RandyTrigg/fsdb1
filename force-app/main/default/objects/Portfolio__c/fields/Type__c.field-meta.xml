@@ -15,44 +15,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Initiative</fullName>
-                <default>false</default>
-                <label>Initiative</label>
-            </value>
-            <value>
-                <fullName>Restricted</fullName>
-                <default>false</default>
-                <label>Restricted</label>
-            </value>
-            <value>
-                <fullName>Grantee initiative</fullName>
-                <default>false</default>
-                <label>Grantee initiative</label>
-            </value>
-            <value>
-                <fullName>Cohort</fullName>
-                <default>false</default>
-                <label>Cohort</label>
-            </value>
-            <value>
                 <fullName>Priority</fullName>
                 <default>false</default>
                 <label>Priority</label>
             </value>
             <value>
-                <fullName>Other portfolio</fullName>
+                <fullName>Advisor assignments</fullName>
                 <default>false</default>
-                <label>Other portfolio</label>
+                <label>Advisor assignments</label>
             </value>
             <value>
                 <fullName>Saved Set</fullName>
                 <default>false</default>
                 <label>Saved Set</label>
-            </value>
-            <value>
-                <fullName>Analysis</fullName>
-                <default>false</default>
-                <label>Analysis</label>
             </value>
         </valueSetDefinition>
     </valueSet>

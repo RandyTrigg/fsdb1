@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>Permission_Set_Name__c</field>
-        <value xsi:type="xsd:string">Community_BFF</value>
+        <value xsi:type="xsd:string">GrantsCommunity_BFF</value>
     </values>
     <values>
         <field>Public_Group_Name__c</field>
