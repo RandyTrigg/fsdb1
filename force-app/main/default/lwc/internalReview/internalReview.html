@@ -1,11 +1,11 @@
 <template>
     <div class="slds-grid slds-gutters">
-        <!-- 3/22/22 Form rendering not yet supported 
-        <div class="slds-col slds-size_1-of-2"  >
-            <c-internal-form-viewer></c-internal-form-viewer>
+        <!-- Left side: read-only multi-form viewing -->
+        <div class="slds-col slds-size_1-of-2 slds-scrollable_y"  >
+            <c-form-viewer record-id={recordId}></c-form-viewer>
         </div>
-        -->
-        <div class="slds-col slds-size_1-of-1">
+        <!-- Right side: editable review form with field targeting -->
+        <div class="slds-col slds-size_1-of-2 slds-scrollable_y">
             <div if:false={dataLoaded}>
                 <lightning-spinner variant="inverse" alternative-text="Loading" size="medium"></lightning-spinner>
             </div>

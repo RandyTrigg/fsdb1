@@ -23,6 +23,7 @@ public with sharing class InternalReview extends Review{
             this.status = prop.Status__c;
             this.statusExternal = prop.Status_external__c;
             this.dateReceived = prop.Date_received__c;
+            this.proposalGrantType = prop.Grant_type__c;
             this.proposalAppType = prop.App_type__c;
             // Determine Review Form
             this.reviewFormId = getProposalReviewForm();

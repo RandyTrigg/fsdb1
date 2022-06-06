@@ -2,7 +2,6 @@ import { LightningElement, wire } from 'lwc';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 // Apex methods
 import getInternalReview from '@salesforce/apex/ReviewFormController.getInternalReview';
-import getInternalReviewVFPageName from '@salesforce/apex/ReviewFormController.getInternalReviewVFPageName';
 import { handleError } from 'c/lwcUtilities';
 export default class InternalReview  extends NavigationMixin(LightningElement) {
     dataLoaded = false;
@@ -14,8 +13,6 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
     profileURL;
     accountURL;
     applicantURL;
-    messageOrigin;
-    pagePath;
     milestoneReceived;
 
     @wire(CurrentPageReference)
@@ -24,46 +21,23 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
             this.dataLoaded = false; //if we already had an id, hide the form which may be showing the incorrect form data (cached id)
             this.currentPageReference = currentPageReference;
             this.recordId = this.currentPageReference.state.c__id;
-            this.loadData(); 
         } else {
             this.currentPageReference = currentPageReference;
             this.recordId = this.currentPageReference.state.c__id;
-            this.loadData();
         }
-
-        
+        console.log('setCurrentPageReference: this.recordId = ' +this.recordId);
     }
 
     connectedCallback() {
-        //Adds listener for messages from the embedded JS in the VF Form
-        console.log('connectedCallback - adding listener');
-        window.addEventListener("message", this.handleNotification.bind(this));
-    }
-
-    handleNotification(message) {
-        console.log('handle notification');
-        //The message.orgin URL coming in is still in the old format (https://globalfundforwomen--c.na161.visual.force.com), despite being well past this update: https://releasenotes.docs.salesforce.com/en-us/spring18/release-notes/rn_vf_instance_names_removed.htm
-        //we'll only verify the base URL for that reson
-        console.log('message.origin');
-        console.log(message.origin);
-
-        this.messageOrigin = String(message.origin);
-
-        //Prod Origin https://globalfundforwomen--c.na161.visual.force.com
-        //SB Origin https://globalfundforwomen--bulkemail--c.visualforce.com
-        if (this.messageOrigin.startsWith("https://globalfundforwomen")) {
-            console.log('origin match, send id');
-            this.sendRecordId();   
+        if (this.recordId) {
+            this.loadData(); 
         }
     }
-
 
     async loadData() {
         try {
             this.internalReview = {}; //set as empty object, a caching issue is causing this page to occasionally load with cached data
             let review = JSON.parse(await getInternalReview({recordId: this.recordId}));
-            let pageName = await getInternalReviewVFPageName();
-            this.pagePath = "/apex/"+pageName;
             Object.assign(this.internalReview, review);
             if (this.internalReview.type=='Milestone') {
                 this.internalReview.isMilestone = true;
@@ -87,7 +61,6 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
         } catch (error) {
             handleError(error);
         }
-        
     }
 
     generateProposalLink() {
@@ -142,14 +115,5 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
         }).then(url => {
             this.accountURL = url;
         });
-    }
-
-    sendRecordId() {
-        //in rare cases, the queryselector is getting this error:  [this.template.querySelector(...).contentWindow is null
-        //Adding a timer to retry once after a 1 second wait
-        let iFrame = this.template.querySelector("iframe");
-        if (iFrame.contentWindow) {
-            iFrame.contentWindow.postMessage(this.recordId, this.messageOrigin); 
-        }
     }
 }
