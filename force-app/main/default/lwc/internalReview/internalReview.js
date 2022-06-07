@@ -39,6 +39,8 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
             this.internalReview = {}; //set as empty object, a caching issue is causing this page to occasionally load with cached data
             let review = JSON.parse(await getInternalReview({recordId: this.recordId}));
             Object.assign(this.internalReview, review);
+            console.log('internalReview loadData: this.internalReview BEFORE ');
+            console.dir(this.internalReview);
             if (this.internalReview.type=='Milestone') {
                 this.internalReview.isMilestone = true;
                 if (this.internalReview.dateReceived) {
@@ -48,15 +50,19 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
                 }
                 this.generateMilestoneLink();
                 this.generateProposalLink();
+                this.generateProfileLink();
             } else if (this.internalReview.type=='Proposal') {
                 this.internalReview.isProposal = true;
                 this.generateProposalLink();
+                this.generateProfileLink();
             } else if ( this.internalReview.type=='Profile') {
                 this.internalReview.isProfile = true;
                 this.generateProfileLink();
             }
             this.generateAccountLink();
-            this.dataLoaded = true;            
+            this.dataLoaded = true;
+            console.log('internalReview loadData: this.internalReview AFTER ');
+            console.dir(this.internalReview);
 
         } catch (error) {
             handleError(error);
@@ -82,10 +88,18 @@ export default class InternalReview  extends NavigationMixin(LightningElement) {
     }
 
     generateProfileLink() {
+        let recId;
+        if (this.internalReview.type=='Milestone') {
+            recId = this.internalReview.linkedMilestone.Proposal__r.Profile__r.Id;
+        } else if (this.internalReview.type=='Proposal') {
+            recId = this.internalReview.linkedProposal.Profile__r.Id;
+        } else if (this.internalReview.type=='Profile') {
+            recId = this.internalReview.linkedProfile.Id;
+        }
         this[NavigationMixin.GenerateUrl]({
             type: 'standard__recordPage',
             attributes: {
-                recordId: this.internalReview.linkedProfile.Id,
+                recordId: recId,
                 actionName: 'view',
             },
         }).then(url => {

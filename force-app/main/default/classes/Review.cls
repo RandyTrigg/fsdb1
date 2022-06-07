@@ -126,7 +126,7 @@ public virtual with sharing class Review {
 
         String query =
         ' SELECT ' +
-            String.join( fieldNames, ',' ) + ', Proposal__r.Name' +
+            String.join( fieldNames, ',' ) + ', Proposal__r.Name, Proposal__r.Profile__r.Name, Proposal__r.Profile__c' +
         ' FROM ' +
             ' Milestone__c ' +
         ' WHERE ' +
@@ -149,7 +149,7 @@ public virtual with sharing class Review {
 
         String query =
         ' SELECT ' +
-            String.join( fieldNames, ',' ) + ', Decline_reason__r.Name' +
+            String.join( fieldNames, ',' ) + ', Decline_reason__r.Name, Profile__r.Name' +
         ' FROM ' +
             ' Proposal__c ' +
         ' WHERE ' +
@@ -384,7 +384,7 @@ public virtual with sharing class Review {
             List < Portfolio__c > priorityPortfolios = [
                 SELECT Id, Type__c, Name 
                 FROM Portfolio__c 
-                WHERE Type__c = 'Priority'
+                WHERE (Type__c = 'Priority' OR Type__c = 'Advisor assignments')
                 AND Active__c = true
                 ORDER BY Name
             ];
