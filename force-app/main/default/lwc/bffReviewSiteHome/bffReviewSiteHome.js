@@ -18,7 +18,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     logout; // When logout & support translated in markup, page throws a null error on 'options.' Maybe because they are being passed as attributes?
     support;
     languageSelector;
-    loading;
+    loading = 'Loading';
     bffLogoAltText;
     showMenu = false;
     errMsg;
