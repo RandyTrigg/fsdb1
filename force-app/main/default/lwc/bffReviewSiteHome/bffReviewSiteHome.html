@@ -12,7 +12,7 @@
         <!-- LANGUAGE PICKER -->
         <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
             <div class="slds-col slds-form-element">
-                <label class="slds-form-element__label visually-hidden" for="langPicker">{languageSelector}</label>
+                <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
                 <div class="slds-form-element__control slds-select_container">
                     <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
                         <template for:each={options} for:item="option">
@@ -22,6 +22,32 @@
                 </div>
             </div>
         </div>
+
+        <!-- MAIN SECTION: helpful for accessibility to distinguish the main page from header and footer -->
+        <main>
+
+            <!-- LOGO -->
+            <div class="slds-grid slds-grid_align-center slds-gutters_large">
+                <div class="slds-col logo-home-page">
+                    <img class="bff-logo-center" src={bffLogo} alt={bffLogoAltText}>
+                </div>
+            </div>
+
+            <!-- WAIT FOR DATA TO LOAD -->
+            <div if:true={dataLoaded}>
+            
+                <!-- WELCOME -->
+                <div class="slds-grid slds-grid_align-center slds-gutters_large">
+                    <div class="slds-col slds-var-m-bottom_medium">
+                        <div class="slds-text-heading_large"><h1>{transByNameObj.bff_ReviewSiteLandingWelcome}</h1></div>
+                        <!-- <section aria-label="Intro">
+                            <div class="slds-text-heading_medium slds-var-m-bottom_medium">{transByNameObj.bff_GrantsSiteLandingWelcomeSubheading}</div>
+                        </section>-->
+                    </div>
+                </div>
+            
+            </div> <!-- data load tag-->
+        </main>
         
     
     </div> <!-- Close lang tag -->

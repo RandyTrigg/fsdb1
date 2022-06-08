@@ -3,7 +3,7 @@ import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
 
-export default class BffGrantsSiteHeader extends NavigationMixin(LightningElement) {
+export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     bffLogo = logoResource;
     bffLogoWhiteText = logoResourceWhiteText;
     @api logout;
@@ -13,6 +13,11 @@ export default class BffGrantsSiteHeader extends NavigationMixin(LightningElemen
 
     handleMenuSelect () {
         this.showMenu = !this.showMenu;
+    }
+    
+    handleProfile () {
+        // this.showMenu = !this.showMenu;
+        // NavigationMixin -> form instance for advisor
     }
 
     handleLogout(){

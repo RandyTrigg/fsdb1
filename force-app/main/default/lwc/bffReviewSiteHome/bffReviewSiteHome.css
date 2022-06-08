@@ -1,0 +1,80 @@
+.logo-home-page {
+    height: 200px;
+    width: 400px;
+}
+
+.bff-logo-center {
+	height: inherit;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.topmargin {
+    margin-top: 4rem;
+}
+
+.language-font {
+    font-size: 18px;
+}
+
+.spinnerSize{
+    width: 80px;
+    height: 80px;
+}
+
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.bff-button-brand {
+	--slds-c-button-brand-color-background: rgb(46, 17, 54);
+    --slds-c-button-brand-color-background-hover: rgb(62, 23, 72);
+    --slds-c-button-brand-color-border: rgb(46, 17, 54);
+    --slds-c-button-brand-color-border-hover: rgb(62,23,72);
+    --slds-c-button-brand-text-color: rgb(249, 248, 250);
+    --slds-c-button-brand-text-color-hover: rgb(249, 248, 250);
+}
+
+.main-heading {
+    font-size: 20px;
+}
+
+.sub-heading {
+    font-size: 14px;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.gfw-item-list {
+    overflow-y: scroll;
+    max-height: 300px;
+}
+
+.enlarge {
+    zoom: 110%;
+}
+
+.grant-info-section {
+    --slds-c-accordion-heading-font-size: 1.5rem;
+}
+
+.gfw-menu-item {
+    display: inline-flex;
+}
+
+.gfw-pointer{
+    cursor: pointer;
+}
+
+:host {
+    --sds-c-button-color-background: #ffffff;
+}

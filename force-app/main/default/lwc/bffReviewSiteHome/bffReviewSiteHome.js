@@ -18,7 +18,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     logout; // When logout & support translated in markup, page throws a null error on 'options.' Maybe because they are being passed as attributes?
     support;
     languageSelector;
-    loading = 'Loading';
+    loading = "Loading";
     bffLogoAltText;
     showMenu = false;
     errMsg;
@@ -52,8 +52,8 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             this.language = this.profileSummary.language;
             this.transInfo = JSON.parse(translations);
             */
-
-            this.language = 'English';
+            console.log('translations fetched');
+            this.language = "English";
             this.transInfo = JSON.parse(translations);
             this.translatePage();
             this.setLangPickerDefault();
