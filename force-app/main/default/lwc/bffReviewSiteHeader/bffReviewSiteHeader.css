@@ -11,11 +11,25 @@
 	height: 100px;
 }
 
+.language-font {
+    font-size: 18px;
+}
+
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
 
 
 
-.gfw-search-header {
-	background: #F6F3F8;
+.under-header-strip {
+	background: #fcfcfc;
 }
 .gfw-menu-item {
     display: inline-flex;

@@ -3,7 +3,7 @@
         <div class="slds-global-header slds-grid bff-global-header slds-grid_align-spread">
             <div class="slds-global-header__item">
                 <a href="https://globalfundforwomen-fs.force.com/BlackFeministFundReview/s/">
-                    <img class="bff-logo-header" src={bffLogoWhiteText} alt="Review Home Page"> <!-- Make this a link if we navigate home -->
+                    <img class="bff-logo-header" src={bffLogoWhiteText} alt="Review Home Page">
                 </a>
             </div>
             <div class="slds-global-header__item">
@@ -16,20 +16,20 @@
                         <lightning-menu-item
                             disabled={disableProfile}
                             value="Profile"
-                            label="Profile"
+                            label={profile}
                             icon-name="utility:user"
                             onclick={handleProfile}>
                         </lightning-menu-item>
                         <lightning-menu-item 
                             value="Get help" 
-                            label="Support"
+                            label={support}
                             icon-name="utility:help"
                             href="mailto:BFFgrant-helpdesk@blackfeministfund.org?Subject=Question about Grants Site" 
                             target="_blank">
                         </lightning-menu-item>
                         <lightning-menu-item 
                             value="Logout"
-                            label="Logout"
+                            label={logout}
                             icon-name="utility:logout"
                             onclick={handleLogout}>
                         </lightning-menu-item>
@@ -38,22 +38,20 @@
         </div>
 
         <!-- LANGUAGE PICKER -->
-        <div if:false={hideLanguagePicker}>
-            <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
-                <div class="slds-col slds-form-element">
-                    <label class="slds-form-element__label visually-hidden" for="langPicker">{languageSelector}</label>
-                    <div class="slds-form-element__control slds-select_container">
-                        <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
-                            <template for:each={options} for:item="option">
-                                <option key={option.value} value={option.value}>{option.label}</option>
-                            </template>
-                        </select>
-                    </div>
+        <div if:false={hideLanguagePicker} class="slds-global-header slds-grid under-header-strip slds-grid_align-end slds-m-right_medium">
+            <div class="slds-col slds-form-element">
+                <label class="slds-form-element__label visually-hidden" for="langPicker">{languageSelector}</label>
+                <div class="slds-form-element__control slds-select_container">
+                    <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
+                        <template for:each={options} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <div if:false={hideSearch} class="slds-global-header slds-grid gfw-search-header slds-grid_align-center">
+        <div if:false={hideSearch} class="slds-global-header slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
             <div class="slds-global-header__item gfw-global-search">
                 Search box
                 <!-- <c-lookup

@@ -1,4 +1,4 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, track } from 'lwc';
 import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
@@ -23,14 +23,15 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     showMenu = false;
     errMsg;
     showSpinner = true;
+    dataLoaded = false;
 
     // Translations
     transInfo;
     langMap;
     langTag;
     language;
-    transByName;
-    transByNameObj;
+    @track transByName;
+    @track transByNameObj;
 
     connectedCallback() {
         if (this.userId) {
@@ -58,7 +59,9 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             this.translatePage();
             // this.setLangPickerDefault();
             this.dataLoaded = true;
+            this.showHeader = true;
             this.showSpinner = false;
+            console.log('dataloaded');
             
         } catch (error) {
             handleError(error);
@@ -73,6 +76,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this.loading = this.transByName.get('Loading');
         this.bffLogoAltText = this.transByName.get('BFFLogo');
         this.languageSelector = this.transByName.get('LanguageSelector');
+        console.log(this.support);
 
 
         /*
@@ -99,7 +103,10 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     }
 
     handleLanguagePicker(event){
-        this.language = event.target.value;
+        // this.language = event.target.value;
+        console.log('handleLanguagePicker in Home');
+        this.language = event.detail;
+        console.log(this.language);
         this.translatePage();
     }
 
