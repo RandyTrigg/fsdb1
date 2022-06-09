@@ -8,8 +8,6 @@ export default class BffGrantsSiteHeader extends NavigationMixin(LightningElemen
     bffLogoWhiteText = logoResourceWhiteText;
     @api logout;
     @api support;
-    @api profile;
-    @api disableProfile;
 
     handleMenuSelect () {
         this.showMenu = !this.showMenu;

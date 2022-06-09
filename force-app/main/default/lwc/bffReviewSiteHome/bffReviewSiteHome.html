@@ -2,7 +2,7 @@
     <div lang={langTag}>
 
         <!-- HEADER -->
-        <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
+        <c-bff-review-site-header logout={logout} support={support}></c-bff-review-site-header>
 
         <!-- SPINNER -->
         <div class="slds-align_absolute-center spinnerSize" if:true={showSpinner}>
@@ -10,7 +10,7 @@
         </div>
 
         <!-- LANGUAGE PICKER -->
-        <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
+        <!-- <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
             <div class="slds-col slds-form-element">
                 <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
                 <div class="slds-form-element__control slds-select_container">
@@ -21,17 +21,10 @@
                     </select>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <!-- MAIN SECTION: helpful for accessibility to distinguish the main page from header and footer -->
         <main>
-
-            <!-- LOGO -->
-            <div class="slds-grid slds-grid_align-center slds-gutters_large">
-                <div class="slds-col logo-home-page">
-                    <img class="bff-logo-center" src={bffLogo} alt={bffLogoAltText}>
-                </div>
-            </div>
 
             <!-- WAIT FOR DATA TO LOAD -->
             <div if:true={dataLoaded}>

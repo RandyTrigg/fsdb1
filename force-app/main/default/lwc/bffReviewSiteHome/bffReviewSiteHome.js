@@ -56,7 +56,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             this.language = "English";
             this.transInfo = JSON.parse(translations);
             this.translatePage();
-            this.setLangPickerDefault();
+            // this.setLangPickerDefault();
             this.dataLoaded = true;
             this.showSpinner = false;
             
@@ -103,13 +103,13 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this.translatePage();
     }
 
-    get options() {
+    /* get options() {
         return [
                  { label: 'English', value: 'English' },
                  { label: 'Español', value: 'Spanish' },
                  { label: 'Français', value: 'French' },
                  { label: 'Português', value: 'Portuguese' }
                ];
-    }
+    } */
 
 }

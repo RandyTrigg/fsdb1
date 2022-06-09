@@ -10,3 +10,26 @@
 .bff-logo-header {
 	height: 100px;
 }
+
+
+
+
+.gfw-search-header {
+	background: #F6F3F8;
+}
+.gfw-menu-item {
+    display: inline-flex;
+}
+
+.gfw-pointer{
+    cursor: pointer;
+}
+
+.gfw-global-search {
+    max-width: var(--lwc-sizeMedium, 30rem);
+    min-width: var(--lwc-sizeMedium, 20rem);
+}
+
+:host {
+    --sds-c-button-color-background: #ffffff;
+}

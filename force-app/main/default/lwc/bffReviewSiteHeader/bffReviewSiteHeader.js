@@ -6,10 +6,12 @@ import { NavigationMixin } from 'lightning/navigation';
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     bffLogo = logoResource;
     bffLogoWhiteText = logoResourceWhiteText;
-    @api logout;
-    @api support;
-    @api profile;
+    logout;
+    support;
+    profile;
     @api disableProfile;
+    @api hideSearch;
+    @api hideLanguagePicker;
 
     handleMenuSelect () {
         this.showMenu = !this.showMenu;
