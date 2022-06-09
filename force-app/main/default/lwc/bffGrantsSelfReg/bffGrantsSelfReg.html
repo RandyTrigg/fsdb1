@@ -1,0 +1,83 @@
+<template>
+    <div if:true={showSpinner}>
+        <lightning-spinner alternative-text="Registering" size="medium"></lightning-spinner>
+    </div>
+
+    <div if:true={showForm}>
+        <div class="gfw-input-width">
+            <div class="slds-m-bottom_x-small">
+                <lightning-input
+                    label="Email"
+                    placeholder="Email"
+                    onchange={handleEmail}
+                    type="email"
+                    required="true" 
+                    max-length="80"
+                    class="email-input"
+                    value={email}
+                ></lightning-input>
+            </div>
+            <div class="slds-m-bottom_x-small">
+                <lightning-input                  
+                    label="First Name"
+                    onchange={handleFirstName} 
+                    placeholder="First Name"
+                    type="text"  
+                    required="true" 
+                    max-length="40"
+                    value={firstName}
+                ></lightning-input>
+            </div>
+            <div class="slds-m-bottom_x-small">
+                <lightning-input
+                    label="Last Name"
+                    onchange={handleLastName}
+                    placeholder="Last Name"
+                    data-id="lastName"  
+                    type="text" 
+                    required="true" 
+                    max-length="80"
+                    value={lastName}
+                ></lightning-input>
+            </div>
+            <div class="slds-m-bottom_x-small">
+                <lightning-input
+                    label="Group Name"
+                    onchange={handleGroupName}
+                    placeholder="Group Name"
+                    data-id="lastName"  
+                    type="text" 
+                    required="true" 
+                    max-length="120"
+                    value={groupName}
+                ></lightning-input>
+            </div>
+        </div>
+        <div class="slds-m-bottom_medium">
+            <lightning-button 
+                class="slds-align_absolute-center"
+                variant="brand" 
+                label="Register for Grants Site" 
+                disabled={registerDisabled}
+                onclick={handleRegister}>
+            </lightning-button>
+        </div>
+    </div>
+
+    <div if:true={showSuccess}>
+        <div class="slds-illustration slds-illustration_small">           
+            <div class="slds-text-longform">
+                <h3 class="slds-text-heading_medium">Great! Check your email to finish your registration.</h3>
+                <p class="slds-text-body_regular">TIP: You may want to check your spam filter or junk email folder.</p>
+            </div>
+        </div>
+    </div>
+
+    <div if:true={showFailure}>
+        <div class="slds-illustration slds-illustration_small">
+            <div class="slds-text-longform">
+                <h3 class="slds-text-heading_medium">Oh no!  Something went wrong with the sample Registration. Try again later!</h3>
+            </div>
+        </div>
+    </div>
+</template>
