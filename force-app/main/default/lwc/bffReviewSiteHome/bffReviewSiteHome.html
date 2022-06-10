@@ -1,33 +1,20 @@
 <template>
     <div lang={langTag}>
-
-<<<<<<< HEAD
-=======
-        <!-- HEADER -->
-        <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
-
->>>>>>> main
-        <!-- SPINNER -->
-        <div class="slds-align_absolute-center spinnerSize" if:true={showSpinner}>
-            <lightning-spinner alternative-text={loading} size="medium"></lightning-spinner>
-        </div>
-
-<<<<<<< HEAD
+        
         <!-- HEADER -->
         <div if:true={dataLoaded}>
             <c-bff-review-site-header disableprofile="false" hidesearch="false" hidelanguagepicker="false" language={language} transdata={transData} ongetselectedlanguage={handleLanguagePicker}></c-bff-review-site-header>
+        </div>
+
+        <!-- SPINNER -->
+        <div class="slds-align_absolute-center spinnerSize" if:true={showSpinner}>
+            <lightning-spinner alternative-text={loading} size="medium"></lightning-spinner>
         </div>
 
         <!-- LANGUAGE PICKER -->
         <!-- <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
             <div class="slds-col slds-form-element">
                 <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
-=======
-        <!-- LANGUAGE PICKER -->
-        <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
-            <div class="slds-col slds-form-element">
-                <label class="slds-form-element__label visually-hidden" for="langPicker">{languageSelector}</label>
->>>>>>> main
                 <div class="slds-form-element__control slds-select_container">
                     <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
                         <template for:each={options} for:item="option">
@@ -36,7 +23,6 @@
                     </select>
                 </div>
             </div>
-<<<<<<< HEAD
         </div>-->
 
         <!-- MAIN SECTION: helpful for accessibility to distinguish the main page from header and footer -->
@@ -56,9 +42,6 @@
                 </div>
             </div> <!-- data load tag-->
         </main>
-=======
-        </div>
->>>>>>> main
         
     
     </div> <!-- Close lang tag -->
