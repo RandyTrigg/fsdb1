@@ -1,23 +1,50 @@
 import { LightningElement, api } from 'lwc';
-import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
+import Id from '@salesforce/user/Id';
+import getTranslations from '@salesforce/apex/SiteController.getTranslations';
+import { buildTransByName } from 'c/formsUtilities';
+import loadAdvisorSummary from '@salesforce/apex/AssessorSiteController.loadAdvisorSummary';
 
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
-    bffLogo = logoResource;
+    userId = Id;
     bffLogoWhiteText = logoResourceWhiteText;
-    logout = 'Logout';
-    support = 'Support';
+    dataLoaded = false;
+    logout;
+    support;
     profile = 'Profile';
-    language;
-    @api transByNameObj;
+    @api language;
     @api disableProfile;
     @api hideSearch;
     @api hideLanguagePicker;
+    @api transData;
+    transInfo;
+    transByName;
+    transByNameObj;
+    langTag;
+    langMap;
+
+    connectedCallback(){
+        if (this.userId && this.language) {
+            console.log('connectedCallbackHeader');
+            this.dataLoaded = true;
+            console.log(this.language);
+            // NOTE: Cannot figure out how to successfully pass translation data
+            // this.transInfo = JSON.parse(this.transData);
+            // this.translatePage();
+            // console.log(this.transByName.get('logout'));
+            // this.setLangPickerDefault();
+        }
+    }
+
 
     translatePage() {
         console.log('translatePage in header');
-        // console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
+        this.transByName = buildTransByName(this.transInfo, this.language);
+        this.transByNameObj = Object.fromEntries(this.transByName);
+        this.logout = this.transByName.get('Logout');
+        this.support = this.transByName.get('Support');
+        console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
     }
     
     handleMenuSelect () {

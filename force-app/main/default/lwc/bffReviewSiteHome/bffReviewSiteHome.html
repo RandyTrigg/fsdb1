@@ -8,7 +8,7 @@
 
         <!-- HEADER -->
         <div if:true={dataLoaded}>
-            <c-bff-review-site-header transbynameobj={transByNameObj} disableprofile="false" hidesearch="false" hidelanguagepicker="false" ongetselectedlanguage={handleLanguagePicker}></c-bff-review-site-header>
+            <c-bff-review-site-header disableprofile="false" hidesearch="false" hidelanguagepicker="false" language={language} transdata={transData} ongetselectedlanguage={handleLanguagePicker}></c-bff-review-site-header>
         </div>
 
         <!-- LANGUAGE PICKER -->
@@ -26,10 +26,10 @@
         </div>-->
 
         <!-- MAIN SECTION: helpful for accessibility to distinguish the main page from header and footer -->
-        <main class="slds-var-m-top_xx-large topmargin">
+        <main class="topmargin">
 
             <!-- WAIT FOR DATA TO LOAD -->
-            <div if:true={dataLoaded} class="slds-var-m-top_xx-large">
+            <div if:true={dataLoaded}>
             
                 <!-- WELCOME -->
                 <div class="slds-grid slds-grid_align-center slds-var-m-top_xx-large slds-gutters_large">
