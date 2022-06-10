@@ -32,6 +32,14 @@
         <flows/>
         <fullName>Proposal_updated_after_save</fullName>
     </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <textTemplates>
+                <name>ErrorEmail</name>
+            </textTemplates>
+        </flows>
+        <fullName>Sync_Log_Record_Error_on_update</fullName>
+    </flowDefinitions>
     <quickActions>
         <label><!-- Guest Community Case --></label>
         <name>GuestCommunityCase</name>
@@ -115,6 +123,47 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Form Data with related info --></description>
+        <label><!-- Form Data with related info --></label>
+        <name>Form_Data_with_related_info</name>
+        <sections>
+            <label><!-- Account --></label>
+            <name>Account</name>
+        </sections>
+        <sections>
+            <label><!-- Form --></label>
+            <name>Form</name>
+        </sections>
+        <sections>
+            <label><!-- Form Component --></label>
+            <name>Form Component</name>
+        </sections>
+        <sections>
+            <label><!-- Form Data --></label>
+            <name>Form Data</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instance --></label>
+            <name>Form Instance</name>
+        </sections>
+        <sections>
+            <label><!-- Milestone --></label>
+            <name>Milestone</name>
+        </sections>
+        <sections>
+            <label><!-- Parent form component --></label>
+            <name>Parent form component</name>
+        </sections>
+        <sections>
+            <label><!-- Profile --></label>
+            <name>Profile</name>
+        </sections>
+        <sections>
+            <label><!-- Proposal --></label>
+            <name>Proposal</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Form Phrases with related info --></description>
         <label><!-- Form Phrases with related info --></label>
         <name>Form_Phrases_with_related_info</name>
@@ -128,9 +177,9 @@
         </sections>
     </reportTypes>
     <reportTypes>
-        <description><!-- Form data with related info --></description>
-        <label><!-- Form data with related info --></label>
-        <name>Form_data_with_related_info</name>
+        <description><!-- Form data with related info OLD --></description>
+        <label><!-- Form data with related info OLD --></label>
+        <name>Form_data_with_related_info_OLD</name>
         <sections>
             <label><!-- Form Data --></label>
             <name>Form Data</name>
@@ -158,9 +207,38 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Portfolio Assignments with related info --></description>
+        <label><!-- Portfolio Assignments with related info --></label>
+        <name>Portfolio_Assignments_with_related_info</name>
+        <sections>
+            <label><!-- Account --></label>
+            <name>Account</name>
+        </sections>
+        <sections>
+            <label><!-- Portfolio --></label>
+            <name>Portfolio</name>
+        </sections>
+        <sections>
+            <label><!-- Portfolio Assignments --></label>
+            <name>Portfolio Assignments</name>
+        </sections>
+        <sections>
+            <label><!-- Profile --></label>
+            <name>Profile</name>
+        </sections>
+        <sections>
+            <label><!-- Proposals --></label>
+            <name>Proposals</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Proposals with related info unlocked --></description>
         <label><!-- Proposals with related info unlocked --></label>
         <name>Proposals_with_related_info_unlocked</name>
+        <sections>
+            <label><!-- Profile --></label>
+            <name>Profile</name>
+        </sections>
         <sections>
             <label><!-- Proposals --></label>
             <name>Proposals</name>

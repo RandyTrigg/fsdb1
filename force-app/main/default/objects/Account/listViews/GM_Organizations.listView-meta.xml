@@ -3,6 +3,7 @@
     <fullName>GM_Organizations</fullName>
     <columns>ACCOUNT.NAME</columns>
     <columns>Org_name_GM__c</columns>
+    <columns>CORE.USERS.ALIAS</columns>
     <columns>GM_country__c</columns>
     <columns>GM_region__c</columns>
     <columns>Num_proposals__c</columns>

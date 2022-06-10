@@ -1,26 +1,46 @@
 import { LightningElement } from 'lwc';
+<<<<<<< HEAD
+=======
+import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
+import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
+>>>>>>> main
 import { NavigationMixin } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
 import { showUIError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
+<<<<<<< HEAD
 import loadAdvisorSummary from '@salesforce/apex/AssessorSiteController.loadAdvisorSummary';
+=======
+>>>>>>> main
 
 export default class BffReviewSiteHome extends NavigationMixin(LightningElement) {
     userId = Id;
 
     // Logos and text on page that needs to get loaded first 
     debug;
+<<<<<<< HEAD
     logout; // When logout & support translated in markup, page throws a null error on 'options.' Maybe because they are being passed as attributes?
     support;
     languageSelector;
     loading = "Loading";
+=======
+    bffLogo = logoResource;
+    bffLogoWhiteText = logoResourceWhiteText;
+    logout; // When logout & support translated in markup, page throws a null error on 'options.' Maybe because they are being passed as attributes?
+    support;
+    languageSelector;
+    loading;
+>>>>>>> main
     bffLogoAltText;
     showMenu = false;
     errMsg;
     showSpinner = true;
+<<<<<<< HEAD
     dataLoaded = false;
+=======
+>>>>>>> main
 
     // Translations
     transInfo;

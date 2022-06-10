@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Org_name__c</fullName>
+    <description>Org name from linked Profile or Account.</description>
+    <externalId>false</externalId>
+    <formula>IF (NOT(ISBLANK( Profile__c )), Profile__r.Org_name__c,  Account__r.Name )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Org name from linked Profile or Account.</inlineHelpText>
+    <label>Org name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

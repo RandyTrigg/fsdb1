@@ -1,11 +1,11 @@
 <template>
     <div class="slds-grid slds-gutters">
-        <!-- 3/22/22 Form rendering not yet supported 
-        <div class="slds-col slds-size_1-of-2"  >
-            <c-internal-form-viewer></c-internal-form-viewer>
+        <!-- Left side: read-only multi-form viewing -->
+        <div class="slds-col slds-size_1-of-2 slds-scrollable_y"  >
+            <c-form-viewer record-id={recordId}></c-form-viewer>
         </div>
-        -->
-        <div class="slds-col slds-size_1-of-1">
+        <!-- Right side: editable review form with field targeting -->
+        <div class="slds-col slds-size_1-of-2 slds-scrollable_y">
             <div if:false={dataLoaded}>
                 <lightning-spinner variant="inverse" alternative-text="Loading" size="medium"></lightning-spinner>
             </div>
@@ -13,6 +13,7 @@
                 <div if:true={internalReview.isProposal} class="slds-var-m-left_small slds-var-m-bottom_xx-large slds-border_bottom">  
                     <div class="slds-text-heading_medium">
                         <p><span>Proposal #: </span><a href={proposalRecordURL} target="_blank">{internalReview.linkedProposal.Name}</a></p>
+                        <p><span>Profile #: </span><a href={profileURL} target="_blank">{internalReview.linkedProfile.Name}</a></p>
                         <p><span>Account: </span><a href={accountURL} target="_blank">{internalReview.accountName}</a></p>
                     </div>
                 </div>
@@ -20,19 +21,14 @@
                     <div class="slds-text-heading_medium">
                         <p><span>Milestone #: </span><a href={milestoneURL} target="_blank">{internalReview.linkedMilestone.Name}</a></p>
                         <p><span>Proposal #: </span><a href={proposalRecordURL} target="_blank">{internalReview.linkedMilestone.Proposal__r.Name}</a></p>
+                        <p><span>Profile #: </span><a href={profileURL} target="_blank">{internalReview.linkedProfile.Name}</a></p>
                         <p><span>Account: </span><a href={accountURL} target="_blank">{internalReview.accountName}</a></p>
                     </div>
                 </div>
                 <div if:true={internalReview.isProfile} class="slds-var-m-left_small slds-var-m-bottom_xx-large slds-border_bottom">
                     <div class="slds-text-heading_medium">
                         <p><span>Profile #: </span><a href={profileURL} target="_blank">{internalReview.linkedProfile.Name}</a></p>
-                        <div if:true={internalReview.accountId}>
-                            <p><span>Account: </span><a href={accountURL} target="_blank">{internalReview.accountName}</a></p>
-                        </div>
-                        <div if:false={internalReview.accountId}>
-                            <p><span>Applicant: </span><a href={applicantURL} target="_blank">{internalReview.linkedProfile.Org_name__c}</a></p>
-                        </div>
-                        
+                        <p><span>Account: </span><a href={accountURL} target="_blank">{internalReview.accountName}</a></p>
                     </div>
                 </div>
                 <div class="slds-var-p-horizontal_medium slds-var-m-top_large" if:true={dataLoaded}>

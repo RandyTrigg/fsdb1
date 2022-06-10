@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>API name of Permission Set for this FS Group.</inlineHelpText>
-    <label>Permission Set Name</label>
+    <label>Grants Community Permission Set Name</label>
     <length>255</length>
     <required>false</required>
     <type>Text</type>
