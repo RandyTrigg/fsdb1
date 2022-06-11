@@ -50,13 +50,14 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
                 loadAdvisorSummary(),
                 getTranslations()
             ]);
-            
+            console.log('data and translations fetched');
             this.advisorSummary = JSON.parse(data);
             this.language = this.advisorSummary.preferredLanguage;
             this.advisorFormInstanceId = this.advisorSummary.advInfoFormInstanceId;
+            console.log(this.advisorFormInstanceId);
             this.transInfo = JSON.parse(translations);
             
-            console.log('translations fetched');
+
             // Added transData to try to successfully pass to header -- but not working.
             // this.transData = translations;
             // this.transInfo = JSON.parse(translations);
