@@ -40,8 +40,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     currentPageReference;
     pendingLabel = 'Pending Evaluations';
     submittedLabel = 'Submitted Evaluations';
-    pageLabel =  'Evaluations';
-    pageName = 'Ratings__c'; // UPDATE PAGE NAME  
+    pageLabel =  'Evaluations'; 
     objectName = 'Rating';
     activeSections = ['Pending'];
     viewColumns;
@@ -233,7 +232,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
-                name: 'Rating__c' // UPDATE PAGE NAME
+                name: 'Assessment__c' // UPDATE PAGE NAME
             },
             state: {
                 assessmentId: row.Id,
