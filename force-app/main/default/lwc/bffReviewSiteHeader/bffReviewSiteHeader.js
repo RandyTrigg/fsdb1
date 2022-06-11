@@ -17,7 +17,8 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     @api disableProfile;
     @api hideSearch;
     @api hideLanguagePicker;
-    @api transData;
+    transData;
+    @api advisorFormInstanceId;
     transInfo;
     transByName;
     transByNameObj;
@@ -36,8 +37,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             // this.setLangPickerDefault();
         }
     }
-
-
+    
     translatePage() {
         console.log('translatePage in header');
         this.transByName = buildTransByName(this.transInfo, this.language);
@@ -52,8 +52,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     }
     
     handleProfile () {
-        // this.showMenu = !this.showMenu;
-        // NavigationMixin -> form instance for advisor
+        this.navigateToFormInstance(this.advisorFormInstanceId);
     }
 
     setLangPickerDefault(){
@@ -94,7 +93,19 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     }
 
 
-
+    navigateToFormInstance(formInstId) {
+        // Navigate to form instance detail page
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'FormInstance__c'
+            },
+            state: {
+                recordId: formInstId,
+                language: this.language
+            }
+        });
+    }
 
     handleLogout(){
         this[NavigationMixin.Navigate]({

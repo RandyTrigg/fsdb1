@@ -53,7 +53,7 @@ public inherited sharing class AdvisorSummary {
         this.lastName = System.UserInfo.getLastName();
         this.preferredLanguage = advRecord.Language__c;
 
-        // Retrieve Advisor Profile Form Instance. ADDED 6/10/2022
+        // Retrieve or build Advisor Profile Form Instance.
         ID usrId = UserInfo.getUserId();
         String fsGroupName = Utilities.fsGroupNameByUser(usrId);
         String fsOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(usrId);
@@ -61,7 +61,7 @@ public inherited sharing class AdvisorSummary {
         if (advProfileForm !=null) {
             List<Form_Instance__c> advInfoFormInstance = new List<Form_Instance__c>([SELECT Id, Advisor__c, Form__c, Profile__c, Proposal__c FROM Form_Instance__c WHERE Form__c =:advProfileForm.Id AND Advisor__c=:advisorId AND Profile__c=null AND Proposal__c=null]); 
             if (advInfoFormInstance.isEmpty()) {
-                // create new form instance linked to this advisor and active advisorprofile form.
+                // Create new form instance linked to this advisor and active advisorprofile form.
                 try {
                     Form_Instance__c newAdvProfileFI = new Form_Instance__c(
                         Form__c = advProfileForm.Id,
@@ -84,7 +84,6 @@ public inherited sharing class AdvisorSummary {
         this.ratingsAssigned = new List <ItemSummary>();
         this.viewFormsAvailable = new List <ItemSummary>();
         
-
         List < Assessment__c > milestoneAssessments = AssessorSiteController.getMilestoneAssessments(advisorId, 'pending', 3);
         this.pendingMilestonesCount = milestoneAssessments.size();
         

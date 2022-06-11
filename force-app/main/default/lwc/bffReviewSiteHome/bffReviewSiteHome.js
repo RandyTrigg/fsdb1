@@ -6,6 +6,7 @@ import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
 import loadAdvisorSummary from '@salesforce/apex/SiteController.loadAdvisorSummary';
+import loadAdvisorRecords from '@salesforce/apex/SiteController.loadAdvisorRecords';
 
 export default class BffReviewSiteHome extends NavigationMixin(LightningElement) {
     userId = Id;
@@ -35,23 +36,45 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     advisorSummary;
     advisorFormInstanceId;
 
+    // For table
+    currentPageReference;
+    pendingLabel = 'Pending Evaluations';
+    submittedLabel = 'Submitted Evaluations';
+    pageLabel =  'Evaluations';
+    pageName = 'Ratings__c'; // UPDATE PAGE NAME  
+    objectName = 'Rating';
+    activeSections = ['Pending'];
+    viewColumns;
+    editColumns;
+    pendingItemsData;
+    submittedItemsData;
+    pendingSortedBy;
+    pendingSortedDirection;
+    submittedSortedBy;
+    submittedSortedDirection;
+    formData =[];
+    isViewForms = false;
+
+    
     connectedCallback() {
         if (this.userId) {
             this.loadData();
-        }
+        } 
     }
+
 
     async loadData() {
         try {
             console.log('loadData');
             // Retrieve Advisor and Form Instance, along with translations
             // let [translations ] = await Promise.all ([
-            let [data, translations ] = await Promise.all ([
+            let [advsummary, list, translations ] = await Promise.all ([
                 loadAdvisorSummary(),
+                loadAdvisorRecords(),
                 getTranslations()
             ]);
             console.log('data and translations fetched');
-            this.advisorSummary = JSON.parse(data);
+            this.advisorSummary = JSON.parse(advsummary);
             this.language = this.advisorSummary.preferredLanguage;
             this.advisorFormInstanceId = this.advisorSummary.advInfoFormInstanceId;
             console.log(this.advisorFormInstanceId);
@@ -64,6 +87,54 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             
             // this.template.querySelector('c-bff-review-site-header').transData = this.transData;
             this.translatePage();
+
+            // For table
+            let parsedList = JSON.parse(list);
+
+            //Lightning datatables can't automtically pull out nested values
+            let parsedLists = this.updateListInternals(parsedList);
+            
+            this.pendingItemsData = parsedLists.pending;
+            this.submittedItemsData = parsedLists.submitted;
+            this.pendingLabel = this.pendingLabel + ' ('+ this.pendingItemsData.length +')';
+            this.submittedLabel = this.submittedLabel + ' ('+ this.submittedItemsData.length +')';
+    
+            let viewButton = {type: 'button-icon', initialWidth: 80, 
+                                typeAttributes: {  
+                                    iconName: "utility:preview", 
+                                    name: "Go To Item",  
+                                    variant: 'bare',
+                                    alternativeText: "Go To Item",       
+                                    disabled: false
+                                }
+                            };
+            let editButton = {type: 'button-icon', initialWidth: 80, 
+                typeAttributes: {  
+                    iconName: "utility:edit", 
+                    name: "Go To Item",  
+                    variant: 'bare',
+                    alternativeText: "Go To Item",       
+                    disabled: false
+                }
+            };
+    
+            let columns = [
+                { label: 'Org Name', fieldName: 'orgName', hideDefaultActions: true, sortable: true,},
+                { label: 'Country', fieldName: 'country', hideDefaultActions: true, sortable: true,},
+                { label: 'Proposal Name', fieldName: 'proposalName', hideDefaultActions: true, sortable: true,},
+                { label: 'Grant Type', fieldName: 'grantType', hideDefaultActions: true, sortable: true,},
+                { label: 'Award Notification Deadline', fieldName: 'notificationDeadline', type: 'date', hideDefaultActions: true, sortable: true,},
+                { label: 'Proposal Date Received', fieldName: 'dateRecieved', type: 'date', hideDefaultActions: true, sortable: true,},
+                { label: 'Review Status', fieldName: 'status', hideDefaultActions: true, sortable: true,},
+                { label: 'Template Language', fieldName: 'language', hideDefaultActions: true, sortable: true,},
+            ];
+
+            //Differentiate view and edit lists
+            this.viewColumns = columns.slice(0);
+            this.editColumns = columns.slice(0);
+            this.viewColumns.unshift(viewButton);
+            this.editColumns.unshift(editButton);
+
             // this.setLangPickerDefault();
             this.dataLoaded = true;
             this.showHeader = true;
@@ -83,7 +154,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this.loading = this.transByName.get('Loading');
         this.bffLogoAltText = this.transByName.get('BFFLogo');
         this.languageSelector = this.transByName.get('LanguageSelector');
-        console.log(this.support);
+        console.log(this.transByName.get('Logout'));
 
 
         /*
@@ -117,13 +188,57 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this.translatePage();
     }
 
-    /* get options() {
-        return [
-                 { label: 'English', value: 'English' },
-                 { label: 'Español', value: 'Spanish' },
-                 { label: 'Français', value: 'French' },
-                 { label: 'Português', value: 'Portuguese' }
-               ];
-    } */
+    updatePendingColumnSorting(event) {
+        var fieldName = event.detail.fieldName;
+        var sortDirection = event.detail.sortDirection;
+        // assign the latest attribute with the sorted column fieldName and sorted direction
+        this.pendingSortedBy = fieldName;
+        this.pendingSortedDirection = sortDirection;
+        this.pendingItemsData = this.sortData(fieldName, sortDirection, this.pendingItemsData);
+    }
+
+    updateSubmittedColumnSorting(event) {
+        var fieldName = event.detail.fieldName;
+        var sortDirection = event.detail.sortDirection;
+        // assign the latest attribute with the sorted column fieldName and sorted direction
+        this.submittedSortedBy = fieldName;
+        this.submittedSortedDirection = sortDirection;
+        this.submittedItemsData = this.sortData(fieldName, sortDirection, this.submittedItemsData);
+    }
+
+    updateListInternals(itemsList) {
+        let returnLists = {};
+        returnLists.pending = [];
+        returnLists.submitted = [];
+        for (let itm of itemsList) {
+            itm.orgName = itm.Proposal__r.Account__r.Name;
+            itm.country = itm.Proposal__r.Country__r.Name;
+            itm.proposalName = itm.Proposal__r.Name;
+            itm.grantType = itm.Proposal__r.Grant_type__c;
+            itm.notificationDeadline = itm.Proposal__r.Award_notification_deadline__c;
+            itm.dateRecieved = itm.Proposal__r.Date_received__c;
+            itm.status = itm.Status_external__c;
+            itm.language = itm.Proposal__r.Template_language__c;
+            if (itm.status==='Pending') {
+                returnLists.pending.push(itm);
+            } else if (itm.status==='Submitted') {
+                returnLists.submitted.push(itm);
+            }
+        }
+        return returnLists;
+    }
+
+    handleRowAction(event) {
+        const row = event.detail.row;
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Rating__c' // UPDATE PAGE NAME
+            },
+            state: {
+                assessmentId: row.Id,
+            }
+        });
+    }
 
 }

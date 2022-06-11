@@ -87,7 +87,7 @@ public without sharing class SiteController {
                     result = JSON.serialize(props);
                 }
                 when 'Rating' {
-                    List < Assessment__c > ratingAssessments = AssessorSiteController.getRatingAssessments(advisorId, null, null);
+                    List < Assessment__c > ratingAssessments = getRatingAssessments(advisorId, null, null);
                     System.debug('ratingAssessments: '+JSON.serialize(ratingAssessments));
                     result = JSON.serialize(ratingAssessments);
                 }
