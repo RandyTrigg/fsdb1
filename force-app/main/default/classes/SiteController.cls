@@ -108,59 +108,23 @@ public without sharing class SiteController {
         }
     }
 
-    public static List < Assessment__c > getProposalAssessments(String advisorId, String status, Integer count) {
+    public static List < Assessment__c > getRatingAssessments(String advisorId, String status, Integer count) {
 
-        String whereClause = ' WHERE Advisor__c=:advisorId AND Form__c=null AND Milestone__c=null AND Profile__c=null AND Proposal__c!=null';
+        String whereClause = ' WHERE Advisor__c=:advisorId AND Form__c!=null AND Proposal__c!=null';
         if (status!=null) {
             whereClause = whereClause + ' AND Status_external__c=:status';
         }
         
-        String queryString = 'SELECT Id, Name, Account__c, Account__r.Name, Advisor__c, Proposal__r.Country__c, Proposal__r.Country__r.Name, Proposal__r.Name, Proposal__r.Account__r.Name, Proposal__r.Grant_type__c, Proposal__r.Award_notification_deadline__c, Proposal__r.Date_received__c, Proposal__r.Template_language__c, Proposal__r.Thematic_priority__c, Status_external__c FROM Assessment__c' + whereClause + ' ORDER BY Status_external__c, Proposal__r.Award_notification_deadline__c ASC';
+        String queryString = 'SELECT Id, Name, Account__c, Account__r.Name, Advisor__c, Form__c, Proposal__r.Country__c, Proposal__r.Country__r.Name, Proposal__r.Name, Proposal__r.Account__r.Name, Proposal__r.Grant_type__c, Proposal__r.Award_notification_deadline__c, Proposal__r.Date_received__c, Proposal__r.Template_language__c ,Status_external__c FROM Assessment__c' + whereClause + ' ORDER BY Status_external__c, Date_submitted__c';
 
         if (count!=null) {
             queryString = queryString + ' LIMIT: count';
         }
 
-        List < Assessment__c > propReportAssessments = Database.query(queryString);
+        List < Assessment__c > ratingAssessments = Database.query(queryString);
 
-        return propReportAssessments;
+        return ratingAssessments;
         
-    }
-
-    @AuraEnabled //Do not cache
-    public static String getAssessmentReview(String assessmentId) {
-        Assessment rev = new Assessment(assessmentId);
-        return JSON.serialize(rev);
-    }    
-
-    @AuraEnabled// Do not cache
-    public static List<Assessment__c> getAssignedAssessments() {
-
-        try {
-            String advisorId = getRunningUserAdvisorId();
-
-            return [
-                SELECT Id, Name, Account__c, Advisor__c, Advisor__r.Name, Advisor_Term__c, Date_submitted__c, 
-                Milestone__c, Milestone__r.Account_name__c, Milestone__r.Date_submitted__c, Milestone__r.Name, 
-                Milestone__r.Review_priority__c, Milestone__r.Country_name__c, Portfolio__c, Profile__c, 
-                Proposal__c, Proposal__r.Account__r.Name, Proposal__r.Date_received__c, Review_Form__c, Status__c, 
-                Status_external__c, Profile__r.Org_name__c, Profile__r.Account__c, Profile__r.Account__r.Name, 
-                Profile__r.Date_submitted__c
-                FROM Assessment__c
-                WHERE Advisor__c=:advisorId
-                AND Form__c=null
-                ORDER BY Status_external__c, Date_submitted__c
-            ];
-        } catch (Exception e) {
-            throw new GFW_Exception('SiteController.getAssignedAssessments', 'Could not load Assessments for the current user.', e);
-        }
-    }
-
-    @AuraEnabled
-    public static boolean submitReview(String assessmentId){
-        Assessment assess = new Assessment(assessmentId);
-        assess.submit();
-        return true;
     }
 
 

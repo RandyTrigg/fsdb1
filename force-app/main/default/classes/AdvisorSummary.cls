@@ -1,4 +1,4 @@
-public with sharing class AdvisorSummary {
+public inherited sharing class AdvisorSummary {
 
     public Boolean hasForms = false;
     public Boolean hasMilestones = false;
@@ -19,6 +19,8 @@ public with sharing class AdvisorSummary {
     public String fullName;
     public String lastName;
     public String preferredLanguage;
+    // ADDED 6/10/2022
+    public String advInfoFormInstanceId;
 
     public List < ItemSummary > milestoneReviewsAssigned;
     public List < ItemSummary > profileReviewsAssigned;
@@ -27,7 +29,7 @@ public with sharing class AdvisorSummary {
     public List < ItemSummary > viewFormsAvailable;
     
     
-    public with sharing class ItemSummary {
+    public inherited sharing class ItemSummary {
         public Boolean isPriority;
         public Date dateValue;
         public ID sfId;
@@ -45,11 +47,36 @@ public with sharing class AdvisorSummary {
     public AdvisorSummary(String advisorId) {
         
         Advisor__c advRecord = [SELECT ID, Language__c, (SELECT ID, Type__c, Status_external__c, Portfolio__c FROM Advisor_Terms__r WHERE Status_external__c='Active') FROM Advisor__c WHERE ID=:advisorId];
-
+        
         this.fullName = System.UserInfo.getName();
         this.firstName = System.UserInfo.getFirstName();
         this.lastName = System.UserInfo.getLastName();
         this.preferredLanguage = advRecord.Language__c;
+
+        // Retrieve Advisor Profile Form Instance. ADDED 6/10/2022
+        ID usrId = UserInfo.getUserId();
+        String fsGroupName = Utilities.fsGroupNameByUser(usrId);
+        String fsOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(usrId);
+        Form__c advProfileForm = [SELECT Id, Name, Type__c, Active__c, FS_Group__c FROM Form__c WHERE Name LIKE '%AdvisorProfile%' AND Type__c='Admin' AND Active__c=TRUE AND FS_Group__c=:fsGroupName LIMIT 1];
+        if (advForm !=null) {
+            Form_Instance__c advInfoFormInstance = [SELECT Id, Advisor__c, Form__c, Profile__c, Proposal__c FROM Form_Instance__c WHERE Form__c =:advProfileForm.Id AND Advisor__c=:advisorId AND Profile__c=null AND Proposal__c=null]; 
+            if (advInfoFormInstance!=null) {
+                // create new form instance linked to this advisor and active advisorprofile form.
+                try {
+                    Form_Instance__c newAdvProfileFI = new Form_Instance__c(
+                        Form__c = advProfileForm.Id,
+                        Advisor__c = advisorId,
+                        OwnerId = fsOwnerId
+                    );
+                    insert newAdvProfileFI;
+                    this.advInfoFormInstanceId = newAdvProfileFI.Id;
+                } catch(Exception e) {
+                    throw new GFW_Exception('AdvisorSummary.AdvisorSummary', 'Could not insert Advisor Profile Form Instance', e);
+                }
+            } else {
+                this.advInfoFormInstanceId = advInfoFormInstance.Id;
+            }
+        }
 
         this.milestoneReviewsAssigned = new List <ItemSummary>();
         this.proposalReviewsAssigned = new List <ItemSummary>();

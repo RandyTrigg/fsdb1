@@ -5,7 +5,7 @@ import { showUIError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
-import loadAdvisorSummary from '@salesforce/apex/AssessorSiteController.loadAdvisorSummary';
+import loadAdvisorSummary from '@salesforce/apex/SiteController.loadAdvisorSummary';
 
 export default class BffReviewSiteHome extends NavigationMixin(LightningElement) {
     userId = Id;
@@ -31,6 +31,10 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     transByNameObj;
     transData;
 
+    // Advisor and assessment info
+    advisorSummary;
+    advisorFormInstanceId;
+
     connectedCallback() {
         if (this.userId) {
             this.loadData();
@@ -41,21 +45,21 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         try {
             console.log('loadData');
             // Retrieve Advisor and Form Instance, along with translations
-            let [translations ] = await Promise.all ([
-            // let [data, translations ] = await Promise.all ([
-                // getProfileSummary(),
+            // let [translations ] = await Promise.all ([
+            let [data, translations ] = await Promise.all ([
+                loadAdvisorSummary(),
                 getTranslations()
             ]);
-            /*
-            this.profileSummary = JSON.parse(data);
-            this.language = this.profileSummary.language;
+            
+            this.advisorSummary = JSON.parse(data);
+            this.language = this.advisorSummary.preferredLanguage;
+            this.advisorFormInstanceId = this.advisorSummary.advInfoFormInstanceId;
             this.transInfo = JSON.parse(translations);
-            */
+            
             console.log('translations fetched');
-            this.language = "English";
             // Added transData to try to successfully pass to header -- but not working.
-            this.transData = translations;
-            this.transInfo = JSON.parse(translations);
+            // this.transData = translations;
+            // this.transInfo = JSON.parse(translations);
             
             // this.template.querySelector('c-bff-review-site-header').transData = this.transData;
             this.translatePage();
