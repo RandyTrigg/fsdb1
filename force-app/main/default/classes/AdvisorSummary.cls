@@ -58,9 +58,9 @@ public inherited sharing class AdvisorSummary {
         String fsGroupName = Utilities.fsGroupNameByUser(usrId);
         String fsOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(usrId);
         Form__c advProfileForm = [SELECT Id, Name, Type__c, Active__c, FS_Group__c FROM Form__c WHERE Name LIKE '%AdvisorProfile%' AND Type__c='Admin' AND Active__c=TRUE AND FS_Group__c=:fsGroupName LIMIT 1];
-        if (advForm !=null) {
-            Form_Instance__c advInfoFormInstance = [SELECT Id, Advisor__c, Form__c, Profile__c, Proposal__c FROM Form_Instance__c WHERE Form__c =:advProfileForm.Id AND Advisor__c=:advisorId AND Profile__c=null AND Proposal__c=null]; 
-            if (advInfoFormInstance!=null) {
+        if (advProfileForm !=null) {
+            List<Form_Instance__c> advInfoFormInstance = new List<Form_Instance__c>([SELECT Id, Advisor__c, Form__c, Profile__c, Proposal__c FROM Form_Instance__c WHERE Form__c =:advProfileForm.Id AND Advisor__c=:advisorId AND Profile__c=null AND Proposal__c=null]); 
+            if (advInfoFormInstance.isEmpty()) {
                 // create new form instance linked to this advisor and active advisorprofile form.
                 try {
                     Form_Instance__c newAdvProfileFI = new Form_Instance__c(
@@ -74,7 +74,7 @@ public inherited sharing class AdvisorSummary {
                     throw new GFW_Exception('AdvisorSummary.AdvisorSummary', 'Could not insert Advisor Profile Form Instance', e);
                 }
             } else {
-                this.advInfoFormInstanceId = advInfoFormInstance.Id;
+                this.advInfoFormInstanceId = advInfoFormInstance[0].Id;
             }
         }
 

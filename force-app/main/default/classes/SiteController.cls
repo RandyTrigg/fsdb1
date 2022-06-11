@@ -96,11 +96,11 @@ public without sharing class SiteController {
                     result = JSON.serialize(profiles);
                     System.debug('profiles: '+result);
                 }
-                when 'Form' {
+                /* when 'Form' {
                     System.debug('in form section');
                     List < Invite__c > invites = loadInviteViewForms(advRecord.Advisor_Terms__r,null);
                     result = JSON.serialize(invites);
-                }
+                } */
             }
             return result;
         } catch (Exception e) {
