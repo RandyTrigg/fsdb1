@@ -40,6 +40,47 @@
                         </section>-->
                     </div>
                 </div>
+
+                <!-- TABLE -->
+                <lightning-accordion class="gfw-accordion slds-var-m-bottom_large" allow-multiple-sections-open
+                active-section-name={activeSections}>
+                <lightning-accordion-section name="Pending" label={pendingLabel}>
+                    <div class="gfw-item-list">
+                        <lightning-datatable 
+                            key-field="id" 
+                            hide-checkbox-column=true
+                            data={pendingItemsData} 
+                            columns={editColumns}
+                            onsort={updatePendingColumnSorting}
+                            sorted-by={pendingSortedBy}
+                            sorted-direction={pendingSortedDirection}
+                            onrowaction={handleRowAction}>
+                        </lightning-datatable>
+                    </div>
+                </lightning-accordion-section>
+    
+                <lightning-accordion-section name="Submitted" label={submittedLabel} class="slds-var-m-top_x-large">
+                    <div class="gfw-item-list">
+                        <lightning-datatable   
+                            key-field="id" 
+                            hide-checkbox-column=true
+                            data={submittedItemsData} 
+                            columns={viewColumns}
+                            onsort={updateSubmittedColumnSorting}
+                            sorted-by={submittedSortedBy}
+                            sorted-direction={submittedSortedDirection}
+                            onrowaction={handleRowAction}>
+                        </lightning-datatable>
+                    </div>
+                </lightning-accordion-section>
+            </lightning-accordion>
+
+
+
+
+
+
+
             </div> <!-- data load tag-->
         </main>
         

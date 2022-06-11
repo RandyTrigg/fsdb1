@@ -241,4 +241,29 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         });
     }
 
+    sortData(fieldname, direction, sortData) {
+        // serialize the data before calling sort function
+        let parseData = JSON.parse(JSON.stringify(sortData));
+
+        // Return the value stored in the field
+        let keyValue = (a) => {
+            return a[fieldname];
+        };
+
+        // cheking reverse direction 
+        let isReverse = direction === 'asc' ? 1: -1;
+
+        // sorting data 
+        parseData.sort((x, y) => {
+            x = keyValue(x) ? keyValue(x) : ''; // handling null values
+            y = keyValue(y) ? keyValue(y) : '';
+
+            // sorting values based on direction
+            return isReverse * ((x > y) - (y > x));
+        });
+
+        // set the sorted data to data table data
+        return parseData;
+    }
+
 }
