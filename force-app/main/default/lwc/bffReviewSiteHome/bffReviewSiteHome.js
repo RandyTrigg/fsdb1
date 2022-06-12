@@ -10,15 +10,8 @@ import loadAdvisorRecords from '@salesforce/apex/SiteController.loadAdvisorRecor
 
 export default class BffReviewSiteHome extends NavigationMixin(LightningElement) {
     userId = Id;
-
-    // Logos and text on page that needs to get loaded first 
     debug;
-    logout; // When logout & support translated in markup, page throws a null error on 'options.' Maybe because they are being passed as attributes?
-    support;
-    languageSelector;
     loading = "Loading";
-    bffLogoAltText;
-    showMenu = false;
     errMsg;
     showSpinner = true;
     dataLoaded = false;
@@ -30,7 +23,6 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     language;
     transByName;
     transByNameObj;
-    transData;
 
     // Advisor and assessment info
     advisorSummary;
@@ -61,7 +53,6 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         } 
     }
 
-
     async loadData() {
         try {
             console.log('loadData');
@@ -69,7 +60,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             // let [translations ] = await Promise.all ([
             let [advsummary, list, translations ] = await Promise.all ([
                 loadAdvisorSummary(),
-                loadAdvisorRecords(),
+                loadAdvisorRecords({objectType:this.objectName}),
                 getTranslations()
             ]);
             console.log('data and translations fetched');
@@ -77,15 +68,12 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             this.language = this.advisorSummary.preferredLanguage;
             this.advisorFormInstanceId = this.advisorSummary.advInfoFormInstanceId;
             console.log(this.advisorFormInstanceId);
+            
+            // Load translations
             this.transInfo = JSON.parse(translations);
-            
-
-            // Added transData to try to successfully pass to header -- but not working.
-            // this.transData = translations;
-            // this.transInfo = JSON.parse(translations);
-            
-            // this.template.querySelector('c-bff-review-site-header').transData = this.transData;
-            this.translatePage();
+            this.transByName = buildTransByName(this.transInfo, this.language);
+            this.transByNameObj = Object.fromEntries(this.transByName);
+            this.loading = this.transByName.get('Loading');
 
             // For table
             let parsedList = JSON.parse(list);
@@ -134,7 +122,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             this.viewColumns.unshift(viewButton);
             this.editColumns.unshift(editButton);
 
-            // this.setLangPickerDefault();
+            // Tie up ends for data loading
             this.dataLoaded = true;
             this.showHeader = true;
             this.showSpinner = false;
@@ -145,42 +133,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         }
     }
 
-    translatePage(){
-        this.transByName = buildTransByName(this.transInfo, this.language);
-        this.transByNameObj = Object.fromEntries(this.transByName);
-        this.logout = this.transByName.get('Logout');
-        this.support = this.transByName.get('Support');
-        this.loading = this.transByName.get('Loading');
-        this.bffLogoAltText = this.transByName.get('BFFLogo');
-        this.languageSelector = this.transByName.get('LanguageSelector');
-        console.log(this.transByName.get('Logout'));
-
-
-        /*
-        this.prFormInstanceId = this.profileSummary.prFormInstanceId;
-        this.prfId = this.profileSummary.prId;
-        this.prpList = this.profileSummary.prpList;
-        this.formInstList = this.profileSummary.formInstList;
-        this.hasProposals = this.profileSummary.hasProposals;
-        this.processFormInstList(this.formInstList);
-        this.prpItemsData = this.processPrpList(this.prpList);
-        */
-    }
-
-    setLangPickerDefault(){
-        const langPicker = this.template.querySelector('[name="langPicker"]');
-        langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
-        const lMap = new Map();
-        lMap.set('English', 'en');
-        lMap.set('Spanish', 'es');
-        lMap.set('French', 'fr');
-        lMap.set('Portuguese', 'pt');
-        this.langMap = lMap;
-        this.langTag = this.langMap.get(this.language);
-    }
-
     handleLanguagePicker(event){
-        // this.language = event.target.value;
         console.log('handleLanguagePicker in Home');
         this.language = event.detail;
         console.log(this.language);
@@ -206,17 +159,23 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     }
 
     updateListInternals(itemsList) {
+        console.log('updateListInternals');
         let returnLists = {};
         returnLists.pending = [];
         returnLists.submitted = [];
         for (let itm of itemsList) {
             itm.orgName = itm.Proposal__r.Account__r.Name;
+            console.log('orgname',itm.orgName);
             itm.country = itm.Proposal__r.Country__r.Name;
+            console.log('country',itm.country);
             itm.proposalName = itm.Proposal__r.Name;
+            console.log('propName',itm.proposalName);
             itm.grantType = itm.Proposal__r.Grant_type__c;
+            console.log('granttype',itm.grantType);
             itm.notificationDeadline = itm.Proposal__r.Award_notification_deadline__c;
             itm.dateRecieved = itm.Proposal__r.Date_received__c;
             itm.status = itm.Status_external__c;
+            console.log('status',itm.status);
             itm.language = itm.Proposal__r.Template_language__c;
             if (itm.status==='Pending') {
                 returnLists.pending.push(itm);
@@ -224,6 +183,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
                 returnLists.submitted.push(itm);
             }
         }
+        console.log('updateListInternalsReturnLists');
         return returnLists;
     }
 
