@@ -2,8 +2,6 @@ import { LightningElement, api } from 'lwc';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
 import Id from '@salesforce/user/Id';
-import getTranslations from '@salesforce/apex/SiteController.getTranslations';
-import { buildTransByName } from 'c/formsUtilities';
 import loadAdvisorSummary from '@salesforce/apex/AssessorSiteController.loadAdvisorSummary';
 
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {

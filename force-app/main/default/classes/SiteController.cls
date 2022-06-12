@@ -52,7 +52,7 @@ public without sharing class SiteController {
 
     /**********************************
     * Invoked from community-related LWC: Review Community
-    (Pulled over from AssessorSiteController - need to go thru))
+    (Pulled over from AssessorSiteController))
     *********************************/
     
     private static String getRunningUserAdvisorId() {
@@ -78,29 +78,11 @@ public without sharing class SiteController {
         try {
             String result;
             switch on objectType {
-                when 'Milestone__c' {
-                    List < Assessment__c > reports = AssessorSiteController.getMilestoneAssessments(advisorId, null, null);
-                    result = JSON.serialize(reports);
-                }	
-                when 'Proposal__c' {
-                    List < Assessment__c > props = AssessorSiteController.getProposalAssessments(advisorId, null, null);
-                    result = JSON.serialize(props);
-                }
                 when 'Rating' {
                     List < Assessment__c > ratingAssessments = getRatingAssessments(advisorId, null, null);
                     System.debug('ratingAssessments: '+JSON.serialize(ratingAssessments));
                     result = JSON.serialize(ratingAssessments);
                 }
-                when 'Profile__c' {
-                    List < Assessment__c > profiles = AssessorSiteController.getProfileAssessments(advisorId, null, null);
-                    result = JSON.serialize(profiles);
-                    System.debug('profiles: '+result);
-                }
-                /* when 'Form' {
-                    System.debug('in form section');
-                    List < Invite__c > invites = loadInviteViewForms(advRecord.Advisor_Terms__r,null);
-                    result = JSON.serialize(invites);
-                } */
             }
             return result;
         } catch (Exception e) {
