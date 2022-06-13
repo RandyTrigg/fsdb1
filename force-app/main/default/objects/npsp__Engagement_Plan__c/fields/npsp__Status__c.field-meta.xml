@@ -3,7 +3,7 @@
     <fullName>npsp__Status__c</fullName>
     <deprecated>false</deprecated>
     <externalId>false</externalId>
-    <formula>IF( npsp__Completed_Tasks__c == npsp__Total_EP_Tasks__c, $Label.npsp__statuscompleted, IF (npsp__Completed_Tasks__c &gt; 0, $Label.npsp__statusinprogress, $Label.npsp__statusnotstarted))</formula>
+    <formula>IF( npsp__Completed_Tasks__c == npsp__Total_EP_Tasks__c, $Label.npsp__statusCompleted, IF (npsp__Completed_Tasks__c &gt; 0, $Label.npsp__statusInProgress, $Label.npsp__statusNotStarted))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Status</label>
     <required>false</required>

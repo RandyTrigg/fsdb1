@@ -1,0 +1,49 @@
+.bff-header-container {
+    height: 100px;
+}
+
+.bff-global-header {
+	background: rgb(46, 17, 54);
+    height: 100px;
+}
+
+.bff-logo-header {
+	height: 100px;
+}
+
+.language-font {
+    font-size: 18px;
+}
+
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+
+
+.under-header-strip {
+	background: #fcfcfc;
+}
+.gfw-menu-item {
+    display: inline-flex;
+}
+
+.gfw-pointer{
+    cursor: pointer;
+}
+
+.gfw-global-search {
+    max-width: var(--lwc-sizeMedium, 30rem);
+    min-width: var(--lwc-sizeMedium, 20rem);
+}
+
+:host {
+    --sds-c-button-color-background: #ffffff;
+}

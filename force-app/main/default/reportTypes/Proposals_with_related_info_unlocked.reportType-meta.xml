@@ -1086,6 +1086,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Profile__c.Org_Eligibility__c</field>
+            <table>Proposal__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Profile__c.Org_email__c</field>
             <table>Proposal__c</table>
         </columns>

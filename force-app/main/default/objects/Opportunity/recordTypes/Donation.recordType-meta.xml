@@ -143,6 +143,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>npsp__Tribute_Notification_Status__c</picklist>
+        <values>
+            <fullName>Notified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>To Be Notified</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>npsp__Tribute_Type__c</picklist>
         <values>
             <fullName>Honor</fullName>

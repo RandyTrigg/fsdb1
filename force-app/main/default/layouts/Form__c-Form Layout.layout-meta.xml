@@ -76,6 +76,10 @@
                 <behavior>Edit</behavior>
                 <field>Form_Phrase_Footer__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>FS_Group__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

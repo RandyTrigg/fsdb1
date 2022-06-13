@@ -1,28 +1,26 @@
 import { LightningElement } from 'lwc';
-import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
-import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
 import { showUIError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
+import loadAdvisorSummary from '@salesforce/apex/AssessorSiteController.loadAdvisorSummary';
 
 export default class BffReviewSiteHome extends NavigationMixin(LightningElement) {
     userId = Id;
 
     // Logos and text on page that needs to get loaded first 
     debug;
-    bffLogo = logoResource;
-    bffLogoWhiteText = logoResourceWhiteText;
     logout; // When logout & support translated in markup, page throws a null error on 'options.' Maybe because they are being passed as attributes?
     support;
     languageSelector;
-    loading;
+    loading = "Loading";
     bffLogoAltText;
     showMenu = false;
     errMsg;
     showSpinner = true;
+    dataLoaded = false;
 
     // Translations
     transInfo;
@@ -31,6 +29,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     language;
     transByName;
     transByNameObj;
+    transData;
 
     connectedCallback() {
         if (this.userId) {
@@ -52,13 +51,19 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             this.language = this.profileSummary.language;
             this.transInfo = JSON.parse(translations);
             */
-
-            this.language = 'English';
+            console.log('translations fetched');
+            this.language = "English";
+            // Added transData to try to successfully pass to header -- but not working.
+            this.transData = translations;
             this.transInfo = JSON.parse(translations);
+            
+            // this.template.querySelector('c-bff-review-site-header').transData = this.transData;
             this.translatePage();
-            this.setLangPickerDefault();
+            // this.setLangPickerDefault();
             this.dataLoaded = true;
+            this.showHeader = true;
             this.showSpinner = false;
+            console.log('dataloaded');
             
         } catch (error) {
             handleError(error);
@@ -73,6 +78,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this.loading = this.transByName.get('Loading');
         this.bffLogoAltText = this.transByName.get('BFFLogo');
         this.languageSelector = this.transByName.get('LanguageSelector');
+        console.log(this.support);
 
 
         /*
@@ -99,17 +105,20 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     }
 
     handleLanguagePicker(event){
-        this.language = event.target.value;
+        // this.language = event.target.value;
+        console.log('handleLanguagePicker in Home');
+        this.language = event.detail;
+        console.log(this.language);
         this.translatePage();
     }
 
-    get options() {
+    /* get options() {
         return [
                  { label: 'English', value: 'English' },
                  { label: 'Español', value: 'Spanish' },
                  { label: 'Français', value: 'French' },
                  { label: 'Português', value: 'Portuguese' }
                ];
-    }
+    } */
 
 }

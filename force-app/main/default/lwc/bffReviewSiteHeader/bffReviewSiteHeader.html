@@ -1,0 +1,74 @@
+<template>
+
+    <header class="slds-global-header_container bff-header-container">
+        <div if:true={dataLoaded} class="slds-global-header slds-grid bff-global-header slds-grid_align-spread">
+            <div class="slds-global-header__item">
+                <a href="https://globalfundforwomen-fs.force.com/BlackFeministFundReview/s/">
+                    <img class="bff-logo-header" src={bffLogoWhiteText} alt="Review Home Page">
+                </a>
+            </div>
+            <div class="slds-global-header__item">
+                <lightning-button-menu 
+                    alternative-text="Show menu" 
+                    icon-name="utility:settings" 
+                    variant="border-inverse"
+                    menu-alignment="auto"
+                    onselect={handleMenuSelect}>
+                        <lightning-menu-item
+                            disabled={disableProfile}
+                            value="Profile"
+                            label={profile}
+                            icon-name="utility:user"
+                            onclick={handleProfile}>
+                        </lightning-menu-item>
+                        <lightning-menu-item 
+                            value="Get help" 
+                            label={support}
+                            icon-name="utility:help"
+                            href="mailto:BFFgrant-helpdesk@blackfeministfund.org?Subject=Question about Grants Site" 
+                            target="_blank">
+                        </lightning-menu-item>
+                        <lightning-menu-item 
+                            value="Logout"
+                            label={logout}
+                            icon-name="utility:logout"
+                            onclick={handleLogout}>
+                        </lightning-menu-item>
+                </lightning-button-menu>
+            </div>
+        </div>
+
+        <!-- LANGUAGE PICKER -->
+        <div if:false={hideLanguagePicker} class="slds-global-header slds-grid under-header-strip slds-grid_align-end slds-m-right_medium">
+            <div class="slds-col slds-form-element">
+                <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
+                <div class="slds-form-element__control slds-select_container">
+                    <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
+                        <template for:each={options} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div if:false={hideSearch} class="slds-global-header slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
+            <div class="slds-global-header__item gfw-global-search">
+                Search box
+                <!-- <c-lookup
+                    data-id="searchLookup"    
+                    errors={errors}
+                    onsearch={handleLookupSearch}
+                    onclick={handleSearchClick}
+                    placeholder="Search Items"
+                    scroll-after-n-items="10"
+                    is-multi-entry={isMultiEntry}
+                    apply-gfw-icon-color="true"
+                    required
+                >
+                </c-lookup>-->
+            </div>
+        </div>
+    </header>
+
+</template>

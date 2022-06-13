@@ -375,4 +375,19 @@
             <default>false</default>
         </values>
     </picklistValues>
+    <picklistValues>
+        <picklist>npsp__Sustainer__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Former</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lapsed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
