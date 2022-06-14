@@ -71,9 +71,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             
             // Load translations
             this.transInfo = JSON.parse(translations);
-            this.transByName = buildTransByName(this.transInfo, this.language);
-            this.transByNameObj = Object.fromEntries(this.transByName);
-            this.loading = this.transByName.get('Loading');
+            this.translatePage();
 
             // For table
             let parsedList = JSON.parse(list);
@@ -131,6 +129,12 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         } catch (error) {
             handleError(error);
         }
+    }
+
+    translatePage() {
+        this.transByName = buildTransByName(this.transInfo, this.language);
+        this.transByNameObj = Object.fromEntries(this.transByName);
+        this.loading = this.transByName.get('Loading');
     }
 
     handleLanguagePicker(event){

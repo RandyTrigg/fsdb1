@@ -54,15 +54,11 @@ public without sharing class SiteController {
     * Invoked from community-related LWC: Review Community
     (Pulled over from AssessorSiteController))
     *********************************/
-    
-    private static String getRunningUserAdvisorId() {
-        return AdvisorController.getRunningUserAdvisorId();        
-    }
 
     @AuraEnabled
     public static string loadAdvisorSummary(){
         try {
-            AdvisorSummary advSummary = new AdvisorSummary(getRunningUserAdvisorId());
+            AdvisorSummary advSummary = new AdvisorSummary(AdvisorController.getRunningUserAdvisorId());
             return JSON.serialize(advSummary);
         } catch (Exception e) {
             throw new GFW_Exception('SiteController.loadAdvisorSummary',e.getMessage(),e);
@@ -72,7 +68,7 @@ public without sharing class SiteController {
     @AuraEnabled
     public static String loadAdvisorRecords(String objectType){
         System.debug('objectType: '+objectType);
-        String advisorId = getRunningUserAdvisorId();
+        String advisorId = AdvisorController.getRunningUserAdvisorId();
         Advisor__c advRecord = [SELECT ID, Language__c, (SELECT ID, Type__c, Status_external__c, Portfolio__c FROM Advisor_Terms__r WHERE Status_external__c='Active') FROM Advisor__c WHERE ID=:advisorId];
 
         try {

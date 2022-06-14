@@ -9,9 +9,9 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     bffLogoWhiteText = logoResourceWhiteText;
     dataLoaded = false;
 
-    profile = 'Profile';
+    profile = 'My Profile';
     @api language;
-    @api disableProfile;
+    @api disableProfile; // Removed this - disabling even when set to False.
     @api hideSearch;
     @api hideLanguagePicker;
     @api advisorFormInstanceId;
@@ -23,6 +23,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
         if (this.userId && this.language) {
             console.log('connectedCallbackHeader');
             console.log(this.language);
+            console.log(this.advisorFormInstanceId);
             console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
             // Following setLangPickerDefault throws error that options is null. 
             // this.setLangPickerDefault();
