@@ -91,7 +91,7 @@ public with sharing class AssessmentController {
         public AssessmentData (Id assessmentId) {
             // Grab assessment fields along with child form instances.
             String[] relFieldNames = new List<String> {
-                'Advisor__r.Name', 'Advisor_Term__r.Type__c, Form__r.Name, Review_Form__r.Name'
+                'Advisor__r.Name', 'Advisor__r.OwnerId', 'Advisor_Term__r.Type__c, Form__r.Name, Review_Form__r.Name'
             };
             relFieldNames.add(Utilities.buildChildSubQuery('Form_Instance__c', 'Form_Instances__r', null));
             Assessment__c a = (Assessment__c)Utilities.fetchRecord('Assessment__c', assessmentId, relFieldNames);
@@ -112,6 +112,8 @@ public with sharing class AssessmentController {
                 else if (a.Date_submitted__c != null) { // Submitted form should already have a form instance!
                     throw new GFW_Exception('AssessmentData constructor', 'Submitted form-based assessment has no form instance');
                 } else { // Build new form instance
+                    // Owner of new record should be a member of appropriate FS group. If not found (e.g. running under apex test), then use current user.
+                    Id fsUserId = Utilities.fsDefaultRecordOwnerIdByUser(a.Advisor__r.OwnerId);
                     fi = new Form_Instance__c (
                         Form__c = a.Form__c,
                         Advisor__c = a.Advisor__c,
@@ -119,7 +121,8 @@ public with sharing class AssessmentController {
                         Assessment__c = assessmentId,
                         Milestone__c = a.Milestone__c,
                         Proposal__c = a.Proposal__c,
-                        Profile__c = a.Profile__c
+                        Profile__c = a.Profile__c,
+                        OwnerId = fsUserId != null ? fsUserId : UserInfo.getUserId()
                     );
                     insert fi;
                 }

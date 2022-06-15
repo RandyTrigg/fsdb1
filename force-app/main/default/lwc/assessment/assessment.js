@@ -7,8 +7,9 @@ export default class Assessment extends NavigationMixin ( LightningElement ) {
 
     @api recordId; 
     assessedRecordId;
-    language = 'English';
+    @api language = 'English';
     formInstanceId;
+    dataLoaded = false;
 
 
     connectedCallback() {
@@ -33,11 +34,11 @@ export default class Assessment extends NavigationMixin ( LightningElement ) {
     }
 
     async loadData() {
-        console.log('loadData');
+        console.log('assessment loadData');
         let assessmentData = await getAssessmentData({assessmentId:this.recordId});
         let assessment = JSON.parse(assessmentData);
-        // console.log('assessment');
-        // console.log(assessment);
+        console.log('assessment');
+        console.log(assessment);
         this.assessedRecordId = assessment.assessedRecordId;
         if (assessment.formName) {
             this.formInstanceId = assessment.formInstanceId;
