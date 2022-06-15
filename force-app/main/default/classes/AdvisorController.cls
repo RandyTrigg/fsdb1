@@ -81,7 +81,7 @@ public with sharing class AdvisorController {
     public static String advisorCommunityProfileName = 'Community Apex Testing';
     public static String adminProfileName = 'System Admin FSDB';
     public static String standardUserGMProfileName = 'Standard User FSDB';
-    public static String advisorCommunityPermSetName = 'Community: BFF';
+    public static String advisorCommunityPermSetName = 'Review Community: BFF';
     
     // Build interlinked records: Advisor, Contact, Advisor Term, and optionally a GM Org account for org affiliation.
     @AuraEnabled

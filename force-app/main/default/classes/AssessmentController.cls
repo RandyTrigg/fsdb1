@@ -78,4 +78,58 @@ public with sharing class AssessmentController {
         return (standardSetController != null) ? standardSetController.cancel() : standardController.cancel();   
     }
 
+    /**********************************
+    * Invoked from LWCs via SiteController class
+    *********************************/
+
+    // Collection of data related to an assessment. Constructor builds a new form instance if needed for assessments that are linked to a form.
+    public inherited sharing class AssessmentData {
+        public Id formInstanceId;
+        public Id assessedRecordId;
+        public String advisorName, advisorTermType, formName, reviewFormName;
+        
+        public AssessmentData (Id assessmentId) {
+            // Grab assessment fields along with child form instances.
+            String[] relFieldNames = new List<String> {
+                'Advisor__r.Name', 'Advisor_Term__r.Type__c, Form__r.Name, Review_Form__r.Name'
+            };
+            relFieldNames.add(Utilities.buildChildSubQuery('Form_Instance__c', 'Form_Instances__r', null));
+            Assessment__c a = (Assessment__c)Utilities.fetchRecord('Assessment__c', assessmentId, relFieldNames);
+            this.advisorName = a.Advisor__r.Name;
+            this.advisorTermType = a.Advisor_Term__r.Type__c;
+            this.formName = a.Form__r.Name;
+            this.reviewFormName = a.Review_Form__r.Name;
+            this.assessedRecordId = a.Milestone__c != null ? a.Milestone__c :
+                a.Proposal__c != null ? a.Proposal__c :
+                a.Profile__c != null ? a.Profile__c :
+                null;
+            if (this.assessedRecordId == null) throw new GFW_Exception('AssessmentData constructor', 'Assessment has no linked milestone/proposal/profile');
+            // Separately handle form-based versus review-form-based assessments
+            if (a.Form__c != null) {
+                // Build new form instance if necessary
+                Form_Instance__c fi;
+                if (a.Form_Instances__r.size() > 0) fi = a.Form_Instances__r[0];
+                else if (a.Date_submitted__c != null) { // Submitted form should already have a form instance!
+                    throw new GFW_Exception('AssessmentData constructor', 'Submitted form-based assessment has no form instance');
+                } else { // Build new form instance
+                    fi = new Form_Instance__c (
+                        Form__c = a.Form__c,
+                        Advisor__c = a.Advisor__c,
+                        Advisor_Term__c = a.Advisor_Term__c,
+                        Assessment__c = assessmentId,
+                        Milestone__c = a.Milestone__c,
+                        Proposal__c = a.Proposal__c,
+                        Profile__c = a.Profile__c
+                    );
+                    insert fi;
+                }
+                this.formInstanceId = fi.Id;
+            } else if (a.Review_Form__c != null) {
+                // Any other code for reviews performed at the community
+                // ...
+            } else throw new GFW_Exception('AssessmentData constructor', 'Assessment has blank Form__c AND blank Review_Form__c');
+        }
+    }
+    
+
 }

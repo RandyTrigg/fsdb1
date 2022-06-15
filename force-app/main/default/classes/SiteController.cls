@@ -48,4 +48,11 @@ public without sharing class SiteController {
     public static String getTranslations(){
         return FormPhraseController.getTranslations();
     }
+
+    // Fetch data related to an assessment. For assessments linked to a form, build form instance if needed.
+    @AuraEnabled //Do not cache
+    public static String getAssessmentData(String assessmentId) {
+        AssessmentController.AssessmentData data = new AssessmentController.AssessmentData(assessmentId);
+        return JSON.serialize(data);
+    }
 }

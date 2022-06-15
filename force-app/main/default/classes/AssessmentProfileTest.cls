@@ -274,15 +274,13 @@ public without sharing class AssessmentProfileTest {
     
         insert u;
 
-        User adminUser = [Select Id, UserRoleId From User Where Profile.Name='System Admin FSDB' AND IsActive=true Limit 1];
+        User adminUser = [Select Id, UserRoleId From User Where Profile.Name=:AdvisorController.adminProfileName AND IsActive=true Limit 1];
         
         System.runAs(adminUser) {
-            PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name = 'Community_BFF'];
+            PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Label = : AdvisorController.advisorCommunityPermSetName LIMIT 1];
             insert new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = ps.Id);
         }
-
         
-
         System.runAs(u) {
             String invites = AssessorSiteController.getAssignedInvites();
             System.debug('invites: '+invites);

@@ -123,7 +123,7 @@ public inherited sharing class FormInstanceController {
     }
 
      /**********************************
-     * For use in Apex code processing form data
+     * Invoked from LWCs via SiteController class
      *********************************/
     
     // Return a list of form instances to be displayed in form viewer for the given record (normally a profile, proposal, or milestone).
