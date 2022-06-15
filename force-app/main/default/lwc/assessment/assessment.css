@@ -1,0 +1,11 @@
+.gfw-form-title {
+    --sds-c-accordion-heading-text-color: #BB00FF;
+}
+
+.fullViewport {
+    height:75vmin;
+}
+
+.partialViewport {
+    height:60vmin;
+}

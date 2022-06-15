@@ -64,8 +64,8 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     }
 
     async loadData() {
-        console.log('loadData');
-        console.log('loadData', this.recordId);
+        console.log('formInstance loadData');
+        console.log('formInstance loadData', this.recordId);
         this.isReadOnly = this.isNonEditable; // At the start, internal flag is equal to external flag
         let [data, translations ] = await Promise.all ([
             getFormInstanceData ({ formInstanceId: this.recordId }),
