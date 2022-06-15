@@ -901,6 +901,7 @@ global inherited sharing class Utilities {
         sObject record = context;
         for (Integer i = 0; i < parts.size() - 1; i++) {
             record = record.getSObject(parts[i]);
+            if (record == null) return null;
         }
         // If last part ends in __r, then return as a list of records. Else, just fetch value.
         return lastPart.right(3) == '__r'
