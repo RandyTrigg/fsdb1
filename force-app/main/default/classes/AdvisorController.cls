@@ -374,49 +374,100 @@ public inherited sharing class AdvisorController {
         }  
     }
 
-
     // Fetches advisor information
     public inherited sharing class AdvisorSummary {
         public String preferredLanguage;
-        public String advInfoFormInstanceId;
+        public String advProfileFormInstanceId;
         public String firstName;
         public String fullName;
         public String lastName;
 
-        public AdvisorSummary(String advisorId) {
-            Advisor__c advRecord = [SELECT ID, Language__c, (SELECT ID, Type__c, Status_external__c, Portfolio__c FROM Advisor_Terms__r WHERE Status_external__c='Active') FROM Advisor__c WHERE ID=:advisorId];
-        
-        this.fullName = System.UserInfo.getName();
-        this.firstName = System.UserInfo.getFirstName();
-        this.lastName = System.UserInfo.getLastName();
-        this.preferredLanguage = advRecord.Language__c;
+        public AdvisorSummary(Id advisorId) {
+            Advisor__c advRecord = (Advisor__c)Utilities.fetchRecord(
+                'Advisor__c', 
+                advisorId, 
+                new List<String>{Utilities.buildChildSubQuery(
+                    'Advisor_Term__c', 
+                    'Advisor_Terms__r',
+                    'WHERE Status_external__c=\'Active\'')}
+                );        
+            this.fullName = System.UserInfo.getName();
+            this.firstName = System.UserInfo.getFirstName();
+            this.lastName = System.UserInfo.getLastName();
+            this.preferredLanguage = advRecord.Language__c;
 
-        // Retrieve or build Advisor Profile Form Instance.
-        ID usrId = UserInfo.getUserId();
-        String fsGroupName = Utilities.fsGroupNameByUser(usrId);
-        String fsOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(usrId);
-        Form__c advProfileForm = [SELECT Id, Name, Type__c, Active__c, FS_Group__c FROM Form__c WHERE Name LIKE '%AdvisorProfile%' AND Type__c='Admin' AND Active__c=TRUE AND FS_Group__c=:fsGroupName LIMIT 1];
-        if (advProfileForm !=null) {
-            List<Form_Instance__c> advInfoFormInstance = new List<Form_Instance__c>([SELECT Id, Advisor__c, Form__c, Profile__c, Proposal__c FROM Form_Instance__c WHERE Form__c =:advProfileForm.Id AND Advisor__c=:advisorId AND Profile__c=null AND Proposal__c=null]); 
-            if (advInfoFormInstance.isEmpty()) {
-                // Create new form instance linked to this advisor and active advisorprofile form.
-                try {
-                    Form_Instance__c newAdvProfileFI = new Form_Instance__c(
-                        Form__c = advProfileForm.Id,
-                        Advisor__c = advisorId,
-                        OwnerId = fsOwnerId
-                    );
-                    insert newAdvProfileFI;
-                    this.advInfoFormInstanceId = newAdvProfileFI.Id;
-                } catch(Exception e) {
-                    throw new GFW_Exception('AdvisorSummary.AdvisorSummary', 'Could not insert Advisor Profile Form Instance', e);
+            // Retrieve or build Advisor Profile Form Instance.
+            // Determine FS Group from Advisor record.
+            String whereClause = 'WHERE Name LIKE \'%AdvisorProfile%\' AND Type__c=\'Admin\' AND Active__c=TRUE AND FS_Group__c=\'' + advRecord.FS_Group__c + '\' LIMIT 1';
+            Form__c advProfileForm = (Form__c)Utilities.FetchRecords(
+                    'Form__c',
+                    whereClause,
+                    null
+                ).get(0);
+            if (advProfileForm !=null) {
+                List<Form_Instance__c> advProfileFormInstance = new List<Form_Instance__c>([SELECT Id, Advisor__c, Form__c, Profile__c, Proposal__c FROM Form_Instance__c WHERE Form__c =:advProfileForm.Id AND Advisor__c=:advisorId AND Profile__c=null AND Proposal__c=null]); 
+                if (advProfileFormInstance.isEmpty()) {
+                    // Create new form instance linked to this advisor and active advisorprofile form.
+                    try {
+                        Form_Instance__c newAdvProfileFI = new Form_Instance__c(
+                            Form__c = advProfileForm.Id,
+                            Advisor__c = advisorId,
+                            OwnerId = advRecord.OwnerId
+                        );
+                        insert newAdvProfileFI;
+                        this.advProfileFormInstanceId = newAdvProfileFI.Id;
+                    } catch(Exception e) {
+                        throw new GFW_Exception('AdvisorSummary.AdvisorSummary', 'Could not insert Advisor Profile Form Instance', e);
+                    }
+                } else {
+                    this.advProfileFormInstanceId = advProfileFormInstance[0].Id;
                 }
-            } else {
-                this.advInfoFormInstanceId = advInfoFormInstance[0].Id;
             }
         }
-
     }
-}
 
+    public static String loadAdvisorRecords(String objectType){
+        System.debug('objectType: '+objectType);
+        String advisorId = getRunningUserAdvisorId();
+        try {
+            String result;
+            switch on objectType {
+                when 'Rating' {
+                    List < Assessment__c > evalAssessments = getEvalAssessments(advisorId, null, null);
+                    System.debug('evalAssessments: '+JSON.serialize(evalAssessments));
+                    result = JSON.serialize(evalAssessments);
+                }
+            }
+            return result;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    public static List < Assessment__c > getEvalAssessments(String advisorId, String status, Integer count) {
+        String whereClause = 'WHERE Advisor__c=\'' + advisorId + '\' AND Form__c!=null AND Proposal__c!=null';
+        if (status!=null) {
+            whereClause = whereClause + ' AND Status_external__c=\'' + status + '\'';
+        }
+        // String queryString = 'SELECT Id, Name, Account__c, Account__r.Name, Advisor__c, Form__c, Proposal__r.Country__c, Proposal__r.Country__r.Name, Proposal__r.Name, Proposal__r.Account__r.Name, Proposal__r.Grant_type__c, Proposal__r.Award_notification_deadline__c, Proposal__r.Date_received__c, Proposal__r.Template_language__c ,Status_external__c FROM Assessment__c' + whereClause + ' ORDER BY Status_external__c, Date_submitted__c';
+        whereClause = whereClause + ' ORDER BY Status_external__c, Date_submitted__c';
+        if (count!=null) {
+            whereClause = whereClause + ' LIMIT ' + count;
+        }
+        return (Assessment__c[])Utilities.FetchRecords(
+            'Assessment__c',
+            whereClause,
+            new List<String>{ 
+                'Account__r.Name',
+                'Proposal__r.Country__c', 
+                'Proposal__r.Country__r.Name',
+                'Proposal__r.Name',
+                'Proposal__r.Account__r.Name',
+                'Proposal__r.Grant_type__c',
+                'Proposal__r.Award_notification_deadline__c', 
+                'Proposal__r.Date_received__c',
+                'Proposal__r.Template_language__c'
+            }
+        );
+    }
 }

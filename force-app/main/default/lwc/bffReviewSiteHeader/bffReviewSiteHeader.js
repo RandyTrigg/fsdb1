@@ -2,7 +2,6 @@ import { LightningElement, api } from 'lwc';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
 import Id from '@salesforce/user/Id';
-import loadAdvisorSummary from '@salesforce/apex/AssessorSiteController.loadAdvisorSummary';
 
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     userId = Id;
@@ -14,7 +13,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     @api disableProfile; // Removed this - disabling even when set to False.
     @api hideSearch;
     @api hideLanguagePicker;
-    @api advisorFormInstanceId;
+    @api advProfileFormInstanceId;
     @api transByNameObj;
     langTag;
     langMap;
@@ -82,7 +81,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     }
     
     handleProfile () {
-        this.navigateToFormInstance(this.advisorFormInstanceId);
+        this.navigateToFormInstance(this.advProfileFormInstanceId);
     }
 
     navigateToFormInstance(formInstId) {

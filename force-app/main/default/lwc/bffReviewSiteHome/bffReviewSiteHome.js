@@ -5,7 +5,7 @@ import { showUIError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
-import loadAdvisorSummary from '@salesforce/apex/SiteController.loadAdvisorSummary';
+import getAdvisorSummary from '@salesforce/apex/SiteController.getAdvisorSummary';
 import loadAdvisorRecords from '@salesforce/apex/SiteController.loadAdvisorRecords';
 
 export default class BffReviewSiteHome extends NavigationMixin(LightningElement) {
@@ -26,7 +26,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
 
     // Advisor and assessment info
     advisorSummary;
-    advisorFormInstanceId;
+    advProfileFormInstanceId;
 
     // For table
     currentPageReference;
@@ -59,15 +59,15 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             // Retrieve Advisor and Form Instance, along with translations
             // let [translations ] = await Promise.all ([
             let [advsummary, list, translations ] = await Promise.all ([
-                loadAdvisorSummary(),
+                getAdvisorSummary(),
                 loadAdvisorRecords({objectType:this.objectName}),
                 getTranslations()
             ]);
             console.log('data and translations fetched');
             this.advisorSummary = JSON.parse(advsummary);
             this.language = this.advisorSummary.preferredLanguage;
-            this.advisorFormInstanceId = this.advisorSummary.advInfoFormInstanceId;
-            console.log(this.advisorFormInstanceId);
+            this.advProfileFormInstanceId = this.advisorSummary.advProfileFormInstanceId;
+            console.log(this.advProfileFormInstanceId);
             
             // Load translations
             this.transInfo = JSON.parse(translations);

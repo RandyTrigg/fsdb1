@@ -51,14 +51,14 @@ public without sharing class SiteController {
 
 
     /**********************************
-    * Invoked from community-related LWC: Review Community
-    (Pulled over from AssessorSiteController))
+    * Invoked from community-related LWC for Review Community
+    (Based on AssessorSiteController)
     *********************************/
 
     @AuraEnabled
-    public static string loadAdvisorSummary(){
+    public static string getAdvisorSummary(){
         try {
-            AdvisorSummary advSummary = new AdvisorSummary(AdvisorController.getRunningUserAdvisorId());
+            AdvisorController.AdvisorSummary advSummary = new AdvisorController.AdvisorSummary(AdvisorController.getRunningUserAdvisorId());
             return JSON.serialize(advSummary);
         } catch (Exception e) {
             throw new GFW_Exception('SiteController.loadAdvisorSummary',e.getMessage(),e);
@@ -67,43 +67,10 @@ public without sharing class SiteController {
 
     @AuraEnabled
     public static String loadAdvisorRecords(String objectType){
-        System.debug('objectType: '+objectType);
-        String advisorId = AdvisorController.getRunningUserAdvisorId();
-        Advisor__c advRecord = [SELECT ID, Language__c, (SELECT ID, Type__c, Status_external__c, Portfolio__c FROM Advisor_Terms__r WHERE Status_external__c='Active') FROM Advisor__c WHERE ID=:advisorId];
-
-        try {
-            String result;
-            switch on objectType {
-                when 'Rating' {
-                    List < Assessment__c > ratingAssessments = getRatingAssessments(advisorId, null, null);
-                    System.debug('ratingAssessments: '+JSON.serialize(ratingAssessments));
-                    result = JSON.serialize(ratingAssessments);
-                }
-            }
-            return result;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
+        return AdvisorController.loadAdvisorRecords(objectType);
     }
 
-    public static List < Assessment__c > getRatingAssessments(String advisorId, String status, Integer count) {
-
-        String whereClause = ' WHERE Advisor__c=:advisorId AND Form__c!=null AND Proposal__c!=null';
-        if (status!=null) {
-            whereClause = whereClause + ' AND Status_external__c=:status';
-        }
-        
-        String queryString = 'SELECT Id, Name, Account__c, Account__r.Name, Advisor__c, Form__c, Proposal__r.Country__c, Proposal__r.Country__r.Name, Proposal__r.Name, Proposal__r.Account__r.Name, Proposal__r.Grant_type__c, Proposal__r.Award_notification_deadline__c, Proposal__r.Date_received__c, Proposal__r.Template_language__c ,Status_external__c FROM Assessment__c' + whereClause + ' ORDER BY Status_external__c, Date_submitted__c';
-
-        if (count!=null) {
-            queryString = queryString + ' LIMIT: count';
-        }
-
-        List < Assessment__c > ratingAssessments = Database.query(queryString);
-
-        return ratingAssessments;
-        
-    }
+    
 
 
 }
