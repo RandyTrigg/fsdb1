@@ -33,7 +33,6 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     pendingLabel = 'Pending Evaluations';
     submittedLabel = 'Submitted Evaluations';
     pageLabel =  'Evaluations'; 
-    objectName = 'Rating';
     activeSections = ['Pending'];
     viewColumns;
     editColumns;
@@ -43,8 +42,6 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     pendingSortedDirection;
     submittedSortedBy;
     submittedSortedDirection;
-    formData =[];
-    isViewForms = false;
 
     
     connectedCallback() {
@@ -199,6 +196,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             },
             state: {
                 assessmentId: row.Id,
+                language: this.language
             }
         });
     }

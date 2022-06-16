@@ -7,8 +7,8 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     userId = Id;
     bffLogoWhiteText = logoResourceWhiteText;
     dataLoaded = false;
-
     profile = 'My Profile';
+    @api name;
     @api language;
     @api disableProfile; // Removed this - disabling even when set to False.
     @api hideSearch;
