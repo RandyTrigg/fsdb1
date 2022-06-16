@@ -85,6 +85,7 @@ public with sharing class AdvisorControllerTest {
         Country__c country = new Country__c (Name = 'test country', Region__c = reg.Id);
         insert country;
         Id pIdStandard = [SELECT Id FROM Profile WHERE Name = : AdvisorController.standardUserGMProfileName LIMIT 1].Id;
+        Id roleId = [SELECT Id FROM UserRole WHERE DeveloperName = 'BFF_Administrator'].Id;
         User ownerRec = new User(
             Username = 'owner@owner.org',
             Email = 'owner@owner.org',
@@ -97,7 +98,8 @@ public with sharing class AdvisorControllerTest {
             EmailEncodingKey = 'UTF-8',
             LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US',
-            TimeZoneSidKey = 'GMT'
+            TimeZoneSidKey = 'GMT',
+            UserRoleId = roleId
         );
         insert ownerRec;
         Account advAcct = new Account (
@@ -315,8 +317,8 @@ public with sharing class AdvisorControllerTest {
             Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard');
             insert p;
 
-            Assessment__c ratingAssess = new Assessment__c (Advisor__c = adv.Id, Form__c =form.Id, Proposal__c=p.Id);
-            insert ratingAssess;
+            Assessment__c prpAssess = new Assessment__c (Advisor__c = adv.Id, Form__c =form.Id, Proposal__c=p.Id);
+            insert prpAssess;
             //Done with test data setup
         }
         Test.startTest();
@@ -327,7 +329,7 @@ public with sharing class AdvisorControllerTest {
             advisorId = AdvisorController.getRunningUserAdvisorId();
             AdvisorController.AdvisorSummary advSummary = new AdvisorController.AdvisorSummary(advisorId);
             advProfileFormInstanceId = advSummary.advProfileFormInstanceId;
-            assessments = AdvisorController.loadAdvisorRecords('Rating');
+            assessments = advSummary.prpAssessments;
             System.debug('advisorId: '+advisorId);
         }
         Test.stopTest();

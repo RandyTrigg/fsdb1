@@ -381,6 +381,9 @@ public inherited sharing class AdvisorController {
         public String firstName;
         public String fullName;
         public String lastName;
+        public List<Assessment__c> AssessmentList = new List<Assessment__c>();
+        public List<Assessment__c> prpAssessmentList = new List<Assessment__c>();
+        public String prpAssessments;
 
         public AdvisorSummary(Id advisorId) {
             Advisor__c advRecord = (Advisor__c)Utilities.fetchRecord(
@@ -406,13 +409,14 @@ public inherited sharing class AdvisorController {
                 ).get(0);
             if (advProfileForm !=null) {
                 List<Form_Instance__c> advProfileFormInstance = new List<Form_Instance__c>([SELECT Id, Advisor__c, Form__c, Profile__c, Proposal__c FROM Form_Instance__c WHERE Form__c =:advProfileForm.Id AND Advisor__c=:advisorId AND Profile__c=null AND Proposal__c=null]); 
+                Id designatedOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(advRecord.OwnerId);
                 if (advProfileFormInstance.isEmpty()) {
                     // Create new form instance linked to this advisor and active advisorprofile form.
                     try {
                         Form_Instance__c newAdvProfileFI = new Form_Instance__c(
                             Form__c = advProfileForm.Id,
                             Advisor__c = advisorId,
-                            OwnerId = advRecord.OwnerId
+                            OwnerId = designatedOwnerId
                         );
                         insert newAdvProfileFI;
                         this.advProfileFormInstanceId = newAdvProfileFI.Id;
@@ -423,51 +427,30 @@ public inherited sharing class AdvisorController {
                     this.advProfileFormInstanceId = advProfileFormInstance[0].Id;
                 }
             }
-        }
-    }
-
-    public static String loadAdvisorRecords(String objectType){
-        System.debug('objectType: '+objectType);
-        String advisorId = getRunningUserAdvisorId();
-        try {
-            String result;
-            switch on objectType {
-                when 'Rating' {
-                    List < Assessment__c > evalAssessments = getEvalAssessments(advisorId, null, null);
-                    System.debug('evalAssessments: '+JSON.serialize(evalAssessments));
-                    result = JSON.serialize(evalAssessments);
+            // Fetch all linked Assessments
+            String whereClauseAssmt = 'WHERE Advisor__c=\'' + advisorId + '\'';
+            whereClauseAssmt = whereClauseAssmt + ' ORDER BY Status_external__c, Date_submitted__c';
+            this.assessmentList = (Assessment__c[])Utilities.FetchRecords(
+                'Assessment__c',
+                whereClauseAssmt,
+                new List<String>{ 
+                    'Account__r.Name',
+                    'Proposal__r.Country__c', 
+                    'Proposal__r.Country__r.Name',
+                    'Proposal__r.Name',
+                    'Proposal__r.Account__r.Name',
+                    'Proposal__r.Grant_type__c',
+                    'Proposal__r.Award_notification_deadline__c', 
+                    'Proposal__r.Date_received__c',
+                    'Proposal__r.Template_language__c'
+                }
+            );
+            for (Assessment__c assessment : this.assessmentList) {
+                if (assessment.Proposal__c != null) {
+                    this.prpAssessmentList.add(assessment);
                 }
             }
-            return result;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            this.prpAssessments = JSON.serialize(this.prpAssessmentList);
         }
-    }
-
-    public static List < Assessment__c > getEvalAssessments(String advisorId, String status, Integer count) {
-        String whereClause = 'WHERE Advisor__c=\'' + advisorId + '\' AND Form__c!=null AND Proposal__c!=null';
-        if (status!=null) {
-            whereClause = whereClause + ' AND Status_external__c=\'' + status + '\'';
-        }
-        // String queryString = 'SELECT Id, Name, Account__c, Account__r.Name, Advisor__c, Form__c, Proposal__r.Country__c, Proposal__r.Country__r.Name, Proposal__r.Name, Proposal__r.Account__r.Name, Proposal__r.Grant_type__c, Proposal__r.Award_notification_deadline__c, Proposal__r.Date_received__c, Proposal__r.Template_language__c ,Status_external__c FROM Assessment__c' + whereClause + ' ORDER BY Status_external__c, Date_submitted__c';
-        whereClause = whereClause + ' ORDER BY Status_external__c, Date_submitted__c';
-        if (count!=null) {
-            whereClause = whereClause + ' LIMIT ' + count;
-        }
-        return (Assessment__c[])Utilities.FetchRecords(
-            'Assessment__c',
-            whereClause,
-            new List<String>{ 
-                'Account__r.Name',
-                'Proposal__r.Country__c', 
-                'Proposal__r.Country__r.Name',
-                'Proposal__r.Name',
-                'Proposal__r.Account__r.Name',
-                'Proposal__r.Grant_type__c',
-                'Proposal__r.Award_notification_deadline__c', 
-                'Proposal__r.Date_received__c',
-                'Proposal__r.Template_language__c'
-            }
-        );
     }
 }

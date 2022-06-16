@@ -6,7 +6,6 @@ import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
 import getAdvisorSummary from '@salesforce/apex/SiteController.getAdvisorSummary';
-import loadAdvisorRecords from '@salesforce/apex/SiteController.loadAdvisorRecords';
 
 export default class BffReviewSiteHome extends NavigationMixin(LightningElement) {
     userId = Id;
@@ -27,6 +26,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     // Advisor and assessment info
     advisorSummary;
     advProfileFormInstanceId;
+    assessments;
 
     // For table
     currentPageReference;
@@ -58,9 +58,8 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             console.log('loadData');
             // Retrieve Advisor and Form Instance, along with translations
             // let [translations ] = await Promise.all ([
-            let [advsummary, list, translations ] = await Promise.all ([
+            let [advsummary, translations ] = await Promise.all ([
                 getAdvisorSummary(),
-                loadAdvisorRecords({objectType:this.objectName}),
                 getTranslations()
             ]);
             console.log('data and translations fetched');
@@ -74,7 +73,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             this.translatePage();
 
             // For table
-            let parsedList = JSON.parse(list);
+            let parsedList = JSON.parse(this.advisorSummary.prpAssessments);
 
             //Lightning datatables can't automtically pull out nested values
             let parsedLists = this.updateListInternals(parsedList);
@@ -104,7 +103,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             };
     
             let columns = [
-                { label: 'Org Name', fieldName: 'orgName', hideDefaultActions: true, sortable: true,},
+                { label: this.transByNameObj.GroupName, fieldName: 'orgName', hideDefaultActions: true, sortable: true,},
                 { label: 'Country', fieldName: 'country', hideDefaultActions: true, sortable: true,},
                 { label: 'Proposal Name', fieldName: 'proposalName', hideDefaultActions: true, sortable: true,},
                 { label: 'Grant Type', fieldName: 'grantType', hideDefaultActions: true, sortable: true,},

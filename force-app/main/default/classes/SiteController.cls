@@ -52,7 +52,6 @@ public without sharing class SiteController {
 
     /**********************************
     * Invoked from community-related LWC for Review Community
-    (Based on AssessorSiteController)
     *********************************/
 
     @AuraEnabled
@@ -64,13 +63,5 @@ public without sharing class SiteController {
             throw new GFW_Exception('SiteController.loadAdvisorSummary',e.getMessage(),e);
         }
     }
-
-    @AuraEnabled
-    public static String loadAdvisorRecords(String objectType){
-        return AdvisorController.loadAdvisorRecords(objectType);
-    }
-
-    
-
 
 }
