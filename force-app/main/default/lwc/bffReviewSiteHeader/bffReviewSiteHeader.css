@@ -12,7 +12,11 @@
 }
 
 .language-font {
+<<<<<<< HEAD
     font-size: 16px;
+=======
+    font-size: 18px;
+>>>>>>> main
 }
 
 .visually-hidden {

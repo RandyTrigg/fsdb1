@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>npsp__Sustainer__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates if this Account is an active, lapsed, or former recurring donor. The value is based on the Status of the related Recurring Donations.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates if this Account is an active, lapsed, or former recurring donor. The value is based on the Status of the related Recurring Donations.</inlineHelpText>
+    <label>Sustainer</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <label>Active</label>
+            </value>
+            <value>
+                <fullName>Lapsed</fullName>
+                <default>false</default>
+                <label>Lapsed</label>
+            </value>
+            <value>
+                <fullName>Former</fullName>
+                <default>false</default>
+                <label>Former</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

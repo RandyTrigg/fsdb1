@@ -19,7 +19,7 @@ public with sharing class InternalReview extends Review{
             Proposal__c prop = [
                 SELECT ID, Account__r.Name, Account__c, Status__c, Status_external__c, 
                 Date_declined__c, Date_awarded__c, Date_received__c, App_type__c, Grant_type__c, 
-                Profile__r.Name, Profile__r.Id 
+                Profile__c, Profile__r.Name, Profile__r.Id 
                 FROM Proposal__c 
                 WHERE ID=:recordId
             ];

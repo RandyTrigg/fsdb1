@@ -22,6 +22,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     language;
     transByName;
     transByNameObj;
+    transData;
 
     // Advisor and assessment info
     advisorSummary;
@@ -67,6 +68,8 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             
             // Load translations
             this.transInfo = JSON.parse(translations);
+            
+            // this.template.querySelector('c-bff-review-site-header').transData = this.transData;
             this.translatePage();
 
             // For table

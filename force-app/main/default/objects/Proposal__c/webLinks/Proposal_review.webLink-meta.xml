@@ -5,7 +5,7 @@
     <displayType>button</displayType>
     <encodingKey>UTF-8</encodingKey>
     <linkType>url</linkType>
-    <masterLabel>Proposal review</masterLabel>
+    <masterLabel>Proposal review DEPRECATED</masterLabel>
     <openType>replace</openType>
     <protected>false</protected>
     <url>/c/ProposalReviewApp.app?proposalId={!Proposal__c.Id}</url>
