@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
     <header class="slds-global-header_container bff-header-container">
         <div if:true={dataLoaded} class="slds-global-header slds-grid bff-global-header slds-grid_align-spread">
             <div class="slds-global-header__item">
@@ -7,17 +6,6 @@
             </div>
             <div class="slds-global-header__item">
                 <span class="slds-text-heading_small slds-text-color_inverse-weak">{name}&nbsp;&nbsp;</span>
-=======
-
-    <header class="slds-global-header_container bff-header-container">
-        <div if:true={dataLoaded} class="slds-global-header slds-grid bff-global-header slds-grid_align-spread">
-            <div class="slds-global-header__item">
-                <a href="https://globalfundforwomen-fs.force.com/BlackFeministFundReview/s/">
-                    <img class="bff-logo-header" src={bffLogoWhiteText} alt="Review Home Page">
-                </a>
-            </div>
-            <div class="slds-global-header__item">
->>>>>>> main
                 <lightning-button-menu 
                     alternative-text="Show menu" 
                     icon-name="utility:settings" 
@@ -25,10 +13,6 @@
                     menu-alignment="auto"
                     onselect={handleMenuSelect}>
                         <lightning-menu-item
-<<<<<<< HEAD
-=======
-                            disabled={disableProfile}
->>>>>>> main
                             value="Profile"
                             label={profile}
                             icon-name="utility:user"
@@ -36,22 +20,14 @@
                         </lightning-menu-item>
                         <lightning-menu-item 
                             value="Get help" 
-<<<<<<< HEAD
                             label={transByNameObj.Support}
-=======
-                            label={support}
->>>>>>> main
                             icon-name="utility:help"
                             href="mailto:BFFgrant-helpdesk@blackfeministfund.org?Subject=Question about Grants Site" 
                             target="_blank">
                         </lightning-menu-item>
                         <lightning-menu-item 
                             value="Logout"
-<<<<<<< HEAD
                             label={transByNameObj.Logout}
-=======
-                            label={logout}
->>>>>>> main
                             icon-name="utility:logout"
                             onclick={handleLogout}>
                         </lightning-menu-item>
@@ -59,21 +35,12 @@
             </div>
         </div>
 
-<<<<<<< HEAD
         <!-- LANGUAGE PICKER --> <!-- if:false={hideLanguagePicker} -->
         <div class="slds-global-header slds-grid under-header-strip slds-grid_align-end slds-m-right_medium">
             <div class="slds-col slds-form-element">
                 <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
                 <div class="slds-form-element__control slds-select_container">
                     <select class="slds-select language-font" id="langPicker" name="langPicker" data-id="langPicker" onchange={handleLanguagePicker}>
-=======
-        <!-- LANGUAGE PICKER -->
-        <div if:false={hideLanguagePicker} class="slds-global-header slds-grid under-header-strip slds-grid_align-end slds-m-right_medium">
-            <div class="slds-col slds-form-element">
-                <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
-                <div class="slds-form-element__control slds-select_container">
-                    <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
->>>>>>> main
                         <template for:each={options} for:item="option">
                             <option key={option.value} value={option.value}>{option.label}</option>
                         </template>
