@@ -247,7 +247,7 @@ public class ProfileControllerTest {
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
             Id prId = runningProfile[0].Id;
-            Id formInstId = ProfileController.createProposal(prId, 'BFF-Solidarity');
+            Id formInstId = SiteController.formInstIdOfNewProposal(prId, 'BFF-Solidarity');
             Test.StopTest();
 
             List<Form_Instance__c> formInsts = new List<Form_Instance__c>([

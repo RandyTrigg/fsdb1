@@ -325,7 +325,9 @@ public with sharing class AdvisorControllerTest {
         String advisorId;
         String advProfileFormInstanceId;
         String assessments;
+        String advInfo;
         System.runAs(thisUser){
+            advInfo = SiteController.getAdvisorSummary();
             advisorId = AdvisorController.getRunningUserAdvisorId();
             AdvisorController.AdvisorSummary advSummary = new AdvisorController.AdvisorSummary(advisorId);
             advProfileFormInstanceId = advSummary.advProfileFormInstanceId;

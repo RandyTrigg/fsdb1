@@ -37,7 +37,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
                  { label: 'Français', value: 'French' },
                  { label: 'Português', value: 'Portuguese' }
                ];
-    }
+    } // Figure out how to set 'selected' --> convert to combobox set value to {language}
 
     setLangPickerDefault(){
         const langPicker = this.template.querySelector('[data-id="langPicker"]');

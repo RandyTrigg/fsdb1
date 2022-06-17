@@ -49,6 +49,18 @@
             </div>
         </div>
 
+        <div>
+            <lightning-combobox
+            id="langCombobox"
+            data-id="select"
+            variant="label-hidden"
+            label="langCombobox"
+            options={options}
+            value={language}
+            onchange={handleLanguagePicker}>
+        </lightning-combobox>
+        </div>
+
         <div if:false={hideSearch} class="slds-global-header slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
             <div class="slds-global-header__item gfw-global-search">
                 Search box
