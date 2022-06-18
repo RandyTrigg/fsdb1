@@ -4,6 +4,18 @@
             <div class="slds-global-header__item">
                 <img class="bff-logo-header" src={bffLogoWhiteText} alt="Review Home Page" onclick={handleHome}>
             </div>
+            <div class="slds-global-header__item"><!-- if:false={hideLanguagePicker} -->
+                <lightning-combobox
+                id="langCombobox"
+                class="language-font"
+                data-id="select"
+                variant="label-hidden"
+                label="langCombobox"
+                options={options}
+                value={language}
+                onchange={handleLanguagePicker}>
+                </lightning-combobox>
+            </div>
             <div class="slds-global-header__item">
                 <span class="slds-text-heading_small slds-text-color_inverse-weak">{name}&nbsp;&nbsp;</span>
                 <lightning-button-menu 
@@ -35,8 +47,8 @@
             </div>
         </div>
 
-        <!-- LANGUAGE PICKER --> <!-- if:false={hideLanguagePicker} -->
-        <div class="slds-global-header slds-grid under-header-strip slds-grid_align-end slds-m-right_medium">
+        <!-- LANGUAGE PICKER --> 
+        <!-- <div class="slds-global-header slds-grid under-header-strip slds-grid_align-end slds-m-right_medium">
             <div class="slds-col slds-form-element">
                 <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
                 <div class="slds-form-element__control slds-select_container">
@@ -47,23 +59,11 @@
                     </select>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div>
-            <lightning-combobox
-            id="langCombobox"
-            data-id="select"
-            variant="label-hidden"
-            label="langCombobox"
-            options={options}
-            value={language}
-            onchange={handleLanguagePicker}>
-        </lightning-combobox>
-        </div>
 
         <div if:false={hideSearch} class="slds-global-header slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
             <div class="slds-global-header__item gfw-global-search">
-                Search box
                 <!-- <c-lookup
                     data-id="searchLookup"    
                     errors={errors}

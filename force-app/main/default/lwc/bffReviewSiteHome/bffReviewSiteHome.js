@@ -167,6 +167,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         returnLists.pending = [];
         returnLists.submitted = [];
         for (let itm of itemsList) {
+            console.log('id',itm.Id);
             itm.orgName = itm.Proposal__r.Account__r.Name;
             console.log('orgname',itm.orgName);
             itm.country = itm.Proposal__r.Country__r.Name;
@@ -198,7 +199,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
                 name: 'Assessment__c' // UPDATE PAGE NAME
             },
             state: {
-                assessmentId: row.Id,
+                recordId: row.Id,
                 language: this.language
             }
         });
