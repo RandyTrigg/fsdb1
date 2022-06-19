@@ -23,7 +23,6 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log(this.language);
             console.log(this.advisorFormInstanceId);
             console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
-            // Following setLangPickerDefault throws error that options is null. 
             this.setLangTag();
             this.dataLoaded = true;
         }
@@ -39,9 +38,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     }
 
     setLangTag(){
-        // const langPicker = this.template.querySelector('[data-id="langPicker"]');
         console.log('setLangPickerDefault');
-        // langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
         const lMap = new Map();
         lMap.set('English', 'en');
         lMap.set('Spanish', 'es');
@@ -55,19 +52,13 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
         this.language = event.target.value;
         console.log(this.language);
         this.setLangTag();
-
-        // Create event to pass language
+        // Create event to pass language to parent
         const selLang = new CustomEvent("getselectedlanguage", {
             detail: this.language
         });
-
         //Dispatch
         this.dispatchEvent(selLang);
         console.log('dispatched event');
-    }
-
-    handleMenuSelect () {
-        this.showMenu = !this.showMenu;
     }
     
     handleHome(){

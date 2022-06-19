@@ -65,5 +65,15 @@
                 </lightning-accordion>
             </div> <!-- Close data load tag-->
         </main> <!-- Close main -->
+
+        <!-- FOOTER -->
+        <footer>
+            <div if:true={dataLoaded}>
+                <lightning-formatted-rich-text
+                    value={transByNameObj.PortalFooter}>
+                </lightning-formatted-rich-text>
+            </div>
+        </footer>
+
     </div> <!-- Close lang tag -->
 </template>
