@@ -56,12 +56,8 @@ public without sharing class SiteController {
 
     @AuraEnabled
     public static string getAdvisorSummary(){
-        try {
-            AdvisorController.AdvisorSummary advSummary = new AdvisorController.AdvisorSummary(AdvisorController.getRunningUserAdvisorId());
-            return JSON.serialize(advSummary);
-        } catch (Exception e) {
-            throw new GFW_Exception('SiteController.loadAdvisorSummary',e.getMessage(),e);
-        }
+        AdvisorController.AdvisorSummary advSummary = new AdvisorController.AdvisorSummary(AdvisorController.getRunningUserAdvisorId());
+        return JSON.serialize(advSummary);
     }
 
     // Fetch data related to an assessment. For assessments linked to a form, build form instance if needed.

@@ -7,7 +7,6 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     userId = Id;
     bffLogoWhiteText = logoResourceWhiteText;
     dataLoaded = false;
-    profile = 'My Profile';
     @api name;
     @api language;
     @api disableProfile; // Removed this - disabling even when set to False.
@@ -25,7 +24,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log(this.advisorFormInstanceId);
             console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
             // Following setLangPickerDefault throws error that options is null. 
-            // this.setLangPickerDefault();
+            this.setLangTag();
             this.dataLoaded = true;
         }
     }
@@ -37,13 +36,12 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
                  { label: 'Français', value: 'French' },
                  { label: 'Português', value: 'Portuguese' }
                ];
-    } // Figure out how to set 'selected' --> convert to combobox set value to {language}
+    }
 
-    setLangPickerDefault(){
-        const langPicker = this.template.querySelector('[data-id="langPicker"]');
+    setLangTag(){
+        // const langPicker = this.template.querySelector('[data-id="langPicker"]');
         console.log('setLangPickerDefault');
-        console.log(langPicker);
-        langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
+        // langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
         const lMap = new Map();
         lMap.set('English', 'en');
         lMap.set('Spanish', 'es');
@@ -56,6 +54,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     handleLanguagePicker(event){
         this.language = event.target.value;
         console.log(this.language);
+        this.setLangTag();
 
         // Create event to pass language
         const selLang = new CustomEvent("getselectedlanguage", {

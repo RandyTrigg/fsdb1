@@ -33,6 +33,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     currentPageReference;
     pendingLabel = 'Pending Evaluations';
     submittedLabel = 'Submitted Evaluations';
+    hidePendingTable = false;
     pageLabel =  'Evaluations'; 
     activeSections = ['Pending'];
     viewColumns;
@@ -68,56 +69,10 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             
             // Load translations
             this.transInfo = JSON.parse(translations);
-            
-            // this.template.querySelector('c-bff-review-site-header').transData = this.transData;
             this.translatePage();
 
             // For table
-            let parsedList = JSON.parse(this.advisorSummary.prpAssessments);
-
-            //Lightning datatables can't automtically pull out nested values
-            let parsedLists = this.updateListInternals(parsedList);
-            
-            this.pendingItemsData = parsedLists.pending;
-            this.submittedItemsData = parsedLists.submitted;
-            this.pendingLabel = this.pendingLabel + ' ('+ this.pendingItemsData.length +')';
-            this.submittedLabel = this.submittedLabel + ' ('+ this.submittedItemsData.length +')';
-    
-            let viewButton = {type: 'button-icon', initialWidth: 80, 
-                                typeAttributes: {  
-                                    iconName: "utility:preview", 
-                                    name: "Go To Item",  
-                                    variant: 'bare',
-                                    alternativeText: "Go To Item",       
-                                    disabled: false
-                                }
-                            };
-            let editButton = {type: 'button-icon', initialWidth: 80, 
-                typeAttributes: {  
-                    iconName: "utility:edit", 
-                    name: "Go To Item",  
-                    variant: 'bare',
-                    alternativeText: "Go To Item",       
-                    disabled: false
-                }
-            };
-    
-            let columns = [
-                { label: this.transByNameObj.GroupName, fieldName: 'orgName', hideDefaultActions: true, sortable: true,},
-                { label: 'Country', fieldName: 'country', hideDefaultActions: true, sortable: true,},
-                { label: 'Proposal Name', fieldName: 'proposalName', hideDefaultActions: true, sortable: true,},
-                { label: 'Grant Type', fieldName: 'grantType', hideDefaultActions: true, sortable: true,},
-                { label: 'Award Notification Deadline', fieldName: 'notificationDeadline', type: 'date', hideDefaultActions: true, sortable: true,},
-                { label: 'Proposal Date Received', fieldName: 'dateRecieved', type: 'date', hideDefaultActions: true, sortable: true,},
-                { label: 'Review Status', fieldName: 'status', hideDefaultActions: true, sortable: true,},
-                { label: 'Template Language', fieldName: 'language', hideDefaultActions: true, sortable: true,},
-            ];
-
-            //Differentiate view and edit lists
-            this.viewColumns = columns.slice(0);
-            this.editColumns = columns.slice(0);
-            this.viewColumns.unshift(viewButton);
-            this.editColumns.unshift(editButton);
+            this.buildTables();
 
             // Tie up ends for data loading
             this.dataLoaded = true;
@@ -133,7 +88,56 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
     translatePage() {
         this.transByName = buildTransByName(this.transInfo, this.language);
         this.transByNameObj = Object.fromEntries(this.transByName);
-        this.loading = this.transByName.get('Loading');
+        this.loading = this.transByNameObj.Loading;
+        this.pendingLabel = this.transByNameObj.PendingEvaluations;
+        this.submittedLabel = this.transByNameObj.SubmittedEvaluations;
+    }
+
+    buildTables() {
+        let parsedList = JSON.parse(this.advisorSummary.prpAssessments);
+        //Lightning datatables can't automtically pull out nested values
+        let parsedLists = this.updateListInternals(parsedList);
+        this.pendingItemsData = parsedLists.pending;
+        this.submittedItemsData = parsedLists.submitted;
+        this.hidePendingTable = this.pendingItemsData.length === 0 ? true : false;
+        this.pendingLabel = this.pendingLabel + ' ('+ this.pendingItemsData.length +')';
+        this.submittedLabel = this.submittedLabel + ' ('+ this.submittedItemsData.length +')';
+
+        let viewButton = {type: 'button-icon', initialWidth: 80, 
+                            typeAttributes: {  
+                                iconName: "utility:preview", 
+                                name: this.transByNameObj.View,  
+                                variant: 'bare',
+                                alternativeText: this.transByNameObj.View,       
+                                disabled: false
+                            }
+                        };
+        let editButton = {type: 'button-icon', initialWidth: 80, 
+            typeAttributes: {  
+                iconName: "utility:edit", 
+                name: this.transByNameObj.Edit,  
+                variant: 'bare',
+                alternativeText: this.transByNameObj.Edit,       
+                disabled: false
+            }
+        };
+
+        let columns = [
+            { label: this.transByNameObj.GroupName, fieldName: 'orgName', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.Country, fieldName: 'country', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.ProposalNumber, fieldName: 'proposalName', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.GrantType, fieldName: 'grantType', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.AwardNotificationDeadline, fieldName: 'notificationDeadline', type: 'date', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.ProposalDateReceived, fieldName: 'dateRecieved', type: 'date', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.ReviewStatus, fieldName: 'status', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.TemplateLanguage, fieldName: 'language', hideDefaultActions: true, sortable: true,},
+        ];
+
+        //Differentiate view and edit lists
+        this.viewColumns = columns.slice(0);
+        this.editColumns = columns.slice(0);
+        this.viewColumns.unshift(viewButton);
+        this.editColumns.unshift(editButton);
     }
 
     handleLanguagePicker(event){
@@ -141,6 +145,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this.language = event.detail;
         console.log(this.language);
         this.translatePage();
+        this.buildTables();
     }
 
     updatePendingColumnSorting(event) {
@@ -178,12 +183,14 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             console.log('granttype',itm.grantType);
             itm.notificationDeadline = itm.Proposal__r.Award_notification_deadline__c;
             itm.dateRecieved = itm.Proposal__r.Date_received__c;
-            itm.status = itm.Status_external__c;
+            // itm.status = itm.Status_external__c;
+            itm.status = this.transByName.get(itm.Status_external__c);
+            // itm.Status_external__c==='Pending' ? this.transByNameObj.Pending : this.transByNameObj.Submitted;
             console.log('status',itm.status);
-            itm.language = itm.Proposal__r.Template_language__c;
-            if (itm.status==='Pending') {
+            itm.language = this.transByName.get(itm.Proposal__r.Template_language__c);
+            if (itm.Status_external__c==='Pending') {
                 returnLists.pending.push(itm);
-            } else if (itm.status==='Submitted') {
+            } else if (itm.Status_external__c==='Submitted') {
                 returnLists.submitted.push(itm);
             }
         }

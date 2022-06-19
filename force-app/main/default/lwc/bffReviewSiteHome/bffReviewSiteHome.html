@@ -14,7 +14,7 @@
         <!-- MAIN SECTION -->
         <!-- Helpful for accessibility to distinguish the main page from header and footer -->
         <!-- Top margin fixed to prevent main content sliding under header -->
-        <main class="topmargin">
+        <main>
 
             <!-- WAIT FOR DATA TO LOAD -->
             <div if:true={dataLoaded}>
@@ -34,7 +34,7 @@
                 <lightning-accordion class="gfw-accordion slds-var-m-bottom_large" allow-multiple-sections-open
                 active-section-name={activeSections}>
                     <lightning-accordion-section name="Pending" label={pendingLabel}>
-                        <div class="gfw-item-list">
+                        <div if:false={hidePendingTable} class="gfw-item-list">
                             <lightning-datatable 
                                 key-field="id"
                                 hide-checkbox-column=true
