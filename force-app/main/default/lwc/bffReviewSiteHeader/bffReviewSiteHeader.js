@@ -18,7 +18,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     langMap;
 
     connectedCallback(){
-        if (this.userId && this.language) {
+        if (this.language) {
             console.log('connectedCallbackHeader');
             console.log(this.language);
             console.log(this.advisorFormInstanceId);
