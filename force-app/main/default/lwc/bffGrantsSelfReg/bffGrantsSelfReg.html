@@ -7,41 +7,6 @@
         <div class="gfw-input-width">
             <div class="slds-m-bottom_x-small">
                 <lightning-input
-                    label="Email"
-                    placeholder="Email"
-                    onchange={handleEmail}
-                    type="email"
-                    required="true" 
-                    max-length="80"
-                    class="email-input"
-                    value={email}
-                ></lightning-input>
-            </div>
-            <div class="slds-m-bottom_x-small">
-                <lightning-input                  
-                    label="First Name"
-                    onchange={handleFirstName} 
-                    placeholder="First Name"
-                    type="text"  
-                    required="true" 
-                    max-length="40"
-                    value={firstName}
-                ></lightning-input>
-            </div>
-            <div class="slds-m-bottom_x-small">
-                <lightning-input
-                    label="Last Name"
-                    onchange={handleLastName}
-                    placeholder="Last Name"
-                    data-id="lastName"  
-                    type="text" 
-                    required="true" 
-                    max-length="80"
-                    value={lastName}
-                ></lightning-input>
-            </div>
-            <div class="slds-m-bottom_x-small">
-                <lightning-input
                     label="Group Name"
                     onchange={handleGroupName}
                     placeholder="Group Name"
@@ -50,6 +15,18 @@
                     required="true" 
                     max-length="120"
                     value={groupName}
+                ></lightning-input>
+            </div>
+            <div class="slds-m-bottom_x-small">
+                <lightning-input
+                    label="Email"
+                    placeholder="Email"
+                    onchange={handleEmail}
+                    type="email"
+                    required="true" 
+                    max-length="80"
+                    class="email-input"
+                    value={email}
                 ></lightning-input>
             </div>
         </div>
@@ -76,7 +53,7 @@
     <div if:true={showFailure}>
         <div class="slds-illustration slds-illustration_small">
             <div class="slds-text-longform">
-                <h3 class="slds-text-heading_medium">Oh no!  Something went wrong with the sample Registration. Try again later!</h3>
+                <h3 class="slds-text-heading_medium">Oh no!  Something went wrong with the Registration: {errMsg}</h3>
             </div>
         </div>
     </div>

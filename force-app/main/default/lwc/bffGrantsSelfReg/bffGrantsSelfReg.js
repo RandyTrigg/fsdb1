@@ -6,12 +6,11 @@ import handleRegistration from '@salesforce/apex/BFFGrantsRegistrationController
 
 export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement ) {
 
-    firstName;
-    lastName;
     email;
     groupName;
     showForm = true;
     registerDisabled = true;
+    errMsg;
     showSpinner = false;
     showSuccess = false;
     showFailure = false;
@@ -21,29 +20,16 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
         this.checkSubmittable();
     }
 
-    handleFirstName(event) {
-        this.firstName = event.target.value;
-        this.checkSubmittable();
-    }
-
-    handleLastName(event) {
-        this.lastName = event.target.value;
-        this.checkSubmittable();
-    }
-
     handleGroupName(event) {
         this.groupName = event.target.value;
         this.checkSubmittable();
     }
-
 
     async handleRegister() {
         try {
             console.log('handle registration');
             this.showSpinner = true;
             let registrant = {
-                "firstName":this.firstName,
-                "lastName":this.lastName,
                 "email":this.email,
                 "groupName":this.groupName
             };
@@ -54,9 +40,13 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
             this.showSpinner = false;
         } catch (error) {
             this.showSpinner = false;
-            // let errorData = JSON.parse(error.body.message);
+            this.showForm = false;
             console.log('error',error);
-            handleError(error); 
+            this.showFailure=true;
+            this.errMsg = error.body.message;
+            // this.errMsg = JSON.parse(error.body.message);
+            // handleError(error); 
+
         }       
 
     }
@@ -66,7 +56,7 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
 
         let email = this.template.querySelector('.email-input');
 
-        if (this.firstName && this.lastName && this.groupName && this.email && (email.validity.valid === true)) {
+        if (this.groupName && this.email && (email.validity.valid === true)) {
             console.log('baseline fields valid');           
             this.registerDisabled = false;
         } else {
