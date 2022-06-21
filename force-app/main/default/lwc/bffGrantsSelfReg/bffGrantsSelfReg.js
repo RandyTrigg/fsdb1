@@ -34,10 +34,17 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
                 "groupName":this.groupName
             };
             
-            await handleRegistration({registrantJSON: JSON.stringify(registrant)});
-            this.showForm = false;
-            this.showSuccess =true;
-            this.showSpinner = false;
+            let errString = await handleRegistration({registrantJSON: JSON.stringify(registrant)});
+            if (!errString) {
+                this.showForm = false;
+                this.showSuccess =true;
+                this.showSpinner = false;
+            } else {
+                this.showSpinner = false;
+                this.showForm = false;
+                this.showFailure = true;
+                this.errMsg=errString; 
+            }
         } catch (error) {
             this.showSpinner = false;
             this.showForm = false;
@@ -46,8 +53,7 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
             this.errMsg = error.body.message;
             // this.errMsg = JSON.parse(error.body.message);
             // handleError(error); 
-
-        }       
+        }
 
     }
 

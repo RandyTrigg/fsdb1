@@ -6,7 +6,7 @@ public without sharing class BFFGrantsRegistrationController {
     }
     
     @AuraEnabled
-    public static void handleRegistration(String registrantJSON) {
+    public static String handleRegistration(String registrantJSON) {
         strike_responseData responseData = new strike_responseData();
         Registrant reg = (Registrant)JSON.deserialize(registrantJSON, Registrant.class);
         System.debug('reg: '+reg);
@@ -17,7 +17,7 @@ public without sharing class BFFGrantsRegistrationController {
         Account a = [SELECT ID FROM Account WHERE Name='BFF Community Users Account'];
 
         String contactRecordTypeId = Schema.Sobjecttype.Contact.RecordTypeInfosByName.get('Contact GM').RecordTypeId;
-        // try{
+        try{
             Contact c = new Contact (
                 LastName = reg.groupName.left(80),
                 AccountId = a.Id,
@@ -39,11 +39,11 @@ public without sharing class BFFGrantsRegistrationController {
     
             System.debug('u: '+u);
             insert u;
-        /* } catch(Exception e) {
+        } catch(Exception e) {
             responseData.addError(e.getMessage());
             // throw new GFW_Exception('BFFGrantsRegistrationController.handleRegistration', 'Could not create user account: ' + e.getMessage(), e);
-        } */
-        // return responseData.getJsonString();
+        }
+        return responseData.getJsonString();
     }
 
     // Loops over required fields that were not passed in to set to some default value
