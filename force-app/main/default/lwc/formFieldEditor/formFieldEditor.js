@@ -209,7 +209,7 @@ export default class FormFieldEditor extends LightningElement {
         return element;
     } 
 
-    // Upsert the form data record via apex
+    // Update the form data record via apex
     async sendUpdatedValue(textData) { 
         try {
             let result = await updateFormData({

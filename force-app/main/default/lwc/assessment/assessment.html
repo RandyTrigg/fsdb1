@@ -2,14 +2,20 @@
     <div if:false={dataLoaded}>
         <lightning-spinner variant="inverse" alternative-text="Loading" size="medium"></lightning-spinner>
     </div>
-    <div if:true={dataLoaded} class="slds-grid slds-gutters">
-        <!-- Left side: read-only multi-form viewing -->
-        <div class="slds-col slds-size_1-of-2 slds-scrollable_y"  >
-            <c-form-viewer record-id={assessedRecordId}></c-form-viewer>
+    <div if:true={dataLoaded} >
+        <!-- HEADER -->
+        <div class="bottommargin">
+            <c-bff-review-site-header logout={logout} support={support}></c-bff-review-site-header>
         </div>
-        <!-- Right side: editable assessment form -->
-        <div class="slds-col slds-size_1-of-2 slds-scrollable_y">
-            <c-form-instance record-id={formInstanceId} language={language}></c-form-instance>
+        <div class="slds-grid slds-gutters">
+            <!-- Left side: read-only multi-form viewing -->
+            <div class="slds-col slds-size_1-of-2 slds-scrollable_y"  >
+                <c-form-viewer record-id={assessedRecordId}></c-form-viewer>
+            </div>
+            <!-- Right side: editable assessment form -->
+            <div class="slds-col slds-size_1-of-2 slds-scrollable_y">
+                <c-form-instance record-id={formInstanceId} language={language} is-embedded="true"></c-form-instance>
+            </div>
         </div>
     </div>
     
