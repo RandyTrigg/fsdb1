@@ -3,7 +3,7 @@
         
         <!-- HEADER -->
         <div if:true={dataLoaded}>
-            <c-bff-review-site-header disable-profile="false" hide-search="true" hide-language-picker="false" language={language} adv-profile-form-instance-id={advProfileFormInstanceId} ongetselectedlanguage={handleLanguagePicker} trans-by-name-obj={transByNameObj} name={advisorSummary.fullName}></c-bff-review-site-header>
+            <c-bff-review-site-header language={language} adv-profile-form-instance-id={advProfileFormInstanceId} ongetselectedlanguage={handleLanguagePicker} trans-by-name-obj={transByNameObj} name={advisorSummary.fullName}></c-bff-review-site-header>
         </div>
 
         <!-- SPINNER -->
@@ -13,7 +13,6 @@
 
         <!-- MAIN SECTION -->
         <!-- Helpful for accessibility to distinguish the main page from header and footer -->
-        <!-- Top margin fixed to prevent main content sliding under header -->
         <main>
 
             <!-- WAIT FOR DATA TO LOAD -->

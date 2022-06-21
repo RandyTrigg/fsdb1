@@ -401,7 +401,7 @@ public inherited sharing class AdvisorController {
 
             // Retrieve or build Advisor Profile Form Instance.
             // Determine FS Group from Advisor record.
-            String whereClause = 'WHERE Name LIKE \'%AdvisorProfile%\' AND Type__c=\'Admin\' AND Active__c=TRUE AND FS_Group__c=\'' + advRecord.FS_Group__c + '\' LIMIT 1';
+            String whereClause = 'WHERE Name LIKE \'%AdvisorProfile%\' AND Active__c=TRUE AND FS_Group__c=\'' + advRecord.FS_Group__c + '\' LIMIT 1';
             Form__c advProfileForm = (Form__c)Utilities.FetchRecords(
                     'Form__c',
                     whereClause,

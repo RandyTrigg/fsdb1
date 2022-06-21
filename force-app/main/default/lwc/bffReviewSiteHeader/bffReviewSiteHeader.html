@@ -4,7 +4,7 @@
             <div class="slds-global-header__item">
                 <img class="bff-logo-header" src={bffLogoWhiteText} alt="Review Home Page" onclick={handleHome}>
             </div>
-            <div class="slds-global-header__item"><!-- if:false={hideLanguagePicker} -->
+            <div if:false={hideLanguagePicker} class="slds-global-header__item"><!-- if:false={hideLanguagePicker} -->
                 <lightning-combobox
                 id="langCombobox"
                 class="language-font"
@@ -23,12 +23,15 @@
                     icon-name="utility:settings" 
                     variant="border-inverse"
                     menu-alignment="auto">
-                        <lightning-menu-item
+                        <div if:false={disableProfile}>
+                            <lightning-menu-item
                             value="Profile"
                             label={transByNameObj.MyProfile}
                             icon-name="utility:user"
-                            onclick={handleProfile}>
-                        </lightning-menu-item>
+                            onclick={handleProfile}
+                            >
+                            </lightning-menu-item>
+                        </div>
                         <lightning-menu-item 
                             value="Get help" 
                             label={transByNameObj.Support}
@@ -46,7 +49,7 @@
             </div>
         </div>
 
-        <div if:false={hideSearch} class="slds-global-header slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
+        <div if:true={showSearch} class="slds-global-header slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
             <div class="slds-global-header__item gfw-global-search">
                 <!-- <c-lookup
                     data-id="searchLookup"    

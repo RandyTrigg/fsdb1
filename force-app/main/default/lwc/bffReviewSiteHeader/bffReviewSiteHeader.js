@@ -9,9 +9,9 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     dataLoaded = false;
     @api name;
     @api language;
-    @api disableProfile; // Removed this - disabling even when set to False.
-    @api hideSearch;
-    @api hideLanguagePicker;
+    @api disableProfile = false; // Removed this - disabling even when set to False.
+    @api showSearch = false;
+    @api hideLanguagePicker = false;
     @api advProfileFormInstanceId;
     @api transByNameObj;
     langTag;
@@ -23,6 +23,9 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log(this.language);
             console.log(this.advisorFormInstanceId);
             console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
+            console.log('hidelangpicker',this.hideLanguagePicker);
+            console.log('showSearch',this.showSearch);
+            console.log('disableProfile',this.disableProfile);
             this.setLangTag();
             this.dataLoaded = true;
         }
