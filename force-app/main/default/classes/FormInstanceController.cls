@@ -282,11 +282,11 @@ public inherited sharing class FormInstanceController {
     // Send ack email following submit of a form instance
     public static boolean sendAckEmail(String formInstanceId) {
         // Names of email form components in profile forms that should be included in correspondence with group
-        Set<String> emailFormComponentNames = new Set<String> {'GroupEmail', 'PrimaryEmail', 'SecondaryEmail'};
+        Set<String> emailFormComponentNames = new Set<String> {'GroupEmail', 'PrimaryEmail', 'SecondaryEmail', 'Email'};
         Form_Instance__c fi = [
             SELECT Form__c, Form__r.Form_Phrase_ack_email_subject__c, Form__r.Form_Phrase_ack_email_body__c, Form__r.Type__c, 
             OwnerId, Profile__r.Community_contact_email__c, Profile__r.Language__c, Profile__r.Profile_emails__c,
-            Proposal__r.Name,
+            Proposal__r.Name, Advisor__r.Community_contact_email__c, Advisor__r.Contact_emails__c, Advisor__r.Language__c,
             (SELECT Form_Component__r.Name, Data_text__c FROM Form_Data__r)
             FROM Form_Instance__c
             WHERE Id = :formInstanceId
@@ -295,11 +295,11 @@ public inherited sharing class FormInstanceController {
         Id subjectPhraseId = fi.Form__r.Form_Phrase_ack_email_subject__c;
         Id bodyPhraseId = fi.Form__r.Form_Phrase_ack_email_body__c;
         if (subjectPhraseId != null && bodyPhraseId != null) {
-            // For profile form instances, look up emails and language in form data. Else, find them in fields in linked profile record.
+            // For form instances of type profile, look up emails and language in form data. Else, find them in fields in linked profile/advisor record.
             String language, emailsStr;
             if (fi.Form__r.Type__c != 'Profile') {
-                language = fi.Profile__r.Language__c;
-                emailsStr = fi.Profile__r.Profile_emails__c;
+                language = fi.Advisor__r != null ? fi.Advisor__r.Language__c : fi.Profile__r.Language__c;
+                emailsStr = fi.Advisor__r != null ? fi.Advisor__r.Contact_emails__c : fi.Profile__r.Profile_emails__c;
             } else { // Profile form
                 Set<String> emails = new Set<String>();
                 for (Form_Data__c fd : fi.Form_Data__r) {
@@ -307,7 +307,8 @@ public inherited sharing class FormInstanceController {
                     if (emailFormComponentNames.contains(fd.Form_Component__r.Name) && fd.Data_text__c != null) emails.add(fd.Data_text__c);
                 }
                 // Include community contact email
-                if (fi.Profile__r.Community_contact_email__c != null) emails.add(fi.Profile__r.Community_contact_email__c);
+                String ccEmail = fi.Advisor__r != null ? fi.Advisor__r.Community_contact_email__c : fi.Profile__r.Community_contact_email__c;
+                if (ccEmail != null) emails.add(ccEmail);
                 emailsStr = String.join(new List<String> (emails), ',');
             }
             // Default language to English

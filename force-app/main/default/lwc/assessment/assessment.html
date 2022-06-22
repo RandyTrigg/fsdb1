@@ -5,15 +5,22 @@
     <div if:true={dataLoaded} >
         <!-- HEADER -->
         <div class="bottommargin">
-            <c-bff-review-site-header logout={logout} support={support}></c-bff-review-site-header>
+            <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
         </div>
         <div class="slds-grid slds-gutters">
             <!-- Left side: read-only multi-form viewing -->
             <div class="slds-col slds-size_1-of-2 slds-scrollable_y"  >
                 <c-form-viewer record-id={assessedRecordId}></c-form-viewer>
             </div>
-            <!-- Right side: editable assessment form -->
+            <!-- Right side: editable assessment form --> 
             <div class="slds-col slds-size_1-of-2 slds-scrollable_y">
+                <div class="slds-text-heading_small">
+                    <p><span>{transByNameObj.GroupName}: {groupName}</span></p>
+                    <p><span>{transByNameObj.ProposalNumber}: {propName} ({propType})</span></p>
+                    <div if:true={dateSubmitted}>
+                        <p><span>{transByNameObj.DateSubmitted}: {dateSubmitted}</span></p>
+                    </div>
+                </div>
                 <c-form-instance record-id={formInstanceId} language={language} is-embedded="true"></c-form-instance>
             </div>
         </div>

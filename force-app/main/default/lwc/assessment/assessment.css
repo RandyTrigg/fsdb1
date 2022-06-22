@@ -2,6 +2,10 @@
     --sds-c-accordion-heading-text-color: #BB00FF;
 }
 
+.bottommargin {
+    margin-bottom: 4rem;
+}
+
 .fullViewport {
     height:75vmin;
 }
