@@ -4,6 +4,18 @@
     </div>
 
     <!-- Language picker -->
+    <div class="slds-global-header__item">
+        <lightning-combobox
+            id="langCombobox"
+            class="language-font"
+            data-id="select"
+            variant="label-hidden"
+            label={transByNameObj.LanguageSelector}
+            options={options}
+            value={language}
+            onchange={handleLanguagePicker}>
+        </lightning-combobox>
+    </div>
 
     <div if:true={showForm}>
 
