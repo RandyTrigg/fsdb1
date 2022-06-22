@@ -3,14 +3,26 @@
         <lightning-spinner alternative-text="Registering" size="medium"></lightning-spinner>
     </div>
 
+    <!-- Language picker -->
+
     <div if:true={showForm}>
+
+        <div class="slds-grid slds-grid_vertical slds-grid_vertical-align-center slds-grid_align-center">
+            <div class="slds-col slds-text-align_center">
+                <h1>Grants Site Registration</h1>
+            </div>
+            <div class="slds-col slds-text-align_center">
+                <p>Enter your organization's name and an organizational email for receiving messages.</p>
+            </div>
+        </div>
+
         <div class="gfw-input-width">
             <div class="slds-m-bottom_x-small">
                 <lightning-input
-                    label="Group Name"
+                    label="Organization Name"
                     onchange={handleGroupName}
-                    placeholder="Group Name"
-                    data-id="lastName"  
+                    placeholder="Organization Name"
+                    data-id="orgName"  
                     type="text" 
                     required="true" 
                     max-length="120"
@@ -19,8 +31,8 @@
             </div>
             <div class="slds-m-bottom_x-small">
                 <lightning-input
-                    label="Email"
-                    placeholder="Email"
+                    label="Organization Email"
+                    placeholder="Organization Email"
                     onchange={handleEmail}
                     type="email"
                     required="true" 
