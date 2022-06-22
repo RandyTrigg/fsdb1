@@ -29,13 +29,21 @@
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
         <permissionSet>ReviewCommunity_BFF</permissionSet>
+<<<<<<< HEAD
+        <profile>fsdb system admin no pwd exp</profile>
+=======
         <profile>FSDB System Admin no pwd exp</profile>
+>>>>>>> main
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
         <forgotPasswordPageOverrideSetting>Designer</forgotPasswordPageOverrideSetting>
         <homePageOverrideSetting>Designer</homePageOverrideSetting>
+<<<<<<< HEAD
+        <loginPageOverrideSetting>Standard</loginPageOverrideSetting>
+=======
         <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
+>>>>>>> main
         <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
     <picassoSite>Black_Feminist_Fund_Review_Community1</picassoSite>

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>AssessmentController</members>
-        <members>AssessmentControllerTest</members>
         <members>AdvisorController</members>
         <members>AdvisorControllerTest</members>
-        <members>AssessmentProfileTest</members>
         <members>SiteController</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <name>Profile</name>
+        <members>bffReviewSiteHeader</members>
+        <members>bffReviewSiteHome</members>
+        <name>LightningComponentBundle</name>
     </types>
     <version>53.0</version>
 </Package>
