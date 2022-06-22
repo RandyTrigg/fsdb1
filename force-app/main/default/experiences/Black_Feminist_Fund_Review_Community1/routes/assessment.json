@@ -1,0 +1,11 @@
+{
+  "activeViewId" : "b79d9908-231f-42ba-b9c7-0703def092d8",
+  "appPageId" : "337a3596-6476-44f0-9aa5-6b06c584058b",
+  "configurationTags" : [ ],
+  "id" : "901c1bd6-55be-479a-8165-a56b04c0f05b",
+  "label" : "Assessment",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-assessment",
+  "type" : "route",
+  "urlPrefix" : "assessment"
+}

@@ -129,6 +129,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>assessment</componentName>
+                <identifier>c_assessment</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-9028f7a6-6c7e-4982-8b78-2946531d4a29</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-05fc0587-9d2f-4a58-b382-1dad12bf9865</value>
@@ -195,6 +205,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>collaborateTab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-9028f7a6-6c7e-4982-8b78-2946531d4a29</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Review TEST ONLY</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3b5b0451-6f7c-4bc4-baf8-bbbe8bd74907</name>

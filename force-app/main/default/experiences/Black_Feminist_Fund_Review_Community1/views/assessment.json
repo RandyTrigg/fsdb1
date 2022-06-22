@@ -1,0 +1,54 @@
+{
+  "appPageId" : "337a3596-6476-44f0-9aa5-6b06c584058b",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "b79d9908-231f-42ba-b9c7-0703def092d8",
+  "label" : "Assessment",
+  "regions" : [ {
+    "id" : "1af7b62d-9e4f-4305-890f-c7f452f7b67c",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "richTextValue" : "<p style=\"text-align: center;\"><strong>Assessment page.</strong></p>"
+      },
+      "componentName" : "forceCommunity:richTextInline",
+      "id" : "141f9cad-7407-42c0-b157-774cfa9ce667",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : { },
+      "componentName" : "c:assessment",
+      "id" : "21698b77-3773-4114-a237-fe30ca5e80f6",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "f7d077fc-c2f2-42e0-bea9-948c26d8d76c",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "dc3b0fc0-9e47-4d84-9813-8eff18c981d1",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Black Feminist Fund: Assessment"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "973fefd6-4276-4210-b109-11f3305a9fdc",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "3b7b4799-d6bc-4158-b996-2099e3acfa7d",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-assessment"
+}

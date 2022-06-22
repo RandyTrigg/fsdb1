@@ -49,6 +49,17 @@ public without sharing class SiteController {
         return FormPhraseController.getTranslations();
     }
 
+
+    /**********************************
+    * Invoked from community-related LWC for Review Community
+    *********************************/
+
+    @AuraEnabled
+    public static string getAdvisorSummary(){
+        AdvisorController.AdvisorSummary advSummary = new AdvisorController.AdvisorSummary(AdvisorController.getRunningUserAdvisorId());
+        return JSON.serialize(advSummary);
+    }
+
     // Fetch data related to an assessment. For assessments linked to a form, build form instance if needed.
     @AuraEnabled //Do not cache
     public static String getAssessmentData(String assessmentId) {

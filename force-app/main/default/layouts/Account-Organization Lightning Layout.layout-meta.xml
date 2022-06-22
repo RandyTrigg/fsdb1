@@ -31,6 +31,10 @@
                 <behavior>Edit</behavior>
                 <field>GFW_Account_ID__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>FS_Group__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

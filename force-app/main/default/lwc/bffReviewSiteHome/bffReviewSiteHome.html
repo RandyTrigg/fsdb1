@@ -3,7 +3,7 @@
         
         <!-- HEADER -->
         <div if:true={dataLoaded}>
-            <c-bff-review-site-header disableprofile="false" hidesearch="false" hidelanguagepicker="false" language={language} transdata={transData} ongetselectedlanguage={handleLanguagePicker}></c-bff-review-site-header>
+            <c-bff-review-site-header language={language} adv-profile-form-instance-id={advProfileFormInstanceId} ongetselectedlanguage={handleLanguagePicker} trans-by-name-obj={transByNameObj} name={advisorSummary.fullName}></c-bff-review-site-header>
         </div>
 
         <!-- SPINNER -->
@@ -11,22 +11,10 @@
             <lightning-spinner alternative-text={loading} size="medium"></lightning-spinner>
         </div>
 
-        <!-- LANGUAGE PICKER -->
-        <!-- <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
-            <div class="slds-col slds-form-element">
-                <label class="slds-form-element__label visually-hidden" for="langPicker">Language</label>
-                <div class="slds-form-element__control slds-select_container">
-                    <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
-                        <template for:each={options} for:item="option">
-                            <option key={option.value} value={option.value}>{option.label}</option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-        </div>-->
-
-        <!-- MAIN SECTION: helpful for accessibility to distinguish the main page from header and footer -->
-        <main class="topmargin">
+        <!-- MAIN SECTION -->
+        <!-- Helpful for accessibility to distinguish the main page from header and footer -->
+        <!-- Top margin fixed to prevent main content sliding under header -->
+        <main>
 
             <!-- WAIT FOR DATA TO LOAD -->
             <div if:true={dataLoaded}>
@@ -34,15 +22,58 @@
                 <!-- WELCOME -->
                 <div class="slds-grid slds-grid_align-center slds-var-m-top_xx-large slds-gutters_large">
                     <div class="slds-col slds-var-m-top_xx-large slds-var-m-bottom_medium">
-                        <div class="slds-text-heading_large"><h1>{transByNameObj.bff_ReviewSiteLandingWelcome}</h1></div>
+                        <div class="slds-text-heading_large"><h1>{transByNameObj.bff_ReviewSiteLandingPageTitle}</h1></div>
+                        <div class="slds-text-heading_medium"><p>{transByNameObj.bff_ReviewSiteLandingWelcome}, {advisorSummary.fullName}</p></div>
                         <!-- <section aria-label="Intro">
                             <div class="slds-text-heading_medium slds-var-m-bottom_medium">{transByNameObj.bff_GrantsSiteLandingWelcomeSubheading}</div>
                         </section>-->
                     </div>
                 </div>
-            </div> <!-- data load tag-->
-        </main>
+
+                <!-- TABLE -->
+                <lightning-accordion class="gfw-accordion slds-var-m-bottom_large" allow-multiple-sections-open
+                active-section-name={activeSections}>
+                    <lightning-accordion-section name="Pending" label={pendingLabel}>
+                        <div if:false={hidePendingTable} class="gfw-item-list">
+                            <lightning-datatable 
+                                key-field="id"
+                                hide-checkbox-column=true
+                                data={pendingItemsData} 
+                                columns={editColumns}
+                                onsort={updatePendingColumnSorting}
+                                sorted-by={pendingSortedBy}
+                                sorted-direction={pendingSortedDirection}
+                                onrowaction={handleRowAction}>
+                            </lightning-datatable>
+                        </div>
+                    </lightning-accordion-section>
         
-    
+                    <lightning-accordion-section name="Submitted" label={submittedLabel} class="slds-var-m-top_x-large">
+                        <div class="gfw-item-list">
+                            <lightning-datatable   
+                                key-field="id" 
+                                hide-checkbox-column=true
+                                data={submittedItemsData} 
+                                columns={viewColumns}
+                                onsort={updateSubmittedColumnSorting}
+                                sorted-by={submittedSortedBy}
+                                sorted-direction={submittedSortedDirection}
+                                onrowaction={handleRowAction}>
+                            </lightning-datatable>
+                        </div>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+            </div> <!-- Close data load tag-->
+        </main> <!-- Close main -->
+
+        <!-- FOOTER -->
+        <footer>
+            <div if:true={dataLoaded}>
+                <lightning-formatted-rich-text
+                    value={transByNameObj.PortalFooter}>
+                </lightning-formatted-rich-text>
+            </div>
+        </footer>
+
     </div> <!-- Close lang tag -->
 </template>

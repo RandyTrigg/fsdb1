@@ -1,7 +1,7 @@
 <template>   
      
     <!-- HEADER -->
-    <div if:false={isNonEditable} class="bottommargin">
+    <div if:true={showHeader} class="bottommargin">
         <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
     </div>
     <div class="gfw-container "> 

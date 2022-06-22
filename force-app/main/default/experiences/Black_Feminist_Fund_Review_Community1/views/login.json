@@ -13,6 +13,15 @@
       "type" : "component"
     }, {
       "componentAttributes" : {
+        "richTextValue" : "<strong>Welcome to the Online Review Community</strong>\n<p>Login with username that begins with 'ADV-'</p>"
+      },
+      "componentName" : "forceCommunity:htmlBlock",
+      "id" : "3f1ca9cb-da52-49e7-a68b-dd2283808476",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
         "forgotPasswordLabel" : "Forgot your password?",
         "forgotPasswordUrl" : "/ForgotPassword",
         "loginButtonLabel" : "Log in",
@@ -27,26 +36,6 @@
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
-    }, {
-      "componentAttributes" : {
-        "headerText" : "",
-        "showHeader" : false,
-        "useCommunityDomainSso" : false
-      },
-      "componentName" : "salesforceIdentity:socialLogin2",
-      "id" : "47bbea42-3bed-4fea-a814-d16a0b81f250",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    }, {
-      "componentAttributes" : {
-        "employeeLoginLinkLabel" : "Are you an employee? Login here"
-      },
-      "componentName" : "salesforceIdentity:employeeLoginLink2",
-      "id" : "069d615d-f36f-43e1-a44d-93407593ca0c",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
     } ],
     "id" : "db108604-fbe4-4e42-b5f4-72d54cc49268",
     "regionName" : "content",
@@ -56,7 +45,7 @@
       "componentAttributes" : {
         "customHeadTags" : "",
         "description" : "",
-        "title" : "Login"
+        "title" : "Login | Black Feminist Fund: Review Community"
       },
       "componentName" : "forceCommunity:seoAssistant",
       "id" : "66470ae1-5918-42fe-bd0b-b23bb8d0754d",

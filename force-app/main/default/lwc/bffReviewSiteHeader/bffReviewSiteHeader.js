@@ -2,63 +2,46 @@ import { LightningElement, api } from 'lwc';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
 import Id from '@salesforce/user/Id';
-import getTranslations from '@salesforce/apex/SiteController.getTranslations';
-import { buildTransByName } from 'c/formsUtilities';
-import loadAdvisorSummary from '@salesforce/apex/AssessorSiteController.loadAdvisorSummary';
 
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     userId = Id;
     bffLogoWhiteText = logoResourceWhiteText;
     dataLoaded = false;
-    logout;
-    support;
-    profile = 'Profile';
+    @api name;
     @api language;
-    @api disableProfile;
-    @api hideSearch;
-    @api hideLanguagePicker;
-    @api transData;
-    transInfo;
-    transByName;
-    transByNameObj;
+    @api disableProfile = false; // Removed this - disabling even when set to False.
+    @api showSearch = false;
+    @api hideLanguagePicker = false;
+    @api advProfileFormInstanceId;
+    @api transByNameObj;
     langTag;
     langMap;
 
     connectedCallback(){
-        if (this.userId && this.language) {
+        if (this.language) {
             console.log('connectedCallbackHeader');
-            this.dataLoaded = true;
             console.log(this.language);
-            // NOTE: Cannot figure out how to successfully pass translation data
-            // this.transInfo = JSON.parse(this.transData);
-            // this.translatePage();
-            // console.log(this.transByName.get('logout'));
-            // this.setLangPickerDefault();
+            console.log(this.advisorFormInstanceId);
+            console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
+            console.log('hidelangpicker',this.hideLanguagePicker);
+            console.log('showSearch',this.showSearch);
+            console.log('disableProfile',this.disableProfile);
+            this.setLangTag();
+            this.dataLoaded = true;
         }
     }
 
-
-    translatePage() {
-        console.log('translatePage in header');
-        this.transByName = buildTransByName(this.transInfo, this.language);
-        this.transByNameObj = Object.fromEntries(this.transByName);
-        this.logout = this.transByName.get('Logout');
-        this.support = this.transByName.get('Support');
-        console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
-    }
-    
-    handleMenuSelect () {
-        this.showMenu = !this.showMenu;
-    }
-    
-    handleProfile () {
-        // this.showMenu = !this.showMenu;
-        // NavigationMixin -> form instance for advisor
+    get options() {
+        return [
+                 { label: 'English', value: 'English' },
+                 { label: 'Español', value: 'Spanish' },
+                 { label: 'Français', value: 'French' },
+                 { label: 'Português', value: 'Portuguese' }
+               ];
     }
 
-    setLangPickerDefault(){
-        const langPicker = this.template.querySelector('[name="langPicker"]');
-        langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
+    setLangTag(){
+        console.log('setLangPickerDefault');
         const lMap = new Map();
         lMap.set('English', 'en');
         lMap.set('Spanish', 'es');
@@ -71,30 +54,42 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     handleLanguagePicker(event){
         this.language = event.target.value;
         console.log(this.language);
-        this.translatePage();
-
-
-        // Create event to pass language
+        this.setLangTag();
+        // Create event to pass language to parent
         const selLang = new CustomEvent("getselectedlanguage", {
             detail: this.language
         });
-
         //Dispatch
         this.dispatchEvent(selLang);
         console.log('dispatched event');
     }
-
-    get options() {
-        return [
-                 { label: 'English', value: 'English' },
-                 { label: 'Español', value: 'Spanish' },
-                 { label: 'Français', value: 'French' },
-                 { label: 'Português', value: 'Portuguese' }
-               ];
+    
+    handleHome(){
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Home'
+            }
+        });
+    }
+    
+    handleProfile () {
+        this.navigateToFormInstance(this.advProfileFormInstanceId);
     }
 
-
-
+    navigateToFormInstance(formInstId) {
+        // Navigate to form instance detail page
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'FormInstance__c'
+            },
+            state: {
+                recordId: formInstId,
+                language: this.language
+            }
+        });
+    }
 
     handleLogout(){
         this[NavigationMixin.Navigate]({

@@ -213,7 +213,8 @@ public class FormDataController {
         Form_Data__c[] toInsert = new List<Form_Data__c> ();
         // Fetch form instance and its pre-filling form components.
         Form_Instance__c fi = [
-            SELECT Id, Name, Form__c, Profile__c, Proposal__c, Milestone__c, Advisor__c, Advisor_Term__c
+            SELECT Id, Name, Form__c, Profile__c, Proposal__c, Milestone__c, 
+            Advisor__c, Advisor__r.Contact__c, Advisor__r.Community_Contact__c, Advisor_Term__c
             FROM Form_Instance__c
             WHERE Id = : formInstanceId
         ];
@@ -247,13 +248,22 @@ public class FormDataController {
         Map<String, sObject> objNameToRecord = new Map<String, sObject> ();
         Map<String, Map<String, Schema.SObjectField>> objNameToFieldMap = new Map<String, Map<String, Schema.SObjectField>> ();
         // Step through obj names populating maps.
-        String[] objNames = new List<String> {'Profile__c', 'Proposal__c', 'Milestone__c', 'GM_Data__c', 'Advisor__c', 'Advisor_Term__c'};
+        String[] objNames = new List<String> {
+            'Profile__c', 'Proposal__c', 'Milestone__c', 'GM_Data__c', 
+            'Advisor__c', 'Advisor_Term__c', 'Advisor__r.Contact__c', 'Advisor__r.Community_Contact__c'
+        };
         for (String oName : objNames) {
-            Id recId = oName == 'GM_Data__c' ? gmDataId : (Id)fi.get(oName);
+            // Grab last part of obj name, removing "__c" if contact or account.
+            String[] parts = oName.split('\\.');
+            String oNameEndpoint = parts.get(parts.size()-1);
+            if (oNameEndpoint.contains('Contact__c')) oNameEndpoint = 'Contact';
+            if (oNameEndpoint.contains('Account__c')) oNameEndpoint = 'Account';
+            // Compute record id and populate maps
+            Id recId = oName == 'GM_Data__c' ? gmDataId : (Id)Utilities.getValue(fi, oName);
             objNameToRecordId.put(oName, recId);
-            objNameToRecord.put(oName, Utilities.fetchRecord(oName, recId, null));
+            objNameToRecord.put(oName, Utilities.fetchRecord(oNameEndpoint, recId, null));
             system.debug('prefillFormInstance: objNameToRecord = ' +objNameToRecord);
-            objNameToFieldMap.put(oName, schemaMap.get(oName).getDescribe().fields.getMap());
+            objNameToFieldMap.put(oName, schemaMap.get(oNameEndpoint).getDescribe().fields.getMap());
         }
         // Step through prefilling form components, building form data records as we go.
         for (Form_Component__c fc : fcs) {
