@@ -6,6 +6,7 @@
     <columns>Portfolio__c</columns>
     <columns>Account__c</columns>
     <columns>Proposal__c</columns>
+    <columns>OWNER.ALIAS</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

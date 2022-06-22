@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Contact_emails__c</fullName>
-    <description>Email(s) from the linked contact record</description>
+    <fullName>Primary_country_name__c</fullName>
+    <description>Name of first country (Country 1) listed</description>
     <externalId>false</externalId>
-    <formula>Contact__r.Email &amp; 
-IF(NOT(ISBLANK(Contact__r.Email2__c)), &quot;,&quot; &amp; Contact__r.Email2__c, &quot;&quot;)</formula>
+    <formula>Country_1__r.Name</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>Email(s) from the linked contact record</inlineHelpText>
-    <label>Contact emails</label>
+    <inlineHelpText>Name of first country (Country 1) listed</inlineHelpText>
+    <label>Primary country name</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

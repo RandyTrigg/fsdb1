@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Contact_emails__c</fullName>
-    <description>Email(s) from the linked contact record</description>
+    <fullName>FS_Group__c</fullName>
+    <description>FS Group to which this template macro belongs (based on owner&apos;s user FS Group).</description>
     <externalId>false</externalId>
-    <formula>Contact__r.Email &amp; 
-IF(NOT(ISBLANK(Contact__r.Email2__c)), &quot;,&quot; &amp; Contact__r.Email2__c, &quot;&quot;)</formula>
+    <formula>TEXT(Owner:User.FS_Group_Name__c)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>Email(s) from the linked contact record</inlineHelpText>
-    <label>Contact emails</label>
+    <inlineHelpText>FS Group to which this template macro belongs (based on owner&apos;s user FS Group).</inlineHelpText>
+    <label>FS Group</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

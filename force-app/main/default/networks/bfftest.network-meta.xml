@@ -4,9 +4,9 @@
     <allowMembersToFlag>false</allowMembersToFlag>
     <changePasswordTemplate>unfiled$public/CommunityChangePasswordEmailTemplate</changePasswordTemplate>
     <communityRoles/>
-    <disableReputationRecordConversations>false</disableReputationRecordConversations>
+    <disableReputationRecordConversations>true</disableReputationRecordConversations>
     <emailSenderAddress>kishimaru@globalfundforwomen.org</emailSenderAddress>
-    <emailSenderName>Black Feminist Fund Review Community</emailSenderName>
+    <emailSenderName>bfftest</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>true</enableDirectMessages>
     <enableExperienceBundleBasedSnaOverrideEnabled>true</enableExperienceBundleBasedSnaOverrideEnabled>
@@ -28,33 +28,24 @@
     <forgotPasswordTemplate>unfiled$public/CommunityForgotPasswordEmailTemplate</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <networkMemberGroups>
-        <permissionSet>ReviewCommunity_BFF</permissionSet>
-<<<<<<< HEAD
-        <profile>fsdb system admin no pwd exp</profile>
-=======
         <profile>FSDB System Admin no pwd exp</profile>
->>>>>>> main
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>
-        <forgotPasswordPageOverrideSetting>Designer</forgotPasswordPageOverrideSetting>
+        <forgotPasswordPageOverrideSetting>Standard</forgotPasswordPageOverrideSetting>
         <homePageOverrideSetting>Designer</homePageOverrideSetting>
-<<<<<<< HEAD
         <loginPageOverrideSetting>Standard</loginPageOverrideSetting>
-=======
-        <loginPageOverrideSetting>Designer</loginPageOverrideSetting>
->>>>>>> main
-        <selfRegProfilePageOverrideSetting>Designer</selfRegProfilePageOverrideSetting>
+        <selfRegProfilePageOverrideSetting>Standard</selfRegProfilePageOverrideSetting>
     </networkPageOverrides>
-    <picassoSite>Black_Feminist_Fund_Review_Community1</picassoSite>
-    <selfRegistration>false</selfRegistration>
+    <picassoSite>bfftest1</picassoSite>
+    <selfRegistration>true</selfRegistration>
     <sendWelcomeEmail>true</sendWelcomeEmail>
-    <site>Black_Feminist_Fund_Review_Community</site>
-    <status>Live</status>
+    <site>bfftest</site>
+    <status>DownForMaintenance</status>
     <tabs>
         <defaultTab>home</defaultTab>
         <standardTab>Chatter</standardTab>
     </tabs>
-    <urlPathPrefix>BlackFeministFundReview</urlPathPrefix>
+    <urlPathPrefix>bfftest</urlPathPrefix>
     <welcomeTemplate>unfiled$public/CommunityWelcomeEmailTemplate</welcomeTemplate>
 </Network>

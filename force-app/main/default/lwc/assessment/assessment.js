@@ -1,6 +1,8 @@
 import { LightningElement, api, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import getAssessmentData from '@salesforce/apex/SiteController.getAssessmentData';
+import getTranslations from '@salesforce/apex/SiteController.getTranslations';
+import { buildTransByName } from 'c/formsUtilities';
 import { handleError, buildError, showUIError } from 'c/lwcUtilities';
 
 export default class Assessment extends NavigationMixin ( LightningElement ) {
@@ -8,6 +10,8 @@ export default class Assessment extends NavigationMixin ( LightningElement ) {
     @api recordId; 
     assessedRecordId;
     @api language = 'English';
+    support;
+    logout;
     formInstanceId;
     dataLoaded = false;
 
@@ -35,10 +39,17 @@ export default class Assessment extends NavigationMixin ( LightningElement ) {
 
     async loadData() {
         console.log('assessment loadData');
-        let assessmentData = await getAssessmentData({assessmentId:this.recordId});
+        let [assessmentData, translations ] = await Promise.all ([
+            getAssessmentData ({ assessmentId: this.recordId }),
+            getTranslations ()
+        ]);
         let assessment = JSON.parse(assessmentData);
         console.log('assessment');
         console.log(assessment);
+        translations = JSON.parse(translations);
+        let transByName = buildTransByName(translations, this.language);
+        this.support = transByName.get('Support');
+        this.logout = transByName.get('Logout');
         this.assessedRecordId = assessment.assessedRecordId;
         if (assessment.formName) {
             this.formInstanceId = assessment.formInstanceId;
@@ -50,4 +61,3 @@ export default class Assessment extends NavigationMixin ( LightningElement ) {
         this.dataLoaded = true;
     }
 }
-    

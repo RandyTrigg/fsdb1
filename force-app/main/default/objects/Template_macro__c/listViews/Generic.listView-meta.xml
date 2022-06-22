@@ -3,6 +3,7 @@
     <fullName>Generic</fullName>
     <columns>NAME</columns>
     <columns>Active__c</columns>
+    <columns>FS_Group__c</columns>
     <columns>Macro_text__c</columns>
     <filterScope>Everything</filterScope>
     <filters>

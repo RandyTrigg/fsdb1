@@ -8,51 +8,27 @@
     <picklistValues>
         <picklist>Fiscal_year__c</picklist>
         <values>
-            <fullName>2015</fullName>
+            <fullName>FY2020-2021</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>2016</fullName>
+            <fullName>FY2021-2022</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>2017</fullName>
+            <fullName>FY2022-2023</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>2018</fullName>
+            <fullName>FY2023-2024</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>2019</fullName>
+            <fullName>FY2024-2025</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>2020</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2021</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2022</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2023</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2024</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2025</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2026</fullName>
+            <fullName>FY2025-2026</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -17,8 +17,10 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     @api isNonEditable = false; // External flag set once by caller or in app config
     @api isReadOnly; // Internal flag set and unset during processing at community
     @api isMultiView = false; // Determines whether we're in a single-form view or multi-form view.
+    @api isEmbedded = false; // True if this component appears on the right side of a left-right interface
     dataLoaded = false;
     showSpinner = true;
+    showHeader;
     hasSections;
     @track sections = [];
     @track components = [];
@@ -78,6 +80,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         let transByName = buildTransByName(translations, this.language);
         this.transByNameObj = Object.fromEntries(transByName);
 
+        this.showHeader = !this.isNonEditable && !this.isEmbedded;
         this.logout = transByName.get('Logout');
         this.support = transByName.get('Support');
 

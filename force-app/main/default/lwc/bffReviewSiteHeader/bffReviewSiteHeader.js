@@ -9,7 +9,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     dataLoaded = false;
     @api name;
     @api language;
-    @api disableProfile = false; // Removed this - disabling even when set to False.
+    @api disableProfile = false;
     @api showSearch = false;
     @api hideLanguagePicker = false;
     @api advProfileFormInstanceId;

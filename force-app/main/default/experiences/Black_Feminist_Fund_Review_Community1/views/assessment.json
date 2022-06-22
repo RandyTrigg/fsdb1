@@ -17,6 +17,13 @@
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
+    }, {
+      "componentAttributes" : { },
+      "componentName" : "c:assessment",
+      "id" : "21698b77-3773-4114-a237-fe30ca5e80f6",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
     } ],
     "id" : "f7d077fc-c2f2-42e0-bea9-948c26d8d76c",
     "regionName" : "content",
