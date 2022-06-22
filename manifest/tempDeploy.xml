@@ -4,6 +4,8 @@
         <members>AdvisorController</members>
         <members>AdvisorControllerTest</members>
         <members>SiteController</members>
+        <members>Utilities</members>
+        <members>FormDataController</members>
         <name>ApexClass</name>
     </types>
     <types>

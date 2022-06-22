@@ -71,60 +71,29 @@ public class UpdateAccountContactInfo {
 
     // Return contact info string for given account based on given applicant and address.
     // Pass address rather than fetching, because the record may not yet have been saved in database.
-    public static String buildContactInfoText(
-        Account acc,
-        List<String> emails,
-        Address__c addr
-    ) {
+    public static String buildContactInfoText(Account acc, List<String> emails, Address__c addr) {
         system.debug('buildContactInfoText...');
         system.debug('acc = ' + JSON.serialize(acc));
         system.debug('addr = ' + JSON.serialize(addr));
-        // Gather phones.
-        Set<String> phones = new Set<String>();
-        if (acc.Phone != null)
-            phones.add(acc.Phone);
-        if (acc.Phone2__c != null)
-            phones.add(acc.Phone2__c);
         // Build multi-line contact info string.
         List<String> lines = new List<String>();
-        system.debug('acc.Contact_primary__c = ' + acc.Contact_primary__c);
-        if (
-            acc.Contact_primary__c != null &&
-            acc.Contact_primary__r.Name != null
-        )
-            lines.add(acc.Contact_primary__r.Name);
-        if (addr != null && addr.Address_w_confidential__c != null)
-            lines.add(addr.Address_w_confidential__c.replace('<br>', '\n'));
-        else if (acc.BillingAddress != null) {
-            String[] lastAddrBits = Utilities.removeNulls(
-                new List<String>{
-                    acc.BillingState,
-                    acc.BillingPostalCode,
-                    acc.BillingCountry
-                }
-            );
-            String endOfAddr = lastAddrBits != null
-                ? String.join(lastAddrBits, ' ')
-                : null;
-            lines.add(
-                String.join(
-                    Utilities.removeNulls(
-                        new List<String>{
-                            acc.BillingStreet,
-                            acc.BillingCity,
-                            endOfAddr
-                        }
-                    ),
-                    ', '
-                )
-            );
+        if (!acc.Name.contains('Community Users Account')) { // Don't compute emails for umbrella accounts
+            // Gather phones.
+            Set<String> phones = new Set<String>();
+            if (acc.Phone != null) phones.add(acc.Phone);
+            if (acc.Phone2__c != null) phones.add(acc.Phone2__c);
+            system.debug('buildContactInfoText: acc.Contact_primary__c = ' + acc.Contact_primary__c);
+            if (acc.Contact_primary__c != null && acc.Contact_primary__r.Name != null) lines.add(acc.Contact_primary__r.Name);
+            if (addr != null && addr.Address_w_confidential__c != null) lines.add(addr.Address_w_confidential__c.replace('<br>', '\n'));
+            else if (acc.BillingAddress != null) {
+                String[] lastAddrBits = Utilities.removeNulls(new List<String> {acc.BillingState, acc.BillingPostalCode, acc.BillingCountry});
+                String endOfAddr = lastAddrBits != null ? String.join(lastAddrBits, ' ') : null;
+                lines.add(String.join(Utilities.removeNulls(new List<String> {acc.BillingStreet, acc.BillingCity, endOfAddr}), ', '));
+            }
+            if (acc.Website != null) lines.add(acc.Website);
+            if (emails.size() > 0) lines.add(String.join(emails, ', '));
+            if (phones.size() > 0) lines.add(String.join(new List<String>(phones), ', '));
         }
-        if (acc.Website != null)
-            lines.add(acc.Website);
-        if (emails.size() > 0)
-            lines.add(String.join(emails, ', '));
-        if (phones.size() > 0)
-            lines.add(String.join(new List<String>(phones), ', '));
         return String.join(lines, '\n');
     }
 }
