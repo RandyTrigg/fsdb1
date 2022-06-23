@@ -31,10 +31,9 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
 
     // For table
     currentPageReference;
-    pendingLabel = 'Pending Evaluations';
-    submittedLabel = 'Submitted Evaluations';
+    pendingLabel = 'Pending Reviews';
+    submittedLabel = 'Submitted Reviews';
     hidePendingTable = false;
-    pageLabel =  'Evaluations'; 
     activeSections = ['Pending'];
     viewColumns;
     editColumns;
@@ -89,8 +88,8 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this.transByName = buildTransByName(this.transInfo, this.language);
         this.transByNameObj = Object.fromEntries(this.transByName);
         this.loading = this.transByNameObj.Loading;
-        this.pendingLabel = this.transByNameObj.PendingEvaluations;
-        this.submittedLabel = this.transByNameObj.SubmittedEvaluations;
+        this.pendingLabel = this.transByNameObj.PendingReviews;
+        this.submittedLabel = this.transByNameObj.SubmittedReviews;
     }
 
     buildTables() {
@@ -123,7 +122,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         };
 
         let columns = [
-            { label: this.transByNameObj.GroupName, fieldName: 'orgName', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.OrganizationName, fieldName: 'orgName', hideDefaultActions: true, sortable: true,},
             { label: this.transByNameObj.Country, fieldName: 'country', hideDefaultActions: true, sortable: true,},
             { label: this.transByNameObj.ProposalNumber, fieldName: 'proposalName', hideDefaultActions: true, sortable: true,},
             { label: this.transByNameObj.GrantType, fieldName: 'grantType', hideDefaultActions: true, sortable: true,},
