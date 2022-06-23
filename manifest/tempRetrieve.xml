@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <name>GlobalValueSet</name>
-    </types>
-    <types>
+        <members>Log__c</members>
         <name>CustomObject</name>
     </types>
     <types>
+        <members>Log__c</members>
         <name>CustomTab</name>
     </types>
     <types>
+        <members>Log__c-Log Layout</members>
         <name>Layout</name>
     </types>
-    <types>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <name>FlexiPage</name>
-    </types>
-    <types>
-        <name>Profile</name>
-    </types>
-    <types>
-		<members>SNA_Black_Feminist_Fund_Review_Community1_sf_default_cdn_Z27et</members>
-		<name>StaticResource</name>
-	</types>
     <version>53.0</version>
 </Package>

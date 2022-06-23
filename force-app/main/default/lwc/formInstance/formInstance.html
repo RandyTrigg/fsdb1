@@ -44,23 +44,25 @@
                             </div>
                             <!-- Loop through top level form components (without parent) putting out c-form-component tags-->
                             <!-- For components of type Section, wrap the c-form-component tag in lightning-accordion-section if isMultiView is true-->
-                            <div if:false={isMultiView}>
-                                <template for:each={topLevelCmps} for:item="cmp">
-                                    <c-form-component key={cmp.Id}
-                                        cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} is-non-editable={isNonEditable} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
-                                    </c-form-component>
-                                </template>
-                            </div>
-                            <div if:true={isMultiView}>
-                                <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+                            <div class="bottompadding" >
+                                <div if:false={isMultiView}>
                                     <template for:each={topLevelCmps} for:item="cmp">
-                                        <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.title}>
-                                            <c-form-component 
-                                                cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} is-non-editable={isNonEditable} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
-                                            </c-form-component>
-                                        </lightning-accordion-section>
+                                        <c-form-component key={cmp.Id}
+                                            cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} is-non-editable={isNonEditable} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
+                                        </c-form-component>
                                     </template>
-                                </lightning-accordion>
+                                </div>
+                                <div if:true={isMultiView}>
+                                    <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+                                        <template for:each={topLevelCmps} for:item="cmp">
+                                            <lightning-accordion-section  class="gfw-form-title" key={cmp.Id} name="A" label={cmp.title}>
+                                                <c-form-component 
+                                                    cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} is-non-editable={isNonEditable} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
+                                                </c-form-component>
+                                            </lightning-accordion-section>
+                                        </template>
+                                    </lightning-accordion>
+                                </div>
                             </div>
             
                             <div if:false={isNonEditable}>
