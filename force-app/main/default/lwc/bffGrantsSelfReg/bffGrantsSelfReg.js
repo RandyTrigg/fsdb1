@@ -18,7 +18,21 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
     showFailure = false;
     language = "English";
     langTag;
+    transInfo;
+    dataLoaded = false;
 
+    connectedCallback(){
+        this.loadData();
+    }
+
+    async loadData() {
+        let translations = await getTranslations();
+        this.transInfo = JSON.parse(translations);
+        this.setLangTag();
+        this.translatePage();
+        this.dataLoaded = true;
+    }
+    
     get options() {
         return [
                  { label: 'English', value: 'English' },
@@ -26,6 +40,17 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
                  { label: 'Français', value: 'French' },
                  { label: 'Português', value: 'Portuguese' }
                ];
+    }
+
+    setLangTag(){
+        console.log('setLangPickerDefault');
+        const lMap = new Map();
+        lMap.set('English', 'en');
+        lMap.set('Spanish', 'es');
+        lMap.set('French', 'fr');
+        lMap.set('Portuguese', 'pt');
+        this.langMap = lMap;
+        this.langTag = this.langMap.get(this.language);
     }
 
     translatePage(){
