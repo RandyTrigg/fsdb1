@@ -224,7 +224,7 @@ public class ProfileControllerTest {
             );
             insert prForm;
             Form__c appForm = new Form__c(
-                Name = 'testForm',
+                Name = 'bff_SolidarityApplication',
                 Active__c = true,
                 Type__c = 'Application'
             );
