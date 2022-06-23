@@ -68,8 +68,8 @@
     <div if:true={showSuccess}>
         <div class="slds-illustration slds-illustration_small">           
             <div class="slds-text-longform">
-                <h3 class="slds-text-heading_medium">Great! Check your email to finish your registration.</h3>
-                <p class="slds-text-body_regular">TIP: You may want to check your spam filter or junk email folder.</p>
+                <h3 class="slds-text-heading_medium">Success! Now, check your email.</h3>
+                <p class="slds-text-body_regular">Check your email for instructions on setting up your password. Remember to look in your spam folder, where automated messages sometimes filter.</p>
             </div>
         </div>
     </div>
@@ -77,7 +77,7 @@
     <div if:true={showFailure}>
         <div class="slds-illustration slds-illustration_small">
             <div class="slds-text-longform">
-                <h3 class="slds-text-heading_medium">Oh no!  Something went wrong with the Registration: {errMsg}</h3>
+                <h3 class="slds-text-heading_medium">Error! There was a problem with your registration. Please try again later.</h3>
             </div>
         </div>
     </div>

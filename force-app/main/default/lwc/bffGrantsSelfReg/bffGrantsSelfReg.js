@@ -1,6 +1,8 @@
 import { LightningElement, wire } from 'lwc';
 import { handleError } from 'c/lwcUtilities';
 import { NavigationMixin } from 'lightning/navigation';
+import getTranslations from '@salesforce/apex/SiteController.getTranslations';
+import { buildTransByName } from 'c/formsUtilities';
 
 import handleRegistration from '@salesforce/apex/BFFGrantsRegistrationController.handleRegistration';
 
@@ -14,6 +16,28 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
     showSpinner = false;
     showSuccess = false;
     showFailure = false;
+    language = "English";
+    langTag;
+
+    get options() {
+        return [
+                 { label: 'English', value: 'English' },
+                 { label: 'Español', value: 'Spanish' },
+                 { label: 'Français', value: 'French' },
+                 { label: 'Português', value: 'Portuguese' }
+               ];
+    }
+
+    translatePage(){
+        this.transByName = buildTransByName(this.transInfo, this.language);
+        this.transByNameObj = Object.fromEntries(this.transByName);
+        this.languageSelector = this.transByName.get('LanguageSelector');
+    }
+
+    handleLanguagePicker(event){
+        this.language = event.target.value;
+        this.translatePage();
+    }
 
     handleEmail(event) {
         this.email = event.target.value;
@@ -46,13 +70,11 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
                 this.errMsg=errString; 
             }
         } catch (error) {
+            // Catches apex errors and displays generic message (see console log for actual error)
             this.showSpinner = false;
             this.showForm = false;
             console.log('error',error);
             this.showFailure=true;
-            this.errMsg = error.body.message;
-            // this.errMsg = JSON.parse(error.body.message);
-            // handleError(error); 
         }
 
     }
