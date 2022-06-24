@@ -276,7 +276,7 @@ public class FormDataController {
             if (source != null && fieldMap.get(fName) != null) {
                 Schema.DescribeFieldResult fInfo = fieldMap.get(fName).getDescribe();
                 String fType = fInfo.getType().name();
-                Object fValue = source.get(fName);
+                Object fValue = Utilities.getValue(source, fName);
                 system.debug('prefillFormInstance in loop: fType = ' +fType+ '; fValue = ' +JSON.serialize(fValue));
                 if (fValue != null) { // Skip component if its prefill field is blank.
                     // Build a form data record to prefill.
