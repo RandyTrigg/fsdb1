@@ -6,10 +6,25 @@
     margin-bottom: 4rem;
 }
 
+.bottommargin-small {
+    margin-bottom: 1rem;
+}
+
 .fullViewport {
     height:75vmin;
 }
 
 .partialViewport {
     height:60vmin;
+}
+
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
 }
