@@ -48,6 +48,19 @@
             </div>
         </div>
 
+        <div if:false={onHome} class="slds-m-left_x-large slds-m-top_x-small slds-p-left_small">
+            <lightning-breadcrumbs>
+                <lightning-breadcrumb
+                    label={transByNameObj.Home}
+                    onclick={navigateHome}>
+                </lightning-breadcrumb>
+                <lightning-breadcrumb
+                    label={pageName}
+                    onclick={selfClick}>
+                </lightning-breadcrumb>
+            </lightning-breadcrumbs>
+        </div>
+
         <div if:true={showSearch} class="slds-global-header slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
             <div class="slds-global-header__item gfw-global-search">
                 <!-- <c-lookup

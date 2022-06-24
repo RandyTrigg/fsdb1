@@ -1,10 +1,9 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
-import { NavigationMixin } from 'lightning/navigation';
-import Id from '@salesforce/user/Id';
+import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
-    userId = Id;
+    currentPageReference;
     bffLogoWhiteText = logoResourceWhiteText;
     dataLoaded = false;
     @api name;
@@ -16,6 +15,22 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     @api transByNameObj;
     langTag;
     langMap;
+    page;
+    pageName;
+    onHome = true;
+    
+    @wire(CurrentPageReference)
+    getStateParameters(currentPageReference) {
+        console.log('wire currentPageReference', currentPageReference);
+        if (currentPageReference && this.language) {
+            this.page = currentPageReference.attributes.name;
+            console.log(this.page);
+            if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
+            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.MyProfile;
+            this.onHome = this.page==='Home';
+            console.log(this.onHome);
+        }
+    }
 
     connectedCallback(){
         if (this.language) {
@@ -27,6 +42,8 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('showSearch',this.showSearch);
             console.log('disableProfile',this.disableProfile);
             this.setLangTag();
+
+            console.log(this.baseURL);
             this.dataLoaded = true;
         }
     }
@@ -71,6 +88,10 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
                 name: 'Home'
             }
         });
+    }
+
+    selfClick() {
+        // Do nothing - stay on this page
     }
     
     handleProfile () {
