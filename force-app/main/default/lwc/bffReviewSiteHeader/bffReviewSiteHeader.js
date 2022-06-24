@@ -17,7 +17,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     langMap;
     page;
     pageName;
-    onHome;
+    onHome = true;
     
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
@@ -25,11 +25,12 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
         if (currentPageReference && this.language) {
             this.page = currentPageReference.attributes.name;
             console.log(this.page);
-            this.pageName = this.page==='Assessment__c' ? this.transByNameObj.ProposalReview : '';
+            if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
+            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.MyProfile;
             this.onHome = this.page==='Home';
+            console.log(this.onHome);
         }
     }
-
 
     connectedCallback(){
         if (this.language) {
