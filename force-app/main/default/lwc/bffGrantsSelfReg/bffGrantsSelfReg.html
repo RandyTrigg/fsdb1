@@ -24,10 +24,10 @@
             <div class="slds-text-align_center slds-m-bottom_large">
                 <h1 class="slds-text-heading_medium">{transByNameObj.BlackFeministFund}<br/>{transByNameObj.GrantsSiteRegistration}</h1>
             </div>
-
-                <lightning-card title={cardTitle} class="slds-card__body_inner">
-                    <div if:true={showForm}>
-                    
+                
+            <lightning-card title={cardTitle} class="slds-card__body_inner">
+                
+                <div if:true={showForm}>
                     <div class="slds-m-bottom_small">
                         <div class="slds-m-bottom_small">
                             <lightning-formatted-rich-text value={transByNameObj.RegistrationInstructions}></lightning-formatted-rich-text>
@@ -70,92 +70,26 @@
                     </div>
                 </div> <!-- Show form -->
 
-                    <div if:true={showSuccess}>
-                        <div class="slds-illustration slds-illustration_small">           
-                            <div class="slds-text-longform">
-                                <h3 class="slds-text-heading_medium">{transByNameObj.CheckEmail} [Check email]</h3>
-                                <p class="slds-text-body_regular">[Check email instructions] {transByNameObj.CheckEmailInstructions}</p>
-                            </div>
+                <div if:true={showSuccess}>
+                    <div class="slds-illustration slds-illustration_small">           
+                        <div class="slds-text-longform">
+                            <h3 class="slds-text-heading_medium">{transByNameObj.CheckEmail} [Check email]</h3>
+                            <p class="slds-text-body_regular">[Check email instructions] {transByNameObj.CheckEmailInstructions}</p>
                         </div>
                     </div>
-        
-                    <div if:true={showFailure}>
-                        <div class="slds-illustration slds-illustration_small">
-                            <div class="slds-text-longform">
-                                <h3 class="slds-text-heading_medium">{transByNameObj.RegistrationError}</h3>
-                                <lightning-formatted-rich-text class="slds-text-body_small" value={errMsg}></lightning-formatted-rich-text>
-                            </div>
+                </div>
+    
+                <div if:true={showFailure}>
+                    <div class="slds-illustration slds-illustration_small">
+                        <div class="slds-text-longform">
+                            <h3 class="slds-text-heading_medium">{transByNameObj.RegistrationError}</h3>
+                            <lightning-formatted-rich-text class="slds-text-body_small" value={errMsg}></lightning-formatted-rich-text>
                         </div>
                     </div>
+                </div>
                     
-                </lightning-card>
+            </lightning-card>
                 
-
-                 
-                <!-- <div class="slds-grid slds-grid_vertical slds-grid_vertical-align-center slds-grid_align-center">
-                    <div class="slds-col slds-text-align_center">
-                        <h1>Grants Site Registration</h1>
-                    </div>
-                    <div class="slds-col slds-text-align_center">
-                        <p>Enter your organization's name and an organizational email for receiving messages.</p>
-                    </div>
-                </div> -->
-
-                <!-- <div class="gfw-input-width">
-                    <div class="slds-m-bottom_x-small">
-                        <lightning-input
-                            label="Organization Name"
-                            onchange={handleGroupName}
-                            placeholder="Organization Name"
-                            data-id="orgName"  
-                            type="text" 
-                            required="true" 
-                            max-length="120"
-                            value={groupName}
-                        ></lightning-input>
-                    </div>
-                    <div class="slds-m-bottom_x-small">
-                        <lightning-input
-                            label="Organization Email"
-                            placeholder="Organization Email"
-                            onchange={handleEmail}
-                            type="email"
-                            required="true" 
-                            max-length="80"
-                            class="email-input"
-                            value={email}
-                        ></lightning-input>
-                    </div>
-                </div> -->
-                
-                <!-- <div class="slds-m-bottom_medium">
-                    <lightning-button 
-                        class="slds-align_absolute-center"
-                        variant="brand" 
-                        label="Register for Grants Site" 
-                        disabled={registerDisabled}
-                        onclick={handleRegister}>
-                    </lightning-button>
-                </div> -->
-            <!-- </div> Show form -->
-
-            <!-- <div if:true={showSuccess}>
-                <div class="slds-illustration slds-illustration_small">           
-                    <div class="slds-text-longform">
-                        <h3 class="slds-text-heading_medium">Success! Now, check your email.</h3>
-                        <p class="slds-text-body_regular">Check your email for instructions on setting up your password. Remember to look in your spam folder, where automated messages sometimes filter.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div if:true={showFailure}>
-                <div class="slds-illustration slds-illustration_small">
-                    <div class="slds-text-longform">
-                        <h3 class="slds-text-heading_medium">Error! There was a problem with your registration: {errMsg} Please try again later.</h3>
-                    </div>
-                </div>
-            </div> -->
-
             <div class="slds-m-top_medium slds-text-align_center">
                 <a href={loginUrl} class="link-font" onclick={handleGoToLogin}>{transByNameObj.AlreadyHaveAccount}</a>
             </div>
