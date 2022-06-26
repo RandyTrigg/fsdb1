@@ -10,7 +10,7 @@ public without sharing class BFFGrantsRegistrationController {
     public static String handleRegistration(String registrantJSON) {
         Registrant reg = (Registrant)JSON.deserialize(registrantJSON, Registrant.class);
         System.debug('reg: '+reg);
-        String regUsername = 'bff' + reg.email;
+        String regUsername = 'bff-' + reg.email;
         System.debug('username: ' + regUsername);
 
         // Check if username already exists. If so, return error
