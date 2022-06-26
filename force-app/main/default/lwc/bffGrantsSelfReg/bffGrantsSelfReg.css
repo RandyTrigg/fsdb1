@@ -1,3 +1,16 @@
-.gfw-input-width .input {
+.gfw-input-width .input .combobox {
     max-width:350px;
 }
+
+.combo {
+    max-width:200px;
+}
+
+.link-font {
+    color: #F6F3F8;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #F6F3F8;
+  }

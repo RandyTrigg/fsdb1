@@ -20,9 +20,21 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
     langTag;
     transInfo;
     dataLoaded = false;
+    loginPageRef;
+    loginUrl;
+    cardTitle;
 
     connectedCallback(){
         this.loadData();
+        this.loginPageRef = {
+            type: 'comm__loginPage',
+            attributes: {
+                actionName: 'login'
+            }
+        };
+        this[NavigationMixin.GenerateUrl](this.loginPageRef)
+            .then(url => this.loginUrl = url);
+        console.log(this.loginUrl);
     }
 
     async loadData() {
@@ -57,6 +69,7 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
         this.transByName = buildTransByName(this.transInfo, this.language);
         this.transByNameObj = Object.fromEntries(this.transByName);
         this.languageSelector = this.transByName.get('LanguageSelector');
+        this.cardTitle = this.transByNameObj.RegisterYourOrganization;
     }
 
     handleLanguagePicker(event){
@@ -80,26 +93,35 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
             this.showSpinner = true;
             let registrant = {
                 "email":this.email,
-                "groupName":this.groupName
+                "groupName":this.groupName,
+                "language":this.language
             };
             
             let errString = await handleRegistration({registrantJSON: JSON.stringify(registrant)});
+            console.log(errString);
             if (!errString) {
+                console.log('not errString');
                 this.showForm = false;
                 this.showSuccess =true;
                 this.showSpinner = false;
+                this.cardTitle = this.transByNameObj.Success + '!';
             } else {
+                console.log('else errString');
                 this.showSpinner = false;
                 this.showForm = false;
                 this.showFailure = true;
-                this.errMsg=errString; 
+                this.cardTitle = this.transByNameObj.Error + '!';
+                this.errMsg = (errString == 'DuplicateUsername') ? this.transByNameObj.DuplicateUsername + ' <u>bff-' + this.email + '</u>' : '';
+                console.log('error',this.errMsg);
             }
         } catch (error) {
             // Catches apex errors and displays generic message (see console log for actual error)
             this.showSpinner = false;
             this.showForm = false;
+            this.showFailure = true;
+            this.cardTitle = this.transByNameObj.Error;
             console.log('error',error);
-            this.showFailure=true;
+            this.errMsg = this.transByNameObj.TryAgainLater;
         }
 
     }
@@ -116,4 +138,14 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
             this.registerDisabled = true;
         }
     }
+
+    handleGoToLogin(){
+        console.log('GoToLogin');
+        // evt.preventDefault();
+        // evt.stopPropogation();
+        console.log(this.loginUrl);
+        this[NavigationMixin.Navigate](this.loginPageRef);
+    }
+
+
 }
