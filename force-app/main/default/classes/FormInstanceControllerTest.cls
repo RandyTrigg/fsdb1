@@ -44,6 +44,12 @@ public class FormInstanceControllerTest {
         SiteController.updateFormData(fi.Id, comp.Id, 'abc', false);
         SiteController.updateFormData(fi.Id, comp2.Id, 'def', true);
 
+        FormInstanceController.FormDataInfo[] fdis = new List<FormInstanceController.FormDataInfo> {
+            new FormInstanceController.FormDataInfo(comp.Id, 'aabbcc', false), // changed
+            new FormInstanceController.FormDataInfo(comp2.Id, 'def', true) // not changed
+        };
+        FormInstanceController.updateFormDataBulk(fi.Id, fdis);
+
         SiteController.submitForm(fi.Id);
 
         SiteController.getFormInstances(prof.Id);

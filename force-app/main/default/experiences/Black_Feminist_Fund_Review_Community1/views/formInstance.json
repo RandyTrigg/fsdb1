@@ -1,0 +1,45 @@
+{
+  "appPageId" : "337a3596-6476-44f0-9aa5-6b06c584058b",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "1923ba70-23ad-4e45-8141-9f789dcfa18f",
+  "label" : "FormInstance",
+  "regions" : [ {
+    "id" : "b3b6f28e-6446-4eff-aabe-f853cb4678b0",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:formInstance",
+      "id" : "1dab3381-1738-4a0a-a6ed-0b4c2cecd1fd",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1b67895e-8435-4524-8045-9ec6d9461e71",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "777cb79b-db51-408a-aabf-a54505d809d1",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Profile | Black Feminist Fund: Review Community"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "ca87342e-6097-4f4f-b630-1e15da2ad5e6",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "70b76cce-8a94-4127-ab9e-e7d4ca61c2bc",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-forminstance"
+}

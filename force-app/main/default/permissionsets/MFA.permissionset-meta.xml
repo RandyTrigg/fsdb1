@@ -153,6 +153,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.FS_Group__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Fax</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -658,6 +663,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.npsp__All_Members_Deceased__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.npsp__Batch__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -744,6 +754,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.npsp__Number_of_Household_Members__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.npsp__Sustainer__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1238,6 +1253,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Advisor__c.Accessibility_needs__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Advisor__c.Account__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1353,6 +1373,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Advisor__c.FS_Group__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Advisor__c.FV__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1429,6 +1454,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Advisor__c.PE__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Advisor__c.Primary_country_name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2813,6 +2843,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Org_name_submitted__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.OtherAddress</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3304,6 +3339,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.npsp__Soft_Credit_Last_N_Days__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.npsp__Sustainer__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4584,6 +4624,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Form__c.ExternalID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Form__c.FS_Group__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5903,6 +5948,41 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Log__c.Comments__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Log__c.Errors__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Log__c.Input__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Log__c.Output__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Log__c.Results__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Log__c.Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Log__c.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Milestone_Spec__c.Date_due__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -6348,6 +6428,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.FS_Group__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Opportunity.GFW_Gift_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -6613,6 +6698,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.npsp__Honoree_Information__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Opportunity.npsp__Honoree_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -6678,6 +6768,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.npsp__Notification_Recipient_Email__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Opportunity.npsp__Notification_Recipient_Information__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -6719,6 +6814,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.npsp__Requested_Amount__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.npsp__Tribute_Notification_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.npsp__Tribute_Notification_Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7723,6 +7828,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Profile__c.Org_Eligibility__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Profile__c.Org_age_in_years__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -8418,6 +8528,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Proposal__c.FS_Group__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Proposal__c.FY_awarded__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -8604,6 +8719,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Proposal__c.Org_age_at_award_years__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Proposal__c.Org_name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9618,6 +9738,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Template_macro__c.FS_Group__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Template_macro__c.Macro_text__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -9648,6 +9773,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Template_piece__c.FS_Group__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Template_piece__c.GM_ExternalID__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -9669,6 +9799,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Template_piece__c.Template__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.FS_Group_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10928,6 +11063,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>npsp__DataImportBatch__c.npsp__Latest_Apex_Job_Id__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>npsp__DataImportBatch__c.npsp__Post_Process_Implementing_Class__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -11308,6 +11448,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Donation_Honoree_Information__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Donation_Honoree_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>npsp__DataImport__c.npsp__Donation_Member_Level__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -11333,6 +11483,31 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Donation_Notification_Message__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Donation_Notification_Preference__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Donation_Notification_Recipient_Email__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Donation_Notification_Recipient_Info__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Donation_Notification_Recipient_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>npsp__DataImport__c.npsp__Donation_Possible_Matches__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -11344,6 +11519,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>npsp__DataImport__c.npsp__Donation_Stage__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Donation_Tribute_Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -11673,7 +11853,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Recurring_Donation_ACH_Last_4__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>npsp__DataImport__c.npsp__Recurring_Donation_Amount__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Recurring_Donation_Card_Expiration_Month__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Recurring_Donation_Card_Expiration_Year__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Recurring_Donation_Card_Last_4__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -11694,6 +11894,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>npsp__DataImport__c.npsp__Recurring_Donation_Effective_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>npsp__DataImport__c.npsp__Recurring_Donation_Elevate_Event_Version__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

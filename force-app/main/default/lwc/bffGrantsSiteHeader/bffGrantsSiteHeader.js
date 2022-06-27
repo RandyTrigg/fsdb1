@@ -13,6 +13,15 @@ export default class BffGrantsSiteHeader extends NavigationMixin(LightningElemen
         this.showMenu = !this.showMenu;
     }
 
+    handleHome(){
+      this[NavigationMixin.Navigate]({
+          type: 'comm__namedPage',
+          attributes: {
+              name: 'Home'
+          }
+      });
+    }
+
     handleLogout(){
         this[NavigationMixin.Navigate]({
             type: 'comm__loginPage',

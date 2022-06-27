@@ -12,10 +12,14 @@
     <tabs>Sync_Log__c</tabs>
     <tabs>Sync_Log_Record__c</tabs>
     <tabs>Commitment__c</tabs>
+    <tabs>Log__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
             <tab>Commitment__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Log__c</tab>
         </mappings>
         <mappings>
             <tab>Sync_Log_Record__c</tab>

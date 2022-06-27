@@ -4,6 +4,7 @@
     <columns>NAME</columns>
     <columns>Active__c</columns>
     <columns>Revise__c</columns>
+    <columns>FS_Group__c</columns>
     <columns>Language__c</columns>
     <columns>Piece_text__c</columns>
     <filterScope>Everything</filterScope>

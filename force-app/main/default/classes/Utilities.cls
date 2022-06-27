@@ -423,6 +423,202 @@ global inherited sharing class Utilities {
     public static Map<Id, List<String>> emailsForAccounts(Set<Id> aIds) {
         return AccountController.emailsForAccounts(aids); 
     }
+    
+	/*******************
+	* FILES
+	*******************/
+    
+    @AuraEnabled
+    public static Id buildFileRecord(String fileContent, String fileExtension, String fileName, Id relRecordId) {
+        // Create file record with fileExtension .csv, .pdf, etc.
+        // Returns contentVersionId of newly created File
+        // If file already exists with passed in fileName, 
+        // create new version (ContentVersion) with same ContentDocId.
+        // If multiple, update the one most recently modified.
+        Set<Id> conDocIds = new Set<Id>();
+        List<ContentVersion> cvList = new List<ContentVersion>();
+        List<ContentDocumentLink> conDocLinks = new List<ContentDocumentLink>(
+            [SELECT ContentDocumentId FROM ContentDocumentLink 
+            WHERE LinkedEntityId =: relRecordId AND ContentDocument.title =: fileName]);
+        for (ContentDocumentLink conDocLink : conDocLinks) {
+            conDocIds.add(conDocLink.ContentDocumentId);
+        }
+        if (conDocIds.size()>0) {
+            cvList = ([SELECT Id, VersionData, IsLatest, FirstPublishLocationId, PathOnClient, Title, ContentDocumentId 
+                FROM ContentVersion 
+                WHERE ContentDocumentId IN : conDocIds AND IsLatest = true ORDER BY ContentDocument.ContentModifiedDate DESC]);
+        }
+        try {
+            String title = fileName + fileExtension;
+            Blob b = Blob.valueOf(fileContent);
+            ContentVersion conVer = new ContentVersion();
+            if (cvList != null && cvList.size() > 0) {
+                // ContentVersion for File automatically creates parent ContentDocument;
+                // If ContentVersion with this title exists, create ContentVersion with same ContentDocumentId;
+                conVer.ContentDocumentId = cvList[0].ContentDocumentId;
+            } else {
+                // FirstPublishLocationId can only be set on initial creation.
+                conVer.FirstPublishLocationId  = relRecordId; // Link to related record; creates ContentDocumentLink.
+            }
+            conVer.ContentLocation = 'S'; // S specify this document is in SF, use E for external files
+            conVer.PathOnClient = title; // The files name, extension is very important here which will help the file in preview.
+            conVer.Title = fileName; // Display name of file
+            conVer.VersionData = b;
+            insert conVer;
+            return conVer.Id;
+        } catch (Exception e) {
+            // throw new AuraHandledException(e.getMessage());
+            system.debug('error buildFileRecord');
+            return null;
+        }
+    }
+
+    @AuraEnabled
+    public static void renameFile(Id conDocId, String newTitle) {
+        // Takes ContentDocId
+        ContentDocument conDoc = [SELECT Id, Title FROM ContentDocument WHERE Id =: conDocId LIMIT 1];
+        conDoc.Title = !String.isBlank(newTitle) ? newTitle : conDoc.Title;
+        update conDoc;
+    }
+
+    @AuraEnabled
+    public static String relFileToString(String title, Id relRecordId) {
+        // Retrieves File and converts contents to string
+        // Partly based on Convert An Upload Salesforce CSV File to JSON String (Justin Dixon)
+        // https://medium.com/@justindixon91/convert-uploaded-salesforce-csv-file-to-json-string-db7639cd0d8e?p=4f2be263d2d9
+        try {
+            // Note: Must query ContentDocumentLink to retrieve ContentDocumentId first;
+            // No effective way to query ContentVersion by relRecordId (FirstPublistLocationId only set in first version);
+            Set<Id> conDocIds = new Set<Id>();
+            List<ContentDocumentLink> conDocLinks = new List<ContentDocumentLink>(
+                [SELECT ContentDocumentId FROM ContentDocumentLink 
+                WHERE LinkedEntityId =: relRecordId AND ContentDocument.title =: title]);
+            for (ContentDocumentLink conDocLink : conDocLinks) {
+                conDocIds.add(conDocLink.ContentDocumentId);
+            }
+            if (conDocIds.size()>0) {
+                ContentVersion cv = [SELECT Id, VersionData, IsLatest, Title, FirstPublishLocationId FROM ContentVersion WHERE ContentDocumentId IN : conDocIds AND IsLatest = true ORDER BY ContentDocument.ContentModifiedDate DESC LIMIT 1];
+                /* Debugging */
+                /* List<ContentVersion> cvList = new List<ContentVersion>([SELECT Id, VersionData, IsLatest, Title, FirstPublishLocationId, ContentModifiedDate FROM ContentVersion WHERE ContentDocumentId = '06902000000t3abAAA' ORDER BY ContentModifiedDate DESC]);
+                for (ContentVersion cv : cvList) {
+                    System.debug('cvid: ' + cv.Id + ' title: ' + cv.Title + ' mod date: ' + cv.ContentModifiedDate + ' cv is latest: ' + cv.IsLatest + 'firstpublishlocation: ' + cv.FirstPublishLocationId);
+                } */
+                String strContents = cv.VersionData.toString();
+                return strContents;
+            } else {
+                return '';
+            }
+        } catch (Exception e) {
+            system.debug('error relFileToString');
+            return '';
+        }
+    }
+
+    @AuraEnabled
+    public static String csvStringToJSON(String csvString) {
+        // Converts csv string to parsed JSON
+        // From Convert An Upload Salesforce CSV File to JSON String (Justin Dixon)
+        // https://medium.com/@justindixon91/convert-uploaded-salesforce-csv-file-to-json-string-db7639cd0d8e?p=4f2be263d2d9
+        try {
+            String CSV = csvString;
+            system.debug('CSV string: ' + CSV);
+            String cell = '';
+            List<String> row = new List<String>();
+            List<List<String>> listedCSV = new List<List<String>>();
+            Integer headerIndex = 0;
+            Integer rowIndex = 0;
+            Boolean InsideDoubleQuotes = false;
+            Integer countOfDoubleQuotesInsideDoubleQuote = 0;
+            Integer countOfNewLineInsideDoubleQuote = 0;
+            Integer countOfCommaInsideDoubleQuote = 0;
+            // Need logic to split string into lines
+            for(Integer index = 0; index < CSV.length(); index++) {
+                String character = CSV.substring(index, index+1);
+                if (character == '"') {
+                    if(InsideDoubleQuotes == false) {
+                        InsideDoubleQuotes = true;
+                        countOfDoubleQuotesInsideDoubleQuote += 1;
+                        cell += character;
+                    } else {
+                        countOfDoubleQuotesInsideDoubleQuote += 1;
+                        cell += character;
+                    }
+                }
+                else if(character == ',') {
+                    if(countOfDoubleQuotesInsideDoubleQuote > 0 && math.mod(countOfDoubleQuotesInsideDoubleQuote,2) == 0) {
+                        InsideDoubleQuotes = false;
+                    }
+                    if(InsideDoubleQuotes == false) {
+                        String unescapedCSV = cell.unescapeCsv();
+                        row.add(unescapedCSV);
+                        cell = '';
+                        headerIndex += 1;
+                        countOfCommaInsideDoubleQuote = 0;
+                    } else {
+                        cell += character;
+                        countOfCommaInsideDoubleQuote += 1;
+                    }
+                }
+                else if (character == '\n') {
+                    if(countOfDoubleQuotesInsideDoubleQuote > 0 && math.mod(countOfDoubleQuotesInsideDoubleQuote,2) == 0) {
+                        InsideDoubleQuotes = false;
+                    }
+                    if(InsideDoubleQuotes == false) {
+                        String unescapedCSV = cell.unescapeCsv();
+                        row.add(unescapedCSV);
+                        cell = '';
+                        listedCSV.add(new List<String>(row));
+                        row.clear();
+                        rowIndex += 1;                            
+                        countOfNewLineInsideDoubleQuote = 0;
+                    } else {
+                        cell += character;                            
+                        countOfNewLineInsideDoubleQuote += 1;
+                    }
+                } else {
+                    cell += character;
+                }
+            }
+
+            // Build JSON String
+            String debugJSON = 'JSON: {';
+            String JSONString = '[';
+            try{            
+                for(Integer i = 1; i < listedCSV.size(); i++){                
+                    List<String> rowValues = listedCSV[i];
+                    JSONString = JSONString + '{';
+                    for(Integer j = 0; j < rowValues.size(); j++) {                    
+                        // This is the money, double calling escapeJava
+                        // Next original line commented out to fix boolean and numeric values (retain values rather than converting to strings inside quotes)
+                        // JSONString = JSONString + '"' + listedCSV[0][j].escapeJava().escapeJava() + '"' + ':' + '"' + listedCSV[i][j].escapeJava().escapeJava() + '"' + ',';
+                        // removeEnd added to remove trailing carraige-returns
+                        JSONString = JSONString + '"' + listedCSV[0][j].escapeJava().escapeJava().removeEnd('\\\\r') + '"' + ':';
+                        String val = listedCSV[i][j].escapeJava().escapeJava().removeEnd('\\\\r');
+                        if (val.isNumeric() || val.equalsIgnoreCase('true') || val.equalsIgnoreCase('false')) {
+                            JSONString = JSONString + (val.isNumeric() ? val : val.toLowerCase()) + ',';
+                        } else {
+                            JSONString = JSONString + '"' + val + '"' + ',';
+                        }
+                        System.debug('json string inside row values: ' + JSONString);  
+                    }                
+                    System.debug('json row before end brackets: ' + JSONString);
+                    JSONString = JSONString.removeEnd(',');
+                    JSONString = JSONString  + '},';
+                    System.debug('json row after end brackets: ' + JSONString);
+                }
+            }
+            catch (Exception e) 
+            {
+                System.debug('Error');
+            }
+            JSONString = JSONString.removeEnd(',');
+            JSONString = JSONString + ']';
+            system.debug('JSONString: ' + JSONString);
+            return JSONString;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 
     /*******************
      * METADATA-BASED METHODS
@@ -901,6 +1097,7 @@ global inherited sharing class Utilities {
         sObject record = context;
         for (Integer i = 0; i < parts.size() - 1; i++) {
             record = record.getSObject(parts[i]);
+            if (record == null) return null;
         }
         // If last part ends in __r, then return as a list of records. Else, just fetch value.
         return lastPart.right(3) == '__r'

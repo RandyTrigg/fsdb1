@@ -4,6 +4,7 @@
     <columns>NAME</columns>
     <columns>Active__c</columns>
     <columns>Source_object__c</columns>
+    <columns>FS_Group__c</columns>
     <columns>Allowed_statuses__c</columns>
     <columns>Date_sent_recd_object_name__c</columns>
     <columns>Date_sent_recd_field_name__c</columns>

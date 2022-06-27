@@ -148,43 +148,33 @@ public class AccountController {
     public static List<String> emailsForAccount(Account a) {
         Set<String> uniqueEmails = new Set<String>();
         List<String> orderedEmails = new List<String>(); // Used for contact emails of Dev accounts
-        if (
-            a.RecordType.DeveloperName != null &&
-            a.RecordType.DeveloperName.contains('GM')
-        ) {
-            // Gather emails for a GM account.
-            // Grab emails from fields and from contacts.
-            if (a.GM_Email__c != null)
-                uniqueEmails.add(a.GM_Email__c);
-            if (a.GM_Email2__c != null)
-                uniqueEmails.add(a.GM_Email2__c);
-            // For GM accounts, only add emails from rank 1 contacts.
-            for (Contact c : a.Contacts) {
-                if (c.Rank__c == 1) {
-                    uniqueEmails.add(c.Email);
+        if (a.RecordType.DeveloperName != null && a.RecordType.DeveloperName.contains('GM')) {
+            if (!a.Name.contains('Community Users Account')) { // Don't compute emails for umbrella accounts
+                // Gather emails for a GM account.
+                // Grab emails from fields and from contacts.
+                if (a.GM_Email__c != null) uniqueEmails.add(a.GM_Email__c);
+                if (a.GM_Email2__c != null) uniqueEmails.add(a.GM_Email2__c);
+                // For GM accounts, only add emails from rank 1 contacts.
+                for (Contact c : a.Contacts) {
+                    if (c.Rank__c == 1) uniqueEmails.add(c.Email);
                 }
             }
-            system.debug(
-                'emailsForAccount: uniqueEmails (GM) = ' +
-                JSON.serialize(uniqueEmails)
-            );
+            system.debug('emailsForAccount: uniqueEmails (GM) = ' + JSON.serialize(uniqueEmails));
             return new List<String>(uniqueEmails);
         } else {
             // For Dev accounts, gather unique contact emails, preserving the original rank order.
-            for (Contact c : a.Contacts)
+            for (Contact c : a.Contacts) {
                 if (!uniqueEmails.contains(c.Email)) {
                     uniqueEmails.add(c.Email);
                     orderedEmails.add(c.Email);
                 }
-            system.debug(
-                'emailsForAccount: orderedEmails (Dev) = ' +
-                JSON.serialize(orderedEmails)
-            );
+            }
+            system.debug('emailsForAccount: orderedEmails (Dev) = ' + JSON.serialize(orderedEmails));
             return orderedEmails;
         }
     }
 
-    // Update a GM account's contact info by "touching" the orgContactInfo form instance's Submit form log entry (which triggers invocation of apex code).
+    // Update a GM account's contact info
     public static Boolean updateContactInfo(Id accountId) {
         UpdateAccountContactInfo.UpdateAccountContactInfo(
             new List<Id>{ accountId }

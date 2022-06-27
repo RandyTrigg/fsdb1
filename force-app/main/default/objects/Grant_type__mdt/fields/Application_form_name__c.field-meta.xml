@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_form_name__c</fullName>
+    <description>Name of application form used for this grant type (default application for this grant type for self-registering grant communities).</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Name of application form used for this grant type (default application for this grant type for self-registering grant communities).</inlineHelpText>
+    <label>Application form name</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

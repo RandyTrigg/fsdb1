@@ -2,12 +2,11 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>All</fullName>
     <columns>NAME</columns>
-    <columns>GM_ExternalID__c</columns>
-    <columns>Account__c</columns>
+    <columns>Org_name__c</columns>
+    <columns>FS_Group__c</columns>
+    <columns>Status__c</columns>
     <columns>Region__c</columns>
     <columns>Country__c</columns>
-    <columns>Date_received__c</columns>
-    <columns>Status__c</columns>
     <columns>Grant_type__c</columns>
     <columns>Theme__c</columns>
     <columns>UPDATEDBY_USER</columns>

@@ -15,7 +15,7 @@
 }
 
 .gfw-container {
-    width:fit-content;
+    width: 100%;
     overflow-wrap:normal;
 }
 
@@ -27,8 +27,16 @@
     margin-top: 4rem;
 }
 
+.bottompadding {
+    padding-bottom: 4rem;
+}
+
 .bottommargin {
     margin-bottom: 4rem;
+}
+
+.bottommargin-small {
+    margin-bottom: 1rem;
 }
 
 .bff-button-brand {

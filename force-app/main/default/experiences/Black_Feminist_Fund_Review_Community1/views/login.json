@@ -1,0 +1,62 @@
+{
+  "appPageId" : "d05d8afe-4419-4ba9-ab3b-a9c995d65974",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "8e93b8a2-ee50-459f-9439-057c39e79bea",
+  "label" : "Login",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "salesforceIdentity:communityLogo2",
+      "id" : "ac83d9c5-d493-4195-b7a9-a54bc4b59165",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "richTextValue" : "<strong>Welcome to the Online Grant Review Community</strong>\n<p>Login with your username and password.</p>"
+      },
+      "componentName" : "forceCommunity:htmlBlock",
+      "id" : "3f1ca9cb-da52-49e7-a68b-dd2283808476",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "forgotPasswordLabel" : "Forgot your password?",
+        "forgotPasswordUrl" : "/ForgotPassword",
+        "loginButtonLabel" : "Log in",
+        "passwordLabel" : "Password",
+        "selfRegisterLabel" : "Not a member?",
+        "selfRegisterUrl" : "/SelfRegister",
+        "startUrl" : "",
+        "usernameLabel" : "Username"
+      },
+      "componentName" : "salesforceIdentity:loginForm2",
+      "id" : "e1602072-1a03-4a43-8580-eecc5ca3e79a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "db108604-fbe4-4e42-b5f4-72d54cc49268",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Login | Black Feminist Fund: Review Community"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "66470ae1-5918-42fe-bd0b-b23bb8d0754d",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a15bd446-470a-4dbc-a000-dba20eeda8e7",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Login",
+  "type" : "view",
+  "viewType" : "login-home"
+}

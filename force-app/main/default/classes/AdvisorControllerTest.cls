@@ -84,6 +84,24 @@ public with sharing class AdvisorControllerTest {
         insert reg;
         Country__c country = new Country__c (Name = 'test country', Region__c = reg.Id);
         insert country;
+        Id pIdStandard = [SELECT Id FROM Profile WHERE Name = : AdvisorController.standardUserGMProfileName LIMIT 1].Id;
+        Id roleId = [SELECT Id FROM UserRole WHERE DeveloperName = 'BFF_Administrator'].Id;
+        User ownerRec = new User(
+            Username = 'owner@owner.org',
+            Email = 'owner@owner.org',
+            CommunityNickname = 'owner@owner.org',
+            LastName = 'TestOwnerLastName',
+            FirstName = 'TestOwnerFirstName',
+            Alias = 'test',
+            ProfileId = pIdStandard,
+            FS_Group_Name__c = 'FS_BFF',
+            EmailEncodingKey = 'UTF-8',
+            LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US',
+            TimeZoneSidKey = 'GMT',
+            UserRoleId = roleId
+        );
+        insert ownerRec;
         Account advAcct = new Account (
             Name = AdvisorController.advisorContactsAccountName, 
             GM_country__c = country.Id,
@@ -110,7 +128,7 @@ public with sharing class AdvisorControllerTest {
 		List<Advisor__c> advs = new List<Advisor__c>();    
 		for(Contact ct : cts) {      
 			advs.add(new Advisor__c(
-				Contact__c = ct.Id, Name = 'Test advisor ' + ct.LastName, Global__c = true
+				Contact__c = ct.Id, Name = 'Test advisor ' + ct.LastName, Global__c = true, OwnerId = ownerRec.Id
                 // Add other field assignments for advisors
 				));
 		}
@@ -243,7 +261,7 @@ public with sharing class AdvisorControllerTest {
     }
 
     @IsTest
-    static void getRunningUserAdvisorIdTest(){
+    static void getRunningUserAdvisorIdAndSummaryTest(){
         //Setup test data
         // 3/28/22: Don't necessarily have 'Top level' users so trying without overwriting role of current user.
         //UserRole r = [SELECT ID FROM UserRole WHERE Name='Top Level'];
@@ -255,7 +273,7 @@ public with sharing class AdvisorControllerTest {
         System.runAs(thisUser) {
             // Build new advisors and accounts
             InitTestObjects(1);
-            Advisor__c adv = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email FROM Advisor__c][0];
+            Advisor__c adv = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email, OwnerId FROM Advisor__c][0];
             String email = adv.Contact__r.Email;
             Id pIdAdv = [SELECT Id FROM Profile WHERE Name = : AdvisorController.advisorCommunityProfileName LIMIT 1].Id;
             Account acc = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.advisorContactsAccountName LIMIT 1];
@@ -284,12 +302,36 @@ public with sharing class AdvisorControllerTest {
                 WHERE Email = : email 
                 LIMIT 1
             ];
+
+            Form__c form = new Form__c(
+                Name = 'AdvisorProfile',
+                OwnerId = adv.OwnerId,
+                Type__c = 'Admin',
+                Active__c = true
+            );
+            insert form;
+
+            Account a = new Account (Name = 'test account', RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
+            insert a;
+
+            Proposal__c p = new Proposal__c (Account__c = a.Id, App_type__c = 'Standard');
+            insert p;
+
+            Assessment__c prpAssess = new Assessment__c (Advisor__c = adv.Id, Form__c =form.Id, Proposal__c=p.Id);
+            insert prpAssess;
             //Done with test data setup
         }
         Test.startTest();
         String advisorId;
+        String advProfileFormInstanceId;
+        String assessments;
+        String advInfo;
         System.runAs(thisUser){
+            advInfo = SiteController.getAdvisorSummary();
             advisorId = AdvisorController.getRunningUserAdvisorId();
+            AdvisorController.AdvisorSummary advSummary = new AdvisorController.AdvisorSummary(advisorId);
+            advProfileFormInstanceId = advSummary.advProfileFormInstanceId;
+            assessments = advSummary.prpAssessments;
             System.debug('advisorId: '+advisorId);
         }
         Test.stopTest();
@@ -297,6 +339,10 @@ public with sharing class AdvisorControllerTest {
         //load the advisor record
         Advisor__c advisor = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email FROM Advisor__c][0];
         System.assertEquals(advisor.Id, advisorId);
+        //look for Profile FormInstance linked to Advisor
+        Form_Instance__c advProfileFormInstance = [SELECT Id, OwnerId FROM Form_Instance__c WHERE Advisor__c =: advisorId][0];
+        System.assertEquals(advProfileFormInstance.Id, advProfileFormInstanceId);
+        System.assertNotEquals(null, assessments);
         
     }
     

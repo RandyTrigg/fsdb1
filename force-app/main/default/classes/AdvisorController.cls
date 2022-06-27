@@ -1,4 +1,4 @@
-public with sharing class AdvisorController {
+public inherited sharing class AdvisorController {
     private ApexPages.StandardController standardController;
     private ApexPages.StandardSetController standardSetController;
  
@@ -81,7 +81,7 @@ public with sharing class AdvisorController {
     public static String advisorCommunityProfileName = 'Community Apex Testing';
     public static String adminProfileName = 'System Admin FSDB';
     public static String standardUserGMProfileName = 'Standard User FSDB';
-    public static String advisorCommunityPermSetName = 'Community: BFF';
+    public static String advisorCommunityPermSetName = 'Review Community: BFF';
     
     // Build interlinked records: Advisor, Contact, Advisor Term, and optionally a GM Org account for org affiliation.
     @AuraEnabled
@@ -358,6 +358,10 @@ public with sharing class AdvisorController {
         return 'ADV-' + email;
     }
 
+    /**********************************
+    * Invoked from Experience Site
+    *********************************/
+
     //Only call when in the context of an Advisor Experience Site User
     public static String getRunningUserAdvisorId() {
         try {
@@ -367,8 +371,86 @@ public with sharing class AdvisorController {
             return runningAdvisor.Id;
         } catch (Exception e) {
             throw new GFW_Exception('AdvisorController.getRunningUserAdvisorId', 'Could not load Advisor Record', e);
-        }
-        
+        }  
     }
 
+    // Fetches advisor information
+    public inherited sharing class AdvisorSummary {
+        public String preferredLanguage;
+        public String advProfileFormInstanceId;
+        public String firstName;
+        public String fullName;
+        public String lastName;
+        public List<Assessment__c> AssessmentList = new List<Assessment__c>();
+        public List<Assessment__c> prpAssessmentList = new List<Assessment__c>();
+        public String prpAssessments;
+
+        public AdvisorSummary(Id advisorId) {
+            Advisor__c advRecord = (Advisor__c)Utilities.fetchRecord(
+                'Advisor__c', 
+                advisorId, 
+                new List<String>{Utilities.buildChildSubQuery(
+                    'Advisor_Term__c', 
+                    'Advisor_Terms__r',
+                    'WHERE Status_external__c=\'Active\'')}
+                );        
+            this.fullName = System.UserInfo.getName();
+            this.firstName = System.UserInfo.getFirstName();
+            this.lastName = System.UserInfo.getLastName();
+            this.preferredLanguage = advRecord.Language__c;
+
+            // Retrieve or build Advisor Profile Form Instance.
+            // Determine FS Group from Advisor record.
+            String whereClause = 'WHERE Name LIKE \'%AdvisorProfile%\' AND Active__c=TRUE AND FS_Group__c=\'' + advRecord.FS_Group__c + '\' LIMIT 1';
+            Form__c advProfileForm = (Form__c)Utilities.FetchRecords(
+                    'Form__c',
+                    whereClause,
+                    null
+                ).get(0);
+            if (advProfileForm !=null) {
+                List<Form_Instance__c> advProfileFormInstance = new List<Form_Instance__c>([SELECT Id, Advisor__c, Form__c, Profile__c, Proposal__c FROM Form_Instance__c WHERE Form__c =:advProfileForm.Id AND Advisor__c=:advisorId AND Profile__c=null AND Proposal__c=null]); 
+                Id designatedOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(advRecord.OwnerId);
+                if (advProfileFormInstance.isEmpty()) {
+                    // Create new form instance linked to this advisor and active advisorprofile form.
+                    try {
+                        Form_Instance__c newAdvProfileFI = new Form_Instance__c(
+                            Form__c = advProfileForm.Id,
+                            Advisor__c = advisorId,
+                            OwnerId = designatedOwnerId
+                        );
+                        insert newAdvProfileFI;
+                        this.advProfileFormInstanceId = newAdvProfileFI.Id;
+                    } catch(Exception e) {
+                        throw new GFW_Exception('AdvisorSummary.AdvisorSummary', 'Could not insert Advisor Profile Form Instance', e);
+                    }
+                } else {
+                    this.advProfileFormInstanceId = advProfileFormInstance[0].Id;
+                }
+            }
+            // Fetch all linked Assessments
+            String whereClauseAssmt = 'WHERE Advisor__c=\'' + advisorId + '\'';
+            whereClauseAssmt = whereClauseAssmt + ' ORDER BY Status_external__c, Date_submitted__c';
+            this.assessmentList = (Assessment__c[])Utilities.FetchRecords(
+                'Assessment__c',
+                whereClauseAssmt,
+                new List<String>{ 
+                    'Account__r.Name',
+                    'Proposal__r.Country__c', 
+                    'Proposal__r.Country__r.Name',
+                    'Proposal__r.Name',
+                    'Proposal__r.Account__r.Name',
+                    'Proposal__r.Grant_type__c',
+                    'Proposal__r.Award_notification_deadline__c', 
+                    'Proposal__r.Date_received__c',
+                    'Proposal__r.Template_language__c'
+                }
+            );
+            for (Assessment__c assessment : this.assessmentList) {
+                if (assessment.Proposal__c != null) {
+                    this.prpAssessmentList.add(assessment);
+                }
+            }
+            this.prpAssessments = JSON.serialize(this.prpAssessmentList);
+        }
+    }
 }

@@ -123,7 +123,7 @@ public inherited sharing class FormInstanceController {
     }
 
      /**********************************
-     * For use in Apex code processing form data
+     * Invoked from LWCs via SiteController class
      *********************************/
     
     // Return a list of form instances to be displayed in form viewer for the given record (normally a profile, proposal, or milestone).
@@ -132,25 +132,30 @@ public inherited sharing class FormInstanceController {
         String objName = Utilities.objectNameFromRecordId(id);
         Id profId, propId;
         // Grab parent ids
-        if (objName == 'Milestone__c') {
-            Milestone__c m = [SELECT Proposal__c, Proposal__r.Profile__c FROM Milestone__c WHERE Id =: id];
-            profId = m.Proposal__r.Profile__c;
-            propId = m.Proposal__c;
+        if (objName == 'Profile__c') {
+            profId = id;
         } else if (objName == 'Proposal__c') {
             Proposal__c prop = [SELECT Id, Profile__c FROM Proposal__c WHERE Id =: id];
             profId = prop.Profile__c;
             propId = prop.Id;            
-        } else if (objName == 'Profile__c') {
-            profId = id;
+        } else if (objName == 'Milestone__c') {
+            Milestone__c m = [SELECT Proposal__c, Proposal__r.Profile__c FROM Milestone__c WHERE Id =: id];
+            profId = m.Proposal__r.Profile__c;
+            propId = m.Proposal__c;
         } else throw new GFW_Exception ('Unexpected object in getFormInstances: ' +objName);
-        fis = [
-            SELECT Id, Form__r.Form_Phrase_Title__r.Phrase_in_English__c, Date_submitted__c, Form__r.Sort_number__c, Language__c
+        // Pull all form instances for the profile 
+        List<Form_Instance__c> profFIs = [
+            SELECT Id, Proposal__c, Form__r.Form_Phrase_Title__r.Phrase_in_English__c, Date_submitted__c, Form__r.Sort_number__c, Language__c
             FROM Form_Instance__c
             WHERE Date_submitted__c != null
-            AND (Profile__c = : profId OR Proposal__c = : propId)
+            AND Profile__c = : profId
             //AND Form__r.Type__c in:formTypes
-            ORDER BY Proposal__r.Date_received__c DESC, Form__r.Sort_number__c
+            ORDER BY Proposal__r.Name, Form__r.Sort_number__c
         ];
+        // Gather the appropriate form instances (include all FIs for profile review)
+        for (Form_Instance__c fi : profFIs) {
+            if (fi.Proposal__c == null || fi.Proposal__c == propId) fis.add(fi);
+        }
         system.debug('getFormInstances: fis = ' +fis);
         return fis;
     }
@@ -183,6 +188,45 @@ public inherited sharing class FormInstanceController {
         }
     }
 
+    // Structure representing a form data record, including value, form component id, and whether it's textarea
+    public inherited sharing class FormDataInfo {
+        public Id formComponentId;
+        public Object value;
+        public Boolean isTextArea;
+        public FormDataInfo (Id formComponentId, Object value, Boolean isTextArea) {
+            this.formComponentId = formComponentId;
+            this.value = value;
+            this.isTextArea = isTextArea;
+        }
+    }
+
+    // Process form data in bulk using given list of form data info instances. 
+    // Update records whose values have changed, and create new ones if necessary.
+    public static Boolean updateFormDataBulk(String frmInstanceId, FormDataInfo[] fdInfos){
+        try {
+            //Load all form data for the form instance.
+            system.debug('updateFormDataBulk: frmInstanceId = ' +frmInstanceId+ '; fdInfos = ' +fdInfos);
+            String whereClause = 'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'';
+            Form_Data__c[] existingFormData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
+            system.debug('updateFormDataBulk: existingFormData = ' +existingFormData);
+            Map<Id, Form_Data__c> existingFDMap = new Map<Id, Form_Data__c>();
+            for (Form_Data__c fd : existingFormData) existingFDMap.put(fd.Form_Component__c, fd);
+            Form_Data__c[] toUpsert = new List<Form_Data__c> ();
+            for (FormDataInfo fdi : fdInfos) {
+                Form_Data__c fd = existingFDMap.get(fdi.formComponentId);
+                Object origText = fd != null ? fd.Data_text__c : null;
+                Object origTextarea = fd != null ? fd.Data_textarea__c : null;
+                Form_Data__c fdPrepped = prepFormDataForUpsert(frmInstanceId, fdi.formComponentId, fdi.value, fdi.isTextarea, fd);
+                if (fdi.isTextArea && fdPrepped.Data_textarea__c != origTextarea) toUpsert.add(fdPrepped);
+                if (!fdi.isTextArea && fdPrepped.Data_text__c != origText) toUpsert.add(fdPrepped);
+            }
+            if (toUpsert.size() > 0) upsert toUpsert;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     // Update form data if existing, else build new one.
     // NOTE 5/11/2022: we're no longer updating the form data's Type__c field. When dust settles, delete that field?
     public static Boolean updateFormData(String frmInstanceId, String componentId, String value, Boolean isTextarea){
@@ -191,28 +235,36 @@ public inherited sharing class FormInstanceController {
             system.debug('updateFormData: value = ' +value+ '; isTextarea = ' +isTextarea);
             String whereClause = 'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'' +
                     ' AND Form_Component__c=\'' +componentId+ '\'';
-            Form_Data__c[] existingFrmData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
-            system.debug('updateFormData: existingFrmData = ' +existingFrmData);
-            Form_Data__c frmData = new Form_Data__c ();
-            if (existingFrmData.size()>0) frmData = existingFrmData[0];
-            else {
-                frmData.Form_Instance__c = frmInstanceId;
-                frmData.Form_Component__c = componentId;
-                Id defOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(UserInfo.getUserId());
-                system.debug('updateFormData: defOwnerId = ' +defOwnerId);
-                if (defOwnerId != null) frmData.OwnerId = defOwnerId;
-            }
-            system.debug('updateFormData: frmData = ' +frmData);
-            //Set the value on either the new object, or existing
-            if (isTextarea) frmData.Data_textarea__c = value;
-            else frmData.Data_text__c = value;
-            //frmData.Data_text__c = value;
+            Form_Data__c[] existingFormData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
+            system.debug('updateFormData: existingFormData = ' +existingFormData);
+            Form_Data__c frmData = prepFormDataForUpsert(
+                frmInstanceId, componentId, value, isTextarea, 
+                existingFormData.size()>0 ? existingFormData[0] : null
+                );
             system.debug('updateFormData: frmData = ' +frmData);
             upsert frmData;
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // If form data (fd) non-null, then update with value, else build a new one
+    private static Form_Data__c prepFormDataForUpsert(Id frmInstanceId, Id formCompId, Object value, Boolean isTextArea, Form_Data__c fd) {
+        Form_Data__c frmData = new Form_Data__c ();
+        if (fd != null) frmData = fd;
+        else {
+            frmData.Form_Instance__c = frmInstanceId;
+            frmData.Form_Component__c = formCompId;
+            Id defOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(UserInfo.getUserId());
+            system.debug('prepFormDataForUpsert: defOwnerId = ' +defOwnerId);
+            if (defOwnerId != null) frmData.OwnerId = defOwnerId;
+        }
+        system.debug('prepFormDataForUpsert: frmData = ' +frmData);
+        //Set the value on either the new object, or existing
+        if (isTextarea) frmData.Data_textarea__c = String.valueOf(value);
+        else frmData.Data_text__c = String.valueOf(value);
+        return frmData;
     }
 
     public static boolean submitForm(String formInstanceId){
@@ -230,11 +282,11 @@ public inherited sharing class FormInstanceController {
     // Send ack email following submit of a form instance
     public static boolean sendAckEmail(String formInstanceId) {
         // Names of email form components in profile forms that should be included in correspondence with group
-        Set<String> emailFormComponentNames = new Set<String> {'GroupEmail', 'PrimaryEmail', 'SecondaryEmail'};
+        Set<String> emailFormComponentNames = new Set<String> {'GroupEmail', 'PrimaryEmail', 'SecondaryEmail', 'Email'};
         Form_Instance__c fi = [
             SELECT Form__c, Form__r.Form_Phrase_ack_email_subject__c, Form__r.Form_Phrase_ack_email_body__c, Form__r.Type__c, 
             OwnerId, Profile__r.Community_contact_email__c, Profile__r.Language__c, Profile__r.Profile_emails__c,
-            Proposal__r.Name,
+            Proposal__r.Name, Advisor__r.Community_contact_email__c, Advisor__r.Contact_emails__c, Advisor__r.Language__c,
             (SELECT Form_Component__r.Name, Data_text__c FROM Form_Data__r)
             FROM Form_Instance__c
             WHERE Id = :formInstanceId
@@ -243,11 +295,11 @@ public inherited sharing class FormInstanceController {
         Id subjectPhraseId = fi.Form__r.Form_Phrase_ack_email_subject__c;
         Id bodyPhraseId = fi.Form__r.Form_Phrase_ack_email_body__c;
         if (subjectPhraseId != null && bodyPhraseId != null) {
-            // For profile form instances, look up emails and language in form data. Else, find them in fields in linked profile record.
+            // For form instances of type profile, look up emails and language in form data. Else, find them in fields in linked profile/advisor record.
             String language, emailsStr;
             if (fi.Form__r.Type__c != 'Profile') {
-                language = fi.Profile__r.Language__c;
-                emailsStr = fi.Profile__r.Profile_emails__c;
+                language = fi.Advisor__r != null ? fi.Advisor__r.Language__c : fi.Profile__r.Language__c;
+                emailsStr = fi.Advisor__r != null ? fi.Advisor__r.Contact_emails__c : fi.Profile__r.Profile_emails__c;
             } else { // Profile form
                 Set<String> emails = new Set<String>();
                 for (Form_Data__c fd : fi.Form_Data__r) {
@@ -255,7 +307,8 @@ public inherited sharing class FormInstanceController {
                     if (emailFormComponentNames.contains(fd.Form_Component__r.Name) && fd.Data_text__c != null) emails.add(fd.Data_text__c);
                 }
                 // Include community contact email
-                if (fi.Profile__r.Community_contact_email__c != null) emails.add(fi.Profile__r.Community_contact_email__c);
+                String ccEmail = fi.Advisor__r != null ? fi.Advisor__r.Community_contact_email__c : fi.Profile__r.Community_contact_email__c;
+                if (ccEmail != null) emails.add(ccEmail);
                 emailsStr = String.join(new List<String> (emails), ',');
             }
             // Default language to English

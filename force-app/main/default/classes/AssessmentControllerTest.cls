@@ -60,4 +60,30 @@ public with sharing class AssessmentControllerTest {
         AdvisorControllerTest.validate(lMap.keySet());
     }
     
+    // Get assessment data
+    static testmethod void AssessmentControllerTest2 () {
+        // Build new advisors and accounts and advisor terms.
+        AdvisorControllerTest.InitTestObjects(1);
+        Advisor__c adv = [SELECT Id, Account__c FROM Advisor__c LIMIT 1];
+        insert new Account (Name = 'Test account');
+        Account acc = [SELECT Id FROM Account LIMIT 1];
+        insert new Form__c (Name = 'Test form', Type__c = 'Admin');
+        Form__c f = [SELECT Id FROM Form__c LIMIT 1];
+        insert new Profile__c (Account__c = acc.Id);
+        Profile__c prof = [SELECT Id FROM Profile__c LIMIT 1];
+        // Build new assessment.
+        insert new Assessment__c (Advisor__c = adv.Id, Account__c = acc.Id, Form__c = f.Id, Profile__c = prof.Id);
+        Assessment__c a = [SELECT Id, Profile__c FROM Assessment__c LIMIT 1];
+        
+        Test.StartTest();
+        AssessmentController.AssessmentData data = new AssessmentController.AssessmentData(a.Id);
+        system.assertNotEquals(null, data.formInstanceId);
+        system.assertEquals(a.Profile__c, data.assessedRecordId);
+        Test.StopTest();
+
+        // Invoke via site controller for code coverage
+        SiteController.getAssessmentData(a.Id);
+        
+    }
+    
 }

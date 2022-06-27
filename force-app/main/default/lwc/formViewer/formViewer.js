@@ -17,7 +17,7 @@ export default class formViewer extends LightningElement {
     }
 
     async loadData() {
-        console.log('loadData');
+        console.log('formViewer loadData');
         let formInstances = await getFormInstances({id:this.recordId});
         this.formInstances = JSON.parse(formInstances);
         // console.log('this.formInstances');

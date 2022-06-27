@@ -1,0 +1,67 @@
+{
+  "appPageId" : "337a3596-6476-44f0-9aa5-6b06c584058b",
+  "componentName" : "siteforce:dynamicLayout",
+  "id" : "ce036d1c-1ddd-42da-981b-533eccec6c4c",
+  "label" : "Form Instance",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "background" : "background: rgba(0,0,0,0)",
+        "backgroundOverlay" : "rgba(0,0,0,0.5)",
+        "contentAreaWidth" : 100,
+        "sectionConfig" : {
+          "UUID" : "8b4ae293-fe1d-48e7-9def-08235e5613c8",
+          "columns" : [ {
+            "UUID" : "5b21f32e-69e1-4040-8844-c648ffb801c0",
+            "columnKey" : "1",
+            "columnName" : "Column 1",
+            "columnWidth" : "12",
+            "seedComponents" : [ ]
+          } ]
+        },
+        "sectionHeight" : 300
+      },
+      "componentName" : "forceCommunity:section",
+      "id" : "8b4ae293-fe1d-48e7-9def-08235e5613c8",
+      "regions" : [ {
+        "components" : [ {
+          "componentAttributes" : { },
+          "componentName" : "c:formInstance",
+          "id" : "830794c3-8263-4d78-9e19-a6403e005986",
+          "renderPriority" : "NEUTRAL",
+          "renditionMap" : { },
+          "type" : "component"
+        } ],
+        "id" : "5b21f32e-69e1-4040-8844-c648ffb801c0",
+        "regionLabel" : "Column 1",
+        "regionName" : "1",
+        "renditionMap" : { },
+        "type" : "region"
+      } ],
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "22e46c11-49a2-4955-93cc-54e467c3d72e",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Profile | Black Feminist Fund: Review Community"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "eb284d11-b8e5-4fb7-bb28-26f4f60c79f2",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "616148cc-17d5-4dad-9976-36b108e85b5f",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-forminstance"
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FS_Group__c</fullName>
+    <description>FS Group to which this template macro belongs (based on owner&apos;s user FS Group).</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Owner:User.FS_Group_Name__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>FS Group to which this template macro belongs (based on owner&apos;s user FS Group).</inlineHelpText>
+    <label>FS Group</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
