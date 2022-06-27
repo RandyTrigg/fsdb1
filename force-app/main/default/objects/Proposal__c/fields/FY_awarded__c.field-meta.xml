@@ -4,7 +4,17 @@
     <deprecated>false</deprecated>
     <description>Fiscal year of the date awarded</description>
     <externalId>false</externalId>
-    <formula>IF (NOT(ISBLANK( Date_awarded__c )), TEXT(YEAR( Date_awarded__c )), &quot;&quot;)</formula>
+    <formula>/* FFDB uses calendar year by default. The alternative formula is for a July-June fiscal year. Comment out one or the other. */
+
+/* IF (NOT(ISBLANK( Date_awarded__c )), TEXT(YEAR( Date_awarded__c )), &quot;&quot;) */
+
+IF (NOT (ISBLANK( Date_awarded__c )),
+ IF(MONTH( Date_awarded__c ) &lt; 7,
+  &quot;FY&quot; &amp; TEXT(YEAR( Date_awarded__c ) - 1) &amp; &quot;-&quot; &amp; TEXT(YEAR( Date_awarded__c )),
+  &quot;FY&quot; &amp; TEXT(YEAR( Date_awarded__c )) &amp; &quot;-&quot; &amp; TEXT(YEAR( Date_awarded__c ) + 1)
+ ),
+ &quot;&quot;
+)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Fiscal year of the date awarded</inlineHelpText>
     <label>FY awarded</label>

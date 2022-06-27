@@ -5,7 +5,7 @@
     <changePasswordTemplate>unfiled$public/CommunityChangePasswordEmailTemplate</changePasswordTemplate>
     <communityRoles/>
     <disableReputationRecordConversations>false</disableReputationRecordConversations>
-    <emailSenderAddress>kishimaru@globalfundforwomen.org</emailSenderAddress>
+    <emailSenderAddress>bffgrant-helpdesk@blackfeministfund.org</emailSenderAddress>
     <emailSenderName>Black Feminist Fund Review Community</emailSenderName>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>true</enableDirectMessages>
@@ -48,5 +48,5 @@
         <standardTab>Chatter</standardTab>
     </tabs>
     <urlPathPrefix>BlackFeministFundReview</urlPathPrefix>
-    <welcomeTemplate>unfiled$public/CommunityWelcomeEmailTemplate</welcomeTemplate>
+    <welcomeTemplate>unfiled$public/BFFReviewCommunityWelcomeEmailTemplate</welcomeTemplate>
 </Network>

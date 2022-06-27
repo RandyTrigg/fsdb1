@@ -12,4 +12,5 @@
     <tabs>Sync_Log__c</tabs>
     <tabs>Sync_Log_Record__c</tabs>
     <tabs>Commitment__c</tabs>
+    <tabs>Log__c</tabs>
 </CustomApplication>
