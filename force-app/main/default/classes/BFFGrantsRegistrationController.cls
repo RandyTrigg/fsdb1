@@ -28,13 +28,12 @@ public without sharing class BFFGrantsRegistrationController {
             Contact c = new Contact (
                 LastName = reg.groupName.left(80),
                 AccountId = a.Id,
+                RecordTypeId = contactRecordTypeId,
                 Email = reg.email,
                 OwnerId = fsOwnerId,
                 Preferred_language__c = reg.language,
                 Org_name_submitted__c = reg.groupName
             );
-            // Update ProfileController to set Profile's language and org name.
-            // Prefill Profile form components from those 
             insert c;
         
             User u = new User();
@@ -44,7 +43,7 @@ public without sharing class BFFGrantsRegistrationController {
             u.Username = regUsername; // prefix email with 'bff' to ensure uniqueness
             u.EmailEncodingKey = 'UTF-8';
             u.LocaleSidKey = 'en_US';
-            u.LanguageLocaleKey = 'en_US'; // YIKES. Is there where we want language to go? Create new?
+            u.LanguageLocaleKey = 'en_US';
             u.ContactId = c.Id;
             u.TimeZoneSidKey = 'GMT';
             u = handleUnsetRequiredFields(u);

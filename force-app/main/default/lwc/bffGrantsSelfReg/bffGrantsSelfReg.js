@@ -4,7 +4,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
 
-import handleRegistration from '@salesforce/apex/BFFGrantsRegistrationController.handleRegistration';
+import handleRegistration from '@salesforce/apex/SiteController.handleRegistration';
 
 export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement ) {
 
