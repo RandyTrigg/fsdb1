@@ -271,7 +271,7 @@ public class FormDataControllerTest {
         Form_Data__c fd3 = [SELECT Id, Data_text__c, Data_textarea__c FROM Form_Data__c WHERE Form_Component__c = : comp3.Id LIMIT 1];
         System.assertEquals(System.today(), Date.valueOf(fd3.Data_text__c));
         Form_Data__c fd2 = [SELECT Id, Data_text__c, Data_textarea__c FROM Form_Data__c WHERE Form_Component__c = : comp2.Id LIMIT 1];
-        System.assertEquals(null, fd2.Data_text__c);
+        System.assertEquals('false', fd2.Data_text__c);
         Form_Data__c fd1 = [SELECT Id, Data_text__c, Data_textarea__c FROM Form_Data__c WHERE Form_Component__c = : comp1.Id LIMIT 1];
         System.assertEquals('Report', fd1.Data_text__c);
     }
