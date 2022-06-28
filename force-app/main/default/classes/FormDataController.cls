@@ -7,7 +7,8 @@ public class FormDataController {
         sObject[] toDelete = new List<sObject>();
         // Fetch form instance and its non-disabled form data.
         Form_Instance__c fi = [
-            SELECT Id, Name, Profile__c, Proposal__c, Milestone__c, Assessment__c, OwnerId,
+            SELECT Id, Name, Profile__c, Proposal__c, Milestone__c, Assessment__c, OwnerId, 
+            Advisor__c, Advisor__r.Contact__c, Advisor__r.Community_Contact__c,
             (SELECT Data_text__c, Data_textarea__c, Disabled__c,
              Form_Component__c, Form_Component__r.Name, Form_Component__r.Type__c, Form_Component__r.Indicator__c, 
              Form_Component__r.Target_field_name__c, Form_Component__r.Target_object_name__c,
@@ -74,23 +75,21 @@ public class FormDataController {
         }
         // Track which gmdata checkbox fields appear in the indicator form data 
         Set<String> checkboxFieldNames = new Set<String>();
-        // Map object names to record Id, record and to field map.
-        Map<String, Id> objNameToRecordId = new Map<String, Id> ();
+        // Map object names to record and to field map.
         Map<String, sObject> objNameToRecord = new Map<String, sObject> ();
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Map<String, Schema.SObjectField>> objNameToFieldMap = new Map<String, Map<String, Schema.SObjectField>> ();
         // Step through obj names populating maps.
         String[] objNames = new List<String> {
-            'Profile__c', 'Proposal__c', 
-            'Milestone__c', 
-            'GM_Data__c', 'Assessment__c'
+            'Profile__c', 'Proposal__c', 'Milestone__c', 'GM_Data__c', 'Assessment__c', 
+            'Advisor__c', 'Advisor__r.Contact__c', 'Advisor__r.Community_Contact__c'
         };
-            for (String oName : objNames) {
-                Id recId = oName == 'GM_Data__c' ? gmDataId : (Id)fi.get(oName);
-                objNameToRecordId.put(oName, recId);
-                objNameToRecord.put(oName, Utilities.fetchRecord(oName, recId, null));
-                objNameToFieldMap.put(oName, schemaMap.get(oName).getDescribe().fields.getMap());
-            }
+        for (String oName : objNames) {
+            Id recId = oName == 'GM_Data__c' ? gmDataId : (Id)Utilities.getValue(fi, oName);
+            String objName = oName.contains('Contact__c') ? 'Contact' : oName; // Special case for related contact records
+            objNameToRecord.put(oName, Utilities.fetchRecord(objName, recId, null));
+            objNameToFieldMap.put(oName, schemaMap.get(objName).getDescribe().fields.getMap());
+        }
         // Step through form data, building up the mappings as we go, and updating target fields.
         for (Form_Data__c fd : fds) {
             String fdText = fd.Data_text__c;

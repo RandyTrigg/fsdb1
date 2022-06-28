@@ -23,7 +23,7 @@ public class UtilitiesTest {
         ];
         insert new Proposal__c(Account__c = acct.Id);
         Proposal__c prop = [
-            SELECT Id, Status_numeric__c
+            SELECT Id, Status_numeric__c, Account__r.Name
             FROM Proposal__c
             LIMIT 1
         ];
@@ -104,7 +104,15 @@ public class UtilitiesTest {
         s = Utilities.translateDate('French', date.today());
         Utilities.maxDate(date.Today(), date.Today());
         Utilities.minDate(date.Today(), date.Today());
-        o = Utilities.getValue(acct, 'Name');
+
+        s = (String)Utilities.getValue(prop, 'Account__r.Name');
+        system.assertEquals('test account', s);
+        system.assertEquals('STRING', String.valueOf(Utilities.getFieldDesc(prop, 'Account__r.Name').getType()));
+        sObject rec = Utilities.setValue(prop, 'Account__r.Name', 'test account NEW NAME');
+        update rec;
+        Proposal__c propChanged = [SELECT Account__r.Name FROM Proposal__c WHERE Id = :prop.Id];
+        system.assertEquals('test account NEW NAME', propChanged.Account__r.Name);
+
         ss = Utilities.getMergeFields('<<Account.Name>>');
         s = Utilities.evalMergeFields('<<Name>>', acct);
         ls = Utilities.massageFieldNames(new List<String>{ 'Name' });
