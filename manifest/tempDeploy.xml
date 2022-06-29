@@ -4,6 +4,8 @@
         <members>AdvisorController</members>
         <members>AdvisorControllerTest</members>
         <members>SiteController</members>
+        <members>AssessorSiteController</members>
+        <members>AssessorSiteTest</members>
         <name>ApexClass</name>
     </types>
     <types>
