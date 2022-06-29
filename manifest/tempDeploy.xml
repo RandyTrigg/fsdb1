@@ -4,13 +4,12 @@
         <members>AdvisorController</members>
         <members>AdvisorControllerTest</members>
         <members>SiteController</members>
-        <members>Utilities</members>
-        <members>FormDataController</members>
+        <members>AssessorSiteController</members>
+        <members>AssessorSiteTest</members>
+        <members>AssessmentProfileTest</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>bffReviewSiteHeader</members>
-        <members>bffReviewSiteHome</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>53.0</version>

@@ -3,8 +3,12 @@ public without sharing class AssessmentProfileTest {
     
     @TestSetup
     static void makeData(){
-        // This will set up a Region, Adviosr, Advisor Term
-        AdvisorControllerTest.InitTestObjects(1);
+        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
+        // This will set up a Region, Advisor, Advisor Term
+        System.runAs(thisUser) {
+            AdvisorControllerTest.InitTestObjects(1);
+        }
+
         Region__c reg = [SELECT ID, Name FROM Region__c WHERE Name=:'test region'];
 
         Advisor__c adv = [SELECT ID, Account__c FROM Advisor__c LIMIT 1];
@@ -240,10 +244,10 @@ public without sharing class AssessmentProfileTest {
 
         Id profileId = [SELECT ID from Profile where name=: AdvisorController.advisorCommunityProfileName].id;
 
-        // Invite__c inv = new Invite__c (
-        //     Profile__c = profileId,
-        //     Account__c = act.Id, 
-        // )
+        /* Invite__c inv = new Invite__c (
+            Profile__c = profileId,
+            Account__c = act.Id, 
+        ) */
 
         String advisorRecTypeId = Schema.Sobjecttype.Contact.RecordTypeInfosByName.get('Contact GM Advisor').RecordTypeId;
 
@@ -263,7 +267,7 @@ public without sharing class AssessmentProfileTest {
 
         insert c;
 
-        adv.Community_contact__c = c.Id;
+        adv.Contact__c = c.Id;
         update adv;
 
         User u = new User(alias = 'test123', email='test123@noemail.com',

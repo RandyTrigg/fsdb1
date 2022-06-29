@@ -974,34 +974,19 @@ global inherited sharing class Utilities {
     // Note that we're not calling the sobject clone method so that skipped fields (in particular, parent lookup) never get values.
     // Otherwise, the external id trick doesn't work when inserting the "cloned" record.
     @AuraEnabled
-    public static sObject cloneSkippingFields(
-        sObject rec,
-        List<String> fieldsToSkip
-    ) {
+    public static sObject cloneSkippingFields(sObject rec, List<String> fieldsToSkip) {
         Set<String> fieldsToSkipLower = new Set<String>();
-        system.debug(
-            'cloneSkippingFields: fieldsToSkip = ' +
-            JSON.serialize(fieldsToSkip)
-        );
-        for (String s : fieldsToSkip)
-            fieldsToSkipLower.add(s.toLowerCase());
+        system.debug('cloneSkippingFields: fieldsToSkip = ' + JSON.serialize(fieldsToSkip));
+        for (String s : fieldsToSkip) fieldsToSkipLower.add(s.toLowerCase());
         SObjectType obj = rec.getsObjectType();
         sObject newRec = obj.newSObject();
-        Map<String, Schema.SObjectField> fMap = obj.getDescribe()
-            .fields.getMap();
+        Map<String, Schema.SObjectField> fMap = obj.getDescribe().fields.getMap();
         for (String fName : fMap.keySet()) {
             Boolean updateable = fMap.get(fName).getDescribe().isUpdateable();
             //system.debug('cloneSkippingFields in loop: fName = ' +fName+ '; updateable = ' +updateable);
             // Copy field value if field is updateable and not on skip list.
-            if (
-                updateable && !fieldsToSkipLower.contains(fName.toLowerCase())
-            ) {
-                system.debug(
-                    'cloneSkippingFields in loop: field to copy = ' +
-                    fName +
-                    '; updateable = ' +
-                    updateable
-                );
+            if (updateable && !fieldsToSkipLower.contains(fName.toLowerCase())) {
+                system.debug('cloneSkippingFields in loop: field to copy = ' + fName + '; updateable = ' + updateable);
                 newRec.put(fName, rec.get(fName));
             }
         }
@@ -1082,14 +1067,13 @@ global inherited sharing class Utilities {
     }
 
     /*******************
-     * PROCESSING MERGE FIELDS
+     * PROCESSING RELATED FIELDS and MERGE FIELDS
      *******************/
 
-    // Return the value of given field within given record.
+    // Return the value of given field within given record. fName can be related field using "." notation
     public static Object getValue(sObject context, String fName) {
         Object fValue;
-        if (fName.toLowerCase() == 'null')
-            return null;
+        if (fName.toLowerCase() == 'null') return null;
         fName = massageFieldName(fName); // Ensure that related field names have __r syntax.
         List<String> parts = fName.split('\\.', 5);
         String lastPart = parts[parts.size() - 1];
@@ -1103,6 +1087,41 @@ global inherited sharing class Utilities {
         return lastPart.right(3) == '__r'
             ? (Object) record.getSObjects(lastPart)
             : (Object) record.get(lastPart);
+    }
+
+    // Set the value of given field within given record. fName can be related field using "." notation
+    // The record that was changed is returned. Note that the caller needs to update or upsert the record 
+    public static sObject setValue(sObject context, String fName, Object value) {
+        if (fName.toLowerCase() == 'null') return null;
+        fName = massageFieldName(fName); // Ensure that related field names have __r syntax.
+        List<String> parts = fName.split('\\.', 5);
+        String lastPart = parts[parts.size() - 1];
+        // Build parent (related) record for the field
+        sObject record = context;
+        for (Integer i = 0; i < parts.size() - 1; i++) {
+            record = record.getSObject(parts[i]);
+            if (record == null) return null;
+        }
+        // Set value using record corresponding to related object
+        record.put(lastPart, value);
+        return record;
+    }
+
+    // Return the field description of the given (related) field
+    public static Schema.DescribeFieldResult getFieldDesc (sObject context, String fName) {
+        if (fName.toLowerCase() == 'null') return null;
+        fName = massageFieldName(fName); // Ensure that related field names have __r syntax.
+        List<String> parts = fName.split('\\.', 5);
+        String lastPart = parts[parts.size() - 1];
+        // Build parent (related) record for the field
+        sObject record = context;
+        for (Integer i = 0; i < parts.size() - 1; i++) {
+            record = record.getSObject(parts[i]);
+            if (record == null) return null;
+        }
+        SObjectType obj = record.getsObjectType();
+        Map<String, Schema.SObjectField> fMap = obj.getDescribe().fields.getMap();
+        return fMap.get(lastPart).getDescribe();
     }
 
     // Return set of merge fields in given string.  Merge fields are enclosed in double angle brackets (<<...>>).
