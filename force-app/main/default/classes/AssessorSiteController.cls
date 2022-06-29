@@ -1,4 +1,4 @@
-public with sharing class AssessorSiteController {
+public without sharing class AssessorSiteController {
     private final static Integer MAX_RESULTS = 5;
     
     //We load all the searchable records and do searching/filtering in the LWC.  Assessor Advisors only have access to a limited number of records and this avoids querying with complex logic with each search
@@ -141,7 +141,7 @@ public with sharing class AssessorSiteController {
                     FROM Advisor_Terms__r 
                     WHERE Status_external__c='Active') 
                 FROM Advisor__c 
-                WHERE Community_contact__c =:u.ContactId LIMIT 1];
+                WHERE Contact__c =:u.ContactId LIMIT 1];
             system.debug('getAssignedInvites: runningAdvisor = ' +runningAdvisor);
 
             //Now get the Portfolios linked to any active Advisor term to see if they have an Externally Viewed Portfolio linked

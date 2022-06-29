@@ -5,8 +5,11 @@ public with sharing class AdvisorControllerTest {
     public static Id orgGMRtId = Utilities.getRecTypeId('Account', 'Organization_GM');
     
     static testmethod void AdvisorControllerTest1 () {
+        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
         // Build new advisors
-        InitTestObjects(2);
+        System.runAs(thisUser) {
+            InitTestObjects(2);
+        }
         Map<Id, Advisor__c> advMap = new Map<Id, Advisor__c> ([SELECT Id FROM Advisor__c]);
         // Build new standard set controller and select the new advisors.
         ApexPages.StandardSetController ssc = new ApexPages.StandardSetController(advMap.values());
@@ -149,8 +152,11 @@ public with sharing class AdvisorControllerTest {
     }
 
     static testmethod void AdvisorControllerTest2 () {
+        User thisUser = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
         // Build new advisors and contacts
-        InitTestObjects(2);
+        System.runAs(thisUser) {
+            InitTestObjects(2);
+        }
         Advisor__c[] advs = [SELECT Id FROM Advisor__c];
         Map<Id, List<String>> emails = AdvisorController.emailsForAdvisors(new Set<Id> {advs[0].Id, advs[1].Id});
         system.assert(emails.size() > 0);
