@@ -75,7 +75,7 @@ public without sharing class AssessorSiteController {
         ID userId = UserInfo.getUserId();
         User u = [SELECT Id, FirstName, LastName, Email, ContactId FROM User WHERE Id=:userId];
 
-        Advisor__c runningAdvisor = [SELECT ID, (SELECT ID, Type__c, Status_external__c, Portfolio__c FROM Advisor_Terms__r WHERE Status_external__c='Active') FROM Advisor__c WHERE Community_contact__c =:u.ContactId LIMIT 1];
+        Advisor__c runningAdvisor = [SELECT ID, (SELECT ID, Type__c, Status_external__c, Portfolio__c FROM Advisor_Terms__r WHERE Status_external__c='Active') FROM Advisor__c WHERE Contact__c =:u.ContactId LIMIT 1];
 
         //Now get the Portfolios linked to any active Advisor term to see if they have an Externally Viewed Portfolio linked
         List < ID > portfolioIDs = new List < ID >();

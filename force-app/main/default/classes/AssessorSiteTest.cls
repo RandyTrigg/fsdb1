@@ -164,9 +164,56 @@ public with sharing class AssessorSiteTest {
 
     @isTest 
     static void testGetSearchableRecords() {
-        List<LookupSearchResult> results = (List<LookupSearchResult>)JSON.deserialize(AssessorSiteController.getSearchableRecords(),List<LookupSearchResult>.class);
+        // Added setup
+        //First set up the advisor to be linked to a community user contact
+        Advisor__c adv = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email FROM Advisor__c LIMIT 1];
 
-        System.assertEquals(5, results.size());
+        //create account/contact
+        Id orgGMRtId = Utilities.getRecTypeId('Account', 'Organization_GM');
+        Id ctAdvRecTypeId = Utilities.getRecTypeId('Contact', 'Contact_GM_Advisor');
+
+        // Build a country record.
+        Region__c reg = new Region__c (Name = 'test region');
+        insert reg;
+        Country__c country = new Country__c (Name = 'test country', Region__c = reg.Id);
+        insert country;
+        //Build the accont
+        Account commContactAccount = new Account (
+            Name = AdvisorController.advisorContactsAccountName, 
+            RecordTypeId = orgGMRtId,
+            GM_country__c = country.Id
+        );
+        insert commContactAccount;
+        Contact con = new Contact (AccountId = commContactAccount.Id, LastName = 'test contact', email='testAdvisor12346587984@test.com', RecordTypeId=ctAdvRecTypeId);
+        insert con;
+
+        Id pIdAdv = [SELECT Id FROM Profile WHERE Name = : AdvisorController.advisorCommunityProfileName LIMIT 1].Id;
+        system.debug('testGetInterfaceType: AdvisorController.advisorCommunityProfileName = ' +AdvisorController.advisorCommunityProfileName+ '; pIdAdv = ' +pIdAdv);
+        User u = new User(
+            Username = con.Email,
+            Email = con.Email,
+            CommunityNickname = con.Email.left(10),
+            LastName = 'testAdvisor',
+            FirstName = 'testAdvisor',
+            Alias = con.Email.toLowerCase().left(4),
+            ProfileId = pIdAdv,
+            ContactId = con.Id,
+            EmailEncodingKey = 'UTF-8',
+            LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US',
+            TimeZoneSidKey = 'GMT'
+        );
+        insert u;
+
+        adv.Contact__c = con.Id;
+        update adv;
+
+        Test.startTest();
+        System.runAs(u) {
+            List<LookupSearchResult> results = (List<LookupSearchResult>)JSON.deserialize(AssessorSiteController.getSearchableRecords(),List<LookupSearchResult>.class);
+
+            System.assertEquals(5, results.size());
+        }
     }
 
     @isTest 
