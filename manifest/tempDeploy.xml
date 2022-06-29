@@ -6,6 +6,7 @@
         <members>SiteController</members>
         <members>AssessorSiteController</members>
         <members>AssessorSiteTest</members>
+        <members>AssessmentProfileTest</members>
         <name>ApexClass</name>
     </types>
     <types>
