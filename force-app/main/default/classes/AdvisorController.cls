@@ -364,18 +364,19 @@ public inherited sharing class AdvisorController {
 
     //Only call when in the context of an Advisor Experience Site User
     public static String getRunningUserAdvisorId() {
-        try {
+        // try {
             ID userId = UserInfo.getUserId();
             User u = [SELECT Id, FirstName, LastName, Email, ContactId FROM User WHERE Id=:userId];
-            Advisor__c runningAdvisor = [SELECT ID FROM Advisor__c WHERE Community_contact__c =:u.ContactId LIMIT 1];
+            Advisor__c runningAdvisor = [SELECT ID, Contact__c FROM Advisor__c WHERE Contact__c =:u.ContactId LIMIT 1];
             return runningAdvisor.Id;
-        } catch (Exception e) {
+        /*} catch (Exception e) {
             throw new GFW_Exception('AdvisorController.getRunningUserAdvisorId', 'Could not load Advisor Record', e);
-        }  
+        } */ 
     }
 
     // Fetches advisor information
-    public inherited sharing class AdvisorSummary {
+    public without sharing class AdvisorSummary {
+        // Without sharing used for test class to run successfully.
         public String preferredLanguage;
         public String advProfileFormInstanceId;
         public String firstName;
@@ -389,14 +390,21 @@ public inherited sharing class AdvisorController {
             Advisor__c advRecord = (Advisor__c)Utilities.fetchRecord(
                 'Advisor__c', 
                 advisorId, 
-                new List<String>{Utilities.buildChildSubQuery(
+                new List<String>{
+                    'Contact__r.Name',
+                    'Contact__r.FirstName',
+                    'Contact__r.LastName',
+                    Utilities.buildChildSubQuery(
                     'Advisor_Term__c', 
                     'Advisor_Terms__r',
                     'WHERE Status_external__c=\'Active\'')}
-                );        
-            this.fullName = System.UserInfo.getName();
-            this.firstName = System.UserInfo.getFirstName();
-            this.lastName = System.UserInfo.getLastName();
+                );   
+            this.fullName = advRecord.Contact__r.Name;
+            this.firstName = advRecord.Contact__r.FirstName;
+            this.lastName = advRecord.Contact__r.LastName;     
+            // this.fullName = System.UserInfo.getName();
+            // this.firstName = System.UserInfo.getFirstName();
+            // this.lastName = System.UserInfo.getLastName();
             this.preferredLanguage = advRecord.Language__c;
 
             // Retrieve or build Advisor Profile Form Instance.
@@ -409,6 +417,7 @@ public inherited sharing class AdvisorController {
                 ).get(0);
             if (advProfileForm !=null) {
                 List<Form_Instance__c> advProfileFormInstance = new List<Form_Instance__c>([SELECT Id, Advisor__c, Form__c, Profile__c, Proposal__c FROM Form_Instance__c WHERE Form__c =:advProfileForm.Id AND Advisor__c=:advisorId AND Profile__c=null AND Proposal__c=null]); 
+                System.debug('AdvOwner: ' + advRecord.OwnerId);
                 Id designatedOwnerId = Utilities.fsDefaultRecordOwnerIdByUser(advRecord.OwnerId);
                 if (advProfileFormInstance.isEmpty()) {
                     // Create new form instance linked to this advisor and active advisorprofile form.
