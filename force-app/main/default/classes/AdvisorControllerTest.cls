@@ -275,6 +275,7 @@ public with sharing class AdvisorControllerTest {
             InitTestObjects(1);
             Advisor__c adv = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email, OwnerId FROM Advisor__c][0];
             String email = adv.Contact__r.Email;
+            System.debug('adv contact: ' + adv.Contact__c);
             Id pIdAdv = [SELECT Id FROM Profile WHERE Name = : AdvisorController.advisorCommunityProfileName LIMIT 1].Id;
             Account acc = [SELECT Id, Name FROM Account WHERE Name = : AdvisorController.advisorContactsAccountName LIMIT 1];
             insert new Contact (AccountId = acc.Id, LastName = 'test contact');
@@ -319,16 +320,42 @@ public with sharing class AdvisorControllerTest {
 
             Assessment__c prpAssess = new Assessment__c (Advisor__c = adv.Id, Form__c =form.Id, Proposal__c=p.Id);
             insert prpAssess;
-            //Done with test data setup
+
+            // Create community user associated to advisor's contact
+            User advUser =  new User(
+                Username = 'UniqueUsrName@test.com',
+                Email = 'UniqueUsrName@test.com',
+                CommunityNickname = 'unique',
+                LastName = adv.Contact__r.LastName != null ? adv.Contact__r.LastName.left(40) : null,
+                FirstName = adv.Contact__r.FirstName != null ? adv.Contact__r.FirstName.left(40) : null,
+                Alias = 'uni',
+                ProfileId = pIdAdv,
+                ContactId = adv.Contact__c,
+                EmailEncodingKey = 'UTF-8',
+                LanguageLocaleKey = 'en_US',
+                LocaleSidKey = 'en_US',
+                TimeZoneSidKey = 'GMT'
+            );
+            insert advUser;
+            System.debug('advUser inserted: ' + advUser.Id);
         }
+
         Test.startTest();
-        String advisorId;
+        Advisor__c adv = [SELECT Id, Contact__c, Contact__r.LastName, Contact__r.FirstName, Contact__r.Email, OwnerId FROM Advisor__c][0];
+        User advUser = [SELECT Id, ContactId FROM User WHERE ContactId =: adv.Contact__c LIMIT 1];
+        Id advisorId;
         String advProfileFormInstanceId;
         String assessments;
         String advInfo;
-        System.runAs(thisUser){
+
+        System.runAs(advUser){
+            System.debug('advUser retrieved: ' + advUser.Id);
+            System.debug('advUser.ContactId: ' + advUser.ContactId);
+            System.debug('advId: ' + adv.Id);
             advInfo = SiteController.getAdvisorSummary();
+            System.debug('advInfo: ' + advInfo);
             advisorId = AdvisorController.getRunningUserAdvisorId();
+            System.debug('advisorId: ' + advisorId);
             AdvisorController.AdvisorSummary advSummary = new AdvisorController.AdvisorSummary(advisorId);
             advProfileFormInstanceId = advSummary.advProfileFormInstanceId;
             assessments = advSummary.prpAssessments;
