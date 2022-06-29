@@ -13,7 +13,7 @@
       "type" : "component"
     }, {
       "componentAttributes" : {
-        "richTextValue" : "<strong>Welcome to the Online Review Community</strong>\n<p>Login with username that begins with 'ADV-'</p>"
+        "richTextValue" : "<strong>Welcome to the Online Grant Review Community</strong>\n<p>Login with your username and password.</p>"
       },
       "componentName" : "forceCommunity:htmlBlock",
       "id" : "3f1ca9cb-da52-49e7-a68b-dd2283808476",

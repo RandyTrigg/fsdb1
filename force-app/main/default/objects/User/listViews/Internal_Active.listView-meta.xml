@@ -6,6 +6,7 @@
     <columns>CORE.USERS.USERNAME</columns>
     <columns>FS_Group_Name__c</columns>
     <columns>CORE.USER_ROLE.NAME</columns>
+    <columns>CORE.USERS.LAST_LOGIN</columns>
     <columns>CORE.USERS.ACTIVE</columns>
     <columns>CORE.PROFILE.NAME</columns>
     <filterScope>Everything</filterScope>

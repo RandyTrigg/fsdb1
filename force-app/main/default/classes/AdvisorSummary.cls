@@ -1,4 +1,4 @@
-public inherited sharing class AdvisorSummary {
+public with sharing class AdvisorSummary {
 
     public Boolean hasForms = false;
     public Boolean hasMilestones = false;
@@ -27,7 +27,7 @@ public inherited sharing class AdvisorSummary {
     public List < ItemSummary > viewFormsAvailable;
     
     
-    public inherited sharing class ItemSummary {
+    public with sharing class ItemSummary {
         public Boolean isPriority;
         public Date dateValue;
         public ID sfId;
@@ -45,7 +45,7 @@ public inherited sharing class AdvisorSummary {
     public AdvisorSummary(String advisorId) {
         
         Advisor__c advRecord = [SELECT ID, Language__c, (SELECT ID, Type__c, Status_external__c, Portfolio__c FROM Advisor_Terms__r WHERE Status_external__c='Active') FROM Advisor__c WHERE ID=:advisorId];
-        
+
         this.fullName = System.UserInfo.getName();
         this.firstName = System.UserInfo.getFirstName();
         this.lastName = System.UserInfo.getLastName();
@@ -57,6 +57,7 @@ public inherited sharing class AdvisorSummary {
         this.ratingsAssigned = new List <ItemSummary>();
         this.viewFormsAvailable = new List <ItemSummary>();
         
+
         List < Assessment__c > milestoneAssessments = AssessorSiteController.getMilestoneAssessments(advisorId, 'pending', 3);
         this.pendingMilestonesCount = milestoneAssessments.size();
         

@@ -10,8 +10,6 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>bffReviewSiteHeader</members>
-        <members>bffReviewSiteHome</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>53.0</version>

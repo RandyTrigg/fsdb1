@@ -84,21 +84,27 @@ public with sharing class AssessmentController {
 
     // Collection of data related to an assessment. Constructor builds a new form instance if needed for assessments that are linked to a form.
     public inherited sharing class AssessmentData {
+        public Assessment__c assessRec;
         public Id formInstanceId;
         public Id assessedRecordId;
-        public String advisorName, advisorTermType, formName, reviewFormName;
+        public String advisorName, advisorTermType, formName, reviewFormName, groupName, propType, propName;
         
         public AssessmentData (Id assessmentId) {
             // Grab assessment fields along with child form instances.
             String[] relFieldNames = new List<String> {
-                'Advisor__r.Name', 'Advisor__r.OwnerId', 'Advisor_Term__r.Type__c, Form__r.Name, Review_Form__r.Name'
+                'Advisor__r.Name', 'Advisor__r.OwnerId', 'Advisor_Term__r.Type__c, Form__r.Name, Review_Form__r.Name',
+                'Proposal__r.Name', 'Proposal__r.Grant_type__c', 'Proposal__r.Profile__r.Org_name__c'
             };
             relFieldNames.add(Utilities.buildChildSubQuery('Form_Instance__c', 'Form_Instances__r', null));
             Assessment__c a = (Assessment__c)Utilities.fetchRecord('Assessment__c', assessmentId, relFieldNames);
+            this.assessRec = a;
             this.advisorName = a.Advisor__r.Name;
             this.advisorTermType = a.Advisor_Term__r.Type__c;
             this.formName = a.Form__r.Name;
             this.reviewFormName = a.Review_Form__r.Name;
+            this.groupName = a.Proposal__r.Profile__r.Org_name__c;
+            this.propType = a.Proposal__r.Grant_type__c;
+            this.propName = a.Proposal__r.Name;
             this.assessedRecordId = a.Milestone__c != null ? a.Milestone__c :
                 a.Proposal__c != null ? a.Proposal__c :
                 a.Profile__c != null ? a.Profile__c :
