@@ -6,13 +6,15 @@ public without sharing class SiteController {
 
     // Fetch name for site header
     @AuraEnabled
-    public static name getHeaderName(){
+    public static String getHeaderName(){
         List<String> permSets = new List<String>(Utilities.currentUserPermissionSetNames());
+        String name;
         if (permSets.contains('ReviewCommunity_BFF')) {
-            return AdvisorController.getRunningUserAdvisorHeaderName();
+            name = AdvisorController.getRunningUserAdvisorHeaderName();
         } else if (permSets.contains('GrantsCommunity_BFF')) {
-            return ProfileController.getRunningUserProfileHeaderName();
+            name = ProfileController.getRunningUserProfileHeaderName();
         }
+        return name;
     }
     
     // Handle self-registration

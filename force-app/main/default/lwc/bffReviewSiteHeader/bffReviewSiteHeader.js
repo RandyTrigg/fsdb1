@@ -1,12 +1,14 @@
 import { LightningElement, api, wire } from 'lwc';
+import { handleError } from 'c/lwcUtilities';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
+import getHeaderName from '@salesforce/apex/SiteController.getHeaderName';
 
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     currentPageReference;
     bffLogoWhiteText = logoResourceWhiteText;
     dataLoaded = false;
-    @api name;
+    name;
     @api language;
     @api showProfile = false;
     @api showSearch = false;
@@ -33,6 +35,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     }
 
     connectedCallback(){
+        this.loadData();
         if (this.language) {
             console.log('connectedCallbackHeader');
             console.log(this.language);
@@ -45,6 +48,17 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
 
             console.log(this.baseURL);
             this.dataLoaded = true;
+        }
+    }
+
+    async loadData() {
+        try {
+            console.log('loadData');
+            // Retrieve Advisor and Form Instance, along with translations
+            // let [translations ] = await Promise.all ([
+            this.name = await getHeaderName();
+        } catch (error) {
+            handleError(error);
         }
     }
 

@@ -344,6 +344,12 @@ public with sharing class AdvisorControllerTest {
             );
             insert advUser;
             System.debug('advUser inserted: ' + advUser.Id);
+            String psName = 'ReviewCommunity_BFF';
+            PermissionSet ReviewCommunityPS = [SELECT Id FROM PermissionSet WHERE Name =: psName LIMIT 1];
+            PermissionSetAssignment psa = new PermissionSetAssignment(
+                PermissionSetId = ReviewCommunityPS.Id,
+                AssigneeId = advUser.Id);
+            insert psa;
         }
 
         Test.startTest();
@@ -353,14 +359,16 @@ public with sharing class AdvisorControllerTest {
         String advProfileFormInstanceId;
         String assessments;
         String advInfo;
+        String headerName;
 
         System.runAs(advUser){
             System.debug('advUser retrieved: ' + advUser.Id);
             System.debug('advUser.ContactId: ' + advUser.ContactId);
             System.debug('advId: ' + adv.Id);
-            
+
             advInfo = SiteController.getAdvisorSummary();
             System.debug('advInfo: ' + advInfo);
+            headerName = SiteController.getHeaderName();
             advisorId = AdvisorController.getRunningUserAdvisorId();
             System.debug('advisorId: ' + advisorId);
             AdvisorController.AdvisorSummary advSummary = new AdvisorController.AdvisorSummary(advisorId);
