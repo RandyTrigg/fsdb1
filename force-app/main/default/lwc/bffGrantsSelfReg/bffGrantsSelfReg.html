@@ -83,7 +83,8 @@
                     <div class="slds-illustration slds-illustration_small">
                         <div class="slds-text-longform">
                             <h3 class="slds-text-heading_medium">{transByNameObj.RegistrationError}</h3>
-                            <lightning-formatted-rich-text class="slds-text-body_small" value={errMsg}></lightning-formatted-rich-text>
+                            <span if:true={dupeUsername} class="slds-text-body_small">{transByNameObj.DuplicateUsername} <u>bff-{email}</u></span>
+                            <span if:false={dupeUsername} class="slds-text-body_small">{transByNameObj.TryAgainLater}</span>
                         </div>
                     </div>
                 </div>

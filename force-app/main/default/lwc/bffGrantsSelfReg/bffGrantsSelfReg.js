@@ -23,6 +23,7 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
     loginPageRef;
     loginUrl;
     cardTitle;
+    dupeUsername = false;
 
     connectedCallback(){
         this.loadData();
@@ -106,13 +107,16 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
                 this.showSpinner = false;
                 this.cardTitle = this.transByNameObj.Success + '!';
             } else {
-                console.log('else errString');
+                console.log('else errString', errString);
                 this.showSpinner = false;
                 this.showForm = false;
                 this.showFailure = true;
                 this.cardTitle = this.transByNameObj.Error + '!';
-                this.errMsg = (errString == 'DuplicateUsername') ? this.transByNameObj.DuplicateUsername + ' <u>bff-' + this.email + '</u>' : '';
-                console.log('error',this.errMsg);
+                this.dupeUsername = (errString == 'DuplicateUsername');
+                // Error embedded in markup for proper translation handling.
+                // console.log('dupeUsername', this.dupeUsername);
+                // this.errMsg = (this.dupeUsername) ? this.transByNameObj.DuplicateUsername + ' <u>bff-' + this.email + '</u>' : '';
+                // console.log('error',this.errMsg);
             }
         } catch (error) {
             // Catches apex errors and displays generic message (see console log for actual error)
@@ -121,7 +125,6 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
             this.showFailure = true;
             this.cardTitle = this.transByNameObj.Error;
             console.log('error',error);
-            this.errMsg = this.transByNameObj.TryAgainLater;
         }
 
     }
