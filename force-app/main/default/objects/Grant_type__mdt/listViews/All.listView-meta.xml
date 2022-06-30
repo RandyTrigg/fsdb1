@@ -5,6 +5,8 @@
     <columns>DeveloperName</columns>
     <columns>Default_custom_reqs_name__c</columns>
     <columns>NamespacePrefix</columns>
+    <columns>FS_Group__c</columns>
+    <columns>Application_form_name__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
     <language>en_US</language>

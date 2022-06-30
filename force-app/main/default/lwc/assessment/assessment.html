@@ -7,13 +7,25 @@
         <div class="bottommargin">
             <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
         </div>
+        <div class="visually-hidden ">
+            <h1 >{transByNameObj.ProposalReview}</h1>
+        </div>
         <div class="slds-grid slds-gutters">
             <!-- Left side: read-only multi-form viewing -->
             <div class="slds-col slds-size_1-of-2 slds-scrollable_y"  >
+                <div class="bottommargin-small slds-text-heading_medium slds-text-align_center">
+                    <h2><span>{transByNameObj.GroupName}: {groupName}</span></h2>
+                </div>
                 <c-form-viewer record-id={assessedRecordId}></c-form-viewer>
             </div>
-            <!-- Right side: editable assessment form -->
-            <div class="slds-col slds-size_1-of-2 slds-scrollable_y">
+            <!-- Right side: editable assessment form --> 
+            <div class="slds-col slds-size_1-of-2 slds-scrollable_y fullViewport">
+                <div class="bottommargin-small slds-text-heading_medium slds-text-align_center">
+                    <h2><span>{transByNameObj.ProposalNumber}: {propName} ({propType})</span></h2>
+                    <div if:true={dateSubmitted}>
+                        <p><span>{transByNameObj.DateSubmitted}: {dateSubmitted}</span></p>
+                    </div>
+                </div>
                 <c-form-instance record-id={formInstanceId} language={language} is-embedded="true"></c-form-instance>
             </div>
         </div>

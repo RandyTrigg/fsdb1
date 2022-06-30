@@ -303,8 +303,9 @@ public inherited sharing class FormInstanceController {
             } else { // Profile form
                 Set<String> emails = new Set<String>();
                 for (Form_Data__c fd : fi.Form_Data__r) {
-                    if (fd.Form_Component__r.Name == 'PreferredLanguage') language = fd.Data_text__c;
-                    if (emailFormComponentNames.contains(fd.Form_Component__r.Name) && fd.Data_text__c != null) emails.add(fd.Data_text__c);
+                    String fcName = fd.Form_Component__r.Name;
+                    if (fcName == 'PreferredLanguage' || fcName == 'Language') language = fd.Data_text__c;
+                    if (emailFormComponentNames.contains(fcName) && fd.Data_text__c != null) emails.add(fd.Data_text__c);
                 }
                 // Include community contact email
                 String ccEmail = fi.Advisor__r != null ? fi.Advisor__r.Community_contact_email__c : fi.Profile__r.Community_contact_email__c;

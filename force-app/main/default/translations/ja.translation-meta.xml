@@ -232,6 +232,64 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Profiles w/ Form Instances w/ Form Data --></description>
+        <label><!-- Profiles w/ Form Instances w/ Form Data --></label>
+        <name>Profiles_w_Form_Instances_w_Form_Data</name>
+        <sections>
+            <label><!-- Account --></label>
+            <name>Account</name>
+        </sections>
+        <sections>
+            <label><!-- Form --></label>
+            <name>Form</name>
+        </sections>
+        <sections>
+            <label><!-- Form Component --></label>
+            <name>Form Component</name>
+        </sections>
+        <sections>
+            <label><!-- Form Data --></label>
+            <name>Form Data</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instances --></label>
+            <name>Form Instances</name>
+        </sections>
+        <sections>
+            <label><!-- Profiles --></label>
+            <name>Profiles</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Profiles with Form Data w/ related fields --></description>
+        <label><!-- Profiles with Form Data w/ related fields --></label>
+        <name>Profiles_with_Form_Data_w_related_fields</name>
+        <sections>
+            <label><!-- Account --></label>
+            <name>Account</name>
+        </sections>
+        <sections>
+            <label><!-- Form --></label>
+            <name>Form</name>
+        </sections>
+        <sections>
+            <label><!-- Form Component --></label>
+            <name>Form Component</name>
+        </sections>
+        <sections>
+            <label><!-- Form Data --></label>
+            <name>Form Data</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instance --></label>
+            <name>Form Instance</name>
+        </sections>
+        <sections>
+            <label><!-- Profiles --></label>
+            <name>Profiles</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Proposals with related info unlocked --></description>
         <label><!-- Proposals with related info unlocked --></label>
         <name>Proposals_with_related_info_unlocked</name>

@@ -10,66 +10,34 @@ public inherited sharing class ProposalUpdate {
         // Build lists of relevant related fields for objects related to Proposal.
         Map<String, List<String>> relatedFieldsMap = new Map<String, List<String>>{
             'Account__r' => new List<String>{
-                'Highlights__c',
-                'Description',
-                'Name',
-                'GM_country__c',
-                'GM_region__c',
-                'GM_applicant__c',
-                'First_grant__c',
-                'Latest_grant__c',
-                'OwnerId'
+                'Highlights__c', 'Description', 'Name', 'GM_country__c',
+                'GM_region__c', 'GM_applicant__c', 'First_grant__c', 'Latest_grant__c', 'OwnerId'
             },
-            'Payment_dependent_on_prior_grant__r' => new List<String>{
-                'Status_numeric__c'
-            },
+            'Payment_dependent_on_prior_grant__r' => new List<String>{'Status_numeric__c'},
             'Country__r' => new List<String>{ 'Region__c' },
             'Country_override__r' => new List<String>{ 'Region__c' },
             'Region_override__r' => new List<String>{ 'Name' },
-            'Profile__r' => new List<String>{
-                'Name',
-                'Account__c',
-                'Account__r.Name'
-            }
+            'Profile__r' => new List<String>{'Name', 'Account__c', 'Account__r.Name', 'Country__c'}
         };
         // Build sub-queries for various child objects of Proposal.
         String[] childSubQueries = new List<String>{
-            Utilities.buildChildSubQuery(
-                'Milestone__c',
-                'Milestones__r',
-                'ORDER BY Date_due__c ASC'
-            ),
+            Utilities.buildChildSubQuery('Milestone__c', 'Milestones__r', 'ORDER BY Date_due__c ASC'),
             Utilities.buildChildSubQuery('Invite__c', 'Invites__r', null),
-            Utilities.buildChildSubQuery(
-                'Payment__c',
-                'Payments__r',
-                'ORDER BY CreatedDate DESC'
-            ),
-            Utilities.buildChildSubQuery(
-                'Payment_Method__c',
-                'Payment_Methods__r',
-                'ORDER BY CreatedDate ASC'
-            ),
-            Utilities.buildChildSubQuery(
-                'Portfolio_Assignment__c',
-                'Initiative_Assignments__r',
-                'WHERE Portfolio_type__c = \'Priority\''
-            ),
+            Utilities.buildChildSubQuery('Payment__c', 'Payments__r', 'ORDER BY CreatedDate DESC'),
+            Utilities.buildChildSubQuery('Payment_Method__c', 'Payment_Methods__r', 'ORDER BY CreatedDate ASC'),
+            Utilities.buildChildSubQuery('Portfolio_Assignment__c', 'Initiative_Assignments__r', 'WHERE Portfolio_type__c = \'Priority\''),
             Utilities.buildChildSubQuery('Proposal__c', 'Proposals__r', null) // Payment-related dependent proposals
         };
         // Combine into one big list of related field references, and include child queries.
         String[] relatedFieldNames = new List<String>();
         for (String relName : relatedFieldsMap.keySet()) {
-            for (String fName : relatedFieldsMap.get(relName))
+            for (String fName : relatedFieldsMap.get(relName)) {
                 relatedFieldNames.add(relName + '.' + fName);
+            }
         }
         relatedFieldNames.addAll(childSubQueries);
         // Finally, fetch the proposal plus its context.
-        return (Proposal__c) Utilities.fetchRecord(
-            'Proposal__c',
-            propId,
-            relatedFieldNames
-        );
+        return (Proposal__c) Utilities.fetchRecord('Proposal__c', propId, relatedFieldNames);
     }
 
     // Perform necessary updates to proposal and related records.  Normally invoked when proposal is created or changed.
@@ -96,6 +64,7 @@ public inherited sharing class ProposalUpdate {
         Proposal__c p = fetchProposalAndContext(propId);
         Boolean propNeedsUpdate = false;
         Account a = p.Account__r;
+        Boolean umbrellaParentAccount = a.Name.contains('Community Users Account');
         Proposal__c[] dependentProps = p.Proposals__r;
         Boolean hasDependentProposals = dependentProps.size() > 0;
         Proposal__c[] accGrants = [
@@ -356,10 +325,9 @@ public inherited sharing class ProposalUpdate {
             ? p.Country_override__r.Region__c
             : p.Region_override__c;
         // Note that if any of the geography overrides are non-blank, then we use the prop's override rather than what's in the account.
-        countryId = p.Country_override__c != null ||
-            p.Region_override__c != null
-            ? p.Country_override__c
-            : a.GM_country__c;
+        countryId = p.Country_override__c != null || p.Region_override__c != null ? p.Country_override__c :
+            !umbrellaParentAccount ? a.GM_country__c :
+            p.Profile__r.Country__c;
         regionId = p.Country_override__c != null ||
             p.Region_override__c != null
             ? regionOverrideId
@@ -443,11 +411,7 @@ public inherited sharing class ProposalUpdate {
             firstGrantId = accGrants[0].Id;
             latestGrantId = accGrants[accGrants.size() - 1].Id;
         }
-        if (
-            !a.GM_applicant__c ||
-            firstGrantId != a.First_grant__c ||
-            latestGrantId != a.Latest_grant__c
-        ) {
+        if (!a.GM_applicant__c || firstGrantId != a.First_grant__c || latestGrantId != a.Latest_grant__c) {
             a.GM_applicant__c = true;
             a.First_grant__c = firstGrantId;
             a.Latest_grant__c = latestGrantId;
@@ -487,10 +451,7 @@ public inherited sharing class ProposalUpdate {
         /**********************************
          * Send alert email if there's a clash between proposal's account and the linked profile's account (if any).
          *********************************/
-        if (
-            p.Profile__r.Account__c != null &&
-            p.Account__c != p.Profile__r.Account__c
-        ) {
+        if (p.Profile__r.Account__c != null && p.Account__c != p.Profile__r.Account__c) {
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setToAddresses(new List<String>{ GMAdminEmail });
             mail.setCcAddresses(new List<String>{ Utilities.EmailAddressIM });
@@ -529,10 +490,8 @@ public inherited sharing class ProposalUpdate {
         /**********************************
          * Update proposal before updating any other records that were touched.
          *********************************/
-        if (propNeedsUpdate)
-            update p;
-        if (toUpdate.size() > 0)
-            update toUpdate.values();
+        if (propNeedsUpdate) update p;
+        if (toUpdate.size() > 0) update toUpdate.values();
         // Update/build milestone record(s) if necessary (note that DML's are performed by buildMilestones).
         MilestoneController.buildMilestones(p.Id);
         return p;

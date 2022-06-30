@@ -14,6 +14,10 @@ export default class Assessment extends NavigationMixin ( LightningElement ) {
     logout;
     formInstanceId;
     dataLoaded = false;
+    transByNameObj;
+    groupName;
+    propName;
+    propType;
 
 
     connectedCallback() {
@@ -44,10 +48,12 @@ export default class Assessment extends NavigationMixin ( LightningElement ) {
             getTranslations ()
         ]);
         let assessment = JSON.parse(assessmentData);
+        let assessRec = assessment.assessRec;
         console.log('assessment');
         console.log(assessment);
         translations = JSON.parse(translations);
         let transByName = buildTransByName(translations, this.language);
+        this.transByNameObj = Object.fromEntries(transByName);
         this.support = transByName.get('Support');
         this.logout = transByName.get('Logout');
         this.assessedRecordId = assessment.assessedRecordId;
@@ -58,6 +64,10 @@ export default class Assessment extends NavigationMixin ( LightningElement ) {
         } else {
             // Throw an error 
         }
+        this.groupName = assessment.groupName;
+        this.propName = assessment.propName;
+        this.propType = assessment.propType;
+        this.dateSubmitted = assessRec.Date_submitted__c;
         this.dataLoaded = true;
     }
 }

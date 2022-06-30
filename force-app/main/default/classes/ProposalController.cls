@@ -20,47 +20,25 @@ public with sharing class ProposalController {
         @AuraEnabled
         public Map<String, List<String>> picklists;
         @AuraEnabled
-        public String[] declineReasonNames,
-            portfolioNames,
-            selectedPortfolioNames,
-            unselectedPortfolioNames;
+        public String[] declineReasonNames, portfolioNames, selectedPortfolioNames, unselectedPortfolioNames;
         @AuraEnabled
-        public String selectedDeclineReasonName,
-            selectedPortfolioIdsPacked;
+        public String selectedDeclineReasonName, selectedPortfolioIdsPacked;
         @AuraEnabled
-        public Map<Id, String> declineReasonNameMap,
-            portfolioNameMap;
+        public Map<Id, String> declineReasonNameMap, portfolioNameMap;
         @AuraEnabled
         public List<Review_Form_Component__c> reviewComponents = new List<Review_Form_Component__c>();
 
         public ProposalInfo(Id propId) {
             // Fetch proposal record.
-            prop = (Proposal__c) Utilities.fetchRecord(
-                'Proposal__c',
-                propId,
-                new List<String>{
-                    'Custom_Reqs__r.Proposal_review_form__c',
-                    'Account__r.Name'
-                }
+            prop = (Proposal__c) Utilities.fetchRecord('Proposal__c', propId,
+                new List<String>{'Custom_Reqs__r.Proposal_review_form__c', 'Account__r.Name'}
             );
             // Grab GM Data id for the proposal.
-            GM_Data__c[] gmDatas = [
-                SELECT Id
-                FROM GM_Data__c
-                WHERE Proposal__c = :propId
-            ];
+            GM_Data__c[] gmDatas = [SELECT Id FROM GM_Data__c WHERE Proposal__c = :propId];
             // If there's no gm data for this proposal, then build a new one.
             if (gmDatas.size() == 0) {
-                insert new GM_Data__c(
-                    Proposal__c = propId,
-                    Account__c = prop.Account__c
-                );
-                gmDataId = [
-                    SELECT Id
-                    FROM GM_Data__c
-                    WHERE Proposal__c = :propId
-                ][0]
-                .Id;
+                insert new GM_Data__c(Proposal__c = propId, Account__c = prop.Account__c);
+                gmDataId = [SELECT Id FROM GM_Data__c WHERE Proposal__c = :propId][0].Id;
             } else {
                 gmDataId = gmDatas[0].Id;
             }
@@ -72,11 +50,8 @@ public with sharing class ProposalController {
             // Stash the review form components for the appropriate proposal review form.
             // Use the linked custom req's review form if any, else the (active) one named 'Proposal'.
             Id revFormId = prop.Custom_Reqs__r.Proposal_review_form__c;
-            String whereClause =
-                'WHERE Active__c = true AND ' +
-                (revFormId != null
-                    ? 'Id = \'' + revFormId + '\''
-                    : 'Name = \'Proposal\'');
+            String whereClause = 'WHERE Active__c = true AND ' +
+                (revFormId != null ? 'Id = \'' + revFormId + '\'' : 'Name = \'Proposal\'');
             // Fetch review form and components.
             Review_Form__c[] reviewForms = (Review_Form__c[]) Utilities.fetchRecords(
                 'Review_Form__c',
@@ -140,13 +115,11 @@ public with sharing class ProposalController {
                 [
                     SELECT Id
                     FROM Portfolio__c
-                    WHERE
-                        Id IN (
-                            SELECT Portfolio__c
-                            FROM Portfolio_Assignment__c
-                            WHERE
-                                Proposal__c = :prop.Id
-                                AND Portfolio__r.Type__c = 'Priority'
+                    WHERE Id IN (
+                        SELECT Portfolio__c
+                        FROM Portfolio_Assignment__c
+                        WHERE Proposal__c = :prop.Id
+                        AND Portfolio__r.Type__c = 'Priority'
                         )
                 ]
             );
@@ -188,9 +161,7 @@ public with sharing class ProposalController {
         @AuraEnabled
         public String selectedIdsPacked;
         @AuraEnabled
-        public String[] names,
-            selectedNames,
-            unselectedNames;
+        public String[] names, selectedNames, unselectedNames;
         @AuraEnabled
         public Map<Id, String> nameMap;
         public ClassificationInfo(String cType, Id pId) {
@@ -259,46 +230,18 @@ public with sharing class ProposalController {
         String issueIdsPacked,
         String portfolioIdsPacked
     ) {
-        system.debug(
-            'In saveProposalInfo1: p = ' +
-            JSON.serialize(p) +
-            '; d = ' +
-            JSON.serialize(d) +
-            '; issueIdsPacked = ' +
-            issueIdsPacked +
-            '; strategyIdsPacked = ' +
-            strategyIdsPacked +
-            '; portfolioIdsPacked = ' +
-            portfolioIdsPacked
+        system.debug('In saveProposalInfo1: p = ' + JSON.serialize(p) + '; d = ' +
+            JSON.serialize(d) + '; issueIdsPacked = ' + issueIdsPacked + '; strategyIdsPacked = ' +
+            strategyIdsPacked + '; portfolioIdsPacked = ' + portfolioIdsPacked
         );
         // Gather classification assigns to delete/insert of each of the three types.
         List<Classification_Assign__c> cAssignsToDelete = new List<Classification_Assign__c>();
         List<Classification_Assign__c> cAssignsToInsert = new List<Classification_Assign__c>();
-        saveClassificationAssigns(
-            p,
-            'Population',
-            populationIdsPacked == null ? '' : populationIdsPacked,
-            cAssignsToDelete,
-            cAssignsToInsert
-        );
-        saveClassificationAssigns(
-            p,
-            'Issue',
-            issueIdsPacked == null ? '' : issueIdsPacked,
-            cAssignsToDelete,
-            cAssignsToInsert
-        );
-        saveClassificationAssigns(
-            p,
-            'Strategy',
-            strategyIdsPacked == null ? '' : strategyIdsPacked,
-            cAssignsToDelete,
-            cAssignsToInsert
-        );
-        if (cAssignsToDelete.size() > 0)
-            delete cAssignsToDelete;
-        if (cAssignsToInsert.size() > 0)
-            insert cAssignsToInsert;
+        saveClassificationAssigns(p, 'Population', populationIdsPacked == null ? '' : populationIdsPacked, cAssignsToDelete, cAssignsToInsert );
+        saveClassificationAssigns(p, 'Issue', issueIdsPacked == null ? '' : issueIdsPacked, cAssignsToDelete, cAssignsToInsert);
+        saveClassificationAssigns(p, 'Strategy', strategyIdsPacked == null ? '' : strategyIdsPacked, cAssignsToDelete, cAssignsToInsert);
+        if (cAssignsToDelete.size() > 0) delete cAssignsToDelete;
+        if (cAssignsToInsert.size() > 0) insert cAssignsToInsert;
         savePortfolioAssigns(p, portfolioIdsPacked);
         // Save the GMData and Proposal records and return the result (possibly errors).
         saveGMData(d);
@@ -323,14 +266,7 @@ public with sharing class ProposalController {
         Classification_Assign__c[] toDelete,
         Classification_Assign__c[] toInsert
     ) {
-        system.debug(
-            'In saveClassificationAssigns: p = ' +
-            JSON.serialize(p) +
-            '; cType = ' +
-            cType +
-            '; selectedIdsPacked = ' +
-            selectedIdsPacked
-        );
+        system.debug('In saveClassificationAssigns: p = ' + JSON.serialize(p) + '; cType = ' + cType + '; selectedIdsPacked = ' + selectedIdsPacked);
         Id pId = p.Id;
         // Add/remove joins to align with new selections.
         // Get current assignments.
@@ -338,56 +274,35 @@ public with sharing class ProposalController {
             [
                 SELECT Id, Classification__c
                 FROM Classification_Assign__c
-                WHERE
-                    Proposal__c = :pId
-                    AND Classification__r.Type__c = :cType
-                    AND Classification__r.Active__c = true
+                WHERE Proposal__c = :pId
+                AND Classification__r.Type__c = :cType
+                AND Classification__r.Active__c = true
             ]
         );
-        system.debug(
-            'In saveClassificationAssigns: cJoins = ' + JSON.serialize(cJoins)
-        );
+        system.debug('In saveClassificationAssigns: cJoins = ' + JSON.serialize(cJoins));
         // Stash current classification ids.
         Set<Id> currentIds = new Set<Id>();
-        for (Classification_Assign__c ca : cJoins.values())
-            currentIds.add(ca.Classification__c);
+        for (Classification_Assign__c ca : cJoins.values()) currentIds.add(ca.Classification__c);
         // Get selected classifications.
         Set<String> setIds = new Set<String>(selectedIdsPacked.split(';', 0));
-        system.debug(
-            'In saveClassificationAssigns: setIds = ' + JSON.serialize(setIds)
-        );
+        system.debug('In saveClassificationAssigns: setIds = ' + JSON.serialize(setIds));
         // Augment list of classifications to delete - they were assigned, but are no longer selected.
         for (Classification_Assign__c ca : cJoins.values()) {
-            if (!setIds.contains(String.valueof(ca.Classification__c)))
-                toDelete.add(ca);
+            if (!setIds.contains(String.valueof(ca.Classification__c))) toDelete.add(ca);
         }
-        system.debug(
-            'In saveClassificationAssigns: toDelete = ' +
-            JSON.serialize(toDelete)
-        );
+        system.debug('In saveClassificationAssigns: toDelete = ' + JSON.serialize(toDelete));
         // Augment list of classifications to insert - they weren't originally assigned, but are now selected.
         for (String s : setIds) {
-            if (String.isBlank(s))
-                continue;
+            if (String.isBlank(s)) continue;
             Id i = Id.valueOf(s);
-            if (!currentIds.contains(i))
-                toInsert.add(
-                    new Classification_Assign__c(
-                        Classification__c = i,
-                        Proposal__c = pId
-                    )
-                );
+            if (!currentIds.contains(i)) {
+                toInsert.add(new Classification_Assign__c(Classification__c = i, Proposal__c = pId));
+            }
         }
-        system.debug(
-            'In saveClassificationAssigns: toInsert = ' +
-            JSON.serialize(toInsert)
-        );
+        system.debug('In saveClassificationAssigns: toInsert = ' + JSON.serialize(toInsert));
     }
 
-    private static void savePortfolioAssigns(
-        Proposal__c p,
-        String selectedIdsPacked
-    ) {
+    private static void savePortfolioAssigns(Proposal__c p, String selectedIdsPacked) {
         system.debug(
             'In savePortfolioAssigns: p = ' +
             JSON.serialize(p) +
@@ -464,10 +379,7 @@ public with sharing class ProposalController {
     }
 
     // Copy classification assigns from given profile to given proposal - only include ones the proposal doesn't already have.
-    public static void copyClassificationAssignsFromProfile(
-        Id propId,
-        Id profileId
-    ) {
+    public static void copyClassificationAssignsFromProfile(Id propId, Id profileId) {
         // Fetch the proposal's current classifications.
         Classification_Assign__c[] propClassAssigns = [
             SELECT Id, Classification__c
@@ -512,32 +424,17 @@ public with sharing class ProposalController {
     public ProposalController(ApexPages.StandardController standardController) {
         this.standardController = standardController;
         this.selRecs = fetchRecords(new Set<Id>{ standardController.getId() });
-        this.templates = Utilities.templatesMenu(
-            objectName,
-            START,
-            selRecs,
-            statusFieldName
-        );
+        this.templates = Utilities.templatesMenu(objectName, START, selRecs, statusFieldName);
     }
 
-    public ProposalController(
-        ApexPages.StandardSetController standardSetController
-    ) {
+    public ProposalController(ApexPages.StandardSetController standardSetController) {
         this.standardSetController = standardSetController;
-        Map<Id, Proposal__c> selMap = new Map<Id, Proposal__c>(
-            (List<Proposal__c>) standardSetController.getSelected()
-        );
+        Map<Id, Proposal__c> selMap = new Map<Id, Proposal__c>((List<Proposal__c>) standardSetController.getSelected());
         this.selRecs = fetchRecords(selMap.keySet());
-        this.templates = Utilities.templatesMenu(
-            objectName,
-            START,
-            selRecs,
-            statusFieldName
-        );
+        this.templates = Utilities.templatesMenu(objectName, START, selRecs, statusFieldName);
     }
 
-    public class buildSubmissionsException extends Exception {
-    }
+    public class buildSubmissionsException extends Exception {}
 
     // Build the menu of admissible correspondence templates for this object.
     private static String objectName = 'Proposal__c';
@@ -557,11 +454,7 @@ public with sharing class ProposalController {
         // Generate error if no selected template - assign error to the templateType field.
         if (selectedTemplate == null || selectedTemplate == START) {
             ApexPages.AddMessage(
-                new ApexPages.Message(
-                    ApexPages.Severity.ERROR,
-                    'Please select a template',
-                    'Must select a template before building new letters'
-                )
+                new ApexPages.Message(ApexPages.Severity.ERROR, 'Please select a template', 'Must select a template before building new letters')
             );
             selectedTemplate = START; // If I don't reset to the START value, it gets set to one of the non-disabled values.
             return null;
@@ -569,58 +462,41 @@ public with sharing class ProposalController {
         Set<Id> selIds = getSelectedIds();
         newLetters = buildLetters0(selIds, selectedTemplate, false);
         // Changes have been saved; jump to the new letter if there's only one.
-        if (standardController != null && newLetters.size() == 1)
-            return Utilities.pageReferenceForRecord(newLetters[0]);
-        else
-            return doCancel(); // Stay in current layout.
+        if (standardController != null && newLetters.size() == 1) return Utilities.pageReferenceForRecord(newLetters[0]);
+        else return doCancel(); // Stay in current layout.
     }
 
     // Build and reset letters for given proposals (non-VF context).
     // The shape with ids parameter is for external callers; with records parameter is called from VF.
-    public static List<Letter__c> buildLetters0(
-        Set<Id> selIds,
-        String selectedTemplate,
-        Boolean emailFlg
-    ) {
+    public static List<Letter__c> buildLetters0(Set<Id> selIds, String selectedTemplate, Boolean emailFlg) {
         return buildLetters0(fetchRecords(selIds), selectedTemplate, emailFlg);
     }
-    public static List<Letter__c> buildLetters0(
-        Proposal__c[] selRecs,
-        String selectedTemplate,
-        Boolean emailFlg
-    ) {
+    public static List<Letter__c> buildLetters0(Proposal__c[] selRecs, String selectedTemplate, Boolean emailFlg) {
         Set<Id> accIds = new Set<Id>();
         for (Proposal__c p : selRecs) {
             Id accId = p.Account__c;
-            if (accId != null)
-                accIds.add(accId);
+            if (accId != null) accIds.add(accId);
         }
-        Map<Id, List<String>> emails = AccountController.emailsForAccounts(
-            accIds
-        );
+        Map<Id, List<String>> accEmails = AccountController.emailsForAccounts(accIds);
         // Build new letters for selected records.
-        Id templateId = Utilities.recordIdFromName(
-            'Template__c',
-            selectedTemplate
-        );
+        Id templateId = Utilities.recordIdFromName('Template__c', selectedTemplate);
         List<Letter__c> ls = new List<Letter__c>();
         for (Proposal__c r : selRecs) {
-            List<String> es = emails.get(r.Account__c);
-            ls.add(
-                new Letter__c(
-                    Template__c = templateId,
-                    Account__c = r.Account__c,
-                    Account_owner__c = r.Account__r.OwnerId,
-                    Letter_owner__c = UserInfo.getUserId(),
-                    Proposal__c = r.Id,
-                    Payment_Method__c = r.Current_payment_method__c,
-                    Region__c = r.Region__c,
-                    Custom_Reqs__c = r.Custom_Reqs__c,
-                    Emails__c = (es == null)
-                        ? ''
-                        : Utilities.stringJoinWithCharLimit(es, ',', 255)
-                )
-            );
+            // Grab account emails if any, else use emails from linked profile.
+            List<String> es = accEmails.get(r.Account__c);
+            String emails = (es == null || es.size() == 0) ? r.Profile__r.Profile_emails__c : Utilities.stringJoinWithCharLimit(es, ',', 255);
+            ls.add(new Letter__c(
+                Template__c = templateId,
+                Profile__c = r.Profile__c,
+                Account__c = r.Account__c,
+                Account_owner__c = r.Account__r.OwnerId,
+                Letter_owner__c = UserInfo.getUserId(),
+                Proposal__c = r.Id,
+                Payment_Method__c = r.Current_payment_method__c,
+                Region__c = r.Region__c,
+                Custom_Reqs__c = r.Custom_Reqs__c,
+                Emails__c = emails
+            ));
         }
         if (ls.size() > 0) {
             insert ls;
@@ -742,14 +618,8 @@ public with sharing class ProposalController {
     static private Proposal__c[] fetchRecords(Set<Id> ids) {
         system.debug('fetchRecords: ids = ' + JSON.serialize(ids));
         return [
-            SELECT
-                Id,
-                Status_numeric__c,
-                Account__c,
-                Account__r.OwnerId,
-                Region__c,
-                Custom_Reqs__c,
-                Current_payment_method__c
+            SELECT Id, Status_numeric__c, Account__c, Account__r.OwnerId,
+            Profile__c, Profile__r.Profile_emails__c, Region__c, Custom_Reqs__c, Current_payment_method__c
             FROM Proposal__c
             WHERE Id IN :ids
         ];

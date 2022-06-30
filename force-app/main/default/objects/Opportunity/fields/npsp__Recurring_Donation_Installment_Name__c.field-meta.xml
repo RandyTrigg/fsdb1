@@ -10,7 +10,7 @@ ISBLANK(npe03__Recurring_Donation__c),
   IF(
     OR(ISPICKVAL(npe03__Recurring_Donation__r.npe03__Open_Ended_Status__c, &apos;Open&apos;),ISPICKVAL(npe03__Recurring_Donation__r.npe03__Open_Ended_Status__c, &apos;Closed&apos;),ISBLANK(npe03__Recurring_Donation__r.npe03__Installments__c)),
     &apos;(&apos;&amp;TEXT(npsp__Recurring_Donation_Installment_Number__c)&amp;&apos;)&apos;,
-    &apos;(&apos;&amp;TEXT(npsp__Recurring_Donation_Installment_Number__c)&amp;&apos; &apos;&amp;$Label.npsp__oppinstallmentsof&amp;&apos; &apos;&amp;TEXT(npe03__Recurring_Donation__r.npe03__Installments__c)&amp;&apos;)&apos;
+    &apos;(&apos;&amp;TEXT(npsp__Recurring_Donation_Installment_Number__c)&amp;&apos; &apos;&amp;$Label.npsp__oppInstallmentsOf&amp;&apos; &apos;&amp;TEXT(npe03__Recurring_Donation__r.npe03__Installments__c)&amp;&apos;)&apos;
   )
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>

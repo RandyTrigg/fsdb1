@@ -7,7 +7,8 @@ public class FormDataController {
         sObject[] toDelete = new List<sObject>();
         // Fetch form instance and its non-disabled form data.
         Form_Instance__c fi = [
-            SELECT Id, Name, Profile__c, Proposal__c, Milestone__c, Assessment__c, OwnerId,
+            SELECT Id, Name, Profile__c, Proposal__c, Milestone__c, Assessment__c, OwnerId, 
+            Advisor__c, Advisor__r.Contact__c, Advisor__r.Community_Contact__c,
             (SELECT Data_text__c, Data_textarea__c, Disabled__c,
              Form_Component__c, Form_Component__r.Name, Form_Component__r.Type__c, Form_Component__r.Indicator__c, 
              Form_Component__r.Target_field_name__c, Form_Component__r.Target_object_name__c,
@@ -74,23 +75,21 @@ public class FormDataController {
         }
         // Track which gmdata checkbox fields appear in the indicator form data 
         Set<String> checkboxFieldNames = new Set<String>();
-        // Map object names to record Id, record and to field map.
-        Map<String, Id> objNameToRecordId = new Map<String, Id> ();
+        // Map object names to record and to field map.
         Map<String, sObject> objNameToRecord = new Map<String, sObject> ();
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Map<String, Schema.SObjectField>> objNameToFieldMap = new Map<String, Map<String, Schema.SObjectField>> ();
         // Step through obj names populating maps.
         String[] objNames = new List<String> {
-            'Profile__c', 'Proposal__c', 
-            'Milestone__c', 
-            'GM_Data__c', 'Assessment__c'
+            'Profile__c', 'Proposal__c', 'Milestone__c', 'GM_Data__c', 'Assessment__c', 
+            'Advisor__c', 'Advisor__r.Contact__c', 'Advisor__r.Community_Contact__c'
         };
-            for (String oName : objNames) {
-                Id recId = oName == 'GM_Data__c' ? gmDataId : (Id)fi.get(oName);
-                objNameToRecordId.put(oName, recId);
-                objNameToRecord.put(oName, Utilities.fetchRecord(oName, recId, null));
-                objNameToFieldMap.put(oName, schemaMap.get(oName).getDescribe().fields.getMap());
-            }
+        for (String oName : objNames) {
+            Id recId = oName == 'GM_Data__c' ? gmDataId : (Id)Utilities.getValue(fi, oName);
+            String objName = oName.contains('Contact__c') ? 'Contact' : oName; // Special case for related contact records
+            objNameToRecord.put(oName, Utilities.fetchRecord(objName, recId, null));
+            objNameToFieldMap.put(oName, schemaMap.get(objName).getDescribe().fields.getMap());
+        }
         // Step through form data, building up the mappings as we go, and updating target fields.
         for (Form_Data__c fd : fds) {
             String fdText = fd.Data_text__c;
@@ -227,64 +226,48 @@ public class FormDataController {
         ];
         // Bail if no prefilling form components.
         if (fcs.size() == 0) return;
-        Id profId = fi.Profile__c;
-        Id propId = fi.Proposal__c;
-        Id milestoneId = fi.Milestone__c;
-        // Find the relevant GM Data id (if any).
-        Id gmDataId;
-        GM_Data__c[] gmDatas = new List<GM_Data__c> ();
-        if (propId != null) gmDatas = [
-            SELECT Id 
-            FROM GM_Data__c 
-            WHERE Proposal__c = : propId
-        ];
-        if (gmDatas.size() > 0) gmDataId = gmDatas[0].Id;
-        system.debug('prefillFormInstance: profId = ' +profId+ '; propId = ' +propId+ '; milestoneId = ' +milestoneId+ '; gmDataId = ' +gmDataId);
-        system.debug('prefillFormInstance: fcs = ' +JSON.serialize(fcs));
-        
-        Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
-        // Map object names to record Id, record and to field map.
-        Map<String, Id> objNameToRecordId = new Map<String, Id> ();
-        Map<String, sObject> objNameToRecord = new Map<String, sObject> ();
-        Map<String, Map<String, Schema.SObjectField>> objNameToFieldMap = new Map<String, Map<String, Schema.SObjectField>> ();
-        // Step through obj names populating maps.
-        String[] objNames = new List<String> {
-            'Profile__c', 'Proposal__c', 'Milestone__c', 'GM_Data__c', 
-            'Advisor__c', 'Advisor_Term__c', 'Advisor__r.Contact__c', 'Advisor__r.Community_Contact__c'
-        };
-        for (String oName : objNames) {
-            // Grab last part of obj name, removing "__c" if contact or account.
-            String[] parts = oName.split('\\.');
-            String oNameEndpoint = parts.get(parts.size()-1);
-            if (oNameEndpoint.contains('Contact__c')) oNameEndpoint = 'Contact';
-            if (oNameEndpoint.contains('Account__c')) oNameEndpoint = 'Account';
-            // Compute record id and populate maps
-            Id recId = oName == 'GM_Data__c' ? gmDataId : (Id)Utilities.getValue(fi, oName);
-            objNameToRecordId.put(oName, recId);
-            objNameToRecord.put(oName, Utilities.fetchRecord(oNameEndpoint, recId, null));
-            system.debug('prefillFormInstance: objNameToRecord = ' +objNameToRecord);
-            objNameToFieldMap.put(oName, schemaMap.get(oNameEndpoint).getDescribe().fields.getMap());
+        // Build related field names to prefill from, skipping gm data
+        Map<Id, String> relFieldNames = new Map<Id, String>();
+        Boolean needGMData = false;
+        for (Form_Component__c fc : fcs) {
+            String oName = fc.Prefill_object_name__c;
+            if (oName.toLowerCase() == 'gm_data__c') {
+                needGMData = true;
+                continue;
+            }
+            relFieldNames.put(fc.Id, oName.replace('__c', '__r') +'.'+ fc.Prefill_field_name__c);
         }
+        // Re-fetch the form instance to grab the needed related fields
+        fi = (Form_Instance__c)Utilities.fetchRecord('Form_Instance__c', formInstanceId, new List<String>(relFieldNames.values()));
+        // Fetch the relevant GM Data record (if necessary).
+        GM_Data__c gmData;
+        if (needGMData && fi.Proposal__c != null) {
+            GM_Data__c[] gmDatas = (List<GM_Data__c>)Utilities.fetchRecords(
+                'GM_Data__c', 
+                'WHERE Proposal__c = \'' +fi.Proposal__c+ '\'',
+                null
+            );
+            if (gmDatas.size() > 0) gmData = gmDatas[0];
+        }
+        system.debug('prefillFormInstance: gmData = ' +gmData);
+        system.debug('prefillFormInstance: fcs = ' +fcs);
         // Step through prefilling form components, building form data records as we go.
         for (Form_Component__c fc : fcs) {
             String fcType = fc.Type__c;
             String oName = fc.Prefill_object_name__c;
-            sObject source = objNameToRecord.get(oName);
-            Map<String, Schema.SObjectField> fieldMap = objNameToFieldMap.get(oName);
-            String fName = fc.Prefill_field_name__c;
-            system.debug('prefillFormInstance in loop: fcType = ' +fcType+ '; fName = ' +fName+ '; oName = ' +oName+ '; source = ' +JSON.serialize(source));
-            if (source != null && fieldMap.get(fName) != null) {
-                Schema.DescribeFieldResult fInfo = fieldMap.get(fName).getDescribe();
-                String fType = fInfo.getType().name();
-                Object fValue = source.get(fName);
-                system.debug('prefillFormInstance in loop: fType = ' +fType+ '; fValue = ' +JSON.serialize(fValue));
+            String relFieldName = relFieldNames.get(fc.Id);
+            sObject source = oName.toLowerCase() == 'gm_data__c' ? (sObject)gmData : (sObject)fi;
+            system.debug('prefillFormInstance in loop: fcType = ' +fcType+ '; oName = ' +oName+ '; relFieldName = ' +relFieldName);
+            if (source != null) {
+                Object fValue = Utilities.getValue(source, relFieldName);
+                system.debug('prefillFormInstance in loop: fValue = ' +JSON.serialize(fValue));
                 if (fValue != null) { // Skip component if its prefill field is blank.
                     // Build a form data record to prefill.
                     Form_Data__c fd = new Form_Data__c (
                         Form_Instance__c = fi.Id,
                         Form_Component__c = fc.Id,
-                        Profile__c = profId,
-                        Proposal__c = propId
+                        Profile__c = fi.Profile__c,
+                        Proposal__c = fi.Proposal__c
                     );
                     toInsert.add(fd);
                     system.debug('prefillFormInstance in loop: fd = ' +fd);
@@ -294,17 +277,12 @@ public class FormDataController {
                         fd.Data_textarea__c = String.valueOf(fValue);
                         fd.Type__c = 'textarea';
                     }
-                    // Data text for checkbox form components depends on whether the field referred to is Boolean.
-                    else if (fcType.contains('checkbox')) {
-                        fd.Data_text__c = fType.toLowerCase() == 'boolean' ? ((Boolean)fValue ? 'true' : null) : String.valueOf(fValue);
-                        fd.Type__c = 'checkbox';
-                    }
                     // Otherwise turn value into a string and stuff in Data text.
                     else {
                         fd.Data_text__c = String.valueOf(fValue);
                         fd.Type__c = 'text';
                     }
-                    system.debug('prefillFormInstance in loop: fType = ' +fType+ '; fValue = ' +JSON.serialize(fValue)+ '; fd.Data_text__c = ' +fd.Data_text__c);
+                    system.debug('prefillFormInstance in loop: fValue = ' +JSON.serialize(fValue)+ '; fd.Data_text__c = ' +fd.Data_text__c);
                 }
             }
         }

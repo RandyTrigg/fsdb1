@@ -3,6 +3,10 @@
     <label>BFF-Sustain</label>
     <protected>false</protected>
     <values>
+        <field>Application_form_name__c</field>
+        <value xsi:type="xsd:string">bff_SustainApplication</value>
+    </values>
+    <values>
         <field>Default_custom_reqs_name__c</field>
         <value xsi:type="xsd:string">Sustain</value>
     </values>

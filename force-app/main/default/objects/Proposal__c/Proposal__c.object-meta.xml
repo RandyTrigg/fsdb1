@@ -194,7 +194,7 @@
         <searchResultsAdditionalFields>Country__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Date_received__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>App_type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Grant_type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Template_language__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
