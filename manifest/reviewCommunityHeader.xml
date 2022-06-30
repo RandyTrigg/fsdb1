@@ -6,6 +6,8 @@
         <members>SiteController</members>
         <members>ProfileController</members>
         <members>ProfileControllerTest</members>
+        <members>BFFGrantsRegistrationController</members>
+		<members>BFFGrantsRegistrationControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
