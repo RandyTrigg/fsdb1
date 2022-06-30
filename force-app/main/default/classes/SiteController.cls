@@ -4,6 +4,8 @@ public without sharing class SiteController {
     * Invoked from community-related LWCs
     *********************************/
 
+    
+    
     // Fetch Profile-related information, including proposals and form instances.
     @AuraEnabled //Do not cache
     public static String getProfileSummary() {
