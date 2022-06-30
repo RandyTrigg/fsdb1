@@ -363,6 +363,17 @@ public inherited sharing class AdvisorController {
     *********************************/
 
     //Only call when in the context of an Advisor Experience Site User
+    public static String getRunningUserAdvisorHeaderName() {
+        Id advId = Id.valueOf(getRunningUserAdvisorId());
+        Advisor__c advRecord = (Advisor__c)Utilities.fetchRecord(
+                'Advisor__c', 
+                advId, 
+                new List<String> {'Contact__r.Name'}
+        );
+        return advRecord.Contact__r.Name;
+    }
+
+    //Only call when in the context of an Advisor Experience Site User
     public static String getRunningUserAdvisorId() {
         // try {
             ID userId = UserInfo.getUserId();

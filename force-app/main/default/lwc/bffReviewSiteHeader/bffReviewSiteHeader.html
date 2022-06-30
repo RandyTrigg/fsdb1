@@ -4,7 +4,7 @@
             <div class="slds-global-header__item">
                 <img class="bff-logo-header" src={bffLogoWhiteText} alt="Review Home Page" onclick={handleHome}>
             </div>
-            <div if:false={hideLanguagePicker} class="slds-global-header__item">
+            <div if:true={showLanguagePicker} class="slds-global-header__item">
                 <lightning-combobox
                 id="langCombobox"
                 class="language-font"
@@ -23,7 +23,7 @@
                     icon-name="utility:settings" 
                     variant="border-inverse"
                     menu-alignment="auto">
-                        <div if:false={disableProfile}>
+                        <div if:true={showProfile}>
                             <lightning-menu-item
                             value="Profile"
                             label={transByNameObj.MyProfile}

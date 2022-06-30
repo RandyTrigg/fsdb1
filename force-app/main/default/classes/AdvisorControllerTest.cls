@@ -358,6 +358,7 @@ public with sharing class AdvisorControllerTest {
             System.debug('advUser retrieved: ' + advUser.Id);
             System.debug('advUser.ContactId: ' + advUser.ContactId);
             System.debug('advId: ' + adv.Id);
+            
             advInfo = SiteController.getAdvisorSummary();
             System.debug('advInfo: ' + advInfo);
             advisorId = AdvisorController.getRunningUserAdvisorId();

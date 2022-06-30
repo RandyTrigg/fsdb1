@@ -4,7 +4,22 @@ public without sharing class SiteController {
     * Invoked from community-related LWCs
     *********************************/
 
+    // Fetch name for site header
+    @AuraEnabled
+    public static name getHeaderName(){
+        List<String> permSets = new List<String>(Utilities.currentUserPermissionSetNames());
+        if (permSets.contains('ReviewCommunity_BFF')) {
+            return AdvisorController.getRunningUserAdvisorHeaderName();
+        } else if (permSets.contains('GrantsCommunity_BFF')) {
+            return ProfileController.getRunningUserProfileHeaderName();
+        }
+    }
     
+    // Handle self-registration
+    @AuraEnabled
+    public static String handleRegistration(String registrantJSON){
+        return BFFGrantsRegistrationController.handleRegistration(registrantJSON);
+    }
     
     // Fetch Profile-related information, including proposals and form instances.
     @AuraEnabled //Do not cache

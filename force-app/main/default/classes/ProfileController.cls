@@ -5,7 +5,18 @@ public inherited sharing class ProfileController {
      * For use in Grants Experience Site
      *********************************/
 
-    // Fetches profile information, including child proposals and form instances.
+    // Fetches org name from Profile for site header
+    public static String getRunningUserProfileHeaderName() {
+        Id prfId = getRunningUserProfileId();
+        Profile__c prfRecord = (Profile__c)Utilities.fetchRecord(
+            'Profile__c', 
+            prfId, 
+            null
+        );
+        return prfRecord.Org_name_submitted__c;
+    }
+    
+     // Fetches profile information, including child proposals and form instances.
     public without sharing class ProfileSummary {
         public Profile__c prf;
         public Id prId;
@@ -69,7 +80,9 @@ public inherited sharing class ProfileController {
         try {
             Id userId = UserInfo.getUserId();
             Id runningProfileId;
-            User u = [SELECT Id, FirstName, LastName, Email, Username, ContactId, Contact.AccountId FROM User WHERE Id=:userId];
+            User u = 
+                [SELECT Id, FirstName, LastName, Email, Username, ContactId, Contact.AccountId, Contact.Preferred_language__c, Contact.Org_name_submitted__c 
+                FROM User WHERE Id=:userId];
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:u.ContactId LIMIT 1]);
             if (runningProfile.isEmpty()) {
@@ -78,7 +91,9 @@ public inherited sharing class ProfileController {
                     Community_contact__c = u.ContactId,
                     Community_contact_username__c = u.Username,
                     Account__c = u.Contact.AccountId,
-                    OwnerId = fsOwnerId
+                    OwnerId = fsOwnerId,
+                    Language__c = u.Contact.Preferred_language__c,
+                    Org_name_submitted__c = u.Contact.Org_name_submitted__c
                 );
                 insert newPrf;
                 runningProfileId = newPrf.Id;
