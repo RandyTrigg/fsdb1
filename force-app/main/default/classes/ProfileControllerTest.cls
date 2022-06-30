@@ -216,7 +216,7 @@ public class ProfileControllerTest {
             cmtyUser.ContactId = con.Id;
             // cmtyUser.Account = acc.Id;
             insert cmtyUser;
-            String psName = 'GrantCommunity_BFF';
+            String psName = 'GrantsCommunity_BFF';
             PermissionSet CommunityPS = [SELECT Id FROM PermissionSet WHERE Name =: psName LIMIT 1];
             PermissionSetAssignment psa = new PermissionSetAssignment(
                 PermissionSetId = CommunityPS.Id,
