@@ -20,8 +20,6 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     page;
     pageName;
     onHome = true;
-    profileURL;
-    profilePageRef;
     
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
@@ -47,32 +45,9 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('showSearch',this.showSearch);
             console.log('disableProfile',this.disableProfile);
             this.setLangTag();
+
             console.log(this.baseURL);
-            // this.generateProfileURL(this.advProfileFormInstanceId);
             this.dataLoaded = true;
-
-
-
-
-        
-            console.log('beforepageref set');
-            this.profilePageRef = {
-                type: 'comm__namedPage',
-                attributes: {
-                    name: 'FormInstance__c'
-                },
-                state: {
-                    recordId: this.advProfileFormInstanceId,
-                    language: this.language
-                }
-            };
-            this[NavigationMixin.GenerateUrl](this.profilePageRef)
-                .then(url => this.profileUrl = url);
-            
-            console.log('profileURL',this.profileUrl);
-
-
-
         }
     }
 
@@ -134,8 +109,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     }
     
     handleProfile () {
-        // this.navigateToFormInstance(this.advProfileFormInstanceId);
-        this.navigateToProfile(this.advProfileFormInstanceId);
+        this.navigateToFormInstance(this.advProfileFormInstanceId);
     }
 
     navigateToFormInstance(formInstId) {
@@ -151,47 +125,6 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             }
         });
     }
-
-    navigateToProfile(formInstId) {
-        console.log('navigateToProfile');
-        this[NavigationMixin.GenerateURL]({
-            type: 'comm_namedPage',
-            attributes: {
-                name: 'FormInstance__c'
-            },
-            state: {
-                recordId: formInstId,
-                language: this.language
-            }
-        }).then(url => {
-            window.open(url);
-        });
-    }
-
-    handleProfileSelect(evt) {
-        console.log('handleProfileSelect');
-        evt.preventDefault();
-        evt.stopPropagation();
-        this[NavigationMixin.Navigate](this.profilePageRef);
-        // this[NavigationMixin.Navigate](this.profilePageRef({c__language: this.language}));
-    }
-
-    /*
-    generateProfileURL(formInstId) {
-        console.log('navigateToProfile');
-        this[NavigationMixin.GenerateURL]({
-            type: 'comm_namedPage',
-            attributes: {
-                name: 'FormInstance__c'
-            },
-            state: {
-                recordId: formInstId,
-                language: this.language
-            }
-        }).then(url => {
-            this.profileURL = url;
-        });
-    }*/
 
     handleLogout(){
         this[NavigationMixin.Navigate]({

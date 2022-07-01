@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>AdvisorController</members>
-        <members>AdvisorControllerTest</members>
-        <members>SiteController</members>
-        <members>ProfileController</members>
-        <members>ProfileControllerTest</members>
-        <members>BFFGrantsRegistrationController</members>
-		<members>BFFGrantsRegistrationControllerTest</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
         <members>bffReviewSiteHeader</members>
         <members>bffReviewSiteHome</members>
         <name>LightningComponentBundle</name>
