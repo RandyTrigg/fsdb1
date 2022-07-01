@@ -24,7 +24,17 @@
                     disabled=true
                     variant="label-hidden"
                     label={cmp.title}
-                    options={cmp.radioOptions}
+                    options={cmp.options}
+                    value={cmp.data.Data_text__c}>
+                </lightning-radio-group>
+            </div>
+            <div if:true={cmp.isInlineRadio} class="slds-form-element__control">
+                <lightning-radio-group
+                    disabled=true
+                    class="radio-combo-inline"
+                    variant="label-hidden"
+                    label={cmp.title}
+                    options={cmp.options}
                     value={cmp.data.Data_text__c}>
                 </lightning-radio-group>
             </div>
@@ -37,7 +47,7 @@
                     disabled=true
                     variant="label-hidden"
                     label={cmp.title}
-                    options={cmp.checkboxOptions}
+                    options={cmp.options}
                     value={cmp.data.Data_text__c}>
                 </lightning-checkbox-group>
             </div>

@@ -1,3 +1,8 @@
 .gfw-label {
     color:#16325c;
 }
+
+/*Inline Radio Buttons*/
+.radio-combo-inline {
+    display: inline-block !important;
+}
