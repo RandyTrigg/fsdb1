@@ -42,7 +42,7 @@
                             data-id="orgName"  
                             type="text" 
                             required="true" 
-                            max-length="120"
+                            max-length="180"
                             value={groupName}
                         ></lightning-input>
                     </div>
@@ -92,7 +92,7 @@
             </lightning-card>
                 
             <div class="slds-m-top_medium slds-text-align_center">
-                <a href={loginUrl} class="link-font" onclick={handleGoToLogin}>{transByNameObj.AlreadyHaveAccount}</a>
+                <a href={loginUrl} class="link-font">{transByNameObj.AlreadyHaveAccount}</a>
             </div>
 
         </div> <!-- data loaded -->

@@ -27,15 +27,6 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
 
     connectedCallback(){
         this.loadData();
-        this.loginPageRef = {
-            type: 'comm__loginPage',
-            attributes: {
-                actionName: 'login'
-            }
-        };
-        this[NavigationMixin.GenerateUrl](this.loginPageRef)
-            .then(url => this.loginUrl = url);
-        console.log(this.loginUrl);
     }
 
     async loadData() {
@@ -43,6 +34,29 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
         this.transInfo = JSON.parse(translations);
         this.setLangTag();
         this.translatePage();
+        // Commented code results in StartURL that loops back to Register page on login:
+        // https://globalfundforwomen-fs.force.com/GrantsAtBlackFeministFund/s/login/?startURL=%2FGrantsAtBlackFeministFund%2Fs%2Flogin%2FSelfRegister
+        /* this.loginPageRef = {
+            type: 'comm__loginPage',
+            attributes: {
+                actionName: 'login'
+            }
+        };
+        this[NavigationMixin.GenerateUrl](this.loginPageRef)
+            .then(url => { 
+                this.loginUrl = url;
+                console.log(this.loginUrl); 
+            }); */
+        /* this[NavigationMixin.GenerateUrl]({
+            type: 'comm__loginPage',
+            attributes: {
+                actionName: 'login'
+            },
+        }).then((url) => {
+            this.loginUrl = url;
+            console.log(this.loginUrl);
+        }); */
+        this.loginUrl = '/GrantsAtBlackFeministFund/s/login/';
         this.dataLoaded = true;
     }
     
@@ -113,10 +127,6 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
                 this.showFailure = true;
                 this.cardTitle = this.transByNameObj.Error + '!';
                 this.dupeUsername = (errString == 'DuplicateUsername');
-                // Error embedded in markup for proper translation handling.
-                // console.log('dupeUsername', this.dupeUsername);
-                // this.errMsg = (this.dupeUsername) ? this.transByNameObj.DuplicateUsername + ' <u>bff-' + this.email + '</u>' : '';
-                // console.log('error',this.errMsg);
             }
         } catch (error) {
             // Catches apex errors and displays generic message (see console log for actual error)
@@ -142,12 +152,15 @@ export default class BffGrantsSelfReg extends NavigationMixin ( LightningElement
         }
     }
 
+    // Currently unused.
+    // Same issue as noted above.
     handleGoToLogin(){
         console.log('GoToLogin');
+        // Following prevents link from working
         // evt.preventDefault();
         // evt.stopPropogation();
         console.log(this.loginUrl);
-        this[NavigationMixin.Navigate](this.loginPageRef);
+        this[NavigationMixin.Navigate](this.loginPageRef, true);
     }
 
 
