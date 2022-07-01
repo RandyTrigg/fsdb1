@@ -1,0 +1,100 @@
+<template>
+    <div lang={langTag}>
+        
+        <div if:true={showSpinner}>
+            <lightning-spinner alternative-text="Registering" size="medium"></lightning-spinner>
+        </div>
+
+        <div if:true={dataLoaded}>
+
+            <!-- Language picker -->
+            <div class="slds-m-bottom_large slds-align_absolute-center">
+                <lightning-combobox
+                    id="langCombobox"
+                    class="combo"
+                    data-id="select"
+                    variant="label-hidden"
+                    label={transByNameObj.LanguageSelector}
+                    options={options}
+                    value={language}
+                    onchange={handleLanguagePicker}>
+                </lightning-combobox>
+            </div>
+
+            <div class="slds-text-align_center slds-m-bottom_large">
+                <h1 class="slds-text-heading_medium">{transByNameObj.BlackFeministFund}<br/>{transByNameObj.GrantsSiteRegistration}</h1>
+            </div>
+                
+            <lightning-card title={cardTitle} class="slds-card__body_inner">
+                
+                <div if:true={showForm}>
+                    <div class="slds-m-bottom_small">
+                        <div class="slds-m-bottom_small">
+                            <lightning-formatted-rich-text value={transByNameObj.RegistrationInstructions}></lightning-formatted-rich-text>
+                        </div>
+                        <lightning-formatted-rich-text class="slds-text-body_small" value={transByNameObj.bff_RegistrationNote}></lightning-formatted-rich-text>
+                    </div>
+                    <div class="slds-m-bottom_x-small">
+                        <lightning-input
+                            label={transByNameObj.OrganizationName}
+                            onchange={handleGroupName}
+                            placeholder={transByNameObj.OrganizationName}
+                            data-id="orgName"  
+                            type="text" 
+                            required="true" 
+                            max-length="180"
+                            value={groupName}
+                        ></lightning-input>
+                    </div>
+                    
+                    <div class="slds-m-bottom_small">
+                        <lightning-input
+                            label={transByNameObj.OrganizationEmail}
+                            placeholder={transByNameObj.OrganizationEmail}
+                            onchange={handleEmail}
+                            type="email"
+                            required="true" 
+                            max-length="80"
+                            class="email-input"
+                            value={email}
+                        ></lightning-input>
+                    </div>
+                    <div class="slds-m-bottom_medium">
+                        <lightning-button 
+                            class="slds-align_absolute-center"
+                            variant="brand" 
+                            label={transByNameObj.RegisterForGrantsSite}
+                            disabled={registerDisabled}
+                            onclick={handleRegister}>
+                        </lightning-button>
+                    </div>
+                </div> <!-- Show form -->
+
+                <div if:true={showSuccess}>
+                    <div class="slds-illustration slds-illustration_small">           
+                        <div class="slds-text-longform">
+                            <h3 class="slds-text-heading_medium">{transByNameObj.CheckEmail}</h3>
+                            <p class="slds-text-body_regular">{transByNameObj.CheckEmailInstructions}</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div if:true={showFailure}>
+                    <div class="slds-illustration slds-illustration_small">
+                        <div class="slds-text-longform">
+                            <h3 class="slds-text-heading_medium">{transByNameObj.RegistrationError}</h3>
+                            <span if:true={dupeUsername} class="slds-text-body_small">{transByNameObj.DuplicateUsername} <u>bff-{email}</u></span>
+                            <span if:false={dupeUsername} class="slds-text-body_small">{transByNameObj.TryAgainLater}</span>
+                        </div>
+                    </div>
+                </div>
+                    
+            </lightning-card>
+                
+            <div class="slds-m-top_medium slds-text-align_center">
+                <a href={loginUrl} class="link-font">{transByNameObj.AlreadyHaveAccount}</a>
+            </div>
+
+        </div> <!-- data loaded -->
+    </div> <!-- LangTag-->
+</template>

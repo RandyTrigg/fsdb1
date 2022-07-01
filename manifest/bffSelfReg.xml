@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>SiteController</members>
+        <members>ProfileController</members>
+        <members>BFFGrantsRegistrationController</members>
+        <members>BFFGrantsRegistrationControllerTest</members>
+        <name>ApexClass</name>
+    </types>
+	<types>
+        <members>bffGrantsSelfReg</members>
+        <name>LightningComponentBundle</name>
+	</types>
+    <version>53.0</version>
+</Package>
