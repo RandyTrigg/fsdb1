@@ -28,7 +28,7 @@
                             value="Profile"
                             label={transByNameObj.MyProfile}
                             icon-name="utility:user"
-                            onclick={handleProfile}>
+                            onclick={handleProfileSelect}>
                             </lightning-menu-item>
                         </div>
                         <lightning-menu-item
@@ -36,7 +36,7 @@
                             label={transByNameObj.MyProfile}
                             icon-name="utility:user"
                             href={profileURL}
-                            target="_blank">
+                            target={profileURL}>
                         </lightning-menu-item>
                         <lightning-menu-item 
                             value="Get help" 
