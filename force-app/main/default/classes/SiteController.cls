@@ -4,6 +4,12 @@ public without sharing class SiteController {
     * Invoked from community-related LWCs
     *********************************/
 
+    // Handle self-registration
+    @AuraEnabled
+    public static String handleRegistration(String registrantJSON){
+        return BFFGrantsRegistrationController.handleRegistration(registrantJSON);
+    }
+    
     // Fetch Profile-related information, including proposals and form instances.
     @AuraEnabled //Do not cache
     public static String getProfileSummary() {
