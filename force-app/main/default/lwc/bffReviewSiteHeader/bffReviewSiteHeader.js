@@ -28,7 +28,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             this.page = currentPageReference.attributes.name;
             console.log(this.page);
             if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
-            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.MyProfile;
+            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.Form; // Form
             this.onHome = this.page==='Home';
             console.log(this.onHome);
         }
