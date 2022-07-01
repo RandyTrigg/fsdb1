@@ -20,6 +20,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     page;
     pageName;
     onHome = true;
+    profileURL;
     
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
@@ -45,8 +46,8 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('showSearch',this.showSearch);
             console.log('disableProfile',this.disableProfile);
             this.setLangTag();
-
             console.log(this.baseURL);
+            this.generateProfileURL(this.advProfileFormInstanceId);
             this.dataLoaded = true;
         }
     }
@@ -109,7 +110,8 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     }
     
     handleProfile () {
-        this.navigateToFormInstance(this.advProfileFormInstanceId);
+        // this.navigateToFormInstance(this.advProfileFormInstanceId);
+        this.navigateToProfile(this.advProfileFormInstanceId);
     }
 
     navigateToFormInstance(formInstId) {
@@ -123,6 +125,38 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
                 recordId: formInstId,
                 language: this.language
             }
+        });
+    }
+
+    navigateToProfile(formInstId) {
+        console.log('navigateToProfile');
+        this[NavigationMixin.GenerateURL]({
+            type: 'comm_namedPage',
+            attributes: {
+                name: 'FormInstance__c'
+            },
+            state: {
+                recordId: formInstId,
+                language: this.language
+            }
+        }).then(url => {
+            window.open(url);
+        });
+    }
+
+    generateProfileURL(formInstId) {
+        console.log('navigateToProfile');
+        this[NavigationMixin.GenerateURL]({
+            type: 'comm_namedPage',
+            attributes: {
+                name: 'FormInstance__c'
+            },
+            state: {
+                recordId: formInstId,
+                language: this.language
+            }
+        }).then(url => {
+            this.profileURL = url;
         });
     }
 

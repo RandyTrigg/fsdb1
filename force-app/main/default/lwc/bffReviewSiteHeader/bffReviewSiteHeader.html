@@ -31,6 +31,13 @@
                             onclick={handleProfile}>
                             </lightning-menu-item>
                         </div>
+                        <lightning-menu-item
+                            value="Profile"
+                            label={transByNameObj.MyProfile}
+                            icon-name="utility:user"
+                            href={profileURL}
+                            target="_blank">
+                        </lightning-menu-item>
                         <lightning-menu-item 
                             value="Get help" 
                             label={transByNameObj.Support}
@@ -52,7 +59,7 @@
             <lightning-breadcrumbs>
                 <lightning-breadcrumb
                     label={transByNameObj.Home}
-                    onclick={navigateHome}>
+                    onclick={handleHome}>
                 </lightning-breadcrumb>
                 <lightning-breadcrumb
                     label={pageName}
