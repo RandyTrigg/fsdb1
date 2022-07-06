@@ -130,8 +130,6 @@ export default class FormFieldEditor extends LightningElement {
                 }
             }
         }
-        
-        
     }
 
     renderedCallback() {
@@ -167,6 +165,7 @@ export default class FormFieldEditor extends LightningElement {
         let element = this.handleCustomErrors();
         if (element) element.reportValidity();
         try {
+            // Update form data record in db via apex call 
             this.sendUpdatedValue(dataText);
             //Notify parent that data has changed
             //console.log('formFieldEditor handleInputChange dispatch cmpChange event', this.localCmp.Id, dataText);
