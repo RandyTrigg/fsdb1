@@ -172,7 +172,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         returnLists.submitted = [];
         for (let itm of itemsList) {
             console.log('id',itm.Id);
-            itm.orgName = itm.Proposal__r.Account__r.Name;
+            itm.orgName = itm.Proposal__r.Profile__r.Org_name__c;
             console.log('orgname',itm.orgName);
             itm.country = itm.Proposal__r.Country__r.Name;
             console.log('country',itm.country);

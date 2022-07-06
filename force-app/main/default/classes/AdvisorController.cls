@@ -458,7 +458,7 @@ public inherited sharing class AdvisorController {
                     'Proposal__r.Country__c', 
                     'Proposal__r.Country__r.Name',
                     'Proposal__r.Name',
-                    'Proposal__r.Account__r.Name',
+                    'Proposal__r.Profile__r.Org_name__c',
                     'Proposal__r.Grant_type__c',
                     'Proposal__r.Award_notification_deadline__c', 
                     'Proposal__r.Date_received__c',

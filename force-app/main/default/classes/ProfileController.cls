@@ -5,7 +5,18 @@ public inherited sharing class ProfileController {
      * For use in Grants Experience Site
      *********************************/
 
-    // Fetches profile information, including child proposals and form instances.
+    // Fetches org name from Profile for site header
+    public static String getRunningUserProfileHeaderName() {
+        Id prfId = getRunningUserProfileId();
+        Profile__c prfRecord = (Profile__c)Utilities.fetchRecord(
+            'Profile__c', 
+            prfId, 
+            null
+        );
+        return prfRecord.Org_name_submitted__c;
+    }
+    
+     // Fetches profile information, including child proposals and form instances.
     public without sharing class ProfileSummary {
         public Profile__c prf;
         public Id prId;

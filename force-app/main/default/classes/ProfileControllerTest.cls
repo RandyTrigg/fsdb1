@@ -216,6 +216,12 @@ public class ProfileControllerTest {
             cmtyUser.ContactId = con.Id;
             // cmtyUser.Account = acc.Id;
             insert cmtyUser;
+            String psName = 'GrantsCommunity_BFF';
+            PermissionSet CommunityPS = [SELECT Id FROM PermissionSet WHERE Name =: psName LIMIT 1];
+            PermissionSetAssignment psa = new PermissionSetAssignment(
+                PermissionSetId = CommunityPS.Id,
+                AssigneeId = cmtyUser.Id);
+            insert psa;
 
             Form__c prForm = new Form__c(
                 Name = 'bff_Profile',
@@ -241,8 +247,10 @@ public class ProfileControllerTest {
             // Run as community user to make sure logic works.
             // Invoke SiteController rather than ProfileController to ensure we have required permission.
             String data;
+            String name;
             System.runAs( cmtyUser ){
                 data = SiteController.getProfileSummary();
+                name = SiteController.getHeaderName();
             }
             List<Profile__c> runningProfile = new List<Profile__c>(
                 [SELECT ID FROM Profile__c WHERE Community_contact__c =:cmtyUser.ContactId LIMIT 1]);
