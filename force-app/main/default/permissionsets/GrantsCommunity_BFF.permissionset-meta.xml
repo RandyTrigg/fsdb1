@@ -2872,6 +2872,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Preferred_pronoun_other__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Preferred_pronouns__c</field>
         <readable>false</readable>
     </fieldPermissions>

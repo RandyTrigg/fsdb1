@@ -7,5 +7,10 @@
     <columns>UPDATEDBY_USER</columns>
     <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>OWNER.FIRST_NAME</field>
+        <operation>equals</operation>
+        <value>Hakima</value>
+    </filters>
     <label>All</label>
 </ListView>

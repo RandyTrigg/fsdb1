@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessments_Proposals</fullName>
+    <columns>NAME</columns>
+    <columns>Advisor__c</columns>
+    <columns>Form__c</columns>
+    <columns>Description__c</columns>
+    <columns>Account__c</columns>
+    <columns>Proposal__c</columns>
+    <columns>Date_submitted__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Proposal__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <label>Assessments - Proposals</label>
+</ListView>

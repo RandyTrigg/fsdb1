@@ -1,16 +1,18 @@
 import { LightningElement, api, wire } from 'lwc';
+import { handleError } from 'c/lwcUtilities';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
+import getHeaderName from '@salesforce/apex/SiteController.getHeaderName';
 
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     currentPageReference;
     bffLogoWhiteText = logoResourceWhiteText;
     dataLoaded = false;
-    @api name;
+    name;
     @api language;
-    @api disableProfile = false;
+    @api showProfile = false;
     @api showSearch = false;
-    @api hideLanguagePicker = false;
+    @api showLanguagePicker = false;
     @api advProfileFormInstanceId;
     @api transByNameObj;
     langTag;
@@ -26,13 +28,14 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             this.page = currentPageReference.attributes.name;
             console.log(this.page);
             if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
-            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.MyProfile;
+            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.Form; // Form
             this.onHome = this.page==='Home';
             console.log(this.onHome);
         }
     }
 
     connectedCallback(){
+        this.loadData();
         if (this.language) {
             console.log('connectedCallbackHeader');
             console.log(this.language);
@@ -45,6 +48,17 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
 
             console.log(this.baseURL);
             this.dataLoaded = true;
+        }
+    }
+
+    async loadData() {
+        try {
+            console.log('loadData');
+            // Retrieve Advisor and Form Instance, along with translations
+            // let [translations ] = await Promise.all ([
+            this.name = await getHeaderName();
+        } catch (error) {
+            handleError(error);
         }
     }
 
