@@ -27,21 +27,12 @@
         "loginButtonLabel" : "Log in",
         "passwordLabel" : "Password",
         "selfRegisterLabel" : "Sign up",
-        "selfRegisterUrl" : "/SelfRegister",
+        "selfRegisterUrl" : "/Register",
         "startUrl" : "",
-        "usernameLabel" : "Username"
+        "usernameLabel" : "Username (bff-XXXX@XXX.XXX)"
       },
       "componentName" : "salesforceIdentity:loginForm2",
       "id" : "52e3eb15-6550-42dc-9364-0c7efca9a9b8",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    }, {
-      "componentAttributes" : {
-        "richTextValue" : "<i>\n    <small>\n    \t<p lang=\"en\">Passwords must be 8 characters or more and contain at least one letter and one number. </p>\n    \t<p lang=\"es\">Las contraseñas deben tener 8 caracteres o más y contener al menos una letra y un número.</p>\n        <p lang=\"pt\">As senhas devem ter 8 caracteres ou mais e conter pelo menos uma letra e um número.</p>\n        <p lang=\"fr\">Les mots de passe doivent comporter 8 caractères ou plus et contenir au moins une lettre et un chiffre.</p>\n    </small>\n</i>"
-      },
-      "componentName" : "forceCommunity:htmlBlock",
-      "id" : "4b2d9b86-6acd-492f-a323-cb77d231ebbc",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"

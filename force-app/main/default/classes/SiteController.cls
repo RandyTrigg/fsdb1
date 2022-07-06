@@ -4,6 +4,19 @@ public without sharing class SiteController {
     * Invoked from community-related LWCs
     *********************************/
 
+    // Fetch name for site header
+    @AuraEnabled
+    public static String getHeaderName(){
+        List<String> permSets = new List<String>(Utilities.currentUserPermissionSetNames());
+        String name;
+        if (permSets.contains('ReviewCommunity_BFF')) {
+            name = AdvisorController.getRunningUserAdvisorHeaderName();
+        } else if (permSets.contains('GrantsCommunity_BFF')) {
+            name = ProfileController.getRunningUserProfileHeaderName();
+        }
+        return name;
+    }
+    
     // Handle self-registration
     @AuraEnabled
     public static String handleRegistration(String registrantJSON){

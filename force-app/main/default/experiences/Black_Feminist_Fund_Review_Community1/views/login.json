@@ -13,7 +13,7 @@
       "type" : "component"
     }, {
       "componentAttributes" : {
-        "richTextValue" : "<strong>Welcome to the Online Grant Review Community</strong>\n<p>Login with your username and password.</p>"
+        "richTextValue" : "<div align=\"center\">\n    <p lang=\"en\"><strong>Welcome to the Online Grant Review Community</strong></p>\n    <br>\n    <p lang=\"es\"><strong>Bienvenido a la Comunidad de Revisión de Subvenciones del Fondo Feminista Negra</strong></p>\n    <br>\n    <p lang=\"pt\"><strong>Bem-vindo à Comunidade de Revisão de Subsídios do Fundo Feminista Negra</strong></p>\n    <br>\n    <p lang=\"fr\"><strong>Bienvenue à la Communauté d'Examen des Subventions du Fonds Féministe Noir</strong></p>\n</div>"
       },
       "componentName" : "forceCommunity:htmlBlock",
       "id" : "3f1ca9cb-da52-49e7-a68b-dd2283808476",
@@ -29,7 +29,7 @@
         "selfRegisterLabel" : "Not a member?",
         "selfRegisterUrl" : "/SelfRegister",
         "startUrl" : "",
-        "usernameLabel" : "Username"
+        "usernameLabel" : "Username (rev-xxxx@xxx.xxx)"
       },
       "componentName" : "salesforceIdentity:loginForm2",
       "id" : "e1602072-1a03-4a43-8580-eecc5ca3e79a",
