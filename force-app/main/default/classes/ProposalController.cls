@@ -1,9 +1,41 @@
-public with sharing class ProposalController {
+public inherited sharing class ProposalController {
+    
+    /**********************************
+     * For use in Grants Experience Site
+     *********************************/
+    public inherited sharing class ProposalSummary {
+        public String prpName;
+        public List<Letter__c> letterList = new List<Letter__c>();
+        public List<Form_Instance__c> formInstanceList = new List<Form_Instance__c>();
+        public String letters;
+        public String forms;
+
+        public ProposalSummary(Id propId) {
+            Proposal__c prop = (Proposal__c)Utilities.fetchRecord(
+                'Proposal__c', 
+                propId, 
+                new List<String>{
+                    Utilities.buildChildSubQuery(
+                        'Letter__c', 
+                        'Letters__r',
+                        'WHERE Date_sent__c<>null'),
+                    Utilities.buildChildSubQuery(
+                        'Form_Instance__c',
+                        'Form_Instances__r',
+                        null
+                    )}
+                );
+            this.prpName = prop.Name;
+            letterList = prop.Letters__r;
+            formInstanceList = prop.Form_Instances__r;
+        }
+    }
+    
     /**********************************
      * For use in Lightning components
      *********************************/
-
-    @AuraEnabled
+    
+     @AuraEnabled
     public static ProposalInfo getProposalInfo(Id propId) {
         ProposalInfo result = new ProposalInfo(propId);
         return result;

@@ -68,6 +68,14 @@ public without sharing class SiteController {
         return FormPhraseController.getTranslations();
     }
 
+    // Get proposal-related info for proposal landing page
+    @AuraEnabled  //Do not cache
+    public static String getProposalSummary(String propId) {
+        ProposalController.ProposalSummary prpSummary = new ProposalController.ProposalSummary(propId);
+        return JSON.serialize(prpSummary);
+    }
+
+
 
     /**********************************
     * Invoked from community-related LWC for Review Community
