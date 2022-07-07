@@ -11,6 +11,15 @@ public inherited sharing class ProposalController {
         public String forms;
 
         public ProposalSummary(Id propId) {
+            String whereClause = ' WHERE Proposal__c = \'' + propId + '\'';
+            formInstanceList = (List<Form_Instance__c>)Utilities.fetchRecords(
+                'Form_Instance__c',
+                whereClause,
+                new List<String>{
+                    'Form__r.Name',
+                    'Form__r.Type__c',
+                    'Form__r.Form_Phrase_Title__c'
+                });
             Proposal__c prop = (Proposal__c)Utilities.fetchRecord(
                 'Proposal__c', 
                 propId, 
@@ -18,16 +27,10 @@ public inherited sharing class ProposalController {
                     Utilities.buildChildSubQuery(
                         'Letter__c', 
                         'Letters__r',
-                        'WHERE Date_sent__c<>null'),
-                    Utilities.buildChildSubQuery(
-                        'Form_Instance__c',
-                        'Form_Instances__r',
-                        null
-                    )}
+                        'WHERE Date_sent__c<>null')}
                 );
             this.prpName = prop.Name;
             letterList = prop.Letters__r;
-            formInstanceList = prop.Form_Instances__r;
         }
     }
     

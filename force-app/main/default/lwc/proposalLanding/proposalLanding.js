@@ -1,6 +1,3 @@
-
-
-
 import { LightningElement } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
@@ -23,11 +20,12 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
     prpSummary;
     letters;
     forms;
+    prpName;
 
     // For forms table
     currentPageReference;
-    pendingLabel = 'Pending Reviews';
-    submittedLabel = 'Submitted Reviews';
+    pendingLabel = 'Pending Forms';
+    submittedLabel = 'Submitted Forms';
     hidePendingTable = false;
     activeSections = ['Pending'];
     viewColumns;
@@ -55,6 +53,7 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
             ]);
             console.log('data and translations fetched');
             this.prpSummary = JSON.parse(prpsummary);
+            this.prpName = this.prpSummary.prpName;
             // TO DO: Check language handling
             console.log(this.prpSummary);
             
@@ -74,6 +73,14 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         } catch (error) {
             handleError(error);
         }
+    }
+
+    translatePage() {
+        this.transByName = buildTransByName(this.transInfo, this.language);
+        this.transByNameObj = Object.fromEntries(this.transByName);
+        this.loading = this.transByNameObj.Loading;
+        this.pendingLabel = this.transByNameObj.Pending;
+        this.submittedLabel = this.transByNameObj.Submitted;
     }
 
     buildFormTables() {
@@ -106,14 +113,11 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         };
 
         let columns = [
-            { label: this.transByNameObj.OrganizationName, fieldName: 'orgName', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.Country, fieldName: 'country', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.ProposalNumber, fieldName: 'proposalName', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.GrantType, fieldName: 'grantType', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.AwardNotificationDeadline, fieldName: 'notificationDeadline', type: 'date', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.ProposalDateReceived, fieldName: 'dateRecieved', type: 'date', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.ReviewStatus, fieldName: 'status', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.TemplateLanguage, fieldName: 'language', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.Type, fieldName: 'formTitle', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.StatusOfForm, fieldName: 'formStatus', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.DateDue, fieldName: 'dateDue', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.DateCreated, fieldName: 'dateCreated', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.DateModified, fieldName: 'dateModified', type: 'date', hideDefaultActions: true, sortable: true,},
         ];
 
         //Differentiate view and edit lists
@@ -130,24 +134,19 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         returnLists.submitted = [];
         for (let itm of formsList) {
             console.log('id',itm.Id);
-            itm.orgName = itm.Proposal__r.Profile__r.Org_name__c;
-            console.log('orgname',itm.orgName);
-            itm.country = itm.Proposal__r.Country__r.Name;
-            console.log('country',itm.country);
-            itm.proposalName = itm.Proposal__r.Name;
-            console.log('propName',itm.proposalName);
-            itm.grantType = itm.Proposal__r.Grant_type__c;
-            console.log('granttype',itm.grantType);
-            itm.notificationDeadline = itm.Proposal__r.Award_notification_deadline__c;
-            itm.dateRecieved = itm.Proposal__r.Date_received__c;
-            // itm.status = itm.Status_external__c;
-            itm.status = this.transByName.get(itm.Status_external__c);
-            // itm.Status_external__c==='Pending' ? this.transByNameObj.Pending : this.transByNameObj.Submitted;
-            console.log('status',itm.status);
-            itm.language = this.transByName.get(itm.Proposal__r.Template_language__c);
-            if (itm.Status_external__c==='Pending') {
+            itm.formTitle = this.transByName.get(itm.Form__r.Form_Phrase_Title__c);
+            console.log('formTitle',itm.formTitle);
+            itm.formStatus = this.transByName.get(itm.Status__c);
+            console.log('status',itm.formStatus);
+            itm.dateDue = itm.Date_due__c;
+            console.log('dateDue',itm.dateDue);
+            itm.dateCreated = itm.Date_created__c;
+            console.log('dateCreated',itm.dateCreated);
+            itm.dateModified = itm.Last_modified_datetime__c;
+            console.log('dateMod',itm.dateModified);
+            if (itm.Status__c==='Pending') {
                 returnLists.pending.push(itm);
-            } else if (itm.Status_external__c==='Submitted') {
+            } else if (itm.Status__c==='Submitted') {
                 returnLists.submitted.push(itm);
             }
         }
