@@ -123,5 +123,37 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         this.editColumns.unshift(editButton);
     }
 
+    updateListInternals(formsList) {
+        console.log('updateListInternals');
+        let returnLists = {};
+        returnLists.pending = [];
+        returnLists.submitted = [];
+        for (let itm of formsList) {
+            console.log('id',itm.Id);
+            itm.orgName = itm.Proposal__r.Profile__r.Org_name__c;
+            console.log('orgname',itm.orgName);
+            itm.country = itm.Proposal__r.Country__r.Name;
+            console.log('country',itm.country);
+            itm.proposalName = itm.Proposal__r.Name;
+            console.log('propName',itm.proposalName);
+            itm.grantType = itm.Proposal__r.Grant_type__c;
+            console.log('granttype',itm.grantType);
+            itm.notificationDeadline = itm.Proposal__r.Award_notification_deadline__c;
+            itm.dateRecieved = itm.Proposal__r.Date_received__c;
+            // itm.status = itm.Status_external__c;
+            itm.status = this.transByName.get(itm.Status_external__c);
+            // itm.Status_external__c==='Pending' ? this.transByNameObj.Pending : this.transByNameObj.Submitted;
+            console.log('status',itm.status);
+            itm.language = this.transByName.get(itm.Proposal__r.Template_language__c);
+            if (itm.Status_external__c==='Pending') {
+                returnLists.pending.push(itm);
+            } else if (itm.Status_external__c==='Submitted') {
+                returnLists.submitted.push(itm);
+            }
+        }
+        console.log('updateListInternalsReturnLists');
+        return returnLists;
+    }
+
 
 }
