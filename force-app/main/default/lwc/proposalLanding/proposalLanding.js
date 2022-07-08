@@ -21,9 +21,9 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
     transInfo;
     langMap;
     langTag;
-    language = 'English';
+    @api language = 'English';
     transByName;
-    transByNameObj;
+    @api transByNameObj;
     transData;
 
     // Proposal info and related letters and forms
@@ -129,6 +129,8 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         };
 
         let columns = [
+            { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
+                {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
             { label: this.transByNameObj.Type, fieldName: 'formTitle', hideDefaultActions: true, sortable: true,},
             { label: this.transByNameObj.StatusOfForm, fieldName: 'formStatus', hideDefaultActions: true, sortable: true,},
             { label: this.transByNameObj.DateDue, fieldName: 'dateDue', hideDefaultActions: true, sortable: true,},

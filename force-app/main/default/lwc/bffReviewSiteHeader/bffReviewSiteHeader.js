@@ -27,10 +27,15 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
         if (currentPageReference && this.language) {
             this.page = currentPageReference.attributes.name;
             console.log(this.page);
-            if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
-            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.Form; // Form
             this.onHome = this.page==='Home';
-            console.log(this.onHome);
+            console.log('onhome', this.onHome);
+            if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
+            console.log('assessmentpage check');
+            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.Form;
+            console.log('formpage check');
+            if (this.page==='Proposal__c') this.pageName = 'Proposal'; // this.transByNameObj.Proposal;
+            console.log('thispage', this.page);
+            console.log('thispagename', this.pageName);
         }
     }
 
@@ -40,7 +45,6 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('connectedCallbackHeader');
             console.log(this.language);
             console.log(this.advisorFormInstanceId);
-            console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
             console.log('hidelangpicker',this.hideLanguagePicker);
             console.log('showSearch',this.showSearch);
             console.log('disableProfile',this.disableProfile);
@@ -54,8 +58,6 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     async loadData() {
         try {
             console.log('loadData');
-            // Retrieve Advisor and Form Instance, along with translations
-            // let [translations ] = await Promise.all ([
             this.name = await getHeaderName();
         } catch (error) {
             handleError(error);

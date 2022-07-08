@@ -48,6 +48,7 @@
             </div>
         </div>
 
+        <div if:true={dataLoaded}>
         <div if:false={onHome} class="slds-m-left_x-large slds-m-top_x-small slds-p-left_small">
             <lightning-breadcrumbs>
                 <lightning-breadcrumb
@@ -60,6 +61,7 @@
                 </lightning-breadcrumb>
             </lightning-breadcrumbs>
         </div>
+    </div>
 
         <div if:true={showSearch} class="slds-global-header slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
             <div class="slds-global-header__item gfw-global-search">

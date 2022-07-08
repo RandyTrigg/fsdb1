@@ -323,22 +323,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             }
             itm.proposalName = itm.Name;
             console.log('proposalName',itm.proposalName);
-            
-            this[NavigationMixin.GenerateUrl]({
-                type: 'comm__namedPage',
-                attributes: {
-                    name: 'Proposal__c',
-                },
-                state: {
-                    recordId: itm.id,
-                    lang: this.language
-                }
-            }).then((url) => {
-                itm.proposalURL = url;
-            });  
-            itm.proposalURL = 'www.google.com';
-            console.log('proposalURL',itm.proposalURL);
-
             itm.dateReceived = itm.Date_received__c;
             itm.dateCreated = itm.CreatedDate;
             // Let form instance dictate whether a proposal has been submitted.
@@ -350,12 +334,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
                 itm.statusSortBy = 0;
                 itm.status = this.transByNameObj.Pending;
             }
-            
             switch (itm.Status_external__c) {
-                /* case 'Pending':
-                    itm.statusSortBy = 0;
-                    itm.status = this.transByNameObj.Pending;
-                    break; */
                 case 'Submitted':
                     itm.statusSortBy = 1;
                     itm.status = this.transByNameObj.Submitted;
@@ -409,11 +388,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
                 {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
             { label: this.transByNameObj.Number, type: 'button', initialWidth: 125, fieldName: 'proposalName', hideDefaultActions: true, sortable: false, typeAttributes:
-                { label: { fieldName: 'proposalName' }, name: "gotoProposal", variant: "base" }
-            
-            
-            /* {label: { fieldName: 'proposalName'}, target: '_blank'}  */ },
-                /* {rowActions: { label: 'proposalName', name: 'propLanding' } }*/ 
+                { label: { fieldName: 'proposalName' }, name: "gotoProposal", variant: "base" } },
             { label: this.transByNameObj.Status, initialWidth: 125, fieldName: 'status', hideDefaultActions: true, sortable: false,},
             { label: this.transByNameObj.Type, fieldName: 'grantType', hideDefaultActions: true, sortable: false,},
             { label: this.transByNameObj.DateCreated, fieldName: 'dateCreated', type: 'date', hideDefaultActions: true, sortable: false,},
@@ -431,7 +406,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         if (actionName == 'gotoProposal') {
             this.navigateToProposalLanding(row.Id);
         } else {
-            // this.errMsg = 'Error: ' + row.Id;
             this.appFormInstanceId = this.prpFormInst.get(row.Id);
             this.navigateToFormInstance(this.appFormInstanceId);
         }
