@@ -11,15 +11,18 @@ public inherited sharing class ProposalController {
         public String forms;
 
         public ProposalSummary(Id propId) {
-            String whereClause = ' WHERE Proposal__c = \'' + propId + '\'';
+            // Gather form instances w/forms
+            String whereClause = ' WHERE Proposal__c = \'' + propId + '\' ORDER BY Form__r.Sort_number__c DESC';
             formInstanceList = (List<Form_Instance__c>)Utilities.fetchRecords(
                 'Form_Instance__c',
                 whereClause,
                 new List<String>{
                     'Form__r.Name',
                     'Form__r.Type__c',
-                    'Form__r.Form_Phrase_Title__c'
+                    'Form__r.Form_Phrase_Title__c',
+                    'Form__r.Sort_number__c'
                 });
+            this.forms = JSON.serialize(this.formInstanceList);
             Proposal__c prop = (Proposal__c)Utilities.fetchRecord(
                 'Proposal__c', 
                 propId, 
@@ -27,10 +30,11 @@ public inherited sharing class ProposalController {
                     Utilities.buildChildSubQuery(
                         'Letter__c', 
                         'Letters__r',
-                        'WHERE Date_sent__c<>null')}
+                        'WHERE Date_sent__c<>null ORDER BY Date_sent__c DESC')}
                 );
             this.prpName = prop.Name;
-            letterList = prop.Letters__r;
+            this.letterList = prop.Letters__r;
+            this.letters = JSON.serialize(this.letterList);
         }
     }
     

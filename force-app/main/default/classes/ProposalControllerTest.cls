@@ -34,9 +34,7 @@ public class ProposalControllerTest {
         );
 
         Test.StartTest();
-        ProposalController.ProposalSummary pSummary = ProposalController.ProposalSummary(
-            p.Id
-        );
+        ProposalController.ProposalSummary pSummary = new ProposalController.ProposalSummary(p.Id);
         Test.StopTest();
 
         List<Letter__c> let = new List<Letter__c>([SELECT Id FROM Letter__c WHERE Proposal__c = :p.Id AND Date_sent__c<>null]);

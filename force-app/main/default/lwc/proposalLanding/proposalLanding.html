@@ -1,3 +1,65 @@
 <template>
-    {prp.Name}
+    <div lang={langTag}>
+
+        <!-- HEADER -->
+        <div if:true={dataLoaded} class="bottommargin">
+            <c-bff-review-site-header language={language} trans-by-name-obj={transByNameObj}></c-bff-review-site-header>
+        </div>
+
+        <!-- SPINNER -->
+        <div class="slds-align_absolute-center spinnerSize" if:true={showSpinner}>
+            <lightning-spinner alternative-text={loading} size="medium"></lightning-spinner>
+        </div>
+
+        <!-- MAIN SECTION -->
+        <!-- Helpful for accessibility to distinguish the main page from header and footer -->
+        <main>
+
+            <!-- WAIT FOR DATA TO LOAD -->
+            <div if:true={dataLoaded}>
+
+                {prpName}
+                <lightning-tabset>
+                    <lightning-tab label="Forms for Proposal EN">
+
+                        <lightning-accordion class="gfw-accordion slds-var-m-bottom_large" allow-multiple-sections-open
+                        active-section-name={activeSections}>
+                            <lightning-accordion-section name="Pending" label={pendingLabel}>
+                                <div if:false={hidePendingTable} class="gfw-item-list">
+                                    <lightning-datatable 
+                                        key-field="id"
+                                        hide-checkbox-column=true
+                                        data={pendingFormsData} 
+                                        columns={editColumns}
+                                        onrowaction={handleRowAction}>
+                                    </lightning-datatable>
+                                </div>
+                            </lightning-accordion-section>
+                
+                            <lightning-accordion-section name="Submitted" label={submittedLabel} class="slds-var-m-top_x-large">
+                                <div class="gfw-item-list">
+                                    <lightning-datatable   
+                                        key-field="id" 
+                                        hide-checkbox-column=true
+                                        data={submittedFormsData} 
+                                        columns={viewColumns}
+                                        sorted-by={submittedSortedBy}
+                                        onrowaction={handleRowAction}>
+                                    </lightning-datatable>
+                                </div>
+                            </lightning-accordion-section>
+                        </lightning-accordion>
+                    
+                    </lightning-tab>
+                    
+                    <lightning-tab label="Correspondence for Proposal EN">
+                        Two Content !
+                    </lightning-tab>
+
+                </lightning-tabset>
+
+
+            </div> <!-- Data loaded -->
+        </main>
+    </div> <!-- Lang tag -->
 </template>

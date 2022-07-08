@@ -270,7 +270,21 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             },
             state: {
                 recordId: formInstId,
-                language: this.language
+                lang: this.language
+            }
+        });
+    }
+
+    navigateToProposalLanding(propId) {
+        // Navigate to form instance detail page
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Proposal__c'
+            },
+            state: {
+                recordId: propId,
+                lang: this.language
             }
         });
     }
@@ -308,6 +322,23 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
                 itm.grantType = this.transByName.get('bff_SustainFund');
             }
             itm.proposalName = itm.Name;
+            console.log('proposalName',itm.proposalName);
+            
+            this[NavigationMixin.GenerateUrl]({
+                type: 'comm__namedPage',
+                attributes: {
+                    name: 'Proposal__c',
+                },
+                state: {
+                    recordId: itm.id,
+                    lang: this.language
+                }
+            }).then((url) => {
+                itm.proposalURL = url;
+            });  
+            itm.proposalURL = 'www.google.com';
+            console.log('proposalURL',itm.proposalURL);
+
             itm.dateReceived = itm.Date_received__c;
             itm.dateCreated = itm.CreatedDate;
             // Let form instance dictate whether a proposal has been submitted.
@@ -373,28 +404,16 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             } else if (itm.Grant_type__c=='BFF-Sustain') {
                 this.hasPendingSustain = true;
             }
-            
-            /* Relies on Prop status for toast messages
-            if (itm.Status_external__c==='Pending') {
-                if (itm.Grant_type__c=='BFF-Solidarity') {
-                    this.hasPendingSolidarity = true;
-                } else if (itm.Grant_type__c=='BFF-Sustain') {
-                    this.hasPendingSustain = true;
-                } 
-            } else if (itm.Status_external__c==='Submitted') {
-                if (itm.Grant_type__c=='BFF-Solidarity'
-                ) {
-                    this.hasRecentSubmittedSolidarity = true;
-                } else if (itm.Grant_type__c=='BFF-Sustain') {
-                    this.hasRecentSubmittedSustain = true;
-                } 
-            }
-            */
         }
         this.columns = [
             { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
                 {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
-            { label: this.transByNameObj.Number, initialWidth: 125, fieldName: 'proposalName', hideDefaultActions: true, sortable: false,},
+            { label: this.transByNameObj.Number, type: 'button', initialWidth: 125, fieldName: 'proposalName', hideDefaultActions: true, sortable: false, typeAttributes:
+                { label: { fieldName: 'proposalName' }, name: "gotoProposal", variant: "base" }
+            
+            
+            /* {label: { fieldName: 'proposalName'}, target: '_blank'}  */ },
+                /* {rowActions: { label: 'proposalName', name: 'propLanding' } }*/ 
             { label: this.transByNameObj.Status, initialWidth: 125, fieldName: 'status', hideDefaultActions: true, sortable: false,},
             { label: this.transByNameObj.Type, fieldName: 'grantType', hideDefaultActions: true, sortable: false,},
             { label: this.transByNameObj.DateCreated, fieldName: 'dateCreated', type: 'date', hideDefaultActions: true, sortable: false,},
@@ -407,37 +426,22 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     handleRowAction(event) {
         // Look up app Form Instance Id for Proposal
         const row = event.detail.row;
-        // this.errMsg = 'Error: ' + row.Id;
-        this.appFormInstanceId = this.prpFormInst.get(row.Id);
-        this.navigateToFormInstance(this.appFormInstanceId);
+        const actionName = event.detail.action.name;
+        console.log('actionName', actionName);
+        if (actionName == 'gotoProposal') {
+            this.navigateToProposalLanding(row.Id);
+        } else {
+            // this.errMsg = 'Error: ' + row.Id;
+            this.appFormInstanceId = this.prpFormInst.get(row.Id);
+            this.navigateToFormInstance(this.appFormInstanceId);
+        }
+
+      
     }
 
-/* Navigation home - not needed in home page itself
-    navigateHome() {
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                name: 'Home'
-            }
-        });
-    }
-*/
 
-    /* Navigation to standard record page; not in use.
-    navigateToForm() {
-        // Navigate to form instance detail page
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: this.prFormInstanceId,
-                actionName: 'edit',
-                objectApiName: 'Form_Instance__c'
-            },
-            state: {
-                language: this.language
-            }
-        });
-    } 
-    */
+
+
+
 
 }
