@@ -30,7 +30,7 @@
                                         key-field="id"
                                         hide-checkbox-column=true
                                         data={pendingFormsData} 
-                                        columns={editColumns}
+                                        columns={columns}
                                         onrowaction={handleRowAction}>
                                     </lightning-datatable>
                                 </div>
@@ -42,7 +42,7 @@
                                         key-field="id" 
                                         hide-checkbox-column=true
                                         data={submittedFormsData} 
-                                        columns={viewColumns}
+                                        columns={columns}
                                         sorted-by={submittedSortedBy}
                                         onrowaction={handleRowAction}>
                                     </lightning-datatable>

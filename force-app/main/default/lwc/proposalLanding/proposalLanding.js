@@ -40,6 +40,7 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
     activeSections = ['Pending'];
     viewColumns;
     editColumns;
+    columns;
     pendingFormsData;
     submittedFormsData;
 
@@ -128,7 +129,7 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
             }
         };
 
-        let columns = [
+        this.columns = [
             { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
                 {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
             { label: this.transByNameObj.Type, fieldName: 'formTitle', hideDefaultActions: true, sortable: true,},
@@ -137,12 +138,6 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
             { label: this.transByNameObj.DateCreated, fieldName: 'dateCreated', hideDefaultActions: true, sortable: true,},
             { label: this.transByNameObj.DateModified, fieldName: 'dateModified', type: 'date', hideDefaultActions: true, sortable: true,},
         ];
-
-        //Differentiate view and edit lists
-        this.viewColumns = columns.slice(0);
-        this.editColumns = columns.slice(0);
-        this.viewColumns.unshift(viewButton);
-        this.editColumns.unshift(editButton);
     }
 
     updateListInternals(formsList) {
@@ -152,9 +147,9 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         returnLists.submitted = [];
         for (let itm of formsList) {
             console.log('id',itm.Id);
-            console.log('formphrasetitle', itm.Form__r.Form_Phrase_Title__c);
-            // itm.formTitle = this.transByName.get(itm.Form__r.Form_Phrase_Title__c);
-            itm.formTitle = itm.Name;
+            itm.rowIcon = itm.Status__c==='Submitted' ? "utility:preview" : "utility:edit";
+            itm.rowAction = itm.Status__c==='Submitted' ? this.transByNameObj.View : this.transByNameObj.Edit;
+            itm.formTitle = this.transByName.get(itm.Form__r.Form_Phrase_Title__r.Name);
             console.log('formTitle',itm.formTitle);
             itm.formStatus = this.transByName.get(itm.Status__c);
             console.log('status',itm.formStatus);
@@ -177,13 +172,21 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
 
     handleRowAction(event) {
         const row = event.detail.row;
+        console.log('handlerowaction rowid', row.Id);
+        this.navigateToFormInstance(row.Id);
+
+    }
+
+    navigateToFormInstance(formInstId) {
+        // Navigate to form instance detail page
+        console.log('forminstid ', formInstId);
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
-                name: 'Form_Instance__c'
+                name: 'FormInstance__c'
             },
             state: {
-                recordId: row.Id,
+                recordId: formInstId,
                 lang: this.language
             }
         });

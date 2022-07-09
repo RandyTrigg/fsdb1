@@ -19,7 +19,7 @@ public inherited sharing class ProposalController {
                 new List<String>{
                     'Form__r.Name',
                     'Form__r.Type__c',
-                    'Form__r.Form_Phrase_Title__c',
+                    'Form__r.Form_Phrase_Title__r.Name',
                     'Form__r.Sort_number__c'
                 });
             this.forms = JSON.serialize(this.formInstanceList);
