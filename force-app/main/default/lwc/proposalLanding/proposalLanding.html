@@ -3,7 +3,7 @@
 
         <!-- HEADER -->
         <div if:true={dataLoaded} class="bottommargin">
-        <!--    <c-bff-review-site-header language={language} trans-by-name-obj={transByNameObj}></c-bff-review-site-header> -->
+            <c-bff-review-site-header language={language} trans-by-name-obj={transByNameObj}></c-bff-review-site-header>
         </div>
 
         <!-- SPINNER -->
@@ -31,7 +31,10 @@
                                         hide-checkbox-column=true
                                         data={pendingFormsData} 
                                         columns={columns}
-                                        onrowaction={handleRowAction}>
+                                        onrowaction={handleRowAction}
+                                        onsort={updatePendingColumnSorting}
+                                        sorted-by={pendingSortedBy}
+                                        sorted-direction={pendingSortedDirection}>
                                     </lightning-datatable>
                                 </div>
                             </lightning-accordion-section>
@@ -43,8 +46,10 @@
                                         hide-checkbox-column=true
                                         data={submittedFormsData} 
                                         columns={columns}
+                                        onrowaction={handleRowAction}
+                                        onsort={updateSubmittedColumnSorting}
                                         sorted-by={submittedSortedBy}
-                                        onrowaction={handleRowAction}>
+                                        sorted-direction={sortedDirection}>
                                     </lightning-datatable>
                                 </div>
                             </lightning-accordion-section>

@@ -38,8 +38,6 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
     submittedLabel = 'Submitted Forms';
     hidePendingTable = false;
     activeSections = ['Pending'];
-    viewColumns;
-    editColumns;
     columns;
     pendingFormsData;
     submittedFormsData;
@@ -109,26 +107,6 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         this.hidePendingTable = this.pendingFormsData.length === 0 ? true : false;
         this.pendingLabel = this.pendingLabel + ' ('+ this.pendingFormsData.length +')';
         this.submittedLabel = this.submittedLabel + ' ('+ this.submittedFormsData.length +')';
-
-        let viewButton = {type: 'button-icon', initialWidth: 80, 
-                            typeAttributes: {  
-                                iconName: "utility:preview", 
-                                name: this.transByNameObj.View,  
-                                variant: 'bare',
-                                alternativeText: this.transByNameObj.View,       
-                                disabled: false
-                            }
-                        };
-        let editButton = {type: 'button-icon', initialWidth: 80, 
-            typeAttributes: {  
-                iconName: "utility:edit", 
-                name: this.transByNameObj.Edit,  
-                variant: 'bare',
-                alternativeText: this.transByNameObj.Edit,       
-                disabled: false
-            }
-        };
-
         this.columns = [
             { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
                 {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
@@ -168,7 +146,6 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         console.log('updateListInternalsReturnLists');
         return returnLists;
     }
-
 
     handleRowAction(event) {
         const row = event.detail.row;
@@ -215,6 +192,24 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
 
         // set the sorted data to data table data
         return parseData;
+    }
+
+    updatePendingColumnSorting(event) {
+        var fieldName = event.detail.fieldName;
+        var sortDirection = event.detail.sortDirection;
+        // assign the latest attribute with the sorted column fieldName and sorted direction
+        this.pendingSortedBy = fieldName;
+        this.pendingSortedDirection = sortDirection;
+        this.pendingItemsData = this.sortData(fieldName, sortDirection, this.pendingItemsData);
+    }
+
+    updateSubmittedColumnSorting(event) {
+        var fieldName = event.detail.fieldName;
+        var sortDirection = event.detail.sortDirection;
+        // assign the latest attribute with the sorted column fieldName and sorted direction
+        this.submittedSortedBy = fieldName;
+        this.submittedSortedDirection = sortDirection;
+        this.submittedItemsData = this.sortData(fieldName, sortDirection, this.submittedItemsData);
     }
 
 
