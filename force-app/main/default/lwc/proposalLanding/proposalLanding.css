@@ -10,7 +10,7 @@
 }
 
 .topmargin {
-    margin-top: 4rem;
+    margin-top: 6rem;
 }
 
 .bottommargin {
@@ -80,5 +80,6 @@
 }
 
 :host {
-    --sds-c-button-color-background: #ffffff;
+    --slds-c-button-color-background: #ffffff;
+    --slds-c-h1-text-color: rgb(46, 17, 54); 
 }

@@ -18,10 +18,9 @@
             <!-- WAIT FOR DATA TO LOAD -->
             <div if:true={dataLoaded}>
 
-                {prpName}
+                <div class="topmargin"><h1 class="slds-text-heading_medium slds-text-align_center">{prpName}</h1></div>
                 <lightning-tabset>
                     <lightning-tab label="Forms for Proposal EN">
-
                         <lightning-accordion class="gfw-accordion slds-var-m-bottom_large" allow-multiple-sections-open
                         active-section-name={activeSections}>
                             <lightning-accordion-section name="Pending" label={pendingLabel}>
@@ -54,11 +53,10 @@
                                 </div>
                             </lightning-accordion-section>
                         </lightning-accordion>
-                    
                     </lightning-tab>
                     
                     <lightning-tab label="Correspondence for Proposal EN">
-                        Two Content !
+                        <h2>Under construction: please check back later</h2>
                     </lightning-tab>
 
                 </lightning-tabset>

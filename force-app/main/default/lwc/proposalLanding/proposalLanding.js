@@ -12,8 +12,7 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
     advProfileFormInstanceId;
 
     @api recordId;
-    dataLoaded = true;
-    showHeader = true;
+    dataLoaded = false;
     showSpinner = true;
     loading = 'loading';
     
