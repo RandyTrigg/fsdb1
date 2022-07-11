@@ -25,7 +25,8 @@ export default class formViewer extends LightningElement {
         for (let fi of this.formInstances) {
             // console.log('frm');
             // console.log(frm);
-            fi.title = fi.Form__r.Form_Phrase_Title__r.Phrase_in_English__c + " (Submitted: " + fi.Date_submitted__c + ")";
+            let advName = (fi.Advisor__c != null) ? ' ' +fi.Advisor__r.Name : '';
+            fi.title = fi.Form__r.Form_Phrase_Title__r.Phrase_in_English__c + " (Submitted: " + fi.Date_submitted__c + advName + ")";
         }
         this.dataLoaded = true;
     }
