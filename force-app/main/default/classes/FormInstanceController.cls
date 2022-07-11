@@ -141,14 +141,14 @@ public inherited sharing class FormInstanceController {
         } else if (objName == 'Milestone__c') {
             Milestone__c m = [SELECT Proposal__c, Proposal__r.Profile__c FROM Milestone__c WHERE Id =: id];
             profId = m.Proposal__r.Profile__c;
-            propId = m.Proposal__c;
+            propId = m.Proposal__c;   
         } else throw new GFW_Exception ('Unexpected object in getFormInstances: ' +objName);
         // Pull all form instances for the profile 
         List<Form_Instance__c> profFIs = [
             SELECT Id, Proposal__c, Form__r.Form_Phrase_Title__r.Phrase_in_English__c, Date_submitted__c, Form__r.Sort_number__c, Language__c
             FROM Form_Instance__c
             WHERE Date_submitted__c != null
-            AND Profile__c = : profId
+            AND (Profile__c = : profId OR Proposal__c = :propId)
             //AND Form__r.Type__c in:formTypes
             ORDER BY Proposal__r.Name, Form__r.Sort_number__c
         ];
