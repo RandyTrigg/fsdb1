@@ -4,6 +4,7 @@ import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import getFormInstanceData from '@salesforce/apex/SiteController.getFormInstanceData';
+import updateFormDataBulk from '@salesforce/apex/SiteController.updateFormDataBulk';
 import submitForm from '@salesforce/apex/SiteController.submitForm';
 
 import { buildTransByName, buildTransById, updateRecordInternals } from 'c/formsUtilities';
@@ -35,6 +36,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     logout;
     support;
     numErrors;
+    saveNeeded = false; // If true then an internet outage prevented auto-save, and a bulk save is needed for unsaved field edits
 
     
     connectedCallback() {
@@ -181,6 +183,8 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     handleDataChange(event) {
         let cmpId = event.detail.cmpId;
         let newData = event.detail.dataText;
+        // Register if auto-save failed. Note that even if the field update succeeded, we may still need bulk save for earlier fails 
+        if (!event.detail.fieldUpdated) this.saveNeeded = true; 
         // Update local copy of data
         let cmp = this.componentMap.get(cmpId);
         cmp.dataText = newData;
@@ -233,7 +237,11 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
 
     async handleSubmit() {
         try {
-            let submitted = await submitForm({formInstanceId:this.recordId});
+            let submitted;
+            //if (this.saveNeeded) this.bulkSave(); // Do bulk save if necessary before submit
+            // For testing, call bulk save before every submit
+            this.bulkSave(); 
+            if (!this.saveNeeded) submitted = await submitForm({formInstanceId:this.recordId});
             if (submitted) {
                 dispatchEvent(
                     new ShowToastEvent({
@@ -256,22 +264,17 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         try {
             // Pass triples representing form data to apex for saving
             let dataInfos = this.components.map(cmp => { return {formComponentId: cmp.Id, value: cmp.dataText, isTextArea: cmp.isTextArea}} );
-            let saved = await updateFormDataBulk({formInstanceId:this.recordId, fdInfos: dataInfos});
+            let saved = await updateFormDataBulk({frmInstanceId:this.recordId, fdInfosStr: JSON.stringify(dataInfos)});
             if (saved) {
-                /*
-                dispatchEvent(
-                    new ShowToastEvent({
-                        title: this.transByNameObj.FormSubmitted,
-                        message: this.transByNameObj.FormSubmittedMsg,
-                        variant: 'success'
-                    })
-                )
-                this[NavigationMixin.Navigate]({type: 'comm__namedPage', attributes: {name: 'Home'}});
-                */
-            } else showUIError(buildError('Bulk save unsuccessful', 'The data in your form could not be saved - please contact your administrator'));
+                this.saveNeeded = false;
+            } else {
+                showUIError(buildError('Bulk save unsuccessful', 'The data in your form could not be saved - please contact your administrator'));
+                this.saveNeeded = true;
+            }
         } catch (error) {
             console.log('bulkSave catch with recordId = ' +this.recordId+ ' with error', error);
             showUIError(buildError('Bulk save unsuccessful', 'The data in your form could not be saved - please contact your administrator', 'error'));
+            this.saveNeeded = true;
             handleError(error);
         }
     }

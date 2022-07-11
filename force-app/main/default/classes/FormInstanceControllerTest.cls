@@ -48,12 +48,21 @@ public class FormInstanceControllerTest {
             new FormInstanceController.FormDataInfo(comp.Id, 'aabbcc', false), // changed
             new FormInstanceController.FormDataInfo(comp2.Id, 'def', true) // not changed
         };
-        FormInstanceController.updateFormDataBulk(fi.Id, fdis);
+        SiteController.updateFormDataBulk(fi.Id, JSON.serialize(fdis));
 
         SiteController.submitForm(fi.Id);
 
         SiteController.getFormInstances(prof.Id);
         Test.stopTest();
+        Form_Data__c[] fds = [SELECT Id FROM Form_Data__c];
+        system.assertEquals(2, fds.size()); // A new form data should be created by call to updateFormData
+        // Build new "dupe" form data
+        insert new Form_Data__c (Form_Instance__c = fi.Id, Form_Component__c = comp.Id, Data_text__c = 'test form data 2');
+        Form_Data__c fd2 = [SELECT Id FROM Form_Data__c WHERE Data_text__c = 'test form data 2' LIMIT 1];
+        // Rerun bulk save and check that the earlier form data was deleted
+        SiteController.updateFormDataBulk(fi.Id, JSON.serialize(fdis));
+        fds = [SELECT Id FROM Form_Data__c];
+        system.assertEquals(2, fds.size()); // Still only 2, following delete
     }
 
 }

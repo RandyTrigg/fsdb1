@@ -191,27 +191,44 @@ public inherited sharing class FormInstanceController {
     // Structure representing a form data record, including value, form component id, and whether it's textarea
     public inherited sharing class FormDataInfo {
         public Id formComponentId;
-        public Object value;
+        public String value;
         public Boolean isTextArea;
-        public FormDataInfo (Id formComponentId, Object value, Boolean isTextArea) {
+        public FormDataInfo (Id formComponentId, String value, Boolean isTextArea) {
             this.formComponentId = formComponentId;
             this.value = value;
             this.isTextArea = isTextArea;
         }
     }
+    public inherited sharing class FormDataInfoList {
+        public List<FormDataInfo> formDataInfos;
+    }
 
     // Process form data in bulk using given list of form data info instances. 
     // Update records whose values have changed, and create new ones if necessary.
-    public static Boolean updateFormDataBulk(String frmInstanceId, FormDataInfo[] fdInfos){
+    // Delete "dupe" form data records, i.e. multiple form data on the same form component.
+    public static Boolean updateFormDataBulk(String frmInstanceId, String fdInfosStr){
         try {
+            system.debug('updateFormDataBulk: fdInfosStr = ' +fdInfosStr);
+            FormDataInfoList fdiList = (FormDataInfoList)JSON.deserialize('{"formDataInfos":' +fdInfosStr+ '}', FormDataInfoList.class);
+            FormDataInfo[] fdInfos = fdiList.formDataInfos;
+            Form_Data__c[] toUpsert = new List<Form_Data__c> ();
+            Form_Data__c[] toDelete = new List<Form_Data__c> ();
             //Load all form data for the form instance.
             system.debug('updateFormDataBulk: frmInstanceId = ' +frmInstanceId+ '; fdInfos = ' +fdInfos);
-            String whereClause = 'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'';
+            String whereClause = 
+                'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'' +
+                ' ORDER BY LastModifiedDate DESC';
             Form_Data__c[] existingFormData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
             system.debug('updateFormDataBulk: existingFormData = ' +existingFormData);
             Map<Id, Form_Data__c> existingFDMap = new Map<Id, Form_Data__c>();
-            for (Form_Data__c fd : existingFormData) existingFDMap.put(fd.Form_Component__c, fd);
-            Form_Data__c[] toUpsert = new List<Form_Data__c> ();
+            // Note that if there are multiple form data for the same form component, we stash the one most recently modified and delete the others.
+            for (Form_Data__c fd : existingFormData) {
+                Form_Data__c fdStashed = existingFDMap.get(fd.Form_Component__c);
+                // The sort order in the fetchRecords call means that we'll only delete form data for the same form component w/ earlier mod date.
+                if(fdStashed == null) existingFDMap.put(fd.Form_Component__c, fd);
+                else toDelete.add(fd);
+            }
+            system.debug('updateFormDataBulk: toDelete.size() = ' +toDelete.size());
             for (FormDataInfo fdi : fdInfos) {
                 Form_Data__c fd = existingFDMap.get(fdi.formComponentId);
                 Object origText = fd != null ? fd.Data_text__c : null;
@@ -221,8 +238,10 @@ public inherited sharing class FormInstanceController {
                 if (!fdi.isTextArea && fdPrepped.Data_text__c != origText) toUpsert.add(fdPrepped);
             }
             if (toUpsert.size() > 0) upsert toUpsert;
+            if (toDelete.size() > 0) delete toDelete;
             return true;
         } catch (Exception e) {
+            system.debug('updateFormDataBulk: ' +e);
             return false;
         }
     }
@@ -233,10 +252,13 @@ public inherited sharing class FormInstanceController {
         try {
             //Load existing form data record if it exists.
             system.debug('updateFormData: value = ' +value+ '; isTextarea = ' +isTextarea);
-            String whereClause = 'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'' +
-                    ' AND Form_Component__c=\'' +componentId+ '\'';
+            String whereClause = 
+                'WHERE Form_Instance__c=\'' +frmInstanceId+ '\'' +
+                ' AND Form_Component__c=\'' +componentId+ '\'' +
+                ' ORDER BY LastModifiedDate DESC';
             Form_Data__c[] existingFormData = (List<Form_Data__c>) Utilities.fetchRecords('Form_Data__c', whereClause, null);
             system.debug('updateFormData: existingFormData = ' +existingFormData);
+            // Note that if there are multiple form data for the same form component, we pick the most recently modified
             Form_Data__c frmData = prepFormDataForUpsert(
                 frmInstanceId, componentId, value, isTextarea, 
                 existingFormData.size()>0 ? existingFormData[0] : null
