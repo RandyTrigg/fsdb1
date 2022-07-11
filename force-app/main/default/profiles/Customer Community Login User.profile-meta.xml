@@ -4515,6 +4515,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Form_Component__c.Controlling_component__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Form_Component__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4632,6 +4637,11 @@
         <editable>false</editable>
         <field>Form_Component__c.Required__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Form_Component__c.Show_if__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -10347,6 +10357,11 @@
         <editable>false</editable>
         <field>Template__c.FS_Group__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Template__c.Form_Phrase_Title__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

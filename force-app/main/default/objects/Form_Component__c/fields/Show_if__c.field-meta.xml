@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Show_if__c</fullName>
+    <description>Condition (based on Controlling component value) used to determine whether to render this component in the form.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Condition (based on Controlling component value) used to determine whether to render this component in the form.</inlineHelpText>
+    <label>Show if</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

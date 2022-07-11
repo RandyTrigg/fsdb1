@@ -164,6 +164,27 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Form Instances with related info --></description>
+        <label><!-- Form Instances with related info --></label>
+        <name>Form_Instances_with_related_info</name>
+        <sections>
+            <label><!-- Assessment --></label>
+            <name>Assessment</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instances --></label>
+            <name>Form Instances</name>
+        </sections>
+        <sections>
+            <label><!-- Profile --></label>
+            <name>Profile</name>
+        </sections>
+        <sections>
+            <label><!-- Proposals --></label>
+            <name>Proposals</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Form Phrases with related info --></description>
         <label><!-- Form Phrases with related info --></label>
         <name>Form_Phrases_with_related_info</name>
@@ -174,15 +195,6 @@
         <sections>
             <label><!-- Form Phrases --></label>
             <name>Form Phrases</name>
-        </sections>
-    </reportTypes>
-    <reportTypes>
-        <description><!-- Form data with related info OLD --></description>
-        <label><!-- Form data with related info OLD --></label>
-        <name>Form_data_with_related_info_OLD</name>
-        <sections>
-            <label><!-- Form Data --></label>
-            <name>Form Data</name>
         </sections>
     </reportTypes>
     <reportTypes>
