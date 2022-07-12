@@ -267,7 +267,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             // Pass triples representing form data to apex for saving
             let dataInfos = this.components.map(cmp => { return {formComponentId: cmp.Id, value: cmp.dataText, isTextArea: cmp.isTextArea}} );
             let saved = await updateFormDataBulk({frmInstanceId:this.recordId, fdInfosStr: JSON.stringify(dataInfos)});
-            if (saved) {
+            if (saved) { 
                 this.saveNeeded = false;
             } else {
                 showUIError(buildError('Bulk save unsuccessful', 'The data in your form could not be saved - please contact your administrator'));
