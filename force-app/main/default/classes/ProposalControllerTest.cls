@@ -1,8 +1,48 @@
 @isTest
 public class ProposalControllerTest {
     /**********************************
-     * Test the component-related methods
+     * Test the component/Experience-related methods
      * *******************************/
+
+    static testMethod void ProposalSummaryTest() {
+        Date tday = Date.today();
+        BuildTestProposals.InitTestObjects(1, 1);
+        Proposal__c p = [SELECT Id, Account__c FROM Proposal__c LIMIT 1];
+        Form__c testForm = new Form__c(
+            Name='Test',
+            Active__c = true,
+            Type__c = 'Application'
+        );
+        insert testForm;
+        insert new Form_Instance__c(
+            Form__c = testForm.Id,
+            Proposal__c = p.Id,
+            Language__c = 'English'
+        );
+        Template__c template = new Template__c(
+            Name='Test',
+            Active__c = true,
+            Type__c = 'Grantmaking',
+            Source_object__c = 'Proposal__c'
+        );
+        insert template;
+        insert new Letter__c(
+            Template__c = template.Id,
+            Account__c = p.Account__c,
+            Proposal__c = p.Id,
+            Date_emailed__c = tday-2
+        );
+
+        Test.StartTest();
+        ProposalController.ProposalSummary pSummary = new ProposalController.ProposalSummary(p.Id);
+        Test.StopTest();
+
+        List<Letter__c> let = new List<Letter__c>([SELECT Id FROM Letter__c WHERE Proposal__c = :p.Id AND Date_sent__c<>null]);
+        List<Form_Instance__c> fmInst = new List<Form_Instance__c>([SELECT Id FROM Form_Instance__c WHERE Proposal__c = :p.Id]);
+
+        System.assertEquals(let.size(), pSummary.letterList.size());
+        System.assertEquals(fmInst.size(), pSummary.formInstanceList.size());
+    }
 
     static testMethod void ProposalControllerTest() {
         // Build new records
@@ -274,4 +314,6 @@ public class ProposalControllerTest {
             'ProposalControllerTest5: pc.submissions = ' + pc.submissions
         );
     }
+
+
 }

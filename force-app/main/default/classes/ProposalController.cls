@@ -1,9 +1,48 @@
-public with sharing class ProposalController {
+public inherited sharing class ProposalController {
+    
+    /**********************************
+     * For use in Grants Experience Site
+     *********************************/
+    public inherited sharing class ProposalSummary {
+        public String prpName;
+        public List<Letter__c> letterList = new List<Letter__c>();
+        public List<Form_Instance__c> formInstanceList = new List<Form_Instance__c>();
+        public String letters;
+        public String forms;
+
+        public ProposalSummary(Id propId) {
+            // Gather form instances w/forms
+            String whereClause = ' WHERE Proposal__c = \'' + propId + '\' ORDER BY Form__r.Sort_number__c DESC';
+            formInstanceList = (List<Form_Instance__c>)Utilities.fetchRecords(
+                'Form_Instance__c',
+                whereClause,
+                new List<String>{
+                    'Form__r.Name',
+                    'Form__r.Type__c',
+                    'Form__r.Form_Phrase_Title__r.Name',
+                    'Form__r.Sort_number__c'
+                });
+            this.forms = JSON.serialize(this.formInstanceList);
+            Proposal__c prop = (Proposal__c)Utilities.fetchRecord(
+                'Proposal__c', 
+                propId, 
+                new List<String>{
+                    Utilities.buildChildSubQuery(
+                        'Letter__c', 
+                        'Letters__r',
+                        'WHERE Date_sent__c<>null ORDER BY Date_sent__c DESC')}
+                );
+            this.prpName = prop.Name;
+            this.letterList = prop.Letters__r;
+            this.letters = JSON.serialize(this.letterList);
+        }
+    }
+    
     /**********************************
      * For use in Lightning components
      *********************************/
-
-    @AuraEnabled
+    
+     @AuraEnabled
     public static ProposalInfo getProposalInfo(Id propId) {
         ProposalInfo result = new ProposalInfo(propId);
         return result;
