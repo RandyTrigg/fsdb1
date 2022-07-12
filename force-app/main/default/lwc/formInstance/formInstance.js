@@ -280,29 +280,4 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         }
     }
 
-    // Save all current data values, including any that haven't been saved because of internet glitches 
-    async bulkSave() {
-        try {
-            // Pass triples representing form data to apex for saving
-            let dataInfos = this.components.map(cmp => { return {formComponentId: cmp.Id, value: cmp.dataText, isTextArea: cmp.isTextArea}} );
-            let saved = await updateFormDataBulk({formInstanceId:this.recordId, fdInfos: dataInfos});
-            if (saved) {
-                /*
-                dispatchEvent(
-                    new ShowToastEvent({
-                        title: this.transByNameObj.FormSubmitted,
-                        message: this.transByNameObj.FormSubmittedMsg,
-                        variant: 'success'
-                    })
-                )
-                this[NavigationMixin.Navigate]({type: 'comm__namedPage', attributes: {name: 'Home'}});
-                */
-            } else showUIError(buildError('Bulk save unsuccessful', 'The data in your form could not be saved - please contact your administrator'));
-        } catch (error) {
-            console.log('bulkSave catch with recordId = ' +this.recordId+ ' with error', error);
-            showUIError(buildError('Bulk save unsuccessful', 'The data in your form could not be saved - please contact your administrator', 'error'));
-            handleError(error);
-        }
-    }
-
 }
