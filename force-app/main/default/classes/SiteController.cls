@@ -56,6 +56,13 @@ public without sharing class SiteController {
         return FormInstanceController.updateFormData(frmInstanceId, componentId, value, isTextarea);
     }
 
+    // Update multiple form data records, building new ones where necessary.
+    // The second argument should be a serialized list of instances of the FormDataInfo class
+    @AuraEnabled
+    public static Boolean updateFormDataBulk(String frmInstanceId, String fdInfosStr){
+        return FormInstanceController.updateFormDataBulk(frmInstanceId, fdInfosStr);
+    }
+
     // Submit a form instance
     @AuraEnabled
     public static boolean submitForm(String formInstanceId){
@@ -66,6 +73,13 @@ public without sharing class SiteController {
     @AuraEnabled(cacheable=true)
     public static String getTranslations(){
         return FormPhraseController.getTranslations();
+    }
+
+    // Get proposal-related info for proposal landing page
+    @AuraEnabled  //Do not cache
+    public static String getProposalSummary(String propId) {
+        ProposalController.ProposalSummary prpSummary = new ProposalController.ProposalSummary(propId);
+        return JSON.serialize(prpSummary);
     }
 
 
