@@ -226,7 +226,6 @@ export default class FormFieldEditor extends LightningElement {
         } catch (error) {
             console.log('sendUpdatedValue catch with recordId = ' +this.formInstanceId+ ' with error', error);
             showUIError(buildError('Auto-save unsuccessful', 'Data in a field could not be saved - please contact your administrator', 'error'));
-            handleError(error);
             return false;
         }
     }

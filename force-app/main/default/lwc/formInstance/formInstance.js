@@ -236,6 +236,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     }
 
     async handleSubmit() {
+        this.showSpinner = true;
         try {
             let submitted;
             //if (this.saveNeeded) this.bulkSave(); // Do bulk save if necessary before submit
@@ -252,10 +253,11 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
                 )
                 this[NavigationMixin.Navigate]({type: 'comm__namedPage', attributes: {name: 'Home'}});
             } else showUIError(buildError('Submit form unsuccessful', 'Your form could not be submitted - please contact your administrator'));
+            this.showSpinner = false;
         } catch (error) {
             console.log('handleSubmit catch with recordId = ' +this.recordId+ ' with error', error);
             showUIError(buildError('Submit form unsuccessful', 'Your form could not be submitted - please contact your administrator', 'error'));
-            handleError(error);
+            this.showSpinner = false;
         }
     }
 
@@ -275,7 +277,6 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             console.log('bulkSave catch with recordId = ' +this.recordId+ ' with error', error);
             showUIError(buildError('Bulk save unsuccessful', 'The data in your form could not be saved - please contact your administrator', 'error'));
             this.saveNeeded = true;
-            handleError(error);
         }
     }
 
