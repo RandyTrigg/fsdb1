@@ -230,9 +230,10 @@ public class ProfileControllerTest {
             );
             insert prForm;
             Form__c appForm = new Form__c(
-                Name = 'testForm',
+                Name = 'bff_SolidarityApplication',
                 Active__c = true,
-                Type__c = 'Application'
+                Type__c = 'Application',
+                OwnerId = uAdmin.Id
             );
             insert appForm;
             Custom_Reqs__c cReq = new Custom_Reqs__c(
@@ -291,7 +292,8 @@ public class ProfileControllerTest {
             TimeZoneSidKey = 'America/Los_Angeles',  
             LocaleSidKey = 'en_US',  
             LanguageLocaleKey = 'en_US',  
-            ProfileId = profId
+            ProfileId = profId,
+            FS_Group_Name__c = 'FS_BFF'
         );    
         if( String.isBlank(roleId) == false ){
             tempUser.UserRoleId = roleId;

@@ -123,21 +123,21 @@ public inherited sharing class ProfileController {
             // Lookup custom reqs record for the grant type from custom metadata type.
             String fsGroup = Utilities.fsGroupNameByUser(UserInfo.getUserId());
             Grant_type__mdt[] grantTypeMetadata = [
-                SELECT Label, Default_custom_reqs_name__c, FS_Group__r.Public_Group_Name__c
+                SELECT Label, Default_custom_reqs_name__c, FS_Group__r.Public_Group_Name__c, Application_form_name__c 
                 FROM Grant_type__mdt
                 WHERE Label = :grantType AND FS_Group__r.Public_Group_Name__c=:fsGroup
             ];
-            String customReqsName = grantTypeMetadata.size() > 0
-                ? grantTypeMetadata[0].Default_custom_reqs_name__c
+            String appFormName = grantTypeMetadata.size() > 0
+                ? grantTypeMetadata[0].Application_form_name__c
                 : null;
-            if (customReqsName != null) {
-                Custom_Reqs__c[] customReqs = [
-                    SELECT Id, Form_proposal_Application__c
-                    FROM Custom_Reqs__c
-                    WHERE Name = :customReqsName AND FS_Group__c=:fsGroup
+            if (appFormName != null) {
+                Form__c[] appForm = [
+                    SELECT Id
+                    FROM Form__c
+                    WHERE Name = :appFormName AND FS_Group__c=:fsGroup
                 ];
-                if (customReqs.size() > 0)
-                    formId = customReqs[0].Form_proposal_Application__c;
+                if (appForm.size() > 0)
+                    formId = appForm[0].Id;
             }
             if (formId!=null) {
                 // Create new Form Instance
