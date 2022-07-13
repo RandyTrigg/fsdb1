@@ -1,14 +1,18 @@
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, api, wire, track } from 'lwc';
 import { handleError } from 'c/lwcUtilities';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import getHeaderName from '@salesforce/apex/SiteController.getHeaderName';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 
+import PROP_ID from '@salesforce/schema/Form_Instance__c.Proposal__c';
+const fields = [PROP_ID];
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     currentPageReference;
     bffLogoWhiteText = logoResourceWhiteText;
     dataLoaded = false;
     name;
+    @api recordId; // Should be forminstance id
     @api language;
     @api showProfile = false;
     @api showSearch = false;
@@ -20,6 +24,20 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     page;
     pageName;
     onHome = true;
+    onPropFormInst = false;
+    propId;
+    @track formInstdata;
+
+
+    @wire(getRecord, { recordId: '$recordId', fields })
+        formInst({error,data}) {
+            if (data) {
+                this.formInstdata = data;
+                console.log('forminstdata');
+            } else if (error) {
+                console.log('forminst error', JSON.stringify(error));
+            }
+        }
     
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
@@ -48,6 +66,15 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('hidelangpicker',this.hideLanguagePicker);
             console.log('showSearch',this.showSearch);
             console.log('disableProfile',this.disableProfile);
+            console.log('recordId', this.recordId);
+            if (this.page==='FormInstance__c') {
+                this.propId = getFieldValue(this.formInstdata, PROP_ID);
+                console.log('propid',this.propId);
+                this.onPropFormInst = true;
+                console.log('onPropFormInst', this.onPropFormInst);
+            }
+            console.log('connectedcallback propid', this.propId);
+            
             this.setLangTag();
 
             console.log(this.baseURL);
@@ -102,6 +129,19 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             type: 'comm__namedPage',
             attributes: {
                 name: 'Home'
+            }
+        });
+    }
+
+    handlePropLanding(){
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Proposal__c'
+            },
+            state: {
+                recordId: this.propId,
+                lang: this.language
             }
         });
     }

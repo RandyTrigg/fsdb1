@@ -55,6 +55,10 @@
                     label={transByNameObj.Home}
                     onclick={handleHome}>
                 </lightning-breadcrumb>
+                <lightning-breadcrumb if:true={onPropFormInst}
+                    label={transByNameObj.Proposal}
+                    onclick={handlePropLanding}>
+                </lightning-breadcrumb>
                 <lightning-breadcrumb
                     label={pageName}
                     onclick={selfClick}>

@@ -276,7 +276,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     }
 
     navigateToProposalLanding(propId) {
-        // Navigate to form instance detail page
+        // Navigate to proposal landing page
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
