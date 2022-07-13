@@ -148,7 +148,9 @@ public inherited sharing class FormInstanceController {
             SELECT Id, Proposal__c, Form__r.Form_Phrase_Title__r.Phrase_in_English__c, Date_submitted__c, Form__r.Sort_number__c, Language__c
             FROM Form_Instance__c
             WHERE Date_submitted__c != null
-            AND (Profile__c = : profId OR Proposal__c = :propId)
+            AND (Profile__c = : profId 
+                OR (Proposal__c <> null AND Proposal__c = :propId)
+                )
             //AND Form__r.Type__c in:formTypes
             ORDER BY Proposal__r.Name, Form__r.Sort_number__c
         ];
