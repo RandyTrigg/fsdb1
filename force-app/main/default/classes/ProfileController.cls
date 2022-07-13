@@ -123,7 +123,7 @@ public inherited sharing class ProfileController {
             // Look up app Form from custom metadata grant type.
             String fsGroup = Utilities.fsGroupNameByUser(UserInfo.getUserId());
             Grant_type__mdt[] grantTypeMetadata = [
-                SELECT Label, Application_form_name__c, Default_custom_reqs_name__c, FS_Group__r.Public_Group_Name__c
+                SELECT Label, Default_custom_reqs_name__c, FS_Group__r.Public_Group_Name__c, Application_form_name__c 
                 FROM Grant_type__mdt
                 WHERE Label = :grantType AND FS_Group__r.Public_Group_Name__c=:fsGroup
             ];
