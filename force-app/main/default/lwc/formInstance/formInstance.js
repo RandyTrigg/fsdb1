@@ -4,6 +4,7 @@ import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import getFormInstanceData from '@salesforce/apex/SiteController.getFormInstanceData';
+import updateFormDataBulk from '@salesforce/apex/SiteController.updateFormDataBulk';
 import submitForm from '@salesforce/apex/SiteController.submitForm';
 
 import { buildTransByName, buildTransById, updateRecordInternals } from 'c/formsUtilities';
@@ -18,14 +19,15 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     @api isReadOnly; // Internal flag set and unset during processing at community
     @api isMultiView = false; // Determines whether we're in a single-form view or multi-form view.
     @api isEmbedded = false; // True if this component appears on the right side of a left-right interface
+    @api language = 'English';
     dataLoaded = false;
     showSpinner = true;
     showHeader;
     hasSections;
     @track sections = [];
     @track components = [];
+    componentMap;
     topLevelCmps = [];
-    @api language = 'English';
     transByNameObj;
     @track frm = {};
     @track fi = {};
@@ -34,6 +36,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     logout;
     support;
     numErrors;
+    saveNeeded = false; // If true then an internet outage prevented auto-save, and a bulk save is needed for unsaved field edits
 
     
     connectedCallback() {
@@ -149,6 +152,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             }
             // Fill in form component's data, or build new data if none present
             cmp.data = formDataMap.has(cmp.Id) ? formDataMap.get(cmp.Id) : this.getEmptyFormData(cmp);
+            cmp.dataText = cmp.data.Data_textarea__c != null ? cmp.data.Data_textarea__c : cmp.data.Data_text__c;
             // Other tweaks to cmp
             cmp.isRequired = cmp.Required__c;
             // Tweak form components that link to picklists
@@ -159,6 +163,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         this.topLevelCmps = topCmps;
         this.hasSections = this.sections.length > 0;
         this.components = cmps;
+        this.componentMap = new Map(cmps.map(object => { return [object.Id, object]; }));
         this.dataLoaded = true;
         this.showSpinner = false;
     }
@@ -178,6 +183,13 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     handleDataChange(event) {
         let cmpId = event.detail.cmpId;
         let newData = event.detail.dataText;
+        // Register if auto-save failed. Note that even if the field update succeeded, we may still need bulk save for earlier fails 
+        if (!event.detail.fieldUpdated) this.saveNeeded = true; 
+        // Update local copy of data
+        let cmp = this.componentMap.get(cmpId);
+        cmp.dataText = newData;
+        if (cmp.isTextArea) cmp.data.Data_textarea__c = newData;
+        else cmp.data.Data_text__c = newData;
         //console.log('formInstance handleDataChange: cmpId/newData', cmpId, newData);
         // Write @api function in formComponent to determine whether components dependent on the changed field need to be hidden/shown.
         // ...
@@ -224,8 +236,13 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     }
 
     async handleSubmit() {
+        this.showSpinner = true;
         try {
-            let submitted = await submitForm({formInstanceId:this.recordId});
+            let submitted;
+            //if (this.saveNeeded) this.bulkSave(); // Do bulk save if necessary before submit
+            // For testing, call bulk save before every submit
+            this.bulkSave(); 
+            if (!this.saveNeeded) submitted = await submitForm({formInstanceId:this.recordId});
             if (submitted) {
                 dispatchEvent(
                     new ShowToastEvent({
@@ -236,10 +253,30 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
                 )
                 this[NavigationMixin.Navigate]({type: 'comm__namedPage', attributes: {name: 'Home'}});
             } else showUIError(buildError('Submit form unsuccessful', 'Your form could not be submitted - please contact your administrator'));
+            this.showSpinner = false;
         } catch (error) {
             console.log('handleSubmit catch with recordId = ' +this.recordId+ ' with error', error);
             showUIError(buildError('Submit form unsuccessful', 'Your form could not be submitted - please contact your administrator', 'error'));
-            handleError(error);
+            this.showSpinner = false;
+        }
+    }
+
+    // Save all current data values, including any that haven't been saved because of internet glitches 
+    async bulkSave() {
+        try {
+            // Pass triples representing form data to apex for saving
+            let dataInfos = this.components.map(cmp => { return {formComponentId: cmp.Id, value: cmp.dataText, isTextArea: cmp.isTextArea}} );
+            let saved = await updateFormDataBulk({frmInstanceId:this.recordId, fdInfosStr: JSON.stringify(dataInfos)});
+            if (saved) { 
+                this.saveNeeded = false;
+            } else {
+                showUIError(buildError('Bulk save unsuccessful', 'The data in your form could not be saved - please contact your administrator'));
+                this.saveNeeded = true;
+            }
+        } catch (error) {
+            console.log('bulkSave catch with recordId = ' +this.recordId+ ' with error', error);
+            showUIError(buildError('Bulk save unsuccessful', 'The data in your form could not be saved - please contact your administrator', 'error'));
+            this.saveNeeded = true;
         }
     }
 

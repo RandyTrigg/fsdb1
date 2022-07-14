@@ -440,6 +440,14 @@
         <fields>UPDATEDBY_USER</fields>
         <relatedList>Form__c.Form_Phrase_Footer__c</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Active__c</fields>
+        <fields>Type__c</fields>
+        <fields>Source_object__c</fields>
+        <fields>UPDATEDBY_USER</fields>
+        <relatedList>Template__c.Form_Phrase_Title__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

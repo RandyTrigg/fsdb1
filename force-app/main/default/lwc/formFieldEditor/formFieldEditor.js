@@ -130,8 +130,6 @@ export default class FormFieldEditor extends LightningElement {
                 }
             }
         }
-        
-        
     }
 
     renderedCallback() {
@@ -167,12 +165,18 @@ export default class FormFieldEditor extends LightningElement {
         let element = this.handleCustomErrors();
         if (element) element.reportValidity();
         try {
-            this.sendUpdatedValue(dataText);
+            // Update form data record in db via apex call 
+            let fieldUpdated = this.sendUpdatedValue(dataText);
             //Notify parent that data has changed
             //console.log('formFieldEditor handleInputChange dispatch cmpChange event', this.localCmp.Id, dataText);
-            const cmpUpdated = new CustomEvent('cmpchange', { bubbles: true, composed: true, detail:{cmpId: this.localCmp.Id, dataText: dataText} });
+            const cmpUpdated = new CustomEvent('cmpchange', { 
+                bubbles: true, 
+                composed: true, 
+                detail:{cmpId: this.localCmp.Id, dataText: dataText, fieldUpdated: fieldUpdated}
+            });
             this.dispatchEvent(cmpUpdated);
         } catch(error) {
+            console.log('formFieldEditor handleInputChange: error: ' +error);
             handleError(error);
         }
     }
@@ -209,7 +213,7 @@ export default class FormFieldEditor extends LightningElement {
         return element;
     } 
 
-    // Upsert the form data record via apex
+    // Upsert the form data record via apex. Return true if successful.
     async sendUpdatedValue(textData) { 
         try {
             let result = await updateFormData({
@@ -219,10 +223,11 @@ export default class FormFieldEditor extends LightningElement {
                 isTextarea:this.localCmp.isTextArea
             });
             if (!result) showUIError(buildError('Auto-save unsuccessful', 'Data in a field could not be saved - please contact your administrator'));
+            return result;
         } catch (error) {
             console.log('sendUpdatedValue catch with recordId = ' +this.formInstanceId+ ' with error', error);
             showUIError(buildError('Auto-save unsuccessful', 'Data in a field could not be saved - please contact your administrator', 'error'));
-            handleError(error);
+            return false;
         }
     }
 

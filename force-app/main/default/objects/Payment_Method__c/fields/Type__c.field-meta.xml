@@ -21,21 +21,19 @@
                 <label>Org account</label>
             </value>
             <value>
-                <fullName>Alternative</fullName>
+                <fullName>Joint account</fullName>
                 <default>false</default>
-                <label>Alternative</label>
+                <label>Joint account</label>
             </value>
             <value>
                 <fullName>Fiscal sponsor</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>Fiscal sponsor</label>
             </value>
             <value>
-                <fullName>Joint account</fullName>
+                <fullName>Alternative</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Joint account</label>
+                <label>Alternative</label>
             </value>
         </valueSetDefinition>
     </valueSet>
