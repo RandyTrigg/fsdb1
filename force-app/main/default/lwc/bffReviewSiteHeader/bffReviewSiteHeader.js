@@ -6,7 +6,8 @@ import getHeaderName from '@salesforce/apex/SiteController.getHeaderName';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 
 import PROP_ID from '@salesforce/schema/Form_Instance__c.Proposal__c';
-const fields = [PROP_ID];
+import FI_ID from '@salesforce/schema/Form_Instance__c.Id';
+const fields = [PROP_ID, FI_ID];
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     currentPageReference;
     bffLogoWhiteText = logoResourceWhiteText;
@@ -33,7 +34,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
         formInst({error,data}) {
             if (data) {
                 this.formInstdata = data;
-                console.log('forminstdata');
+                console.log('forminstdata', JSON.stringify(data));
             } else if (error) {
                 console.log('forminst error', JSON.stringify(error));
             }
@@ -68,8 +69,8 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('disableProfile',this.disableProfile);
             console.log('recordId', this.recordId);
             if (this.page==='FormInstance__c') {
-                this.propId = getFieldValue(this.formInstdata, PROP_ID);
-                console.log('propid',this.propId);
+                // this.propId = getFieldValue(this.formInstdata, PROP_ID);
+                // console.log('propid',this.propId);
                 this.onPropFormInst = true;
                 console.log('onPropFormInst', this.onPropFormInst);
             }
