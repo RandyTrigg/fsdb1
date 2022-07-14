@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FS_agreement_signer_1__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>First contact who is authorized to sign the fiscal sponsorship agreement</description>
+    <externalId>false</externalId>
+    <inlineHelpText>First contact who is authorized to sign the fiscal sponsorship agreement</inlineHelpText>
+    <label>FS agreement signer 1</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>FS agreement signer (if non-blank) must belong to the account that is the Fiscal Sponsor.</errorMessage>
+        <filterItems>
+            <field>$Source.Fiscal_sponsor__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </filterItems>
+        <filterItems>
+            <field>Contact.AccountId</field>
+            <operation>equals</operation>
+            <valueField>$Source.Fiscal_sponsor__c</valueField>
+        </filterItems>
+        <infoMessage>FS agreement signer (if non-blank) must belong to the account that is the Fiscal Sponsor.</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Payment Methods (FS agreement signer 1)</relationshipLabel>
+    <relationshipName>Payment_Methods6</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

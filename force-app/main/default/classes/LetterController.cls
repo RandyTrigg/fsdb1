@@ -32,24 +32,16 @@ public class LetterController {
     // Check letter template to perform any required special handling, then recompute the text of the selected letters.
     public PageReference resetLetters() {
         Set<Id> letIds = selectedLetters();
-        if (resetLetters0(letIds, false))
-            return returnPage();
-        else
-            return null;
+        if (resetLetters0(letIds, false)) return returnPage();
+        else return null;
     }
 
     // Check letter template to perform any required special handling, then recompute the text of the selected letters.
     // Return true if no errors.
     public static Boolean resetLetters0(Set<Id> letIds, Boolean emailFlg) {
-        if (letIds.size() == 0)
-            return false;
-        // Special handling for endorsement letters, assumed to be in a batch with single template and belonging to a single endorse request.
-        String templateName = [
-            SELECT Template__r.Name
-            FROM Letter__c
-            WHERE Id IN :letIds
-        ][0]
-        .Template__r.Name;
+        if (letIds.size() == 0) return false;
+        // Update letter fields other than body/subject/footer.
+        preProcessLetters(letIds);
         return resetLetters1(letIds, emailFlg);
     }
 
@@ -58,14 +50,10 @@ public class LetterController {
     // However, if these are endorse request letters, then always go sync to avoid race condition with updateEndorsements.
     public static Boolean resetLetters1(Set<Id> letIds, Boolean emailFlg) {
         Boolean result = true;
-        if (letIds.size() == 0)
-            return true;
+        if (letIds.size() == 0) return true;
         if (emailFlg || letIds.size() > resetAsyncThreshold) {
             // Fire up batch process for selected letters.
-            Database.executeBatch(
-                new LetterResetBatch(letIds, emailFlg),
-                resetBatchSize
-            );
+            Database.executeBatch(new LetterResetBatch(letIds, emailFlg), resetBatchSize);
         } else {
             result = resetLettersSync(letIds, emailFlg);
         }
@@ -80,40 +68,27 @@ public class LetterController {
         if (sentLetIds.size() > 0) {
             // Some letters have already been sent (emailed or printed) so couldn't be reset.
             String warning =
-                sentLetIds.size() +
-                ' out of ' +
-                letIds.size() +
+                sentLetIds.size() + ' out of ' + letIds.size() +
                 ' letter(s) could not be reset, because they have non-blank Date Sent: ' +
                 String.join(sentLetIds, ', ');
-            ApexPages.AddMessage(
-                new ApexPages.Message(
-                    ApexPages.Severity.WARNING,
-                    warning,
-                    warning
-                )
-            );
+            ApexPages.AddMessage(new ApexPages.Message(ApexPages.Severity.WARNING, warning, warning));
             return false;
         } else {
-            if (emailFlg)
-                emailLetters0(letIds);
+            if (emailFlg) emailLetters0(letIds);
             return true;
         }
     }
 
     public PageReference doCancel() {
-        return (standardSetController != null)
-            ? standardSetController.cancel()
-            : standardController.cancel();
+        return (standardSetController != null) ? standardSetController.cancel() : standardController.cancel();
     }
 
     // Email selected letters (VF context).
     public PageReference emailLetters() {
         Set<Id> letIds = selectedLetters();
         system.debug('emailLetters: letIds = ' + JSON.serialize(letIds));
-        if (emailLetters0(letIds))
-            return returnPage();
-        else
-            return null;
+        if (emailLetters0(letIds)) return returnPage();
+        else return null;
     }
 
     // Email the given letters
@@ -337,6 +312,81 @@ public class LetterController {
                 : standardController.cancel();
         }
     }
+    
+    // Update fields in letters as appropriate based on template name. 
+    public static void preProcessLetters(Set<Id> letIds) {
+        Map<Id, Letter__c> letsToUpdate = new Map<Id, Letter__c> ();
+        Map<Id, Letter__c> lets = new Map<Id, Letter__c>([
+            SELECT Emails__c, Template__r.Name, Template__r.Source_object__c, 
+            Template__r.Signer_1_field_name__c, Template__r.Signer_2_field_name__c,
+            Proposal__c, Proposal__r.Contract_signer__c, Proposal__r.Contract_signer_2__c,
+            Payment_Method__r.FSRequest_signer_1__c, Payment_Method__r.FSRequest_signer_2__c, 
+            Payment_Method__r.FS_agreement_signer_1__c, Payment_Method__r.FS_agreement_signer_2__c,
+            Payment_Method__r.Authorized_signer__c, Payment_Method__r.Authorized_signer_2__c
+            FROM Letter__c
+            WHERE Id IN : letIds
+        ]);
+        // Maps from letter Id to contact Id for signers.
+        Map<Id, Id> signer1s = new Map<Id, Id> ();
+        Map<Id, Id> signer2s = new Map<Id, Id> ();
+        // Gather signer contacts declaratively based on signer fieldname references.
+        String signer1FN, signer2FN, sourceObjName;
+        for (Letter__c let : lets.values()) {
+            system.debug('preProcessLetters: let = ' +JSON.serialize(let));
+            signer1FN = let.Template__r.Signer_1_field_name__c;
+            signer2FN = let.Template__r.Signer_2_field_name__c;
+            if (!String.isBlank(let.Template__r.Source_object__c)) sourceObjName = let.Template__r.Source_object__c.replace('__c', '__r');
+            if (!String.isBlank(signer1FN) && (String)let.getSobject(sourceObjName).get(signer1FN) != null) signer1s.put(let.Id, (String)let.getSobject(sourceObjName).get(signer1FN));
+            if (!String.isBlank(signer2FN) && (String)let.getSobject(sourceObjName).get(signer2FN) != null) signer2s.put(let.Id, (String)let.getSobject(sourceObjName).get(signer2FN));
+            system.debug('preProcessLetters: signer1s = ' +JSON.serialize(signer1s));
+            system.debug('preProcessLetters: signer2s = ' +JSON.serialize(signer2s));
+            if (let.Proposal__c != null) {
+                letsToUpdate.put(let.Id, let);
+            }
+        }
+        // Fetch fields from signer contacts.
+        Map<Id, Contact> cts = new Map<Id, Contact> ([
+            SELECT Email, FirstName, LastName, Title, Description_GM_plus_email__c
+            FROM Contact
+            WHERE Id IN : signer1s.values()
+            OR Id IN : signer2s.values()
+        ]);
+        system.debug('preProcessLetters: cts = ' +JSON.serialize(cts));
+        // Set signer fields in letters.
+        Id c1Id, c2Id;
+        List<String> emlList;
+        Set<String> emlSet;
+        Set<String> signerSet = new Set<String>();
+        for (Letter__c let : letsToUpdate.values()) {
+            emlList = let.Emails__c.split(',');
+            emlSet = new Set<String>(emlList);
+            c1Id = signer1s.get(let.Id);
+            c2Id = signer2s.get(let.Id);
+            if (c1Id != null) {
+                let.Signer_1_email__c = cts.get(c1Id).Email;
+                let.Signer_1_FirstName__c = cts.get(c1Id).FirstName;
+                let.Signer_1_LastName__c = cts.get(c1Id).LastName;
+                let.Signer_1_Title__c = cts.get(c1Id).Title;
+                let.Signer_1_description__c = cts.get(c1Id).Description_GM_plus_email__c;
+                signerSet.add(cts.get(c1Id).Email);
+            }
+            if (c2Id != null) {
+                let.Signer_2_email__c = cts.get(c2Id).Email;
+                let.Signer_2_FirstName__c = cts.get(c2Id).FirstName;
+                let.Signer_2_LastName__c = cts.get(c2Id).LastName;
+                let.Signer_2_Title__c = cts.get(c2Id).Title;
+                let.Signer_2_description__c = cts.get(c2Id).Description_GM_plus_email__c;
+                signerSet.add(cts.get(c2Id).Email);
+            }
+            // Set letter Emails__c to include signers.
+            Boolean updated = emlSet.addAll(signerSet);
+            if (signerSet.size() > 0 && updated) let.Emails__c = String.join(new List<String>(emlSet), ',');
+            signerSet.clear();
+            emlSet.clear();
+        }
+        // Update the affected letters.
+        if(letsToUpdate.size() > 0) update letsToUpdate.values();
+    }
 
     // Use Date sent or Date received in this letter to set a field in a linked record,
     // based on object/field name stored in the letter's template.
@@ -346,35 +396,18 @@ public class LetterController {
             'Template__r.Date_sent_recd_field_name__c',
             'Template__r.Date_sent_recd_object_name__c'
         };
-        Letter__c let = (Letter__c) Utilities.fetchRecord(
-            'Letter__c',
-            letId,
-            relTemplateFlds
-        );
-        // Bail if letter hasn't been sent/received,
-        // template doesn't specify a related object/field,
+        Letter__c let = (Letter__c) Utilities.fetchRecord('Letter__c', letId, relTemplateFlds);
+        // Bail if letter hasn't been sent/received, template doesn't specify a related object/field,
         // or if the letter doesn't link to the given object.
         String objName = let.Template__r.Date_sent_recd_object_name__c,
             fldName = let.Template__r.Date_sent_recd_field_name__c;
-        if (
-            (let.Date_sent__c == null &&
-            let.Date_received__c == null) ||
-            objName == null ||
-            fldName == null ||
-            let.get(objName) == null
-        )
-            return;
+        if ((let.Date_sent__c == null && let.Date_received__c == null) || objName == null || fldName == null || let.get(objName) == null) return;
         // Get related record
         Id recId = (Id) let.get(objName);
         sObject rec = Utilities.fetchRecord(objName, recId, null);
         // If date field in related record is blank, then set to letter's date sent or date received.
         if (rec != null && rec.get(fldName) == null) {
-            rec.put(
-                fldName,
-                let.Date_sent__c != null
-                    ? let.Date_sent__c
-                    : let.Date_received__c
-            );
+            rec.put(fldName, let.Date_sent__c != null ? let.Date_sent__c : let.Date_received__c);
             update rec;
         }
     }

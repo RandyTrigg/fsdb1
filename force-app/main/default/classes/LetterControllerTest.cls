@@ -379,4 +379,125 @@ public with sharing class LetterControllerTest {
         p = [SELECT Id, Date_declined__c FROM Proposal__c LIMIT 1];
         system.assertEquals(d, p.Date_declined__c);
     }
+
+    // Test the pre-process code for letter reset.
+    static testmethod void LetterResetTest3b () {
+        // Build new accounts, letters, template pieces, template macros, templates
+        insert new Region__c (Name = 'Region test');
+        Region__c reg = [SELECT Id FROM Region__c LIMIT 1];
+        insert new Account (Name = 'LetterTest', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
+        Id acc1Id = [SELECT Id FROM Account LIMIT 1].Id;
+        insert new Account (Name = 'FSAccountTest', RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM_FS'));
+        Id acc2Id = [SELECT Id FROM Account WHERE Name = 'FSAccountTest' LIMIT 1].Id;
+        insert new Contact (AccountId = acc1Id, LastName = 'Smith');
+        Id ct1Id = [SELECT Id FROM Contact LIMIT 1].Id;
+        insert new Contact (AccountId = acc2Id, LastName = 'Smithson');
+        Id ct2Id = [SELECT Id FROM Contact WHERE LastName = 'Smithson' LIMIT 1].Id;
+        insert new Proposal__c (Account__c = acc1Id, Contract_signer__c = ct1Id, Contract_signer_2__c = ct1Id);
+        Id propId = [SELECT Id FROM Proposal__c LIMIT 1].Id;
+        insert new Payment_Method__c (Account__c = acc1Id, WU_id__c = 'wu 1', Proposal__c = propId, FSRequest_signer_1__c = ct1Id, FSRequest_signer_2__c = ct1Id);
+        Id pm1Id = [SELECT Id FROM Payment_Method__c WHERE FSRequest_signer_1__c <> null LIMIT 1].Id;
+
+        List<Letter__c> lets = new List<Letter__c>();
+        String email = 'abc@def.org';
+        insert new Template__c (Name = 'FS Request form', Type__c = 'Grantmaking');
+        Id t2Id = [SELECT Id FROM Template__c WHERE Name = 'FS Request form' LIMIT 1].Id;
+        insert new Template_piece__c (Template__c = t2Id, Name = 'PAGE 1', Piece_text__c = 'Test text on page 1');
+        lets.add(new Letter__c (Template__c = t2Id, Account__c = acc1Id, Proposal__c = propId, Payment_Method__c = pm1Id, Emails__c = email));
+        insert lets;
+
+        //List<Letter__c> lets = new List<Letter__c> ([SELECT Id, Template__r.Name, Proposal__r.Contract_signer__c FROM Letter__c]);
+        system.debug('LetterResetTest3b: lets = ' +JSON.serialize(lets));
+        
+        ApexPages.StandardSetController scl = new ApexPages.StandardSetController(lets);
+        scl.setSelected(lets);
+        LetterController lc = new LetterController (scl);
+        
+        Test.StartTest();
+        lc.resetLetters();
+        lc.emailLetters();
+        Test.StopTest();
+    }
+
+    // Test the pre-process code for letter reset.
+    static testmethod void LetterResetTest3c () {
+        // Build new accounts, letters, template pieces, template macros, templates
+        insert new Region__c (Name = 'Region test');
+        Region__c reg = [SELECT Id FROM Region__c LIMIT 1];
+        insert new Account (Name = 'LetterTest', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
+        Id acc1Id = [SELECT Id FROM Account LIMIT 1].Id;
+        insert new Account (Name = 'FSAccountTest', RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM_FS'));
+        Id acc2Id = [SELECT Id FROM Account WHERE Name = 'FSAccountTest' LIMIT 1].Id;
+        insert new Contact (AccountId = acc1Id, LastName = 'Smith');
+        Id ct1Id = [SELECT Id FROM Contact LIMIT 1].Id;
+        insert new Contact (AccountId = acc2Id, LastName = 'Smithson');
+        Id ct2Id = [SELECT Id FROM Contact WHERE LastName = 'Smithson' LIMIT 1].Id;
+        insert new Proposal__c (Account__c = acc1Id, Contract_signer__c = ct1Id, Contract_signer_2__c = ct1Id);
+        Id propId = [SELECT Id FROM Proposal__c LIMIT 1].Id;
+        insert new Payment_Method__c (Account__c = acc1Id, WU_id__c = 'wu 1', Fiscal_sponsor__c = acc2Id, Proposal__c = propId, FS_agreement_signer_1__c = ct2Id, FS_agreement_signer_2__c = ct2Id);
+        Id pm2Id = [SELECT Id FROM Payment_Method__c WHERE FS_agreement_signer_1__c <> null LIMIT 1].Id;
+
+        List<Letter__c> lets = new List<Letter__c>();
+        String email = 'abc@def.org';
+        insert new Template__c (Name = 'FS Agreement form', Type__c = 'Grantmaking');
+        Id t3Id = [SELECT Id FROM Template__c WHERE Name = 'FS Agreement form' LIMIT 1].Id;
+        insert new Template_piece__c (Template__c = t3Id, Name = 'PAGE 1', Piece_text__c = 'Test text on page 1');
+        lets.add(new Letter__c (Template__c = t3Id, Account__c = acc1Id, Proposal__c = propId, Payment_Method__c = pm2Id, Emails__c = email));
+        insert lets;
+
+        //List<Letter__c> lets = new List<Letter__c> ([SELECT Id, Template__r.Name, Proposal__r.Contract_signer__c FROM Letter__c]);
+        system.debug('LetterResetTest3c: lets = ' +JSON.serialize(lets));
+        
+        ApexPages.StandardSetController scl = new ApexPages.StandardSetController(lets);
+        scl.setSelected(lets);
+        LetterController lc = new LetterController (scl);
+        
+        Test.StartTest();
+        lc.resetLetters();
+        lc.emailLetters();
+        Test.StopTest();
+    }
+
+    // Test the pre-process code for letter reset.
+    static testmethod void LetterResetTest3d () {
+        // Build new accounts, letters, template pieces, template macros, templates
+        insert new Region__c (Name = 'Region test');
+        Region__c reg = [SELECT Id FROM Region__c LIMIT 1];
+        insert new Account (Name = 'LetterTest', GM_region__c = reg.Id, RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM'));
+        Id acc1Id = [SELECT Id FROM Account LIMIT 1].Id;
+        insert new Account (Name = 'FSAccountTest', RecordTypeId = Utilities.getRecTypeId('Account', 'Organization_GM_FS'));
+        Id acc2Id = [SELECT Id FROM Account WHERE Name = 'FSAccountTest' LIMIT 1].Id;
+        insert new Contact (AccountId = acc1Id, LastName = 'Smith', Email = 'ghi@jkl.org');
+        Id ct1Id = [SELECT Id FROM Contact LIMIT 1].Id;
+        insert new Contact (AccountId = acc2Id, LastName = 'Smithson');
+        Id ct2Id = [SELECT Id FROM Contact WHERE LastName = 'Smithson' LIMIT 1].Id;
+        insert new Proposal__c (Account__c = acc1Id, Contract_signer__c = ct1Id, Contract_signer_2__c = ct1Id);
+        Id propId = [SELECT Id FROM Proposal__c LIMIT 1].Id;
+        insert new Payment_Method__c (Account__c = acc1Id, WU_id__c = 'wu 1', Proposal__c = propId, Authorized_signer__c = ct1Id, Authorized_signer_2__c = ct1Id);
+        Id pm3Id = [SELECT Id FROM Payment_Method__c WHERE Authorized_signer__c <> null LIMIT 1].Id;
+
+        List<Letter__c> lets = new List<Letter__c>();
+        String email = 'abc@def.org';
+        insert new Template__c (Name = 'Request to Authorize updated Payment information', Type__c = 'Grantmaking', Signer_1_field_name__c = 'Authorized_signer__c', 
+            Signer_2_field_name__c = 'Authorized_signer_2__c', Source_object__c = 'Payment_Method__c');
+        Id t4Id = [SELECT Id FROM Template__c WHERE Name = 'Request to Authorize updated Payment information' LIMIT 1].Id;
+        insert new Template_piece__c (Template__c = t4Id, Name = 'PAGE 1', Piece_text__c = 'Test text on page 1');
+        lets.add(new Letter__c (Template__c = t4Id, Account__c = acc1Id, Proposal__c = propId, Payment_Method__c = pm3Id, Emails__c = email));
+        insert lets;
+
+        //List<Letter__c> lets = new List<Letter__c> ([SELECT Id, Template__r.Name, Proposal__r.Contract_signer__c FROM Letter__c]);
+        system.debug('LetterResetTest3d: lets = ' +JSON.serialize(lets));
+        
+        ApexPages.StandardSetController scl = new ApexPages.StandardSetController(lets);
+        scl.setSelected(lets);
+        LetterController lc = new LetterController (scl);
+        
+        Test.StartTest();
+        lc.resetLetters();
+        lc.emailLetters();
+        Test.StopTest();
+        
+        Letter__c updLet = [SELECT Id, Emails__c, Signer_1_email__c FROM Letter__c WHERE Id =: lets[0].Id LIMIT 1];
+        system.Assert(updLet.Emails__c.contains(updLet.Signer_1_email__c));
+    }
 }
