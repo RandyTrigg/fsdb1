@@ -120,7 +120,7 @@ public inherited sharing class ProfileController {
                     Grant_type__c = grantType
                 );
                 insert newProp;
-            // Lookup custom reqs record for the grant type from custom metadata type.
+            // Look up app Form from custom metadata grant type.
             String fsGroup = Utilities.fsGroupNameByUser(UserInfo.getUserId());
             Grant_type__mdt[] grantTypeMetadata = [
                 SELECT Label, Default_custom_reqs_name__c, FS_Group__r.Public_Group_Name__c, Application_form_name__c 
