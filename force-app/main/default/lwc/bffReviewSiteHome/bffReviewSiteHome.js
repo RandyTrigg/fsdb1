@@ -90,6 +90,13 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this.loading = this.transByNameObj.Loading;
         this.pendingLabel = this.transByNameObj.PendingReviews;
         this.submittedLabel = this.transByNameObj.SubmittedReviews;
+        const lMap = new Map();
+        this.langMap.set('English', 'en');
+        this.langMap.set('Spanish', 'es');
+        this.langMap.set('French', 'fr');
+        this.langMap.set('Portuguese', 'pt');
+        // this.langMap = lMap;
+        this.langTag = this.langMap.get(this.language);
     }
 
     buildTables() {

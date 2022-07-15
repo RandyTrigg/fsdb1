@@ -98,7 +98,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             console.log('dateEstablished', this.dateEstablished);
             if (this.hasSubmittedPrf) this.expandGrants = '';
             this.translatePage();
-            this.setLangPickerDefault();
+            // this.setLangPickerDefault();
             this.dataLoaded = true;
             this.showSpinner = false;
         } catch (error) {
@@ -151,10 +151,18 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         this.langTag = this.langMap.get(this.language);
     }
 
-    handleLanguagePicker(event){
+    /* handleLanguagePicker(event){
         this.language = event.target.value;
         this.translatePage();
+    } */
+
+    handleLanguagePicker(event){
+        console.log('handleLanguagePicker in Home');
+        this.language = event.detail;
+        console.log(this.language);
+        this.translatePage();
     }
+
 
     get options() {
         return [

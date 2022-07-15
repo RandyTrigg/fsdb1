@@ -28,7 +28,8 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     propId;
     @track formInstdata;
 
-    // If recordId passed to header (only forminstance), look for propid.
+    // Breadcrumbs: Proposal landing.
+    // RecordId passed to header in forminstance. Retrieve prop Id for prop landing.
     @wire(getRecord, { recordId: '$recordId', fields })
         formInst({error,data}) {
             if (data) {
@@ -45,6 +46,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             }
         }
     
+    // Breadcrumbs: Current page
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
         console.log('wire currentPageReference', currentPageReference);
