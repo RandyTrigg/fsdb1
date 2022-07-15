@@ -5,9 +5,8 @@ import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import getHeaderName from '@salesforce/apex/SiteController.getHeaderName';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 
-import PROP_ID from '@salesforce/schema/Form_Instance__c.Proposal__c';
-import FI_ID from '@salesforce/schema/Form_Instance__c.Id';
-const fields = [PROP_ID, FI_ID];
+import PROP_ID from '@salesforce/schema/Form_Instance__c.ProposalId__c';
+const fields = [PROP_ID];
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     currentPageReference;
     bffLogoWhiteText = logoResourceWhiteText;
@@ -29,12 +28,18 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     propId;
     @track formInstdata;
 
-
+    // If recordId passed to header (only forminstance), look for propid.
     @wire(getRecord, { recordId: '$recordId', fields })
         formInst({error,data}) {
             if (data) {
                 this.formInstdata = data;
                 console.log('forminstdata', JSON.stringify(data));
+                this.propId = getFieldValue(this.formInstdata, PROP_ID);
+                console.log('propid',this.propId);
+                if (this.propId) {
+                    this.onPropFormInst = true;
+                    console.log('onPropFormInst', this.onPropFormInst);
+                }
             } else if (error) {
                 console.log('forminst error', JSON.stringify(error));
             }
@@ -49,9 +54,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             this.onHome = this.page==='Home';
             console.log('onhome', this.onHome);
             if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
-            console.log('assessmentpage check');
             if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.Form;
-            console.log('formpage check');
             if (this.page==='Proposal__c') this.pageName = 'Proposal'; // this.transByNameObj.Proposal;
             console.log('thispage', this.page);
             console.log('thispagename', this.pageName);
@@ -68,16 +71,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('showSearch',this.showSearch);
             console.log('disableProfile',this.disableProfile);
             console.log('recordId', this.recordId);
-            if (this.page==='FormInstance__c') {
-                // this.propId = getFieldValue(this.formInstdata, PROP_ID);
-                // console.log('propid',this.propId);
-                this.onPropFormInst = true;
-                console.log('onPropFormInst', this.onPropFormInst);
-            }
-            console.log('connectedcallback propid', this.propId);
-            
             this.setLangTag();
-
             console.log(this.baseURL);
             this.dataLoaded = true;
         }
@@ -124,6 +118,10 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
         this.dispatchEvent(selLang);
         console.log('dispatched event');
     }
+
+    selfClick() {
+        // Do nothing - stay on this page
+    }
     
     handleHome(){
         this[NavigationMixin.Navigate]({
@@ -145,10 +143,6 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
                 lang: this.language
             }
         });
-    }
-
-    selfClick() {
-        // Do nothing - stay on this page
     }
     
     handleProfile () {

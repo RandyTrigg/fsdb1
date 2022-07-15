@@ -1,88 +1,93 @@
 <template>
     <header class="slds-global-header_container bff-header-container">
-        <div if:true={dataLoaded} class="slds-global-header slds-grid bff-global-header slds-grid_align-spread">
-            <div class="slds-global-header__item">
-                <img class="bff-logo-header" src={bffLogoWhiteText} alt="Review Home Page" onclick={handleHome}>
-            </div>
-            <div if:true={showLanguagePicker} class="slds-global-header__item">
-                <lightning-combobox
-                id="langCombobox"
-                class="language-font"
-                data-id="select"
-                variant="label-hidden"
-                label={transByNameObj.LanguageSelector}
-                options={options}
-                value={language}
-                onchange={handleLanguagePicker}>
-                </lightning-combobox>
-            </div>
-            <div class="slds-global-header__item">
-                <span class="slds-text-heading_small slds-text-color_inverse-weak">{name}&nbsp;&nbsp;</span>
-                <lightning-button-menu 
-                    alternative-text="Show menu" 
-                    icon-name="utility:settings" 
-                    variant="border-inverse"
-                    menu-alignment="auto">
-                        <div if:true={showProfile}>
-                            <lightning-menu-item
-                            value="Profile"
-                            label={transByNameObj.MyProfile}
-                            icon-name="utility:user"
-                            onclick={handleProfile}>
+        
+        <div if:true={dataLoaded} class="slds-global-header bff-global-header">
+
+            <!-- Purple banner with logo and settings -->
+            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center bff-global-header">
+                <div class="slds-global-header__item">
+                    <img class="bff-logo-header" src={bffLogoWhiteText} alt="Black Feminist Fund Home" onclick={handleHome}>
+                </div>
+                <div if:true={showLanguagePicker} class="slds-global-header__item slds-m-top_medium">
+                    <lightning-combobox
+                    id="langCombobox"
+                    class="language-font"
+                    data-id="select"
+                    variant="label-hidden"
+                    label={transByNameObj.LanguageSelector}
+                    options={options}
+                    value={language}
+                    onchange={handleLanguagePicker}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-global-header__item">
+                    <span class="slds-text-heading_small slds-text-color_inverse-weak">{name}&nbsp;&nbsp;</span>
+                    <lightning-button-menu 
+                        alternative-text="Show menu" 
+                        icon-name="utility:settings" 
+                        variant="border-inverse"
+                        menu-alignment="auto">
+                            <div if:true={showProfile}>
+                                <lightning-menu-item
+                                value="Profile"
+                                label={transByNameObj.MyProfile}
+                                icon-name="utility:user"
+                                onclick={handleProfile}>
+                                </lightning-menu-item>
+                            </div>
+                            <lightning-menu-item 
+                                value="Get help" 
+                                label={transByNameObj.Support}
+                                icon-name="utility:help"
+                                href="mailto:BFFgrant-helpdesk@blackfeministfund.org?Subject=Question about Grants Site" 
+                                target="_blank">
                             </lightning-menu-item>
-                        </div>
-                        <lightning-menu-item 
-                            value="Get help" 
-                            label={transByNameObj.Support}
-                            icon-name="utility:help"
-                            href="mailto:BFFgrant-helpdesk@blackfeministfund.org?Subject=Question about Grants Site" 
-                            target="_blank">
-                        </lightning-menu-item>
-                        <lightning-menu-item 
-                            value="Logout"
-                            label={transByNameObj.Logout}
-                            icon-name="utility:logout"
-                            onclick={handleLogout}>
-                        </lightning-menu-item>
-                </lightning-button-menu>
+                            <lightning-menu-item 
+                                value="Logout"
+                                label={transByNameObj.Logout}
+                                icon-name="utility:logout"
+                                onclick={handleLogout}>
+                            </lightning-menu-item>
+                    </lightning-button-menu>
+                </div>
             </div>
-        </div>
-
-        <div if:true={dataLoaded}>
-        <div if:false={onHome} class="slds-m-left_x-large slds-m-top_x-small slds-p-left_small">
-            <lightning-breadcrumbs>
-                <lightning-breadcrumb
-                    label={transByNameObj.Home}
-                    onclick={handleHome}>
-                </lightning-breadcrumb>
-                <lightning-breadcrumb if:true={onPropFormInst}
-                    label={transByNameObj.Proposal}
-                    onclick={handlePropLanding}>
-                </lightning-breadcrumb>
-                <lightning-breadcrumb
-                    label={pageName}
-                    onclick={selfClick}>
-                </lightning-breadcrumb>
-            </lightning-breadcrumbs>
-        </div>
-    </div>
-
-        <div if:true={showSearch} class="slds-global-header slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
-            <div class="slds-global-header__item gfw-global-search">
-                <!-- <c-lookup
-                    data-id="searchLookup"    
-                    errors={errors}
-                    onsearch={handleLookupSearch}
-                    onclick={handleSearchClick}
-                    placeholder="Search Items"
-                    scroll-after-n-items="10"
-                    is-multi-entry={isMultiEntry}
-                    apply-gfw-icon-color="true"
-                    required
-                >
-                </c-lookup>-->
+            
+            <!-- Breadcrumbs -->
+            <div if:true={dataLoaded}>
+                <div if:false={onHome} class="slds-global-header__item slds-m-left_x-large slds-p-top_x-small slds-p-left_small under-header-strip">
+                    <lightning-breadcrumbs>
+                        <lightning-breadcrumb
+                            label={transByNameObj.Home}
+                            onclick={handleHome}>
+                        </lightning-breadcrumb>
+                        <lightning-breadcrumb if:true={onPropFormInst}
+                            label={transByNameObj.Proposal}
+                            onclick={handlePropLanding}>
+                        </lightning-breadcrumb>
+                        <lightning-breadcrumb
+                            label={pageName}
+                            onclick={selfClick}>
+                        </lightning-breadcrumb>
+                    </lightning-breadcrumbs>
+                </div>
             </div>
-        </div>
+
+            <div if:true={showSearch} class="slds-global-header__item slds-var-m-bottom_xx-large slds-grid under-header-strip slds-grid_align-center">
+                <div class="slds-global-header__item gfw-global-search">
+                    <!-- <c-lookup
+                        data-id="searchLookup"    
+                        errors={errors}
+                        onsearch={handleLookupSearch}
+                        onclick={handleSearchClick}
+                        placeholder="Search Items"
+                        scroll-after-n-items="10"
+                        is-multi-entry={isMultiEntry}
+                        apply-gfw-icon-color="true"
+                        required>
+                    </c-lookup>-->
+                </div>
+            </div>
+        </div> 
     </header>
 
 </template>

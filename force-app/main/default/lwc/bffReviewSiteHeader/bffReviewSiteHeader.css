@@ -26,10 +26,9 @@
 	width: 1px;
 }
 
-
-
 .under-header-strip {
 	background: #fcfcfc;
+	height: 30px;
 }
 .gfw-menu-item {
     display: inline-flex;
