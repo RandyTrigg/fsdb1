@@ -98,7 +98,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             console.log('dateEstablished', this.dateEstablished);
             if (this.hasSubmittedPrf) this.expandGrants = '';
             this.translatePage();
-            // this.setLangPickerDefault();
             this.dataLoaded = true;
             this.showSpinner = false;
         } catch (error) {
@@ -127,6 +126,13 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         this.hasProposals = this.profileSummary.hasProposals;
         this.processFormInstList(this.formInstList);
         this.prpItemsData = this.processPrpList(this.prpList);
+        const lMap = new Map();
+        lMap.set('English', 'en');
+        lMap.set('Spanish', 'es');
+        lMap.set('French', 'fr');
+        lMap.set('Portuguese', 'pt');
+        this.langMap = lMap;
+        this.langTag = this.langMap.get(this.language);
     }
 
     addDays(date, days) {
@@ -138,23 +144,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     reloadData() {
         this.loadData();
     }
-    
-    setLangPickerDefault(){
-        const langPicker = this.template.querySelector('[name="langPicker"]');
-        langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
-        const lMap = new Map();
-        lMap.set('English', 'en');
-        lMap.set('Spanish', 'es');
-        lMap.set('French', 'fr');
-        lMap.set('Portuguese', 'pt');
-        this.langMap = lMap;
-        this.langTag = this.langMap.get(this.language);
-    }
-
-    /* handleLanguagePicker(event){
-        this.language = event.target.value;
-        this.translatePage();
-    } */
 
     handleLanguagePicker(event){
         console.log('handleLanguagePicker in Home');
@@ -162,7 +151,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         console.log(this.language);
         this.translatePage();
     }
-
 
     get options() {
         return [
