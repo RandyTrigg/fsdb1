@@ -8,7 +8,7 @@ import getProposalSummary from '@salesforce/apex/SiteController.getProposalSumma
 
 export default class ProposalLanding extends NavigationMixin(LightningElement) {
     
-    // TO DO: Figure out whether to grab this in header js, grab again here, or ditch altogether from landing page.
+    // TO DO: Figure out whether to grab this in header js, grab again here, or ditch altogether from prop landing page.
     advProfileFormInstanceId;
 
     @api recordId;
@@ -163,7 +163,7 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
             },
             state: {
                 recordId: formInstId,
-                lang: this.language
+                language: this.language
             }
         });
     }

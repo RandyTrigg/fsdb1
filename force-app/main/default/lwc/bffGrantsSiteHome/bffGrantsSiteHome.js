@@ -152,15 +152,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         this.translatePage();
     }
 
-    get options() {
-        return [
-                 { label: 'English', value: 'English' },
-                 { label: 'Español', value: 'Spanish' },
-                 { label: 'Français', value: 'French' },
-                 { label: 'Português', value: 'Portuguese' }
-               ];
-    }
-
     get disableButton(){
         return (!this.hasSubmittedPrf || this.propInProcess);
     }
