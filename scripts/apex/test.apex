@@ -1,7 +1,11 @@
+String[] testStrList = new List<String>();
+Set<String> testSet = new Set<String>(testStrList);
+system.debug(testSet);
+/*
 Id profId = Id.valueOf('a1O8c000009hndWEAQ');
 Form_Instance__c[] fis = FormInstanceController.getFormInstances(profId);
 system.debug(fis.size());
-
+*/
 /*
 Boolean bbb = true;
 Boolean ccc;

@@ -301,6 +301,7 @@ public with sharing class LetterControllerTest {
         // Invocations for code coverage
         lc1.resetLetters();
         lc1.emailLetters();
+        lc1.postLetters();
         lc1.doCancel();
         lc2.doCancel();
         Test.StopTest();
@@ -334,7 +335,8 @@ public with sharing class LetterControllerTest {
         insert new Template__c(
             Name = 'Contract letter & cover',
             Type__c = 'Grantmaking',
-            Source_object__c = 'Proposal__c'
+            Source_object__c = 'Proposal__c',
+            Postable__c = true
         );
         Map<Id, Proposal__c> pMap = new Map<Id, Proposal__c>(
             [SELECT Id FROM Proposal__c]

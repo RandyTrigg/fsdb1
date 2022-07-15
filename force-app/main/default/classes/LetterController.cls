@@ -103,21 +103,11 @@ public class LetterController {
         system.debug('emailLetters0: lMap = ' + JSON.serialize(lMap));
         Map<Id, Letter__c> lChangedMap = new Map<Id, Letter__c>();
         List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
-        // Send emails from the appropriate org-wide email address depending on whether the letter is fundraising- or grantmaking-related.
-        // Grab all authenticated sender email addresses from the custom metadata type, and from the OrgWideEmailAddress object.
-        Sender_email_address__mdt[] senderEmails = [SELECT Id, DeveloperName, Email__c FROM Sender_email_address__mdt];
-        Map<String, String> senderEmailMap = new Map<String, String>();
-        for (Sender_email_address__mdt s : senderEmails) senderEmailMap.put(s.DeveloperName, s.Email__c);
-        OrgWideEmailAddress[] OWEAs = [SELECT Id, DisplayName, Address FROM OrgWideEmailAddress];
-        Map<String, OrgWideEmailAddress> OWEAMap = new Map<String, OrgWideEmailAddress>();
-        for (OrgWideEmailAddress owea : OWEAs) OWEAMap.put(owea.Address, owea);
-        String senderEmailAddressGM = senderEmailMap.get('Grantmaking');
-        String senderEmailAddressFR = senderEmailMap.get('Fundraising');
-        OrgWideEmailAddress senderOWEAGM = senderEmailAddressGM != null ? OWEAMap.get(senderEmailAddressGM) : null;
-        OrgWideEmailAddress senderOWEAFR = senderEmailAddressFR != null ? OWEAMap.get(senderEmailAddressFR) : null;
+        // Get appropriate sender email address for each letter
+        Map<Id, OrgWideEmailAddress> senderEmailMap = senderEmailForLetters(letIds);
         for (Letter__c l : lMap.values()) {
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            OrgWideEmailAddress senderOWEA = l.Template__r.Type__c == 'Grantmaking' ? senderOWEAGM : senderOWEAFR;
+            OrgWideEmailAddress senderOWEA = senderEmailMap.get(l.Id);
             if (senderOWEA != null) mail.setOrgWideEmailAddressId(senderOWEA.Id);
             // Use email addresses from the letter unless the linked account has an email override.
             String toAddresses = l.Email_override_from_account__c != null ? l.Email_override_from_account__c : l.Emails__c;
@@ -158,7 +148,7 @@ public class LetterController {
     public PageReference postLetters (){
         Map<Id, Letter__c> lMap = new Map<Id, Letter__c> ([
             SELECT Emails__c, Email_subject__c, Email_footer__c, 
-            Transaction__c, Date_sent__c, Date_emailed__c, Date_printed__c, Date_posted__c,
+            Date_sent__c, Date_emailed__c, Date_printed__c, Date_posted__c,
             Page_1__c, Page_2__c, Page_3__c, Page_4__c, Page_5__c, Page_6__c, Template__r.Postable__c,
             Profile__c, Notification_email_subject__c, Notification_email_body__c,
             Email_override_from_account__c
@@ -167,18 +157,18 @@ public class LetterController {
             AND Emails__c <> NULL
         ]);
         Map<Id, Letter__c> lChangedMap = new Map<Id, Letter__c> ();
-        Id gmFromEmailId = [SELECT Id FROM OrgWideEmailAddress WHERE Address = 'grantsinfo@globalfundforwomen.org' LIMIT 1].Id;
-        String applicationsHelpEmail = 'applicationshelp@globalfundforwomen.org';
-        String grantsInfoEmail = 'grantsinfo@globalfundforwomen.org';
+        // Get appropriate sender email address for each letter
+        Map<Id, OrgWideEmailAddress> senderEmailMap = senderEmailForLetters(lMap.keySet());
         for (Letter__c l : lMap.values()) {
             if(l.Template__r.Postable__c) { // Only process letters whose templates are postable.
                 Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-                mail.setOrgWideEmailAddressId(gmFromEmailId);
+                OrgWideEmailAddress senderOWEA = senderEmailMap.get(l.Id);
+                if (senderOWEA != null) mail.setOrgWideEmailAddressId(senderOWEA.Id);
                 // Use email addresses from the letter unless the linked account has an email override. 
                 String toAddresses = l.Email_override_from_account__c != null ? l.Email_override_from_account__c : l.Emails__c;
                 mail.setToAddresses(toAddresses.deleteWhitespace().split(','));
                 mail.setSubject(l.Notification_email_subject__c);
-                mail.setReplyTo(grantsInfoEmail);
+                if (senderOWEA != null) mail.setReplyTo(senderOWEA.Address);
                 String s = '';
                 if (l.Notification_email_body__c != null) s += l.Notification_email_body__c;
                 if (l.Email_footer__c != null) s += l.Email_footer__c;
@@ -309,7 +299,7 @@ public class LetterController {
         Set<String> emlSet;
         Set<String> signerSet = new Set<String>();
         for (Letter__c let : letsToUpdate.values()) {
-            emlList = let.Emails__c.split(',');
+            emlList = let.Emails__c != null ? let.Emails__c.split(',') : null;
             emlSet = new Set<String>(emlList);
             c1Id = signer1s.get(let.Id);
             c2Id = signer2s.get(let.Id);
@@ -362,11 +352,34 @@ public class LetterController {
             update rec;
         }
     }
-
-    // Build form instances as directed by the letter template
-    public static void newFormInstanceFromLetter (Id letId) {
-        String[] relFields = {};
-        Letter__c let = (Letter__c)Utilities.fetchRecord('Letter__c', letId, relFields);
-        
+    
+    // Return map of letter id to appropriate org-wide email address for the sender depending on the type of the template
+    public static Map<Id, OrgWideEmailAddress> senderEmailForLetters(Set<Id> letIds) {
+        Map<Id, Letter__c> lets = new Map<Id, Letter__c> ([
+            SELECT Id, Template__r.FS_Group__c, Template__r.Type__c
+            FROM Letter__c
+            WHERE Id IN : letIds
+        ]);
+        Map<Id, OrgWideEmailAddress> resultMap = new Map<Id, OrgWideEmailAddress>();
+        // Grab all authenticated sender email addresses from the OrgWideEmailAddress object.
+        OrgWideEmailAddress[] OWEAs = [SELECT Id, DisplayName, Address FROM OrgWideEmailAddress];
+        Map<String, OrgWideEmailAddress> OWEAMap = new Map<String, OrgWideEmailAddress>();
+        for (OrgWideEmailAddress owea : OWEAs) OWEAMap.put(owea.Address, owea);
+        // Grab all sender email addresses
+        Sender_email_address__mdt[] senderEmails = [
+            SELECT Id, DeveloperName, Email__c, FS_Group_Settings__r.Public_Group_Name__c 
+            FROM Sender_email_address__mdt
+        ];
+        // For each letter, look for a send email address that matches template type and FS group
+        for (Letter__c let : lets.values()) {
+            for (Sender_email_address__mdt s : senderEmails) {
+                if (s.DeveloperName == let.Template__r.Type__c && s.FS_Group_Settings__r.Public_Group_Name__c == let.Template__r.FS_Group__c) {
+                    resultMap.put(let.Id, OWEAMap.get(s.Email__c));
+                    break;
+                }
+            }
+        }
+        return resultMap;
     }
+
 }
