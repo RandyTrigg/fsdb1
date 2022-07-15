@@ -93,150 +93,117 @@ public class LetterController {
 
     // Email the given letters
     public static Boolean emailLetters0(Set<Id> letIds) {
-        Map<Id, Letter__c> lMap = new Map<Id, Letter__c>(
-            [
-                SELECT
-                    Emails__c,
-                    Email_subject__c,
-                    Email_footer__c,
-                    Email_cc__c,
-                    Date_sent__c,
-                    Date_emailed__c,
-                    Date_printed__c,
-                    Page_1__c,
-                    Page_2__c,
-                    Page_3__c,
-                    Page_4__c,
-                    Page_5__c,
-                    Profile__c,
-                    Notification_email_subject__c,
-                    Notification_email_body__c,
-                    Template__r.Type__c,
-                    Email_override_from_account__c
-                FROM Letter__c
-                WHERE Id IN :letIds AND Emails__c != null
-            ]
-        );
+        Map<Id, Letter__c> lMap = new Map<Id, Letter__c>([
+            SELECT Emails__c, Email_subject__c, Email_footer__c, Email_cc__c, Date_sent__c, Date_emailed__c, Date_printed__c,
+            Page_1__c, Page_2__c, Page_3__c, Page_4__c, Page_5__c, Profile__c,
+            Notification_email_subject__c, Notification_email_body__c, Template__r.Type__c, Email_override_from_account__c
+            FROM Letter__c
+            WHERE Id IN :letIds AND Emails__c != null
+        ]);
         system.debug('emailLetters0: lMap = ' + JSON.serialize(lMap));
         Map<Id, Letter__c> lChangedMap = new Map<Id, Letter__c>();
         List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
         // Send emails from the appropriate org-wide email address depending on whether the letter is fundraising- or grantmaking-related.
         // Grab all authenticated sender email addresses from the custom metadata type, and from the OrgWideEmailAddress object.
-        Sender_email_address__mdt[] senderEmails = [
-            SELECT Id, DeveloperName, Email__c
-            FROM Sender_email_address__mdt
-        ];
+        Sender_email_address__mdt[] senderEmails = [SELECT Id, DeveloperName, Email__c FROM Sender_email_address__mdt];
         Map<String, String> senderEmailMap = new Map<String, String>();
-        for (Sender_email_address__mdt s : senderEmails)
-            senderEmailMap.put(s.DeveloperName, s.Email__c);
-        OrgWideEmailAddress[] OWEAs = [
-            SELECT Id, DisplayName, Address
-            FROM OrgWideEmailAddress
-        ];
+        for (Sender_email_address__mdt s : senderEmails) senderEmailMap.put(s.DeveloperName, s.Email__c);
+        OrgWideEmailAddress[] OWEAs = [SELECT Id, DisplayName, Address FROM OrgWideEmailAddress];
         Map<String, OrgWideEmailAddress> OWEAMap = new Map<String, OrgWideEmailAddress>();
-        for (OrgWideEmailAddress owea : OWEAs)
-            OWEAMap.put(owea.Address, owea);
+        for (OrgWideEmailAddress owea : OWEAs) OWEAMap.put(owea.Address, owea);
         String senderEmailAddressGM = senderEmailMap.get('Grantmaking');
         String senderEmailAddressFR = senderEmailMap.get('Fundraising');
-        OrgWideEmailAddress senderOWEAGM = senderEmailAddressGM != null
-            ? OWEAMap.get(senderEmailAddressGM)
-            : null;
-        OrgWideEmailAddress senderOWEAFR = senderEmailAddressFR != null
-            ? OWEAMap.get(senderEmailAddressFR)
-            : null;
+        OrgWideEmailAddress senderOWEAGM = senderEmailAddressGM != null ? OWEAMap.get(senderEmailAddressGM) : null;
+        OrgWideEmailAddress senderOWEAFR = senderEmailAddressFR != null ? OWEAMap.get(senderEmailAddressFR) : null;
         for (Letter__c l : lMap.values()) {
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            OrgWideEmailAddress senderOWEA = l.Template__r.Type__c ==
-                'Grantmaking'
-                ? senderOWEAGM
-                : senderOWEAFR;
-            if (senderOWEA != null)
-                mail.setOrgWideEmailAddressId(senderOWEA.Id);
+            OrgWideEmailAddress senderOWEA = l.Template__r.Type__c == 'Grantmaking' ? senderOWEAGM : senderOWEAFR;
+            if (senderOWEA != null) mail.setOrgWideEmailAddressId(senderOWEA.Id);
             // Use email addresses from the letter unless the linked account has an email override.
-            String toAddresses = l.Email_override_from_account__c != null
-                ? l.Email_override_from_account__c
-                : l.Emails__c;
+            String toAddresses = l.Email_override_from_account__c != null ? l.Email_override_from_account__c : l.Emails__c;
             mail.setToAddresses(toAddresses.deleteWhitespace().split(','));
             mail.setSubject(l.Email_subject__c);
-            if (l.Email_cc__c != null)
-                mail.setCcAddresses(
-                    l.Email_cc__c.deleteWhitespace().split(',')
-                );
-            if (senderOWEA != null)
-                mail.setReplyTo(senderOWEA.Address);
+            if (l.Email_cc__c != null) mail.setCcAddresses(l.Email_cc__c.deleteWhitespace().split(','));
+            if (senderOWEA != null) mail.setReplyTo(senderOWEA.Address);
             String s = '';
-            if (l.Page_1__c != null)
-                s += l.Page_1__c;
-            if (l.Page_2__c != null)
-                s += '<br/><br/>' + l.Page_2__c;
-            if (l.Page_3__c != null)
-                s += '<br/><br/>' + l.Page_3__c;
-            if (l.Page_4__c != null)
-                s += '<br/><br/>' + l.Page_4__c;
-            if (l.Page_5__c != null)
-                s += '<br/><br/>' + l.Page_5__c;
-            if (l.Email_footer__c != null)
-                s += l.Email_footer__c;
-            mail.setHtmlBody(
-                '<p style="font-family:\'geomanistregular\',\'century gothic\',verdana,sans-serif;">' +
-                s +
-                '</p>'
-            );
+            if (l.Page_1__c != null) s += l.Page_1__c;
+            if (l.Page_2__c != null) s += '<br/><br/>' + l.Page_2__c;
+            if (l.Page_3__c != null) s += '<br/><br/>' + l.Page_3__c;
+            if (l.Page_4__c != null) s += '<br/><br/>' + l.Page_4__c;
+            if (l.Page_5__c != null) s += '<br/><br/>' + l.Page_5__c;
+            if (l.Email_footer__c != null) s += l.Email_footer__c;
+            mail.setHtmlBody('<p style="font-family:\'geomanistregular\',\'century gothic\',verdana,sans-serif;">' + s + '</p>');
             mails.add(mail);
             l.Emailed_to__c = toAddresses;
-            if (l.Date_emailed__c == null)
-                l.Date_emailed__c = Date.today();
+            if (l.Date_emailed__c == null) l.Date_emailed__c = Date.today();
             lChangedMap.put(l.Id, l);
         }
         // Update grantmaking letter records in background if there's more than one.
         // Should we also do that for Dev letters?
         if (lChangedMap.size() > 0) {
-            system.debug(
-                'emailLetters0: lChangedMap.size() = ' +
-                lChangedMap.size() +
-                '; lChangedMap.values()[0] = ' +
-                JSON.serialize(lChangedMap.values()[0])
-            );
-            if (
-                lChangedMap.values()[0].Template__r.Type__c == 'Development' ||
-                lChangedMap.size() == 1
-            )
-                update lChangedMap.values();
+            system.debug('emailLetters0: lChangedMap.size() = ' + lChangedMap.size() + '; lChangedMap.values()[0] = ' + JSON.serialize(lChangedMap.values()[0]));
+            if (lChangedMap.values()[0].Template__r.Type__c == 'Development' || lChangedMap.size() == 1) update lChangedMap.values();
             else {
                 // Want small batch size, except when testing when there must only be a single batch.
-                Integer batchSize = Test.IsRunningTest()
-                    ? lChangedMap.size()
-                    : 1;
-                Database.executeBatch(
-                    new GenericUpdateRecordsBatch(lChangedMap.values()),
-                    batchSize
-                );
+                Integer batchSize = Test.IsRunningTest() ? lChangedMap.size() : 1;
+                Database.executeBatch(new GenericUpdateRecordsBatch(lChangedMap.values()), batchSize);
             }
         }
         // Send emails outside the loop to avoid governor limit.
-        if (mails.size() > 0)
-            Messaging.sendEmail(mails);
+        if (mails.size() > 0) Messaging.sendEmail(mails);
         return true;
     }
 
+	// Post the selected letters, that is, set Date Posted and send the notification email.
+    public PageReference postLetters (){
+        Map<Id, Letter__c> lMap = new Map<Id, Letter__c> ([
+            SELECT Emails__c, Email_subject__c, Email_footer__c, 
+            Transaction__c, Date_sent__c, Date_emailed__c, Date_printed__c, Date_posted__c,
+            Page_1__c, Page_2__c, Page_3__c, Page_4__c, Page_5__c, Page_6__c, Template__r.Postable__c,
+            Profile__c, Notification_email_subject__c, Notification_email_body__c,
+            Email_override_from_account__c
+            FROM Letter__c
+            WHERE Id IN : selectedLetters()
+            AND Emails__c <> NULL
+        ]);
+        Map<Id, Letter__c> lChangedMap = new Map<Id, Letter__c> ();
+        Id gmFromEmailId = [SELECT Id FROM OrgWideEmailAddress WHERE Address = 'grantsinfo@globalfundforwomen.org' LIMIT 1].Id;
+        String applicationsHelpEmail = 'applicationshelp@globalfundforwomen.org';
+        String grantsInfoEmail = 'grantsinfo@globalfundforwomen.org';
+        for (Letter__c l : lMap.values()) {
+            if(l.Template__r.Postable__c) { // Only process letters whose templates are postable.
+                Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+                mail.setOrgWideEmailAddressId(gmFromEmailId);
+                // Use email addresses from the letter unless the linked account has an email override. 
+                String toAddresses = l.Email_override_from_account__c != null ? l.Email_override_from_account__c : l.Emails__c;
+                mail.setToAddresses(toAddresses.deleteWhitespace().split(','));
+                mail.setSubject(l.Notification_email_subject__c);
+                mail.setReplyTo(grantsInfoEmail);
+                String s = '';
+                if (l.Notification_email_body__c != null) s += l.Notification_email_body__c;
+                if (l.Email_footer__c != null) s += l.Email_footer__c;
+                mail.setHtmlBody('<p style="font-family:\'geomanistregular\',\'century gothic\',verdana,sans-serif;">' +s+ '</p>');
+                Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+            	l.Emailed_to__c = toAddresses;
+                if(l.Date_posted__c == null) l.Date_posted__c = Date.today();
+                lChangedMap.put(l.Id, l);
+            }
+        }
+        if (lChangedMap.size() > 0) {
+            // Want small batch size, except when testing when there must only be a single batch.
+            Integer batchSize = Test.IsRunningTest() ? lChangedMap.size() : 1;
+            Database.executeBatch(new GenericUpdateRecordsBatch(lChangedMap.values()), batchSize);
+        }
+        return returnPage();
+    }	
+
     // Print the selected letters, that is, display the letters in a multi-page pdf.
     public PageReference printLetters() {
-        Map<Id, Letter__c> lMap = new Map<Id, Letter__c>(
-            [
-                SELECT
-                    Date_sent__c,
-                    Date_emailed__c,
-                    Date_printed__c,
-                    Page_1__c,
-                    Page_2__c,
-                    Page_3__c,
-                    Page_4__c,
-                    Page_5__c,
-                    Language__c
-                FROM Letter__c
-                WHERE Id IN :selectedLetters()
-            ]
-        );
+        Map<Id, Letter__c> lMap = new Map<Id, Letter__c>([
+            SELECT Date_sent__c, Date_emailed__c, Date_printed__c, Page_1__c, Page_2__c, Page_3__c, Page_4__c, Page_5__c, Language__c
+            FROM Letter__c
+            WHERE Id IN :selectedLetters()
+        ]);
         Map<Id, Letter__c> lChangedMap = new Map<Id, Letter__c>();
         Integer lCount = 0;
         for (Letter__c l : lMap.values()) {
@@ -247,37 +214,21 @@ public class LetterController {
             // Update letter records in batches to prevent overrunning SOQL call governor limit.
             lCount += 1;
             if (Math.mod(lCount, updateBatchSize) == 0) {
-                if (lChangedMap.size() > 0)
-                    update lChangedMap.values();
+                if (lChangedMap.size() > 0) update lChangedMap.values();
                 lChangedMap.clear();
             }
         }
-        if (lChangedMap.size() > 0)
-            update lChangedMap.values();
+        if (lChangedMap.size() > 0) update lChangedMap.values();
         sortLetters(); // Sort letters by account name.
-        return new PageReference(
-            (standardSetController != null)
-                ? '/apex/LettersPrint'
-                : '/apex/LetterPrint'
-        );
+        return new PageReference((standardSetController != null) ? '/apex/LettersPrint' : '/apex/LetterPrint');
     }
 
     // Sort letters by account name.
     private void sortLetters() {
         if (standardSetController != null) {
-            Map<Id, Letter__c> lMap = new Map<Id, Letter__c>(
-                (List<Letter__c>) standardSetController.getSelected()
-            );
+            Map<Id, Letter__c> lMap = new Map<Id, Letter__c>((List<Letter__c>) standardSetController.getSelected());
             List<Letter__c> lets = [
-                SELECT
-                    Date_sent__c,
-                    Date_emailed__c,
-                    Date_printed__c,
-                    Page_1__c,
-                    Page_2__c,
-                    Page_3__c,
-                    Page_4__c,
-                    Page_5__c
+                SELECT Date_sent__c, Date_emailed__c, Date_printed__c, Page_1__c, Page_2__c, Page_3__c, Page_4__c, Page_5__c
                 FROM Letter__c
                 WHERE Id IN :lMap.keySet()
                 ORDER BY Account__r.Name
@@ -410,5 +361,12 @@ public class LetterController {
             rec.put(fldName, let.Date_sent__c != null ? let.Date_sent__c : let.Date_received__c);
             update rec;
         }
+    }
+
+    // Build form instances as directed by the letter template
+    public static void newFormInstanceFromLetter (Id letId) {
+        String[] relFields = {};
+        Letter__c let = (Letter__c)Utilities.fetchRecord('Letter__c', letId, relFields);
+        
     }
 }
