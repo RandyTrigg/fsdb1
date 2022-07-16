@@ -1,7 +1,7 @@
 import { LightningElement, api, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import { handleError } from 'c/lwcUtilities';
-import { showUIError } from 'c/lwcUtilities';
+import { showUIError, buildError } from 'c/lwcUtilities';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
 import getProposalSummary from '@salesforce/apex/SiteController.getProposalSummary';
@@ -122,24 +122,29 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         let returnLists = {};
         returnLists.pending = [];
         returnLists.submitted = [];
-        for (let itm of formsList) {
-            console.log('id',itm.Id);
-            itm.rowIcon = itm.Status__c==='Submitted' ? "utility:preview" : "utility:edit";
-            itm.rowAction = itm.Status__c==='Submitted' ? this.transByNameObj.View : this.transByNameObj.Edit;
-            itm.formTitle = this.transByName.get(itm.Form__r.Form_Phrase_Title__r.Name);
-            console.log('formTitle',itm.formTitle);
-            itm.formStatus = this.transByName.get(itm.Status__c);
-            console.log('status',itm.formStatus);
-            itm.dateDue = itm.Date_due__c;
-            console.log('dateDue',itm.dateDue);
-            itm.dateCreated = itm.Date_created__c;
-            console.log('dateCreated',itm.dateCreated);
-            itm.dateModified = itm.Last_modified_datetime__c;
-            console.log('dateMod',itm.dateModified);
-            if (itm.Status__c==='Pending') {
-                returnLists.pending.push(itm);
-            } else if (itm.Status__c==='Submitted') {
-                returnLists.submitted.push(itm);
+        if (formsList == null) {
+            console.log('Empty list - mismatched id');
+            showUIError(buildError(this.transByNameObj.InvalidAction, this.transByNameObj.SystemErrorMsg, 'error'));
+        } else {
+            for (let itm of formsList) {
+                console.log('id',itm.Id);
+                itm.rowIcon = itm.Status__c==='Submitted' ? "utility:preview" : "utility:edit";
+                itm.rowAction = itm.Status__c==='Submitted' ? this.transByNameObj.View : this.transByNameObj.Edit;
+                itm.formTitle = this.transByName.get(itm.Form__r.Form_Phrase_Title__r.Name);
+                console.log('formTitle',itm.formTitle);
+                itm.formStatus = this.transByName.get(itm.Status__c);
+                console.log('status',itm.formStatus);
+                itm.dateDue = itm.Date_due__c;
+                console.log('dateDue',itm.dateDue);
+                itm.dateCreated = itm.Date_created__c;
+                console.log('dateCreated',itm.dateCreated);
+                itm.dateModified = itm.Last_modified_datetime__c;
+                console.log('dateMod',itm.dateModified);
+                if (itm.Status__c==='Pending') {
+                    returnLists.pending.push(itm);
+                } else if (itm.Status__c==='Submitted') {
+                    returnLists.submitted.push(itm);
+                }
             }
         }
         console.log('updateListInternalsReturnLists');

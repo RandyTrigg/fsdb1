@@ -22,16 +22,19 @@ public inherited sharing class ProposalController {
                     'Form__r.Form_Phrase_Title__r.Name',
                     'Form__r.Sort_number__c'
                 });
-            this.forms = JSON.serialize(this.formInstanceList);
             Proposal__c prop = (Proposal__c)Utilities.fetchRecord(
                 'Proposal__c', 
-                propId, 
+                propId,
                 new List<String>{
                     Utilities.buildChildSubQuery(
                         'Letter__c', 
                         'Letters__r',
-                        'WHERE Date_sent__c<>null ORDER BY Date_sent__c DESC')}
+                        'WHERE Date_sent__c<>null ORDER BY Date_sent__c DESC'),
+                    'Profile__r.Community_contact__c'}
                 );
+            Id ctId = [SELECT ContactId FROM User WHERE Id=:UserInfo.getUserId()].ContactId;
+            if ( prop.Profile__r.Community_contact__c != ctId) return; 
+            this.forms = JSON.serialize(this.formInstanceList);
             this.prpName = prop.Name;
             this.letterList = prop.Letters__r;
             this.letters = JSON.serialize(this.letterList);
