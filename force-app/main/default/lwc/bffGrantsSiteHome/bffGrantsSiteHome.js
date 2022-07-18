@@ -315,8 +315,10 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             // Let form instance dictate whether a proposal has been submitted.
             let formInstId = this.prpFormInst.get(itm.Id);
             isSubmitted = this.formInstIdSubmitted.get(formInstId);
-            itm.rowIcon = isSubmitted ? "utility:preview" : "utility:edit";
-            itm.rowAction = isSubmitted ? this.transByNameObj.View : this.transByNameObj.Edit;
+            itm.buttonType = isSubmitted ? '' : "button-icon";
+            console.log('buttontype', itm.buttonType);
+            itm.rowIcon = isSubmitted ? '' : "utility:edit"; // "utility:preview"
+            itm.rowAction = isSubmitted ? '' : this.transByNameObj.Edit; // this.transByNameObj.View
             if (!isSubmitted) {
                 itm.statusSortBy = 0;
                 itm.status = this.transByNameObj.Pending;
@@ -353,7 +355,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
 
             // Relies on form instance submission for toast messages
             if (isSubmitted) {
-                // Still relying on Prop date rec'd
+                // Submitted date is Prop date rec'd
                 dateSubmitted = itm.Date_received__c;
                 console.log('dateSubmitted', dateSubmitted);
                 if (itm.Grant_type__c=='BFF-Solidarity') {
@@ -370,9 +372,35 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             } else if (itm.Grant_type__c=='BFF-Sustain') {
                 this.hasPendingSustain = true;
             }
+        
+            /**** Following test resulted in blank column ****/
+            let editButton = {type: 'button-icon', initialWidth: 40, 
+                typeAttributes: {  
+                    iconName: "utility:edit", 
+                    name: this.transByNameObj.Edit,  
+                    variant: 'bare',
+                    alternativeText: this.transByNameObj.Edit,       
+                    disabled: false
+                }
+            };
+
+            let noButton = { 
+                label: '', 
+                initialWidth: 40,
+                fieldName: '',
+                hideDefaultActions: true,
+                sortable: false,
+            };
+
+            itm.buttonRow = isSubmitted ? noButton : editButton;
+
+            /**** Above resulted in blank column ****/
+
         }
+        
         this.columns = [
-            { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
+            // { fieldName: 'buttonRow' },
+            { label: '', type: 'button-icon', initialWidth: 40, typeAttributes: 
                 {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
             { label: this.transByNameObj.Number, type: 'button', initialWidth: 125, fieldName: 'proposalName', hideDefaultActions: true, sortable: false, typeAttributes:
                 { label: { fieldName: 'proposalName' }, name: "gotoProposal", variant: "base" } },

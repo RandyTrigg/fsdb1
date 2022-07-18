@@ -30,13 +30,16 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
     letters;
     forms;
     prpName;
+    formsTab;
+    correspondenceTab;
 
     // For forms table
     currentPageReference;
     pendingLabel = 'Pending Forms';
     submittedLabel = 'Submitted Forms';
     hidePendingTable = false;
-    activeSections = ['Pending'];
+    hideSubmittedTable = true;
+    activeSections = ['Pending', 'Submitted'];
     columns;
     pendingFormsData;
     submittedFormsData;
@@ -95,26 +98,8 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         this.loading = this.transByNameObj.Loading;
         this.pendingLabel = this.transByNameObj.Pending;
         this.submittedLabel = this.transByNameObj.Submitted;
-    }
-
-    buildFormTables() {
-        let parsedList = JSON.parse(this.prpSummary.forms);
-        //Lightning datatables can't automtically pull out nested values
-        let parsedLists = this.updateListInternals(parsedList);
-        this.pendingFormsData = parsedLists.pending;
-        this.submittedFormsData = parsedLists.submitted;
-        this.hidePendingTable = this.pendingFormsData.length === 0 ? true : false;
-        this.pendingLabel = this.pendingLabel + ' ('+ this.pendingFormsData.length +')';
-        this.submittedLabel = this.submittedLabel + ' ('+ this.submittedFormsData.length +')';
-        this.columns = [
-            { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
-                {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
-            { label: this.transByNameObj.Type, fieldName: 'formTitle', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.StatusOfForm, fieldName: 'formStatus', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.DateDue, fieldName: 'dateDue', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.DateCreated, fieldName: 'dateCreated', hideDefaultActions: true, sortable: true,},
-            { label: this.transByNameObj.DateModified, fieldName: 'dateModified', type: 'date', hideDefaultActions: true, sortable: true,},
-        ];
+        this.formsTab = this.transByNameObj.FormsForProposal + ' ' + this.prpName;
+        this.correspondenceTab = this.transByNameObj.CorrespondenceForProposal + ' ' + this.prpName;
     }
 
     updateListInternals(formsList) {
@@ -128,14 +113,14 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         } else {
             for (let itm of formsList) {
                 console.log('id',itm.Id);
-                itm.rowIcon = itm.Status__c==='Submitted' ? "utility:preview" : "utility:edit";
-                itm.rowAction = itm.Status__c==='Submitted' ? this.transByNameObj.View : this.transByNameObj.Edit;
+                let submitted = itm.Status__c==='Submitted';
+                itm.rowIcon = submitted ? "utility:preview" : "utility:edit";
+                itm.rowAction = submitted ? this.transByNameObj.View : this.transByNameObj.Edit;
                 itm.formTitle = this.transByName.get(itm.Form__r.Form_Phrase_Title__r.Name);
                 console.log('formTitle',itm.formTitle);
                 itm.formStatus = this.transByName.get(itm.Status__c);
                 console.log('status',itm.formStatus);
-                itm.dateDue = itm.Date_due__c;
-                console.log('dateDue',itm.dateDue);
+                itm.dateVar = submitted ? itm.Date_submitted__c : itm.Date_due__c;                console.log('dateDue',itm.dateDue);
                 itm.dateCreated = itm.Date_created__c;
                 console.log('dateCreated',itm.dateCreated);
                 itm.dateModified = itm.Last_modified_datetime__c;
@@ -149,6 +134,37 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         }
         console.log('updateListInternalsReturnLists');
         return returnLists;
+    }
+
+    buildFormTables() {
+        let parsedList = JSON.parse(this.prpSummary.forms);
+        console.log('parsedList', parsedList);
+        //Lightning datatables can't automtically pull out nested values
+        let parsedLists = this.updateListInternals(parsedList);
+        this.pendingFormsData = parsedLists.pending;
+        this.submittedFormsData = parsedLists.submitted;
+        this.hidePendingTable = this.pendingFormsData.length === 0 ? true : false;
+        this.hideSubmittedTable = this.submittedFormsData.length === 0 ? true : false;
+        this.pendingLabel = this.pendingLabel + ' ('+ this.pendingFormsData.length +')';
+        this.submittedLabel = this.submittedLabel + ' ('+ this.submittedFormsData.length +')';
+        this.pendingColumns = [
+            { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
+                {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
+            { label: this.transByNameObj.Type, fieldName: 'formTitle', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.StatusOfForm, fieldName: 'formStatus', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.DateDue, fieldName: 'dateVar', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.DateCreated, fieldName: 'dateCreated', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.DateModified, fieldName: 'dateModified', type: 'date', hideDefaultActions: true, sortable: true,},
+        ];
+        this.submittedColumns = [
+            { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
+                {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
+            { label: this.transByNameObj.Type, fieldName: 'formTitle', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.StatusOfForm, fieldName: 'formStatus', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.DateSubmitted, fieldName: 'dateVar', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.DateCreated, fieldName: 'dateCreated', hideDefaultActions: true, sortable: true,},
+            { label: this.transByNameObj.DateModified, fieldName: 'dateModified', type: 'date', hideDefaultActions: true, sortable: true,},
+        ];
     }
 
     handleRowAction(event) {

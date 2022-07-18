@@ -18,9 +18,10 @@
             <!-- WAIT FOR DATA TO LOAD -->
             <div if:true={dataLoaded}>
 
-                <div class="topmargin"><h1 class="slds-text-heading_medium slds-text-align_center">{prpName}</h1></div>
+                <div class="topmargin"><h1 class="slds-text-heading_medium slds-text-align_center slds-var-m-bottom_large">{transByNameObj.Proposal} #{prpName}</h1></div>
+                
                 <lightning-tabset>
-                    <lightning-tab label="Forms for Proposal EN">
+                    <lightning-tab label={formsTab}>
                         <lightning-accordion class="gfw-accordion slds-var-m-bottom_large" allow-multiple-sections-open
                         active-section-name={activeSections}>
                             <lightning-accordion-section name="Pending" label={pendingLabel}>
@@ -29,7 +30,7 @@
                                         key-field="id"
                                         hide-checkbox-column=true
                                         data={pendingFormsData} 
-                                        columns={columns}
+                                        columns={pendingColumns}
                                         onrowaction={handleRowAction}
                                         onsort={updatePendingColumnSorting}
                                         sorted-by={pendingSortedBy}
@@ -39,12 +40,12 @@
                             </lightning-accordion-section>
                 
                             <lightning-accordion-section name="Submitted" label={submittedLabel} class="slds-var-m-top_x-large">
-                                <div class="gfw-item-list">
+                                <div if:false={hideSubmittedTable} class="gfw-item-list">
                                     <lightning-datatable   
                                         key-field="id" 
                                         hide-checkbox-column=true
                                         data={submittedFormsData} 
-                                        columns={columns}
+                                        columns={submittedColumns}
                                         onrowaction={handleRowAction}
                                         onsort={updateSubmittedColumnSorting}
                                         sorted-by={submittedSortedBy}
@@ -55,9 +56,9 @@
                         </lightning-accordion>
                     </lightning-tab>
                     
-                    <lightning-tab label="Correspondence for Proposal EN">
-                        <h2>Under construction: please check back later</h2>
-                    </lightning-tab>
+                    <!-- <lightning-tab label={correspondenceTab}>
+                        <h2></h2>
+                    </lightning-tab> -->
 
                 </lightning-tabset>
 
