@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FS_Group_Settings__c</fullName>
+    <description>Lookup to related FS Group (if applicable).</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Lookup to related FS Group (if applicable).</inlineHelpText>
+    <label>FS Group Settings</label>
+    <referenceTo>FS_Group_Settings__mdt</referenceTo>
+    <relationshipLabel>Sender email addresses</relationshipLabel>
+    <relationshipName>Sender_email_addresses</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

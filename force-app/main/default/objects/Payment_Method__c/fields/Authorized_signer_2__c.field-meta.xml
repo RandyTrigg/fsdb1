@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Authorized_signer_2__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The second, optional, authorized signer for this payment method</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The second, optional, authorized signer for this payment method</inlineHelpText>
+    <label>Authorized signer 2</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Payment Methods (Authorized signer 2)</relationshipLabel>
+    <relationshipName>Payment_Methods1</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

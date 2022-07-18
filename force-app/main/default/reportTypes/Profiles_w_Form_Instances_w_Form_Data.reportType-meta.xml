@@ -617,6 +617,11 @@
             <field>Status_numeric__c</field>
             <table>Profile__c.Form_Instances__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ProposalId__c</field>
+            <table>Profile__c.Form_Instances__r</table>
+        </columns>
         <masterLabel>Form Instances</masterLabel>
     </sections>
     <sections>
@@ -743,6 +748,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Unique_code__c</field>
+            <table>Profile__c.Form_Instances__r.Form_Data__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Initial_number__c</field>
             <table>Profile__c.Form_Instances__r.Form_Data__r</table>
         </columns>
         <masterLabel>Form Data</masterLabel>

@@ -206,6 +206,11 @@
             <field>Status_numeric__c</field>
             <table>Form_Instance__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ProposalId__c</field>
+            <table>Form_Instance__c</table>
+        </columns>
         <masterLabel>Form Instances</masterLabel>
     </sections>
     <sections>
