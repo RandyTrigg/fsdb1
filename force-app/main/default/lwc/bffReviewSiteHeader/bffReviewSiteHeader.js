@@ -6,7 +6,9 @@ import getHeaderName from '@salesforce/apex/SiteController.getHeaderName';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 
 import PROP_ID from '@salesforce/schema/Form_Instance__c.ProposalId__c';
-const fields = [PROP_ID];
+import FI_ID from '@salesforce/schema/Form_Instance__c.Id';
+
+const fields = [PROP_ID, FI_ID];
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     currentPageReference;
     bffLogoWhiteText = logoResourceWhiteText;
