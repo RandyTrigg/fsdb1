@@ -4,8 +4,8 @@ import formInstIdOfNewProposal from '@salesforce/apex/SiteController.formInstIdO
 import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
-import { handleError } from 'c/lwcUtilities';
-import { showUIError } from 'c/lwcUtilities';
+import { handleError, showUIError, langTag } from 'c/lwcUtilities';
+// import { showUIError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
@@ -126,13 +126,8 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         this.hasProposals = this.profileSummary.hasProposals;
         this.processFormInstList(this.formInstList);
         this.prpItemsData = this.processPrpList(this.prpList);
-        const lMap = new Map();
-        lMap.set('English', 'en');
-        lMap.set('Spanish', 'es');
-        lMap.set('French', 'fr');
-        lMap.set('Portuguese', 'pt');
-        this.langMap = lMap;
-        this.langTag = this.langMap.get(this.language);
+        this.langTag = langTag(this.language);
+        console.log('langTag', this.langTag);
     }
 
     addDays(date, days) {

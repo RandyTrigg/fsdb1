@@ -62,6 +62,15 @@ function buildError (title, message, variant) {
     return newErr;
 }
 
+function langTag (lang) {
+    const lMap = new Map();
+    lMap.set('English', 'en');
+    lMap.set('Spanish', 'es');
+    lMap.set('French', 'fr');
+    lMap.set('Portuguese', 'pt');
+    return lMap.get(lang);
+}
+
 export {
-    handleError,showUIError, buildError
+    handleError,showUIError, buildError, langTag
 };

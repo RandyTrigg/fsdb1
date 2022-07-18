@@ -1,7 +1,6 @@
 import { LightningElement, api, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
-import { handleError } from 'c/lwcUtilities';
-import { showUIError, buildError } from 'c/lwcUtilities';
+import { showUIError, buildError, handleError, langTag } from 'c/lwcUtilities';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
 import getProposalSummary from '@salesforce/apex/SiteController.getProposalSummary';
@@ -95,6 +94,7 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
     translatePage() {
         this.transByName = buildTransByName(this.transInfo, this.language);
         this.transByNameObj = Object.fromEntries(this.transByName);
+        this.langTag = langTag(this.language);
         this.loading = this.transByNameObj.Loading;
         this.pendingLabel = this.transByNameObj.Pending;
         this.submittedLabel = this.transByNameObj.Submitted;

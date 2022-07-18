@@ -11,6 +11,7 @@
         <members>bffGrantsSiteHome</members>
         <members>bffReviewSiteHeader</members>
         <members>bffReviewSiteHome</members>
+        <members>lwcUtilities</members>
         <name>LightningComponentBundle</name>
 	</types>
     <version>53.0</version>
