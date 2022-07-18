@@ -98,7 +98,7 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
         this.loading = this.transByNameObj.Loading;
         this.pendingLabel = this.transByNameObj.Pending;
         this.submittedLabel = this.transByNameObj.Submitted;
-        this.formsTab = this.transByNameObj.FormsForProposal + ' ' + this.prpName;
+        this.formsTab = this.transByNameObj.FormsForProposal + ' #' + this.prpName;
         this.correspondenceTab = this.transByNameObj.CorrespondenceForProposal + ' ' + this.prpName;
     }
 
@@ -184,7 +184,7 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
             },
             state: {
                 recordId: formInstId,
-                language: this.language
+                lang: this.language
             }
         });
     }

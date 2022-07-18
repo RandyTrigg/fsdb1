@@ -214,7 +214,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             },
             state: {
                 recordId: row.Id,
-                language: this.language
+                lang: this.language
             }
         });
     }

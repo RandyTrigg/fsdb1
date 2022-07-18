@@ -1,5 +1,5 @@
 import { LightningElement, api, wire, track } from 'lwc';
-import { handleError } from 'c/lwcUtilities';
+import { handleError, langTag } from 'c/lwcUtilities';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import getHeaderName from '@salesforce/apex/SiteController.getHeaderName';
@@ -59,7 +59,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('onhome', this.onHome);
             if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
             if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.Form;
-            if (this.page==='Proposal__c') this.pageName = 'Proposal'; // this.transByNameObj.Proposal;
+            if (this.page==='Proposal__c') this.pageName = this.transByNameObj.Proposal;
             console.log('thispage', this.page);
             console.log('thispagename', this.pageName);
         }
@@ -75,7 +75,8 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('showSearch',this.showSearch);
             console.log('disableProfile',this.disableProfile);
             console.log('recordId', this.recordId);
-            this.setLangTag();
+            this.langTag = langTag(this.language);
+            console.log('langTag', this.langTag);
             console.log(this.baseURL);
             this.dataLoaded = true;
         }
@@ -100,21 +101,11 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
                ];
     }
 
-    setLangTag(){
-        console.log('setLangPickerDefault');
-        const lMap = new Map();
-        lMap.set('English', 'en');
-        lMap.set('Spanish', 'es');
-        lMap.set('French', 'fr');
-        lMap.set('Portuguese', 'pt');
-        this.langMap = lMap;
-        this.langTag = this.langMap.get(this.language);
-    }
-
     handleLanguagePicker(event){
         this.language = event.target.value;
         console.log(this.language);
-        this.setLangTag();
+        this.langTag = langTag(this.language);
+        console.log('langTag', this.langTag);
         // Create event to pass language to parent
         const selLang = new CustomEvent("getselectedlanguage", {
             detail: this.language
@@ -163,7 +154,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             },
             state: {
                 recordId: formInstId,
-                language: this.language
+                lang: this.language
             }
         });
     }

@@ -310,8 +310,8 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             // Let form instance dictate whether a proposal has been submitted.
             let formInstId = this.prpFormInst.get(itm.Id);
             isSubmitted = this.formInstIdSubmitted.get(formInstId);
-            itm.buttonType = isSubmitted ? '' : "button-icon";
-            console.log('buttontype', itm.buttonType);
+            itm.disableButton = isSubmitted ? true : false;
+            console.log('disableButton', itm.disableButton);
             itm.rowIcon = isSubmitted ? '' : "utility:edit"; // "utility:preview"
             itm.rowAction = isSubmitted ? '' : this.transByNameObj.Edit; // this.transByNameObj.View
             if (!isSubmitted) {
@@ -396,7 +396,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         this.columns = [
             // { fieldName: 'buttonRow' },
             { label: '', type: 'button-icon', initialWidth: 40, typeAttributes: 
-                {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
+                {iconName: { fieldName: 'rowIcon' }, disabled: { fieldName: 'disableButton'}, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
             { label: this.transByNameObj.Number, type: 'button', initialWidth: 125, fieldName: 'proposalName', hideDefaultActions: true, sortable: false, typeAttributes:
                 { label: { fieldName: 'proposalName' }, name: "gotoProposal", variant: "base" } },
             { label: this.transByNameObj.Status, initialWidth: 125, fieldName: 'status', hideDefaultActions: true, sortable: false,},

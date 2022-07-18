@@ -11,6 +11,8 @@
         <members>bffGrantsSiteHome</members>
         <members>bffReviewSiteHeader</members>
         <members>bffReviewSiteHome</members>
+        <members>assessment</members>
+        <members>formInstance</members>  
         <members>lwcUtilities</members>
         <name>LightningComponentBundle</name>
 	</types>
