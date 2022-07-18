@@ -543,6 +543,11 @@
             <field>Unique_code__c</field>
             <table>Profile__c.Form_Data__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Initial_number__c</field>
+            <table>Profile__c.Form_Data__r</table>
+        </columns>
         <masterLabel>Form Data</masterLabel>
     </sections>
     <sections>

@@ -176,6 +176,7 @@
         <listViewButtons>Reset_selected</listViewButtons>
         <listViewButtons>Email_selected</listViewButtons>
         <listViewButtons>Print_selected</listViewButtons>
+        <listViewButtons>Post_selected</listViewButtons>
         <lookupDialogsAdditionalFields>Account__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Template__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>UPDATEDBY_USER</lookupDialogsAdditionalFields>

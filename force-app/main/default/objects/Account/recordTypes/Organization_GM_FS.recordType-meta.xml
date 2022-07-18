@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Organization_GM_FS</fullName>
-    <active>false</active>
+    <active>true</active>
     <compactLayoutAssignment>Compact_Account_GM</compactLayoutAssignment>
     <description>Organizations that act as fiscal sponsors for our grants</description>
     <label>Organization GM FS</label>

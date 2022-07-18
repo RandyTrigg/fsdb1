@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alternative_Recipient__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Link to the contact record for the person who is the recipient</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Link to the contact record for the person who is the recipient</inlineHelpText>
+    <label>Alternative: Recipient</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Recipient (if non-blank) must belong to the account of this payment method.</errorMessage>
+        <filterItems>
+            <field>Contact.AccountId</field>
+            <operation>equals</operation>
+            <valueField>$Source.Account__c</valueField>
+        </filterItems>
+        <infoMessage>Recipient (if non-blank) must belong to the account of this payment method.</infoMessage>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Payment Methods (Alternative: Recipient)</relationshipLabel>
+    <relationshipName>Payment_Methods8</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

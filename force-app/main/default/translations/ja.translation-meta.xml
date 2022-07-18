@@ -164,6 +164,35 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Form Instances with Form Data and related info --></description>
+        <label><!-- Form Instances with Form Data and related info --></label>
+        <name>Form_Instances_with_Form_Data_and_related_info</name>
+        <sections>
+            <label><!-- Form Data --></label>
+            <name>Form Data</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instance Advisors --></label>
+            <name>Form Instance Advisors</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instance Profiles --></label>
+            <name>Form Instance Profiles</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instance Proposal Profiles --></label>
+            <name>Form Instance Proposal Profiles</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instance Proposals --></label>
+            <name>Form Instance Proposals</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instances --></label>
+            <name>Form Instances</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Form Instances with related info --></description>
         <label><!-- Form Instances with related info --></label>
         <name>Form_Instances_with_related_info</name>
@@ -299,6 +328,31 @@
         <sections>
             <label><!-- Profiles --></label>
             <name>Profiles</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Proposals with Form Instances with Form Data --></description>
+        <label><!-- Proposals with Form Instances with Form Data --></label>
+        <name>Proposals_with_Form_Instances_with_Form_Data</name>
+        <sections>
+            <label><!-- Form Component --></label>
+            <name>Form Component</name>
+        </sections>
+        <sections>
+            <label><!-- Form Data --></label>
+            <name>Form Data</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instance Form --></label>
+            <name>Form Instance Form</name>
+        </sections>
+        <sections>
+            <label><!-- Form Instances --></label>
+            <name>Form Instances</name>
+        </sections>
+        <sections>
+            <label><!-- Proposals --></label>
+            <name>Proposals</name>
         </sections>
     </reportTypes>
     <reportTypes>
