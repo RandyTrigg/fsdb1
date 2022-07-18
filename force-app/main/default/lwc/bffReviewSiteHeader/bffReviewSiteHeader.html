@@ -6,9 +6,9 @@
             <!-- Purple banner with logo and settings -->
             <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center bff-global-header">
                 <div class="slds-global-header__item">
-                    <img class="bff-logo-header" src={bffLogoWhiteText} alt="Black Feminist Fund Home" onclick={handleHome}>
+                    <img class="bff-logo-header" src={bffLogoWhiteText} alt="Black Feminist Fund Logo" onclick={handleHome}>
                 </div>
-                <div if:true={showLanguagePicker} class="slds-global-header__item slds-m-top_medium">
+                <div if:true={showLanguagePicker} class="slds-global-header__item slds-var-m-top_medium">
                     <lightning-combobox
                     id="langCombobox"
                     class="language-font"
@@ -54,7 +54,7 @@
             
             <!-- Breadcrumbs -->
             <div if:true={dataLoaded}>
-                <div if:false={onHome} class="slds-global-header__item slds-m-left_x-large slds-p-top_x-small slds-p-left_small under-header-strip">
+                <div if:false={onHome} class="slds-global-header__item slds-var-m-left_x-large slds-var-p-top_x-small slds-var-p-left_small under-header-strip">
                     <lightning-breadcrumbs>
                         <lightning-breadcrumb
                             label={transByNameObj.Home}

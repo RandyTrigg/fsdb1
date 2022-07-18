@@ -165,7 +165,7 @@ export default class ProposalLanding extends NavigationMixin(LightningElement) {
             { label: this.transByNameObj.DateCreated, fieldName: 'dateCreated', hideDefaultActions: true, sortable: true,},
             { label: this.transByNameObj.DateModified, fieldName: 'dateModified', type: 'date', hideDefaultActions: true, sortable: true,},
         ];
-        this.submittedItemsData = this.sortData('dateVar', 'desc', this.submittedItemsData);
+        // this.submittedItemsData = this.sortData('dateVar', 'desc', this.submittedItemsData);
     }
 
     handleRowAction(event) {

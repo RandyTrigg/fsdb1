@@ -83,6 +83,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
         try {
             console.log('loadData');
             this.name = await getHeaderName();
+            this.name = this.name.length > 35 ? this.name.substring(0,35) + '...' : this.name;
         } catch (error) {
             handleError(error);
         }
