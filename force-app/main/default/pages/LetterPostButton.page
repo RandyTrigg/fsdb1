@@ -1,0 +1,17 @@
+<apex:page standardController="Letter__c" extensions="LetterController" lightningStylesheets="true">
+    <apex:form >
+       <apex:pageBlock title="POST letter to Online Site and email a notification.  WARNING: Some additional form instances may be created on the Online Site.">
+       <apex:outputText value="<b>NOTE</b>: If this template is not 'postable' this letter will NOT be sent.  Please select 'Email' instead.<br/>&nbsp;" escape="false" />
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!postLetters}" value="Confirm" title="Post this letter if its template is 'postable'"/>
+                <apex:commandButton action="{!doCancel}" value="Cancel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!Letter__c}" var="letter">
+                <apex:column value="{!letter.name}"/>
+                <apex:column value="{!letter.Postable__c}"/>
+                <apex:column value="{!letter.Account__c}"/>
+                <apex:column value="{!letter.Emails__c}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

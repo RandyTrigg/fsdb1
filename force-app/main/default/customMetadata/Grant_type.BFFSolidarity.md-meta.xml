@@ -14,8 +14,4 @@
         <field>FS_Group__c</field>
         <value xsi:type="xsd:string">BFF</value>
     </values>
-    <values>
-        <field>Application_form_name__c</field>
-        <value xsi:type="xsd:string">bff_SolidarityApplication</value>
-    </values>
 </CustomMetadata>

@@ -151,6 +151,11 @@
             <field>Form_Instance__c.Proposal__c.Profile__c.Community_contact__c.Name</field>
             <table>Form_Data__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Initial_number__c</field>
+            <table>Form_Data__c</table>
+        </columns>
         <masterLabel>Form Data</masterLabel>
     </sections>
     <sections>

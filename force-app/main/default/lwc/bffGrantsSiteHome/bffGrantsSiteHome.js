@@ -4,8 +4,8 @@ import formInstIdOfNewProposal from '@salesforce/apex/SiteController.formInstIdO
 import logoResource from '@salesforce/resourceUrl/BFFLogoGrantsSite';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin } from 'lightning/navigation';
-import { handleError } from 'c/lwcUtilities';
-import { showUIError } from 'c/lwcUtilities';
+import { handleError, showUIError, langTag } from 'c/lwcUtilities';
+// import { showUIError } from 'c/lwcUtilities';
 import Id from '@salesforce/user/Id';
 import getTranslations from '@salesforce/apex/SiteController.getTranslations';
 import { buildTransByName } from 'c/formsUtilities';
@@ -98,7 +98,6 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             console.log('dateEstablished', this.dateEstablished);
             if (this.hasSubmittedPrf) this.expandGrants = '';
             this.translatePage();
-            this.setLangPickerDefault();
             this.dataLoaded = true;
             this.showSpinner = false;
         } catch (error) {
@@ -127,6 +126,8 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         this.hasProposals = this.profileSummary.hasProposals;
         this.processFormInstList(this.formInstList);
         this.prpItemsData = this.processPrpList(this.prpList);
+        this.langTag = langTag(this.language);
+        console.log('langTag', this.langTag);
     }
 
     addDays(date, days) {
@@ -138,31 +139,12 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     reloadData() {
         this.loadData();
     }
-    
-    setLangPickerDefault(){
-        const langPicker = this.template.querySelector('[name="langPicker"]');
-        langPicker.selectedIndex = [...langPicker.options].findIndex(option => option.value === this.language);
-        const lMap = new Map();
-        lMap.set('English', 'en');
-        lMap.set('Spanish', 'es');
-        lMap.set('French', 'fr');
-        lMap.set('Portuguese', 'pt');
-        this.langMap = lMap;
-        this.langTag = this.langMap.get(this.language);
-    }
 
     handleLanguagePicker(event){
-        this.language = event.target.value;
+        console.log('handleLanguagePicker in Home');
+        this.language = event.detail;
+        console.log(this.language);
         this.translatePage();
-    }
-
-    get options() {
-        return [
-                 { label: 'English', value: 'English' },
-                 { label: 'Español', value: 'Spanish' },
-                 { label: 'Français', value: 'French' },
-                 { label: 'Português', value: 'Portuguese' }
-               ];
     }
 
     get disableButton(){
@@ -270,7 +252,21 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             },
             state: {
                 recordId: formInstId,
-                language: this.language
+                lang: this.language
+            }
+        });
+    }
+
+    navigateToProposalLanding(propId) {
+        // Navigate to proposal landing page
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Proposal__c'
+            },
+            state: {
+                recordId: propId,
+                lang: this.language
             }
         });
     }
@@ -308,23 +304,21 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
                 itm.grantType = this.transByName.get('bff_SustainFund');
             }
             itm.proposalName = itm.Name;
+            console.log('proposalName',itm.proposalName);
             itm.dateReceived = itm.Date_received__c;
             itm.dateCreated = itm.CreatedDate;
             // Let form instance dictate whether a proposal has been submitted.
             let formInstId = this.prpFormInst.get(itm.Id);
             isSubmitted = this.formInstIdSubmitted.get(formInstId);
-            itm.rowIcon = isSubmitted ? "utility:preview" : "utility:edit";
-            itm.rowAction = isSubmitted ? this.transByNameObj.View : this.transByNameObj.Edit;
+            itm.disableButton = isSubmitted ? true : false;
+            console.log('disableButton', itm.disableButton);
+            itm.rowIcon = isSubmitted ? '' : "utility:edit"; // "utility:preview"
+            itm.rowAction = isSubmitted ? '' : this.transByNameObj.Edit; // this.transByNameObj.View
             if (!isSubmitted) {
                 itm.statusSortBy = 0;
                 itm.status = this.transByNameObj.Pending;
             }
-            
             switch (itm.Status_external__c) {
-                /* case 'Pending':
-                    itm.statusSortBy = 0;
-                    itm.status = this.transByNameObj.Pending;
-                    break; */
                 case 'Submitted':
                     itm.statusSortBy = 1;
                     itm.status = this.transByNameObj.Submitted;
@@ -356,7 +350,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
 
             // Relies on form instance submission for toast messages
             if (isSubmitted) {
-                // Still relying on Prop date rec'd
+                // Submitted date is Prop date rec'd
                 dateSubmitted = itm.Date_received__c;
                 console.log('dateSubmitted', dateSubmitted);
                 if (itm.Grant_type__c=='BFF-Solidarity') {
@@ -373,28 +367,38 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
             } else if (itm.Grant_type__c=='BFF-Sustain') {
                 this.hasPendingSustain = true;
             }
-            
-            /* Relies on Prop status for toast messages
-            if (itm.Status_external__c==='Pending') {
-                if (itm.Grant_type__c=='BFF-Solidarity') {
-                    this.hasPendingSolidarity = true;
-                } else if (itm.Grant_type__c=='BFF-Sustain') {
-                    this.hasPendingSustain = true;
-                } 
-            } else if (itm.Status_external__c==='Submitted') {
-                if (itm.Grant_type__c=='BFF-Solidarity'
-                ) {
-                    this.hasRecentSubmittedSolidarity = true;
-                } else if (itm.Grant_type__c=='BFF-Sustain') {
-                    this.hasRecentSubmittedSustain = true;
-                } 
-            }
-            */
+        
+            /**** Following test resulted in blank column ****/
+            let editButton = {type: 'button-icon', initialWidth: 40, 
+                typeAttributes: {  
+                    iconName: "utility:edit", 
+                    name: this.transByNameObj.Edit,  
+                    variant: 'bare',
+                    alternativeText: this.transByNameObj.Edit,       
+                    disabled: false
+                }
+            };
+
+            let noButton = { 
+                label: '', 
+                initialWidth: 40,
+                fieldName: '',
+                hideDefaultActions: true,
+                sortable: false,
+            };
+
+            itm.buttonRow = isSubmitted ? noButton : editButton;
+
+            /**** Above resulted in blank column ****/
+
         }
+        
         this.columns = [
-            { label: this.transByNameObj.Action, type: 'button-icon', initialWidth: 75, typeAttributes: 
-                {iconName: { fieldName: 'rowIcon' }, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
-            { label: this.transByNameObj.Number, initialWidth: 125, fieldName: 'proposalName', hideDefaultActions: true, sortable: false,},
+            // { fieldName: 'buttonRow' },
+            { label: '', type: 'button-icon', initialWidth: 40, typeAttributes: 
+                {iconName: { fieldName: 'rowIcon' }, disabled: { fieldName: 'disableButton'}, title: { fieldName: 'rowAction' }, variant: 'bare', alternativeText: { fieldName: 'rowAction' } } },
+            { label: this.transByNameObj.Number, type: 'button', initialWidth: 125, fieldName: 'proposalName', hideDefaultActions: true, sortable: false, typeAttributes:
+                { label: { fieldName: 'proposalName' }, name: "gotoProposal", variant: "base" } },
             { label: this.transByNameObj.Status, initialWidth: 125, fieldName: 'status', hideDefaultActions: true, sortable: false,},
             { label: this.transByNameObj.Type, fieldName: 'grantType', hideDefaultActions: true, sortable: false,},
             { label: this.transByNameObj.DateCreated, fieldName: 'dateCreated', type: 'date', hideDefaultActions: true, sortable: false,},
@@ -407,37 +411,21 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     handleRowAction(event) {
         // Look up app Form Instance Id for Proposal
         const row = event.detail.row;
-        // this.errMsg = 'Error: ' + row.Id;
-        this.appFormInstanceId = this.prpFormInst.get(row.Id);
-        this.navigateToFormInstance(this.appFormInstanceId);
+        const actionName = event.detail.action.name;
+        console.log('actionName', actionName);
+        if (actionName == 'gotoProposal') {
+            this.navigateToProposalLanding(row.Id);
+        } else {
+            this.appFormInstanceId = this.prpFormInst.get(row.Id);
+            this.navigateToFormInstance(this.appFormInstanceId);
+        }
+
+      
     }
 
-/* Navigation home - not needed in home page itself
-    navigateHome() {
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                name: 'Home'
-            }
-        });
-    }
-*/
 
-    /* Navigation to standard record page; not in use.
-    navigateToForm() {
-        // Navigate to form instance detail page
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: this.prFormInstanceId,
-                actionName: 'edit',
-                objectApiName: 'Form_Instance__c'
-            },
-            state: {
-                language: this.language
-            }
-        });
-    } 
-    */
+
+
+
 
 }

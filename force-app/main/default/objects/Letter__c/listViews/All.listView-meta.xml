@@ -9,10 +9,5 @@
     <columns>Template__c</columns>
     <columns>Template_name__c</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>Template__c</field>
-        <operation>contains</operation>
-        <value>closing</value>
-    </filters>
     <label>All</label>
 </ListView>
