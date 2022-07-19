@@ -1,14 +1,20 @@
-import { LightningElement, api, wire } from 'lwc';
-import { handleError } from 'c/lwcUtilities';
+import { LightningElement, api, wire, track } from 'lwc';
+import { handleError, langTag } from 'c/lwcUtilities';
 import logoResourceWhiteText from '@salesforce/resourceUrl/BFFLogoGrantsSite_WhiteText';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import getHeaderName from '@salesforce/apex/SiteController.getHeaderName';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 
+import PROP_ID from '@salesforce/schema/Form_Instance__c.ProposalId__c';
+import FI_ID from '@salesforce/schema/Form_Instance__c.Id';
+
+const fields = [PROP_ID, FI_ID];
 export default class BffReviewSiteHeader extends NavigationMixin(LightningElement) {
     currentPageReference;
     bffLogoWhiteText = logoResourceWhiteText;
     dataLoaded = false;
     name;
+    @api recordId; // Should be forminstance id
     @api language;
     @api showProfile = false;
     @api showSearch = false;
@@ -20,17 +26,42 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     page;
     pageName;
     onHome = true;
+    onPropFormInst = false;
+    propId;
+    @track formInstdata;
+
+    // Breadcrumbs: Proposal landing.
+    // RecordId passed to header in forminstance. Retrieve prop Id for prop landing.
+    @wire(getRecord, { recordId: '$recordId', fields })
+        formInst({error,data}) {
+            if (data) {
+                this.formInstdata = data;
+                console.log('forminstdata', JSON.stringify(data));
+                this.propId = getFieldValue(this.formInstdata, PROP_ID);
+                console.log('propid',this.propId);
+                if (this.propId) {
+                    this.onPropFormInst = true;
+                    console.log('onPropFormInst', this.onPropFormInst);
+                }
+            } else if (error) {
+                console.log('forminst error', JSON.stringify(error));
+            }
+        }
     
+    // Breadcrumbs: Current page
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
         console.log('wire currentPageReference', currentPageReference);
         if (currentPageReference && this.language) {
             this.page = currentPageReference.attributes.name;
             console.log(this.page);
-            if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
-            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.Form; // Form
             this.onHome = this.page==='Home';
-            console.log(this.onHome);
+            console.log('onhome', this.onHome);
+            if (this.page==='Assessment__c') this.pageName = this.transByNameObj.ProposalReview;
+            if (this.page==='FormInstance__c') this.pageName = this.transByNameObj.Form;
+            if (this.page==='Proposal__c') this.pageName = this.transByNameObj.Proposal;
+            console.log('thispage', this.page);
+            console.log('thispagename', this.pageName);
         }
     }
 
@@ -40,12 +71,12 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             console.log('connectedCallbackHeader');
             console.log(this.language);
             console.log(this.advisorFormInstanceId);
-            console.log(this.transByNameObj.bff_ReviewSiteLandingWelcome);
             console.log('hidelangpicker',this.hideLanguagePicker);
             console.log('showSearch',this.showSearch);
             console.log('disableProfile',this.disableProfile);
-            this.setLangTag();
-
+            console.log('recordId', this.recordId);
+            this.langTag = langTag(this.language);
+            console.log('langTag', this.langTag);
             console.log(this.baseURL);
             this.dataLoaded = true;
         }
@@ -54,9 +85,8 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
     async loadData() {
         try {
             console.log('loadData');
-            // Retrieve Advisor and Form Instance, along with translations
-            // let [translations ] = await Promise.all ([
             this.name = await getHeaderName();
+            this.name = this.name.length > 35 ? this.name.substring(0,35) + '...' : this.name;
         } catch (error) {
             handleError(error);
         }
@@ -71,21 +101,11 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
                ];
     }
 
-    setLangTag(){
-        console.log('setLangPickerDefault');
-        const lMap = new Map();
-        lMap.set('English', 'en');
-        lMap.set('Spanish', 'es');
-        lMap.set('French', 'fr');
-        lMap.set('Portuguese', 'pt');
-        this.langMap = lMap;
-        this.langTag = this.langMap.get(this.language);
-    }
-
     handleLanguagePicker(event){
         this.language = event.target.value;
         console.log(this.language);
-        this.setLangTag();
+        this.langTag = langTag(this.language);
+        console.log('langTag', this.langTag);
         // Create event to pass language to parent
         const selLang = new CustomEvent("getselectedlanguage", {
             detail: this.language
@@ -93,6 +113,10 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
         //Dispatch
         this.dispatchEvent(selLang);
         console.log('dispatched event');
+    }
+
+    selfClick() {
+        // Do nothing - stay on this page
     }
     
     handleHome(){
@@ -104,8 +128,17 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
         });
     }
 
-    selfClick() {
-        // Do nothing - stay on this page
+    handlePropLanding(){
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Proposal__c'
+            },
+            state: {
+                recordId: this.propId,
+                lang: this.language
+            }
+        });
     }
     
     handleProfile () {
@@ -121,7 +154,7 @@ export default class BffReviewSiteHeader extends NavigationMixin(LightningElemen
             },
             state: {
                 recordId: formInstId,
-                language: this.language
+                lang: this.language
             }
         });
     }

@@ -28,14 +28,14 @@ export default class Assessment extends NavigationMixin ( LightningElement ) {
         }
     }
  
-    // Get parameters from current URL (e.g. language)
+    // Get parameters from current URL (e.g. lang)
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
         //console.log('wire currentPageReference', currentPageReference);
         if (currentPageReference) {
             let urlStateParameters = currentPageReference.state;
             console.log('wire CurrentPageReference: urlStateParameters', urlStateParameters);
-            this.language = urlStateParameters.language || 'English';
+            this.language = urlStateParameters.lang || 'English';
             if(!this.recordId) this.recordId = urlStateParameters.recordId || null;
             console.log('wire CurrentPageReference: this.recordId', this.recordId);
         }

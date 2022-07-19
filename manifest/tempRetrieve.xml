@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Payment_Method__c.FSRequest_signer_1__c</members>
-		<members>Payment_Method__c.FSRequest_signer_2__c</members>
-		<members>Payment_Method__c.FS_agreement_signer_1__c</members>
-		<members>Payment_Method__c.FS_agreement_signer_2__c</members>
-		<members>Payment_Method__c.Authorized_signer__c</members>
-		<members>Payment_Method__c.Authorized_signer_2__c</members>
-		<members>Template__c.Signer_1_field_name__c</members>
-		<members>Template__c.Signer_2_field_name__c</members>
-		<members>Contact.Description_GM__c</members>
-		<members>Contact.Description_GM_plus_email__c</members>
 		<name>CustomField</name>
+	</types>
+	<types>
+        <members>formInstance</members>
+        <members>assessment</members>
+        <name>LightningComponentBundle</name>
 	</types>
 	<version>53.0</version>
 </Package>

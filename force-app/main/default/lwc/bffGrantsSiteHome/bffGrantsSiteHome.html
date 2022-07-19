@@ -1,37 +1,31 @@
 <template>
     <div lang={langTag}>
 
+        <!-- Visually hidden banner placed at top for better accessibility -->
+        <div if:false={hasSubmittedPrf} class="visually-hidden">
+            <c-lwc-toast-banner message={transByNameObj.BannerProfile}></c-lwc-toast-banner>           
+        </div>
+
         <!-- HEADER -->
-        <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>
+        <!-- <c-bff-grants-site-header logout={logout} support={support}></c-bff-grants-site-header>-->
+        <div if:true={dataLoaded}>
+            <c-bff-review-site-header language={language} ongetselectedlanguage={handleLanguagePicker} trans-by-name-obj={transByNameObj} show-language-picker></c-bff-review-site-header>
+        </div>
 
         <!-- SPINNER -->
         <div class="slds-align_absolute-center spinnerSize" if:true={showSpinner}>
             <lightning-spinner alternative-text={loading} size="medium"></lightning-spinner>
         </div>
 
-        <!-- LANGUAGE PICKER -->
-        <div class="slds-grid slds-grid_align-end slds-gutters_x-large topmargin">
-            <div class="slds-col slds-form-element">
-                <label class="slds-form-element__label visually-hidden" for="langPicker">{languageSelector}</label>
-                <div class="slds-form-element__control slds-select_container">
-                    <select class="slds-select language-font" id="langPicker" name="langPicker" onchange={handleLanguagePicker}>
-                        <template for:each={options} for:item="option">
-                            <option key={option.value} value={option.value}>{option.label}</option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-        </div>
-
         <!-- MAIN SECTION: helpful for accessibility to distinguish the main page from header and footer -->
         <main>
             <!-- TOAST BANNER -->
-            <div if:false={hasSubmittedPrf}>
+            <div if:false={hasSubmittedPrf} aria-hidden="true">
                 <c-lwc-toast-banner message={transByNameObj.BannerProfile}></c-lwc-toast-banner>           
             </div>
 
             <!-- LOGO -->
-            <div class="slds-grid slds-grid_align-center slds-gutters_large">
+            <div class="slds-grid slds-grid_align-center slds-gutters_large slds-p-top_xx-large">
                 <div class="slds-col logo-home-page">
                     <img class="bff-logo-center" src={bffLogo} alt={bffLogoAltText}>
                 </div>

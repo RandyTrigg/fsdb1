@@ -90,6 +90,14 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
         this.loading = this.transByNameObj.Loading;
         this.pendingLabel = this.transByNameObj.PendingReviews;
         this.submittedLabel = this.transByNameObj.SubmittedReviews;
+        const lMap = new Map();
+        lMap.set('English', 'en');
+        lMap.set('Spanish', 'es');
+        lMap.set('French', 'fr');
+        lMap.set('Portuguese', 'pt');
+        this.langMap = lMap;
+        this.langTag = this.langMap.get(this.language);
+        console.log('langTag',this.langTag);
     }
 
     buildTables() {
@@ -206,7 +214,7 @@ export default class BffReviewSiteHome extends NavigationMixin(LightningElement)
             },
             state: {
                 recordId: row.Id,
-                language: this.language
+                lang: this.language
             }
         });
     }
