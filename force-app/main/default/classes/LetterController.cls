@@ -299,7 +299,7 @@ public class LetterController {
         Set<String> emlSet;
         Set<String> signerSet = new Set<String>();
         for (Letter__c let : letsToUpdate.values()) {
-            emlList = let.Emails__c != null ? let.Emails__c.split(',') : null;
+            emlList = let.Emails__c != null ? let.Emails__c.split(',') : new List<String>();
             emlSet = new Set<String>(emlList);
             c1Id = signer1s.get(let.Id);
             c2Id = signer2s.get(let.Id);

@@ -125,8 +125,7 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
                         cmp.isLabel = true;
                         break;
                     case 'InputSelectMulti1':
-                        if ((cmp.joinObjectName=='Classification_Assign__c' || cmp.joinObjectName=='Classification_Profile_Assign__c') 
-                                && this.review.classificationAssignMap.size > 0){
+                        if ((cmp.joinObjectName=='Classification_Assign__c' || cmp.joinObjectName=='Classification_Profile_Assign__c')){
                             // get the set of classifications that match the type
                             let classificationAssigns = this.review.classificationAssignMap[cmp.joinObjectType];
                             let multiSelectOptions = [];
