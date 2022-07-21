@@ -18,12 +18,6 @@ public class FormDataControllerTest {
         Form__c f = [SELECT Id FROM Form__c LIMIT 1];
         insert new Form_Instance__c (Form__c = f.Id, Profile__c = prof.Id);
         Form_Instance__c fi1 = [SELECT Id FROM Form_Instance__c LIMIT 1];
-        insert new Classification_Category__c (Name = 'Age and Gender');
-        Classification_Category__c cc = [SELECT Id FROM Classification_Category__c LIMIT 1];
-        insert new Classification__c (Name = 'Girls', Type__c = 'Population', Classification_Category__c = cc.Id);
-        Classification__c cl = [SELECT Id FROM Classification__c LIMIT 1];
-        insert new Classification_Profile_Assign__c (Profile__c = prof.Id, Classification__c = cl.Id);
-        insert new Classification__c (Name = 'Young Women', Type__c = 'Population', Classification_Category__c = cc.Id);
         
         // Build form components and matching form data.
         // Update a text field in Profile.
@@ -66,9 +60,9 @@ public class FormDataControllerTest {
         );
         Form_Component__c comp4 = [SELECT Id FROM Form_Component__c WHERE Name = 'test component 4' LIMIT 1];
         insert new Form_Data__c (Form_Instance__c = fi1.Id, Form_Component__c = comp4.Id, Data_text__c = 'Yes');
-        // Update classification joins in Profile.
+        // Update classification joins in proposal.
         insert new Form_Component__c (
-            Name = 'Populations', 
+            Name = 'ConstituenciesWhoAre', 
             Form__c = f.Id, 
             Sort_number__c = 1
         );
@@ -139,8 +133,66 @@ public class FormDataControllerTest {
         System.assertEquals(500.00, gmData1.Total_income_recent_completed_FY__c);
     }
 
+    // Test field targeting for classification assignments
+    static testmethod void FormDataControllerTest3a () {
+        // Build new records.
+        BuildTestProposals.InitTestObjects(1, 1);
+        Account acc = [SELECT Id FROM Account LIMIT 1];
+        Proposal__c prop = [SELECT Id FROM Proposal__c LIMIT 1];
+        
+        Test.StartTest();
+        
+        insert new Form__c (Name = 'test form', Type__c = 'Admin');
+        Form__c f = [SELECT Id FROM Form__c LIMIT 1];
+        insert new Form_Instance__c (Form__c = f.Id, Proposal__c = prop.Id);
+        Form_Instance__c fi = [SELECT Id FROM Form_Instance__c WHERE Proposal__c = : prop.Id LIMIT 1];
+                
+        // Build classifications and form components.
+        insert new Classification_Category__c (Name = 'Age and Gender');
+        Classification_Category__c cc = [SELECT Id FROM Classification_Category__c LIMIT 1];
+        insert new Classification__c (Name = 'Girls', Type__c = 'Population', Classification_Category__c = cc.Id);
+        Classification__c cl = [SELECT Id FROM Classification__c LIMIT 1];
+        insert new Classification_Assign__c (Proposal__c = prop.Id, Classification__c = cl.Id);
+        insert new Classification__c (Name = 'Young Women', Type__c = 'Population', Classification_Category__c = cc.Id);
+
+        insert new Form_Picklist__c (Name = 'ConstituenciesWhoAre', Type__c = 'Phrases');
+        Form_Picklist__c fPicklist = [SELECT Id FROM Form_Picklist__c LIMIT 1];
+        insert new Form_Phrase__c (Name = 'Girls');
+        Form_Phrase__c fp1 = [SELECT Id FROM Form_Phrase__c WHERE Name = 'Girls' LIMIT 1];
+        insert new Form_Phrase_Translation__c (Form_Phrase__c = fp1.Id, Language__c = 'English', Text__c = 'Girls');
+        insert new Form_Picklist_Phrase__c (Name = 'Girls', Form_Picklist__c = fPicklist.Id, Form_Phrase__c = fp1.Id);
+        insert new Form_Phrase__c (Name = 'YoungWomen');
+        Form_Phrase__c fp2 = [SELECT Id FROM Form_Phrase__c WHERE Name = 'YoungWomen' LIMIT 1];
+        insert new Form_Phrase_Translation__c (Form_Phrase__c = fp2.Id, Language__c = 'English', Text__c = 'Young Women');
+        insert new Form_Picklist_Phrase__c (Name = 'YoungWomen', Form_Picklist__c = fPicklist.Id, Form_Phrase__c = fp2.Id);
+        insert new Form_Component__c (
+            Name = 'ConstituenciesWhoAre', 
+            Type__c = 'checkbox group', 
+            Form__c = f.Id, 
+            Sort_number__c = 1,
+            Form_Picklist__c = fPicklist.Id
+        );
+        Form_Component__c comp1 = [SELECT Id FROM Form_Component__c WHERE Name = 'ConstituenciesWhoAre' LIMIT 1];
+        insert new Form_Data__c (Form_Instance__c = fi.Id, Form_Component__c = comp1.Id, Proposal__c = prop.Id, Data_text__c = 'Girls||YoungWomen');
+        Form_Data__c fd1 = [SELECT Id FROM Form_Data__c LIMIT 1];
+
+        FormDataUpdateTargetsInvocable.UpdateTargetFields(new List<Id> {fi.Id});
+        Test.StopTest();
+        
+        // One indicator assign with comment inserted
+        Classification_Assign__c[] cas = [SELECT Id, Classification__r.Name FROM Classification_Assign__c];
+        System.assertEquals(2, cas.size());
+        // Remove one of the two
+        fd1.Data_text__c = 'YoungWomen';
+        update fd1;
+        FormDataController.updateTargetFields(fi.Id);
+        cas = [SELECT Id, Classification__r.Name FROM Classification_Assign__c];
+        System.assertEquals(1, cas.size());
+        System.assertEquals('Young Women', cas[0].Classification__r.Name);
+    }
+
     // Test field targeting for indicator components
-    static testmethod void FormDataControllerTest3 () {
+    static testmethod void FormDataControllerTest3b () {
         // Build new records.
         BuildTestProposals.InitTestObjects(1, 1);
         Account acc = [SELECT Id FROM Account LIMIT 1];

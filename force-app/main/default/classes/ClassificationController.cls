@@ -4,6 +4,19 @@ public class ClassificationController {
         'Proposal__c' => 'Classification_Assign__c',
         'Profile__c' => 'Classification_Profile_Assign__c'
     };
+
+    // Update classification assigns for given record using form phrase names (from form data).
+    public static void updateClassificationAssignsFromFormPhrases(Id recId, String classType, String formPhraseNamesStr) {
+        if (formPhraseNamesStr == null) return;
+        String[] formPhraseNames = formPhraseNamesStr.split('\\|\\|');
+        system.debug('updateClassificationAssignsFromFormPhrases: formPhraseNames = ' +formPhraseNames);
+        Form_Phrase__c[] formPhrases = [SELECT Phrase_in_English__c FROM Form_Phrase__c WHERE Name IN :formPhraseNames];
+        system.debug('updateClassificationAssignsFromFormPhrases: formPhrases = ' +formPhrases);
+        String[] classNames = new List<String>();
+        for (Form_Phrase__c fp : formPhrases) classNames.add(fp.Phrase_in_English__c);
+        system.debug('updateClassificationAssignsFromFormPhrases: classNames = ' +classNames);
+        if (classNames.size() > 0) updateClassificationAssigns(recId, classType, classNames);
+    }
     
     // Update the classification assigns for an appropriate record (say, Profile or Proposal).
     // Create/delete joins to align with given selected classification ids.
@@ -51,7 +64,14 @@ public class ClassificationController {
             }
         }
         system.debug('In updateClassificationAssigns: toInsert = ' + JSON.serialize(toInsert));
-        if (toDelete.size() > 0) delete toDelete;
-        if (toInsert.size() > 0) insert toInsert;
+        Integer batchSize = Test.isRunningTest() ? 5 : 1; // Batch process may only have one iteration in test mode.
+        if(toInsert.size() > 0) {
+            if (System.isBatch()) insert toInsert; // Can't invoke batch from within a batch.
+            else Database.executeBatch(new GenericInsertRecordsBatch(toInsert), batchSize);
+        }
+        if(toDelete.size() > 0) {
+            if (System.isBatch()) delete toDelete; // Can't invoke batch from within a batch.
+            else Database.executeBatch(new DeleteRecordsBatch(toDelete, false), batchSize);
+        }
     }
 }

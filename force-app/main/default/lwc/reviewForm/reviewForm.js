@@ -65,6 +65,8 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
         try {
             // Need to deep clone since there are internals with child objects 
             this.review = JSON.parse(JSON.stringify(this.review));
+            console.log('reviewForm.loadData: review');
+            console.dir(review);
 
             //If there is a date submitted, it's a read-only Assessment; if isComplete is true the proposal or milestone has a completed date
             if ((this.review.dateSubmitted || this.review.isComplete) && !this.isInternalReview) {
@@ -73,8 +75,8 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
             
             // Update components for markup
             for (let cmp of this.review.formComponents) {
-                //console.log('reviewForm.loadData loop: cmp');
-                //console.dir(cmp);
+                console.log('reviewForm.loadData loop: cmp');
+                console.dir(cmp);
                 //Add "Cumulative" to the label of any input whose object is GM Data
                 if (cmp.objectName==="GM_Data__c" && cmp.label) {
                     cmp.label = cmp.label + " (Cumulative)";
@@ -125,7 +127,7 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
                         cmp.isLabel = true;
                         break;
                     case 'InputSelectMulti1':
-                        if ((cmp.joinObjectName=='Classification_Assign__c' || cmp.joinObjectName=='Classification_Profile_Assign__c')){
+                        if (cmp.joinObjectName=='Classification_Assign__c' || cmp.joinObjectName=='Classification_Profile_Assign__c'){
                             // get the set of classifications that match the type
                             let classificationAssigns = this.review.classificationAssignMap[cmp.joinObjectType];
                             let multiSelectOptions = [];

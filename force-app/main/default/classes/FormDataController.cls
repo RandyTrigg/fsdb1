@@ -128,7 +128,7 @@ public class FormDataController {
                         }
                     }
                     continue;
-                } else if (fd.Form_Component__r.Target_field_name__c != null) { // Non-indicator targeted form components must have target field
+                } else if (fd.Form_Component__r.Target_field_name__c != null) { // Non-indicator/classification targeted form components must have target field
                     String oName = fd.Form_Component__r.Target_object_name__c;
                     sObject target = objNameToRecord.get(oName);
                     String fName = fd.Form_Component__r.Target_field_name__c;
@@ -160,14 +160,9 @@ public class FormDataController {
                 }
             }
             // Handle form data that require specialized updates (the form component doesn't specify target object/field).
-            else if (fd.Form_Component__r.Name == 'Populations' && profId != null) {
-                // 6/6/19: Use invocable class for now to insert/delete joins.  Once processes/flows aren't calling that invocable, then move code into ProfileController.
-                ProfileClassificationsInvocable.UpdateClassificationsRequest req = new ProfileClassificationsInvocable.UpdateClassificationsRequest ();
-                req.categoryName = 'Age and Gender';
-                req.classificationType = 'Population';
-                req.profileId = profId;
-                req.selectedNames = fdText == null ? '||' : fdText; // Invocable process doesn't like null parameters.
-                ProfileClassificationsInvocable.handleRequest(req);                
+            else if (fd.Form_Component__r.Name == 'ConstituenciesWhoAre' && propId != null) {
+                system.debug('updateTargetField, ConstituenciesWhoAre form component: fdText = ' +fdText);
+                ClassificationController.updateClassificationAssignsFromFormPhrases(propId, 'Population', fdText);
             }
         }
         // Update checkbox fields in the gm data record.
