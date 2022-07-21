@@ -65,7 +65,7 @@ public class ClassificationControllerTest {
         insert new Form_Phrase_Translation__c (Form_Phrase__c = fp2.Id, Language__c = 'English', Text__c = 'Test Issue 2');
 
         Test.StartTest();
-        ClassificationController.updateClassificationAssignsFromFormPhrases(p.Id, 'Issue', 'TestIssue1||TestIssue2');
+        ClassificationController.updateClassificationAssignsFromFormPhrases(p.Id, 'Issue', 'TestIssue1|TestIssue2');
         Test.stopTest();
         
         // Check that two new assigns were added to the proposal.

@@ -1,6 +1,5 @@
-String[] testStrList = new List<String>();
-Set<String> testSet = new Set<String>(testStrList);
-system.debug(testSet);
+Id fiId = Id.valueOf('a248c0000007zuUAAQ');
+FormDataController.updateTargetFields(fiId);
 /*
 Id profId = Id.valueOf('a1O8c000009hndWEAQ');
 Form_Instance__c[] fis = FormInstanceController.getFormInstances(profId);

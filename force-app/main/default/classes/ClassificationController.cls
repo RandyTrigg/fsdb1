@@ -8,7 +8,7 @@ public class ClassificationController {
     // Update classification assigns for given record using form phrase names (from form data).
     public static void updateClassificationAssignsFromFormPhrases(Id recId, String classType, String formPhraseNamesStr) {
         if (formPhraseNamesStr == null) return;
-        String[] formPhraseNames = formPhraseNamesStr.split('\\|\\|');
+        String[] formPhraseNames = formPhraseNamesStr.split('\\|');
         system.debug('updateClassificationAssignsFromFormPhrases: formPhraseNames = ' +formPhraseNames);
         Form_Phrase__c[] formPhrases = [SELECT Phrase_in_English__c FROM Form_Phrase__c WHERE Name IN :formPhraseNames];
         system.debug('updateClassificationAssignsFromFormPhrases: formPhrases = ' +formPhrases);

@@ -66,7 +66,7 @@ export default class ReviewForm extends NavigationMixin(LightningElement) {
             // Need to deep clone since there are internals with child objects 
             this.review = JSON.parse(JSON.stringify(this.review));
             console.log('reviewForm.loadData: review');
-            console.dir(review);
+            console.dir(this.review);
 
             //If there is a date submitted, it's a read-only Assessment; if isComplete is true the proposal or milestone has a completed date
             if ((this.review.dateSubmitted || this.review.isComplete) && !this.isInternalReview) {
