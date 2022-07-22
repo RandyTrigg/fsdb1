@@ -61,15 +61,14 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         //console.log('wire currentPageReference', currentPageReference);
         if (currentPageReference) {
             let urlStateParameters = currentPageReference.state;
-            console.log('wire CurrentPageReference: urlStateParameters', urlStateParameters);
+            //console.log('wire CurrentPageReference: urlStateParameters', urlStateParameters);
             this.language = urlStateParameters.lang || 'English';
             if(!this.recordId) this.recordId = urlStateParameters.recordId || null;
-            console.log('wire CurrentPageReference: this.recordId', this.recordId);
+            //console.log('wire CurrentPageReference: this.recordId', this.recordId);
         }
     }
 
     async loadData() {
-        console.log('formInstance loadData');
         console.log('formInstance loadData', this.recordId);
         this.isReadOnly = this.isNonEditable; // At the start, internal flag is equal to external flag
         let [data, translations ] = await Promise.all ([
@@ -168,7 +167,8 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         this.components = cmps;
         this.componentMap = new Map(cmps.map(object => { return [object.Id, object]; }));
         // Send initial values of controlling components down parent-child hierarchy to initialize everyone's visibility
-        for (cmpId of controllingCmpIds) this.reassessVisibility(cmpId, this.componentMap.get(cmpId).data);
+        console.log('formInstance.loadData controllingCmpIds = ', controllingCmpIds);
+        for (let cmpId of controllingCmpIds) this.reassessVisibility(cmpId, this.componentMap.get(cmpId).dataText);
         this.dataLoaded = true;
         this.showSpinner = false;
     }
@@ -195,7 +195,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         cmp.dataText = newData;
         if (cmp.isTextArea) cmp.data.Data_textarea__c = newData;
         else cmp.data.Data_text__c = newData;
-        //console.log('formInstance handleDataChange: cmpId/newData', cmpId, newData);
+        console.log('formInstance handleDataChange: cmpId/newData', cmpId, newData);
         // If the data change is to a controlling component, pass the info down so child components can set visibility.
         if (this.controllingCmpIds.includes(cmpId)) this.reassessVisibility(cmpId, newData);
         // Count errors and enable/disable submit button
@@ -204,6 +204,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
 
     // Pass recent data change down to all components and field editors to enable hiding based on connectors
     @api reassessVisibility(cmpId, newData) {
+        console.log('formInstance.reassessVisibility: cmpId/newData', cmpId, newData);
         [...this.template.querySelectorAll('c-form-component')]
             .forEach((formCmp) => {
                 formCmp.reassessVisibility(cmpId, newData);

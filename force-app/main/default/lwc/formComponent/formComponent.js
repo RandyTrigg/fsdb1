@@ -20,7 +20,7 @@ export default class FormComponent extends LightningElement {
         // console.log('connectedCallback: this.isEditable', this.isEditable);
         // console.log('connectedCallback: this.language', this.language);
         if (this.cmp) {
-            console.log('formComponent connectedCallback: this.isNonEditable = ' +this.isNonEditable);
+            //console.log('formComponent connectedCallback: this.isNonEditable = ' +this.isNonEditable);
             // Compute the values of the controlling component (if any) that unhide this component
             const showIf = this.cmp.Show_if__c;
             if (showIf) this.showIfVals = showIf.split(',').map(s => s.trim()); 
@@ -71,6 +71,7 @@ export default class FormComponent extends LightningElement {
 
     // If applicable, use recent data change to set this component's visibility, then pass along to child components
     @api reassessVisibility(cmpId, newData) {
+        console.log('formComponent.reassessVisibility: cmpId/newData', cmpId, newData);
         if (cmpId == this.cmp.Controlling_component__c) visibility(newData);
         [...this.template.querySelectorAll('c-form-component')]
             .forEach((formCmp) => {
@@ -80,6 +81,7 @@ export default class FormComponent extends LightningElement {
 
     // Check given connector value against the "showIf" values in this component to compute visibility for this component and for children
     visibility(connectorVal) {
+        console.log('formComponent.visibility: connectorVal = ', connectorVal);
         this.isVisible = this.showIfVals.length == 0 || this.showIfVals.includes(connectorVal);
         this.hideChild = this.parentHidden || !this.isVisible;
     }
