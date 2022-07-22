@@ -11,7 +11,6 @@ export default class FormFieldEditor extends LightningElement {
     @api isReadOnly;
     @api transByNameObj;
     subscription = null;
-    isVisible = true;
     initialRenderDone = false;
     numChars; // Running # of characters in text/textarea field
     numWords; // Running # of words in text/textarea field
@@ -22,7 +21,6 @@ export default class FormFieldEditor extends LightningElement {
             this.localCmp = JSON.parse(JSON.stringify(this.cmp));
             //console.log('formFieldEditor connectedCallback: this.localCmp', this.localCmp);
             //console.log('formFieldEditor connectedCallback: this.parentHidden', this.parentHidden);
-            //console.log('formFieldEditor connectedCallback: this.isVisible', this.isVisible);
             if (this.localCmp.isText && this.localCmp.data.Data_text__c) {
                 this.numChars = this.localCmp.data.Data_text__c.length;
                 this.numWords = this.countWords(this.localCmp.data.Data_text__c);
@@ -45,7 +43,7 @@ export default class FormFieldEditor extends LightningElement {
         return this.isValid() ? 0 : 1;
     }
 
-    //allows parent to check if this field is valid (if required, has a value)
+    // Used by countErrors to check if this field is valid (if required, has a value)
     @api isValid() {
         //if this is hidden, it is automatically valid.
         if (this.hidden || this.parentHidden) {
@@ -94,41 +92,6 @@ export default class FormFieldEditor extends LightningElement {
                 .forEach((inputCmp) => {inputCmp.reportValidity();});
             [...this.template.querySelectorAll('lightning-combobox')]
                 .forEach((inputCmp) => {inputCmp.reportValidity();});
-        }
-    }
-
-    checkForVisibility(value) {
-        let tempVisiblity = false; //assume hidden, unless the data in the source component matches.  Use a temp variable so we don't hide the item while we're reassessing on a data change.
-        if (this.localCmp.isTargetConnectors && this.localCmp.isTargetConnectors.length>0) {
-            for (let connector of this.localCmp.isTargetConnectors) {
-                if (connector.Form_Phrase__r.Name == value) {
-                    if (connector.Operation__c=='Enable') {
-                        tempVisiblity = true;
-                    }
-                    
-                }
-            }
-            this.isVisible = tempVisiblity;
-        } else {
-            this.isVisible = true;
-        }
-
-    }
-
-    @api setParentVisibility(visibility) {
-        this.parentHidden = visibility;
-    }
-
-
-    @api handleSourceTargetChange(message) {
-
-        // If the updated component is a source for this item, make any adjustments needed
-        if (this.localCmp.isTargetConnectors) {
-            for (let connector of this.localCmp.isTargetConnectors) {
-                if (message.cmpId == connector.Source_component__c) {
-                    this.checkForVisibility(message.dataText);
-                }
-            }
         }
     }
 

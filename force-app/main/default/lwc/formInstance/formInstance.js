@@ -127,6 +127,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
 
         // Process each form component
         let topCmps = [];
+        let controllingCmpIds = new Set();
         for (let cmp of cmps) {
             cmp.formInstanceId = this.recordId;
             // Fill in the numbering
@@ -158,12 +159,16 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             // Tweak form components that link to picklists
             updateRecordInternals(cmp, picklistMap, transById, fiInfo.countryNames);
             //console.log('cmp', cmp);
+            // Gather ids of controlling form components
+            if (cmp.Controlling_component__c) controllingCmpIds.add(cmp.Controlling_component__c);
         }
         //console.log('topCmps', topCmps);
         this.topLevelCmps = topCmps;
         this.hasSections = this.sections.length > 0;
         this.components = cmps;
         this.componentMap = new Map(cmps.map(object => { return [object.Id, object]; }));
+        // Send initial values of controlling components down parent-child hierarchy to initialize everyone's visibility
+        for (cmpId of controllingCmpIds) this.reassessVisibility(cmpId, this.componentMap.get(cmpId).data);
         this.dataLoaded = true;
         this.showSpinner = false;
     }
@@ -191,15 +196,25 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         if (cmp.isTextArea) cmp.data.Data_textarea__c = newData;
         else cmp.data.Data_text__c = newData;
         //console.log('formInstance handleDataChange: cmpId/newData', cmpId, newData);
-        // Write @api function in formComponent to determine whether components dependent on the changed field need to be hidden/shown.
-        // ...
+        // If the data change is to a controlling component, pass the info down so child components can set visibility.
+        if (this.controllingCmpIds.includes(cmpId)) this.reassessVisibility(cmpId, newData);
+        // Count errors and enable/disable submit button
         this.handleReady();
     }
 
+    // Pass recent data change down to all components and field editors to enable hiding based on connectors
+    @api reassessVisibility(cmpId, newData) {
+        [...this.template.querySelectorAll('c-form-component')]
+            .forEach((formCmp) => {
+                formCmp.reassessVisibility(cmpId, newData);
+            });
+    }
+
+    // Enable/disable the submit button
     handleReady() {
         //console.log('formInstance handleReady (before): this.isReadOnly = ' +this.isReadOnly+ '; this.submitDisabled = ' +this.submitDisabled+ '; this.numErrors = ' +this.numErrors);
         this.numErrors = this.countErrors();
-        if (!this.isReadOnly && this.isValid()) {
+        if (!this.isReadOnly && this.numErrors == 0) {
             this.submitDisabled = false;
             this.dataLoaded = true;
         } else {
@@ -226,6 +241,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     }
 
     // Validity of form instance bubbled up from formComponent 
+    // NO LONGER IN USE (7/21/2022)
     @api isValid() {
         let allValid = true;
         this.template.querySelectorAll('c-form-component').forEach(element => {

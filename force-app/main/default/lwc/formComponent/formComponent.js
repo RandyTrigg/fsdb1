@@ -8,8 +8,10 @@ export default class FormComponent extends LightningElement {
     @api isNonEditable = false; // External flag set once by caller or in app config
     @api isReadOnly; // Internal flag set and unset during processing at community
     @api transByNameObj;
-    isVisible = false; // Will need to be dynamically computed once new connector framework is in place
-    parentHidden = false; // Will need to be dynamically computed once new connector framework is in place
+    @api parentHidden = false;
+    isVisible = false;
+    hideChild = false; // Set to true if this component or its parent is hidden
+    showIfVals = [];
 
     connectedCallback() {
         this.isVisible = true;
@@ -19,11 +21,18 @@ export default class FormComponent extends LightningElement {
         // console.log('connectedCallback: this.language', this.language);
         if (this.cmp) {
             console.log('formComponent connectedCallback: this.isNonEditable = ' +this.isNonEditable);
+            // Compute the values of the controlling component (if any) that unhide this component
+            const showIf = this.cmp.Show_if__c;
+            if (showIf) this.showIfVals = showIf.split(',').map(s => s.trim()); 
+            // Set visibility based on controlling component's initial value
+            if (this.cmp.Controlling_component__c) this.visibility(this.cmp.controllingCmpInitialVal);
             //console.log('formComponent connectedCallback: this.cmp.Type__c = ' +this.cmp.Type__c+ '; this.cmp.isTextAnyFormat = ' +this.cmp.isTextAnyFormat);
         }
     }
 
     @api countErrors() {
+        // If this component or its parent is hidden (that is, hideChild = true), then errors are ignored
+        if (this.hideChild) return 0;
         const countChildCmpsErrs = [...this.template.querySelectorAll('c-form-component')]
             .reduce((countSoFar, formCmp) => {
                 return countSoFar + formCmp.countErrors();
@@ -47,6 +56,7 @@ export default class FormComponent extends LightningElement {
     }
 
     // Allows parent to check if this component is valid (all child components and child form field are valid)
+    // NO LONGER IN USE (7/21/2022)
     @api isValid() {
         const childCmpsValid = [...this.template.querySelectorAll('c-form-component')]
             .reduce((validSoFar, formCmp) => {
@@ -59,17 +69,18 @@ export default class FormComponent extends LightningElement {
         return (childCmpsValid && formFieldValid);
     }
 
-    handleCmpChange(event) {
-        //Tell children to assess visibility now that one of its siblings has changed
-        let message = {cmpId: event.detail.cmpId, dataText: event.detail.dataText};
+    // If applicable, use recent data change to set this component's visibility, then pass along to child components
+    @api reassessVisibility(cmpId, newData) {
+        if (cmpId == this.cmp.Controlling_component__c) visibility(newData);
+        [...this.template.querySelectorAll('c-form-component')]
+            .forEach((formCmp) => {
+                formCmp.reassessVisibility(cmpId, newData);
+            });
+    }
 
-        this.template.querySelectorAll('c-form-component').forEach(element => {
-            element.handleSourceTargetChange(message);
-        });
-
-        //Notify parent
-        const cmpUpdated = new CustomEvent('changeddata', { bubbles: true, composed: true, detail:{cmpId: event.detail.cmpId, dataText: event.detail.dataText} });
-
-        this.dispatchEvent(cmpUpdated);
+    // Check given connector value against the "showIf" values in this component to compute visibility for this component and for children
+    visibility(connectorVal) {
+        this.isVisible = this.showIfVals.length == 0 || this.showIfVals.includes(connectorVal);
+        this.hideChild = this.parentHidden || !this.isVisible;
     }
 }
