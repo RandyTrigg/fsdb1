@@ -37,6 +37,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     support;
     numErrors;
     saveNeeded = false; // If true then an internet outage prevented auto-save, and a bulk save is needed for unsaved field edits
+    controllingCmpIds = new Set(); // Set of ids of controlling components
 
     
     connectedCallback() {
@@ -126,7 +127,6 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
 
         // Process each form component
         let topCmps = [];
-        let controllingCmpIds = new Set();
         for (let cmp of cmps) {
             cmp.formInstanceId = this.recordId;
             // Fill in the numbering
@@ -159,16 +159,21 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             updateRecordInternals(cmp, picklistMap, transById, fiInfo.countryNames);
             //console.log('cmp', cmp);
             // Gather ids of controlling form components
-            if (cmp.Controlling_component__c) controllingCmpIds.add(cmp.Controlling_component__c);
+            if (cmp.Controlling_component__c) this.controllingCmpIds.add(cmp.Controlling_component__c);
         }
         //console.log('topCmps', topCmps);
         this.topLevelCmps = topCmps;
         this.hasSections = this.sections.length > 0;
         this.components = cmps;
         this.componentMap = new Map(cmps.map(object => { return [object.Id, object]; }));
-        // Send initial values of controlling components down parent-child hierarchy to initialize everyone's visibility
-        console.log('formInstance.loadData controllingCmpIds = ', controllingCmpIds);
-        for (let cmpId of controllingCmpIds) this.reassessVisibility(cmpId, this.componentMap.get(cmpId).dataText);
+        // Stash initial values of controlling components in each of their dependent form components
+        for (let cmp of cmps) {
+            let controllingCmpId = cmp.Controlling_component__c;
+            if (controllingCmpId) {
+                cmp.controllingCmpInitialVal = this.componentMap.get(controllingCmpId).dataText;
+            }
+        }
+        console.log('formInstance loadData: controllingCmpIds', this.controllingCmpIds);
         this.dataLoaded = true;
         this.showSpinner = false;
     }
@@ -197,7 +202,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         else cmp.data.Data_text__c = newData;
         console.log('formInstance handleDataChange: cmpId/newData', cmpId, newData);
         // If the data change is to a controlling component, pass the info down so child components can set visibility.
-        if (this.controllingCmpIds.includes(cmpId)) this.reassessVisibility(cmpId, newData);
+        if (this.controllingCmpIds.has(cmpId)) this.reassessVisibility(cmpId, newData);
         // Count errors and enable/disable submit button
         this.handleReady();
     }

@@ -72,7 +72,8 @@ export default class FormComponent extends LightningElement {
     // If applicable, use recent data change to set this component's visibility, then pass along to child components
     @api reassessVisibility(cmpId, newData) {
         console.log('formComponent.reassessVisibility: cmpId/newData', cmpId, newData);
-        if (cmpId == this.cmp.Controlling_component__c) visibility(newData);
+        console.log('formComponent.reassessVisibility: Id/Controlling_component__c', this.cmp.Id, this.cmp.Controlling_component__c);
+        if (cmpId == this.cmp.Controlling_component__c) this.visibility(newData);
         [...this.template.querySelectorAll('c-form-component')]
             .forEach((formCmp) => {
                 formCmp.reassessVisibility(cmpId, newData);
@@ -81,8 +82,9 @@ export default class FormComponent extends LightningElement {
 
     // Check given connector value against the "showIf" values in this component to compute visibility for this component and for children
     visibility(connectorVal) {
-        console.log('formComponent.visibility: connectorVal = ', connectorVal);
+        console.log('formComponent.visibility: connectorVal/showIfVals = ', connectorVal, this.showIfVals[0], this.showIfVals);
         this.isVisible = this.showIfVals.length == 0 || this.showIfVals.includes(connectorVal);
         this.hideChild = this.parentHidden || !this.isVisible;
+        console.log('formComponent.visibility: isVisible/hideChild = ', this.isVisible, this.hideChild);
     }
 }
