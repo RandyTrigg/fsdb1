@@ -207,13 +207,20 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         this.handleReady();
     }
 
-    // Pass recent data change down to all components and field editors to enable hiding based on connectors
+    // Pass recent data change down to all components and field editors to enable hiding based on connectors.
+    // Result is a map from component id to boolean representing visibility of that component
     @api reassessVisibility(cmpId, newData) {
         console.log('formInstance.reassessVisibility: cmpId/newData', cmpId, newData);
-        [...this.template.querySelectorAll('c-form-component')]
-            .forEach((formCmp) => {
-                formCmp.reassessVisibility(cmpId, newData);
-            });
+        // Gather visibility of child form components into a map
+        let results = [...this.template.querySelectorAll('c-form-component')]
+            .reduce((resultsSoFar, formCmp) => {
+                return new Map([...resultsSoFar, ...formCmp.reassessVisibility(cmpId, newData)]);
+            }, new Map());
+        console.log('formInstance.reassessVisibility: results', results);
+        // Stash boolean hidden vals in local copies of data
+        results.forEach((value, key) => { 
+            this.componentMap.get(key).hiddenData = value;
+        });
     }
 
     // Enable/disable the submit button
@@ -287,7 +294,11 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     async bulkSave() {
         try {
             // Pass triples representing form data to apex for saving
-            let dataInfos = this.components.map(cmp => { return {formComponentId: cmp.Id, value: cmp.dataText, isTextArea: cmp.isTextArea}} );
+            let dataInfos = this.components.map(cmp => { 
+                // Clear the saved value if its form component is hidden
+                let val = cmp.hiddenData ? null : cmp.dataText;
+                return {formComponentId: cmp.Id, value: val, isTextArea: cmp.isTextArea};
+            });
             let saved = await updateFormDataBulk({frmInstanceId:this.recordId, fdInfosStr: JSON.stringify(dataInfos)});
             if (saved) { 
                 this.saveNeeded = false;
