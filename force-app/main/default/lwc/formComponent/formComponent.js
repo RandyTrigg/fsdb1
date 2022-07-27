@@ -10,8 +10,12 @@ export default class FormComponent extends LightningElement {
     @api transByNameObj;
     @api parentHidden = false;
     isVisible = false;
-    hideChild = false; // Set to true if this component or its parent is hidden
     showIfVals = [];
+
+    get hideChild() {
+        // Set to true if this component or its parent is hidden
+        return this.parentHidden || !this.isVisible;
+    }
 
     connectedCallback() {
         this.isVisible = true;
@@ -24,9 +28,11 @@ export default class FormComponent extends LightningElement {
             // Compute the values of the controlling component (if any) that unhide this component
             const showIf = this.cmp.Show_if__c;
             if (showIf) this.showIfVals = showIf.split(',').map(s => s.trim()); 
+            console.log('formComponent.connectedCallback: this.cmp.Type__c = ' +this.cmp.Type__c+ '; this.cmp.Id = ' +this.cmp.Id);
+            console.log('formComponent.connectedCallback: this.cmp.Controlling_component__c = ' +this.cmp.Controlling_component__c+ '; this.cmp.controllingCmpInitialVal = ' +this.cmp.controllingCmpInitialVal);
             // Set visibility based on controlling component's initial value
             if (this.cmp.Controlling_component__c) this.visibility(this.cmp.controllingCmpInitialVal);
-            //console.log('formComponent connectedCallback: this.cmp.Type__c = ' +this.cmp.Type__c+ '; this.cmp.isTextAnyFormat = ' +this.cmp.isTextAnyFormat);
+            console.log('formComponent.connectedCallback: parentHidden/isVisible/hideChild = ', this.parentHidden, this.isVisible, this.hideChild);
         }
     }
 
@@ -70,14 +76,15 @@ export default class FormComponent extends LightningElement {
     }
 
     // If applicable, use recent data change to set this component's visibility, then pass along to child components
-    @api reassessVisibility(cmpId, newData) {
-        console.log('formComponent.reassessVisibility: cmpId/newData', cmpId, newData);
-        console.log('formComponent.reassessVisibility: Id/Controlling_component__c', this.cmp.Id, this.cmp.Controlling_component__c);
+    @api reassessVisibility(cmpId, newData, parentHidden) {
+        console.log('formComponent.reassessVisibility: Id/Type/cmpId/newData/parentHidden/controllingComponent', this.cmp.Id, this.cmp.Type__c, cmpId, newData, parentHidden, this.cmp.Controlling_component__c);
+        this.parentHidden = parentHidden;
         if (cmpId == this.cmp.Controlling_component__c) this.visibility(newData);
+        console.log('formComponent.reassessVisibility: parentHidden/isVisible/hideChild = ', this.parentHidden, this.isVisible, this.hideChild);
         // Gather visibility of child form components into a map
         let results = [...this.template.querySelectorAll('c-form-component')]
             .reduce((resultsSoFar, formCmp) => {
-                return new Map([...resultsSoFar, ...formCmp.reassessVisibility(cmpId, newData)]);
+                return new Map([...resultsSoFar, ...formCmp.reassessVisibility(cmpId, newData, this.hideChild)]);
             }, new Map());
         // Add in visibility of this form component. Note that value is boolean where true means the form component is hidden.
         results.set(this.cmp.Id, this.hideChild);
@@ -85,11 +92,9 @@ export default class FormComponent extends LightningElement {
         return results;
     }
 
-    // Check given connector value against the "showIf" values in this component to compute visibility for this component and for children
+    // Check given connector value against the "showIf" values in this component to compute visibility for this component
     visibility(connectorVal) {
-        console.log('formComponent.visibility: connectorVal/showIfVals = ', connectorVal, this.showIfVals[0], this.showIfVals);
+        console.log('formComponent.visibility: connectorVal/showIfVals = ', connectorVal, this.showIfVals);
         this.isVisible = this.showIfVals.length == 0 || this.showIfVals.includes(connectorVal);
-        this.hideChild = this.parentHidden || !this.isVisible;
-        console.log('formComponent.visibility: isVisible/hideChild = ', this.isVisible, this.hideChild);
     }
 }
