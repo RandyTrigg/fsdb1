@@ -190,6 +190,16 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         return data;
     }
 
+    // Clinking on one of the section titles at the top of the form jumps to that section in the form
+    handleSectionClick (event) {
+        let sectionId = event.target.dataset.id;
+        console.log('handleSectionClick sectionId = ' +sectionId);
+        if (sectionId) {
+            const sectionElement = this.template.querySelector('c-form-component[data-id=' +sectionId+ ']');
+            sectionElement.scrollIntoView({behavior: "smooth"});
+        }
+    }
+
     // formFieldEditor notification of data change
     handleDataChange(event) {
         let cmpId = event.detail.cmpId;
