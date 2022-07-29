@@ -1,44 +1,53 @@
 <template>
-    <div if:true={isVisible} class="slds-var-m-top_medium">
+    <div class="slds-var-m-top_medium">
         <!-- Section group component -->
         <div if:true={cmp.isSection} aria-label={cmp.title}>
-            <h2 class="slds-text-heading_small">
-                <c-form-component-label cmp={cmp}></c-form-component-label>
-            </h2>
-            <div data-id="intro" if:true={cmp.translatedIntro}>
-                <i><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></i>
+            <div if:false={hideChild}>
+                <h2 class="slds-text-heading_small">
+                    <c-form-component-label cmp={cmp}></c-form-component-label>
+                </h2>
+                <div data-id="intro" if:true={cmp.translatedIntro}>
+                    <i><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></i>
+                </div>
             </div>
             <template for:each={cmp.childCmps} for:item="childCmp">
                 <c-form-component 
-                    key={childCmp.Id} cmp={childCmp} language={language} form-instance-id={formInstanceId} is-read-only={isReadOnly} is-non-editable={isNonEditable} trans-by-name-obj={transByNameObj}>
+                    key={childCmp.Id} cmp={childCmp} language={language} form-instance-id={formInstanceId} 
+                    parent-hidden={hideChild} is-read-only={isReadOnly} is-non-editable={isNonEditable} trans-by-name-obj={transByNameObj}>
                 </c-form-component>
             </template>
         </div>
         <div if:false={cmp.isSection}>
             <!-- Non-section group component -->
             <div if:true={cmp.childCmps} role="group" aria-label={cmp.title}>
-                <c-form-component-label cmp={cmp}></c-form-component-label>
-                <div data-id="intro" if:true={cmp.translatedIntro}>
-                    <i><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></i>
+                <div if:false={hideChild}>
+                    <c-form-component-label cmp={cmp}></c-form-component-label>
+                    <div data-id="intro" if:true={cmp.translatedIntro}>
+                        <i><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></i>
+                    </div>
                 </div>
                 <template for:each={cmp.childCmps} for:item="childCmp">
                     <c-form-component 
-                        key={childCmp.Id} cmp={childCmp} language={language} form-instance-id={formInstanceId} is-read-only={isReadOnly} is-non-editable={isNonEditable} trans-by-name-obj={transByNameObj}>
+                        key={childCmp.Id} cmp={childCmp} language={language} form-instance-id={formInstanceId} 
+                        parent-hidden={hideChild} is-read-only={isReadOnly} is-non-editable={isNonEditable} trans-by-name-obj={transByNameObj}>
                     </c-form-component>
                 </template>
             </div>
             <!-- Non-group component -->
             <div if:false={cmp.childCmps} aria-label={cmp.title}>
                 <!-- Singleton checkboxes get their label later -->
-                <div if:false={cmp.isCheckbox}>
-                    <c-form-component-label cmp={cmp}></c-form-component-label>
-                </div>
-                <div data-id="intro" if:true={cmp.translatedIntro}>
-                    <i><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></i>
+                <div if:false={hideChild}>
+                    <div if:false={cmp.isCheckbox}>
+                        <c-form-component-label cmp={cmp}></c-form-component-label>
+                    </div>
+                    <div data-id="intro" if:true={cmp.translatedIntro}>
+                        <i><lightning-formatted-rich-text value={cmp.translatedIntro}></lightning-formatted-rich-text></i>
+                    </div>
                 </div>
                 <div if:false={isNonEditable}>
                     <c-form-field-editor 
-                        cmp={cmp} is-required={cmp.isRequired} form-instance-id={formInstanceId} parent-hidden={parentHidden} is-read-only={isReadOnly} trans-by-name-obj={transByNameObj}>
+                        cmp={cmp} is-required={cmp.isRequired} form-instance-id={formInstanceId} 
+                        parent-hidden={hideChild} is-read-only={isReadOnly} trans-by-name-obj={transByNameObj}>
                     </c-form-field-editor>
                 </div>
                 <div if:true={isNonEditable}>

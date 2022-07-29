@@ -1,3 +1,7 @@
 :host{
     --lwc-inputStaticFontSize: 12px;
  }
+
+.hidden {
+    display: none;
+}

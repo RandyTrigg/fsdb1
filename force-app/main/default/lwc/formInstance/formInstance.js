@@ -37,6 +37,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     support;
     numErrors;
     saveNeeded = false; // If true then an internet outage prevented auto-save, and a bulk save is needed for unsaved field edits
+    controllingCmpIds = new Set(); // Set of ids of controlling components
 
     
     connectedCallback() {
@@ -61,15 +62,14 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         //console.log('wire currentPageReference', currentPageReference);
         if (currentPageReference) {
             let urlStateParameters = currentPageReference.state;
-            console.log('wire CurrentPageReference: urlStateParameters', urlStateParameters);
+            //console.log('wire CurrentPageReference: urlStateParameters', urlStateParameters);
             this.language = urlStateParameters.lang || 'English';
             if(!this.recordId) this.recordId = urlStateParameters.recordId || null;
-            console.log('wire CurrentPageReference: this.recordId', this.recordId);
+            //console.log('wire CurrentPageReference: this.recordId', this.recordId);
         }
     }
 
     async loadData() {
-        console.log('formInstance loadData');
         console.log('formInstance loadData', this.recordId);
         this.isReadOnly = this.isNonEditable; // At the start, internal flag is equal to external flag
         let [data, translations ] = await Promise.all ([
@@ -155,15 +155,26 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
             cmp.dataText = cmp.data.Data_textarea__c != null ? cmp.data.Data_textarea__c : cmp.data.Data_text__c;
             // Other tweaks to cmp
             cmp.isRequired = cmp.Required__c;
+            cmp.isHidden = false;
             // Tweak form components that link to picklists
             updateRecordInternals(cmp, picklistMap, transById, fiInfo.countryNames);
             //console.log('cmp', cmp);
+            // Gather ids of controlling form components
+            if (cmp.Controlling_component__c) this.controllingCmpIds.add(cmp.Controlling_component__c);
         }
         //console.log('topCmps', topCmps);
         this.topLevelCmps = topCmps;
         this.hasSections = this.sections.length > 0;
         this.components = cmps;
         this.componentMap = new Map(cmps.map(object => { return [object.Id, object]; }));
+        // Stash initial values of controlling components in each of their dependent form components
+        for (let cmp of cmps) {
+            let controllingCmpId = cmp.Controlling_component__c;
+            if (controllingCmpId) {
+                cmp.controllingCmpInitialVal = this.componentMap.get(controllingCmpId).dataText;
+            }
+        }
+        console.log('formInstance loadData: controllingCmpIds', this.controllingCmpIds);
         this.dataLoaded = true;
         this.showSpinner = false;
     }
@@ -179,6 +190,16 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         return data;
     }
 
+    // Clinking on one of the section titles at the top of the form jumps to that section in the form
+    handleSectionClick (event) {
+        let sectionId = event.target.dataset.id;
+        console.log('handleSectionClick sectionId = ' +sectionId);
+        if (sectionId) {
+            const sectionElement = this.template.querySelector('c-form-component[data-id=' +sectionId+ ']');
+            sectionElement.scrollIntoView({behavior: "smooth"});
+        }
+    }
+
     // formFieldEditor notification of data change
     handleDataChange(event) {
         let cmpId = event.detail.cmpId;
@@ -190,16 +211,36 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         cmp.dataText = newData;
         if (cmp.isTextArea) cmp.data.Data_textarea__c = newData;
         else cmp.data.Data_text__c = newData;
-        //console.log('formInstance handleDataChange: cmpId/newData', cmpId, newData);
-        // Write @api function in formComponent to determine whether components dependent on the changed field need to be hidden/shown.
-        // ...
+        console.log('formInstance handleDataChange: cmpId/newData', cmpId, newData);
+        // If the data change is to a controlling component, pass the info down so child components can set visibility.
+        if (this.controllingCmpIds.has(cmpId)) this.reassessVisibility(cmpId, newData, false);
+        // Count errors and enable/disable submit button
         this.handleReady();
     }
 
+    // Pass recent data change down to all components and field editors to enable hiding based on connectors.
+    // Result is a map from component id to boolean representing visibility of that component
+    @api reassessVisibility(cmpId, newData, parentHidden) {
+        console.log('formInstance.reassessVisibility: cmpId/newData', cmpId, newData);
+        // Gather visibility of child form components into a map
+        let results = [...this.template.querySelectorAll('c-form-component')]
+            .reduce((resultsSoFar, formCmp) => {
+                return new Map([...resultsSoFar, ...formCmp.reassessVisibility(cmpId, newData, parentHidden)]);
+            }, new Map());
+        console.log('formInstance.reassessVisibility: results', results);
+        // Stash boolean hidden vals in local copies of data
+        results.forEach((value, key) => { 
+            this.componentMap.get(key).isHidden = value;
+        });
+        // Recalculate the error count after (possibly) changing form component visibility
+        this.countErrors();
+    }
+
+    // Enable/disable the submit button
     handleReady() {
         //console.log('formInstance handleReady (before): this.isReadOnly = ' +this.isReadOnly+ '; this.submitDisabled = ' +this.submitDisabled+ '; this.numErrors = ' +this.numErrors);
         this.numErrors = this.countErrors();
-        if (!this.isReadOnly && this.isValid()) {
+        if (!this.isReadOnly && this.numErrors == 0) {
             this.submitDisabled = false;
             this.dataLoaded = true;
         } else {
@@ -226,6 +267,7 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     }
 
     // Validity of form instance bubbled up from formComponent 
+    // NO LONGER IN USE (7/21/2022)
     @api isValid() {
         let allValid = true;
         this.template.querySelectorAll('c-form-component').forEach(element => {
@@ -265,7 +307,11 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
     async bulkSave() {
         try {
             // Pass triples representing form data to apex for saving
-            let dataInfos = this.components.map(cmp => { return {formComponentId: cmp.Id, value: cmp.dataText, isTextArea: cmp.isTextArea}} );
+            let dataInfos = this.components.map(cmp => { 
+                // Clear the saved value if its form component is hidden
+                if(cmp.isHidden) cmp.dataText = null;
+                return {formComponentId: cmp.Id, value: cmp.dataText, isTextArea: cmp.isTextArea};
+            });
             let saved = await updateFormDataBulk({frmInstanceId:this.recordId, fdInfosStr: JSON.stringify(dataInfos)});
             if (saved) { 
                 this.saveNeeded = false;

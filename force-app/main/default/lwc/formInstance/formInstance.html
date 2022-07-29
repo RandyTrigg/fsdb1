@@ -35,7 +35,8 @@
                                         <ul class="slds-list_dotted">
                                             <template for:each={sections} for:item="section">
                                                 <li key={section.Id}>
-                                                    <lightning-formatted-rich-text data-id="section.Id" class="gfw-form-title" value={section.title}></lightning-formatted-rich-text>
+                                                    <lightning-button data-id={section.Id} class="gfw-form-title" label={section.title} 
+                                                    variant="base" onclick={handleSectionClick}></lightning-button>
                                                 </li>
                                             </template>
                                         </ul>
@@ -47,8 +48,9 @@
                             <div class="bottompadding" >
                                 <div if:false={isMultiView}>
                                     <template for:each={topLevelCmps} for:item="cmp">
-                                        <c-form-component key={cmp.Id}
-                                            cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} is-non-editable={isNonEditable} language={language} onready={handleReady} oncmpchange={handleDataChange} trans-by-name-obj={transByNameObj}>
+                                        <c-form-component key={cmp.Id} cmp={cmp} form-instance-id={recordId} is-read-only={isReadOnly} 
+                                            is-non-editable={isNonEditable} language={language} onready={handleReady} oncmpchange={handleDataChange} 
+                                            trans-by-name-obj={transByNameObj} data-id={cmp.Id} class="scroll-margin">
                                         </c-form-component>
                                     </template>
                                 </div>

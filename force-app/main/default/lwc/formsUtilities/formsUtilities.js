@@ -74,7 +74,7 @@ function buildTransById (translations, language) {
         rec.isCheckbox = true;
         if (rec.data && rec.data.Data_text__c == 'true') rec.checked = true;
         else rec.checked = false;   
-        console.log('formsUtilities updateRecordInternals: checkbox', rec);     
+        // console.log('formsUtilities updateRecordInternals: checkbox', rec);     
     } else if (rec.Type__c == 'phone') {
         rec.isPhone = true;
         rec.isTextAnyFormat = true;
@@ -118,7 +118,7 @@ function getOptions(rec, picklistPhrasesMap, translationMap, countryNames) {
             for (let i = picklistOptions.Range_start__c; i <= picklistOptions.Range_end__c; i++) {
                 options.push({'label': i.toString(), 'value': i.toString()});
             }
-            console.log('getOptions: range options', options);
+            // console.log('getOptions: range options', options);
         } else if (picklistOptions && picklistOptions.Type__c=='Phrases' && picklistOptions.Form_Picklist_Phrases__r) {
             for (let opt of picklistOptions.Form_Picklist_Phrases__r.records) {
                 let translatedPhrase = translationMap.get(opt.Form_Phrase__c);
