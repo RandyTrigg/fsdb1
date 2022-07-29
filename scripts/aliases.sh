@@ -6,7 +6,7 @@ set -e
 # Run this script file (that is, instantiate the aliases defined here):
 # source scripts/aliases.sh
 
-alias dxupdatecli='npm install --global sfdx-cli'
+alias dxupdatecli='sfdx update'
 
 alias dxlist='sfdx force:org:list'
 

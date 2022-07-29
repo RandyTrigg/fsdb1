@@ -57,6 +57,7 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
     editColumns;
     hasPendingSolidarity = false;
     hasPendingSustain = false;
+    sustainDeadlineDate = new Date('2022-08-02T00:00:00-07:00'); // End of day 8/1/22 in Pacific timezone
     recentSolidarityCriteria = 182; // days equivalent to 6 months
     recentSustainCriteria = 730; // days equivalent to 2 years - setting this to be conservative
     hasRecentSubmittedSolidarity = false;
@@ -189,6 +190,9 @@ export default class BffGrantsSiteHome extends NavigationMixin(LightningElement)
         } else if (this.dateEstablished && (this.addDays(this.dateEstablished, 365) > this.currentDate)) {
             console.log('dateestablished comparison', this.dateEstablished && (this.dateEstablished > this.currentDate - 365));
             this.errMsg = this.transByNameObj.SustainIneligible; // 'Your group is not eligible for a Sustain grant';
+            this.displayAppError();
+        } else if (this.currentDate > this.sustainDeadlineDate) {
+            this.errMsg = this.transByNameObj.SustainMissedDeadline; // 'The deadline for applying for a Sustain Fund grant has passed';
             this.displayAppError();
         } else {
             // Create Proposal with grant type and Form Instance linked to Proposal
