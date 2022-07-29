@@ -232,6 +232,8 @@ export default class FormInstance extends NavigationMixin ( LightningElement ) {
         results.forEach((value, key) => { 
             this.componentMap.get(key).isHidden = value;
         });
+        // Recalculate the error count after (possibly) changing form component visibility
+        this.countErrors();
     }
 
     // Enable/disable the submit button
