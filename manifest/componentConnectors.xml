@@ -6,6 +6,7 @@
         <members>formFieldEditor</members>
         <members>fileManager</members>
         <members>formsUtilities</members>
+        <members>formComponentLabel</members>
         <name>LightningComponentBundle</name>
 	</types>
 	<version>53.0</version>

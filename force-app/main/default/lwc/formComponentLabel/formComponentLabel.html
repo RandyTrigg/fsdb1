@@ -3,12 +3,12 @@
     <div if:true={cmp.isRequired}>
         <label data-id="label" for={cmp.Id}>
             <abbr class="slds-required" title="required">*</abbr>
-            {cmp.title}
+            <lightning-formatted-rich-text value={cmp.title}></lightning-formatted-rich-text>
         </label>
     </div>
     <div if:false={cmp.isRequired}>
         <label data-id="label" for={cmp.Id}>
-            {cmp.title}
+            <lightning-formatted-rich-text value={cmp.title}></lightning-formatted-rich-text>
         </label>
     </div>
 </template>
