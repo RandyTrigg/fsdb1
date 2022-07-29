@@ -28,11 +28,11 @@ export default class FormComponent extends LightningElement {
             // Compute the values of the controlling component (if any) that unhide this component
             const showIf = this.cmp.Show_if__c;
             if (showIf) this.showIfVals = showIf.split(',').map(s => s.trim()); 
-            console.log('formComponent.connectedCallback: this.cmp.Type__c = ' +this.cmp.Type__c+ '; this.cmp.Id = ' +this.cmp.Id);
-            console.log('formComponent.connectedCallback: this.cmp.Controlling_component__c = ' +this.cmp.Controlling_component__c+ '; this.cmp.controllingCmpInitialVal = ' +this.cmp.controllingCmpInitialVal);
+            // console.log('formComponent.connectedCallback: this.cmp.Type__c = ' +this.cmp.Type__c+ '; this.cmp.Id = ' +this.cmp.Id);
+            // console.log('formComponent.connectedCallback: this.cmp.Controlling_component__c = ' +this.cmp.Controlling_component__c+ '; this.cmp.controllingCmpInitialVal = ' +this.cmp.controllingCmpInitialVal);
             // Set visibility based on controlling component's initial value
             if (this.cmp.Controlling_component__c) this.visibility(this.cmp.controllingCmpInitialVal);
-            console.log('formComponent.connectedCallback: parentHidden/isVisible/hideChild = ', this.parentHidden, this.isVisible, this.hideChild);
+            // console.log('formComponent.connectedCallback: parentHidden/isVisible/hideChild = ', this.parentHidden, this.isVisible, this.hideChild);
         }
     }
 

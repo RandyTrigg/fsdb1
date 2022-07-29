@@ -161,10 +161,10 @@ export default class FormFieldEditor extends LightningElement {
             let arr = Array.isArray(val) ? val 
                 : (typeof val) == 'string' ? val.split('|') 
                 : new Array();
-            console.log('handleCustomErrors: arr', arr);
+            // console.log('handleCustomErrors: arr', arr);
             if (c.Checkbox_limit__c && (arr.length > c.Checkbox_limit__c)) message = this.transByNameObj.TooManyOptionsSel;
             else if (c.Checkbox_minimum__c && (arr.length < c.Checkbox_minimum__c)) message = this.transByNameObj.TooFewOptionsSel;
-            console.log('handleCustomErrors: c.Checkbox_limit__c = ' +c.Checkbox_limit__c+ '; c.Checkbox_minimum__c = ' +c.Checkbox_minimum__c+ '; message = ' +message);
+            // console.log('handleCustomErrors: c.Checkbox_limit__c = ' +c.Checkbox_limit__c+ '; c.Checkbox_minimum__c = ' +c.Checkbox_minimum__c+ '; message = ' +message);
         } else if (c.isEmail) {
             element = this.template.querySelector(`[data-id="email"]`);
             let val = element.value;

@@ -10,6 +10,7 @@ export default class FileManager extends LightningElement {
     @api maxNumFiles;
     @api transByNameObj;
     @api cmpId;
+    @api isReadOnly;
     @track files; // List of pairs of file name and doc id
     disabled;
     acceptedFileFormats = ['.pdf', '.png', '.jpg', '.jpeg'];
@@ -21,11 +22,10 @@ export default class FileManager extends LightningElement {
 
     // Fetch info for files linked to given record
     async loadInfo () {
+        this.showSpinner = true;
         const whereClause = 'WHERE LinkedEntityId = \'' +this.recordId+ '\'';
         const relFieldNames = ['ContentDocument.Title'];
-        this.showSpinner = true;
         let linkedFiles = await fetchRecords({objName: 'ContentDocumentLink', whereClause: whereClause, relatedFieldNames: relFieldNames});
-        this.showSpinner = false;
         console.log('fileManager loadInfo: linkedFiles => ', linkedFiles);
         let fInfo = Array();
         for (let f of linkedFiles) {
@@ -33,7 +33,9 @@ export default class FileManager extends LightningElement {
         }
         console.log('fileManager loadInfo: fInfo => ', fInfo);
         this.files = fInfo;
-        this.disabled = fInfo.length >= this.maxNumFiles;
+        this.disabled = this.isReadOnly || (fInfo.length >= this.maxNumFiles);
+        this.showSpinner = false;
+        // console.log('fileManager loadInfo: isReadOnly = ' +this.isReadOnly+ '; disabled = ' +this.disabled);
     }
 
     // Handler for file upload
@@ -42,7 +44,7 @@ export default class FileManager extends LightningElement {
         const uploadedFiles = event.detail.files;
         const fName = uploadedFiles[0].name;
         this.files.push({name: fName, documentId: uploadedFiles[0].documentId});
-        this.disabled = this.files.length >= this.maxNumFiles;
+        this.disabled = this.isReadOnly || (this.files.length >= this.maxNumFiles);
         dispatchEvent(
             new ShowToastEvent({
                 title: this.transByNameObj.FileUploaded +': '+ fName,

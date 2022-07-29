@@ -4,6 +4,8 @@
         <members>formInstance</members>
         <members>formComponent</members>
         <members>formFieldEditor</members>
+        <members>fileManager</members>
+        <members>formsUtilities</members>
         <name>LightningComponentBundle</name>
 	</types>
 	<version>53.0</version>
