@@ -67,8 +67,8 @@ function buildTransById (translations, language) {
         rec.options = getOptions(rec, picklistPhrasesMap, translationMap, countryNames);
         // Stored values are separated by |, replace with comma
         if (rec.data && rec.data.Data_text__c) rec.data.Data_text__c.replace("|",",");
-        // If blank data, assign "none"
-        if (rec.data && !rec.data.Data_text__c) rec.data.Data_text__c = 'none';
+        // If no values, assign blank string
+        if (rec.data && !rec.data.Data_text__c) rec.data.Data_text__c = '';
     } else if (rec.Type__c=='checkbox') {
         //single option checkbox
         rec.isCheckbox = true;
