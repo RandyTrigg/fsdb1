@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>Sanctions_Search_Settings__mdt</members>
+        <name>CustomObject</name>
+	</types>
+	<types>
+		<members>OFACLookup</members>
+		<members>OFACLookupTest</members>
+        <name>ApexClass</name>
+	</types>
+	<version>53.0</version>
+</Package>

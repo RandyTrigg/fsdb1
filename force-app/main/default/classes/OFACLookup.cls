@@ -1,44 +1,64 @@
-// Download information from the Treasury Department's OFAC/SDN list.
-// Enable lookups against that data.
+// Run lookups (via callouts) over various sanction lists including OFAC.
 global class OFACLookup {
-    
-    // Perform a search against the SDN database at OFAC.  Return null if not found, else the JSON of the matched entry.
-    public static String searchSDN (String name) {
-        String result;
+
+    // Perform a search against sanctions.io.  
+    // Return null if not found, else the JSON of the matched entry.
+    public static String searchSanctions (String name, OFAC_search_SDN__c setting) {
         if (name != null && name.length() > 0) {
             // We encode using UTF-8, after first getting rid of accented characters, and dropping non-alphanumericSpace.
             // Otherwise, an accented name won't get the hit it should have at OFAC.
             Pattern nonAlphanumericSpace = Pattern.compile('[^a-zA-Z0-9 ]');
             String nameNoAccents = nonAlphanumericSpace.matcher(removeAccents(name)).replaceAll('');
             String nameNoAccentsEncode = EncodingUtil.URLENCODE(nameNoAccents,'UTF-8');
-            system.debug('searchSDN: name = ' +name+ '; nameNoAccents = ' +nameNoAccents+ '; nameNoAccentsEncode = ' +nameNoAccentsEncode);
-            // Get custom settings for OFAC search and build URL (aka "endpoint").
-            OFAC_search_SDN__c settings = OFAC_search_SDN__c.getValues('OFACSearchSDN');
-            String lookupURL = settings.Base_URL__c +
-                '?apiKey=' + settings.API_key__c +
-                '&minScore=' + Integer.valueOf(settings.Min_score__c) +
-                '&name=' + nameNoAccentsEncode;
+            system.debug('searchSanctions: name = ' +name+ '; nameNoAccents = ' +nameNoAccents+ '; nameNoAccentsEncode = ' +nameNoAccentsEncode);
+            // Build URL (aka "endpoint") for sanctions search.
+            // To reduce false hits, not using fuzzy search.
+            String lookupURL = setting.Base_URL__c +
+                '?sources=' + setting.Sources__c +
+                '&name=' + nameNoAccentsEncode +
+                '&api_key=' + setting.Access_token__c;
             String response = performSyncCallout(lookupURL);
-            system.debug('searchSDN: lookupURL = ' +lookupURL);
-            system.debug('searchSDN: response = ' +response);
-            Map<String, Object> responseData = (Map<String, Object>) JSON.deserializeUntyped(response);
-            List<Object> matches = (List<Object>) responseData.get('matches');
-            // Check each match to see if one of them has an exact (as opposed to fuzzy) match to the given name.
-            String nameNorm = nameNoAccents.toUpperCase();
-            for (Object match : matches) {
-                Map<String, Object> mData = (Map<String, Object>) match;
-                Map<String, Object> eData = (Map<String, Object>) mData.get('entry');
-                String fName = (String) eData.get('firstName');
-                String lName = (String) eData.get('lastName');
-                String lNameNorm = lName != null ? lName.toUpperCase() : null;
-                String fullNameNorm = fName != null ? (fName.toUpperCase() +' '+ lNameNorm).trim() : lNameNorm;
-                //system.debug('searchSDN loop: fName = ' +fName+ '; lName = ' +lName);
-                // There's a hit if perfect match between given name and the first/last name fields at OFAC.
-                if (nameNorm == lNameNorm || nameNorm == fullNameNorm) 
-                    return response;
-            }
+            return isHit(response, nameNoAccents) ? response : null; 
         }
-        return result;
+        return null;
+    }
+
+    // Return true if the api response json represents a hit on the given name.
+    private static Boolean isHit (String response, String name) {
+        Boolean returnVal = false;
+        system.debug('isHit: response = ' +response);
+        Map<String, Object> responseData = (Map<String, Object>) JSON.deserializeUntyped(response);
+        List<Object> results = (List<Object>) responseData.get('results');
+        system.debug('isHit loop: results = ' +JSON.serialize(results));
+        // Check each result to see if one of them has an exact (as opposed to fuzzy) match to the given name.
+        String nameNorm = name.toUpperCase();
+        system.debug('isHit loop: nameNorm = ' +nameNorm);
+        for (Object result : results) {
+            Map<String, Object> rData = (Map<String, Object>) result;
+            String rName = (String) rData.get('name');
+            // Bail if result has no "name" field. We should probably check both "name" AND "alt_names".
+            if (rName == null) continue;
+            // Assume that part before comma is last name
+            Integer commaLoc = rName.indexOf(',');
+            String lName = commaLoc > -1 ? rName.substring(0,commaLoc) : rName;
+            String fName = commaLoc > -1 ? rName.substring(commaLoc + 1) : null;
+            String lNameNorm = lName != null ? lName.toUpperCase().trim() : null;
+            String fullNameNorm = fName != null ? (fName.toUpperCase().trim() +' '+ lNameNorm).trim() : lNameNorm;
+            system.debug('isHit loop: fName = ' +fName+ '; lName = ' +lName);
+            system.debug('isHit loop: lNameNorm = ' +lNameNorm+ '; fullNameNorm = ' +fullNameNorm);
+            // There's a hit if perfect match between given name and the name at OFAC.
+            if (nameNorm == lNameNorm || nameNorm == fullNameNorm || firstLastOnly(nameNorm) == firstLastOnly(fullNameNorm))
+                returnVal = true;
+        }
+        return returnVal;
+    }
+
+    // Return just first plus last name (trimmed) from a full name, that is, drop any middle names.
+    private static String firstLastOnly (String fullName) {
+        String fullNameTrimmed = fullName.trim();
+        String[] names = fullNameTrimmed.split(' ');
+        Integer numNames = names.size();
+        return numNames > 1 ? names[0].trim() +' '+ names[numNames-1].trim() : fullNameTrimmed;
     }
     
     // Return a string with accented characters replaced by equivalent characters without accents.
